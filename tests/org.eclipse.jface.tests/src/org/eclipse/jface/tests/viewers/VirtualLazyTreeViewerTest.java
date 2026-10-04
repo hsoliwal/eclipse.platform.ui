@@ -138,9 +138,10 @@ public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 	public void testChildIsNotDuplicatedWhenCompareEquals() {
 	}
 
-	@Disabled("test is not relevant for lazy tree viewer")
+	@Test
 	@Override
 	public void testExpandCollapseToLevel() {
+		super.testExpandCollapseToLevel();
 	}
 
 	// Temporary overrides for bug 347491
