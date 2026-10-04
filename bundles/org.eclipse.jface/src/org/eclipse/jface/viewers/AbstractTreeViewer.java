@@ -1663,6 +1663,9 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *               levels of the tree
 	 */
 	protected void internalCollapseToLevel(Widget widget, int level) {
+		if (internalDelegateCollapseToControl(widget, level)) {
+			return;
+		}
 		if (level == ALL_LEVELS || level > 0) {
 
 			if (widget instanceof Item item) {
@@ -1877,6 +1880,19 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		void expandChildren(Widget parent, int previousLevel);
 	}
 
+	/*
+	 * Package-private control delegation hooks. Concrete SWT-backed viewers may
+	 * move physical traversal into the widget while generic/custom viewers keep
+	 * the historical JFace implementation. They are deliberately not API.
+	 */
+	boolean internalDelegateExpandToControl(Widget widget, int level) {
+		return false;
+	}
+
+	boolean internalDelegateCollapseToControl(Widget widget, int level) {
+		return false;
+	}
+
 	/**
 	 * Recursively expands the subtree rooted at the given widget to the given
 	 * level.
@@ -1890,6 +1906,9 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *               levels of the tree
 	 */
 	protected void internalExpandToLevel(Widget widget, int level) {
+		if (internalDelegateExpandToControl(widget, level)) {
+			return;
+		}
 		internalCustomizedExpandToLevel(widget, level, (parent, newLevel) -> {
 			Item[] children = getChildren(parent);
 			if (children != null) {

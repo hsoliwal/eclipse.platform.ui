@@ -19,6 +19,9 @@
 
 package org.eclipse.jface.viewers;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -69,6 +72,38 @@ import org.eclipse.swt.widgets.Widget;
  */
 @NoExtend
 public class TreeViewer extends AbstractTreeViewer {
+
+	private static final MethodHandle SWT_TREE_EXPAND_TO_LEVEL =
+			swtTreeOperation("expandToLevel", int.class);
+	private static final MethodHandle SWT_TREE_EXPAND_ITEM_TO_LEVEL =
+			swtTreeOperation("expandToLevel", TreeItem.class, int.class);
+	private static final MethodHandle SWT_TREE_COLLAPSE_TO_LEVEL =
+			swtTreeOperation("collapseToLevel", int.class);
+	private static final MethodHandle SWT_TREE_COLLAPSE_ITEM_TO_LEVEL =
+			swtTreeOperation("collapseToLevel", TreeItem.class, int.class);
+
+	private static MethodHandle swtTreeOperation(String name, Class<?>... parameterTypes) {
+		try {
+			return MethodHandles.publicLookup().findVirtual(
+					Tree.class, name, MethodType.methodType(void.class, parameterTypes));
+		} catch (NoSuchMethodException | IllegalAccessException unavailable) {
+			return null;
+		}
+	}
+
+	private static boolean invokeSwtTreeOperation(MethodHandle operation, Object... arguments) {
+		if (operation == null) {
+			return false;
+		}
+		try {
+			operation.invokeWithArguments(arguments);
+			return true;
+		} catch (RuntimeException | Error failure) {
+			throw failure;
+		} catch (Throwable failure) {
+			throw new IllegalStateException("Unable to invoke SWT Tree bulk operation", failure);
+		}
+	}
 
 	private static final String VIRTUAL_DISPOSE_KEY = Policy.JFACE
 			+ ".DISPOSE_LISTENER"; //$NON-NLS-1$
@@ -288,6 +323,36 @@ public class TreeViewer extends AbstractTreeViewer {
 	@Override
 	protected void removeAll(Control widget) {
 		((Tree) widget).removeAll();
+	}
+
+	@Override
+	boolean internalDelegateExpandToControl(Widget widget, int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = widget instanceof Tree
+				? invokeSwtTreeOperation(SWT_TREE_EXPAND_TO_LEVEL, tree, level)
+				: widget instanceof TreeItem item
+						&& invokeSwtTreeOperation(SWT_TREE_EXPAND_ITEM_TO_LEVEL, tree, item, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	boolean internalDelegateCollapseToControl(Widget widget, int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = widget instanceof Tree
+				? invokeSwtTreeOperation(SWT_TREE_COLLAPSE_TO_LEVEL, tree, level)
+				: widget instanceof TreeItem item
+						&& invokeSwtTreeOperation(SWT_TREE_COLLAPSE_ITEM_TO_LEVEL, tree, item, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
 	}
 
 	@Override
