@@ -291,6 +291,42 @@ public class TreeViewer extends AbstractTreeViewer {
 	}
 
 	@Override
+	boolean internalDelegateExpandToControl(Widget widget, int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		if (widget instanceof Tree control) {
+			control.expandToLevel(level);
+			control.update();
+			return true;
+		}
+		if (widget instanceof TreeItem item) {
+			tree.expandToLevel(item, level);
+			tree.update();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	boolean internalDelegateCollapseToControl(Widget widget, int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		if (widget instanceof Tree control) {
+			control.collapseToLevel(level);
+			control.update();
+			return true;
+		}
+		if (widget instanceof TreeItem item) {
+			tree.collapseToLevel(item, level);
+			tree.update();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	protected void setExpanded(Item node, boolean expand) {
 		TreeItem treeItem = (TreeItem) node;
 		if (!treeItem.isDisposed()) {
