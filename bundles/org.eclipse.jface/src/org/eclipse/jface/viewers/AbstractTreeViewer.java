@@ -781,6 +781,44 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	}
 
 	/**
+	 * Collapses every currently selected subtree.
+	 * <p>
+	 * This method is equivalent to {@link #collapseSelectionToLevel(int)} with
+	 * {@link #ALL_LEVELS}.
+	 * </p>
+	 *
+	 * @since 3.42
+	 */
+	public void collapseSelection() {
+		collapseSelectionToLevel(ALL_LEVELS);
+	}
+
+	/**
+	 * Collapses every currently selected subtree to the given level.
+	 *
+	 * @param level non-negative level, or {@link #ALL_LEVELS} to collapse all
+	 *              levels of each selected subtree
+	 * @since 3.42
+	 */
+	public void collapseSelectionToLevel(int level) {
+		if (checkBusy()) {
+			return;
+		}
+		Control control = getControl();
+		try {
+			control.setRedraw(false);
+			if (internalDelegateCollapseSelectionToControl(level)) {
+				return;
+			}
+			for (Item item : getSelection(control)) {
+				internalCollapseToLevel(item, level);
+			}
+		} finally {
+			control.setRedraw(true);
+		}
+	}
+
+	/**
 	 * Collapses the subtree rooted at the given element or tree path to the given
 	 * level.
 	 * <p>
@@ -1089,6 +1127,44 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	public void expandAll() {
 		expandToLevel(ALL_LEVELS, true);
+	}
+
+	/**
+	 * Expands every currently selected subtree.
+	 * <p>
+	 * This method is equivalent to {@link #expandSelectionToLevel(int)} with
+	 * {@link #ALL_LEVELS}.
+	 * </p>
+	 *
+	 * @since 3.42
+	 */
+	public void expandSelection() {
+		expandSelectionToLevel(ALL_LEVELS);
+	}
+
+	/**
+	 * Expands every currently selected subtree to the given level.
+	 *
+	 * @param level non-negative level, or {@link #ALL_LEVELS} to expand all
+	 *              levels of each selected subtree
+	 * @since 3.42
+	 */
+	public void expandSelectionToLevel(int level) {
+		if (checkBusy()) {
+			return;
+		}
+		Control control = getControl();
+		try {
+			control.setRedraw(false);
+			if (internalDelegateExpandSelectionToControl(level)) {
+				return;
+			}
+			for (Item item : getSelection(control)) {
+				internalExpandToLevel(item, level);
+			}
+		} finally {
+			control.setRedraw(true);
+		}
 	}
 
 	/**
@@ -1890,6 +1966,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	}
 
 	boolean internalDelegateCollapseToControl(Widget widget, int level) {
+		return false;
+	}
+
+	boolean internalDelegateExpandSelectionToControl(int level) {
+		return false;
+	}
+
+	boolean internalDelegateCollapseSelectionToControl(int level) {
 		return false;
 	}
 
