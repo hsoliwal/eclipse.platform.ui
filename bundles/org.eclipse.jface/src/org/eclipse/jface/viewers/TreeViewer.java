@@ -81,6 +81,10 @@ public class TreeViewer extends AbstractTreeViewer {
 			swtTreeOperation("collapseToLevel", int.class);
 	private static final MethodHandle SWT_TREE_COLLAPSE_ITEM_TO_LEVEL =
 			swtTreeOperation("collapseToLevel", TreeItem.class, int.class);
+	private static final MethodHandle SWT_TREE_EXPAND_SELECTION_TO_LEVEL =
+			swtTreeOperation("expandSelectionToLevel", int.class);
+	private static final MethodHandle SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL =
+			swtTreeOperation("collapseSelectionToLevel", int.class);
 
 	private static MethodHandle swtTreeOperation(String name, Class<?>... parameterTypes) {
 		try {
@@ -349,6 +353,30 @@ public class TreeViewer extends AbstractTreeViewer {
 				? invokeSwtTreeOperation(SWT_TREE_COLLAPSE_TO_LEVEL, tree, level)
 				: widget instanceof TreeItem item
 						&& invokeSwtTreeOperation(SWT_TREE_COLLAPSE_ITEM_TO_LEVEL, tree, item, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	boolean internalDelegateExpandSelectionToControl(int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = invokeSwtTreeOperation(SWT_TREE_EXPAND_SELECTION_TO_LEVEL, tree, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	boolean internalDelegateCollapseSelectionToControl(int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = invokeSwtTreeOperation(SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL, tree, level);
 		if (delegated) {
 			tree.update();
 		}

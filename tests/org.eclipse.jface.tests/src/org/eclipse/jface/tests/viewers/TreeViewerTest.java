@@ -26,6 +26,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.eclipse.jface.viewers.AbstractTreeViewer;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -112,6 +113,37 @@ public class TreeViewerTest extends AbstractTreeViewerTest {
 			assertTrue(recursiveExpandedElements.contains(currentElement), "expansion for child was not processed: " + currentElement);
 			elements.addAll(Arrays.asList(currentElement.getChildren()));
 		}
+	}
+
+	@Test
+	public void testExpandCollapseSelectionToLevel() {
+		TestElement rootElement = TestElement.createModel(3, 3);
+		TestElement first = rootElement.getChildAt(0);
+		TestElement untouched = rootElement.getChildAt(1);
+		TestElement third = rootElement.getChildAt(2);
+		TestElement firstChild = first.getChildAt(0);
+		TestElement thirdChild = third.getChildAt(0);
+
+		fTreeViewer.setInput(rootElement);
+		fTreeViewer.setSelection(new StructuredSelection(List.of(first, third)));
+
+		fTreeViewer.expandSelectionToLevel(2);
+		processEvents();
+
+		assertTrue(fTreeViewer.getExpandedState(first), "first selected root should expand");
+		assertTrue(fTreeViewer.getExpandedState(third), "third selected root should expand");
+		assertTrue(fTreeViewer.getExpandedState(firstChild), "selected subtree should expand to level 2");
+		assertTrue(fTreeViewer.getExpandedState(thirdChild), "selected subtree should expand to level 2");
+		assertFalse(fTreeViewer.getExpandedState(untouched), "unselected sibling must remain collapsed");
+
+		fTreeViewer.collapseSelection();
+		processEvents();
+
+		assertFalse(fTreeViewer.getExpandedState(first), "first selected root should collapse");
+		assertFalse(fTreeViewer.getExpandedState(third), "third selected root should collapse");
+		assertFalse(fTreeViewer.getExpandedState(firstChild), "selected descendants should collapse");
+		assertFalse(fTreeViewer.getExpandedState(thirdChild), "selected descendants should collapse");
+		assertFalse(fTreeViewer.getExpandedState(untouched), "unselected sibling remains unchanged");
 	}
 
 	@Test
