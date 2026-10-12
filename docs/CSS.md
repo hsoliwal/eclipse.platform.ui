@@ -102,6 +102,22 @@ These tables show the equivalent mapping from SWT method to CSS property.
 They also show pseudo selectors which can be used to choose styling based on widget state.
 
 
+### Font size
+
+The SWT font height is a point size, so a `font-size` is resolved to points.
+
+| Value | Meaning | Example |
+| --- | --- | --- |
+| unitless | points | `Label { font-size: 12 }` |
+| `pt` | points | `Label { font-size: 12pt }` |
+| `px` | CSS pixels, converted with 1px = 0.75pt | `Label { font-size: 16px }` gives 12pt |
+| `em` | relative to the font the widget had before styling | `Label { font-size: 1.5em }` |
+| `%` | relative to the font the widget had before styling | `Label { font-size: 150% }` |
+| `larger` / `smaller` | one step (factor 1.2) up or down from the font the widget had before styling | `Label { font-size: larger }` |
+
+Relative values are resolved against the font the widget had before styling, so a theme can make a font a bit larger than the rest without overriding the size the user configured.
+The `font` shorthand accepts the same forms, for example `Label { font: Verdana larger }`, except that a unitless 100 to 900 in steps of 100 is a weight there.
+
 ### Font weight
 
 `font-weight` accepts `normal`, `bold`, `bolder`, `lighter` and the numbers
@@ -121,9 +137,10 @@ It also accepts the face names designers use, which are not standard CSS:
 
 The names are case-insensitive and may be written without the hyphen, as in `semibold`.
 They are only understood by `font-weight`, not in the `font` shorthand, where they could be part of a family name.
-A weight between regular and bold, such as `500` or `600`, selects the installed face of that weight, for example Semibold.
+A weight other than `400` or `700` selects the installed face of that weight, for example Semibold for `600`.
 On GTK Pango picks the closest face of the family, on Windows a family such as "Segoe UI Semibold" is used when it is installed, and on macOS a face of the family with a matching name such as `HelveticaNeue-Medium`.
-Where no such face is found, a weight of `600` or more selects the bold face and anything below it the regular one.
+Where the family has no face of that weight, the nearest one is taken in the order of CSS font matching: below `400` lighter faces first, above `500` heavier ones first, so `200` can select Light and `800` Black.
+If no face is found before regular or bold, a weight of `600` or more selects the bold face and anything below it the regular one.
 In the `font` shorthand a bare `100` to `900` is read as a weight, any other
 bare number as a size in points.
 

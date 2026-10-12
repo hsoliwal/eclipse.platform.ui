@@ -99,8 +99,6 @@ import org.eclipse.e4.ui.workbench.renderers.swt.ToolBarManagerRenderer;
 import org.eclipse.e4.ui.workbench.renderers.swt.TrimBarLayout;
 import org.eclipse.e4.ui.workbench.renderers.swt.TrimmedPartLayout;
 import org.eclipse.e4.ui.workbench.swt.factories.IRendererFactory;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.CoolBarManager;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
@@ -114,7 +112,6 @@ import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.action.SubContributionItem;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.internal.provisional.action.CoolBarManager2;
 import org.eclipse.jface.internal.provisional.action.ICoolBarManager2;
 import org.eclipse.jface.internal.provisional.action.IToolBarManager2;
@@ -801,17 +798,6 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 			initializeDefaultServices();
 
-			/*
-			 * Remove the second QuickAccess control if an older workspace is opened.
-			 *
-			 * An older workspace will create an ApplicationModel which already contains the
-			 * QuickAccess elements, from the old "popuolateTopTrimContribution()" method.
-			 * The new implementation of this method doesn't add the QuickAccess elements
-			 * anymore but an old workbench.xmi still has these entries in it and so they
-			 * need to be removed.
-			 */
-			cleanLegacyQuickAccessContribution();
-
 			// register with the tracker
 
 			fireWindowOpening();
@@ -936,23 +922,18 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 	}
 
+	private static final int ZOOM_RESTART_PROMPT_DELAY_MS = 1000;
+
 	private void addZoomChangeListenerToPromptForRestart() {
-		getShell().addListener(SWT.ZoomChanged, event -> {
-			/**
-			 * Prompt for restart when an SWT zoom change for the primary monitor occurs,
-			 * only when rescaling at runtime is not activated.
-			 */
-			if (getShell().getDisplay().isRescalingAtRuntime()) {
-				return;
-			}
-			if (getShell().getDisplay().getPrimaryMonitor().equals(getShell().getMonitor())) {
-				int dialogResponse = MessageDialog.open(MessageDialog.QUESTION, getShell(),
-						WorkbenchMessages.Workbench_zoomChangedTitle, WorkbenchMessages.Workbench_zoomChangedMessage,
-						SWT.NONE, WorkbenchMessages.Workbench_RestartButton,
-						WorkbenchMessages.Workbench_DontRestartButton);
-				if (event.doit && dialogResponse == 0) {
-					getWorkbenchImpl().restart(true);
-				}
+		Shell shell = getShell();
+		Display display = shell.getDisplay();
+		Runnable promptForRestart = () -> getWorkbenchImpl().promptForRestartIfZoomChanged(shell);
+		shell.addListener(SWT.ZoomChanged, event -> {
+			// Only needed when SWT cannot rescale at runtime
+			if (!display.isRescalingAtRuntime() && display.getPrimaryMonitor().equals(shell.getMonitor())) {
+				// Delay so that a transient zoom change, e.g. on monitor reconnect, does not prompt;
+				// rescheduling the same runnable restarts the timer, which coalesces bursts
+				display.timerExec(ZOOM_RESTART_PROMPT_DELAY_MS, promptForRestart);
 			}
 		});
 	}
@@ -1043,8 +1024,6 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 			spacerControl.getTags().add(TrimBarLayout.SPACER);
 			spacerControl.getTags().add("SHOW_RESTORE_MENU"); //$NON-NLS-1$
 			trimBar.getChildren().add(spacerControl);
-		} else if (!spacerControl.getTags().contains("SHOW_RESTORE_MENU")) { //$NON-NLS-1$
-			spacerControl.getTags().add("SHOW_RESTORE_MENU"); //$NON-NLS-1$
 		}
 
 		MToolControl switcherControl = (MToolControl) modelService.find("PerspectiveSwitcher", model); //$NON-NLS-1$
@@ -1058,40 +1037,13 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 			switcherControl.setContributionURI(
 					"bundleclass://org.eclipse.ui.workbench/org.eclipse.e4.ui.workbench.addons.perspectiveswitcher.PerspectiveSwitcher"); //$NON-NLS-1$
 			trimBar.getChildren().add(switcherControl);
-		} else if (switcherControl != null) {
-			if (!getWindowConfigurer().getShowPerspectiveBar()) {
-				trimBar.getChildren().remove(switcherControl);
-			} else {
-				List<String> tags = switcherControl.getTags();
-				if (!tags.contains("HIDEABLE")) { //$NON-NLS-1$
-					tags.add("HIDEABLE"); //$NON-NLS-1$
-				}
-				if (!tags.contains("SHOW_RESTORE_MENU")) { //$NON-NLS-1$
-					tags.add("SHOW_RESTORE_MENU"); //$NON-NLS-1$
-				}
-			}
+		} else if (switcherControl != null && !getWindowConfigurer().getShowPerspectiveBar()) {
+			trimBar.getChildren().remove(switcherControl);
 		}
 
 		// render now after everything has been added so contributions can be
 		// inserted in the right place
 		updateLayoutDataForContents();
-	}
-
-	/**
-	 * Removes the "legacy" QuickAccess related fields from the ApplicationModel.
-	 * <p>
-	 * The "legacy" QuickAccess fields exist in the ApplicationModel if an older
-	 * workspace is opened which was build before the QuickAccess was contributed
-	 * via e4xmi-fragment.
-	 * </p>
-	 */
-	private void cleanLegacyQuickAccessContribution() {
-		for (String quickAccessElementId : QUICK_ACCESS_ELEMENT_IDS) {
-			MToolControl legacyElement = (MToolControl) modelService.find(quickAccessElementId, model);
-			if (legacyElement != null) {
-				EcoreUtil.remove((EObject) legacyElement);
-			}
-		}
 	}
 
 	/**

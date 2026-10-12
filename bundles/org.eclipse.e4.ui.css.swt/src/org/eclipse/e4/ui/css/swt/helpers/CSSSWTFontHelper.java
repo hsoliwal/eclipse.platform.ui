@@ -54,6 +54,9 @@ public class CSSSWTFontHelper {
 
 	private static final String DEFAULT_FONT = "defaultFont";
 
+	/** Step between two sizes for the 'larger' and 'smaller' keywords. */
+	private static final double RELATIVE_FONT_SIZE_STEP = 1.2;
+
 	/** Lower bound so that a small factor cannot shrink a font away. */
 	private static final int MIN_FONT_HEIGHT = 1;
 
@@ -126,9 +129,8 @@ public class CSSSWTFontHelper {
 		CSS2FontProperties fontProperties = new CSS2FontPropertiesImpl();
 		if (font != null) {
 			FontData fontData = getFirstFontData(font);
-			// Update font-family
-			String fontFamily = getFontFamily(font);
-			fontProperties.setFamily(new CssText(CssText.Kind.IDENT, fontFamily));
+			// The plain name, CSS quoting would end up in the FontData name
+			fontProperties.setFamily(new CssText(CssText.Kind.STRING, fontData.getName()));
 			// Update font-size; mirrors the widget font, not a CSS declaration
 			int fontSize = fontData.getHeight();
 			fontProperties.setSize(new CssNumber(fontSize, true));
@@ -221,8 +223,8 @@ public class CSSSWTFontHelper {
 
 	/**
 	 * Resolves a CSS font-size to an SWT font height in points, empty if the value
-	 * cannot be resolved. Relative sizes (em, %) scale the font the widget had
-	 * before styling.
+	 * cannot be resolved. Relative sizes (em, %, larger, smaller) scale the font
+	 * the widget had before styling.
 	 */
 	private static OptionalInt getFontHeight(CssPrimitive cssFontSize, FontData oldFontData) {
 		if (cssFontSize instanceof CssNumeric numeric) {
@@ -234,7 +236,19 @@ public class CSSSWTFontHelper {
 			default -> OptionalInt.of(toFontHeight(numeric.value()));
 			};
 		}
+		if (isKeyword(cssFontSize, "larger")) {
+			return scaleFontHeight(RELATIVE_FONT_SIZE_STEP, oldFontData);
+		}
+		if (isKeyword(cssFontSize, "smaller")) {
+			return scaleFontHeight(1 / RELATIVE_FONT_SIZE_STEP, oldFontData);
+		}
 		return OptionalInt.empty();
+	}
+
+	/** Only an unquoted identifier is a keyword, a quoted "larger" is a string. */
+	private static boolean isKeyword(CssPrimitive value, String keyword) {
+		return value instanceof CssText text && text.kind() == CssText.Kind.IDENT
+				&& keyword.equalsIgnoreCase(text.value());
 	}
 
 	private static OptionalInt scaleFontHeight(double factor, FontData oldFontData) {
@@ -291,6 +305,9 @@ public class CSSSWTFontHelper {
 	}
 
 	private static boolean isRelativeSize(CssPrimitive size) {
+		if (isKeyword(size, "larger") || isKeyword(size, "smaller")) {
+			return true;
+		}
 		return size instanceof CssNumeric numeric
 				&& (numeric.unit() == CssUnit.EM || numeric.unit() == CssUnit.PERCENT);
 	}

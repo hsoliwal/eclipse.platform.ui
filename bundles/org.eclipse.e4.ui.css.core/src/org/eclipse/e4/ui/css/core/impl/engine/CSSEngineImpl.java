@@ -782,13 +782,7 @@ public abstract class CSSEngineImpl implements CSSEngine {
 	protected Collection<ICSSPropertyHandler> getCSSPropertyHandlers(String property) throws Exception {
 		Collection<ICSSPropertyHandler> handlers = new ArrayList<>();
 		for (ICSSPropertyHandlerProvider provider : propertyHandlerProviders) {
-			Collection<ICSSPropertyHandler> h = provider.getCSSPropertyHandlers(property);
-			if (handlers == null) {
-				handlers = h;
-			} else {
-				handlers = new ArrayList<>(handlers);
-				handlers.addAll(h);
-			}
+			handlers.addAll(provider.getCSSPropertyHandlers(property));
 		}
 		return handlers;
 	}
@@ -1051,7 +1045,7 @@ public abstract class CSSEngineImpl implements CSSEngine {
 		if (valueConverters == null) {
 			return;
 		}
-		valueConverters.remove(converter);
+		valueConverters.remove(converter.getToType(), converter);
 	}
 
 	@Override
