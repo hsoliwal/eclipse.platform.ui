@@ -1381,7 +1381,12 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	public Object[] getExpandedElements() {
 		ArrayList<Item> items = new ArrayList<>();
-		internalCollectExpandedItems(items, getControl());
+		Item[] delegatedItems = internalDelegateExpandedItems();
+		if (delegatedItems == null) {
+			internalCollectExpandedItems(items, getControl());
+		} else {
+			items.addAll(Arrays.asList(delegatedItems));
+		}
 		ArrayList<Object> result = new ArrayList<>(items.size());
 		for (Item item : items) {
 			Object data = item.getData();
@@ -1974,6 +1979,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	}
 
 	boolean internalDelegateCollapseSelectionToControl(int level) {
+		return false;
+	}
+
+	Item[] internalDelegateExpandedItems() {
+		return null;
+	}
+
+	boolean internalDelegateSetExpandedItems(List<Item> items) {
 		return false;
 	}
 
@@ -2743,18 +2756,26 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			return;
 		}
 		CustomHashtable expandedElements = newHashtable(elements.length * 2 + 1);
+		ArrayList<Item> expandedItems = new ArrayList<>(elements.length);
 		for (Object element : elements) {
 			// Ensure item exists for element. This will materialize items for
 			// each element and their parents, if possible. This is important
 			// to support expanding of inner tree nodes without necessarily
 			// expanding their parents.
-			internalExpand(element, false);
+			Widget widget = internalExpand(element, false);
+			if (widget instanceof Item item) {
+				if (!getExpanded(item)) {
+					// Model/content preparation remains a JFace responsibility.
+					createChildren(item);
+				}
+				expandedItems.add(item);
+			}
 			expandedElements.put(element, element);
 		}
-		// this will traverse all existing items, and create children for
-		// elements that need to be expanded. If the tree contains multiple
-		// equal elements, and those are in the set of elements to be expanded,
-		// only the first item found for each element will be expanded.
+		if (internalDelegateSetExpandedItems(expandedItems)) {
+			return;
+		}
+		// Generic/custom viewers keep the historical recursive fallback.
 		internalSetExpanded(expandedElements, getControl());
 	}
 
@@ -2794,18 +2815,25 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		};
 		CustomHashtable expandedTreePaths = new CustomHashtable(
 				treePaths.length * 2 + 1, treePathComparer);
+		ArrayList<Item> expandedItems = new ArrayList<>(treePaths.length);
 		for (TreePath treePath : treePaths) {
 			// Ensure item exists for element. This will materialize items for
 			// each element and their parents, if possible. This is important
 			// to support expanding of inner tree nodes without necessarily
 			// expanding their parents.
-			internalExpand(treePath, false);
+			Widget widget = internalExpand(treePath, false);
+			if (widget instanceof Item item) {
+				if (!getExpanded(item)) {
+					createChildren(item);
+				}
+				expandedItems.add(item);
+			}
 			expandedTreePaths.put(treePath, treePath);
 		}
-		// this will traverse all existing items, and create children for
-		// elements that need to be expanded. If the tree contains multiple
-		// equal elements, and those are in the set of elements to be expanded,
-		// only the first item found for each element will be expanded.
+		if (internalDelegateSetExpandedItems(expandedItems)) {
+			return;
+		}
+		// Generic/custom viewers keep the historical recursive fallback.
 		internalSetExpandedTreePaths(expandedTreePaths, getControl(),
 				new TreePath(new Object[0]), 0, comparer);
 	}
@@ -3415,7 +3443,12 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	public TreePath[] getExpandedTreePaths() {
 		ArrayList<Item> items = new ArrayList<>();
-		internalCollectExpandedItems(items, getControl());
+		Item[] delegatedItems = internalDelegateExpandedItems();
+		if (delegatedItems == null) {
+			internalCollectExpandedItems(items, getControl());
+		} else {
+			items.addAll(Arrays.asList(delegatedItems));
+		}
 		ArrayList<TreePath> result = new ArrayList<>(items.size());
 		for (Item item : items) {
 			TreePath treePath = getTreePathFromItem(item);

@@ -85,11 +85,25 @@ public class TreeViewer extends AbstractTreeViewer {
 			swtTreeOperation("expandSelectionToLevel", int.class);
 	private static final MethodHandle SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL =
 			swtTreeOperation("collapseSelectionToLevel", int.class);
+	private static final MethodHandle SWT_TREE_GET_EXPANDED_ITEMS =
+			swtTreeQuery("getExpandedItems", TreeItem[].class);
+	private static final MethodHandle SWT_TREE_SET_EXPANDED_ITEMS =
+			swtTreeOperation("setExpandedItems", TreeItem[].class);
 
 	private static MethodHandle swtTreeOperation(String name, Class<?>... parameterTypes) {
 		try {
 			return MethodHandles.publicLookup().findVirtual(
 					Tree.class, name, MethodType.methodType(void.class, parameterTypes));
+		} catch (NoSuchMethodException | IllegalAccessException unavailable) {
+			return null;
+		}
+	}
+
+	private static MethodHandle swtTreeQuery(
+			String name, Class<?> returnType, Class<?>... parameterTypes) {
+		try {
+			return MethodHandles.publicLookup().findVirtual(
+					Tree.class, name, MethodType.methodType(returnType, parameterTypes));
 		} catch (NoSuchMethodException | IllegalAccessException unavailable) {
 			return null;
 		}
@@ -106,6 +120,19 @@ public class TreeViewer extends AbstractTreeViewer {
 			throw failure;
 		} catch (Throwable failure) {
 			throw new IllegalStateException("Unable to invoke SWT Tree bulk operation", failure);
+		}
+	}
+
+	private static Object invokeSwtTreeQuery(MethodHandle operation, Object... arguments) {
+		if (operation == null) {
+			return null;
+		}
+		try {
+			return operation.invokeWithArguments(arguments);
+		} catch (RuntimeException | Error failure) {
+			throw failure;
+		} catch (Throwable failure) {
+			throw new IllegalStateException("Unable to invoke SWT Tree state query", failure);
 		}
 	}
 
@@ -377,6 +404,28 @@ public class TreeViewer extends AbstractTreeViewer {
 			return false;
 		}
 		boolean delegated = invokeSwtTreeOperation(SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL, tree, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	Item[] internalDelegateExpandedItems() {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return null;
+		}
+		Object expanded = invokeSwtTreeQuery(SWT_TREE_GET_EXPANDED_ITEMS, tree);
+		return expanded instanceof TreeItem[] items ? items : null;
+	}
+
+	@Override
+	boolean internalDelegateSetExpandedItems(List<Item> items) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		TreeItem[] expanded = items.toArray(TreeItem[]::new);
+		boolean delegated = invokeSwtTreeOperation(SWT_TREE_SET_EXPANDED_ITEMS, tree, expanded);
 		if (delegated) {
 			tree.update();
 		}
