@@ -88,3 +88,43 @@ and platform-specific checks.
 Continue with [event processing](Event_Processing.md), [accessibility](Accessibility_Features.md)
 and the existing topic guides above. Preserve upstream notices and use
 [CONTRIBUTING](../CONTRIBUTING.md) for contribution requirements.
+
+## Debugging exercise: a visible command has no usable handler
+
+A menu contribution, a command definition and a handler are separate pieces.
+Use this trace when an action appears but is disabled or fails when invoked.
+
+1. Identify the exact command ID in the contribution and compare it with the
+   command definition and handler's `commandId`. Start with
+   [PlatformCommandFramework](PlatformCommandFramework.md), but use the current
+   [handler schema](../bundles/org.eclipse.ui/schema/handlers.exsd) for its contract.
+2. Check `activeWhen` separately from `enabledWhen`. Activation chooses the handler
+   that owns execution in the current context; enablement decides whether that
+   handler may execute. The schema documents that unresolved conflicts between
+   handlers can leave no active handler, including conflicts between defaults.
+3. Record the active part and selection before and after focus changes. Follow the
+   relevant expression variables to their source providers rather than changing
+   the expression to unconditional true. Handler proxies can avoid loading the
+   implementation until activation and a delegated operation require it.
+4. Trace [Command.executeWithChecks](../bundles/org.eclipse.core.commands/src/org/eclipse/core/commands/Command.java).
+   It checks definition, the presence of a handling handler, and enablement before
+   executing. Enablement is refreshed with the execution event's application context.
+5. Reproduce with a valid selection, empty selection, another active part, then the
+   original part again. Include parameter values when using a parameterized command.
+   The same label or key binding does not establish that the same context was used.
+6. Place a regression at the owning layer: core command state/dispatch, expression
+   activation, or workbench integration. A successful direct handler invocation
+   bypasses the activation path and cannot validate the original menu failure.
+
+| Observation | Interpretation to investigate | Next evidence |
+| --- | --- | --- |
+| NotDefinedException | ID has no definition in this running configuration | Command contribution and loaded bundle set |
+| NotHandledException | No handler is available/handling; activation conflict is one possible cause | activeWhen inputs and competing handlers |
+| NotEnabledException | A handler exists but execution is disabled | enabledWhen, handler state and application context |
+| ExecutionException | Dispatch reached the handler, which reported failure | Handler's cause/stack and input parameters |
+| Works only after switching parts | Context/activation or source-provider updates | Part/selection transition sequence |
+
+Keep the command definition stable while diagnosing handler selection; changing IDs
+can also affect key bindings and parameterized callers. For a UI change, preserve
+threading, selection and accessibility behavior from the earlier viewer checklist.
+This is a source-based diagnostic procedure, not an executed UI regression run.
