@@ -111,3 +111,7 @@ Contact the project developers via the project's "dev" list.
 ## License
 
 [Eclipse Public License (EPL) 2.0](https://www.eclipse.org/legal/epl-2.0/)
+
+## Platform UI source guide
+
+Explore the [source guide and development cheat sheet](docs/README.md) for the architecture map, build and test commands, viewer refresh walkthrough, and command-handler extension points.
