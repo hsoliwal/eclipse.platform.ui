@@ -97,6 +97,17 @@ Fork-specific changes belong in
 [hsoliwal/eclipse.platform.ui pull requests](https://github.com/hsoliwal/eclipse.platform.ui/pulls);
 upstream changes follow [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Package and lifecycle documentation
+
+The [architecture and coverage guide](docs/architecture/README.md) connects
+[source-backed lifecycle contracts](docs/architecture/lifecycle-contracts.md),
+[project/module ownership](docs/architecture/module-ledger.md),
+[Java package and source-set coverage](docs/architecture/package-ledger.md), and
+[export boundaries](docs/architecture/export-boundaries.md).
+It pins the inspected source revision and keeps unreviewed semantics, generated
+or native boundaries, and unrun verification visible. Inventory coverage is
+reported separately from complete package/API documentation.
+
 ## How to Contribute
 
 Contributions are most welcome. There are many ways to contribute, from entering high quality bug reports, to contributing code or documentation changes.
@@ -169,3 +180,4 @@ Contact the project developers via the project's "dev" list.
 ## License
 
 [Eclipse Public License (EPL) 2.0](https://www.eclipse.org/legal/epl-2.0/)
+
