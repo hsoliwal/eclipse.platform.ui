@@ -1,3 +1,117 @@
+<!-- fork-homepage-detail:v1:start -->
+# Eclipse Platform UI: viewers, workbench and rich-client applications
+
+Platform UI connects application models to SWT controls and supplies the Eclipse
+workbench: views, editors, commands, perspectives, dialogs, data binding and E4
+application services. Use JFace for reusable presentation components, and the
+workbench/RCP layers when building an Eclipse application. Native SWT widgets
+are maintained in a separate repository.
+
+[Layer map](#ui-layer-map) · [Concepts](#ui-key-concepts) ·
+[Quickstart](#ui-quickstart) · [Example](#ui-worked-example) ·
+[Architecture reference](docs/architecture/README.md)
+
+## UI layer map
+
+| Layer | Start here | Typical question |
+| --- | --- | --- |
+| JFace | [org.eclipse.jface](bundles/org.eclipse.jface/) | How does model input become viewer content, labels or selection? |
+| Data binding | [Core binding](bundles/org.eclipse.core.databinding/) and [SWT/JFace binding](bundles/org.eclipse.jface.databinding/) | Which observable, realm and owner controls an update? |
+| Workbench / IDE | [Workbench](bundles/org.eclipse.ui.workbench/) and [IDE](bundles/org.eclipse.ui.ide/) | Who owns an editor, view, site or selection service? |
+| E4 model | [Workbench model](bundles/org.eclipse.e4.ui.model.workbench/) | How is application structure represented? |
+| Commands | [Core commands](bundles/org.eclipse.core.commands/) | Which command and handler define an action? |
+| Tests / examples | [tests/](tests/) and [examples/](examples/) | Where is the smallest matching reproduction? |
+
+## UI key concepts
+
+- **Viewer:** exposes model input/selection through a control.
+- **Content / label provider:** supplies model elements versus their presentation.
+  Providers have replacement and disposal lifecycles.
+- **Workbench part:** an editor or view managed by workbench services; its controls,
+  listeners and resources still need a clear lifetime.
+- **Realm:** the execution context for observable access and notifications; it is
+  not permission to access arbitrary SWT widgets from a worker thread.
+- **Resource manager / registry:** shared-resource ownership. Do not call SWT
+  disposal directly on a resource borrowed from a JFace manager or registry.
+- **RCP:** the Eclipse rich-client application platform; some bundles are reusable
+  there while other bundles specifically serve the IDE.
+
+## UI fork status
+
+This fork derives from [Eclipse Platform UI](https://github.com/eclipse-platform/eclipse.platform.ui).
+The established JFace/workbench implementations and
+[M3 sidecar](.m3/README.md) coexist with a source-backed
+[architecture and coverage guide](docs/architecture/README.md).
+Its module/package inventory and selected lifecycle contracts are documented;
+complete per-package semantics and runtime qualification remain separate work.
+The M3 direction below is not a claim of measured responsiveness, memory savings
+or complete runtime integration in this checkout.
+
+## UI quickstart
+
+The inspected [Jenkinsfile](Jenkinsfile) selects **JDK 25**. Prepare Maven 3.9.x,
+network access to Eclipse parent/p2 dependencies and a working SWT/native display.
+The Oomph setup below creates an upstream workspace; verify fork remotes before
+editing. [Maven defaults](.mvn/maven.config) configure individual-bundle/target
+resolution; a plain Java classpath is not the PDE target platform.
+
+```sh
+git clone https://github.com/hsoliwal/eclipse.platform.ui.git
+cd eclipse.platform.ui
+git rev-parse HEAD
+java -version
+mvn -version
+# Focused JFace source-plus-test lane; not the whole repository.
+mvn clean verify -pl :org.eclipse.jface,:org.eclipse.jface.tests
+```
+
+Use `mvn clean verify` for the ordinary full reactor. Tycho's integration-test
+lifecycle requires `verify`; a `test` invocation alone is not equivalent.
+These commands were checked against source/configuration, not executed here.
+
+## UI command and ownership cheat sheet
+
+```sh
+git grep -n -e 'setContentProvider' -e 'setInput' -- bundles/org.eclipse.jface/src
+git grep -n 'handleDispose' -- bundles/org.eclipse.jface/src/org/eclipse/jface/viewers
+find . -path '*/target/surefire-reports/TEST-*.xml' -print
+```
+
+- Include the modified production bundle alongside its tests so the selected run
+  does not silently exercise only a target-platform copy.
+- For a stale label, distinguish model mutation, provider notification and viewer
+  refresh before modifying SWT painting.
+- For shutdown failures, trace provider listeners, control disposal and delayed
+  callbacks. A repaint cannot repair invalid ownership.
+
+## UI worked example
+
+**Replace a viewer's input without retaining the previous model.** Read
+[ContentViewer.java](bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ContentViewer.java)
+with [the lifecycle guide](docs/architecture/lifecycle-contracts.md).
+
+1. Create the viewer/control, install its content and label providers, then set input.
+2. In `setInput`, the provider receives old/new input before the viewer stores the
+   new input. Detach old-model listeners and attach new-model listeners there.
+3. Keep that provider callback safe for teardown as well: input removal is also
+   part of disposal. Do not assume it is always a normal presentation update.
+4. Provider replacement may dispose the old provider; sharing it across viewers
+   requires an explicit shared-lifetime design.
+5. Test input A → input B → control disposal, checking that A no longer notifies
+   this viewer and cleanup releases listeners. The homepage describes the case;
+   it does not claim those tests were run.
+
+Continue with [JFace](docs/JFace.md), [data binding](docs/JFaceDataBinding.md),
+[RCP](docs/Rich_Client_Platform.md) and
+[the architecture coverage boundaries](docs/architecture/README.md).
+The original project, contribution and licensing sections remain below.
+
+> Source tour checked at [`119b433438c6`](https://github.com/hsoliwal/eclipse.platform.ui/tree/119b433438c6cca2e3d21365cf6054b7874a8d14). Commands describe that revision; recheck build configuration when changing revisions. Build/UI/performance verification was not run for this README update.
+
+---
+
+<!-- fork-homepage-detail:v1:end -->
+
 <div align="center">
 
 ## M³ × Eclipse Platform UI
