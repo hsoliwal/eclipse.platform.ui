@@ -1,0 +1,537 @@
+[
+  {
+    "stage": "01-template-and-proof-lint",
+    "command": [
+      "java",
+      "-cp",
+      "/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/guava/31.0.1-jre/guava-31.0.1-jre.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/puppycrawl/tools/checkstyle/9.3/checkstyle-9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/info/picocli/picocli/4.6.2/picocli-4.6.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/antlr/antlr4-runtime/4.9.3/antlr4-runtime-4.9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/reflections/reflections/0.10.2/reflections-0.10.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar",
+      "com.puppycrawl.tools.checkstyle.Main",
+      "-c",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/checkstyle.xml",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/lint-input/TreePath.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/lint-input/ArrayContentProvider.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/lint-input/ViewerComparator.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/lint-input/StructuredSelection.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/lint-input/M3ViewerArrays.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/lint-input/ViewerFilter.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/src/test/java/com/synexia/rewrite/M3JFaceArrayForwardingRecipeTest.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/deps/org/eclipse/pde/api/tools/annotations/NoExtend.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayContracts.java"
+    ],
+    "exit": 0,
+    "logSha256": "2ee89ca49ecae1bb5b3de5ffcc8a964e605f1b1c6fbe072073a1ea4feaa4e230"
+  },
+  {
+    "stage": "02-annotation-compile",
+    "command": [
+      "javac",
+      "--release",
+      "21",
+      "-proc:none",
+      "-Xlint:all",
+      "-Werror",
+      "-d",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/deps/org/eclipse/pde/api/tools/annotations/NoExtend.java"
+    ],
+    "exit": 0,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "stage": "03-baseline-compile",
+    "command": [
+      "javac",
+      "--release",
+      "21",
+      "-proc:none",
+      "-Xlint:all,-rawtypes",
+      "-Werror",
+      "-cp",
+      "/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.jface_3.37.0.v20250522-1428.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "-d",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/before/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreePath.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/before/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ArrayContentProvider.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/before/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerComparator.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/before/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredSelection.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/before/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerFilter.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayContracts.java"
+    ],
+    "exit": 0,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "stage": "04-recipe-compile",
+    "command": [
+      "/workspace/scratch/b37f6ba1283f/memory-residency-20261013/toolchain/apache-maven-3.9.9/bin/mvn",
+      "-o",
+      "-B",
+      "-ntp",
+      "-Dmaven.repo.local=/workspace/scratch/0b39bc8b80ec/proof/m2",
+      "-f",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/pom.xml",
+      "-Dcanonical.classpath=/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.jface_3.37.0.v20250522-1428.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "test-compile"
+    ],
+    "exit": 0,
+    "logSha256": "30d6d5fb425f5ddb70e329dcfe5873f98fd4ecae7301f320c1e492a2866e8c45"
+  },
+  {
+    "stage": "05-recipe-sdk-test",
+    "command": [
+      "/workspace/scratch/b37f6ba1283f/memory-residency-20261013/toolchain/apache-maven-3.9.9/bin/mvn",
+      "-o",
+      "-B",
+      "-ntp",
+      "-Dmaven.repo.local=/workspace/scratch/0b39bc8b80ec/proof/m2",
+      "-f",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/pom.xml",
+      "-Dcanonical.classpath=/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.jface_3.37.0.v20250522-1428.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "surefire:test",
+      "-Dmaterialize.dir=/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated"
+    ],
+    "exit": 0,
+    "logSha256": "ba813bdddbac8d53086d17a9271585b0be17ad0403ac2d705e9ef5aac58dd8b4"
+  },
+  {
+    "stage": "06-generated-lint",
+    "command": [
+      "java",
+      "-cp",
+      "/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/guava/31.0.1-jre/guava-31.0.1-jre.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/puppycrawl/tools/checkstyle/9.3/checkstyle-9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/info/picocli/picocli/4.6.2/picocli-4.6.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/antlr/antlr4-runtime/4.9.3/antlr4-runtime-4.9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/reflections/reflections/0.10.2/reflections-0.10.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar",
+      "com.puppycrawl.tools.checkstyle.Main",
+      "-c",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/checkstyle.xml",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreePath.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ArrayContentProvider.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerComparator.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredSelection.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerFilter.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/internal/m3/M3ViewerArrays.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayContracts.java"
+    ],
+    "exit": 0,
+    "logSha256": "2ee89ca49ecae1bb5b3de5ffcc8a964e605f1b1c6fbe072073a1ea4feaa4e230"
+  },
+  {
+    "stage": "06b-baseline-proof-compile",
+    "command": [
+      "javac",
+      "--release",
+      "21",
+      "-proc:none",
+      "-Xlint:all",
+      "-Werror",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "-d",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayContracts.java"
+    ],
+    "exit": 0,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "stage": "07-generated-compile",
+    "command": [
+      "javac",
+      "--release",
+      "21",
+      "-proc:none",
+      "-Xlint:all,-rawtypes",
+      "-Werror",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "-d",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreePath.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ArrayContentProvider.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerComparator.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredSelection.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerFilter.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/generated/bundles/org.eclipse.jface/src/org/eclipse/jface/internal/m3/M3ViewerArrays.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayContracts.java"
+    ],
+    "exit": 0,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "stage": "08-baseline-contracts",
+    "command": [
+      "java",
+      "-ea",
+      "-Xmx128m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "JFaceArrayContracts"
+    ],
+    "exit": 0,
+    "logSha256": "0446389ce7cf6da62514b58e48858c2d9bc8113f4aad02f5d606821640bed367"
+  },
+  {
+    "stage": "08-candidate-contracts",
+    "command": [
+      "java",
+      "-ea",
+      "-Xmx128m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "JFaceArrayContracts"
+    ],
+    "exit": 0,
+    "logSha256": "0446389ce7cf6da62514b58e48858c2d9bc8113f4aad02f5d606821640bed367"
+  },
+  {
+    "stage": "09-baseline-public-api",
+    "command": [
+      "javap",
+      "-public",
+      "-s",
+      "-classpath",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "org.eclipse.jface.viewers.ArrayContentProvider",
+      "org.eclipse.jface.viewers.ViewerFilter",
+      "org.eclipse.jface.viewers.ViewerComparator",
+      "org.eclipse.jface.viewers.TreePath",
+      "org.eclipse.jface.viewers.StructuredSelection"
+    ],
+    "exit": 0,
+    "logSha256": "988f82b7ace6c75538367ebbff387b8e1d891f24105978863fe986cd7405c52d"
+  },
+  {
+    "stage": "09-candidate-public-api",
+    "command": [
+      "javap",
+      "-public",
+      "-s",
+      "-classpath",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "org.eclipse.jface.viewers.ArrayContentProvider",
+      "org.eclipse.jface.viewers.ViewerFilter",
+      "org.eclipse.jface.viewers.ViewerComparator",
+      "org.eclipse.jface.viewers.TreePath",
+      "org.eclipse.jface.viewers.StructuredSelection"
+    ],
+    "exit": 0,
+    "logSha256": "988f82b7ace6c75538367ebbff387b8e1d891f24105978863fe986cd7405c52d"
+  },
+  {
+    "stage": "11-runtime-proof-lint",
+    "command": [
+      "java",
+      "-cp",
+      "/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/guava/31.0.1-jre/guava-31.0.1-jre.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/puppycrawl/tools/checkstyle/9.3/checkstyle-9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/info/picocli/picocli/4.6.2/picocli-4.6.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/antlr/antlr4-runtime/4.9.3/antlr4-runtime-4.9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/reflections/reflections/0.10.2/reflections-0.10.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar",
+      "com.puppycrawl.tools.checkstyle.Main",
+      "-c",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/checkstyle.xml",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceEquinoxProof.java",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayCostProbe.java"
+    ],
+    "exit": 0,
+    "logSha256": "2ee89ca49ecae1bb5b3de5ffcc8a964e605f1b1c6fbe072073a1ea4feaa4e230"
+  },
+  {
+    "stage": "12-runtime-proof-compile",
+    "command": [
+      "javac",
+      "--release",
+      "21",
+      "-proc:none",
+      "-Xlint:all",
+      "-Werror",
+      "-cp",
+      "/workspace/scratch/e48d8583eb57/viewport-work-20261017/receivers/nebula/m3/third_party/p2-7287eed88567/mirror/plugins/org.eclipse.osgi_3.24.300.v20260721-1251.jar",
+      "-d",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/runtime-classes",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceEquinoxProof.java"
+    ],
+    "exit": 0,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "stage": "13-baseline-cost-compile",
+    "command": [
+      "javac",
+      "--release",
+      "21",
+      "-proc:none",
+      "-Xlint:all",
+      "-Werror",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.jface_3.37.0.v20250522-1428.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "-d",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayCostProbe.java"
+    ],
+    "exit": 0,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "stage": "13-candidate-cost-compile",
+    "command": [
+      "javac",
+      "--release",
+      "21",
+      "-proc:none",
+      "-Xlint:all",
+      "-Werror",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.jface_3.37.0.v20250522-1428.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/annotation-classes",
+      "-d",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/author/synexia-openrewrite-recipes/recipe-crates/m3-jface-array-forwarding-20261017/proof/JFaceArrayCostProbe.java"
+    ],
+    "exit": 0,
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "stage": "14-baseline-equinox",
+    "command": [
+      "java",
+      "-ea",
+      "-Xmx256m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/runtime-classes:/workspace/scratch/e48d8583eb57/viewport-work-20261017/receivers/nebula/m3/third_party/p2-7287eed88567/mirror/plugins/org.eclipse.osgi_3.24.300.v20260721-1251.jar",
+      "JFaceEquinoxProof",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-osgi",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/runtime-dependencies.txt",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-jface.jar",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-client.jar",
+      "false"
+    ],
+    "exit": 0,
+    "logSha256": "f72bc8632a28681638b6d87bce4f656d1a3125b8592177f8ce6a12fc8bc9e99c"
+  },
+  {
+    "stage": "14-candidate-equinox",
+    "command": [
+      "java",
+      "-ea",
+      "-Xmx256m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/runtime-classes:/workspace/scratch/e48d8583eb57/viewport-work-20261017/receivers/nebula/m3/third_party/p2-7287eed88567/mirror/plugins/org.eclipse.osgi_3.24.300.v20260721-1251.jar",
+      "JFaceEquinoxProof",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-osgi",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/runtime-dependencies.txt",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-jface.jar",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-client.jar",
+      "true"
+    ],
+    "exit": 0,
+    "logSha256": "633bf64a1db3e5b5a1370c5f54bbe0a68368008e9b2075556e46e16d8dfa958e"
+  },
+  {
+    "stage": "15-baseline-bytecode",
+    "command": [
+      "javap",
+      "-c",
+      "-p",
+      "-classpath",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes",
+      "org.eclipse.jface.viewers.ArrayContentProvider",
+      "org.eclipse.jface.viewers.ViewerFilter",
+      "org.eclipse.jface.viewers.ViewerComparator",
+      "org.eclipse.jface.viewers.TreePath",
+      "org.eclipse.jface.viewers.StructuredSelection"
+    ],
+    "exit": 0,
+    "logSha256": "8cd6fef222def350b0fbee8912a231e55d8a73e2c462782fdf6de39891d1f78a"
+  },
+  {
+    "stage": "15-candidate-bytecode",
+    "command": [
+      "javap",
+      "-c",
+      "-p",
+      "-classpath",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes",
+      "org.eclipse.jface.viewers.ArrayContentProvider",
+      "org.eclipse.jface.viewers.ViewerFilter",
+      "org.eclipse.jface.viewers.ViewerComparator",
+      "org.eclipse.jface.viewers.TreePath",
+      "org.eclipse.jface.viewers.StructuredSelection"
+    ],
+    "exit": 0,
+    "logSha256": "1cfd90a11668fcbcf3d3c5a1a68961f3aa11efdad3222fb47400dbad64c86ae9"
+  },
+  {
+    "stage": "16-baseline-mask-0-fork-0",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "0"
+    ],
+    "exit": 0,
+    "logSha256": "e91432618ac1a9576e9adb4126d41ec3c8d8c03248f923f1774b0b5c082c1e74"
+  },
+  {
+    "stage": "16-baseline-mask-0-fork-1",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "0"
+    ],
+    "exit": 0,
+    "logSha256": "f366dfd1ce00563403b316579dc49aee047b638f0b58ef5ca813b4d20960fbc8"
+  },
+  {
+    "stage": "16-baseline-mask-1023-fork-0",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "1023"
+    ],
+    "exit": 0,
+    "logSha256": "9fa1c54a6348254fd5ae789b541d6ca5449d96a0dad56905eb1ee2f68d20a019"
+  },
+  {
+    "stage": "16-baseline-mask-1023-fork-1",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "1023"
+    ],
+    "exit": 0,
+    "logSha256": "0b987cb1e35a21edd7a9a248f667ced34e96e9fdb330be4d035cb49faa2bca1f"
+  },
+  {
+    "stage": "16-baseline-mask-15-fork-0",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "15"
+    ],
+    "exit": 0,
+    "logSha256": "5186cea47d9319a10a6ee7134262b8e73221f6db4091ed99b31ebb783d991f36"
+  },
+  {
+    "stage": "16-baseline-mask-15-fork-1",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "15"
+    ],
+    "exit": 0,
+    "logSha256": "80dbc404b2cab9b461c1fb564a7a49eecb260553405ad69c72ecc5d41e544596"
+  },
+  {
+    "stage": "16-candidate-mask-0-fork-0",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "0"
+    ],
+    "exit": 0,
+    "logSha256": "163e78001a02f55e947fe303c92a62dc38ce405954de21a2cf228144bedeedfc"
+  },
+  {
+    "stage": "16-candidate-mask-0-fork-1",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "0"
+    ],
+    "exit": 0,
+    "logSha256": "3598e8d2eb74e1415fb76c17790d43c46a52d093431b600e29050d1d332312bc"
+  },
+  {
+    "stage": "16-candidate-mask-1023-fork-0",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "1023"
+    ],
+    "exit": 0,
+    "logSha256": "049a393ee3a213a6cdf431f2440a28b297ebcc9929ff2f5cd53e19ec039e3c99"
+  },
+  {
+    "stage": "16-candidate-mask-1023-fork-1",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "1023"
+    ],
+    "exit": 0,
+    "logSha256": "5937e03796ed897d9efda5367e3638c0ba3e1830498188e2aba83442f2118af3"
+  },
+  {
+    "stage": "16-candidate-mask-15-fork-0",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "15"
+    ],
+    "exit": 0,
+    "logSha256": "d31201ee135615077a84b9ce1940d587bf08893ca5178f2511f28eb176adbc3e"
+  },
+  {
+    "stage": "16-candidate-mask-15-fork-1",
+    "command": [
+      "java",
+      "-ea",
+      "-Xms64m",
+      "-Xmx64m",
+      "-cp",
+      "/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-forwarding-20261017/reproduction/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+      "JFaceArrayCostProbe",
+      "15"
+    ],
+    "exit": 0,
+    "logSha256": "619b3d3eca5aed40e925b12aaaaced47b993068a4e93c95ed04add3d89a286ce"
+  }
+]

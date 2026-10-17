@@ -1,0 +1,47 @@
+{
+  "qualifiedSynexiaCommit": "892e3f6c51d78bc0948e8a8cf736055b4c70eafa",
+  "publicationSynexiaBase": "768bc5b3d60170067fa25a2e765d001eb9089cad",
+  "publicationReadmission": "all four kernels, root/scoped AGENTS, skill and invariant read back byte-identical",
+  "eclipseUiBase": "8eb63ef686a720207dca77b8e0e2b8fd061bbfe5",
+  "pdeAnnotationCommit": "424b0464ef2bb033564234d28dc4ca227d953658",
+  "facades": [
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ArrayContentProvider.java",
+      "sha": "fc4401e54e40967d729ff38385b345a073af51b3"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredSelection.java",
+      "sha": "99612e6a76e3997be50aa901ecb4838ccad1903b"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreePath.java",
+      "sha": "8f36feff56f3e1b6a453763195015fcff34ee04c"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerComparator.java",
+      "sha": "81d739c8f696c62d1d605e93a821db69888f6325"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerFilter.java",
+      "sha": "c942c6a26909161545bedd86f4d094f0ae212a14"
+    }
+  ],
+  "canonicalKernels": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "sha": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "sha": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "sha": "9d0788d3717e017d58345c5c3e62022c2915a3c8"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "sha": "d24729950508857280ea1b56d4e930f05137ec85"
+    }
+  ]
+}

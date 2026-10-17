@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project -->
+<!-- SPDX-License-Identifier: Apache-2.0; candidate proof, not a production source installer. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>com.synexia.m3</groupId><artifactId>jface-array-forwarding-proof</artifactId><version>1.0-SNAPSHOT</version>
+ <properties><maven.compiler.release>21</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <rewrite.version>8.17.1</rewrite.version><canonical.classpath></canonical.classpath></properties>
+ <dependencies>
+  <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-api</artifactId><version>2.0.13</version></dependency>
+  <dependency><groupId>org.openrewrite</groupId><artifactId>rewrite-core</artifactId><version>${rewrite.version}</version></dependency>
+  <dependency><groupId>org.openrewrite</groupId><artifactId>rewrite-java</artifactId><version>${rewrite.version}</version></dependency>
+  <dependency><groupId>org.openrewrite</groupId><artifactId>rewrite-java-21</artifactId><version>${rewrite.version}</version><scope>runtime</scope></dependency>
+  <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter-api</artifactId><version>5.10.2</version><scope>test</scope></dependency>
+  <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter-engine</artifactId><version>5.10.2</version><scope>test</scope></dependency>
+ </dependencies>
+ <build>
+  <sourceDirectory>${project.basedir}/../../src/main/java</sourceDirectory>
+  <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+  <resources><resource><directory>${project.basedir}/resources</directory></resource></resources>
+  <plugins>
+   <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.14.1</version>
+    <configuration><release>21</release><proc>none</proc><compilerArgs><arg>-Xlint:all</arg><arg>-Werror</arg></compilerArgs>
+     <includes><include>com/synexia/rewrite/M3EditScope.java</include><include>com/synexia/rewrite/M3ScopeInference.java</include>
+      <include>com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java</include><include>com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java</include></includes>
+     <testIncludes><testInclude>com/synexia/rewrite/M3JFaceArrayForwardingRecipeTest.java</testInclude></testIncludes>
+    </configuration>
+   </plugin>
+   <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.2.5</version>
+    <configuration><useModulePath>false</useModulePath><failIfNoTests>true</failIfNoTests><includes><include>com/synexia/rewrite/M3JFaceArrayForwardingRecipeTest.java</include></includes>
+     <systemPropertyVariables><canonical.classpath>${canonical.classpath}</canonical.classpath></systemPropertyVariables>
+    </configuration>
+   </plugin>
+  </plugins>
+ </build>
+</project>
