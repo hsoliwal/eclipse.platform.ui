@@ -14,7 +14,7 @@
  *******************************************************************************/
 package org.eclipse.jface.viewers;
 
-import java.util.Arrays;
+import org.eclipse.jface.internal.m3.M3ViewerArrays;
 
 /**
  * A viewer filter is used by a structured viewer to extract a subset of
@@ -52,19 +52,7 @@ public abstract class ViewerFilter {
 	 * @return the filtered elements
 	 */
 	public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
-		int size = elements.length;
-		if (size == 0) {
-			return elements;
-		}
-		Object[] out = new Object[size];
-		int count = 0;
-		for (int i = 0; i < size; ++i) {
-			Object element = elements[i];
-			if (select(viewer, parent, element)) {
-				out[count++] = element;
-			}
-		}
-		return count == size ? out : Arrays.copyOf(out, count);
+		return M3ViewerArrays.filter(this, viewer, parent, elements);
 	}
 
 	/**

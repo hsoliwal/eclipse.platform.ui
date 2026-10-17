@@ -14,6 +14,8 @@
  *******************************************************************************/
 package org.eclipse.jface.viewers;
 
+import org.eclipse.jface.internal.m3.M3ViewerArrays;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -139,24 +141,7 @@ public class StructuredSelection implements IStructuredSelection {
 
 		boolean useComparer = comparer != null && comparer == s2.comparer;
 
-		//size
-		int myLen = elements.length;
-		if (myLen != s2.elements.length) {
-			return false;
-		}
-
-		//element comparison
-		if (useComparer) {
-			for (int i = 0; i < myLen; i++) {
-				if (!comparer.equals(elements[i], s2.elements[i])) {
-					return false;
-				}
-			}
-		} else {
-			return Arrays.equals(elements, s2.elements);
-		}
-
-		return true;
+		return M3ViewerArrays.selectionEquals(elements, s2.elements, useComparer ? comparer : null);
 	}
 
 	@Override
@@ -165,17 +150,7 @@ public class StructuredSelection implements IStructuredSelection {
 			return 31 + Objects.hashCode(comparer);
 		}
 
-		int r;
-		if (comparer != null) {
-			r = 31 + comparer.hashCode();
-			for (Object e : elements) {
-				r = 31 * r + (e == null ? 0 : comparer.hashCode(e));
-			}
-		} else {
-			r = Arrays.hashCode(elements);
-		}
-
-		return r;
+		return M3ViewerArrays.selectionHash(elements, comparer);
 	}
 
 	@Override
@@ -190,8 +165,7 @@ public class StructuredSelection implements IStructuredSelection {
 
 	@Override
 	public Iterator iterator() {
-		return Arrays.asList(elements == null ? new Object[0] : elements)
-				.iterator();
+		return M3ViewerArrays.selectionList(elements).iterator();
 	}
 
 	@Override
@@ -201,12 +175,12 @@ public class StructuredSelection implements IStructuredSelection {
 
 	@Override
 	public Object[] toArray() {
-		return elements == null ? new Object[0] : elements.clone();
+		return M3ViewerArrays.selectionArray(elements);
 	}
 
 	@Override
 	public List toList() {
-		return Arrays.asList(elements == null ? new Object[0] : elements);
+		return M3ViewerArrays.selectionList(elements);
 	}
 
 	@Override
