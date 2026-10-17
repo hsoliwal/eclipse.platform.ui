@@ -99,6 +99,42 @@ public class LabelTest {
 	}
 
 	@Test
+	void testFontWeightFallsBackToTheNearestLighterFaceOnWindows() {
+		assumeTrue("win32".equals(SWT.getPlatform()));
+		assumeTrue(css.getDisplay().getFontList("Segoe UI Light", true).length > 0);
+		assumeTrue(css.getDisplay().getFontList("Segoe UI ExtraLight", true).length == 0);
+
+		Label labelToTest = css.createTestLabel("Label { font: 200 12pt \"Segoe UI\" }");
+
+		assertEquals("Segoe UI Light", labelToTest.getFont().getFontData()[0].getName());
+	}
+
+	@Test
+	void testFontWeightFallsBackToTheNearestHeavierFaceOnWindows() {
+		assumeTrue("win32".equals(SWT.getPlatform()));
+		assumeTrue(css.getDisplay().getFontList("Segoe UI Black", true).length > 0);
+		assumeTrue(css.getDisplay().getFontList("Segoe UI ExtraBold", true).length == 0);
+
+		Label labelToTest = css.createTestLabel("Label { font: 800 12pt \"Segoe UI\" }");
+
+		assertEquals("Segoe UI Black", labelToTest.getFont().getFontData()[0].getName());
+	}
+
+	@Test
+	void testFontWeightWithoutSemiBoldFaceIsBoldOnWindows() {
+		assumeTrue("win32".equals(SWT.getPlatform()));
+		assumeTrue(css.getDisplay().getFontList("Calibri", true).length > 0);
+		assumeTrue(css.getDisplay().getFontList("Calibri Semibold", true).length == 0);
+
+		Label labelToTest = css.createTestLabel("Label { font: 600 12pt Calibri }");
+
+		FontData fontData = labelToTest.getFont().getFontData()[0];
+		assertEquals("Calibri", fontData.getName());
+		// GDI reports bold only for a weight of exactly 700
+		assertEquals(SWT.BOLD, fontData.getStyle());
+	}
+
+	@Test
 	void testFontWeightSelectsTheMediumFaceOnMac() throws ReflectiveOperationException {
 		assumeTrue("cocoa".equals(SWT.getPlatform()));
 
@@ -142,6 +178,26 @@ public class LabelTest {
 		Label labelToTest = css.createTestLabel("Label { font-size: 2em }");
 
 		assertEquals(inheritedHeight * 2, labelToTest.getFont().getFontData()[0].getHeight());
+	}
+
+	@Test
+	void testFontSizeLarger() {
+		int inheritedHeight = css.getDisplay().getSystemFont().getFontData()[0].getHeight();
+
+		Label labelToTest = css.createTestLabel("Label { font-size: larger }");
+
+		assertEquals(Math.round(inheritedHeight * 1.2), labelToTest.getFont().getFontData()[0].getHeight());
+	}
+
+	@Test
+	void testFontSizeSmallerInShorthand() {
+		int inheritedHeight = css.getDisplay().getSystemFont().getFontData()[0].getHeight();
+
+		Label labelToTest = css.createTestLabel("Label { font: Verdana smaller }");
+
+		FontData fontData = labelToTest.getFont().getFontData()[0];
+		assertEquals("Verdana", fontData.getName());
+		assertEquals(Math.round(inheritedHeight / 1.2), fontData.getHeight());
 	}
 
 	@Test
@@ -195,6 +251,24 @@ public class LabelTest {
 		shell.dispose();
 		smallFont.dispose();
 		largeFont.dispose();
+	}
+
+	@Test
+	void testFontWeightKeepsAnInheritedFamilyWithSpacesUnquoted() {
+		Font font = new Font(css.getDisplay(), "Times New Roman", 10, SWT.NORMAL);
+		// macOS reports the font it fell back to when the family is not installed
+		String family = font.getFontData()[0].getName();
+		assumeTrue(family.contains(" "));
+		CSSEngine engine = css.createEngine("Label { font-weight: bold }");
+		Shell shell = new Shell(css.getDisplay());
+		Label label = new Label(shell, SWT.NONE);
+		label.setFont(font);
+
+		engine.applyStyles(label, true);
+
+		assertEquals(family, label.getFont().getFontData()[0].getName());
+		shell.dispose();
+		font.dispose();
 	}
 
 	@Test
