@@ -16,7 +16,8 @@
 
 package org.eclipse.jface.viewers;
 
-import java.util.Arrays;
+import org.eclipse.jface.internal.m3.M3ViewerArrays;
+
 import java.util.Comparator;
 
 import org.eclipse.core.runtime.Status;
@@ -199,7 +200,7 @@ public class ViewerComparator {
 	 */
 	public void sort(final Viewer viewer, Object[] elements) {
 		try {
-			Arrays.sort(elements, (a, b) -> ViewerComparator.this.compare(viewer, a, b));
+			M3ViewerArrays.sort(this, viewer, elements);
 		} catch (IllegalArgumentException e) {
 			String msg = e
 					+ "\nWorkaround for comparator violation:\n\tSet system property -Djava.util.Arrays.useLegacyMergeSort=true" //$NON-NLS-1$

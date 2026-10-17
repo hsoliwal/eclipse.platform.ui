@@ -1,0 +1,16 @@
+{
+  "sdkTests": 5,
+  "baselineChecks": 445093,
+  "candidateChecks": 445093,
+  "realEquinoxChecksEach": 445093,
+  "publicApiEqual": true,
+  "newExportedPackages": 0,
+  "newRuntimeDependencies": 0,
+  "newNativeMethods": 0,
+  "atoms": 13,
+  "forwardingCalls": 14,
+  "fullEclipseImplemented": false,
+  "fullTychoPassed": false,
+  "cpuSpeedupClaim": false,
+  "portableReproductionPassed": true
+}
