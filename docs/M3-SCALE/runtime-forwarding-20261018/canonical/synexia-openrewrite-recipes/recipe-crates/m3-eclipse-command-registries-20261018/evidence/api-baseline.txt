@@ -1,0 +1,1553 @@
+Compiled from "AbstractHandler.java"
+public abstract class org.eclipse.core.commands.AbstractHandler extends org.eclipse.core.commands.common.EventManager implements org.eclipse.core.commands.IHandler2 {
+  public org.eclipse.core.commands.AbstractHandler();
+    descriptor: ()V
+
+  public void addHandlerListener(org.eclipse.core.commands.IHandlerListener);
+    descriptor: (Lorg/eclipse/core/commands/IHandlerListener;)V
+
+  public void dispose();
+    descriptor: ()V
+
+  protected void fireHandlerChanged(org.eclipse.core.commands.HandlerEvent);
+    descriptor: (Lorg/eclipse/core/commands/HandlerEvent;)V
+
+  public boolean isEnabled();
+    descriptor: ()Z
+
+  protected void setBaseEnabled(boolean);
+    descriptor: (Z)V
+
+  public void setEnabled(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public boolean isHandled();
+    descriptor: ()Z
+
+  protected boolean hasListeners();
+    descriptor: ()Z
+
+  public void removeHandlerListener(org.eclipse.core.commands.IHandlerListener);
+    descriptor: (Lorg/eclipse/core/commands/IHandlerListener;)V
+}
+Compiled from "AbstractHandlerWithState.java"
+public abstract class org.eclipse.core.commands.AbstractHandlerWithState extends org.eclipse.core.commands.AbstractHandler implements org.eclipse.core.commands.IObjectWithState,org.eclipse.core.commands.IStateListener {
+  public org.eclipse.core.commands.AbstractHandlerWithState();
+    descriptor: ()V
+
+  public void addState(java.lang.String, org.eclipse.core.commands.State);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/State;)V
+
+  public final org.eclipse.core.commands.State getState(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/State;
+
+  public final java.lang.String[] getStateIds();
+    descriptor: ()[Ljava/lang/String;
+
+  public void removeState(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public void dispose();
+    descriptor: ()V
+}
+Compiled from "AbstractParameterValueConverter.java"
+public abstract class org.eclipse.core.commands.AbstractParameterValueConverter {
+  public org.eclipse.core.commands.AbstractParameterValueConverter();
+    descriptor: ()V
+
+  public abstract java.lang.Object convertToObject(java.lang.String) throws org.eclipse.core.commands.ParameterValueConversionException;
+    descriptor: (Ljava/lang/String;)Ljava/lang/Object;
+
+  public abstract java.lang.String convertToString(java.lang.Object) throws org.eclipse.core.commands.ParameterValueConversionException;
+    descriptor: (Ljava/lang/Object;)Ljava/lang/String;
+}
+Compiled from "Category.java"
+public final class org.eclipse.core.commands.Category extends org.eclipse.core.commands.common.NamedHandleObject {
+  public final void addCategoryListener(org.eclipse.core.commands.ICategoryListener);
+    descriptor: (Lorg/eclipse/core/commands/ICategoryListener;)V
+
+  public final void define(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+
+  public final void removeCategoryListener(org.eclipse.core.commands.ICategoryListener);
+    descriptor: (Lorg/eclipse/core/commands/ICategoryListener;)V
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public void undefine();
+    descriptor: ()V
+}
+Compiled from "CategoryEvent.java"
+public final class org.eclipse.core.commands.CategoryEvent extends org.eclipse.core.commands.common.AbstractNamedHandleEvent {
+  public org.eclipse.core.commands.CategoryEvent(org.eclipse.core.commands.Category, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/Category;ZZZ)V
+
+  public final org.eclipse.core.commands.Category getCategory();
+    descriptor: ()Lorg/eclipse/core/commands/Category;
+}
+Compiled from "Command.java"
+public final class org.eclipse.core.commands.Command extends org.eclipse.core.commands.NamedHandleObjectWithState implements java.lang.Comparable {
+  public static boolean DEBUG_COMMAND_EXECUTION;
+    descriptor: Z
+  public static boolean DEBUG_HANDLERS;
+    descriptor: Z
+  public static java.lang.String DEBUG_HANDLERS_COMMAND_ID;
+    descriptor: Ljava/lang/String;
+  public void addCommandListener(org.eclipse.core.commands.ICommandListener);
+    descriptor: (Lorg/eclipse/core/commands/ICommandListener;)V
+
+  public void addExecutionListener(org.eclipse.core.commands.IExecutionListener);
+    descriptor: (Lorg/eclipse/core/commands/IExecutionListener;)V
+
+  public void addState(java.lang.String, org.eclipse.core.commands.State);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/State;)V
+
+  public int compareTo(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)I
+
+  public void define(java.lang.String, java.lang.String, org.eclipse.core.commands.Category);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Lorg/eclipse/core/commands/Category;)V
+
+  public void define(java.lang.String, java.lang.String, org.eclipse.core.commands.Category, org.eclipse.core.commands.IParameter[]);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Lorg/eclipse/core/commands/Category;[Lorg/eclipse/core/commands/IParameter;)V
+
+  public void define(java.lang.String, java.lang.String, org.eclipse.core.commands.Category, org.eclipse.core.commands.IParameter[], org.eclipse.core.commands.ParameterType);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Lorg/eclipse/core/commands/Category;[Lorg/eclipse/core/commands/IParameter;Lorg/eclipse/core/commands/ParameterType;)V
+
+  public void define(java.lang.String, java.lang.String, org.eclipse.core.commands.Category, org.eclipse.core.commands.IParameter[], org.eclipse.core.commands.ParameterType, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Lorg/eclipse/core/commands/Category;[Lorg/eclipse/core/commands/IParameter;Lorg/eclipse/core/commands/ParameterType;Ljava/lang/String;)V
+
+  public java.lang.Object execute(org.eclipse.core.commands.ExecutionEvent) throws org.eclipse.core.commands.ExecutionException, org.eclipse.core.commands.NotHandledException;
+    descriptor: (Lorg/eclipse/core/commands/ExecutionEvent;)Ljava/lang/Object;
+
+  public java.lang.Object executeWithChecks(org.eclipse.core.commands.ExecutionEvent) throws org.eclipse.core.commands.ExecutionException, org.eclipse.core.commands.common.NotDefinedException, org.eclipse.core.commands.NotEnabledException, org.eclipse.core.commands.NotHandledException;
+    descriptor: (Lorg/eclipse/core/commands/ExecutionEvent;)Ljava/lang/Object;
+
+  public org.eclipse.core.commands.Category getCategory() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Lorg/eclipse/core/commands/Category;
+
+  public org.eclipse.core.commands.IHandler getHandler();
+    descriptor: ()Lorg/eclipse/core/commands/IHandler;
+
+  public org.eclipse.core.commands.IParameter getParameter(java.lang.String) throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/IParameter;
+
+  public org.eclipse.core.commands.IParameter[] getParameters() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()[Lorg/eclipse/core/commands/IParameter;
+
+  public org.eclipse.core.commands.ParameterType getParameterType(java.lang.String) throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/ParameterType;
+
+  public org.eclipse.core.commands.ParameterType getReturnType() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Lorg/eclipse/core/commands/ParameterType;
+
+  public boolean isEnabled();
+    descriptor: ()Z
+
+  public void setEnabled(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public boolean isHandled();
+    descriptor: ()Z
+
+  public void removeCommandListener(org.eclipse.core.commands.ICommandListener);
+    descriptor: (Lorg/eclipse/core/commands/ICommandListener;)V
+
+  public void removeExecutionListener(org.eclipse.core.commands.IExecutionListener);
+    descriptor: (Lorg/eclipse/core/commands/IExecutionListener;)V
+
+  public void removeState(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public boolean setHandler(org.eclipse.core.commands.IHandler);
+    descriptor: (Lorg/eclipse/core/commands/IHandler;)Z
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public void undefine();
+    descriptor: ()V
+}
+Compiled from "Command.java"
+class org.eclipse.core.commands.Command$1 implements org.eclipse.core.runtime.ISafeRunnable {
+  public void handleException(java.lang.Throwable);
+    descriptor: (Ljava/lang/Throwable;)V
+
+  public void run() throws java.lang.Exception;
+    descriptor: ()V
+}
+Compiled from "CommandEvent.java"
+public final class org.eclipse.core.commands.CommandEvent extends org.eclipse.core.commands.common.AbstractNamedHandleEvent {
+  public org.eclipse.core.commands.CommandEvent(org.eclipse.core.commands.Command, boolean, boolean, boolean, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/Command;ZZZZZZ)V
+
+  public org.eclipse.core.commands.CommandEvent(org.eclipse.core.commands.Command, boolean, boolean, boolean, boolean, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/Command;ZZZZZZZ)V
+
+  public org.eclipse.core.commands.CommandEvent(org.eclipse.core.commands.Command, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/Command;ZZZZZZZZ)V
+
+  public org.eclipse.core.commands.CommandEvent(org.eclipse.core.commands.Command, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/Command;ZZZZZZZZZ)V
+
+  public final org.eclipse.core.commands.Command getCommand();
+    descriptor: ()Lorg/eclipse/core/commands/Command;
+
+  public final boolean isCategoryChanged();
+    descriptor: ()Z
+
+  public final boolean isHandledChanged();
+    descriptor: ()Z
+
+  public final boolean isHelpContextIdChanged();
+    descriptor: ()Z
+
+  public final boolean isParametersChanged();
+    descriptor: ()Z
+
+  public final boolean isReturnTypeChanged();
+    descriptor: ()Z
+
+  public final boolean isEnabledChanged();
+    descriptor: ()Z
+}
+Compiled from "CommandManager.java"
+public final class org.eclipse.core.commands.CommandManager extends org.eclipse.core.commands.common.HandleObjectManager<org.eclipse.core.commands.Command> implements org.eclipse.core.commands.ICategoryListener, org.eclipse.core.commands.ICommandListener, org.eclipse.core.commands.IParameterTypeListener {
+  public static final java.lang.String AUTOGENERATED_CATEGORY_ID;
+    descriptor: Ljava/lang/String;
+  public org.eclipse.core.commands.CommandManager();
+    descriptor: ()V
+
+  public void addCommandManagerListener(org.eclipse.core.commands.ICommandManagerListener);
+    descriptor: (Lorg/eclipse/core/commands/ICommandManagerListener;)V
+
+  public void addExecutionListener(org.eclipse.core.commands.IExecutionListener);
+    descriptor: (Lorg/eclipse/core/commands/IExecutionListener;)V
+
+  public void categoryChanged(org.eclipse.core.commands.CategoryEvent);
+    descriptor: (Lorg/eclipse/core/commands/CategoryEvent;)V
+
+  public void commandChanged(org.eclipse.core.commands.CommandEvent);
+    descriptor: (Lorg/eclipse/core/commands/CommandEvent;)V
+
+  public void defineUncategorizedCategory(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+
+  public org.eclipse.core.commands.ParameterizedCommand deserialize(java.lang.String) throws org.eclipse.core.commands.common.NotDefinedException, org.eclipse.core.commands.SerializationException;
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/ParameterizedCommand;
+
+  public org.eclipse.core.commands.Command[] getAllCommands();
+    descriptor: ()[Lorg/eclipse/core/commands/Command;
+
+  public org.eclipse.core.commands.Category getCategory(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/Category;
+
+  public org.eclipse.core.commands.Command getCommand(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/Command;
+
+  public org.eclipse.core.commands.Category[] getDefinedCategories();
+    descriptor: ()[Lorg/eclipse/core/commands/Category;
+
+  public java.util.Set getDefinedCategoryIds();
+    descriptor: ()Ljava/util/Set;
+
+  public java.util.Set getDefinedCommandIds();
+    descriptor: ()Ljava/util/Set;
+
+  public org.eclipse.core.commands.Command[] getDefinedCommands();
+    descriptor: ()[Lorg/eclipse/core/commands/Command;
+
+  public java.util.Set getDefinedParameterTypeIds();
+    descriptor: ()Ljava/util/Set;
+
+  public org.eclipse.core.commands.ParameterType[] getDefinedParameterTypes();
+    descriptor: ()[Lorg/eclipse/core/commands/ParameterType;
+
+  public java.lang.String getHelpContextId(org.eclipse.core.commands.Command) throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: (Lorg/eclipse/core/commands/Command;)Ljava/lang/String;
+
+  public org.eclipse.core.commands.ParameterType getParameterType(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/ParameterType;
+
+  public void parameterTypeChanged(org.eclipse.core.commands.ParameterTypeEvent);
+    descriptor: (Lorg/eclipse/core/commands/ParameterTypeEvent;)V
+
+  public void removeCommandManagerListener(org.eclipse.core.commands.ICommandManagerListener);
+    descriptor: (Lorg/eclipse/core/commands/ICommandManagerListener;)V
+
+  public void removeExecutionListener(org.eclipse.core.commands.IExecutionListener);
+    descriptor: (Lorg/eclipse/core/commands/IExecutionListener;)V
+
+  public void setHandlersByCommandId(java.util.Map);
+    descriptor: (Ljava/util/Map;)V
+
+  public void setHelpContextId(org.eclipse.core.commands.IHandler, java.lang.String);
+    descriptor: (Lorg/eclipse/core/commands/IHandler;Ljava/lang/String;)V
+
+  public void fireNotEnabled(java.lang.String, org.eclipse.core.commands.NotEnabledException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/NotEnabledException;)V
+
+  public void fireNotDefined(java.lang.String, org.eclipse.core.commands.common.NotDefinedException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/common/NotDefinedException;)V
+
+  public void firePreExecute(java.lang.String, org.eclipse.core.commands.ExecutionEvent);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/ExecutionEvent;)V
+
+  public void firePostExecuteSuccess(java.lang.String, java.lang.Object);
+    descriptor: (Ljava/lang/String;Ljava/lang/Object;)V
+
+  public void firePostExecuteFailure(java.lang.String, org.eclipse.core.commands.ExecutionException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/ExecutionException;)V
+}
+Compiled from "CommandManager.java"
+final class org.eclipse.core.commands.CommandManager$ExecutionListener implements org.eclipse.core.commands.IExecutionListenerWithChecks {
+  public void notDefined(java.lang.String, org.eclipse.core.commands.common.NotDefinedException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/common/NotDefinedException;)V
+
+  public void notEnabled(java.lang.String, org.eclipse.core.commands.NotEnabledException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/NotEnabledException;)V
+
+  public void notHandled(java.lang.String, org.eclipse.core.commands.NotHandledException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/NotHandledException;)V
+
+  public void postExecuteFailure(java.lang.String, org.eclipse.core.commands.ExecutionException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/ExecutionException;)V
+
+  public void postExecuteSuccess(java.lang.String, java.lang.Object);
+    descriptor: (Ljava/lang/String;Ljava/lang/Object;)V
+
+  public void preExecute(java.lang.String, org.eclipse.core.commands.ExecutionEvent);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/ExecutionEvent;)V
+}
+Compiled from "CommandManagerEvent.java"
+public final class org.eclipse.core.commands.CommandManagerEvent {
+  public org.eclipse.core.commands.CommandManagerEvent(org.eclipse.core.commands.CommandManager, java.lang.String, boolean, boolean, java.lang.String, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/CommandManager;Ljava/lang/String;ZZLjava/lang/String;ZZ)V
+
+  public org.eclipse.core.commands.CommandManagerEvent(org.eclipse.core.commands.CommandManager, java.lang.String, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/CommandManager;Ljava/lang/String;ZZ)V
+
+  public final java.lang.String getCategoryId();
+    descriptor: ()Ljava/lang/String;
+
+  public final java.lang.String getCommandId();
+    descriptor: ()Ljava/lang/String;
+
+  public final org.eclipse.core.commands.CommandManager getCommandManager();
+    descriptor: ()Lorg/eclipse/core/commands/CommandManager;
+
+  public final java.lang.String getParameterTypeId();
+    descriptor: ()Ljava/lang/String;
+
+  public final boolean isCategoryChanged();
+    descriptor: ()Z
+
+  public final boolean isCategoryDefined();
+    descriptor: ()Z
+
+  public final boolean isCommandChanged();
+    descriptor: ()Z
+
+  public final boolean isCommandDefined();
+    descriptor: ()Z
+
+  public final boolean isParameterTypeChanged();
+    descriptor: ()Z
+
+  public final boolean isParameterTypeDefined();
+    descriptor: ()Z
+}
+Compiled from "ExecutionEvent.java"
+public final class org.eclipse.core.commands.ExecutionEvent {
+  public org.eclipse.core.commands.ExecutionEvent();
+    descriptor: ()V
+
+  public org.eclipse.core.commands.ExecutionEvent(java.util.Map, java.lang.Object, java.lang.Object);
+    descriptor: (Ljava/util/Map;Ljava/lang/Object;Ljava/lang/Object;)V
+
+  public org.eclipse.core.commands.ExecutionEvent(org.eclipse.core.commands.Command, java.util.Map, java.lang.Object, java.lang.Object);
+    descriptor: (Lorg/eclipse/core/commands/Command;Ljava/util/Map;Ljava/lang/Object;Ljava/lang/Object;)V
+
+  public final java.lang.Object getApplicationContext();
+    descriptor: ()Ljava/lang/Object;
+
+  public final org.eclipse.core.commands.Command getCommand();
+    descriptor: ()Lorg/eclipse/core/commands/Command;
+
+  public final java.lang.Object getObjectParameterForExecution(java.lang.String) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Ljava/lang/String;)Ljava/lang/Object;
+
+  public final java.lang.String getParameter(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/lang/String;
+
+  public final java.util.Map getParameters();
+    descriptor: ()Ljava/util/Map;
+
+  public final java.lang.Object getTrigger();
+    descriptor: ()Ljava/lang/Object;
+
+  public final java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "ExecutionException.java"
+public final class org.eclipse.core.commands.ExecutionException extends org.eclipse.core.commands.common.CommandException {
+  public org.eclipse.core.commands.ExecutionException(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public org.eclipse.core.commands.ExecutionException(java.lang.String, java.lang.Throwable);
+    descriptor: (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+Compiled from "HandlerEvent.java"
+public final class org.eclipse.core.commands.HandlerEvent extends org.eclipse.core.commands.common.AbstractBitSetEvent {
+  public org.eclipse.core.commands.HandlerEvent(org.eclipse.core.commands.IHandler, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/IHandler;ZZ)V
+
+  public org.eclipse.core.commands.IHandler getHandler();
+    descriptor: ()Lorg/eclipse/core/commands/IHandler;
+
+  public boolean isEnabledChanged();
+    descriptor: ()Z
+
+  public boolean isHandledChanged();
+    descriptor: ()Z
+}
+Compiled from "ICategoryListener.java"
+public interface org.eclipse.core.commands.ICategoryListener {
+  public abstract void categoryChanged(org.eclipse.core.commands.CategoryEvent);
+    descriptor: (Lorg/eclipse/core/commands/CategoryEvent;)V
+}
+Compiled from "ICommandListener.java"
+public interface org.eclipse.core.commands.ICommandListener {
+  public abstract void commandChanged(org.eclipse.core.commands.CommandEvent);
+    descriptor: (Lorg/eclipse/core/commands/CommandEvent;)V
+}
+Compiled from "ICommandManagerListener.java"
+public interface org.eclipse.core.commands.ICommandManagerListener {
+  public abstract void commandManagerChanged(org.eclipse.core.commands.CommandManagerEvent);
+    descriptor: (Lorg/eclipse/core/commands/CommandManagerEvent;)V
+}
+Compiled from "IExecutionListener.java"
+public interface org.eclipse.core.commands.IExecutionListener {
+  public abstract void notHandled(java.lang.String, org.eclipse.core.commands.NotHandledException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/NotHandledException;)V
+
+  public abstract void postExecuteFailure(java.lang.String, org.eclipse.core.commands.ExecutionException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/ExecutionException;)V
+
+  public abstract void postExecuteSuccess(java.lang.String, java.lang.Object);
+    descriptor: (Ljava/lang/String;Ljava/lang/Object;)V
+
+  public abstract void preExecute(java.lang.String, org.eclipse.core.commands.ExecutionEvent);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/ExecutionEvent;)V
+}
+Compiled from "IExecutionListenerWithChecks.java"
+public interface org.eclipse.core.commands.IExecutionListenerWithChecks extends org.eclipse.core.commands.IExecutionListener {
+  public abstract void notDefined(java.lang.String, org.eclipse.core.commands.common.NotDefinedException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/common/NotDefinedException;)V
+
+  public abstract void notEnabled(java.lang.String, org.eclipse.core.commands.NotEnabledException);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/NotEnabledException;)V
+}
+Compiled from "IHandler.java"
+public interface org.eclipse.core.commands.IHandler {
+  public abstract void addHandlerListener(org.eclipse.core.commands.IHandlerListener);
+    descriptor: (Lorg/eclipse/core/commands/IHandlerListener;)V
+
+  public abstract void dispose();
+    descriptor: ()V
+
+  public abstract java.lang.Object execute(org.eclipse.core.commands.ExecutionEvent) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/ExecutionEvent;)Ljava/lang/Object;
+
+  public abstract boolean isEnabled();
+    descriptor: ()Z
+
+  public abstract boolean isHandled();
+    descriptor: ()Z
+
+  public abstract void removeHandlerListener(org.eclipse.core.commands.IHandlerListener);
+    descriptor: (Lorg/eclipse/core/commands/IHandlerListener;)V
+
+  public default java.lang.String getHandlerLabel();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "IHandler2.java"
+public interface org.eclipse.core.commands.IHandler2 extends org.eclipse.core.commands.IHandler {
+  public abstract void setEnabled(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+}
+Compiled from "IHandlerAttributes.java"
+public interface org.eclipse.core.commands.IHandlerAttributes {
+  public static final java.lang.String ATTRIBUTE_HANDLED;
+    descriptor: Ljava/lang/String;
+}
+Compiled from "IHandlerListener.java"
+public interface org.eclipse.core.commands.IHandlerListener {
+  public abstract void handlerChanged(org.eclipse.core.commands.HandlerEvent);
+    descriptor: (Lorg/eclipse/core/commands/HandlerEvent;)V
+}
+Compiled from "INamedHandleStateIds.java"
+public interface org.eclipse.core.commands.INamedHandleStateIds {
+  public static final java.lang.String DESCRIPTION;
+    descriptor: Ljava/lang/String;
+  public static final java.lang.String NAME;
+    descriptor: Ljava/lang/String;
+}
+Compiled from "IObjectWithState.java"
+public interface org.eclipse.core.commands.IObjectWithState {
+  public abstract void addState(java.lang.String, org.eclipse.core.commands.State);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/State;)V
+
+  public abstract org.eclipse.core.commands.State getState(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/State;
+
+  public abstract java.lang.String[] getStateIds();
+    descriptor: ()[Ljava/lang/String;
+
+  public abstract void removeState(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+}
+Compiled from "IParameter.java"
+public interface org.eclipse.core.commands.IParameter {
+  public abstract java.lang.String getId();
+    descriptor: ()Ljava/lang/String;
+
+  public abstract java.lang.String getName();
+    descriptor: ()Ljava/lang/String;
+
+  public abstract org.eclipse.core.commands.IParameterValues getValues() throws org.eclipse.core.commands.ParameterValuesException;
+    descriptor: ()Lorg/eclipse/core/commands/IParameterValues;
+
+  public abstract boolean isOptional();
+    descriptor: ()Z
+}
+Compiled from "IParameterTypeListener.java"
+public interface org.eclipse.core.commands.IParameterTypeListener {
+  public abstract void parameterTypeChanged(org.eclipse.core.commands.ParameterTypeEvent);
+    descriptor: (Lorg/eclipse/core/commands/ParameterTypeEvent;)V
+}
+Compiled from "IParameterValues.java"
+public interface org.eclipse.core.commands.IParameterValues {
+  public abstract java.util.Map getParameterValues();
+    descriptor: ()Ljava/util/Map;
+}
+Compiled from "IStateListener.java"
+public interface org.eclipse.core.commands.IStateListener {
+  public abstract void handleStateChange(org.eclipse.core.commands.State, java.lang.Object);
+    descriptor: (Lorg/eclipse/core/commands/State;Ljava/lang/Object;)V
+}
+Compiled from "ITypedParameter.java"
+public interface org.eclipse.core.commands.ITypedParameter {
+  public abstract org.eclipse.core.commands.ParameterType getParameterType();
+    descriptor: ()Lorg/eclipse/core/commands/ParameterType;
+}
+Compiled from "NamedHandleObjectWithState.java"
+abstract class org.eclipse.core.commands.NamedHandleObjectWithState extends org.eclipse.core.commands.common.NamedHandleObject implements org.eclipse.core.commands.IObjectWithState {
+  protected org.eclipse.core.commands.NamedHandleObjectWithState(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public void addState(java.lang.String, org.eclipse.core.commands.State);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/State;)V
+
+  public final java.lang.String getDescription() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Ljava/lang/String;
+
+  public final java.lang.String getName() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Ljava/lang/String;
+
+  public final org.eclipse.core.commands.State getState(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/State;
+
+  public final java.lang.String[] getStateIds();
+    descriptor: ()[Ljava/lang/String;
+
+  public void removeState(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+}
+Compiled from "NotEnabledException.java"
+public final class org.eclipse.core.commands.NotEnabledException extends org.eclipse.core.commands.common.CommandException {
+  public org.eclipse.core.commands.NotEnabledException(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+}
+Compiled from "NotHandledException.java"
+public final class org.eclipse.core.commands.NotHandledException extends org.eclipse.core.commands.common.CommandException {
+  public org.eclipse.core.commands.NotHandledException(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+}
+Compiled from "ParameterType.java"
+public final class org.eclipse.core.commands.ParameterType extends org.eclipse.core.commands.common.HandleObject implements java.lang.Comparable {
+  public final void addListener(org.eclipse.core.commands.IParameterTypeListener);
+    descriptor: (Lorg/eclipse/core/commands/IParameterTypeListener;)V
+
+  public final int compareTo(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)I
+
+  public final void define(java.lang.String, org.eclipse.core.commands.AbstractParameterValueConverter);
+    descriptor: (Ljava/lang/String;Lorg/eclipse/core/commands/AbstractParameterValueConverter;)V
+
+  public final org.eclipse.core.commands.AbstractParameterValueConverter getValueConverter() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Lorg/eclipse/core/commands/AbstractParameterValueConverter;
+
+  public boolean isCompatible(java.lang.Object) throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: (Ljava/lang/Object;)Z
+
+  public final void removeListener(org.eclipse.core.commands.IParameterTypeListener);
+    descriptor: (Lorg/eclipse/core/commands/IParameterTypeListener;)V
+
+  public final java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public final void undefine();
+    descriptor: ()V
+}
+Compiled from "ParameterTypeEvent.java"
+public final class org.eclipse.core.commands.ParameterTypeEvent extends org.eclipse.core.commands.common.AbstractHandleObjectEvent {
+  public final org.eclipse.core.commands.ParameterType getParameterType();
+    descriptor: ()Lorg/eclipse/core/commands/ParameterType;
+}
+Compiled from "ParameterValueConversionException.java"
+public class org.eclipse.core.commands.ParameterValueConversionException extends org.eclipse.core.commands.common.CommandException {
+  public org.eclipse.core.commands.ParameterValueConversionException(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public org.eclipse.core.commands.ParameterValueConversionException(java.lang.String, java.lang.Throwable);
+    descriptor: (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+Compiled from "ParameterValuesException.java"
+public final class org.eclipse.core.commands.ParameterValuesException extends org.eclipse.core.commands.common.CommandException {
+  public org.eclipse.core.commands.ParameterValuesException(java.lang.String, java.lang.Throwable);
+    descriptor: (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+Compiled from "Parameterization.java"
+public final class org.eclipse.core.commands.Parameterization {
+  public org.eclipse.core.commands.Parameterization(org.eclipse.core.commands.IParameter, java.lang.String);
+    descriptor: (Lorg/eclipse/core/commands/IParameter;Ljava/lang/String;)V
+
+  public final boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public final org.eclipse.core.commands.IParameter getParameter();
+    descriptor: ()Lorg/eclipse/core/commands/IParameter;
+
+  public final java.lang.String getValue();
+    descriptor: ()Ljava/lang/String;
+
+  public final java.lang.String getValueName() throws org.eclipse.core.commands.ParameterValuesException;
+    descriptor: ()Ljava/lang/String;
+
+  public final int hashCode();
+    descriptor: ()I
+}
+Compiled from "ParameterizedCommand.java"
+public final class org.eclipse.core.commands.ParameterizedCommand implements java.lang.Comparable {
+  public static final int INDEX_PARAMETER_ID;
+    descriptor: I
+  public static final int INDEX_PARAMETER_NAME;
+    descriptor: I
+  public static final int INDEX_PARAMETER_VALUE_NAME;
+    descriptor: I
+  public static final int INDEX_PARAMETER_VALUE_VALUE;
+    descriptor: I
+  public static java.util.Collection generateCombinations(org.eclipse.core.commands.Command) throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: (Lorg/eclipse/core/commands/Command;)Ljava/util/Collection;
+
+  public static org.eclipse.core.commands.ParameterizedCommand generateCommand(org.eclipse.core.commands.Command, java.util.Map);
+    descriptor: (Lorg/eclipse/core/commands/Command;Ljava/util/Map;)Lorg/eclipse/core/commands/ParameterizedCommand;
+
+  public org.eclipse.core.commands.ParameterizedCommand(org.eclipse.core.commands.Command, org.eclipse.core.commands.Parameterization[]);
+    descriptor: (Lorg/eclipse/core/commands/Command;[Lorg/eclipse/core/commands/Parameterization;)V
+
+  public int compareTo(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public java.lang.Object execute(java.lang.Object, java.lang.Object) throws org.eclipse.core.commands.ExecutionException, org.eclipse.core.commands.NotHandledException;
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+  public java.lang.Object executeWithChecks(java.lang.Object, java.lang.Object) throws org.eclipse.core.commands.ExecutionException, org.eclipse.core.commands.common.NotDefinedException, org.eclipse.core.commands.NotEnabledException, org.eclipse.core.commands.NotHandledException;
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+  public org.eclipse.core.commands.Command getCommand();
+    descriptor: ()Lorg/eclipse/core/commands/Command;
+
+  public java.lang.String getId();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.String getName() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.String getName(java.lang.String) throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: (Ljava/lang/String;)Ljava/lang/String;
+
+  public java.util.Map getParameterMap();
+    descriptor: ()Ljava/util/Map;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public java.lang.String serialize();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "SerializationException.java"
+public final class org.eclipse.core.commands.SerializationException extends org.eclipse.core.commands.common.CommandException {
+  public org.eclipse.core.commands.SerializationException(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public org.eclipse.core.commands.SerializationException(java.lang.String, java.lang.Throwable);
+    descriptor: (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+Compiled from "State.java"
+public class org.eclipse.core.commands.State extends org.eclipse.core.commands.common.EventManager {
+  public org.eclipse.core.commands.State();
+    descriptor: ()V
+
+  public void addListener(org.eclipse.core.commands.IStateListener);
+    descriptor: (Lorg/eclipse/core/commands/IStateListener;)V
+
+  public void dispose();
+    descriptor: ()V
+
+  protected final void fireStateChanged(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public final java.lang.String getId();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.Object getValue();
+    descriptor: ()Ljava/lang/Object;
+
+  public void removeListener(org.eclipse.core.commands.IStateListener);
+    descriptor: (Lorg/eclipse/core/commands/IStateListener;)V
+
+  public void setId(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public void setValue(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+}
+Compiled from "AbstractBitSetEvent.java"
+public abstract class org.eclipse.core.commands.common.AbstractBitSetEvent {
+  protected int changedValues;
+    descriptor: I
+  public org.eclipse.core.commands.common.AbstractBitSetEvent();
+    descriptor: ()V
+}
+Compiled from "AbstractHandleObjectEvent.java"
+public abstract class org.eclipse.core.commands.common.AbstractHandleObjectEvent extends org.eclipse.core.commands.common.AbstractBitSetEvent {
+  protected static final int CHANGED_DEFINED;
+    descriptor: I
+  protected static final int LAST_BIT_USED_ABSTRACT_HANDLE;
+    descriptor: I
+  protected org.eclipse.core.commands.common.AbstractHandleObjectEvent(boolean);
+    descriptor: (Z)V
+
+  public final boolean isDefinedChanged();
+    descriptor: ()Z
+}
+Compiled from "AbstractNamedHandleEvent.java"
+public abstract class org.eclipse.core.commands.common.AbstractNamedHandleEvent extends org.eclipse.core.commands.common.AbstractHandleObjectEvent {
+  protected static final int CHANGED_DESCRIPTION;
+    descriptor: I
+  protected static final int CHANGED_NAME;
+    descriptor: I
+  protected static final int LAST_USED_BIT;
+    descriptor: I
+  protected org.eclipse.core.commands.common.AbstractNamedHandleEvent(boolean, boolean, boolean);
+    descriptor: (ZZZ)V
+
+  public final boolean isDescriptionChanged();
+    descriptor: ()Z
+
+  public final boolean isNameChanged();
+    descriptor: ()Z
+}
+Compiled from "CommandException.java"
+public abstract class org.eclipse.core.commands.common.CommandException extends java.lang.Exception {
+  public org.eclipse.core.commands.common.CommandException(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public org.eclipse.core.commands.common.CommandException(java.lang.String, java.lang.Throwable);
+    descriptor: (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+Compiled from "EventManager.java"
+public abstract class org.eclipse.core.commands.common.EventManager {
+  public org.eclipse.core.commands.common.EventManager();
+    descriptor: ()V
+
+  protected final synchronized void addListenerObject(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  protected final void clearListeners();
+    descriptor: ()V
+
+  protected final java.lang.Object[] getListeners();
+    descriptor: ()[Ljava/lang/Object;
+
+  protected final boolean isListenerAttached();
+    descriptor: ()Z
+
+  protected final synchronized void removeListenerObject(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+}
+Compiled from "HandleObject.java"
+public abstract class org.eclipse.core.commands.common.HandleObject extends org.eclipse.core.commands.common.EventManager implements org.eclipse.core.commands.common.IIdentifiable {
+  protected transient boolean defined;
+    descriptor: Z
+  protected final java.lang.String id;
+    descriptor: Ljava/lang/String;
+  protected transient java.lang.String string;
+    descriptor: Ljava/lang/String;
+  protected org.eclipse.core.commands.common.HandleObject(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public final java.lang.String getId();
+    descriptor: ()Ljava/lang/String;
+
+  public final int hashCode();
+    descriptor: ()I
+
+  public final boolean isDefined();
+    descriptor: ()Z
+
+  public abstract java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public abstract void undefine();
+    descriptor: ()V
+}
+Compiled from "HandleObjectManager.java"
+public abstract class org.eclipse.core.commands.common.HandleObjectManager<T extends org.eclipse.core.commands.common.NamedHandleObject> extends org.eclipse.core.commands.common.EventManager {
+  protected final java.util.Set<T> definedHandleObjects;
+    descriptor: Ljava/util/Set;
+  protected final java.util.Map<java.lang.String, T> handleObjectsById;
+    descriptor: Ljava/util/Map;
+  public org.eclipse.core.commands.common.HandleObjectManager();
+    descriptor: ()V
+
+  protected final void checkId(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  protected final java.util.Set getDefinedHandleObjectIds();
+    descriptor: ()Ljava/util/Set;
+}
+Compiled from "IIdentifiable.java"
+public interface org.eclipse.core.commands.common.IIdentifiable {
+  public abstract java.lang.String getId();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "NamedHandleObject.java"
+public abstract class org.eclipse.core.commands.common.NamedHandleObject extends org.eclipse.core.commands.common.HandleObject {
+  protected java.lang.String description;
+    descriptor: Ljava/lang/String;
+  protected java.lang.String name;
+    descriptor: Ljava/lang/String;
+  protected org.eclipse.core.commands.common.NamedHandleObject(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public java.lang.String getDescription() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.String getName() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "NamedHandleObjectComparator.java"
+public class org.eclipse.core.commands.common.NamedHandleObjectComparator implements java.util.Comparator {
+  public org.eclipse.core.commands.common.NamedHandleObjectComparator();
+    descriptor: ()V
+
+  public final int compare(java.lang.Object, java.lang.Object);
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)I
+}
+Compiled from "NotDefinedException.java"
+public final class org.eclipse.core.commands.common.NotDefinedException extends org.eclipse.core.commands.common.CommandException {
+  public org.eclipse.core.commands.common.NotDefinedException(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+}
+Compiled from "Context.java"
+public final class org.eclipse.core.commands.contexts.Context extends org.eclipse.core.commands.common.NamedHandleObject implements java.lang.Comparable {
+  public final void addContextListener(org.eclipse.core.commands.contexts.IContextListener);
+    descriptor: (Lorg/eclipse/core/commands/contexts/IContextListener;)V
+
+  public final int compareTo(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)I
+
+  public final void define(java.lang.String, java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+
+  public final java.lang.String getParentId() throws org.eclipse.core.commands.common.NotDefinedException;
+    descriptor: ()Ljava/lang/String;
+
+  public final void removeContextListener(org.eclipse.core.commands.contexts.IContextListener);
+    descriptor: (Lorg/eclipse/core/commands/contexts/IContextListener;)V
+
+  public final java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public final void undefine();
+    descriptor: ()V
+}
+Compiled from "ContextEvent.java"
+public final class org.eclipse.core.commands.contexts.ContextEvent extends org.eclipse.core.commands.common.AbstractNamedHandleEvent {
+  public org.eclipse.core.commands.contexts.ContextEvent(org.eclipse.core.commands.contexts.Context, boolean, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/contexts/Context;ZZZZ)V
+
+  public final org.eclipse.core.commands.contexts.Context getContext();
+    descriptor: ()Lorg/eclipse/core/commands/contexts/Context;
+
+  public final boolean isParentIdChanged();
+    descriptor: ()Z
+}
+Compiled from "ContextManager.java"
+public final class org.eclipse.core.commands.contexts.ContextManager extends org.eclipse.core.commands.common.HandleObjectManager<org.eclipse.core.commands.contexts.Context> implements org.eclipse.core.commands.contexts.IContextListener {
+  public static boolean DEBUG;
+    descriptor: Z
+  public org.eclipse.core.commands.contexts.ContextManager();
+    descriptor: ()V
+
+  public void deferUpdates(boolean);
+    descriptor: (Z)V
+
+  public final void addActiveContext(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public final void addContextManagerListener(org.eclipse.core.commands.contexts.IContextManagerListener);
+    descriptor: (Lorg/eclipse/core/commands/contexts/IContextManagerListener;)V
+
+  public final void contextChanged(org.eclipse.core.commands.contexts.ContextEvent);
+    descriptor: (Lorg/eclipse/core/commands/contexts/ContextEvent;)V
+
+  public final java.util.Set getActiveContextIds();
+    descriptor: ()Ljava/util/Set;
+
+  public final org.eclipse.core.commands.contexts.Context getContext(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lorg/eclipse/core/commands/contexts/Context;
+
+  public final java.util.Set getDefinedContextIds();
+    descriptor: ()Ljava/util/Set;
+
+  public final org.eclipse.core.commands.contexts.Context[] getDefinedContexts();
+    descriptor: ()[Lorg/eclipse/core/commands/contexts/Context;
+
+  public final void removeActiveContext(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public final void removeContextManagerListener(org.eclipse.core.commands.contexts.IContextManagerListener);
+    descriptor: (Lorg/eclipse/core/commands/contexts/IContextManagerListener;)V
+
+  public final void setActiveContextIds(java.util.Set);
+    descriptor: (Ljava/util/Set;)V
+}
+Compiled from "ContextManagerEvent.java"
+public final class org.eclipse.core.commands.contexts.ContextManagerEvent extends org.eclipse.core.commands.common.AbstractBitSetEvent {
+  public org.eclipse.core.commands.contexts.ContextManagerEvent(org.eclipse.core.commands.contexts.ContextManager, java.lang.String, boolean, boolean, java.util.Set);
+    descriptor: (Lorg/eclipse/core/commands/contexts/ContextManager;Ljava/lang/String;ZZLjava/util/Set;)V
+
+  public final java.lang.String getContextId();
+    descriptor: ()Ljava/lang/String;
+
+  public final org.eclipse.core.commands.contexts.ContextManager getContextManager();
+    descriptor: ()Lorg/eclipse/core/commands/contexts/ContextManager;
+
+  public final java.util.Set getPreviouslyActiveContextIds();
+    descriptor: ()Ljava/util/Set;
+
+  public final boolean isActiveContextsChanged();
+    descriptor: ()Z
+
+  public final boolean isContextChanged();
+    descriptor: ()Z
+
+  public final boolean isContextDefined();
+    descriptor: ()Z
+}
+Compiled from "IContextListener.java"
+public interface org.eclipse.core.commands.contexts.IContextListener {
+  public abstract void contextChanged(org.eclipse.core.commands.contexts.ContextEvent);
+    descriptor: (Lorg/eclipse/core/commands/contexts/ContextEvent;)V
+}
+Compiled from "IContextManagerListener.java"
+public interface org.eclipse.core.commands.contexts.IContextManagerListener {
+  public abstract void contextManagerChanged(org.eclipse.core.commands.contexts.ContextManagerEvent);
+    descriptor: (Lorg/eclipse/core/commands/contexts/ContextManagerEvent;)V
+}
+Compiled from "Tracing.java"
+public final class org.eclipse.core.commands.internal.util.Tracing {
+  public static final java.lang.String SEPARATOR;
+    descriptor: Ljava/lang/String;
+  public static final void printTrace(java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/lang/String;)V
+}
+Compiled from "AbstractOperation.java"
+public abstract class org.eclipse.core.commands.operations.AbstractOperation implements org.eclipse.core.commands.operations.IUndoableOperation {
+  public org.eclipse.core.commands.operations.AbstractOperation(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public void addContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public boolean canExecute();
+    descriptor: ()Z
+
+  public boolean canRedo();
+    descriptor: ()Z
+
+  public boolean canUndo();
+    descriptor: ()Z
+
+  public void dispose();
+    descriptor: ()V
+
+  public abstract org.eclipse.core.runtime.IStatus execute(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public final org.eclipse.core.commands.operations.IUndoContext[] getContexts();
+    descriptor: ()[Lorg/eclipse/core/commands/operations/IUndoContext;
+
+  public java.lang.String getLabel();
+    descriptor: ()Ljava/lang/String;
+
+  public void setLabel(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+
+  public final boolean hasContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+
+  public abstract org.eclipse.core.runtime.IStatus redo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public void removeContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public abstract org.eclipse.core.runtime.IStatus undo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "DefaultOperationHistory.java"
+public final class org.eclipse.core.commands.operations.DefaultOperationHistory implements org.eclipse.core.commands.operations.IOperationHistory {
+  public static boolean DEBUG_OPERATION_HISTORY_NOTIFICATION;
+    descriptor: Z
+  public static boolean DEBUG_OPERATION_HISTORY_UNEXPECTED;
+    descriptor: Z
+  public static boolean DEBUG_OPERATION_HISTORY_DISPOSE;
+    descriptor: Z
+  public static boolean DEBUG_OPERATION_HISTORY_OPENOPERATION;
+    descriptor: Z
+  public static boolean DEBUG_OPERATION_HISTORY_APPROVAL;
+    descriptor: Z
+  public org.eclipse.core.commands.operations.DefaultOperationHistory();
+    descriptor: ()V
+
+  public void add(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public void addOperationApprover(org.eclipse.core.commands.operations.IOperationApprover);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationApprover;)V
+
+  public void addOperationHistoryListener(org.eclipse.core.commands.operations.IOperationHistoryListener);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationHistoryListener;)V
+
+  public boolean canRedo(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+
+  public boolean canUndo(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+
+  public void dispose(org.eclipse.core.commands.operations.IUndoContext, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;ZZZ)V
+
+  public org.eclipse.core.runtime.IStatus execute(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public int getLimit(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)I
+
+  public org.eclipse.core.commands.operations.IUndoableOperation[] getRedoHistory(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)[Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public org.eclipse.core.commands.operations.IUndoableOperation getRedoOperation(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public org.eclipse.core.commands.operations.IUndoableOperation[] getUndoHistory(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)[Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public org.eclipse.core.commands.operations.IUndoableOperation getUndoOperation(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public org.eclipse.core.runtime.IStatus redo(org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public org.eclipse.core.runtime.IStatus redoOperation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public void removeOperationApprover(org.eclipse.core.commands.operations.IOperationApprover);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationApprover;)V
+
+  public void removeOperationHistoryListener(org.eclipse.core.commands.operations.IOperationHistoryListener);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationHistoryListener;)V
+
+  public void replaceOperation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IUndoableOperation[]);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;[Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public void setLimit(org.eclipse.core.commands.operations.IUndoContext, int);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;I)V
+
+  public org.eclipse.core.runtime.IStatus undo(org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public org.eclipse.core.runtime.IStatus undoOperation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public void openOperation(org.eclipse.core.commands.operations.ICompositeOperation, int);
+    descriptor: (Lorg/eclipse/core/commands/operations/ICompositeOperation;I)V
+
+  public void closeOperation(boolean, boolean, int);
+    descriptor: (ZZI)V
+
+  public void operationChanged(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+}
+Compiled from "DefaultOperationHistory.java"
+class org.eclipse.core.commands.operations.DefaultOperationHistory$1 implements org.eclipse.core.runtime.ISafeRunnable {
+  public void handleException(java.lang.Throwable);
+    descriptor: (Ljava/lang/Throwable;)V
+
+  public void run() throws java.lang.Exception;
+    descriptor: ()V
+}
+Compiled from "DefaultOperationHistory.java"
+class org.eclipse.core.commands.operations.DefaultOperationHistory$2 implements org.eclipse.core.runtime.ISafeRunnable {
+  public void handleException(java.lang.Throwable);
+    descriptor: (Ljava/lang/Throwable;)V
+
+  public void run() throws java.lang.Exception;
+    descriptor: ()V
+}
+Compiled from "IAdvancedUndoableOperation.java"
+public interface org.eclipse.core.commands.operations.IAdvancedUndoableOperation {
+  public abstract void aboutToNotify(org.eclipse.core.commands.operations.OperationHistoryEvent);
+    descriptor: (Lorg/eclipse/core/commands/operations/OperationHistoryEvent;)V
+
+  public abstract java.lang.Object[] getAffectedObjects();
+    descriptor: ()[Ljava/lang/Object;
+
+  public abstract org.eclipse.core.runtime.IStatus computeUndoableStatus(org.eclipse.core.runtime.IProgressMonitor) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract org.eclipse.core.runtime.IStatus computeRedoableStatus(org.eclipse.core.runtime.IProgressMonitor) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;)Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "IAdvancedUndoableOperation2.java"
+public interface org.eclipse.core.commands.operations.IAdvancedUndoableOperation2 {
+  public abstract org.eclipse.core.runtime.IStatus computeExecutionStatus(org.eclipse.core.runtime.IProgressMonitor) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract void setQuietCompute(boolean);
+    descriptor: (Z)V
+
+  public abstract boolean runInBackground();
+    descriptor: ()Z
+}
+Compiled from "ICompositeOperation.java"
+public interface org.eclipse.core.commands.operations.ICompositeOperation extends org.eclipse.core.commands.operations.IUndoableOperation {
+  public abstract void add(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public abstract void remove(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+}
+Compiled from "IContextReplacingOperation.java"
+public interface org.eclipse.core.commands.operations.IContextReplacingOperation {
+  public abstract void replaceContext(org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/commands/operations/IUndoContext;)V
+}
+Compiled from "IOperationApprover.java"
+public interface org.eclipse.core.commands.operations.IOperationApprover {
+  public abstract org.eclipse.core.runtime.IStatus proceedRedoing(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract org.eclipse.core.runtime.IStatus proceedUndoing(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "IOperationApprover2.java"
+public interface org.eclipse.core.commands.operations.IOperationApprover2 extends org.eclipse.core.commands.operations.IOperationApprover {
+  public abstract org.eclipse.core.runtime.IStatus proceedExecuting(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "IOperationHistory.java"
+public interface org.eclipse.core.commands.operations.IOperationHistory {
+  public static final int EXECUTE;
+    descriptor: I
+  public static final int UNDO;
+    descriptor: I
+  public static final int REDO;
+    descriptor: I
+  public static final org.eclipse.core.commands.operations.IUndoContext GLOBAL_UNDO_CONTEXT;
+    descriptor: Lorg/eclipse/core/commands/operations/IUndoContext;
+  public static final org.eclipse.core.runtime.IStatus NOTHING_TO_REDO_STATUS;
+    descriptor: Lorg/eclipse/core/runtime/IStatus;
+  public static final org.eclipse.core.runtime.IStatus NOTHING_TO_UNDO_STATUS;
+    descriptor: Lorg/eclipse/core/runtime/IStatus;
+  public static final org.eclipse.core.runtime.IStatus OPERATION_INVALID_STATUS;
+    descriptor: Lorg/eclipse/core/runtime/IStatus;
+  public abstract void add(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public abstract void addOperationApprover(org.eclipse.core.commands.operations.IOperationApprover);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationApprover;)V
+
+  public abstract void addOperationHistoryListener(org.eclipse.core.commands.operations.IOperationHistoryListener);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationHistoryListener;)V
+
+  public abstract void closeOperation(boolean, boolean, int);
+    descriptor: (ZZI)V
+
+  public abstract boolean canRedo(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+
+  public abstract boolean canUndo(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+
+  public abstract void dispose(org.eclipse.core.commands.operations.IUndoContext, boolean, boolean, boolean);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;ZZZ)V
+
+  public abstract org.eclipse.core.runtime.IStatus execute(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract int getLimit(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)I
+
+  public abstract org.eclipse.core.commands.operations.IUndoableOperation[] getRedoHistory(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)[Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public abstract org.eclipse.core.commands.operations.IUndoableOperation getRedoOperation(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public abstract org.eclipse.core.commands.operations.IUndoableOperation[] getUndoHistory(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)[Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public abstract void openOperation(org.eclipse.core.commands.operations.ICompositeOperation, int);
+    descriptor: (Lorg/eclipse/core/commands/operations/ICompositeOperation;I)V
+
+  public abstract void operationChanged(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public abstract org.eclipse.core.commands.operations.IUndoableOperation getUndoOperation(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public abstract org.eclipse.core.runtime.IStatus redo(org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract org.eclipse.core.runtime.IStatus redoOperation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract void removeOperationApprover(org.eclipse.core.commands.operations.IOperationApprover);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationApprover;)V
+
+  public abstract void removeOperationHistoryListener(org.eclipse.core.commands.operations.IOperationHistoryListener);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationHistoryListener;)V
+
+  public abstract void replaceOperation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IUndoableOperation[]);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;[Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public abstract void setLimit(org.eclipse.core.commands.operations.IUndoContext, int);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;I)V
+
+  public abstract org.eclipse.core.runtime.IStatus undo(org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract org.eclipse.core.runtime.IStatus undoOperation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "IOperationHistoryListener.java"
+public interface org.eclipse.core.commands.operations.IOperationHistoryListener {
+  public abstract void historyNotification(org.eclipse.core.commands.operations.OperationHistoryEvent);
+    descriptor: (Lorg/eclipse/core/commands/operations/OperationHistoryEvent;)V
+}
+Compiled from "IUndoContext.java"
+public interface org.eclipse.core.commands.operations.IUndoContext {
+  public abstract java.lang.String getLabel();
+    descriptor: ()Ljava/lang/String;
+
+  public abstract boolean matches(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+}
+Compiled from "IUndoableOperation.java"
+public interface org.eclipse.core.commands.operations.IUndoableOperation {
+  public abstract void addContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public abstract boolean canExecute();
+    descriptor: ()Z
+
+  public abstract boolean canRedo();
+    descriptor: ()Z
+
+  public abstract boolean canUndo();
+    descriptor: ()Z
+
+  public abstract void dispose();
+    descriptor: ()V
+
+  public abstract org.eclipse.core.runtime.IStatus execute(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract org.eclipse.core.commands.operations.IUndoContext[] getContexts();
+    descriptor: ()[Lorg/eclipse/core/commands/operations/IUndoContext;
+
+  public abstract java.lang.String getLabel();
+    descriptor: ()Ljava/lang/String;
+
+  public abstract boolean hasContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+
+  public abstract org.eclipse.core.runtime.IStatus redo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public abstract void removeContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public abstract org.eclipse.core.runtime.IStatus undo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "LinearUndoEnforcer.java"
+public final class org.eclipse.core.commands.operations.LinearUndoEnforcer extends org.eclipse.core.commands.operations.LinearUndoViolationDetector {
+  public org.eclipse.core.commands.operations.LinearUndoEnforcer();
+    descriptor: ()V
+
+  protected org.eclipse.core.runtime.IStatus allowLinearRedoViolation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  protected org.eclipse.core.runtime.IStatus allowLinearUndoViolation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "LinearUndoViolationDetector.java"
+public abstract class org.eclipse.core.commands.operations.LinearUndoViolationDetector implements org.eclipse.core.commands.operations.IOperationApprover {
+  public org.eclipse.core.commands.operations.LinearUndoViolationDetector();
+    descriptor: ()V
+
+  protected abstract org.eclipse.core.runtime.IStatus allowLinearRedoViolation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  protected abstract org.eclipse.core.runtime.IStatus allowLinearUndoViolation(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public final org.eclipse.core.runtime.IStatus proceedRedoing(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public final org.eclipse.core.runtime.IStatus proceedUndoing(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.runtime.IAdaptable);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "ObjectUndoContext.java"
+public final class org.eclipse.core.commands.operations.ObjectUndoContext extends org.eclipse.core.commands.operations.UndoContext {
+  public org.eclipse.core.commands.operations.ObjectUndoContext(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public org.eclipse.core.commands.operations.ObjectUndoContext(java.lang.Object, java.lang.String);
+    descriptor: (Ljava/lang/Object;Ljava/lang/String;)V
+
+  public java.lang.String getLabel();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.Object getObject();
+    descriptor: ()Ljava/lang/Object;
+
+  public void addMatch(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public void removeMatch(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public boolean matches(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "OperationHistoryEvent.java"
+public final class org.eclipse.core.commands.operations.OperationHistoryEvent {
+  public static final int ABOUT_TO_EXECUTE;
+    descriptor: I
+  public static final int ABOUT_TO_REDO;
+    descriptor: I
+  public static final int ABOUT_TO_UNDO;
+    descriptor: I
+  public static final int DONE;
+    descriptor: I
+  public static final int OPERATION_ADDED;
+    descriptor: I
+  public static final int OPERATION_CHANGED;
+    descriptor: I
+  public static final int OPERATION_NOT_OK;
+    descriptor: I
+  public static final int OPERATION_REMOVED;
+    descriptor: I
+  public static final int REDONE;
+    descriptor: I
+  public static final int UNDONE;
+    descriptor: I
+  public org.eclipse.core.commands.operations.OperationHistoryEvent(int, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (ILorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public org.eclipse.core.commands.operations.OperationHistoryEvent(int, org.eclipse.core.commands.operations.IOperationHistory, org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.runtime.IStatus);
+    descriptor: (ILorg/eclipse/core/commands/operations/IOperationHistory;Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/runtime/IStatus;)V
+
+  public int getEventType();
+    descriptor: ()I
+
+  public org.eclipse.core.commands.operations.IOperationHistory getHistory();
+    descriptor: ()Lorg/eclipse/core/commands/operations/IOperationHistory;
+
+  public org.eclipse.core.commands.operations.IUndoableOperation getOperation();
+    descriptor: ()Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public org.eclipse.core.runtime.IStatus getStatus();
+    descriptor: ()Lorg/eclipse/core/runtime/IStatus;
+}
+Compiled from "OperationHistoryFactory.java"
+public final class org.eclipse.core.commands.operations.OperationHistoryFactory {
+  public static org.eclipse.core.commands.operations.IOperationHistory getOperationHistory();
+    descriptor: ()Lorg/eclipse/core/commands/operations/IOperationHistory;
+
+  public static void setOperationHistory(org.eclipse.core.commands.operations.IOperationHistory);
+    descriptor: (Lorg/eclipse/core/commands/operations/IOperationHistory;)V
+}
+Compiled from "OperationStatus.java"
+public final class org.eclipse.core.commands.operations.OperationStatus extends org.eclipse.core.runtime.Status {
+  public static final int NOTHING_TO_REDO;
+    descriptor: I
+  public static final int NOTHING_TO_UNDO;
+    descriptor: I
+  public static final int OPERATION_INVALID;
+    descriptor: I
+  public org.eclipse.core.commands.operations.OperationStatus(int, java.lang.String, int, java.lang.String, java.lang.Throwable);
+    descriptor: (ILjava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
+}
+Compiled from "TriggeredOperations.java"
+public final class org.eclipse.core.commands.operations.TriggeredOperations extends org.eclipse.core.commands.operations.AbstractOperation implements org.eclipse.core.commands.operations.ICompositeOperation,org.eclipse.core.commands.operations.IAdvancedUndoableOperation,org.eclipse.core.commands.operations.IAdvancedUndoableOperation2,org.eclipse.core.commands.operations.IContextReplacingOperation {
+  public org.eclipse.core.commands.operations.TriggeredOperations(org.eclipse.core.commands.operations.IUndoableOperation, org.eclipse.core.commands.operations.IOperationHistory);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;Lorg/eclipse/core/commands/operations/IOperationHistory;)V
+
+  public void add(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public void remove(org.eclipse.core.commands.operations.IUndoableOperation);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoableOperation;)V
+
+  public void removeContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public org.eclipse.core.runtime.IStatus execute(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public org.eclipse.core.runtime.IStatus redo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public org.eclipse.core.runtime.IStatus undo(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.core.runtime.IAdaptable) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;Lorg/eclipse/core/runtime/IAdaptable;)Lorg/eclipse/core/runtime/IStatus;
+
+  public boolean canUndo();
+    descriptor: ()Z
+
+  public boolean canExecute();
+    descriptor: ()Z
+
+  public boolean canRedo();
+    descriptor: ()Z
+
+  public void dispose();
+    descriptor: ()V
+
+  public org.eclipse.core.commands.operations.IUndoableOperation getTriggeringOperation();
+    descriptor: ()Lorg/eclipse/core/commands/operations/IUndoableOperation;
+
+  public java.lang.Object[] getAffectedObjects();
+    descriptor: ()[Ljava/lang/Object;
+
+  public void aboutToNotify(org.eclipse.core.commands.operations.OperationHistoryEvent);
+    descriptor: (Lorg/eclipse/core/commands/operations/OperationHistoryEvent;)V
+
+  public org.eclipse.core.runtime.IStatus computeUndoableStatus(org.eclipse.core.runtime.IProgressMonitor) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;)Lorg/eclipse/core/runtime/IStatus;
+
+  public org.eclipse.core.runtime.IStatus computeRedoableStatus(org.eclipse.core.runtime.IProgressMonitor) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;)Lorg/eclipse/core/runtime/IStatus;
+
+  public void replaceContext(org.eclipse.core.commands.operations.IUndoContext, org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public void addContext(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)V
+
+  public org.eclipse.core.runtime.IStatus computeExecutionStatus(org.eclipse.core.runtime.IProgressMonitor) throws org.eclipse.core.commands.ExecutionException;
+    descriptor: (Lorg/eclipse/core/runtime/IProgressMonitor;)Lorg/eclipse/core/runtime/IStatus;
+
+  public void setQuietCompute(boolean);
+    descriptor: (Z)V
+
+  public boolean runInBackground();
+    descriptor: ()Z
+}
+Compiled from "UndoContext.java"
+public class org.eclipse.core.commands.operations.UndoContext implements org.eclipse.core.commands.operations.IUndoContext {
+  public org.eclipse.core.commands.operations.UndoContext();
+    descriptor: ()V
+
+  public java.lang.String getLabel();
+    descriptor: ()Ljava/lang/String;
+
+  public boolean matches(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+}
+Compiled from "GlobalUndoContext.java"
+public class org.eclipse.core.internal.commands.operations.GlobalUndoContext implements org.eclipse.core.commands.operations.IUndoContext {
+  public org.eclipse.core.internal.commands.operations.GlobalUndoContext();
+    descriptor: ()V
+
+  public java.lang.String getLabel();
+    descriptor: ()Ljava/lang/String;
+
+  public boolean matches(org.eclipse.core.commands.operations.IUndoContext);
+    descriptor: (Lorg/eclipse/core/commands/operations/IUndoContext;)Z
+}
+Compiled from "Util.java"
+public final class org.eclipse.core.internal.commands.util.Util {
+  public static final java.lang.String ZERO_LENGTH_STRING;
+    descriptor: Ljava/lang/String;
+  public static final void assertInstance(java.lang.Object, java.lang.Class<?>, boolean);
+    descriptor: (Ljava/lang/Object;Ljava/lang/Class;Z)V
+
+  public static final int compare(boolean, boolean);
+    descriptor: (ZZ)I
+
+  public static final <T extends java.lang.Comparable<? super T>> int compare(T, T);
+    descriptor: (Ljava/lang/Comparable;Ljava/lang/Comparable;)I
+
+  public static final int compare(int, int);
+    descriptor: (II)I
+
+  public static final int compare(java.lang.Object, java.lang.Object);
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)I
+
+  public static final <K, V> java.util.Map<K, V> safeCopy(java.util.Map<K, V>, java.lang.Class<K>, java.lang.Class<V>, boolean, boolean);
+    descriptor: (Ljava/util/Map;Ljava/lang/Class;Ljava/lang/Class;ZZ)Ljava/util/Map;
+
+  public static final <T> java.util.Set<T> safeCopy(java.util.Set<T>, java.lang.Class<T>);
+    descriptor: (Ljava/util/Set;Ljava/lang/Class;)Ljava/util/Set;
+
+  public static final <T> java.util.Set<T> safeCopy(java.util.Set<T>, java.lang.Class<T>, boolean);
+    descriptor: (Ljava/util/Set;Ljava/lang/Class;Z)Ljava/util/Set;
+
+  public static final java.lang.String getHelpContextId(org.eclipse.core.commands.Command);
+    descriptor: (Lorg/eclipse/core/commands/Command;)Ljava/lang/String;
+}

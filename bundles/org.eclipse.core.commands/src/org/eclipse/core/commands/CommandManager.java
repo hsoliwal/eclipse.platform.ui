@@ -10,12 +10,12 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Hitesh Soliwal and Contributors - M3 category and parameter-type storage donation (2026)
  *******************************************************************************/
 package org.eclipse.core.commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,6 +24,7 @@ import java.util.WeakHashMap;
 
 import org.eclipse.core.commands.common.HandleObjectManager;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.core.internal.commands.m3.PackedHashMap;
 import org.eclipse.core.runtime.ListenerList;
 
 /**
@@ -221,7 +222,7 @@ public final class CommandManager extends HandleObjectManager<Command>
 	 * <code>Category</code>). This collection may be empty, but it is never
 	 * <code>null</code>.
 	 */
-	private final Map<String, Category> categoriesById = new HashMap<>();
+	private final Map<String, Category> categoriesById = new PackedHashMap<>();
 
 	/**
 	 * The set of identifiers for those categories that are defined. This value
@@ -268,7 +269,7 @@ public final class CommandManager extends HandleObjectManager<Command>
 	 *
 	 * @since 3.2
 	 */
-	private final Map<String, ParameterType> parameterTypesById = new HashMap<>();
+	private final Map<String, ParameterType> parameterTypesById = new PackedHashMap<>();
 
 	/**
 	 * Adds a listener to this command manager. The listener will be notified

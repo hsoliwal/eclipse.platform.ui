@@ -1,0 +1,272 @@
+[
+  {
+    "name": "02_kbsd-input-devd.diff",
+    "sha256": "f23a758189564a629d5843b6ff6f42773816a50c7c35bfef20221f03238061f6",
+    "exit": 0,
+    "output": "patching file config/Makefile.am\npatching file config/config-backends.h\npatching file config/config.c\npatching file config/devd.c\npatching file configure.ac\nHunk #1 succeeded at 563 (offset -3 lines).\nHunk #2 succeeded at 939 (offset -12 lines).\nHunk #3 succeeded at 2280 (offset -165 lines).\npatching file hw/xfree86/common/xf86Config.c\nHunk #1 succeeded at 1290 (offset 33 lines).\npatching file hw/xfree86/common/xf86Globals.c\nHunk #1 succeeded at 118 (offset 1 line).\npatching file include/dix-config.h.in\nHunk #1 succeeded at 418 (offset -15 lines).\n"
+  },
+  {
+    "name": "03_static-nettle.diff",
+    "sha256": "730ee3b2a2a8c13df22750b2ab9608a4b83b7fdf8ee77261a3f4970a4a415e8b",
+    "exit": 0,
+    "output": "patching file configure.ac\nHunk #1 succeeded at 1582 (offset -52 lines).\n"
+  },
+  {
+    "name": "05_Revert-Unload-submodules.diff",
+    "sha256": "6e9c1b6b324c1945ab4a66b7f64658a464e47bad8990c9a6d2c9232e87d08522",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86Helper.c\nHunk #1 succeeded at 1508 (offset -16 lines).\n"
+  },
+  {
+    "name": "06_use-intel-only-on-pre-gen4.diff",
+    "sha256": "9d041826abc7405d3bed84ce7bff3770c49e1ee0018ed8ebd71eff5712a52ed2",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86pciBus.c\n"
+  },
+  {
+    "name": "07_use-modesetting-driver-by-default-on-GeForce.diff",
+    "sha256": "2be6e75244140e3f3fee7e1366d835b8295922eaceaedf2ff32498e9d0e5f13b",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86pciBus.c\n"
+  },
+  {
+    "name": "168_glibc_trace_to_stderr.patch",
+    "sha256": "6dc71ed4973b32931c78d7629a11e516cd32e0859aec2e01b6137aed8cc3e08f",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86Init.c\n"
+  },
+  {
+    "name": "226_fall_back_to_autoconfiguration.patch",
+    "sha256": "a71736ab4ee5eda16c3b5317da6d8fbc7ba4d979853a0553bb3094f749071c50",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86Globals.c\npatching file hw/xfree86/common/xf86Init.c\npatching file hw/xfree86/common/xf86Priv.h\n"
+  },
+  {
+    "name": "300-mi-sprite-SaveUnderCursor2.patch",
+    "sha256": "777cde9d2df9cb138965ff6d5962d652a642668158dbe18d03c0653259afa18e",
+    "exit": 0,
+    "output": "patching file mi/mipointer.h\npatching file mi/misprite.c\n"
+  },
+  {
+    "name": "xfree86-no-xv-for-gpuscreens.patch",
+    "sha256": "e1a5ba443d0ae18a0fd4d34c61748e852487f855975be88eb0097de5ec70888e",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86xv.c\npatching file hw/xfree86/common/xf86xvmc.c\n"
+  },
+  {
+    "name": "no-nv.patch",
+    "sha256": "9f04c66d9e1602b65ea44e5fd716fabf1f668fcaec5184a2cb5938828f9971cb",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86pciBus.c\n"
+  },
+  {
+    "name": "fix-suspend-resume-with-no-input-device.patch",
+    "sha256": "b9addd483f07ff31d405707aa9466c2ed7eccff9b2504a32f05c22b6db82615d",
+    "exit": 0,
+    "output": "patching file hw/xfree86/os-support/linux/systemd-logind.c\n"
+  },
+  {
+    "name": "boot_display.patch",
+    "sha256": "681dda2134454cbb48ce4bc913bbde47dc0864661cbd60a5ae99e7e91ce1d8f2",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86pciBus.c\npatching file hw/xfree86/common/xf86platformBus.c\n"
+  },
+  {
+    "name": "xf86-ignore-conflicting-rr-caps.patch",
+    "sha256": "57819dd52ad5af459f14228266e710e306d61a41b92c4c6e9a52c64831016170",
+    "exit": 0,
+    "output": "patching file hw/xfree86/modes/xf86RandR12.c\n"
+  },
+  {
+    "name": "xi2-resize-touch.patch",
+    "sha256": "20d7abe9713fe1573b532525feefab549b02413561a84a3ee215fd96d0fb7d07",
+    "exit": 0,
+    "output": "patching file dix/touch.c\n"
+  },
+  {
+    "name": "fix-default-permissions.patch",
+    "sha256": "347053673e5d03bc3b1662c0399fea8a88cdf14d67b8c1c4bedcb79b454f5c01",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86Helper.c\n"
+  },
+  {
+    "name": "reset-transforms-in-closescreen.diff",
+    "sha256": "55c20661079cfd40cd0674bc127e80d2d21000d4fcdf29ea81f219cd13aee695",
+    "exit": 0,
+    "output": "patching file hw/xfree86/modes/xf86Crtc.c\n"
+  },
+  {
+    "name": "re-calculate-the-clock-and-refresh-rate.diff",
+    "sha256": "a6c4b15cefea0c76a551fa4c2a6c01d554d3330a7e59387f70342c23bf8948a7",
+    "exit": 0,
+    "output": "patching file hw/xfree86/common/xf86Mode.c\npatching file hw/xfree86/drivers/modesetting/drmmode_display.c\npatching file include/displaymode.h\n"
+  },
+  {
+    "name": "0001-dix-Force-update-LEDs-after-device-state-update-in-E.patch",
+    "sha256": "e8d166a9ebefb0c0652dca091911dff6834b9938da39922242e9353b08dbcc74",
+    "exit": 0,
+    "output": "patching file dix/devices.c\npatching file include/xkbsrv.h\npatching file xkb/xkbLEDs.c\nHunk #1 succeeded at 435 (offset 1 line).\n"
+  },
+  {
+    "name": "CVE-2024-9632.patch",
+    "sha256": "078ee0ca86ae806dfbab8718fe6dd551906516b1fa176f003006d58fbb6cc6ee",
+    "exit": 0,
+    "output": "patching file xkb/xkb.c\n"
+  },
+  {
+    "name": "CVE-2025-26594-1.patch",
+    "sha256": "fc9a9cd9bb5f1541aa1e454806f5ced6f4ecd485d369870f902ac2d2daa8ea42",
+    "exit": 0,
+    "output": "patching file dix/dispatch.c\n"
+  },
+  {
+    "name": "CVE-2025-26594-2.patch",
+    "sha256": "4f564c2affa2b8013f5f8f558d934a778a4ee2e540e9a65a18b6957afbdeded2",
+    "exit": 0,
+    "output": "patching file dix/main.c\n"
+  },
+  {
+    "name": "CVE-2025-26595.patch",
+    "sha256": "ae0b7a801c5eb33bb694392098ab90ea116590c155b7da5c7b2a1536a9427596",
+    "exit": 0,
+    "output": "patching file xkb/xkbtext.c\n"
+  },
+  {
+    "name": "CVE-2025-26596.patch",
+    "sha256": "999bbf92b6d40b0c7a49837e180f566f0de23d004e90d863fcef2d42d3730e05",
+    "exit": 0,
+    "output": "patching file xkb/xkb.c\n"
+  },
+  {
+    "name": "CVE-2025-26597.patch",
+    "sha256": "840357300f1c9e502bd6a938c3d7e3f8524eb8b6a05b9e6e616b3e2dc17a436e",
+    "exit": 0,
+    "output": "patching file xkb/XKBMisc.c\n"
+  },
+  {
+    "name": "CVE-2025-26598.patch",
+    "sha256": "084bacb7064b150fb51663a996a03ba1bf26b7479aed52c13afba7347c710dce",
+    "exit": 0,
+    "output": "patching file Xi/xibarriers.c\n"
+  },
+  {
+    "name": "CVE-2025-26599-1.patch",
+    "sha256": "9ae40b828fdc1b1193423496d76433689624f9126b010ac9eb63c50fdb40abce",
+    "exit": 0,
+    "output": "patching file composite/compalloc.c\n"
+  },
+  {
+    "name": "CVE-2025-26599-2.patch",
+    "sha256": "cec00d9d7ffc04da3e915bc562ac1a0f6eb149453ea30170d98e5d07c5a73e57",
+    "exit": 0,
+    "output": "patching file composite/compalloc.c\n"
+  },
+  {
+    "name": "CVE-2025-26600.patch",
+    "sha256": "45ebb80ad288dde563f95fe58b96a72d414c487e673a7732667262d6e5105a97",
+    "exit": 0,
+    "output": "patching file dix/devices.c\n"
+  },
+  {
+    "name": "CVE-2025-26601-1.patch",
+    "sha256": "7d813665f3dff9f34b1de3ed333c91dc4ff6c95aa9f2a9b6560391869b9b8c4c",
+    "exit": 0,
+    "output": "patching file Xext/sync.c\n"
+  },
+  {
+    "name": "CVE-2025-26601-2.patch",
+    "sha256": "a816391e884e412f228492d65ce33cc89c4e62353f81ec07708af6bc97c008cf",
+    "exit": 0,
+    "output": "patching file Xext/sync.c\n"
+  },
+  {
+    "name": "CVE-2025-26601-3.patch",
+    "sha256": "7e387d7f958b2e68cb065bac8d766d325fc82855ed23849f52bdeea2283ee707",
+    "exit": 0,
+    "output": "patching file Xext/sync.c\n"
+  },
+  {
+    "name": "CVE-2025-26601-4.patch",
+    "sha256": "2ffe855367c050a27cce3f837feb0de489561ade410da6db14d948e37700deb2",
+    "exit": 0,
+    "output": "patching file Xext/sync.c\n"
+  },
+  {
+    "name": "lp1861609-dri2-Protect-against-dri2ClientPrivate-assertio.patch",
+    "sha256": "f46e62adce953c8f8f36c6b2754756b6045b3a5e687ea83b1f70e8aeeb5dea00",
+    "exit": 0,
+    "output": "patching file hw/xfree86/dri2/dri2.c\n"
+  },
+  {
+    "name": "CVE-2025-49175.patch",
+    "sha256": "cfaf5c3e23ef97050edda49e52e18893f0599290c92fba808e5abf1de0c2b224",
+    "exit": 0,
+    "output": "patching file render/animcur.c\npatching file render/render.c\n"
+  },
+  {
+    "name": "CVE-2025-49176.patch",
+    "sha256": "a8e935db3f9dfcfdf3faa9422de88661c9d0a76acedd126fad962836d3b9a8a8",
+    "exit": 0,
+    "output": "patching file dix/dispatch.c\npatching file os/io.c\n"
+  },
+  {
+    "name": "CVE-2025-49177.patch",
+    "sha256": "4c046d4ac2c9e012a5929d4b3bf90946c0f19bc95d5be4f532e55010204d65f0",
+    "exit": 0,
+    "output": "patching file xfixes/disconnect.c\n"
+  },
+  {
+    "name": "CVE-2025-49178.patch",
+    "sha256": "bad18730fe3828339a643345f7d7c8f689782de9c5002683729a6867286515e3",
+    "exit": 0,
+    "output": "patching file os/io.c\n"
+  },
+  {
+    "name": "CVE-2025-49179.patch",
+    "sha256": "0f0b63fc00541c3aefafd69e390061d7a14d4dd1b512605bb7a9117422c0ae07",
+    "exit": 0,
+    "output": "patching file record/record.c\n"
+  },
+  {
+    "name": "CVE-2025-49180-1.patch",
+    "sha256": "59044a52eb46d00e4ae278f0c79d8e418d992ae8b42f78d644d67dd45693c3df",
+    "exit": 0,
+    "output": "patching file randr/rrproviderproperty.c\n"
+  },
+  {
+    "name": "CVE-2025-49180-2.patch",
+    "sha256": "17985f3be2028c21fb3c42999e01003de668e12b400b649dbae48397caf4f3b6",
+    "exit": 0,
+    "output": "patching file hw/xfree86/modes/xf86RandR12.c\n"
+  },
+  {
+    "name": "CVE-2025-62229.patch",
+    "sha256": "50b4aea79d03663fb3891db637569a8a62deba64cd3342e9a1c8845f6d021d77",
+    "exit": 0,
+    "output": "patching file present/present_notify.c\n"
+  },
+  {
+    "name": "CVE-2025-62230-1.patch",
+    "sha256": "931c4966412225ff6955b00a37dba5ec6e5a953108396daf19f2200b59897843",
+    "exit": 0,
+    "output": "patching file xkb/xkb.c\npatching file include/xkbsrv.h\n"
+  },
+  {
+    "name": "CVE-2025-62230-2.patch",
+    "sha256": "66cec1e7352146de1571c12e1506dd59be8ca6dcbbe436631e57cc71a669e0e9",
+    "exit": 0,
+    "output": "patching file xkb/xkbEvents.c\n"
+  },
+  {
+    "name": "CVE-2025-62231.patch",
+    "sha256": "27ddca15cbfc74db95bb11aec4395d58e6a7214853f92755d55b11902eb26d4b",
+    "exit": 0,
+    "output": "patching file xkb/xkb.c\n"
+  },
+  {
+    "name": "modesetting-Fix-dirty-updates-for-sw-rotation.patch",
+    "sha256": "1c12e6f4e2e0605f96635f4296a93f0cf1a85be839832f10e77e0b6f909db461",
+    "exit": 0,
+    "output": "patching file hw/xfree86/drivers/modesetting/driver.c\npatching file hw/xfree86/drivers/modesetting/drmmode_display.c\npatching file hw/xfree86/drivers/modesetting/drmmode_display.h\n"
+  }
+]

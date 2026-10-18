@@ -1,0 +1,21 @@
+{
+  "label": "candidate",
+  "argv": [
+    "/tmp/m3-toolchain/jdk-21.0.12.1+1/bin/java",
+    "-jar",
+    "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/ecj-3.46.100.jar",
+    "-properties",
+    "/tmp/eclipse-m3-20261018/commands-authoring/target/qualified-candidate/bundles/org.eclipse.core.commands/.settings/org.eclipse.jdt.core.prefs",
+    "--release",
+    "21",
+    "-proc:none",
+    "-classpath",
+    "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar",
+    "-d",
+    "/tmp/eclipse-m3-20261018/commands-authoring/target/ecj-candidate",
+    "@/tmp/eclipse-m3-20261018/commands-authoring/evidence/ecj-candidate-sources.args"
+  ],
+  "exit": 0,
+  "sourceCount": 84,
+  "release": "21"
+}

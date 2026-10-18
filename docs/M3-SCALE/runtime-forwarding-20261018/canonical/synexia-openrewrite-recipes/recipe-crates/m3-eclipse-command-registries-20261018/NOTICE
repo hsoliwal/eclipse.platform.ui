@@ -1,0 +1,9 @@
+M3 Eclipse command registries source donation (2026-10-18)
+
+Existing storage implementation copyright 2026 Hitesh Soliwal and Contributors to the Synexia Project; Apache-2.0.
+The five donated Java classes originate at hsoliwal/com.synexia commit 140c263a90f9803b9c46103c63355a286e0515f0, under synexia-common/src/main/java/com/synexia/common/collections/jdk/.
+The donation relocates their package into the receiver-owned org.eclipse.core.internal.commands.m3 package and adds Eclipse nonexternalized-string comments. Storage algorithms remain unchanged.
+
+CommandManager.java and Eclipse metadata retain their existing ownership and license. Its original source is sealed to hsoliwal/eclipse.platform.ui commit 16e944f83eec18d4cf609afd9ad9a937711211ce. The two private category and parameter-type registries are the only changed collection owners; other maps and sets retain their current contracts.
+
+This crate's recipe and independent proof sources are Apache-2.0 except the unchanged upstream CommandManagerTest.java, which retains EPL-2.0. Full license texts are in LICENSES/.

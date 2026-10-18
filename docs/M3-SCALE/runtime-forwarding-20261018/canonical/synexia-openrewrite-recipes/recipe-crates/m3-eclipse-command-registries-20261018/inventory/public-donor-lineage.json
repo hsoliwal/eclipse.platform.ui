@@ -1,0 +1,67 @@
+{
+  "schema": "m3-source-donation-public-lineage-v1",
+  "portRecipeBlob": "6807cabe2c5715f9c3b307e21dcc7cb700f2be38",
+  "nameMapBlob": "fb40a12c800a35b7564b615103cb9ad114e04e6d",
+  "files": [
+    {
+      "donor": "packed_hashmap",
+      "publicBlob": "ade59880b8c9b2bee1b32ae67ca9d29b7382d998",
+      "canonicalBlob": "99d665440d96d94a323a85f9c4bf20347acfb593",
+      "packageAndTypeNormalizedEqual": true,
+      "publicUrl": "https://github.com/hsoliwal/M3jdk21/blob/ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6/m3/collections/src/main/java/com/m3/collections/M3LinkedHashMap.java",
+      "publicRepository": "hsoliwal/M3jdk21",
+      "publicVisibility": "public",
+      "publicRevision": "ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6",
+      "canonicalRevision": "140c263a90f9803b9c46103c63355a286e0515f0",
+      "comparison": "exact content after leading notices and existing package/type mapping only"
+    },
+    {
+      "donor": "slotmap",
+      "publicBlob": "a7d20300717661c26897f0b69e1e5a83400a62ad",
+      "canonicalBlob": "3ceabb2f939096e16562940009495484c0cf581f",
+      "packageAndTypeNormalizedEqual": true,
+      "publicUrl": "https://github.com/hsoliwal/M3jdk21/blob/ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6/m3/collections/src/main/java/com/m3/collections/M3SlotMap.java",
+      "publicRepository": "hsoliwal/M3jdk21",
+      "publicVisibility": "public",
+      "publicRevision": "ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6",
+      "canonicalRevision": "140c263a90f9803b9c46103c63355a286e0515f0",
+      "comparison": "exact content after leading notices and existing package/type mapping only"
+    },
+    {
+      "donor": "orderedslotmap",
+      "publicBlob": "e7be2297d19f22cf4dd4ef8b7d1424fe963063d9",
+      "canonicalBlob": "1cd8a99925c3b399f4ed256c73c682c324adf727",
+      "packageAndTypeNormalizedEqual": true,
+      "publicUrl": "https://github.com/hsoliwal/M3jdk21/blob/ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6/m3/collections/src/main/java/com/m3/collections/M3OrderedSlotMap.java",
+      "publicRepository": "hsoliwal/M3jdk21",
+      "publicVisibility": "public",
+      "publicRevision": "ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6",
+      "canonicalRevision": "140c263a90f9803b9c46103c63355a286e0515f0",
+      "comparison": "exact content after leading notices and existing package/type mapping only"
+    },
+    {
+      "donor": "slotarrays",
+      "publicBlob": "e337c69710c871f8caa77a1afe53149f1fd705cc",
+      "canonicalBlob": "4fe0b5517f4f96f38876ebfe1bfd329d66def204",
+      "packageAndTypeNormalizedEqual": true,
+      "publicUrl": "https://github.com/hsoliwal/M3jdk21/blob/ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6/m3/collections/src/main/java/com/m3/collections/M3SlotArrays.java",
+      "publicRepository": "hsoliwal/M3jdk21",
+      "publicVisibility": "public",
+      "publicRevision": "ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6",
+      "canonicalRevision": "140c263a90f9803b9c46103c63355a286e0515f0",
+      "comparison": "exact content after leading notices and existing package/type mapping only"
+    },
+    {
+      "donor": "slotspliterators",
+      "publicBlob": "30cf137538353ac8e91514fff7c5db3903da8819",
+      "canonicalBlob": "dbc4800a6de911557fe34e884a5f3a3a08afb7a7",
+      "packageAndTypeNormalizedEqual": true,
+      "publicUrl": "https://github.com/hsoliwal/M3jdk21/blob/ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6/m3/collections/src/main/java/com/m3/collections/M3SlotSpliterators.java",
+      "publicRepository": "hsoliwal/M3jdk21",
+      "publicVisibility": "public",
+      "publicRevision": "ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6",
+      "canonicalRevision": "140c263a90f9803b9c46103c63355a286e0515f0",
+      "comparison": "exact content after leading notices and existing package/type mapping only"
+    }
+  ]
+}

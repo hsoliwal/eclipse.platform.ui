@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>com.synexia.m3</groupId><artifactId>jface-native-forwarding-proof</artifactId><version>1.0-SNAPSHOT</version>
+ <properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <proof.task.root>${project.basedir}/..</proof.task.root>
+  <proof.dependency.root>${proof.task.root}/toolchain/eclipse-deps</proof.dependency.root>
+ </properties>
+ <dependencies>
+  <dependency><groupId>org.junit.platform</groupId><artifactId>junit-platform-console-standalone</artifactId><version>1.14.4</version><scope>system</scope><systemPath>${proof.dependency.root}/junit-platform-console-standalone-1.14.4.jar</systemPath></dependency>
+ </dependencies>
+ <build>
+  <testOutputDirectory>${project.basedir}/test-classes</testOutputDirectory>
+  <plugins>
+   <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.6.0</version>
+    <dependencies>
+     <dependency><groupId>org.apache.maven.surefire</groupId><artifactId>surefire-junit-platform</artifactId><version>3.6.0</version></dependency>
+    </dependencies>
+    <configuration>
+     <useModulePath>false</useModulePath><failIfNoTests>true</failIfNoTests>
+     <forkCount>1</forkCount><reuseForks>false</reuseForks><forkedProcessTimeoutInSeconds>120</forkedProcessTimeoutInSeconds>
+     <argLine>-Xmx512m --enable-native-access=ALL-UNNAMED -Djava.library.path=${proof.task.root}/toolchain/swt-native-gtk3</argLine>
+     <systemPropertyVariables><org.eclipse.jface.tests.m3Required>true</org.eclipse.jface.tests.m3Required></systemPropertyVariables>
+     <additionalClasspathElements>
+      <additionalClasspathElement>${project.basedir}/swt-classes</additionalClasspathElement>
+      <additionalClasspathElement>${project.basedir}/jface-classes</additionalClasspathElement>
+      <additionalClasspathElement>${proof.dependency.root}/org.eclipse.equinox.common-3.21.0.jar</additionalClasspathElement>
+      <additionalClasspathElement>${proof.dependency.root}/org.eclipse.osgi-3.24.300.jar</additionalClasspathElement>
+      <additionalClasspathElement>${proof.task.root}/commands-authoring/target/org.eclipse.core.commands-m3-proof.jar</additionalClasspathElement>
+      <additionalClasspathElement>${proof.dependency.root}/org.eclipse.equinox.preferences-3.12.100.jar</additionalClasspathElement>
+      <additionalClasspathElement>${proof.dependency.root}/org.eclipse.equinox.bidi-1.5.400.jar</additionalClasspathElement>
+      <additionalClasspathElement>${proof.dependency.root}/org.osgi.service.prefs-1.1.2.jar</additionalClasspathElement>
+      <additionalClasspathElement>${proof.dependency.root}/org.eclipse.pde.api.tools.annotations-1.4.100.jar</additionalClasspathElement>
+      <additionalClasspathElement>${proof.dependency.root}/org.eclipse.core.jobs-3.15.900.jar</additionalClasspathElement>
+     </additionalClasspathElements>
+    </configuration>
+   </plugin>
+  </plugins>
+ </build>
+</project>

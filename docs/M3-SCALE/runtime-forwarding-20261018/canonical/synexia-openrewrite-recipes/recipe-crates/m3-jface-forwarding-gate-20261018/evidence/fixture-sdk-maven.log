@@ -1,0 +1,119 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------< com.synexia.m3:jface-forwarding-gate-proof >-------------
+[INFO] Building jface-forwarding-gate-proof 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ jface-forwarding-gate-proof ---
+[INFO] Copying 12 resources from resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ jface-forwarding-gate-proof ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ jface-forwarding-gate-proof ---
+[INFO] Copying 39 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ jface-forwarding-gate-proof ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ jface-forwarding-gate-proof ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.synexia.rewrite.M3JFaceForwardingGateRecipeTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[ERROR] Tests run: 5, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 9.330 s <<< FAILURE! -- in com.synexia.rewrite.M3JFaceForwardingGateRecipeTest
+[ERROR] com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.permutationsAndIndependentRecipesAgree -- Time elapsed: 3.587 s <<< ERROR!
+java.lang.IllegalStateException: target is not a Java compilation unit: tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.requireAdmissible(M3HashPinnedJavaSnapshotRecipe.java:243)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.prepare(M3HashPinnedJavaSnapshotRecipe.java:220)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.generate(M3HashPinnedJavaSnapshotRecipe.java:148)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.generate(M3HashPinnedJavaSnapshotRecipe.java:47)
+	at org.openrewrite.ScanningRecipe.generate(ScanningRecipe.java:63)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$generateSources$4(RecipeRunCycle.java:113)
+	at org.openrewrite.scheduling.RecipeStack.reduce(RecipeStack.java:57)
+	at org.openrewrite.scheduling.RecipeRunCycle.generateSources(RecipeRunCycle.java:108)
+	at org.openrewrite.RecipeScheduler.runRecipeCycles(RecipeScheduler.java:85)
+	at org.openrewrite.RecipeScheduler.scheduleRun(RecipeScheduler.java:41)
+	at org.openrewrite.Recipe.run(Recipe.java:344)
+	at org.openrewrite.Recipe.run(Recipe.java:340)
+	at com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.run(M3JFaceForwardingGateRecipeTest.java:74)
+	at com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.permutationsAndIndependentRecipesAgree(M3JFaceForwardingGateRecipeTest.java:112)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.unrelatedSourceAndPartialReplayPreserved -- Time elapsed: 0.978 s <<< ERROR!
+java.lang.IllegalStateException: target is not a Java compilation unit: tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.requireAdmissible(M3HashPinnedJavaSnapshotRecipe.java:243)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.prepare(M3HashPinnedJavaSnapshotRecipe.java:220)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.generate(M3HashPinnedJavaSnapshotRecipe.java:148)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.generate(M3HashPinnedJavaSnapshotRecipe.java:47)
+	at org.openrewrite.ScanningRecipe.generate(ScanningRecipe.java:63)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$generateSources$4(RecipeRunCycle.java:113)
+	at org.openrewrite.scheduling.RecipeStack.reduce(RecipeStack.java:57)
+	at org.openrewrite.scheduling.RecipeRunCycle.generateSources(RecipeRunCycle.java:108)
+	at org.openrewrite.RecipeScheduler.runRecipeCycles(RecipeScheduler.java:85)
+	at org.openrewrite.RecipeScheduler.scheduleRun(RecipeScheduler.java:41)
+	at org.openrewrite.Recipe.run(Recipe.java:344)
+	at org.openrewrite.Recipe.run(Recipe.java:340)
+	at com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.run(M3JFaceForwardingGateRecipeTest.java:74)
+	at com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.unrelatedSourceAndPartialReplayPreserved(M3JFaceForwardingGateRecipeTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.namedGenerationAndFixedPoint -- Time elapsed: 0.924 s <<< ERROR!
+java.lang.IllegalStateException: target is not a Java compilation unit: tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.requireAdmissible(M3HashPinnedJavaSnapshotRecipe.java:243)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.prepare(M3HashPinnedJavaSnapshotRecipe.java:220)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.generate(M3HashPinnedJavaSnapshotRecipe.java:148)
+	at com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe.generate(M3HashPinnedJavaSnapshotRecipe.java:47)
+	at org.openrewrite.ScanningRecipe.generate(ScanningRecipe.java:63)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$generateSources$4(RecipeRunCycle.java:113)
+	at org.openrewrite.scheduling.RecipeStack.reduce(RecipeStack.java:57)
+	at org.openrewrite.scheduling.RecipeRunCycle.generateSources(RecipeRunCycle.java:108)
+	at org.openrewrite.RecipeScheduler.runRecipeCycles(RecipeScheduler.java:85)
+	at org.openrewrite.RecipeScheduler.scheduleRun(RecipeScheduler.java:41)
+	at org.openrewrite.Recipe.run(Recipe.java:344)
+	at org.openrewrite.Recipe.run(Recipe.java:340)
+	at com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.run(M3JFaceForwardingGateRecipeTest.java:74)
+	at com.synexia.rewrite.M3JFaceForwardingGateRecipeTest.namedGenerationAndFixedPoint(M3JFaceForwardingGateRecipeTest.java:81)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[INFO] Running com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.199 s -- in com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   M3JFaceForwardingGateRecipeTest.namedGenerationAndFixedPoint:81->run:74 » IllegalState target is not a Java compilation unit: tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java
+[ERROR]   M3JFaceForwardingGateRecipeTest.permutationsAndIndependentRecipesAgree:112->run:74 » IllegalState target is not a Java compilation unit: tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java
+[ERROR]   M3JFaceForwardingGateRecipeTest.unrelatedSourceAndPartialReplayPreserved:125->run:74 » IllegalState target is not a Java compilation unit: tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java
+[INFO] 
+[ERROR] Tests run: 13, Failures: 0, Errors: 3, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.876 s
+[INFO] Finished at: 2026-10-18T05:39:16-07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project jface-forwarding-gate-proof: 
+[ERROR] 
+[ERROR] Please refer to /tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/recipe-crates/m3-jface-forwarding-gate-20261018/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

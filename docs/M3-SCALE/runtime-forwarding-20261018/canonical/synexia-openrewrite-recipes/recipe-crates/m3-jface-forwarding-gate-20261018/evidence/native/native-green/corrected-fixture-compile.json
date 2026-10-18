@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261018/toolchain/jdk25/bin/javac",
+    "-J-Xmx512m",
+    "--release",
+    "25",
+    "-proc:none",
+    "-encoding",
+    "UTF-8",
+    "-cp",
+    "/tmp/eclipse-m3-20261018/native-gate/test-classes:/tmp/eclipse-m3-20261018/native-gate/swt-classes:/tmp/eclipse-m3-20261018/native-gate/jface-classes:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/junit-platform-console-standalone-1.14.4.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.core.jobs-3.15.900.jar",
+    "-d",
+    "/tmp/eclipse-m3-20261018/native-gate/test-classes",
+    "/tmp/eclipse-m3-20261018/ui-final-generated/tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java"
+  ],
+  "exit": 0,
+  "wallSeconds": 2.346,
+  "actualSdkOutput": "/tmp/eclipse-m3-20261018/ui-final-generated/tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java",
+  "actualSdkOutputSha256": "96f9ca262513ee4f964016d35682ac8a8641a976d9b1d957dac0968d34ad55c7",
+  "productionClassesUnchangedFromSealedFailure": true,
+  "allExistingAssertionsUnchanged": true,
+  "changedCompiledInputs": [
+    {
+      "path": "org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.class",
+      "beforeSha256": "d9ca77de02a550fcfc2302a5265e8a119535dd803c4d3b2da39f2774e5ba489a",
+      "afterSha256": "422565ee2afd55de49e619b736c771ed24741e3d2dfab50255764a0997b8973f"
+    }
+  ],
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,4 @@
+#!/bin/sh
+TOOLCHAIN_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+export LD_LIBRARY_PATH="$TOOLCHAIN_DIR/native-runtime-libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "$TOOLCHAIN_DIR/xvfb-source/build/hw/vfb/Xvfb" "$@"

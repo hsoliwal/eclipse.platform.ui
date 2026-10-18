@@ -1,0 +1,72 @@
+{
+  "xvfbCommand": [
+    "/tmp/eclipse-m3-20261018/toolchain/native-bin/Xvfb-local",
+    "-displayfd",
+    "4",
+    "-screen",
+    "0",
+    "1280x1024x24",
+    "-nolisten",
+    "tcp",
+    "-noreset",
+    "-xkbdir",
+    "/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/share/X11/xkb"
+  ],
+  "testCommand": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-f",
+    "/tmp/eclipse-m3-20261018/native-gate/pom.xml",
+    "-Dmaven.repo.local=/root/.m2/repository",
+    "-Dtest=M3TreeForwardingTest#testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings",
+    "surefire:test"
+  ],
+  "resourcesCopied": 24,
+  "mode": "native GTK3, source-built SWT/JFace, generated Commands receiver",
+  "fullTychoPdeRun": false,
+  "testExit": 0,
+  "verifierExit": 0,
+  "displayNumber": "0",
+  "displayReady": true,
+  "verifierCommand": [
+    "/tmp/m3-toolchain/jdk21/bin/java",
+    "-cp",
+    "/tmp/eclipse-m3-20261018/composition-authoring/target/classes",
+    "M3EclipseComposition",
+    "reports",
+    "/tmp/eclipse-m3-20261018/native-gate/target/surefire-reports"
+  ],
+  "displayExitAfterCleanup": 0,
+  "wallSeconds": 10.606,
+  "status": "PASS",
+  "reports": [
+    {
+      "path": "target/surefire-reports/TEST-org.eclipse.jface.tests.viewers.M3TreeForwardingTest.xml",
+      "sha256": "bc984d3d195c38ef37619a0954b73ee35bea0b2585b587e25c734256a6a3e52a"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "native-gate/pom.xml",
+      "sha256": "fe30f343b23281f9a31223479a7027e81b9d3cfa1ca4b011b19337d8c47f6ca9"
+    },
+    {
+      "path": "native-gate/run-native-gate.py",
+      "sha256": "390542d0ae5f9cdaba50c3c26551913c96f507e8bf1d95427280e7edd4282014"
+    },
+    {
+      "path": "commands-authoring/target/org.eclipse.core.commands-m3-proof.jar",
+      "sha256": "4d7573b670652c41d105210deeffde877c9034e2bd2916a6fb7ec4b5cf454c1e"
+    },
+    {
+      "path": "toolchain/xvfb-source/build/hw/vfb/Xvfb",
+      "sha256": "51f61b4e406918b7c3fe5d2da4b3591b1ceee9dbc08bd60509db84368539efab"
+    },
+    {
+      "path": "composition-authoring/target/classes/M3EclipseComposition.class",
+      "sha256": "fd8a13cc18a9e6370092f14392f28616a6bf1cde847e8d2a5b20a9a3d38017e6"
+    }
+  ]
+}

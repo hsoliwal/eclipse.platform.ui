@@ -60,6 +60,24 @@
         </repository>
       </repositories>
     </profile>
+    <profile>
+      <id>m3-forwarding</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-surefire-plugin</artifactId>
+              <configuration>
+                <systemProperties>
+                  <org.eclipse.jface.tests.m3Required>true</org.eclipse.jface.tests.m3Required>
+                </systemProperties>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
   </profiles>
 
   <build>

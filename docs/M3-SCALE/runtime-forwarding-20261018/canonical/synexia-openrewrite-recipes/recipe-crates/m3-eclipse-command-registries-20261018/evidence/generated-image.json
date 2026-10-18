@@ -1,0 +1,16 @@
+{
+  "authority": "actual OpenRewrite SourceFile Results only",
+  "source": "target/recipe-output",
+  "receiverHead": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "changedPaths": [
+    "bundles/org.eclipse.core.commands/.classpath",
+    "bundles/org.eclipse.core.commands/.settings/org.eclipse.jdt.core.prefs",
+    "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+    "bundles/org.eclipse.core.commands/src/org/eclipse/core/commands/CommandManager.java",
+    "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/OrderedSlotMap.java",
+    "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/PackedHashMap.java",
+    "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotArrays.java",
+    "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java",
+    "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotSpliterators.java"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261018/toolchain/jdk25/bin/javac",
+    "-J-Xmx512m",
+    "--release",
+    "25",
+    "-proc:none",
+    "-encoding",
+    "UTF-8",
+    "-verbose",
+    "-cp",
+    "/tmp/eclipse-m3-20261018/native-gate/swt-classes:/tmp/eclipse-m3-20261018/native-gate/jface-classes:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/junit-platform-console-standalone-1.14.4.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.core.jobs-3.15.900.jar",
+    "-sourcepath",
+    "/tmp/eclipse-m3-20261018/ui-gate-authoring/generated/tests/org.eclipse.jface.tests/src:/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/tests/org.eclipse.jface.tests/src:/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/tests/org.eclipse.ui.tests.harness/src",
+    "-d",
+    "/tmp/eclipse-m3-20261018/native-gate/test-classes",
+    "/tmp/eclipse-m3-20261018/ui-gate-authoring/generated/tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/M3TreeForwardingTest.java"
+  ],
+  "exit": 0,
+  "wallSeconds": 2.627,
+  "logSha256": "f95d66da8f2763413765d8f7a35c14295885133b5c206e7de0dd6b95058be260",
+  "testSourceCommit": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "generatedGateSha256": "c82162dfe7fec3900d196618ca2e987bbb020dc2e5371a64d2f3941db9e87bc7",
+  "compiledClassCount": 31,
+  "testBytecodeRelease": 25,
+  "note": "Current upstream viewer tests use unnamed variables; no test source was rewritten."
+}
