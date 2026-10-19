@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: M3 Markers view benchmark
+Bundle-SymbolicName: org.eclipse.ui.ide.m3bench;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: Synexia
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.jface,
+ org.eclipse.swt
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: org.eclipse.ui.ide.m3bench

@@ -1,0 +1,10 @@
+id	file:line	step	stock_cost_per_marker_change	evidence
+K1	MarkersChangeListener.java:153-166	delta inspected only for its type; then scheduleUpdate()	O(deltas) to decide, deltas then discarded	hasApplicableTypes returns true/false; builder.getUpdateScheduler().scheduleUpdate() (line 127)
+K2	MarkersChangeListener.java:250,265 -> CachedMarkerBuilder.java:408-430	scheduleUpdateJob(delay, clean=true)	full rebuild scheduled	new MarkerUpdateJob(this) (line 428)
+K3	MarkerUpdateJob.java:63-65	fresh LinkedList<MarkerEntry> per update	O(n) list nodes	Collection<MarkerEntry> markerEntries = new LinkedList<>(); //this is not incremental clean every time
+K4	MarkerContentGenerator.java:851-940	generateMarkerEntries/gatherMarkers: findMarkers per scope, new MarkerEntry for EVERY marker	O(n) allocations + O(n) filter evaluations	entry = new MarkerEntry(markers[i]) (line 940)
+K5	Markers.java:58-100	updateWithNewMarkers: toArray, counts, sortAndMakeCategories	O(n) array + O(n) grouping + O(n log k) partial sort	markerEntries.toArray(markerArray); getMarkerCounts(markerArray)
+K6	Markers.java:150-175	MarkerSortUtil.sortStartingKElement per category (limit k, default 100)	O(n log k) compares per category	MarkerSortUtil.sortStartingKElement(markerEntryArray, comparator, start, end, effLimit, monitor)
+K7	Markers.java:374-382 via ExtendedMarkersView.java:1087	viewer input clone per UI update	O(n) array copy	markers.markerEntryArray = markerEntryArray.clone()
+K8	UIUpdateJob.java:95-106	contentProvider.inputChanged + viewer.refresh(true) + reexpandCategories	full JFace tree refresh: all shown items relabelled	viewer.getTree().setRedraw(false); viewer.refresh(true)
+K9	ExtendedMarkersView.java:310	tree created without SWT.VIRTUAL	all shown rows are native items	SWT.H_SCROLL /* | SWT.VIRTUAL */ | SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION

@@ -1,0 +1,21 @@
+id	file	method	line	triggered_by	stock_complexity	dominant_cost	observable_calls	layer	decision
+A1	AbstractTableViewer.java	setSelectionToWidget(List,boolean)	890	setSelection(reveal=false), preservingSelection: refresh/remove/add/update-refilter	O(n*k) equals	Java equals scan from row 0 per element	none (equals/hashCode only)	A	M3FirstIndex O(n+k) when !reveal, non-virtual, no limit, >=8 elements, no null
+A2	AbstractTableViewer.java	internalRemove(Object[])	742	remove(Object[])	O(n*k)	doIndexOf(item) = SWT Table.indexOf linear scan per element	none	A	M3IdentityIndex item->row O(n+k) when k>8
+A3	AbstractTreeViewer.java	updateChildren(Widget,Object,Object[],boolean)	3028	refresh with fewer children (filter, remove in model)	O(n*d)	System.arraycopy per disposed item	none (dispose/disassociate order kept)	A	two-pointer compaction O(n)
+A4	AbstractListViewer.java	setSelectionToWidget(List,boolean)	478	setSelection, preservingSelection	O(n*k)	listMap.indexOf / comparer scan per element	none	A	M3FirstIndex O(n+k)
+S1	AbstractTableViewer.java	doFindItem(Object)	335	findItem without hash lookup: update, refresh(element), reveal, remove	O(n) per call	equals scan	none	next	FirstIndex batch for update(Object[]) without hash lookup (next leaf)
+S2	AbstractTableViewer.java	internalRefreshAll(boolean)	664	refresh()	O(n)	label provider per row + native setText per row	label provider getText/getImage per row (stock order)	C	kept: label calls are contract; native cost goes to SWT viewport lanes
+S3	AbstractTableViewer.java	add(Object[])/indexForElement	531	add with comparator	O(k log n) compares + O(n) native insert per element	native item insert	comparator.compare (binary search order)	C	kept; native insert is SWT viewport work
+S4	AbstractTableViewer.java	virtualSetSelectionToWidget(List,boolean)	980	setSelection on a virtual lazy table	O(n)	updateElement(i) for every row until all found	ILazyContentProvider.updateElement per row	B	kept in stock API (calls are contract); Layer B maps ids->rows through rowOf lane O(k)
+S5	StructuredViewer.java	getSortedChildren/getFilteredChildren	1027	refresh	O(n log n) compares + O(n*f) select	client comparator/filter callbacks	compare/select in stock order	B	kept synchronous on UI thread; Layer B runs thread-safe M3RowFilter/M3SortKey on the worker
+S6	ViewerComparator.java	sort(Viewer,Object[])	201	setComparator, refresh	O(n log n) compares, 2 getText per compare	label provider getText inside compare	getText order	B	kept; Layer B sorts by keys extracted once per id (radix ranks)
+S7	StructuredViewer.java	preservingSelection(Runnable,boolean)	1385	refresh, remove, add, update	O(sel)+A1	getSelection twice + setSelectionToWidget	selection events	A	via A1/A4
+S8	AbstractTreeViewer.java	getExpandedElements()	1383	getExpandedElements, refresh	O(items)	recursive getItems walk (native per level)	none	C	already delegated to SWT when available (fork PR #9)
+S9	AbstractTreeViewer.java	setSelectionToWidget(List,boolean)	2900	setSelection on trees	O(k) hashed / O(n*k) unhashed	internalExpand -> findItem recursive search	content provider getParent/getChildren (expansion)	next	next leaf: first-index over materialized items when unhashed
+S10	AbstractTreeViewer.java	internalFindItem(Item,Object)	2050	findItem without hash lookup	O(items)	recursive equals walk	none	next	next leaf
+S11	AbstractTreeViewer.java	internalExpandToLevel/expandAll	2006	expandAll	O(n)	content provider + native item creation	getChildren/hasChildren in stock order	C	kept; native work is SWT viewport
+S12	TableViewer.java	remove(Object[])	406	remove	O(sel)	deselect loop over selection	none	A	kept (already hashed); then A2/A1
+S13	CheckboxTableViewer.java	preservingSelection/setCheckedElements	314	refresh with check boxes	O(n)	getItems + getChecked per row (native)	none	C	kept; native reads are SWT viewport lanes
+S14	StyledCellLabelProvider.java	paint/measure listeners	335	paint	O(visible cells)	TextLayout per painted cell	update(ViewerCell)	C	already O(window)
+S15	CustomHashtable.java	element map	1	associate/mapElement	O(1) amortised	rehash O(n)	none	done	already int lanes (M3ViewerMap, fork PR #18)
+S16	AbstractTableViewer.java	internalVirtualRefreshAll	639	refresh on a virtual table	O(n) clearAll	native clearAll	none	C	SWT viewport makes clearAll O(window)

@@ -11,6 +11,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Mickael Istria (Red Hat Inc.) - Bug 486901
+ *     Hitesh Soliwal (Synexia) - M3 marker delta path hooks (docs/m3/markers-view)
  ******************************************************************************/
 
 package org.eclipse.ui.internal.views.markers;
@@ -201,6 +202,9 @@ class Markers {
 	 * get marker limit to show, if any.
 	 */
 	private int getShowingLimit(int available) {
+		if (M3MarkerDeltas.fullSort()) {
+			return available;
+		}
 		boolean limitsEnabled = builder.getGenerator().isMarkerLimitsEnabled();
 		if(!limitsEnabled) {
 			return available;
@@ -366,6 +370,21 @@ class Markers {
 	 */
 	CachedMarkerBuilder getBuilder() {
 		return builder;
+	}
+
+	/**
+	 * Replaces the model in one step with the result of a marker delta patch
+	 * (M3MarkerDeltas; docs/m3/markers-view/DESIGN.md).
+	 *
+	 * @param entries       the entries, grouped by category
+	 * @param newCategories the categories over {@code entries}
+	 * @param counts        the counts: errors, warnings, infos, others
+	 */
+	synchronized void m3Replace(MarkerEntry[] entries, MarkerCategory[] newCategories, Integer[] counts) {
+		markerEntryArray = entries;
+		categories = newCategories;
+		markerCounts = counts;
+		markerToEntryMap = null;
 	}
 
 	/**

@@ -1,0 +1,40 @@
+# Copyright (c) 2026 Synexia, Hitesh Soliwal (hsoliwal@gmail.com) and others.
+# SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: com.synexia.openrewrite.viewport.JFaceViewportHooks
+displayName: JFace viewers on the M3 viewport (Layer A hooks)
+description: >-
+  One-line hook statements into the JFace viewer classes. Each hook calls a package-private
+  M3ViewerPaths method that does the work with the same client-visible calls, or returns
+  "not handled" so the original code runs (docs/m3/jface-viewport/DESIGN.md, section 4).
+recipeList:
+  # A1: first-position table instead of an equals scan per selected element
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.jface.viewers.AbstractTableViewer]
+      methodName: setSelectionToWidget
+      parameterCount: 2
+      position: METHOD_START
+      statements: "\t\tif (M3ViewerPaths.selectRows(this, list, reveal, virtualManager == null)) {\n\t\t\treturn;\n\t\t}"
+  # A2: identity row table instead of Table.indexOf per removed item
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.jface.viewers.AbstractTableViewer]
+      methodName: internalRemove
+      parameterCount: 1
+      position: METHOD_START
+      statements: "\t\tif (M3ViewerPaths.removeRows(this, elements, virtualManager == null)) {\n\t\t\treturn;\n\t\t}"
+  # A3: two-pointer compaction of disposed child items
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.jface.viewers.AbstractTreeViewer]
+      methodName: updateChildren
+      parameterTypes: "Widget,Object,Object[],boolean"
+      anchor: "int i = 0;"
+      position: BEFORE
+      statements: "\t\t\tnumItemsToDispose = M3ViewerPaths.disposeStale(this, items, children, numItemsToDispose);"
+  # A4: first-position table instead of a list map scan per selected element
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.jface.viewers.AbstractListViewer]
+      methodName: setSelectionToWidget
+      parameterCount: 2
+      position: METHOD_START
+      statements: "\t\tif (M3ViewerPaths.selectListRows(this, in, reveal, listMap)) {\n\t\t\treturn;\n\t\t}"
