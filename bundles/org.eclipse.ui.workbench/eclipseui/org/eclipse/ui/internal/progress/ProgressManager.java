@@ -39,7 +39,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -62,6 +61,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.Throttler;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
@@ -684,8 +684,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 			return;
 		}
 		synchronized (pendingUpdatesMutex) {
-			Predicate<IJobProgressManagerListener> predicate = listener -> !isNeverDisplaying(info.getJob(), listener.showsDebug());
-			rememberListenersForJob(info, pendingJobUpdates, predicate);
+			rememberListenersForJob(info, pendingJobUpdates, false);
 		}
 		uiRefreshThrottler.throttledExec();
 	}
@@ -717,8 +716,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 			cancelPendingAdd(job);
 			managedJobs.remove(job);
 			synchronized (pendingUpdatesMutex) {
-				Predicate<IJobProgressManagerListener> predicate = listener -> !isNeverDisplaying(info.getJob(), listener.showsDebug());
-				rememberListenersForJob(info, pendingJobRemoval, predicate);
+				rememberListenersForJob(info, pendingJobRemoval, false);
 			}
 			runnableMonitors.remove(job);
 		}
@@ -779,8 +777,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 */
 	private void rememberJobAddition(JobInfo info) {
 		synchronized (pendingUpdatesMutex) {
-			Predicate<IJobProgressManagerListener> predicate = listener -> !isCurrentDisplaying(info.getJob(), listener.showsDebug());
-			rememberListenersForJob(info, pendingJobAddition, predicate);
+			rememberListenersForJob(info, pendingJobAddition, true);
 		}
 	}
 
@@ -810,10 +807,19 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 		return Math.max(MINIMUM_GRACE_PERIOD, getLongOperationTime() / 2);
 	}
 
-	private void rememberListenersForJob(JobInfo info, Map<JobInfo, Set<IJobProgressManagerListener>> listenersMap, Predicate<IJobProgressManagerListener> predicate) {
+	private void rememberListenersForJob(JobInfo info, Map<JobInfo, Set<IJobProgressManagerListener>> listenersMap,
+			boolean hideSleeping) {
 		Set<IJobProgressManagerListener> localListeners = listenersMap.computeIfAbsent(info,
 				k -> new LinkedHashSet<>());
-		listeners.stream().filter(predicate).forEach(localListeners::add);
+		Job job = info.getJob();
+		if (hideSleeping && isSleeping(job)) {
+			return;
+		}
+		for (IJobProgressManagerListener listener : listeners) {
+			if (!isNeverDisplaying(job, listener.showsDebug())) {
+				localListeners.add(listener);
+			}
+		}
 	}
 
 	/**
@@ -823,7 +829,11 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 * @return boolean <code>true</code> if the job is not displayed
 	 */
 	boolean isCurrentDisplaying(Job job, boolean debug) {
-		return isNeverDisplaying(job, debug) || job.getState() == Job.SLEEPING;
+		return isNeverDisplaying(job, debug) || isSleeping(job);
+	}
+
+	private static boolean isSleeping(Job job) {
+		return job.getState() == Job.SLEEPING;
 	}
 
 	/**
@@ -1075,22 +1085,35 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	@Override
 	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable)
 			throws InvocationTargetException, InterruptedException {
+		final ProgressMonitorJobsDialog dialog;
+		try {
+			dialog = new ProgressMonitorJobsDialog(ProgressManagerUtil.getDefaultParent());
+		} catch (SWTException e) {
+			if (e.code != SWT.ERROR_THREAD_INVALID_ACCESS) {
+				throw e;
+			}
+			throw new IllegalStateException(
+					"IProgressService.run() must be called from the UI thread since it may need to open a progress dialog. Use a Job to run long operations from a background thread.", //$NON-NLS-1$
+					e);
+		}
+		dialog.setOpenOnRun(false);
+		if (shouldRunInBackground()) {
+			// The "Always run in background" preference must suppress the modal
+			// progress dialog for every fork/cancelable combination, not just the
+			// backward compatible (fork==false || cancelable==false) path below.
+			dialog.run(fork, cancelable, runnable);
+			return;
+		}
+
 		if (!fork || !cancelable) {
 			// Backward compatible code.
-			final ProgressMonitorJobsDialog dialog = new ProgressMonitorJobsDialog(
-					ProgressManagerUtil.getDefaultParent());
-			if (shouldRunInBackground()) {
-				dialog.setOpenOnRun(false);
+			Job showDialogJob = scheduleProgressMonitorJob(dialog);
+			try {
 				dialog.run(fork, cancelable, runnable);
-			} else {
-				Job showDialogJob = scheduleProgressMonitorJob(dialog);
-				try {
-					dialog.run(fork, cancelable, runnable);
-				} finally {
-					// In case the dialog hasn't popped up yet, cancel it so it doesn't pop up after
-					// the operation finishes or unwinds with an exception.
-					showDialogJob.cancel();
-				}
+			} finally {
+				// In case the dialog hasn't popped up yet, cancel it so it doesn't pop up after
+				// the operation finishes or unwinds with an exception.
+				showDialogJob.cancel();
 			}
 			return;
 		}
