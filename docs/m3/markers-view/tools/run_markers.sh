@@ -26,7 +26,7 @@ if [ "$5" != --inner ]; then
       | grep -vE '^[^,]*(intro|equinox\.p2|oomph|cheatsheets|ui\.views\.log|ui\.trace|e4\.tools|ui\.monitoring)[^,]*,'
     echo "org.eclipse.ui.ide.m3bench,1.0.0,file:/$E/plugins/org.eclipse.ui.ide.m3bench_1.0.0.jar,4,false"
   } > "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
-  if [ "$SIDE" = m3 ]; then
+  if [ "$SIDE" != stock ]; then
     sed -i "s|^org\.eclipse\.ui\.ide,\([^,]*\),[^,]*,|org.eclipse.ui.ide,\1,file:/${IDE_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   fi
   SC=$(ls "$POOL" | grep '^org.eclipse.equinox.simpleconfigurator_' | head -1)
