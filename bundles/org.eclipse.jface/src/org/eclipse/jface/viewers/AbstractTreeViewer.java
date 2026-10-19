@@ -18,6 +18,7 @@
  *     Matthew Hall, bug 221988
  *     Julien Desgats, bug 203950
  *     Alexander Fedorov <alexander.fedorov@arsysop.ru> - Bug 548314
+ *     Hitesh Soliwal (Synexia) - M3 viewport fast-path hooks (docs/m3/jface-viewport)
  *******************************************************************************/
 
 package org.eclipse.jface.viewers;
@@ -3105,6 +3106,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			for (Object elementChild : elementChildren) {
 				children.put(elementChild, elementChild);
 			}
+			numItemsToDispose = M3ViewerPaths.disposeStale(this, items, children, numItemsToDispose);
 			int i = 0;
 			while (numItemsToDispose > 0 && i < items.length) {
 				Object data = items[i].getData();

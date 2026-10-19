@@ -13,6 +13,7 @@
  *     Tom Schindl <tom.schindl@bestsolution.at> - initial API and implementation bug 154329
  *                                               - fixes in bug 170381, 198665, 200731
  *     Alexander Fedorov <alexander.fedorov@arsysop.ru> - Bug 548314
+ *     Hitesh Soliwal (Synexia) - M3 viewport fast-path hooks (docs/m3/jface-viewport)
  *******************************************************************************/
 
 package org.eclipse.jface.viewers;
@@ -740,6 +741,9 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *            the elements to remove
 	 */
 	private void internalRemove(final Object[] elements) {
+		if (M3ViewerPaths.removeRows(this, elements, virtualManager == null)) {
+			return;
+		}
 		Object input = getInput();
 		for (Object element : elements) {
 			if (equals(element, input)) {
@@ -888,6 +892,9 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 
 	@Override
 	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List list, boolean reveal) {
+		if (M3ViewerPaths.selectRows(this, list, reveal, virtualManager == null)) {
+			return;
+		}
 		if (list == null) {
 			doDeselectAll();
 			return;

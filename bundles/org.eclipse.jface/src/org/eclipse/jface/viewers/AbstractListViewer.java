@@ -14,6 +14,7 @@
  *     Tom Schindl - fix for bug 157309
  *     Brad Reynolds - bug 141435
  *     Alexander Fedorov <alexander.fedorov@arsysop.ru> - Bug 548314
+ *     Hitesh Soliwal (Synexia) - M3 viewport fast-path hooks (docs/m3/jface-viewport)
  *******************************************************************************/
 
 package org.eclipse.jface.viewers;
@@ -476,6 +477,9 @@ public abstract class AbstractListViewer extends StructuredViewer {
 
 	@Override
 	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List in, boolean reveal) {
+		if (M3ViewerPaths.selectListRows(this, in, reveal, listMap)) {
+			return;
+		}
 		if (in == null || in.isEmpty()) { // clear selection
 			listDeselectAll();
 		} else {
