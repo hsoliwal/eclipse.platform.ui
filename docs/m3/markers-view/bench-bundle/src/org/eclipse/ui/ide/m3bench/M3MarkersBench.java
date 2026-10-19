@@ -164,7 +164,8 @@ public final class M3MarkersBench implements IStartup {
 		String histogram = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 		p.waitFor();
 		for (String line : histogram.split("\\R")) { //$NON-NLS-1$
-			if (line.matches(".*(MarkerEntry|MarkerCategory|MarkerInfo|TreeItem|M3Marker\\w*)\\s*(\\(.*)?$")) { //$NON-NLS-1$
+			if (line.matches(
+					".*\\s(\\S*\\.(MarkerEntry|MarkerCategory|MarkerInfo|MarkerAttributeMap|M3Marker\\w*)|org\\.eclipse\\.swt\\.widgets\\.TreeItem|java\\.text\\.\\w*CollationKey|java\\.util\\.concurrent\\.ConcurrentHashMap(\\$Node)?)\\s*(\\(.*)?$")) { //$NON-NLS-1$
 				String[] f = line.trim().split("\\s+"); //$NON-NLS-1$
 				if (f.length >= 4) {
 					row("instances " + f[3], n, Long.parseLong(f[1]), -1, f[2] + " bytes"); //$NON-NLS-1$ //$NON-NLS-2$
