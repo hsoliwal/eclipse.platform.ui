@@ -1,0 +1,1 @@
+PASS reports: exactly one passing org.eclipse.jface.tests.viewers.M3TreeForwardingTest#testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings.

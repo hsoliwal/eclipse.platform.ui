@@ -19,7 +19,7 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({ TreeSelectionTest.class, MultipleEqualElementsTreeViewerTest.class,
 		LazySortedCollectionTest.class, TreeViewerTest.class, VirtualTreeViewerTest.class, SimpleTreeViewerTest.class,
-		SimpleTableViewerTest.class, SimpleVirtualLazyTreeViewerTest.class, VirtualLazyTreeViewerTest.class,
+		SimpleTableViewerTest.class, SimpleVirtualLazyTreeViewerTest.class, VirtualLazyTreeViewerTest.class, M3TreeForwardingTest.class,
 		TableViewerTest.class, TreeViewerColumnTest.class, VirtualTableViewerTest.class,
 		VirtualLazyTableViewerTest.class, TableColorProviderTest.class, TableFontProviderTest.class,
 		ListViewerTest.class, CheckboxTableViewerTest.class, CheckboxTableViewerTest.DeprecatedConstructor.class,

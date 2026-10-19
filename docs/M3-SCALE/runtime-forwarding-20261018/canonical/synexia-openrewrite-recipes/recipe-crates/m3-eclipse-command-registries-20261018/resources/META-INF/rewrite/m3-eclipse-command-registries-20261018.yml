@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+# SPDX-License-Identifier: Apache-2.0
+type: specs.openrewrite.org/v1beta/recipe
+name: com.synexia.eclipse.CommandRegistryForwarding20261018
+displayName: M3 command category and parameter identity registry forwarding
+description: >-
+  Source-sealed target-owned array map donation and exact private identity-map substitutions.
+  The Eclipse command-ID traversal registry and all definition sets remain outside this admission.
+  Existing compiler, behavior, API and target bundle gates remain authoritative.
+recipeList:
+  - com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe:
+      crateName: m3-eclipse-command-registries-20261018
+  - com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe:
+      crateName: m3-eclipse-command-registries-20261018

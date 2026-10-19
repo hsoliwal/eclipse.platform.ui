@@ -1,0 +1,3547 @@
+[
+  {
+    "path": "org/eclipse/jface/action/AbstractAction.class",
+    "bytes": 1284,
+    "sha256": "22c40c356a066e7e6603f57d9e657d2aff0586cf269ef812af09c836e2ec8dae"
+  },
+  {
+    "path": "org/eclipse/jface/action/AbstractGroupMarker.class",
+    "bytes": 849,
+    "sha256": "5ef385e39a9c55b3ccea5cd68c6f77ac29d325ed0749c4ceae25953aa6d9d353"
+  },
+  {
+    "path": "org/eclipse/jface/action/Action$1.class",
+    "bytes": 645,
+    "sha256": "4af2eeba7d5df6b0f8acdfe44662cafa9b201582775e73567097f86f2dd77ab3"
+  },
+  {
+    "path": "org/eclipse/jface/action/Action.class",
+    "bytes": 6363,
+    "sha256": "cfd0aa46a35ab3ca26ac8c82c94bd4e1e1c607883cf13d01c9fc9b8df1cf0254"
+  },
+  {
+    "path": "org/eclipse/jface/action/ActionContributionItem$1.class",
+    "bytes": 1268,
+    "sha256": "882461ec9cd630e6b16438978d389b9e17549584596f1cf3bebe7accf57b34f6"
+  },
+  {
+    "path": "org/eclipse/jface/action/ActionContributionItem.class",
+    "bytes": 22010,
+    "sha256": "91d83a4fc3928161017772edb31149c1799914123a0b8d61aee8d5e15dbd846e"
+  },
+  {
+    "path": "org/eclipse/jface/action/ContributionItem.class",
+    "bytes": 2488,
+    "sha256": "335f198b3dd8d3f282692e82ebf7bdaf78d8f7af0eea4203ebc1fe5380720b9d"
+  },
+  {
+    "path": "org/eclipse/jface/action/ContributionManager$1.class",
+    "bytes": 1069,
+    "sha256": "fa976254c4baac4475c2f2af46f85f039f08512bb4e799594fe9c20330b04837"
+  },
+  {
+    "path": "org/eclipse/jface/action/ContributionManager.class",
+    "bytes": 7795,
+    "sha256": "9dc65fabd7fc166357e472d5981acab8dca0d40daab1772f757a74d6392cdc17"
+  },
+  {
+    "path": "org/eclipse/jface/action/ControlContribution.class",
+    "bytes": 3123,
+    "sha256": "0ba6154004a926fc17dfd37dd6a324b04758517d765b0eef43120408346be98c"
+  },
+  {
+    "path": "org/eclipse/jface/action/CoolBarManager.class",
+    "bytes": 14299,
+    "sha256": "ce81840803375cc3da6d5cf9003554221ec6d81acd5d6866d802c84f2c147699"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager$CommandCallback$1.class",
+    "bytes": 1422,
+    "sha256": "1b57951a42f15fd10b9335fb73d6faef6deba9fa86ebc2798a5e561d6a3e1e2a"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager$CommandCallback.class",
+    "bytes": 11077,
+    "sha256": "402845455ed5eee9c917f41214175b73c8bf387457b9105ce6332f21c091c470"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager$IActiveChecker.class",
+    "bytes": 325,
+    "sha256": "e3f6272f0ffc752ed160032f886fabcaea09d34e03f1b12babd772f5d68a0378"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager$IBindingManagerCallback.class",
+    "bytes": 483,
+    "sha256": "c797a5062314ac8558b86a90d09be8de8894c099d5e08706c60290ebe8f1a81d"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager$ICallback.class",
+    "bytes": 635,
+    "sha256": "21e64731511683106acbec905622a51288f98a9a8d112064fb26d4b891851355"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager$IExecuteApplicable.class",
+    "bytes": 353,
+    "sha256": "ce75edc678d43b102ab717bb1aace1caef079dc0357d248b33038c30f91c19fe"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager$IExecuteCallback.class",
+    "bytes": 803,
+    "sha256": "fc7cbdef94aba0d0fcb106f8a44233d06c6e462c541ce114586e7b90b8d9e487"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager.class",
+    "bytes": 1535,
+    "sha256": "b55f97391cce640218e734f13c4c5025ebd9f745bbf4184048b761a05b3a9c8f"
+  },
+  {
+    "path": "org/eclipse/jface/action/ExternalActionManager.properties",
+    "bytes": 606,
+    "sha256": "6dd09c837893b3ea46489234d3f70b96f063679f49af192de1e13cffc602241f"
+  },
+  {
+    "path": "org/eclipse/jface/action/GroupMarker.class",
+    "bytes": 423,
+    "sha256": "78ac888de29185bf4cc5e0d140b8f4fd8c829ee145ff31922cb32b4481c5c1e1"
+  },
+  {
+    "path": "org/eclipse/jface/action/IAction.class",
+    "bytes": 2077,
+    "sha256": "52fabbbcd98fe9b201638ec5f9645abd4c39a209527ba8526883196452d60d3a"
+  },
+  {
+    "path": "org/eclipse/jface/action/IContributionItem.class",
+    "bytes": 802,
+    "sha256": "11a2ff1a5c6057e4db97cf3d4d27c5d6ad655820c73440eaad3fd847fdf9590c"
+  },
+  {
+    "path": "org/eclipse/jface/action/IContributionManager.class",
+    "bytes": 975,
+    "sha256": "c6c9127df6a08e4f317a433e3d11a8eac692ee54bdf4df8a489edcf61ecf3ec3"
+  },
+  {
+    "path": "org/eclipse/jface/action/IContributionManagerOverrides.class",
+    "bytes": 655,
+    "sha256": "8db3272830ce24966a68daabff73c876b403ffe35f4cd42deb0ef20c6fc810c9"
+  },
+  {
+    "path": "org/eclipse/jface/action/ICoolBarManager.class",
+    "bytes": 560,
+    "sha256": "5c13b3cd7e79fbe6927a38fabe0c9bcd17bafc8e9d61e9c0915b7dff12451957"
+  },
+  {
+    "path": "org/eclipse/jface/action/IMenuCreator.class",
+    "bytes": 313,
+    "sha256": "fe0944280f3b709eb3a8e606ad742a9c584d994f54417887788ef092904a7039"
+  },
+  {
+    "path": "org/eclipse/jface/action/IMenuListener.class",
+    "bytes": 203,
+    "sha256": "19ff63c9dbabc00d7842cce66370cae4efd18f7b358c7836e795a48c9361de32"
+  },
+  {
+    "path": "org/eclipse/jface/action/IMenuListener2.class",
+    "bytes": 251,
+    "sha256": "a74026186917fd262b205e59f25f3387e9e932b1d70c7a42acec5d81cf809068"
+  },
+  {
+    "path": "org/eclipse/jface/action/IMenuManager.class",
+    "bytes": 728,
+    "sha256": "daeecab3be32be483688bccac4c81b63cb3973dfc7699e1d63944d0c3c1b5825"
+  },
+  {
+    "path": "org/eclipse/jface/action/IStatusLineManager.class",
+    "bytes": 481,
+    "sha256": "e9e7eab6f44ce47b967ab08f7322f80fa7b3d44d743b791a6e4907838b753676"
+  },
+  {
+    "path": "org/eclipse/jface/action/IToolBarManager.class",
+    "bytes": 189,
+    "sha256": "bcf26cd365f0e6a1bd1b77c0c8e2c92c1bd464e86ed42610eb359f0ff22b27a6"
+  },
+  {
+    "path": "org/eclipse/jface/action/LegacyActionTools.class",
+    "bytes": 9569,
+    "sha256": "222c019f28966107919c3216ec86aa52ef078507f0dde30d8876cb7e8829ac0a"
+  },
+  {
+    "path": "org/eclipse/jface/action/MenuManager$1.class",
+    "bytes": 1037,
+    "sha256": "a324a5bf3452e93431c5e94d2ae1f48ee4d94c6cccd5b5aadcd6efc8a129fb4b"
+  },
+  {
+    "path": "org/eclipse/jface/action/MenuManager$2.class",
+    "bytes": 755,
+    "sha256": "fc4bb04030b6e3ebf9459cefbe268995800305d6b7d597ad4a1245c4015961ce"
+  },
+  {
+    "path": "org/eclipse/jface/action/MenuManager.class",
+    "bytes": 13824,
+    "sha256": "61658e9a526d4436c84d7bc18bac998acf990e9ae9f0909e9d65ed6ac2339ea5"
+  },
+  {
+    "path": "org/eclipse/jface/action/Separator.class",
+    "bytes": 982,
+    "sha256": "10f8bd336519981bb96a3fbb61d23e40d271b10173c7f94eb77d56b2539a4f03"
+  },
+  {
+    "path": "org/eclipse/jface/action/StatusLine$1.class",
+    "bytes": 737,
+    "sha256": "e82b8b3284d30d00cef60ae03cee8356ddbdb6d58c491e7183d93747d8c91f89"
+  },
+  {
+    "path": "org/eclipse/jface/action/StatusLine$StatusLineLayout.class",
+    "bytes": 3158,
+    "sha256": "67609959027a8e9bb338bcc34645e40f216ad637346ad60d568e5d13eca824a1"
+  },
+  {
+    "path": "org/eclipse/jface/action/StatusLine.class",
+    "bytes": 12548,
+    "sha256": "db4631f4f4c37fe7cb576df2b8aaee417810bcae731f6b200e955512fe9df1ce"
+  },
+  {
+    "path": "org/eclipse/jface/action/StatusLineContributionItem.class",
+    "bytes": 3120,
+    "sha256": "e26283a5da6a18d665420670c556603909c2615aedc3d93c8ba28626dbe60f8d"
+  },
+  {
+    "path": "org/eclipse/jface/action/StatusLineLayoutData.class",
+    "bytes": 351,
+    "sha256": "c7ba0d5af836204c39bfe7e08b2051b378dcc6f418c482893e4a977969c0b0f2"
+  },
+  {
+    "path": "org/eclipse/jface/action/StatusLineManager$1.class",
+    "bytes": 2985,
+    "sha256": "17917f302e4fd2a3930b51350b115de1cec5eeabb98e64f4fbe1f03dad84ccb8"
+  },
+  {
+    "path": "org/eclipse/jface/action/StatusLineManager.class",
+    "bytes": 3819,
+    "sha256": "d031837afd68be8ba03b30106270e6577d025873d7a2578de8f536d6a9d57167"
+  },
+  {
+    "path": "org/eclipse/jface/action/SubContributionItem.class",
+    "bytes": 2616,
+    "sha256": "ddaacd0603dd832ef9fb5d8df28b6c68bd3db5eb24e67ea0c768ee752f1df85d"
+  },
+  {
+    "path": "org/eclipse/jface/action/SubContributionManager$1.class",
+    "bytes": 1096,
+    "sha256": "440dc67b6a5672e788e07cbf6d178f8a2292eff651ac25ff629aca79f0364430"
+  },
+  {
+    "path": "org/eclipse/jface/action/SubContributionManager.class",
+    "bytes": 5368,
+    "sha256": "974f0e251128598b749872588e0cd43e3a03cc64543a11704490df3708600681"
+  },
+  {
+    "path": "org/eclipse/jface/action/SubCoolBarManager.class",
+    "bytes": 1455,
+    "sha256": "0fb8bf39be915fa447320a1297957e0a8a9a186702cebbf785f0937fa2c49238"
+  },
+  {
+    "path": "org/eclipse/jface/action/SubMenuManager.class",
+    "bytes": 6128,
+    "sha256": "1d0440d008db57db1e07e51b4bdbb508863c0ec56e7e9586fad014ac73f8bf79"
+  },
+  {
+    "path": "org/eclipse/jface/action/SubStatusLineManager.class",
+    "bytes": 1915,
+    "sha256": "2cc114cfcf5625567569affd903c0b3fb2556be05ef0b1b605c562ea238e35a7"
+  },
+  {
+    "path": "org/eclipse/jface/action/SubToolBarManager.class",
+    "bytes": 694,
+    "sha256": "d0ad4e243ea18ebd92e0a9ee0771ccef2b746f2ca2c013f681101073391fde6a"
+  },
+  {
+    "path": "org/eclipse/jface/action/ToolBarContributionItem$1.class",
+    "bytes": 1351,
+    "sha256": "d738bc0b09033c79a19eba2348b471761185fb6abb044f2d7bd9eaa5e6b763c8"
+  },
+  {
+    "path": "org/eclipse/jface/action/ToolBarContributionItem.class",
+    "bytes": 10692,
+    "sha256": "15649b075102eb4fa41278f36d15bc9452748864f516cd4f8662f4bc5be06834"
+  },
+  {
+    "path": "org/eclipse/jface/action/ToolBarManager$1.class",
+    "bytes": 1207,
+    "sha256": "2baaeb8850ed70dbcb99676778a676b5c71b9c55b3ead19cb0d432c2dd69aaec"
+  },
+  {
+    "path": "org/eclipse/jface/action/ToolBarManager.class",
+    "bytes": 6961,
+    "sha256": "1a9b1cabe5a875b7c542a0d2352488947f17ef1c2c84e5fab20bcd7814e71b65"
+  },
+  {
+    "path": "org/eclipse/jface/action/images/stop.png",
+    "bytes": 330,
+    "sha256": "0077896e41dc5d61bad2f190e0cdf5a253dc70ecf309dc4138c34a0ead8880f1"
+  },
+  {
+    "path": "org/eclipse/jface/action/images/stop.svg",
+    "bytes": 5079,
+    "sha256": "b122a4a2e0e36ad9cba45ce514e28012a6ed6bdfb61ef46043724f9f44638169"
+  },
+  {
+    "path": "org/eclipse/jface/action/images/stop@2x.png",
+    "bytes": 517,
+    "sha256": "15d5e329f4f766373cdc7a72bb97b456d2e457d08749c63eb031008c72eefb78"
+  },
+  {
+    "path": "org/eclipse/jface/action/package.html",
+    "bytes": 1598,
+    "sha256": "f3f7cf1a38c134a2fff0e235ec3d802d4e87d3316c4028e54df871e2b8b37b4a"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/Binding.class",
+    "bytes": 4003,
+    "sha256": "fa8f4f039670884c708d1aff08df1f1684e6a93e9b9b11b40b542ee7c8d3b64f"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/BindingManager.class",
+    "bytes": 24609,
+    "sha256": "768e9c4f64b6299636d8e16dc3070c80ef5b42b84259979c2eed61f7c9e16a30"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/BindingManagerEvent.class",
+    "bytes": 3065,
+    "sha256": "870a58b2e7be401e5dde050ad05b535c4cd7cb7400771ec3fd967fa81bfa947d"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/CachedBindingSet.class",
+    "bytes": 3192,
+    "sha256": "185cfb5ef078df0f257060771b28880117b65a0072e4bce5a627d4ccd3ccd8d8"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/IBindingManagerListener.class",
+    "bytes": 240,
+    "sha256": "4001202377d46d5d580e67e1e12ed136217faca41981bc8a8916dfa75751dde3"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/ISchemeListener.class",
+    "bytes": 208,
+    "sha256": "97b0a904cdd6826b4e4552a93c8265715349cfae8a969b5c436ea14044466f5d"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/Scheme.class",
+    "bytes": 3816,
+    "sha256": "73c639860f08adeb785e0e4ec04f20c9b7d413fdfa3d2f40bc6d34229b94852c"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/SchemeEvent.class",
+    "bytes": 842,
+    "sha256": "3c766b221a88a4e3e63d20179cc5713bca6c51dec1196f4b401443b2f1759b94"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/Trigger.class",
+    "bytes": 309,
+    "sha256": "c4bfa56a5ad069acfe09938b8567ef83c060008e2879afce7174a309f8be3204"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/TriggerSequence.class",
+    "bytes": 2304,
+    "sha256": "bd21d217f746e47e6a785728dcef792d86f49baf2cce100f4dd1e5fa8d9adb1b"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/IKeyLookup.class",
+    "bytes": 3591,
+    "sha256": "cb7085c7c77d052216040c3009fd34cfa20e459088164f786d3cd83d137c2f1f"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeyBinding.class",
+    "bytes": 1454,
+    "sha256": "255113ed5e9251175bf9c5b0c8c0a528f456bc362cb7c3cd0fca11b7bffebc2c"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeyLookupFactory.class",
+    "bytes": 957,
+    "sha256": "23abf2c28938614204408764aaafa66bbf2d8c9039b89a5cf848ab0b397a3040"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeySequence.class",
+    "bytes": 4695,
+    "sha256": "43c215355d2e8ef26f5e2eceefc5db4d99d21e940f319b5d22cae14fdd0ae998"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeySequenceText$KeyTrapListener.class",
+    "bytes": 3915,
+    "sha256": "90952cd9503270e0ffc99b1cae1bebf006a70db258dd8c96319a8cc88993611c"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeySequenceText$TraversalFilter.class",
+    "bytes": 1795,
+    "sha256": "be5a839884ca0c1c5416b25625e45d360eb6b7f1f39de345709b458bdaebb807"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeySequenceText$TraversalFilterManager.class",
+    "bytes": 1373,
+    "sha256": "bc5db75c966d2ab310061b3f7af1f62bf8bf956da87d95ed9d9c93527e77db1a"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeySequenceText$UpdateSequenceListener.class",
+    "bytes": 1257,
+    "sha256": "720ea4c0fea3c5dcf6caeba9aa7eb9066b1d3c4e67fe52291a042061166ada0d"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeySequenceText.class",
+    "bytes": 8847,
+    "sha256": "d9f39c5c63b685d49d5f76d2161876f7a1ad9aa3933ddfa18c7028567c8dd2e4"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/KeyStroke.class",
+    "bytes": 3478,
+    "sha256": "6d690ea0b77940a72c1c67298e6116512e47e9031647b0e0061f02ebd468c0f4"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/ParseException.class",
+    "bytes": 324,
+    "sha256": "16bdf72feb796a26eec6cac5d193b684929c80378752709cebddec3390c0d8c2"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/SWTKeyLookup.class",
+    "bytes": 7099,
+    "sha256": "ccbefcdbf18e283584671a0d71bed794f1b55b347879bf6c3f24619ae2db9562"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/SWTKeySupport.class",
+    "bytes": 2274,
+    "sha256": "c4dc1c57e0394401323bbdd6eae09930d2ca2b241a4a30dc7ade4c516265fef1"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/AbstractKeyFormatter.class",
+    "bytes": 2872,
+    "sha256": "fbcdc63ad69877bcfd49d44b34b03c3b4994de3536ac4f13f7daa5f0dc875790"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/AbstractKeyFormatter.properties",
+    "bytes": 1513,
+    "sha256": "c388fc1ad856bd2fc488d3f11119a00b744fa3f5db7cd9f5aae76faee306fb3a"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/EmacsKeyFormatter.class",
+    "bytes": 1839,
+    "sha256": "14fd2fa94420ec49c97869cb907e7e8e4d3517a0ca54bba0029269fcb5d0e32b"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/EmacsKeyFormatter.properties",
+    "bytes": 622,
+    "sha256": "6b46b4bc546d1071c6a3be77cf32669518292a42dc184ffa2ef8f479fe36825a"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/FormalKeyFormatter.class",
+    "bytes": 1199,
+    "sha256": "ea976b5653492dc9375996f155115a59e5f0b609c3b1bd0798c4829fca068862"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/IKeyFormatter.class",
+    "bytes": 341,
+    "sha256": "4ddb2e753c8d975069dd639a138fa7d380f658909ca13761d1ba2a8191ff997d"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/KeyFormatterFactory.class",
+    "bytes": 1127,
+    "sha256": "738abe32034875f2882cfb119315ce8addf29203dc6b8a5ca4a71823ab8aee38"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/NativeKeyFormatter.class",
+    "bytes": 3302,
+    "sha256": "72b957d0bfadac7c3a9fa62789b3a0ec9e1bb4ac33c4db41b25b9d74f26260dd"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/NativeKeyFormatter.properties",
+    "bytes": 613,
+    "sha256": "d92d8aca20f5e7ba4cb103b08865b0279461ae8fb6a1983a744aba3aa69c44d6"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/formatting/package.html",
+    "bytes": 1131,
+    "sha256": "288b019ba1f3ee9e168a3ce6efacab9939d71b8d06647721f789eb784c96b4c4"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/keys/package.html",
+    "bytes": 1623,
+    "sha256": "7e1b73f927da05303a34fc9b4b5440264d4841a690b7e8dbf477405cdcefa96b"
+  },
+  {
+    "path": "org/eclipse/jface/bindings/package.html",
+    "bytes": 1523,
+    "sha256": "20576a34a852a7157f86cb810097128159d00dc33114a50ebabdc9719d4083a2"
+  },
+  {
+    "path": "org/eclipse/jface/commands/ActionHandler.class",
+    "bytes": 4399,
+    "sha256": "03b0693f1b7761ed611743ce9dc703e37f6dce1abdc90689abead29870a78ece"
+  },
+  {
+    "path": "org/eclipse/jface/commands/PersistentState.class",
+    "bytes": 520,
+    "sha256": "afb5683719f1b88d39e935fb581c5f593c0fa584849d84031032a836af6f4169"
+  },
+  {
+    "path": "org/eclipse/jface/commands/RadioState$RadioStateManager$RadioGroup.class",
+    "bytes": 1786,
+    "sha256": "672561e206fe608fde37d99ed80fbedaafa76b957f248cbd1622d6f3c5d07948"
+  },
+  {
+    "path": "org/eclipse/jface/commands/RadioState$RadioStateManager.class",
+    "bytes": 1456,
+    "sha256": "1e3466119d91bc385f365ff27259891df1f6980997e066890a553367c6e860ee"
+  },
+  {
+    "path": "org/eclipse/jface/commands/RadioState.class",
+    "bytes": 1229,
+    "sha256": "7149ed9513d08c63ceeb944491dcc172937775dcc9c04c5fa617d4aeac8b276d"
+  },
+  {
+    "path": "org/eclipse/jface/commands/ToggleState.class",
+    "bytes": 1270,
+    "sha256": "cdfca0da9f4beaba39b1e8c7089c2d6c8879f831a90fd3c2879a11bdb1c46ec9"
+  },
+  {
+    "path": "org/eclipse/jface/commands/package.html",
+    "bytes": 577,
+    "sha256": "bd9cd1a1700a30a341848ea8fdc0607e9652a30cc316c253604e119180e221fe"
+  },
+  {
+    "path": "org/eclipse/jface/contexts/IContextIds.class",
+    "bytes": 403,
+    "sha256": "c6bbee87663f13ffde284b8170421a5bc5a4724fb5cbf1f49c0bff357ee848a4"
+  },
+  {
+    "path": "org/eclipse/jface/contexts/package.html",
+    "bytes": 530,
+    "sha256": "8ba974b64dce70ac516745fd592fbefe22226f273b431bd14b934b949fc0576e"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/AbstractSelectionDialog.class",
+    "bytes": 4797,
+    "sha256": "d8714d0d0555256269a53ad1a87ee58ece85a4719a7cba9e76d6d24fdecd9854"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/AnimatorFactory.class",
+    "bytes": 619,
+    "sha256": "11111aef7c441cf8d93f986aab3eca8b651b46060f73cdeaa04decddcae32d26"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ControlAnimator.class",
+    "bytes": 1191,
+    "sha256": "1ab5f6c9371dd671056095d9479dab286c7c7fae528d294e3f82ae98474d52c1"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ControlEnableState$ItemState.class",
+    "bytes": 723,
+    "sha256": "73912ebdc2dfa812f97fdcbbc552fa6704efe393a5807fe08ae5246291dfbeed"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ControlEnableState.class",
+    "bytes": 2204,
+    "sha256": "aa003ed45940047974fcfd08211682ad8ff717bdc71736ad38ac14400053473d"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/Dialog$1.class",
+    "bytes": 764,
+    "sha256": "8c7d2d24b6da58be134e6c4cf739825e17bbb85debdb991c9ae564fa74acc7ab"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/Dialog.class",
+    "bytes": 17739,
+    "sha256": "abd82fdd695f8ddc96e5810bcbf1c278ff99f820b35dc404ab40380ea7342cc7"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/DialogMessageArea.class",
+    "bytes": 3351,
+    "sha256": "0338ea49bbec3c5964b641759c34af0c2eb3e6427888abd0005d73dad63c796f"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/DialogPage.class",
+    "bytes": 5006,
+    "sha256": "88092d22e201a94b1a808aa708ca3d061e28e56e47545b3216158fec02779b51"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/DialogSettings$XMLWriter.class",
+    "bytes": 3967,
+    "sha256": "852a0866e804eb0d415cea54ee696c56d0b42489aa8eb51dab7e422abc28faac"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/DialogSettings.class",
+    "bytes": 9600,
+    "sha256": "02a4c7e29cb36af3f04a2cfda099b3e68ec0338a99ccfa9e5d8890b4ab593eb0"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/DialogTray.class",
+    "bytes": 318,
+    "sha256": "164d235c02d4271fecb64d3a5249b08f17a31e524ad4743139d2803f96125757"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ErrorDialog$1.class",
+    "bytes": 852,
+    "sha256": "3921830946cbf817c38185a00712b95f5210615861861ba46ccd33b87ec4b422"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ErrorDialog.class",
+    "bytes": 12324,
+    "sha256": "2c54b7d373aedeccc66567b89a592d9cd59d6a6baffe59bf5749b58aa53f3c39"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ErrorSupportProvider.class",
+    "bytes": 466,
+    "sha256": "47fa7f3d608ffba497f0f67dcb901da3c3ac566a9d77bb3392f7a418ccb70b36"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IDialogBlockedHandler.class",
+    "bytes": 441,
+    "sha256": "6a3a81831599e9499bf4206e2e5fccd10b223dcea8b8729a14162455116fd32e"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IDialogConstants.class",
+    "bytes": 2983,
+    "sha256": "4b3cc2a6bb67d855d6c605c93f7cc677597ae4d2ae4a461fd6f9adf7ff3cd7e9"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IDialogLabelKeys.class",
+    "bytes": 1206,
+    "sha256": "0dc6122e4eb200b4b22b240e1c6f595856a47bc6862c77506d3c69abb0cae1b7"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IDialogPage.class",
+    "bytes": 644,
+    "sha256": "503468e3cb58ea1aab6a1d5dbd1141ed38294ab162734c11987aaa148c81f7b7"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IDialogSettings.class",
+    "bytes": 1302,
+    "sha256": "72b2289ce1cee66a36aa8deedd19249615295aba708360345ee4c84a10ba940a"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IDialogSettingsProvider.class",
+    "bytes": 293,
+    "sha256": "43563853f3e4841651979a409816c4551561761971e6b2fda5d4dff47f801e26"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IInputValidator.class",
+    "bytes": 196,
+    "sha256": "a76b729e3bfe062e0e4575fee7b8b41b6338ce75e33d55767cee5278b1ff3ae8"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IMessageProvider.class",
+    "bytes": 357,
+    "sha256": "ca032f48e1276901ef2d25fac239145de6ba3e69f610a75ff41413e365ded14b"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IPageChangeProvider.class",
+    "bytes": 317,
+    "sha256": "836aa389bc659996309f384c49169c1b6b0d95d47ab7f7d466a092c857fa93e3"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IPageChangedListener.class",
+    "bytes": 219,
+    "sha256": "004a23f0a01ea893e881fee6dd5bb3e9911d6b0d027182326ae4fdc2a2ed798f"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IPageChangingListener.class",
+    "bytes": 229,
+    "sha256": "f3df7755398da975ec551383fd24aa3c2efe828a48b87271e3feeefe756038c6"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IScopeChangeProvider.class",
+    "bytes": 273,
+    "sha256": "54133921a56ee357e523f5ddc01a4c53927f7c1817ee488a1be3121898ed6806"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IScopeChangedListener.class",
+    "bytes": 223,
+    "sha256": "ed31db078e58400a9f691654678c05a56cf7e52b23f46c712b1f231fc299b409"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IconAndMessageDialog$1.class",
+    "bytes": 1149,
+    "sha256": "8af29dccd6cf8614f98caa12eab34dd478e4fbe47607cfc8af4108ad23ce0ec0"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/IconAndMessageDialog.class",
+    "bytes": 6049,
+    "sha256": "cf026e9dc984ffbb190317d4ffbd62b5c65159436fb2c13eb66aff6641db9e6a"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/InputDialog.class",
+    "bytes": 5211,
+    "sha256": "bc0d6e45ae67890daacc9499333ac37e4d894a4a5cd1d0e99857b9ce5af5dc28"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/MessageDialog.class",
+    "bytes": 7294,
+    "sha256": "d848d7b8cb2757cd4adeeefe293d2acc8ead8f2e243d3e15464d9291275f1405"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/MessageDialogWithToggle.class",
+    "bytes": 9239,
+    "sha256": "2824dd9cc5de43080777590c93ebeacb9aa36c0b6d3bebb53e32f93b8740e599"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/MessageLine.class",
+    "bytes": 1506,
+    "sha256": "93659482f2c8025d5455cd30fd977b0d41998656fbe0e34f175493ade365dfe4"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PageChangedEvent.class",
+    "bytes": 804,
+    "sha256": "909e85431a5cbdefaa643e69cf6d2db36cae61eadea7ea8e89ee844849825801"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PageChangingEvent.class",
+    "bytes": 743,
+    "sha256": "88d98e0df4be8e958f66be76608a372d92faa45306dbf83385d2105644919bac"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PlainMessageDialog$Builder.class",
+    "bytes": 1932,
+    "sha256": "156bfa78d29ffffd897ba5782b454ba7a64043a9194d3f9320548a650cb3b75b"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PlainMessageDialog.class",
+    "bytes": 3927,
+    "sha256": "e148421cc105510f9fa2c1b2e1ef22a8785854827d633665f8aa09af5f7cf3d2"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$1.class",
+    "bytes": 1247,
+    "sha256": "51d4a8d2fdb78e698767248a42f05e8b09e29a8402cdb2b376b06b6bb911ab39"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$2.class",
+    "bytes": 708,
+    "sha256": "4f5212f5c0d3de083060f6ba00d1f1b887001ec39e0b9c014a01fdeaa1a0a40e"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$CloseAction.class",
+    "bytes": 796,
+    "sha256": "16af0d7bd8faabc21f716b415053cf680a82662bebecc190e2aa65ce643599f6"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$MoveAction.class",
+    "bytes": 834,
+    "sha256": "b9f6c533cfff3b2befba4d07ed0f85fb2fb5f870df2d44bce1d02d02cb2a5855"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$PersistBoundsAction.class",
+    "bytes": 1015,
+    "sha256": "81b68ffffb83d0c1e63f3d2035c6716e76c35f461db6f2d16939c0fb1bc563b2"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$PersistLocationAction.class",
+    "bytes": 907,
+    "sha256": "7f5b610a958e910fa6c1bb92b6c0e7095566d06c5983bee45fbb453c1340f3cf"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$PersistSizeAction.class",
+    "bytes": 891,
+    "sha256": "c206b41a2c1de95fd9bfd05055c90b824eca404f3e2ffb12e5ee59670c7c1b1b"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$PinAction.class",
+    "bytes": 871,
+    "sha256": "97cbd36564083ce6773802ec933d7b3b15ceace02dcc90d16e5ebdb5bb9b18f0"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog$ResizeAction.class",
+    "bytes": 841,
+    "sha256": "e11447924c57be322571566653d80c83eb744ab1777620ab32224d43d8da629b"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/PopupDialog.class",
+    "bytes": 19857,
+    "sha256": "0c12b391872d3db61199d3d9bd528bbf23c3f093251600f93ea72a88cfe1ee25"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ProgressIndicator.class",
+    "bytes": 2339,
+    "sha256": "63090a76e760d84e6c4bf51026f84de0c4b19c53188264ed54455ae771b161bf"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ProgressMonitorDialog$ProgressMonitor.class",
+    "bytes": 2956,
+    "sha256": "f968cd7f61c64188bc2e0d9b6d775c9c86660ef80c574d0cdb86d228657feabb"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ProgressMonitorDialog.class",
+    "bytes": 9268,
+    "sha256": "3c1bd7c58d24612eb0e3fe42bd86fb4f7b5c527a25fca833eb7fa275eb4a93cf"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/ScopeChangedEvent.class",
+    "bytes": 699,
+    "sha256": "a3ae2689003b082c057744be21e66e197f8d2db8e7ede9b185cce266fbbb8a9b"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/StatusDialog.class",
+    "bytes": 4059,
+    "sha256": "fb84dac01ff7ac5da2edf9c221ce860cb66d7dcd6d78abb1014d76596f2ca7ad"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/TitleAreaDialog$1.class",
+    "bytes": 925,
+    "sha256": "43275a4f341f7844da74798d90a3b7108e8082a67ebc02919a492fb8775a0f66"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/TitleAreaDialog$2.class",
+    "bytes": 938,
+    "sha256": "71630a6161656963fc894ea832f85ce0ada08fe2ae25d2a1fa3844a8659726a6"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/TitleAreaDialog$3.class",
+    "bytes": 2366,
+    "sha256": "9e1b362d5f373fa620286723e5d69e4a46e5d3012ead7564145c22a4bf6827ff"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/TitleAreaDialog.class",
+    "bytes": 12523,
+    "sha256": "d2298b80b6c7d880ad83e4c700ee391d6ff46df7f58d0bfd9fec601fa7a55369"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/TrayDialog$ResizeListener.class",
+    "bytes": 1363,
+    "sha256": "f739a144936e45b83b576e1b1257b3bf11450fa83622fad05a3316d24bb79322"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/TrayDialog.class",
+    "bytes": 9871,
+    "sha256": "95fd5440d63766b3d9e4f937338c02cc311eefebdd3075f673853284b165a4df"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/help.png",
+    "bytes": 861,
+    "sha256": "59664135ca78f519431f8476657c105856c437b9a4e6bcf4043f7e4236cdc07e"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/help.svg",
+    "bytes": 3533,
+    "sha256": "9c851f9d7439f0f34a3e163f5ee1f85879c478f1d861844c764008de876bb760"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/message_error.png",
+    "bytes": 535,
+    "sha256": "424192941f6eaa6c97b3fd528337846790d70408ea5a953cc46f578edb7c7753"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/message_error.svg",
+    "bytes": 3964,
+    "sha256": "04d0812a1f063f02e0c3253b4a22a26ad1e8cf771d58c39b0d93f4cecc419987"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/message_info.png",
+    "bytes": 525,
+    "sha256": "c2ed7e164cecb6118aa52f79b490dc7cadac8ea9af3a01ecac7c0c0d93962b23"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/message_info.svg",
+    "bytes": 5450,
+    "sha256": "25df859dfe1365e03e8b299372a55d5bfcc564eb5145fc2adafba01d616930ed"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/message_warning.png",
+    "bytes": 662,
+    "sha256": "82bb1fd25bd8862eb29ffa8a5a83dd110159148bfb338faeade29ee5df756b25"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/message_warning.svg",
+    "bytes": 8302,
+    "sha256": "a563393a9bb9e64ca957362948eabcbc9797475be71f632d11706010f7acb1cb"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/popup_menu.png",
+    "bytes": 128,
+    "sha256": "23a7f20923845860d2d4676541ff4717732628d6800bf881557cbf6f4da66eb1"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/popup_menu.svg",
+    "bytes": 2135,
+    "sha256": "940c07d9eb15f1634b7060ca2088260375f64797da0e08881c76b6448de0a81e"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/popup_menu@2x.png",
+    "bytes": 212,
+    "sha256": "1fa9e714aade61d8c7ffce1f9711eaadeaa7c2baee39c7fbd7c0de530a893ee4"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/popup_menu_disabled.png",
+    "bytes": 262,
+    "sha256": "fd94f655a224f3e6dd870d213a3ed0946f17f36a3b2ecaae768b8f7db0449dc2"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/popup_menu_disabled.svg",
+    "bytes": 2135,
+    "sha256": "3ecd1bcc849bef69a451da127320bc74d16f80464e9dcfb61084952cbe5cf195"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/popup_menu_disabled@2x.png",
+    "bytes": 422,
+    "sha256": "adb07d0b5ed2b099aaf7ecffc770791885380a732693df61658e286d1741ad17"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/title_banner.png",
+    "bytes": 4318,
+    "sha256": "bb08039dc872dee16a9019ea8098da27b2f31aa74436261ab6a652b4046346c5"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/images/title_banner.svg",
+    "bytes": 1219,
+    "sha256": "95ac3e7d27f153d5b38a624d3225bad8ea744e5c75f47fe0aefaf87dad29e2e6"
+  },
+  {
+    "path": "org/eclipse/jface/dialogs/package.html",
+    "bytes": 1215,
+    "sha256": "abdf26aabba7263246b8f11e41108d842ebe0f7f41a5dcb6d89977002fb94a30"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/AutoCompleteField.class",
+    "bytes": 1160,
+    "sha256": "db0aa806cac28a78586ac8aaff03b155da78348fb3f9a060819570fc7950b17b"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ComboContentAdapter.class",
+    "bytes": 2746,
+    "sha256": "a529642ab57b3ba19b37406823c132b088cc6a4eed73ecca4116d8d6526d0477"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposal.class",
+    "bytes": 1431,
+    "sha256": "449b5443e56b315f7fb3a031009c49483fb15e253ec9d7c5b3efa2a9b4ceb9d3"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter$1.class",
+    "bytes": 4143,
+    "sha256": "a2a0b88a85bade9959f650afeb9ca865a4253fd704485ce253038e917080784c"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter$ContentProposalPopup$1.class",
+    "bytes": 1564,
+    "sha256": "17b03cbde7256929c5806d9a5691e8ecd57b8b15c9caba5ed6978788af4bb5dc"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter$ContentProposalPopup$InfoPopupDialog$1.class",
+    "bytes": 1253,
+    "sha256": "6651ef5d64b8b4dce192ad8160d1b863c41c82b81f14bda04617ab7512fdf1af"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter$ContentProposalPopup$InfoPopupDialog.class",
+    "bytes": 3668,
+    "sha256": "3aa25ae99be92f183896e1d86725888af603b8c4efd8b94d039ba2c24add5709"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter$ContentProposalPopup$PopupCloserListener.class",
+    "bytes": 3602,
+    "sha256": "7a35640ec126f37de08fa566f7d5ffac496c47e2973fe595bcd2b1023a8acbf4"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter$ContentProposalPopup$TargetControlListener.class",
+    "bytes": 4216,
+    "sha256": "d6fd980304a1eea581e9516b39b77377a9d60bd1cf090f32385f267de5dee228"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter$ContentProposalPopup.class",
+    "bytes": 12115,
+    "sha256": "bc6cdcfecb9495d19a1e41b813343e18978d909c00bdc2288c8ce5064f5c6ba1"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ContentProposalAdapter.class",
+    "bytes": 12959,
+    "sha256": "e055cd5f85ede26ea2d2b56d452cd1213b8188e679284c719ae4f0c908abf0db"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ControlDecoration$1.class",
+    "bytes": 936,
+    "sha256": "030b60ca4bde7d8d80f8a32be4d53ec86aca184a447a71606c2e1800fba3d870"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ControlDecoration$2.class",
+    "bytes": 2146,
+    "sha256": "1687e01f6161a44210e32f857bd3867aa1345d81e8329afd85cf686ec4741cee"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ControlDecoration$Hover$1.class",
+    "bytes": 942,
+    "sha256": "88c8e325a89f761e6dbc5c6b9f192b009ccdc8af2dcf390d015d197cf4e29f88"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ControlDecoration$Hover.class",
+    "bytes": 5080,
+    "sha256": "ca07b1e396f4aec5ee13aac80d0d21285a8e3da0f1ed67996e4f2198ab81d5d4"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/ControlDecoration.class",
+    "bytes": 13508,
+    "sha256": "0e0309504fb2d3e97b1bd5c14ce93bcf40bb23348c69e841d1016ee4f6de50e7"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/DecoratedField$1.class",
+    "bytes": 1647,
+    "sha256": "f792cab2b22d8a023714834244376575d1db67bb49120d5d4c4970333260d4ba"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/DecoratedField$2.class",
+    "bytes": 823,
+    "sha256": "5ccfde7a09a8660b32e6de6783e2167ee1f522fbd275429c28b156ee92344258"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/DecoratedField$FieldDecorationData.class",
+    "bytes": 808,
+    "sha256": "62ac71042d945772385ba998b1440d37078a0de26356613257c49c9cdd16f63b"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/DecoratedField$Hover$1.class",
+    "bytes": 918,
+    "sha256": "de0e5179479bd2bb41b5258bf1ae9054794ab1e5cde46e365e58b4e71802d6ba"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/DecoratedField$Hover.class",
+    "bytes": 5071,
+    "sha256": "e9c6da73fb2f9bec2a0389e66fe011d7b67a7619fc4250dbaa4db0e8a6753ff7"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/DecoratedField.class",
+    "bytes": 9347,
+    "sha256": "3119efd271e562875d69c36d271ee7b1b00a3fc8ef0d8735ccd08dba4c845488"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/FieldAssistColors.class",
+    "bytes": 4683,
+    "sha256": "0eb69e1282730d6f99935e3fe633e7ae86e22817c4e910aa34544574086d9e35"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/FieldDecoration.class",
+    "bytes": 786,
+    "sha256": "f7669847fa33a85bf135faab57f5e359444dc474684c3b87955aa5aaeb3ffde4"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/FieldDecorationRegistry$Entry.class",
+    "bytes": 1528,
+    "sha256": "60b6afc80c8901007d77a433e60ad60686666bd72417059f7ed02424744094b4"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/FieldDecorationRegistry.class",
+    "bytes": 5241,
+    "sha256": "21eaa3c2b2e1221199109c86d22790f55b2ebb53b9c1edb52af649589d74e5da"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/IContentProposal.class",
+    "bytes": 265,
+    "sha256": "e25d39a46f628af0d51ddfd81abf45e7e3c2c2cb1c7e00dfad44d159968a6466"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/IContentProposalListener.class",
+    "bytes": 240,
+    "sha256": "7000ee437a32d4ab75125f4c0d6d3fccedd5103807aaf3ef0fdf2df292e7a6bb"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/IContentProposalListener2.class",
+    "bytes": 281,
+    "sha256": "176e7e1232b04b8309355e7f976df1b43f762ae5b8ce10ae38a942c7484fd375"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/IContentProposalProvider.class",
+    "bytes": 255,
+    "sha256": "3baec1d3294e5677cfeb177e8d3c4ccbe5c6b9529bf19e481983258f514c6bb9"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/IControlContentAdapter.class",
+    "bytes": 597,
+    "sha256": "92fc62e097dfa268907386ffa54e2577a55e5189296579aa612b1d1e3bfecf0e"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/IControlContentAdapter2.class",
+    "bytes": 344,
+    "sha256": "6f5a30b337c9a5e65888ab90235ce146e5b0d3a4eed7dfef4b83d39f2f6e4745"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/IControlCreator.class",
+    "bytes": 341,
+    "sha256": "ef0c1e6f53d8a06e2d830b9c67bed2602b921306c4dc2e5462f605288b40fcf4"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/SimpleContentProposalProvider.class",
+    "bytes": 1560,
+    "sha256": "028adef625451dc00d8dd356450fefc112071d079df29aa67d650dd0303c2c05"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/TextContentAdapter.class",
+    "bytes": 2071,
+    "sha256": "f24a58df2530fe6840806e7895587e2d842c4180cd6e0ff3b61fd09ecea337c8"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/TextControlCreator.class",
+    "bytes": 665,
+    "sha256": "00f10f5eb93504736e8419f7b62970cea5fb1621e6d8db240e0f5cc433171e66"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/contassist_ovr.png",
+    "bytes": 236,
+    "sha256": "3339842c5fed696dbe501ae06233db536a45139ed1209b2c4adf53f9d59f63e5"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/contassist_ovr.svg",
+    "bytes": 4981,
+    "sha256": "1be2cc0df65db81b2c8f3d0849a2e4bbdbcf2fa857018b5f522a25f891e98e3a"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/contassist_ovr@2x.png",
+    "bytes": 455,
+    "sha256": "0f59843b8d6cd72ad81b518001dc99787e4c91b44c6739969f11c3eb2beec330"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/error_ovr.png",
+    "bytes": 210,
+    "sha256": "16ea195e7d857f45c8f98be6fb530e1bf242e5817ef1648c4cf1295d4a3145f3"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/error_ovr.svg",
+    "bytes": 2172,
+    "sha256": "7f8cc9e9d66d62be24567f0d8fcf51e2ae70740d2d31529b16cb5ef53316ca8c"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/error_ovr@2x.png",
+    "bytes": 326,
+    "sha256": "3825edafce62cbe3f23b4d8f0e0b28ab8cb4abc2bc68e2abd0be390f85cb58a5"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/errorqf_ovr.png",
+    "bytes": 327,
+    "sha256": "2ea287dd00527dc8af15227d1dd4079bdfbc2e822ea640610a3b5f7ed7d0d03d"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/errorqf_ovr.svg",
+    "bytes": 6833,
+    "sha256": "c76c4573aa0091618a4956170e5fa07dd8513896fdb3066465b12e4e136e5d46"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/errorqf_ovr@2x.png",
+    "bytes": 607,
+    "sha256": "d2c9fc4d83eefd5e0efe6e57f0a524ba450fba33ff1e0299ebed67e922d302e0"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/info_ovr.png",
+    "bytes": 153,
+    "sha256": "6f89d70f623495d9f0a646ee0c9f6b4c606db7343cbc1f19177e30b7bec035ad"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/info_ovr.svg",
+    "bytes": 2171,
+    "sha256": "3f66b15e49f65b006e3b7b70e6687470fe4d6dcc7fe8296b9b5f288228dec4d5"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/info_ovr@2x.png",
+    "bytes": 198,
+    "sha256": "ec52190b3ee0019f7b5570f0005d1c0cc0d6a7ce9bb61aab8b45172d51148331"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/required_field_cue.png",
+    "bytes": 147,
+    "sha256": "d0fe28f90e27ce3aac01ecd577d7ecd04a3fbcba2d574fbe25ecc9b355f23bf2"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/required_field_cue.svg",
+    "bytes": 3534,
+    "sha256": "5524e46cf002ed10770888c8dd441d203fcf01c7f8d1cb3754cf50f4dbe9638b"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/required_field_cue@2x.png",
+    "bytes": 255,
+    "sha256": "e1a607aacb8d7c7b2b46234e1963a435ce9d26f78e569573fa08fd6fca07e6b0"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/warn_ovr.png",
+    "bytes": 273,
+    "sha256": "b716b3acff0f7d555e9e7b10790e92c32c320e7fb4b1ab7de19953a65f2d897c"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/warn_ovr.svg",
+    "bytes": 3280,
+    "sha256": "3a07dd13c9ac59af2ad0466e3198ae2afd9fe7b74194140267e9907da56dd713"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/images/warn_ovr@2x.png",
+    "bytes": 557,
+    "sha256": "3073f3da36b323199e152a8402b34c784c6b0d64254248f960575ef7f0f52353"
+  },
+  {
+    "path": "org/eclipse/jface/fieldassist/package.html",
+    "bytes": 2550,
+    "sha256": "8784516ffbeee543becd68b9bafafe93e21e2717d7da3e06e0875f139d711d4a"
+  },
+  {
+    "path": "org/eclipse/jface/images/dots_button.png",
+    "bytes": 85,
+    "sha256": "2280f62019f36cc39e86677c9e193a5fabdd3526d9b3cd6372e86ef650df4f11"
+  },
+  {
+    "path": "org/eclipse/jface/images/dots_button.svg",
+    "bytes": 3643,
+    "sha256": "c6af6c0ab684bb8dc756265cefb6c22fde957019cd7834475ec27c84e23db091"
+  },
+  {
+    "path": "org/eclipse/jface/internal/InternalPolicy.class",
+    "bytes": 1117,
+    "sha256": "cf5add94f6932d6846ba614e03d45ccaaaf5f607386140763882d226b4df721d"
+  },
+  {
+    "path": "org/eclipse/jface/internal/MenuManagerEventHelper.class",
+    "bytes": 1667,
+    "sha256": "e7fc9faf96cd5ca97851cb04651311e43e5ddb60d7f1005291ad078d84da516e"
+  },
+  {
+    "path": "org/eclipse/jface/internal/XmlProcessorFactoryJFace.class",
+    "bytes": 1198,
+    "sha256": "e2eae020beecf38d3319ed5a7977c87b858baab7f5176c56f13deb1b5b2f6acb"
+  },
+  {
+    "path": "org/eclipse/jface/internal/m3/M3ViewerArrays.class",
+    "bytes": 4896,
+    "sha256": "d0cfdb77c26feb16f267d9c6d9e63dfce3336e0084470ef7205bb07fe8322238"
+  },
+  {
+    "path": "org/eclipse/jface/internal/provisional/action/CoolBarManager2.class",
+    "bytes": 898,
+    "sha256": "4cb9881104f1a48de65491607895a7011ee5b08e2324dff8802330d51e4a47e0"
+  },
+  {
+    "path": "org/eclipse/jface/internal/provisional/action/ICoolBarManager2.class",
+    "bytes": 587,
+    "sha256": "5a61f032ccad437d929fc1fc61b6bea7c3a89d8c696ef9baa1a724e3f54c5e0f"
+  },
+  {
+    "path": "org/eclipse/jface/internal/provisional/action/IToolBarContributionItem.class",
+    "bytes": 616,
+    "sha256": "89207d73e62b35ca94e6b196d81c95413bbabf2b6e17b740777dc9869c9b2723"
+  },
+  {
+    "path": "org/eclipse/jface/internal/provisional/action/IToolBarManager2.class",
+    "bytes": 858,
+    "sha256": "f04303d540643e5771c8a30fb957fbd57184d525509c70f0ba5841cc74c16c8d"
+  },
+  {
+    "path": "org/eclipse/jface/internal/provisional/action/ToolBarContributionItem2.class",
+    "bytes": 535,
+    "sha256": "fee7cadb14eff7c3e052c808af480bd895985fcb6bf6e0f6a91e7f2ec5c8ac40"
+  },
+  {
+    "path": "org/eclipse/jface/internal/provisional/action/ToolBarManager2.class",
+    "bytes": 2708,
+    "sha256": "aaad8498cb26c4e33ae11eda6f3de2cf7f8db8d530ed86b2cf452a44dc6fccb9"
+  },
+  {
+    "path": "org/eclipse/jface/layout/AbstractColumnLayout.class",
+    "bytes": 5840,
+    "sha256": "2c04ef9335eae65120f3da07c42058d4d121cb223d04a67e856b12a37d684e4c"
+  },
+  {
+    "path": "org/eclipse/jface/layout/FillLayoutFactory.class",
+    "bytes": 2162,
+    "sha256": "dc1726831b27c90d742287b0646d9c12ce456fd3a7daf3eaf054cdf63de6e9c7"
+  },
+  {
+    "path": "org/eclipse/jface/layout/GridDataFactory.class",
+    "bytes": 5217,
+    "sha256": "9d5717141203c1fd865cb2931e071c852683326f079f0030b75ec2bc85a5de9b"
+  },
+  {
+    "path": "org/eclipse/jface/layout/GridLayoutFactory.class",
+    "bytes": 3983,
+    "sha256": "107207c77e81e004da1ea02cc0867b4600c2429d88ded2116c6c78d8761030db"
+  },
+  {
+    "path": "org/eclipse/jface/layout/LayoutConstants.class",
+    "bytes": 1662,
+    "sha256": "8b9eda0464049f9c0819dfdb8f217fae5f5decc72faee129e74585fc6c9fd321"
+  },
+  {
+    "path": "org/eclipse/jface/layout/LayoutGenerator.class",
+    "bytes": 3982,
+    "sha256": "2751b737dcee57d5521fbcef217627ff3e79eac8fded8738acbcd47bc3f4d8d8"
+  },
+  {
+    "path": "org/eclipse/jface/layout/PixelConverter.class",
+    "bytes": 1309,
+    "sha256": "141cfabbb5dbbed665e74792df8f9fb1a361c30012099e3a93653f1dbe3b1ddd"
+  },
+  {
+    "path": "org/eclipse/jface/layout/RowDataFactory.class",
+    "bytes": 1664,
+    "sha256": "9120a2c3a5467aff9327ed610284d2c1d0a45c3e895f3c76a6680ce2611b5808"
+  },
+  {
+    "path": "org/eclipse/jface/layout/RowLayoutFactory.class",
+    "bytes": 2931,
+    "sha256": "0bc794867e259100f25b93f8f9ef3d00ce8a590c61c281f131d6e5bc669f026a"
+  },
+  {
+    "path": "org/eclipse/jface/layout/TableColumnLayout.class",
+    "bytes": 1890,
+    "sha256": "9e6ab33e169c752f5cbac4a098508112160d835aac54ae2a059c2857879dfd55"
+  },
+  {
+    "path": "org/eclipse/jface/layout/TreeColumnLayout$TreeLayoutListener.class",
+    "bytes": 1740,
+    "sha256": "a16f74d74fb24962f6a757c6599f5088b702588d4d5fd931074fd1b4b7b9d291"
+  },
+  {
+    "path": "org/eclipse/jface/layout/TreeColumnLayout.class",
+    "bytes": 2360,
+    "sha256": "33b1480aeaf841b572ad6a1efb5788b7d8c0726bfc7b1e8136b1382c828b4df6"
+  },
+  {
+    "path": "org/eclipse/jface/layout/package.html",
+    "bytes": 483,
+    "sha256": "aae3dc7b81d430f2a764d737cabe3e872e7e15146cf2e91275bb2b699236ad0c"
+  },
+  {
+    "path": "org/eclipse/jface/menus/AbstractTrimWidget.class",
+    "bytes": 663,
+    "sha256": "c357137714b9a77206994ba6a7580a293fdf5fe1c5ecff28195122c9320d9511"
+  },
+  {
+    "path": "org/eclipse/jface/menus/IMenuStateIds.class",
+    "bytes": 249,
+    "sha256": "2c1c2434b0cb346da80896581190d073b2f2aef1816ad238b3f04ab1eca3783e"
+  },
+  {
+    "path": "org/eclipse/jface/menus/IWidget.class",
+    "bytes": 340,
+    "sha256": "34456e7b96fae8e47d04df08e75e8b4875415e8d2a71c502e0e7b23cbdea2848"
+  },
+  {
+    "path": "org/eclipse/jface/menus/TextState.class",
+    "bytes": 996,
+    "sha256": "cead9fb6cadf12fc044c692b5d82f6447d0eec76a602108858cd960dabbfadf6"
+  },
+  {
+    "path": "org/eclipse/jface/menus/package.html",
+    "bytes": 464,
+    "sha256": "46515b458604c8120bc7ad218b8839ba6ab995f116edd7364170396f6c3da2c1"
+  },
+  {
+    "path": "org/eclipse/jface/messages.properties",
+    "bytes": 8453,
+    "sha256": "67e38d5acefdbe3fa54757bbe292d82b904ce2744b733fd2f8f1ff0d978f6f89"
+  },
+  {
+    "path": "org/eclipse/jface/operation/AccumulatingProgressMonitor$Collector.class",
+    "bytes": 1479,
+    "sha256": "dae4ff520d62198bc3b5b9824e834aed6eb6a86cb30f3ec180a049c63e2d51bf"
+  },
+  {
+    "path": "org/eclipse/jface/operation/AccumulatingProgressMonitor.class",
+    "bytes": 5756,
+    "sha256": "46989b9222f2f3d7ccab420e493c0483e4b77a659106863da73088a1add56a1c"
+  },
+  {
+    "path": "org/eclipse/jface/operation/IRunnableContext.class",
+    "bytes": 324,
+    "sha256": "f7dff46b88dc599c9db2b5de913de1d3f98292d292929f7cd1d89b2451950ae6"
+  },
+  {
+    "path": "org/eclipse/jface/operation/IRunnableWithProgress.class",
+    "bytes": 324,
+    "sha256": "adff99e9e6711db31b8f97e31c435bf2fe978912f5cbf948c6bc94ecf6b355aa"
+  },
+  {
+    "path": "org/eclipse/jface/operation/IThreadListener.class",
+    "bytes": 186,
+    "sha256": "eedf77854881735bdf2bddd482c387944806955874f7bd29e3b16243c03abc5e"
+  },
+  {
+    "path": "org/eclipse/jface/operation/ModalContext$ModalContextThread.class",
+    "bytes": 3900,
+    "sha256": "8ab0f28184cadeb9c4a9e85a1082e7aea03a704cdf21520fe8e27b0006681d43"
+  },
+  {
+    "path": "org/eclipse/jface/operation/ModalContext.class",
+    "bytes": 4368,
+    "sha256": "12d34dd9b4880a77aaa080d9c4539c49f3689edb293984c5a9a90d66d54d5e98"
+  },
+  {
+    "path": "org/eclipse/jface/operation/ProgressMonitorUtil.class",
+    "bytes": 941,
+    "sha256": "c2f0ff35b2c9875aa7ea56b6f48d0ed529ede7ee50ded8625ce75a49d611d3c2"
+  },
+  {
+    "path": "org/eclipse/jface/operation/package.html",
+    "bytes": 1320,
+    "sha256": "58585945ec13d5d29e3f33fb8de522b383e1ab5507594e9a60379360ece43df6"
+  },
+  {
+    "path": "org/eclipse/jface/preference/BooleanFieldEditor.class",
+    "bytes": 5191,
+    "sha256": "cdf5b57ec670679d93d45e859a682bb0c8bb51126384a4c26030cc7ce97ccd63"
+  },
+  {
+    "path": "org/eclipse/jface/preference/BooleanPropertyAction.class",
+    "bytes": 2203,
+    "sha256": "4a9347fe924282b374aebd674248444991369bd16f8a0b6667d705a9fa37d313"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ColorFieldEditor.class",
+    "bytes": 4654,
+    "sha256": "8a9338cc8bb530f05ecdde2b314b3f0b7d6b10065eaeec1cece7c13ae2c64f08"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ColorSelector$1.class",
+    "bytes": 854,
+    "sha256": "c098c937c55248f0ad2f9dd7185e863400a0e4abc667f39a319bcc276bb8897d"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ColorSelector.class",
+    "bytes": 6143,
+    "sha256": "c2bcdfaf347427e021177fdd5d48ad7e4874d6f82efb95f36db9d6042574cd9e"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ComboFieldEditor.class",
+    "bytes": 4927,
+    "sha256": "4243955353d213fde119cd04a00190f38cae9a5b16d6b2a66055a36819095087"
+  },
+  {
+    "path": "org/eclipse/jface/preference/DirectoryFieldEditor.class",
+    "bytes": 2194,
+    "sha256": "4ae6ecde49c4cee6b5e620dfbb079dc1e354f51ffadd69e17954ef5449d15d80"
+  },
+  {
+    "path": "org/eclipse/jface/preference/FieldEditor.class",
+    "bytes": 8732,
+    "sha256": "0af1a5a72318bdab6fa6d5d9443de98269ba49fbec917a27338369a8b3140e1e"
+  },
+  {
+    "path": "org/eclipse/jface/preference/FieldEditorPreferencePage.class",
+    "bytes": 5361,
+    "sha256": "2752eefafd716eb7d70c39abef1240dd035d0594e7218c04ffc7b1ce8681571d"
+  },
+  {
+    "path": "org/eclipse/jface/preference/FileFieldEditor.class",
+    "bytes": 3109,
+    "sha256": "31c9a50a11733c053a639c70c44392e27e0fdb0561209a87c8ff11397e585347"
+  },
+  {
+    "path": "org/eclipse/jface/preference/FontFieldEditor$DefaultPreviewer.class",
+    "bytes": 2259,
+    "sha256": "f54226fdaaeb3a8f5df29873f6056b254a12a4218fa7df46e13434174fbada67"
+  },
+  {
+    "path": "org/eclipse/jface/preference/FontFieldEditor.class",
+    "bytes": 8124,
+    "sha256": "31d6da8c703f8b8e72e94c27cb6af70634f7bfbc3f1202d4c1b50644ec4af70d"
+  },
+  {
+    "path": "org/eclipse/jface/preference/IPersistentPreferenceStore.class",
+    "bytes": 284,
+    "sha256": "7751f15367fb027a06ab59f9fabfee6c96365edd1fe6c4ef85d3eaced47cc9d7"
+  },
+  {
+    "path": "org/eclipse/jface/preference/IPreferenceNode.class",
+    "bytes": 694,
+    "sha256": "d0aeff1f6c9c89e18445d52e6deef098d5451533863db992b148f97fd5b6a341"
+  },
+  {
+    "path": "org/eclipse/jface/preference/IPreferencePage.class",
+    "bytes": 472,
+    "sha256": "6d83de7bf1c45f44e7a8fbbeb896229828bbb97d19a3c254dde8cf76b5596770"
+  },
+  {
+    "path": "org/eclipse/jface/preference/IPreferencePageContainer.class",
+    "bytes": 315,
+    "sha256": "6dc681ab7425d1c712b23d4fa094e7051e099db12d317d42c742d62bd8bedb88"
+  },
+  {
+    "path": "org/eclipse/jface/preference/IPreferenceStore.class",
+    "bytes": 1618,
+    "sha256": "7a67e7e1f73024e5d9975c1729c461fe995a609125dbefc038b18108ebe33cf3"
+  },
+  {
+    "path": "org/eclipse/jface/preference/IntegerFieldEditor.class",
+    "bytes": 2891,
+    "sha256": "c21be93d6eafe11e720f927845f656ba35b3202710ee65f89969d302a21d7bdf"
+  },
+  {
+    "path": "org/eclipse/jface/preference/JFacePreferences.class",
+    "bytes": 1299,
+    "sha256": "0c0969999ea75669e127c584b929a1b59c839cae80aecd4f9b830e46181b9217"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ListEditor.class",
+    "bytes": 8715,
+    "sha256": "39f4410cc71c518912702f7a748f3ac8923ac63b56b42354175cf21ba72af537"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PathEditor.class",
+    "bytes": 2567,
+    "sha256": "a5f20b8c92421e1415fcc73ff3f681fc874537dbc458cb2ec26509b3f710c40d"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceContentProvider.class",
+    "bytes": 1982,
+    "sha256": "fdc131b9a9615b1adfc3abfa14e5c8a37fd918923a98ca65465289fd6c03a965"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceConverter.class",
+    "bytes": 7378,
+    "sha256": "3c4f76007b184359bff197c9e3b4ad25f80f1f51bf36db4f3a9a793721fb15ac"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$1.class",
+    "bytes": 1056,
+    "sha256": "9c51d66edd20f9b141c6121f6a878afb08a4742f343711a86d288df6ff4f1c50"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$10.class",
+    "bytes": 944,
+    "sha256": "1f0f5f7de34bd190d97bda8fd32705f394f30520b4b18ff0af2ce90f8792dd5a"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$2.class",
+    "bytes": 1304,
+    "sha256": "88c9f7ac0e7867e91ff86c75b55e6de052fcf3ac410127a5c921fd6bab5b236d"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$3.class",
+    "bytes": 976,
+    "sha256": "cf5814005fe0cd4e97accb12891e0aefea17bd406f8c940e1246b36a054ad832"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$4.class",
+    "bytes": 786,
+    "sha256": "ce7a8f1297d8463d91a13bfa83c88ffedb6775ad80c28b85895e577f8d2adab1"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$5.class",
+    "bytes": 2984,
+    "sha256": "1010cae64cc7b60dcb69b9c91204c2f98975e58b85bb13e29a6ad6cf1d2ef455"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$6.class",
+    "bytes": 1572,
+    "sha256": "e230bf27a2a37ac2cf0a8917faa6efaa4d5e6cca313175a4b95c4aa7c4d76b07"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$7.class",
+    "bytes": 3203,
+    "sha256": "9cdd62aea1a4f67cec2eb08e560df44305a4ed9f023bd4d94282fa1dc882296d"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$8.class",
+    "bytes": 1131,
+    "sha256": "1075490757e4e0e00bbb7dfa0d394cd28699a35e1603304c53d4013afe5c2091"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$9.class",
+    "bytes": 1228,
+    "sha256": "46ead97ae0be20c11613a342973098694b9e4b7ca10d01c865b9140420235f13"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog$PageLayout.class",
+    "bytes": 1971,
+    "sha256": "2ef6e181fceef4eff066e6906a64f39bbafe20e8f0cffc9929bebaf6c9793a8b"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceDialog.class",
+    "bytes": 26165,
+    "sha256": "bfe5ec2ded8e673ed572ea42e2d221dad56599b746bc6284331143021f2eb267"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceLabelProvider.class",
+    "bytes": 646,
+    "sha256": "baa4ea2cc6179780d2010f06a93e6fc1effc678ec654c543914861b3dbdfd12b"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceManager.class",
+    "bytes": 3658,
+    "sha256": "2a87e5c8c9e3aa308a4bed60940f5d58d0c7deafe93821b64b0b9e9894a5b7de"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceMemento.class",
+    "bytes": 5771,
+    "sha256": "a5740352efa851078b922a5f5f2356d72d9fa22370dacab08fcf29cad97cca16"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceNode.class",
+    "bytes": 4431,
+    "sha256": "537a094f2b68d40474cc3bb906b85926f38c75a35ea9ca354e6d35b32a91f0ea"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferencePage.class",
+    "bytes": 8645,
+    "sha256": "855f90f728f0b8b3971f31ebfd3bcb44db960f68e084e3f3e45b01bb8f77f8d6"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceStore$1.class",
+    "bytes": 1055,
+    "sha256": "b80ca14b2b2599c8d91d01cb2198bf6db39c062029bb1d52c0fec3214a197bdf"
+  },
+  {
+    "path": "org/eclipse/jface/preference/PreferenceStore.class",
+    "bytes": 9550,
+    "sha256": "dd6b28d27da615dc82a99c896fc1cde8c1328fe026b09dedfe4dbe7687c8510c"
+  },
+  {
+    "path": "org/eclipse/jface/preference/RadioGroupFieldEditor.class",
+    "bytes": 6540,
+    "sha256": "9faebcded17d84df9a57b6a7e65b7467ae77e7e904d27eda6005f8f6af6dca8f"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ScaleFieldEditor.class",
+    "bytes": 5741,
+    "sha256": "7f054f96ce56e7816df42497001f20662ba5907f75c468fc32c1e4130ea7080a"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ScopedPreferenceStore$1.class",
+    "bytes": 1103,
+    "sha256": "cb3e8576f6e8ce0feb01001a4f7c63d12ea3eb71df457a9173e3671270fb32c8"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ScopedPreferenceStore$EclipsePreferencesListener.class",
+    "bytes": 2846,
+    "sha256": "7170bc55684469afbdac3ac602c44909c1f7ad55edeb5132938b57a592211885"
+  },
+  {
+    "path": "org/eclipse/jface/preference/ScopedPreferenceStore.class",
+    "bytes": 10661,
+    "sha256": "a293046aa9740dde4d707533fa8d36a7402284c0af6e8441567bdde43e11a180"
+  },
+  {
+    "path": "org/eclipse/jface/preference/StringButtonFieldEditor.class",
+    "bytes": 4408,
+    "sha256": "c48bc3bb27e6267b09b0f25c18af12fc9ef78de16390d2aac618cb839cbf871d"
+  },
+  {
+    "path": "org/eclipse/jface/preference/StringFieldEditor$1.class",
+    "bytes": 773,
+    "sha256": "2ab0fdab35d4de645391119e3d8f28135384c6e99e2b5c836adc58fedab38557"
+  },
+  {
+    "path": "org/eclipse/jface/preference/StringFieldEditor$2.class",
+    "bytes": 775,
+    "sha256": "4ee4052aef41d9e4c80de67337ed9aa771bab03f7185b68c6da09953287b94c4"
+  },
+  {
+    "path": "org/eclipse/jface/preference/StringFieldEditor$3.class",
+    "bytes": 777,
+    "sha256": "b61fe47a7beda6970b840cbe215b78f2cd36486b2e0e0af482edf2c02e1115bf"
+  },
+  {
+    "path": "org/eclipse/jface/preference/StringFieldEditor$4.class",
+    "bytes": 869,
+    "sha256": "2f49e07680be3e5cf47a8a6fc70f82c6279a0b6f99961480cfd7b2e7bf8f7829"
+  },
+  {
+    "path": "org/eclipse/jface/preference/StringFieldEditor.class",
+    "bytes": 8144,
+    "sha256": "ec14d97183a9dc2a59b5c59555a0566c19af6d22a34b16f0cb33832e10ef2670"
+  },
+  {
+    "path": "org/eclipse/jface/preference/images/pref_dialog_title.png",
+    "bytes": 718,
+    "sha256": "1875e318fd5f87efbbbff3333998f34ed9fd04a9a630fc2b6c10ef0f6c453438"
+  },
+  {
+    "path": "org/eclipse/jface/preference/images/pref_dialog_title.svg",
+    "bytes": 3597,
+    "sha256": "f3cabd4494d1a8837f73eda5caa57be17e74607f2d9e7d2061354f1349bcb17f"
+  },
+  {
+    "path": "org/eclipse/jface/preference/package.html",
+    "bytes": 2477,
+    "sha256": "b32d6eae7c5bcbd1b1ce507cd628ca3a4cd3d43afcd3ce0ba7571a419073af5a"
+  },
+  {
+    "path": "org/eclipse/jface/resource/AbstractResourceManager$RefCount.class",
+    "bytes": 593,
+    "sha256": "c9a309b4a492b7d763c3044503f432dce2e8c3427c3c9e15077a600874747fc9"
+  },
+  {
+    "path": "org/eclipse/jface/resource/AbstractResourceManager.class",
+    "bytes": 3380,
+    "sha256": "3c3391b09606013a596ee8ef249301aff6ec5a70f7a9b012fe76919f0ffed50d"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ArrayFontDescriptor.class",
+    "bytes": 1643,
+    "sha256": "c1a939c450febaed07d6aa045c0612429d6a40e131f0b11f2afbd9c806bccd54"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ColorDescriptor.class",
+    "bytes": 1598,
+    "sha256": "654a42dd50a7ca58310c6d303ee15c5b30fba95f5bcbd0876ff0cb9e5e9ea10b"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ColorRegistry.class",
+    "bytes": 4755,
+    "sha256": "a4d4eef20ffec1cc7c62e5d5f20485cf490689d4fce25c74096c09bb1a946a83"
+  },
+  {
+    "path": "org/eclipse/jface/resource/CompositeImageDescriptor$CachedDescriptorImageDataProvider.class",
+    "bytes": 1455,
+    "sha256": "9700266f3f221de4310b5735e69f00fae526e32eaa2a6f32df7535fffa87c779"
+  },
+  {
+    "path": "org/eclipse/jface/resource/CompositeImageDescriptor$CachedImageDataProvider.class",
+    "bytes": 2119,
+    "sha256": "5bb4b4fb88a7ed8df17cd32b0a8b6d210d798714e31b630e253df31ee7d1b54d"
+  },
+  {
+    "path": "org/eclipse/jface/resource/CompositeImageDescriptor$CachedImageImageDataProvider.class",
+    "bytes": 1181,
+    "sha256": "bdaea38e36e7dfeb87712debb53b7bfbd50c3839903a47f04542d84d22dee65b"
+  },
+  {
+    "path": "org/eclipse/jface/resource/CompositeImageDescriptor.class",
+    "bytes": 6621,
+    "sha256": "a5ecde2743625ae3d25760b5981c7f641bb770a4cda6d9099f782562af0a72a0"
+  },
+  {
+    "path": "org/eclipse/jface/resource/DataFormatException.class",
+    "bytes": 407,
+    "sha256": "3b6b49cf29b7d0a71238b21f0757ef28991a6d80365fe48e20fec4708c5198e2"
+  },
+  {
+    "path": "org/eclipse/jface/resource/DeferredImageDescriptor.class",
+    "bytes": 1863,
+    "sha256": "204d66092a4d01bd6e386489d2eb69c4c1fd34fd783d7dff3fd3ce38db705d6f"
+  },
+  {
+    "path": "org/eclipse/jface/resource/DerivedImageDescriptor.class",
+    "bytes": 1960,
+    "sha256": "250e6200217c804a7f388c76872351641d823d0b71623d06abb07d238bb70fa5"
+  },
+  {
+    "path": "org/eclipse/jface/resource/DeviceResourceDescriptor.class",
+    "bytes": 609,
+    "sha256": "ec510c9781c416ab85572ab623343a61ef38c85e3adab6c36afd1625f718c251"
+  },
+  {
+    "path": "org/eclipse/jface/resource/DeviceResourceException.class",
+    "bytes": 1301,
+    "sha256": "c6f15d735e7e092a6f6b08ad4c042900e6c3bfde7b04843a13ce17b5a67fe81c"
+  },
+  {
+    "path": "org/eclipse/jface/resource/DeviceResourceManager.class",
+    "bytes": 1862,
+    "sha256": "77aa304c7ca2374ec3443233b9bffc935a1fb78e1f1fc86537e9cce7c2115e22"
+  },
+  {
+    "path": "org/eclipse/jface/resource/FontDescriptor.class",
+    "bytes": 3539,
+    "sha256": "898e5b9596d46b9118447a346ebf08d88a7535ce367c53fdbe75595bc9c16484"
+  },
+  {
+    "path": "org/eclipse/jface/resource/FontRegistry$DisplayFontRecords.class",
+    "bytes": 3521,
+    "sha256": "450b846387399cd8ec9b4c9e782cb388033ad3641a784da1642cb50e7babecd6"
+  },
+  {
+    "path": "org/eclipse/jface/resource/FontRegistry$FontRecord.class",
+    "bytes": 2942,
+    "sha256": "809616245978274fff61ea1e75f2360cfa025daec112253d4ef4ef210720d344"
+  },
+  {
+    "path": "org/eclipse/jface/resource/FontRegistry$FontStyle.class",
+    "bytes": 1278,
+    "sha256": "81ae4209f372c3c0465e62f934bcdaab6b40e6bb124604e572b1297077c3c9a8"
+  },
+  {
+    "path": "org/eclipse/jface/resource/FontRegistry.class",
+    "bytes": 13091,
+    "sha256": "7dc5f4bc50b510b5f20dc11e063f1c995b766a0684c38655125db7bd153c48d6"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ImageDataImageDescriptor.class",
+    "bytes": 2752,
+    "sha256": "67c6ffb1445a6cab9597ce627de4c3c85fbdcf3a7fee24562a6139998dff71bb"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ImageDescriptor.class",
+    "bytes": 6801,
+    "sha256": "8294a5b19897375a650962eb281b486e1e939b919ed8dea23558550d16a7186f"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ImageRegistry$Entry.class",
+    "bytes": 456,
+    "sha256": "3e02251aa6af55007e2f572f0f1c2d0f726619266f6db0ea6f1f1715473bf9b9"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ImageRegistry$OriginalImageDescriptor.class",
+    "bytes": 1276,
+    "sha256": "d4cf05a76a23cb5b7cf8417ccbd3fa880d3424aa7d06911e60ba5555a489dafa"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ImageRegistry.class",
+    "bytes": 6174,
+    "sha256": "c523d04e5f9378b4a0f158465efae27f37cdb8dba3adb366cfff540512ea0a4c"
+  },
+  {
+    "path": "org/eclipse/jface/resource/JFaceColors.class",
+    "bytes": 2188,
+    "sha256": "016d7eee846e858aa404cfe5ddb4fa0de1e982da66843e226187e7016c8b1063"
+  },
+  {
+    "path": "org/eclipse/jface/resource/JFaceResources.class",
+    "bytes": 9956,
+    "sha256": "410aa4bb0d4197cab3528a37001098588effe2c27852a2c4c56ce5dfa5c254b9"
+  },
+  {
+    "path": "org/eclipse/jface/resource/LazyResourceManager$LruMap.class",
+    "bytes": 1283,
+    "sha256": "94ddf53d83bab16e65349207bce7fba9f38b7dec49b23f3ea9e8b1c687a1631a"
+  },
+  {
+    "path": "org/eclipse/jface/resource/LazyResourceManager.class",
+    "bytes": 3743,
+    "sha256": "a076418b56406faddeef362cf685513e96002bd29b455dd6cea86d17cc356c0d"
+  },
+  {
+    "path": "org/eclipse/jface/resource/LocalResourceManager.class",
+    "bytes": 2455,
+    "sha256": "1c0a7b3aaab97f1f526ded2be1ced42d31e73b4cead57066bc9e8cc89f71a4c9"
+  },
+  {
+    "path": "org/eclipse/jface/resource/RGBColorDescriptor.class",
+    "bytes": 1088,
+    "sha256": "e640d86eb70a3cf0dc365d47b625900679fe9f4a21a5f79d0037ea91f367be99"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ResourceLocator.class",
+    "bytes": 3043,
+    "sha256": "c18b3b707bfa7f7920f626f22ca0adcd75305e619175efe33bf69e6917c15ef3"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ResourceManager.class",
+    "bytes": 4538,
+    "sha256": "7c60df6c2ac61ef9500158794897ddd91c63e986f3ece2dbeb5d34b0ef19d9b1"
+  },
+  {
+    "path": "org/eclipse/jface/resource/ResourceRegistry.class",
+    "bytes": 1459,
+    "sha256": "640570385b00849aa55b3187248dce100d300bc892fd3712a5eb506efcbc0a53"
+  },
+  {
+    "path": "org/eclipse/jface/resource/StringConverter.class",
+    "bytes": 10690,
+    "sha256": "33cc564a351620832040210afabafa645aaf1efe50ec74c55ac97f04998ee443"
+  },
+  {
+    "path": "org/eclipse/jface/resource/URLImageDescriptor.class",
+    "bytes": 11734,
+    "sha256": "3d0e9768b2cf13c475d2d92a59abe7378fea240e1c27e416701ab2dedf5694bf"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts.properties",
+    "bytes": 1106,
+    "sha256": "b82823180301803b851312b51431adb8479678085520d07dd1f0f2054d129792"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_aix.properties",
+    "bytes": 837,
+    "sha256": "f97047276ad35d0afdbf8b84e92cde8fe982251ba284fcc99e5143b6a25a1a77"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_hp-ux.properties",
+    "bytes": 844,
+    "sha256": "214d41c6c2b197e7f6edc87557e986474a65ad3d1af0acf8930539c6c6ab0ec2"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_linux.properties",
+    "bytes": 838,
+    "sha256": "78c9f83071a05c67c7fa1e62aea44d682fc9a4c994d63017f9f465e3e8a25c60"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_linux_gtk.properties",
+    "bytes": 823,
+    "sha256": "388b396793d7eb6cce368a8f4b2c923e1b74e21492f3841c97e31c908c6a6f52"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_macosx.properties",
+    "bytes": 982,
+    "sha256": "6f24e88f75fffa7397c5d179eb4418c95c3241fd8e2ed36812a7eeb756d06df8"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_qnx.properties",
+    "bytes": 824,
+    "sha256": "9bd38340e94f00e0577917a608d2eaec0c86434175f7836e6a9f2bc3023c59a9"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_sunos.properties",
+    "bytes": 840,
+    "sha256": "3edba786e828195af078c501cbeaa05500f98f4e2a55cbb5821bea4cd0ab1dc5"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windows10.properties",
+    "bytes": 989,
+    "sha256": "012b6ba3c1b5aea87cfdc2690eb5f4fa94ae65c6e5474280b8a0ab684549f04d"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windows11.properties",
+    "bytes": 989,
+    "sha256": "9bef66107ac75837b22e474cda53521c39bd0de76d3d93f30afc4d89dd3db886"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windows2000.properties",
+    "bytes": 955,
+    "sha256": "946f34935652e9bab083bca0ade7342b0d77d461b83a95ae6bb023624ad55678"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windows7.properties",
+    "bytes": 988,
+    "sha256": "6ffab8e28f8142e54355294573ffeed9e752e0171470b3df4df4086267272cb0"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windows8.1.properties",
+    "bytes": 990,
+    "sha256": "4eef2909ea720ad6b4d0503e91d700c5954382d7126787852ec850f69f3d732f"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windows8.properties",
+    "bytes": 988,
+    "sha256": "c49cca011655369ea8863adca8a19625d70d51a0b03c82bd4fd2a738531bbf05"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windows98.properties",
+    "bytes": 967,
+    "sha256": "d457df5170e57998223713a02b42430c2aae1399ff678f5526482a3af650a5c6"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windowsnt.properties",
+    "bytes": 967,
+    "sha256": "c387a78dea32a67b186bf38455528da5a740592f6befffe2d7677a0e0246ddb4"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windowsvista.properties",
+    "bytes": 993,
+    "sha256": "b1aa730db038fd905be3fa83f32bc38718a258fa1c6cce679cf92cb6468aad75"
+  },
+  {
+    "path": "org/eclipse/jface/resource/jfacefonts_windowsxp.properties",
+    "bytes": 953,
+    "sha256": "a27b5b1c0e8e5d899144874f84d9037786277ceb4f771e914f91ecf00e7c0fed"
+  },
+  {
+    "path": "org/eclipse/jface/resource/package.html",
+    "bytes": 2057,
+    "sha256": "f4c3f09d8b2e2606f604b0f453bc72944dd1157be0c9ffe408225f7b242b461f"
+  },
+  {
+    "path": "org/eclipse/jface/util/BaseTextDirectionSegmentListener.class",
+    "bytes": 1606,
+    "sha256": "93a9a1760fb55fdf854b0b7946bd7f58e91b8dadc6f84f447079961dc8e0ad64"
+  },
+  {
+    "path": "org/eclipse/jface/util/BidiUtils.class",
+    "bytes": 5817,
+    "sha256": "cb0bdedcead84b1aaf2588d8c208a0138ce602b5dfcc9162b5f4a5c2facff0ad"
+  },
+  {
+    "path": "org/eclipse/jface/util/ConfigureColumns$ConfigureColumnsDialog$ColumnObject.class",
+    "bytes": 962,
+    "sha256": "640544c0540b17f30ab2db88af9a4479d589430384d4310ca1482e3349cea5a4"
+  },
+  {
+    "path": "org/eclipse/jface/util/ConfigureColumns$ConfigureColumnsDialog.class",
+    "bytes": 9301,
+    "sha256": "311bd5c273c2f1bf337b285f5709f63b8e703f23c480873b9d4d328662d7687d"
+  },
+  {
+    "path": "org/eclipse/jface/util/ConfigureColumns.class",
+    "bytes": 1013,
+    "sha256": "9652443994ba67eff7d745e4b5dd9835dd47ae14b4e6c636eb56107dbadeed9a"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDragAdapter$1.class",
+    "bytes": 1372,
+    "sha256": "770fdb82d56b0054614953b6a8668b9f6c5fcd94a0cc45909eed120d1dfb0d07"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDragAdapter$2.class",
+    "bytes": 984,
+    "sha256": "94342d7d002fe1887cb63acaf2de0c84d51e7919cde990164ffc2a8bbe6bd455"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDragAdapter$3.class",
+    "bytes": 963,
+    "sha256": "57801c4318420d581ffd6ef431c0f35ddd16cfc2ac508b481058f9f3cdf094f1"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDragAdapter.class",
+    "bytes": 3428,
+    "sha256": "924f0f003e8e5e1678bde626855df8f50b77466d295ed20440d03803c1f7eb2a"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDropAdapter$1.class",
+    "bytes": 977,
+    "sha256": "0d28a34caedfd41d87ee9c3561bba00656e42d2b65c8be62d53dba7f7f0edfa1"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDropAdapter$2.class",
+    "bytes": 965,
+    "sha256": "cbf877653bc29766b408c3f16edd5c4289dffaaaba941b8cee127aba3339bcd8"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDropAdapter$3.class",
+    "bytes": 982,
+    "sha256": "af15267ac6b802e68e7f7428c76e8857a3ef32329de78da2c235553d16e96b5e"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDropAdapter$4.class",
+    "bytes": 988,
+    "sha256": "5d34b91296250c3427fc31d95db547ccd95a40949f81a5ea05218adcac127bad"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDropAdapter$5.class",
+    "bytes": 1102,
+    "sha256": "c408d1fb6d73eb2ccaeb05fb3fe6f7d36ab779dcb329ecc1ed9da13fe60203dc"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDropAdapter$6.class",
+    "bytes": 1102,
+    "sha256": "831799fd49af26b62310ee77cbb0e055f748018e32f58e191203b402b060895d"
+  },
+  {
+    "path": "org/eclipse/jface/util/DelegatingDropAdapter.class",
+    "bytes": 4399,
+    "sha256": "a2594081c92a6cc09416f177425269708b33cf2103365dc2d92b85408ccf6577"
+  },
+  {
+    "path": "org/eclipse/jface/util/Geometry.class",
+    "bytes": 7178,
+    "sha256": "e72eba4dc288927fde33146b62cdaa654a13dfdbf643cdfc7e6bc81635cceb53"
+  },
+  {
+    "path": "org/eclipse/jface/util/ILogger.class",
+    "bytes": 246,
+    "sha256": "4874fc4c0760cb720915a9b62ed822a8eeb98eeaece92274fea97a5b1b4a9816"
+  },
+  {
+    "path": "org/eclipse/jface/util/IOpenEventListener.class",
+    "bytes": 280,
+    "sha256": "f0fba1da8846bf7752c2a5bb2e22105f7a42e6eca3c276e1b87a7a42c3c49eab"
+  },
+  {
+    "path": "org/eclipse/jface/util/IPropertyChangeListener.class",
+    "bytes": 330,
+    "sha256": "765607da4f8d3fa223efbc129a916e5681b78d022bf4738cbc317d57a4db994b"
+  },
+  {
+    "path": "org/eclipse/jface/util/ISafeRunnableRunner.class",
+    "bytes": 202,
+    "sha256": "6bc19d58bb1e1635c9ce5032b7502ec2c743cb386503b694780f35327da45d95"
+  },
+  {
+    "path": "org/eclipse/jface/util/LocalSelectionTransfer.class",
+    "bytes": 2868,
+    "sha256": "0bee3aa1dd07a2c07f95edfa341f952b39fcf2575326e1d88a89ed1595def724"
+  },
+  {
+    "path": "org/eclipse/jface/util/OpenStrategy$1.class",
+    "bytes": 5613,
+    "sha256": "ab0b91bdb28ab832ec7d3c424b0ebe992a50ecfa09534e6b20356510104e0c5f"
+  },
+  {
+    "path": "org/eclipse/jface/util/OpenStrategy$PostSelectionEvent.class",
+    "bytes": 991,
+    "sha256": "ffd40aa917b25b657dfd7cd12216d9b2b7730e6ac9e5397b7228883df40ce9ec"
+  },
+  {
+    "path": "org/eclipse/jface/util/OpenStrategy.class",
+    "bytes": 4847,
+    "sha256": "7f56f6915baaec4419e62ec82466c77cb9d40be1787da23f7f439a529b5b9109"
+  },
+  {
+    "path": "org/eclipse/jface/util/Policy$1.class",
+    "bytes": 2195,
+    "sha256": "424c0761d73f97fa434ae7ac9d42eb2a326eee2a058218618c7123ef9e4bc310"
+  },
+  {
+    "path": "org/eclipse/jface/util/Policy.class",
+    "bytes": 4395,
+    "sha256": "d6829f226ff04fa5b08a5daf5f77dc9c2df8b9dc4e2b45030953f8d76a68891c"
+  },
+  {
+    "path": "org/eclipse/jface/util/PropertyChangeEvent.class",
+    "bytes": 850,
+    "sha256": "2e155e9aa6c3668dc4b9557e4b57ef458ad9f53528491dff0f66fde48eb38bc4"
+  },
+  {
+    "path": "org/eclipse/jface/util/SafeRunnable$1.class",
+    "bytes": 1445,
+    "sha256": "772d876882ea65d56c92252c50a4ebb9a0c47bfc1970d9a9bb657f9f94bf868a"
+  },
+  {
+    "path": "org/eclipse/jface/util/SafeRunnable.class",
+    "bytes": 2146,
+    "sha256": "66a82a2b41d08ded1d7908055c814174cd60e315585cd55d80ab2399c95492b7"
+  },
+  {
+    "path": "org/eclipse/jface/util/SafeRunnableDialog$1.class",
+    "bytes": 878,
+    "sha256": "0ea58a5bfe3dc3321d2bc592a1c91c0ff6f711a8d068d238f1ae4aea2b8ee73d"
+  },
+  {
+    "path": "org/eclipse/jface/util/SafeRunnableDialog$2.class",
+    "bytes": 919,
+    "sha256": "6724897ffc225330e232044453bc064afe4767229d58b6daf44de50dcb73e84c"
+  },
+  {
+    "path": "org/eclipse/jface/util/SafeRunnableDialog.class",
+    "bytes": 6465,
+    "sha256": "52702e2f33399f44b063ec06b638b6933492fc0b6c7f82e93197c1790aa80854"
+  },
+  {
+    "path": "org/eclipse/jface/util/StatusHandler.class",
+    "bytes": 296,
+    "sha256": "fc39bbde625647098cb6f3e37badebc3b21f6b9b98ef8a6cf11a4eab67db1344"
+  },
+  {
+    "path": "org/eclipse/jface/util/StructuredTextSegmentListener.class",
+    "bytes": 2999,
+    "sha256": "6a6220cf1d50a37e812a186128fbb06e12847898134daf35ba90a67f0e796c47"
+  },
+  {
+    "path": "org/eclipse/jface/util/Throttler.class",
+    "bytes": 3160,
+    "sha256": "804f9d79bfb0983b25d7fb623ce1d7092aa8a55385f9113d84376dab22c44489"
+  },
+  {
+    "path": "org/eclipse/jface/util/TransferDragSourceListener.class",
+    "bytes": 259,
+    "sha256": "86655f10f7cddd724e0f58f507b79f8d3c1029ca7e93e510b97e9faab0909a3b"
+  },
+  {
+    "path": "org/eclipse/jface/util/TransferDropTargetListener.class",
+    "bytes": 322,
+    "sha256": "6248db52c99d1154080b0e6a263158568ea80d101c8bed14dce48b26d361d1bf"
+  },
+  {
+    "path": "org/eclipse/jface/util/Util.class",
+    "bytes": 7474,
+    "sha256": "d4bde4a386961131f8a9d802c72978e534b0feb1f1ebb0b5d77b0ffdb050ac33"
+  },
+  {
+    "path": "org/eclipse/jface/util/VisualTextDirectionSegmentListener.class",
+    "bytes": 942,
+    "sha256": "ed873989c6e4219e180ffbe5334fca32b820919bb73b68fd35e3d3f774e3165a"
+  },
+  {
+    "path": "org/eclipse/jface/util/package.html",
+    "bytes": 502,
+    "sha256": "9a34bc3e01077afea0aa6e2aa20e1eb22a00db9ce641bbf3aa1dcd3eb29a710a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractComboBoxCellEditor.class",
+    "bytes": 2127,
+    "sha256": "9e349aa417cd44572355e07b12fd4ec1d8d7637db0c7a42aa802b28d6611490d"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractFilteredViewerComposite$1.class",
+    "bytes": 2151,
+    "sha256": "b8187be2c09648172eac4a4c220337e2f30e26dfd81eec4310885e0489ba270e"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractFilteredViewerComposite$2.class",
+    "bytes": 1169,
+    "sha256": "bd71880aa1859c3b7393e4d03ae3393fe4b45a549102b8f72ffd2ddd16de941a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractFilteredViewerComposite.class",
+    "bytes": 4588,
+    "sha256": "fe8a373c92f905babd6e37719cccf2bf527d04499af72e8e1cb3bd2e66c7156a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractListViewer.class",
+    "bytes": 7274,
+    "sha256": "5ed0771213f7032439a93d0c7108421249c6cb0c7a578e971f35aab921f72000"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTableViewer$VirtualManager.class",
+    "bytes": 4180,
+    "sha256": "0772eff5600620a8007e1515657565041c5125609f87beccc4d69944be6544c6"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTableViewer.class",
+    "bytes": 15308,
+    "sha256": "2417145e34cc3ef9a64db2e5a5bffbcbcc1463d1735da244996b885e8da503c2"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer$1.class",
+    "bytes": 949,
+    "sha256": "881fe67403e96e810ef5d972c8107dc4fb9f2d7c2618349f07f782185b10377c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer$2.class",
+    "bytes": 947,
+    "sha256": "9ab48d38ec0a1bf4e724403d055a729fab3374be8d30244e804e7df70f075d40"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer$3.class",
+    "bytes": 863,
+    "sha256": "cb7bb3c04fd9af304aba4b13e75b131f4f1838462cc8f69c321c3d38cbf74f2c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer$4.class",
+    "bytes": 1459,
+    "sha256": "0cce91dcc6abbf73692bab7c638a472d78963795494890c2cbe7c091e59194d4"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer$5.class",
+    "bytes": 1108,
+    "sha256": "ff6fb6bbf545ea075f2b5d9cbc55d8582e064ad3cdc7593c4105c7f23916e8eb"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer$CustomChildrenExpansionFunction.class",
+    "bytes": 447,
+    "sha256": "bb635f9190e9815b18134dd78cbabd54968f2ccf18e3accd5cca298f2881e7e0"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer$UpdateItemSafeRunnable.class",
+    "bytes": 894,
+    "sha256": "ab397c27135ff7efa1fcd3a57f623ce1d7639cee113bc099c01876242b94fe3c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AbstractTreeViewer.class",
+    "bytes": 45296,
+    "sha256": "9c94a698eb2bcfa051347aaf0a94d6d58361ca55ab546d9ebc7c2cb78b67d916"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/AcceptAllFilter.class",
+    "bytes": 682,
+    "sha256": "ef7fb3a5f3b70dcfd16165696992e2bfabf4c18f45835240fe82c10e805c5017"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ArrayContentProvider.class",
+    "bytes": 883,
+    "sha256": "323c5f77389f1595c8f9b1855e9807281eed0fc91ecef4e694fe8cc339860cc3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/BaseLabelProvider$1.class",
+    "bytes": 989,
+    "sha256": "2f7ff3be3c5a4e6e96a913d0276297fe19537860a930a46f79ab2c702b2ba46f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/BaseLabelProvider.class",
+    "bytes": 1574,
+    "sha256": "1d76c4c12cf61528f6c55ee56f050601c10b0063e4abe5e921f6406de8f7a90b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/BoldStylerProvider$1.class",
+    "bytes": 953,
+    "sha256": "5d6be48cd55d860928f5d74e94f96230891a1d22f250abd19a090df1dca47c74"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/BoldStylerProvider.class",
+    "bytes": 1648,
+    "sha256": "77364cf94ef41f143d8bc0e231767cb3a25e85a38d4685f25883ca94e0656a27"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellEditor$1.class",
+    "bytes": 733,
+    "sha256": "e192e7a4029f56194febadbfc475416479e438b3c8b0b58b6cf3386dfea3db60"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellEditor$2.class",
+    "bytes": 725,
+    "sha256": "c33e93c461be2b119139a4d81f03b2f999daa667da9cd16b0ed33d85c8ef0032"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellEditor$3.class",
+    "bytes": 854,
+    "sha256": "0d75d78d0b2309e888049b19adc657d36ba47e2a23f25b70fdca7d5c4ea21399"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellEditor$4.class",
+    "bytes": 1040,
+    "sha256": "522c57e4f0e30b5d96fe11422b79e23a0d21dc02cd180495d1efe1001b56792f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellEditor$LayoutData.class",
+    "bytes": 696,
+    "sha256": "b79f8d204a9deae7fc25408a6900c2fc409a888b300353060d351132290a6c63"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellEditor.class",
+    "bytes": 8031,
+    "sha256": "b3d16533a759cdd089ccb885897f1603343931e4be1a9eec6d4dec7e588eec8c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellLabelProvider.class",
+    "bytes": 2335,
+    "sha256": "770d4bdb82039bb6aedc15ab9f4a95a4e53b5925cc266983519fbbc0f8e34dcb"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CellNavigationStrategy.class",
+    "bytes": 1597,
+    "sha256": "8319d872459c1390d99b30a798f95c578ce7017c2501c6ddf48fbaaa74aa015b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CheckStateChangedEvent.class",
+    "bytes": 802,
+    "sha256": "3399ec3ee07b126a98a726dfebbd0db50fb8d9c4346367d5a11f21d66ff831c0"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CheckboxCellEditor.class",
+    "bytes": 2380,
+    "sha256": "8ffa1bf5252dbd223cdf8a9ff5603d6c724067e32a550d4b3b7cf9ac52f6ec88"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CheckboxTableViewer$1.class",
+    "bytes": 973,
+    "sha256": "b61f3ed566de0fffc0f58a069793ca12d4521108e5b11b8e6e6703da88a23a19"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CheckboxTableViewer.class",
+    "bytes": 7121,
+    "sha256": "f11af307aafd46f5ef42e1aa31eadf254d1fca6e5dcb9fe8211b7af2704dceb3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CheckboxTreeViewer$1.class",
+    "bytes": 969,
+    "sha256": "cfbf17a6de501378a89d0f5a0c9ed80284f13c727bba36dc30433bd2a2d090f5"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CheckboxTreeViewer.class",
+    "bytes": 9232,
+    "sha256": "416c88eac32a4f5e715e756bf1f856fb8dd3cb35a075b6d6dfec9aefbcd121fd"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColorCellEditor$1.class",
+    "bytes": 1627,
+    "sha256": "0c033c2c701868e617fb4fd4d9384d445feb2b1479413ca0986d69b45a0a2511"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColorCellEditor$ColorCellLayout.class",
+    "bytes": 1592,
+    "sha256": "b8540f8c5462418cf10d2296dbddcf1fe017ae3914a3f62c6ff6dedae91ce025"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColorCellEditor.class",
+    "bytes": 4488,
+    "sha256": "6dec317e03b6cd22ad9d07ea41efc7f6e2388c49565033685a96bb01becc4fee"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnLabelProvider$1.class",
+    "bytes": 780,
+    "sha256": "fe0df626d8cfa09ab41a24b7f5b849e077f8f6fb70a8a26af0f6e44de5ce50d7"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnLabelProvider$2.class",
+    "bytes": 811,
+    "sha256": "022b085677785da0f8c255961d6e95644798ce87d32465df0bc6d59486986101"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnLabelProvider$3.class",
+    "bytes": 1040,
+    "sha256": "c4b045b3cf2318dd8387598184a8f94c5bb0d53b26f43cc447ed7ed4e77f9b45"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnLabelProvider.class",
+    "bytes": 2956,
+    "sha256": "4eaeae69bb1900a5e1d07a6418746259ebd3c189eb11195c3dd42a9b3a006211"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnLayoutData.class",
+    "bytes": 379,
+    "sha256": "9b4acf19ff5194bc9b0a711456bc1030f56452a25588f8015457f6c1fcba202c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnPixelData.class",
+    "bytes": 697,
+    "sha256": "69927de8e307aeeeec268aecb0946095278da7dc3e05b1583284460a06ce94a2"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewer$1.class",
+    "bytes": 883,
+    "sha256": "a34cfff97381fcfb092344659b96975eb7ceec2b937c686f58046e7e3316c107"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewer$2.class",
+    "bytes": 2116,
+    "sha256": "0ee0dbb34238baf031176336cb7ec23b23f8c6bf6dd549052fe748c82686dfd8"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewer$3.class",
+    "bytes": 748,
+    "sha256": "7ed3ef84c66cfb559795749d27926c4e87b5040db44e6d8aee6f1007de267b90"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewer.class",
+    "bytes": 14194,
+    "sha256": "7843bc47ba5f7648aefbffd4c167ebf2faca37ec08a84539983bd148034ed201"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditor$1.class",
+    "bytes": 850,
+    "sha256": "7e57941e8065dc34d4386fcacda6722cc9ab64994a849be340f59b785b1a9617"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditor$2.class",
+    "bytes": 773,
+    "sha256": "a56e2b5c9db64b594ec0f8527a47f1543306f8d2f72f231a2e182c850970102a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditor$3.class",
+    "bytes": 1625,
+    "sha256": "84ce5cc6eafc126080e6516102844871c0f9d0c02fafc05ed4139d419c62e5c5"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditor.class",
+    "bytes": 13699,
+    "sha256": "72d850ed2d9022ef2513e440b61826199d541669c74a8acfea29720e15565eba"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditorActivationEvent.class",
+    "bytes": 1610,
+    "sha256": "ac0941184626ec345f7aa4d8344eb92e716aa952f3dfc5e5cca25b705ee4d8d6"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditorActivationListener.class",
+    "bytes": 538,
+    "sha256": "73450e23134b934d7494b463a2a4805dc2bb592f4494437786150e362e140749"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditorActivationStrategy$1.class",
+    "bytes": 1410,
+    "sha256": "398a1242d3c5b3363768a388389547a73f70c35d9b06deae865ed345589da664"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditorActivationStrategy.class",
+    "bytes": 2096,
+    "sha256": "8475eacefaf7177554ac934ded8fb751755e3db25b70d0c84a288447950a8bf7"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerEditorDeactivationEvent.class",
+    "bytes": 554,
+    "sha256": "cef4a64d2b31e96065bac18a7f5f45e056e0cd230c814f60f2dfa0958ada87be"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnViewerToolTipSupport.class",
+    "bytes": 4903,
+    "sha256": "b12574c968160fd2820e38e8ccf1ebb2e17886c3cdb939d9857019e63b38433f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ColumnWeightData.class",
+    "bytes": 833,
+    "sha256": "0f8a1bb8ee37c5acfbadba73b8477049b0a3d3d4de8831f917a96a6ead438157"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxCellEditor$1.class",
+    "bytes": 773,
+    "sha256": "4aabe69836ad0da4355f2415b83a92ce0f88e4d8cc34b45a1974e66ac1ffc966"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxCellEditor$2.class",
+    "bytes": 1036,
+    "sha256": "f0d593819150ce61fc2cebf27e4223cb892e9d26fbcaf7ceddd9eb8cbc517eed"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxCellEditor$3.class",
+    "bytes": 755,
+    "sha256": "795791ae864087ae8b9c56c22e47e21cc5090ad57d2da7aa2f6a5d4748606445"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxCellEditor.class",
+    "bytes": 6192,
+    "sha256": "aa837d38216f654d9f67b4698264e76e93b48266f6646dfe6faa6250b3bc5559"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxViewerCellEditor$1.class",
+    "bytes": 803,
+    "sha256": "73f0f6bb238dd1a8710416de397c65f1a591052d0b0f87aa68f83a01f24ad975"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxViewerCellEditor$2.class",
+    "bytes": 1352,
+    "sha256": "361bccabb70514e0067f9e606c7b179b5682480927da44e0dafd525b5fec8c23"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxViewerCellEditor$3.class",
+    "bytes": 785,
+    "sha256": "46f2ce6c90e9387e473e9d9b25f729484d644d67131b91da3f8d1e3d4df30a7f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboBoxViewerCellEditor.class",
+    "bytes": 5943,
+    "sha256": "ae5a47cfc8148f305f020e1d827b0abc45fcd46f736580bbb85d6c8d5d1c48d4"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ComboViewer.class",
+    "bytes": 2861,
+    "sha256": "2c29a9f797dcfff8f8d81d34142c7a340bcdeec8292c3bd283df88eb8dba6770"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ContentViewer$1.class",
+    "bytes": 2106,
+    "sha256": "0b3ca0c925935281c0616a0fa6f7c11d9b755fd412217ddbc4ac14e925b2117b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ContentViewer.class",
+    "bytes": 4901,
+    "sha256": "a544784e4c2e9c720aa8b7ac01fab0d429edc2d4f6d6eba653c997f9314014c3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CustomHashtable$HashMapEntry.class",
+    "bytes": 603,
+    "sha256": "2c8916054a22d66870cff2d366284f9f7ffa31bbda70845c6469a4973ff68053"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/CustomHashtable.class",
+    "bytes": 4371,
+    "sha256": "1b81ff1087d46c754f4fc6f50b59a0e7fd18d73b1d3a00d87e3ee85974ad3fb6"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DecoratingLabelProvider.class",
+    "bytes": 7176,
+    "sha256": "21a61a1adcac5a4c890fe0c233bd1c7a46d2a55e3407035d1defd0a29ce54f1e"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DecoratingStyledCellLabelProvider.class",
+    "bytes": 6616,
+    "sha256": "a64552be19b369f11e438b61c617f441bd954b5dcbc3d9eb72f2617677073f7b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DecorationContext.class",
+    "bytes": 1344,
+    "sha256": "17e312babf71dc71cbbbb2731e827d55ca716f4eb70f4c7f7c5c9a8a512bea53"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DecorationOverlayIcon.class",
+    "bytes": 4994,
+    "sha256": "bea1b132cb119330c439781eac7a7d1b22bad2509d0ca555977c7c9324c19edd"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DelegatingStyledCellLabelProvider$IStyledLabelProvider.class",
+    "bytes": 545,
+    "sha256": "89583db73b198dc216455fd384e13b9ba7bbd5dc8d83142209e84a45446ed5f5"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DelegatingStyledCellLabelProvider.class",
+    "bytes": 3605,
+    "sha256": "7e32de8f1d515e01c7e6a997bd1d50c526ac9bc717610ef0b54f37f122b3390e"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DialogCellEditor$1.class",
+    "bytes": 863,
+    "sha256": "a894d928a908ba15aa12dab1524556b0e9e4ff8c2de4455d53ee2d972a83fd1c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DialogCellEditor$2.class",
+    "bytes": 802,
+    "sha256": "a97642c65904562b1d76bff2212add18b48372652169068cfcb6bb2a50eb2ac6"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DialogCellEditor$DialogCellLayout.class",
+    "bytes": 1612,
+    "sha256": "3952422d71274674535f89eeffebb48edb3e6c125a94815eb7a440d56c7fbbca"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DialogCellEditor.class",
+    "bytes": 5559,
+    "sha256": "0b390baa47bf4635c129a4fd49ce456aa6500b144b81f93a1e60c320ab7dc0d3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/DoubleClickEvent.class",
+    "bytes": 830,
+    "sha256": "38168ef39326e33ebf9ac9dec4051148940c5c1b8ff4595a588d05d01067f996"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/EditingSupport.class",
+    "bytes": 2625,
+    "sha256": "a055e15d7cd606b88a4099f03ae8634bd5e52c507d1cb87f5dbb31920ec98959"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/FocusCellHighlighter.class",
+    "bytes": 1346,
+    "sha256": "bc8303177a681cfd2b84313495ea45d263ab38c8f7a7abdd4a423fee87d18e91"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/FocusCellOwnerDrawHighlighter.class",
+    "bytes": 5077,
+    "sha256": "21faeed76b1004c5ed770e3d2429ae9cc1f7603c60f4049d5a84dab44b257da6"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IBaseLabelProvider.class",
+    "bytes": 338,
+    "sha256": "5ced0b0ce26aa4154a1f783a08bbe709295fef5401b4c8d3e9506935034ceb67"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IBasicPropertyConstants.class",
+    "bytes": 416,
+    "sha256": "21f52897e0753ba09ec92172a9276f9eb522c748c1c9f21636dc35cc89a17cd7"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ICellEditorListener.class",
+    "bytes": 238,
+    "sha256": "568df99074b948283fefdd87bc41a5d0856f0392824a25eca3376a0629265c3a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ICellEditorValidator.class",
+    "bytes": 206,
+    "sha256": "f4f14da70bd35031c5648c85124b35a8ead226a2781b42f55f9b4104f5f7428b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ICellModifier.class",
+    "bytes": 350,
+    "sha256": "ab4efcac3ef2c9fff57c08882f206e7ea7ed3506958836eab9612b4084037b4a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ICheckStateListener.class",
+    "bytes": 303,
+    "sha256": "2abdfbb05af7104a8d1f2f3092a2808953af0ec441eaf4e7c1f3914d32bbf213"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ICheckStateProvider.class",
+    "bytes": 208,
+    "sha256": "821e779b006e2fcb418ad9de0ce3dac2a5c4904c3ec8262939104305b480dee3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ICheckable.class",
+    "bytes": 338,
+    "sha256": "e1550aec4603f77bfdd1c4516ade4cb92a9d27eff2268bb9d7232261e84120e1"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IColorDecorator.class",
+    "bytes": 250,
+    "sha256": "236e536eba6e26d0196b24d5258fe1300af5100d3af3b5612a40650ff523b46b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IColorProvider.class",
+    "bytes": 238,
+    "sha256": "b90fecfbbad93deece2ee906c8138ae0334cc425f939afc38d521d08840a87e9"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IContentProvider.class",
+    "bytes": 349,
+    "sha256": "323094338cb7e93a5fd16098a57d9dd0e1ee639377702749d0798b583e95d688"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IDecoration.class",
+    "bytes": 983,
+    "sha256": "5d50691f7ed7fde95a8af2c9a39a77683f116a87ae44a7b0e09ba584c476d532"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IDecorationContext.class",
+    "bytes": 254,
+    "sha256": "dc8d86a4475e7492c34116fa86f79418bce1c40292b20ecb3ab5cfbd2c8c29ea"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IDelayedLabelDecorator.class",
+    "bytes": 270,
+    "sha256": "14c4ec542f92cf1a898eea7ece6f25827697c086b4a6545f3d59e89c5795d962"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IDoubleClickListener.class",
+    "bytes": 293,
+    "sha256": "80f6baa4f30af70406e8abae2d5d6b4a8b4418180656541d07df43dbfc925feb"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IElementComparer.class",
+    "bytes": 241,
+    "sha256": "e517f55ff873db481079e83f37a7dde51ce27f02b48ce4e1796f2b7a52c0e518"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IFilter.class",
+    "bytes": 236,
+    "sha256": "755e43d80798ed2128ceef45bcc2c38b244f318ddbf8d214e5ebe58a45dbb9bf"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IFontDecorator.class",
+    "bytes": 212,
+    "sha256": "a8981e9c4944d769f69e558b3cb32d84fd565a8632d1c16a595c41218fea4661"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IFontProvider.class",
+    "bytes": 205,
+    "sha256": "2363ac301e19bd2036e2668339e7e6f605b35cc829aef7d508033c197d2036c2"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IIndexableLazyContentProvider.class",
+    "bytes": 265,
+    "sha256": "078d30b74666ded0c44b6060a4e2a066c835741faef06c190ab0eefe23ead6fa"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IInputProvider.class",
+    "bytes": 177,
+    "sha256": "6c7359dd1548d07b2926dc2376171bac7990438eb9fbc6f7f2407b42521037e6"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IInputSelectionProvider.class",
+    "bytes": 253,
+    "sha256": "65edd74d7dad4c79094344d00acaa016ebe56879baa4c75595ca0f1a4ef293bd"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ILabelDecorator.class",
+    "bytes": 382,
+    "sha256": "4f3b8c0bdb1e275fb6f0be8051b50a17e94847759213141df32287ef0cd6fcd1"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ILabelProvider.class",
+    "bytes": 320,
+    "sha256": "661ffe800daba8cc735003767db3e078aa116cb887701bc5e8141420764e8306"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ILabelProviderListener.class",
+    "bytes": 315,
+    "sha256": "9d9b005bc087df7f2b56ef5c4786d497a4e8144f5eedc89bbdc991c93c0ae366"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ILazyContentProvider.class",
+    "bytes": 228,
+    "sha256": "203a4291604eda8bcc87b5300be25edbe0432a05ed948e73910d179943a692ad"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ILazyTreeContentProvider.class",
+    "bytes": 342,
+    "sha256": "ba53e92d64fdedbc9057554a9d757360731789c19c8b7b915bf022f58dff1c55"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ILazyTreePathContentProvider.class",
+    "bytes": 458,
+    "sha256": "4a737e24e7e92e2feaf90857936269ab216d06bbd574fe53855a77f7cbcb30f9"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ILightweightLabelDecorator.class",
+    "bytes": 293,
+    "sha256": "c205d75f43d42bb5bcc5ff0c75d909e453f9678918cf9cecdb8169b9e68834d4"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IOpenListener.class",
+    "bytes": 265,
+    "sha256": "5c06620cbbd0c686ff7f67ba4161dc1951b2b8924295419f465221f77886ac74"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IPostSelectionProvider.class",
+    "bytes": 349,
+    "sha256": "9b68e8a6274d53acf54eba8cc0aab3c90f91e981f483b786a436cc4dee02c288"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ISelection.class",
+    "bytes": 151,
+    "sha256": "6b6a12d2f4c0185d335400ba25198a547699ff170385a6329bd312e4cea07142"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ISelectionChangedListener.class",
+    "bytes": 313,
+    "sha256": "5710253daa1d34e54e04e0a6d51120865c687a4cf97a143f30a8283cea0a04ac"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ISelectionProvider.class",
+    "bytes": 414,
+    "sha256": "5c89f0ec81284ddc1b68d947e1efe445b005ef75b10e5bddb2e07531f174d5b6"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IStructuredContentProvider.class",
+    "bytes": 273,
+    "sha256": "6b11e946fc2901c449d304c2837dc2e509e5f93c6ff367e5ebe0783e14c91af3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IStructuredSelection.class",
+    "bytes": 746,
+    "sha256": "de9de4bd67de921d52a30e0d6b0c3d0136b473bc59b826dac7f66bda24c43599"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITableColorProvider.class",
+    "bytes": 249,
+    "sha256": "83d043d67c814e03db5c483b3281397cf48bc1036fcd5f115503b9c3b834222c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITableFontProvider.class",
+    "bytes": 216,
+    "sha256": "7bb622de7611a8a8223ac2c9316ff8b5ab6b0d76d6cca01f05dbf67f87660066"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITableLabelProvider.class",
+    "bytes": 344,
+    "sha256": "3c78eed87074353bb431d30623e30c5ba6c570c8c76360395311210794d73ebf"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IToolTipProvider.class",
+    "bytes": 205,
+    "sha256": "b8481bdd973f57bb803edcdf1ef66d0e1fc18dbc63fbc0cff90e2703fd8498a4"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITreeContentProvider.class",
+    "bytes": 400,
+    "sha256": "03de8ac4fb44551e93f19fd13965d00625edbc69ab9c81ccd96e41223c4c290c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITreePathContentProvider.class",
+    "bytes": 506,
+    "sha256": "f069cff7da05d5913c9dcac05dd97dde95ac158f6d28562c28b3cea17615fbb9"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITreePathLabelProvider.class",
+    "bytes": 306,
+    "sha256": "00ed66bb403164eaa3df8a914fa43682737d1f6fafa7e06119c30c391ad50f12"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITreeSelection.class",
+    "bytes": 332,
+    "sha256": "9bec080667347907449fb3e2b9ab9495ebd4d8993e418c9c93dfe2aa6ffb817d"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ITreeViewerListener.class",
+    "bytes": 244,
+    "sha256": "6437b4c6de6f8d8c37facfd4bbccbf72d933857ad8afb0b0b22ec63df5042de2"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/IViewerLabelProvider.class",
+    "bytes": 284,
+    "sha256": "d5dd5a806eb86dc124f14bdadaf2a1d915075e0e1521e7025bcfd52ccfe64e8a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/LabelDecorator.class",
+    "bytes": 678,
+    "sha256": "3a646a2c665c4f202f3b0c47b35bb3a587959288a7ee12998b113b8f4a6c3923"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/LabelProvider$1.class",
+    "bytes": 756,
+    "sha256": "8abbb94845911dc4a11f642d727cca3bcc3e2fc038d33f3716497405ad2db76d"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/LabelProvider$2.class",
+    "bytes": 787,
+    "sha256": "1eba1ae34e2f08739cfec84cbe2ab496547e5e1255d79702419464a2fd73e6e9"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/LabelProvider$3.class",
+    "bytes": 1016,
+    "sha256": "5b17ce22c063056ea33102b432d808c937130ef128dea95817cc0234799bdd96"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/LabelProvider.class",
+    "bytes": 1974,
+    "sha256": "0aca3d889c7eaf97055319884ab227bb992a63af91881a7665b6f5c913aac8a1"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/LabelProviderChangedEvent.class",
+    "bytes": 975,
+    "sha256": "7ade93059276a94dfdf88e380a5d97bcdef616587557ff2b46e6cb7619408cdd"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ListViewer.class",
+    "bytes": 3379,
+    "sha256": "1f1f84219a0e7c957edbab04c1e4134e6d4abd57440c57cd208f33190230e054"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/NamedHandleObjectLabelProvider.class",
+    "bytes": 602,
+    "sha256": "07f659d3664ef65d06f7111fa7ea54afbecf9b8cc79b0914864ea7e39a8b3269"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/OpenEvent.class",
+    "bytes": 816,
+    "sha256": "70d9f4e3329c797621225d8a3bbd7eabd31750879f5e950aca2efdaf9706a0aa"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/OwnerDrawLabelProvider$OwnerDrawListener.class",
+    "bytes": 1749,
+    "sha256": "1703280ba9dfde0dace7309ed9c6b5717cc5de994141c952cdab46953d1df2c3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/OwnerDrawLabelProvider.class",
+    "bytes": 3720,
+    "sha256": "7772696a05abcc7b3f575de08fdf7cc20aa74d7bdbad7dec84b122efc9d934bb"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/SWTFocusCellManager$1.class",
+    "bytes": 1779,
+    "sha256": "63734a92b95256ac9bfb577d10d8d988099d8464ef74bd5f0f791cb15beceed4"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/SWTFocusCellManager.class",
+    "bytes": 6829,
+    "sha256": "acda3a0b21c0b53d4fa00a245d87e135c34bfe54b026a2668e80d1e40aafae67"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/SelectionChangedEvent.class",
+    "bytes": 1327,
+    "sha256": "864402e2bb2cfb371b4c6f40fb19fd684af13ef470e9f4734968f522d58884c3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredSelection.class",
+    "bytes": 3360,
+    "sha256": "24db09461e914c3c07f3db614ba9d1a6e1b039e62eee02ba924e39894f2adc23"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer$1.class",
+    "bytes": 934,
+    "sha256": "00f71c4625e3a73c5975b02a3b02494b139c840737d3f5fbe8fe37da3f8dd43f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer$2.class",
+    "bytes": 878,
+    "sha256": "e674182513725a0f4b50a43cce9b5ecce18c2efcae01631d360c657ee25c7eed"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer$3.class",
+    "bytes": 978,
+    "sha256": "fe8e1fd0954657dc84dac667951d20d4e8a15d30d1bc04ca6e8a022517ead8bd"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer$4.class",
+    "bytes": 933,
+    "sha256": "6eb9b04c5b610207fc6f205cd0d142996a8f4a72430df594884d7e7b3c24c13c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer$ColorAndFontCollector.class",
+    "bytes": 1713,
+    "sha256": "fbb65e08a26402dff90450dd32e7d32d1a96b4e9fc35425ba80f1472fb30a702"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer$ColorAndFontCollectorWithProviders.class",
+    "bytes": 2386,
+    "sha256": "0804a1c294bff9346af31d482e2f7c9d980c47199ae93692feca61e6029e9655"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer$UpdateItemSafeRunnable.class",
+    "bytes": 1048,
+    "sha256": "c6adf3cbeb0669be062d117ba5592a7ecef0b9b876b47cf621e94977f2d37fa3"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewer.class",
+    "bytes": 25263,
+    "sha256": "8a1559c070b26c8419bc530df313797c65cd87fe6e5d58ffc8e204898c51e31a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewerInternals$AssociateListener.class",
+    "bytes": 632,
+    "sha256": "92939bb278c74a8b068ee2cd359028e4095d140ab60c7eeed72d0a32cd69f5ef"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StructuredViewerInternals.class",
+    "bytes": 1191,
+    "sha256": "88697ada9ef273bdc2529889bfbc7257805a916f3f5368c7eb52395dc82d927e"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StyledCellLabelProvider.class",
+    "bytes": 10772,
+    "sha256": "b49382a25ce2c6321d3869751a38facdfbb0998f90936c174a29f3883530ffd2"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StyledString$DefaultStyler.class",
+    "bytes": 1110,
+    "sha256": "5bad37b51625e2634d3a5110bfff6610dd0895e16f5b75566e7e9031154bb240"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StyledString$StyleRun.class",
+    "bytes": 1203,
+    "sha256": "386079f18d49a28c564a10288d7a853bba69573b808821b13ebfad292e8ea263"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StyledString$StyleRunList.class",
+    "bytes": 673,
+    "sha256": "656b87561b6aea714159a9ee9425b991ec487263e5797bfb55b8a2fdea491e9d"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StyledString$Styler.class",
+    "bytes": 398,
+    "sha256": "25654f5d627c148fe545cb57113f321aa5a6486e66398cafa2752557b1aa73cd"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/StyledString.class",
+    "bytes": 7494,
+    "sha256": "3f47790c6c878779680ef0eb6a428456e5c92f959115316dc781945516628ca5"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TableColumnViewerLabelProvider.class",
+    "bytes": 3106,
+    "sha256": "c0a94dea7e77c777d0021cca91b81495eb4df600e87f1da0e607dfe7cd40e1d7"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TableLayout.class",
+    "bytes": 3957,
+    "sha256": "e7ae2a5bee4393e0d55ecc23c1e6e4438937b719aac6428fc431d250e5819722"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TableViewer.class",
+    "bytes": 9637,
+    "sha256": "dc03b8344ccfeffd329aa53322d52420c5a0bc3c42d361dec94f6248e5e67c34"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TableViewerColumn.class",
+    "bytes": 1243,
+    "sha256": "3e4440226918758971c94b013d3d429572754e9c3bef60276ea29a7adb3c47cf"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TableViewerEditor.class",
+    "bytes": 3233,
+    "sha256": "0cd4400cb2d1d63f66c18356bc357ee21c3d440376da2e8dcbd7aed50df03541"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TableViewerFocusCellManager.class",
+    "bytes": 2739,
+    "sha256": "07c7fb0e2ff350900055b88fa0c35d5c52170de66a8cca79d10a828e9deb2a99"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TableViewerRow.class",
+    "bytes": 4419,
+    "sha256": "75abe60124b2da0d41b450b0f2c809b03a6eacf5c1b1762cdfdd13014f34fa8f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TextCellEditor$1.class",
+    "bytes": 1054,
+    "sha256": "7877a17e2beecbc43a721c116d9d108a3d60fab043bad557d2f186c390f42fce"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TextCellEditor$2.class",
+    "bytes": 828,
+    "sha256": "532176384435f24e06808d3361d05b6bde8d1dadfd5516f8ff1d3407325a0678"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TextCellEditor$3.class",
+    "bytes": 735,
+    "sha256": "c00bdd35fca6569f58337f304499722d5da28247ec3d95bdd51088852ed7521b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TextCellEditor.class",
+    "bytes": 7875,
+    "sha256": "2e122b3b41fea81eacdc6ee5681ede7a9da185a98b3c41c3d838dbe233909ddf"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeColumnViewerLabelProvider$1.class",
+    "bytes": 996,
+    "sha256": "2e3eb6251bed686bb0b9e06fa2c441d5ccd2cade239b38d10797ab94f06f7fd1"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeColumnViewerLabelProvider.class",
+    "bytes": 1124,
+    "sha256": "dd3bf7f9f09d93c73651fcb979abbbe857cf29dbd77ed226f5255a1a0f6fe462"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeExpansionEvent.class",
+    "bytes": 717,
+    "sha256": "911cdb4a41cfaedf82cc4967bc7e6b9135776a637c016797a15cc3890b56fb0d"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeNode.class",
+    "bytes": 1338,
+    "sha256": "b3a3c76caed1071a4cee4b2e4b5615c04cb8826935fbcde1b72cd9a459fee878"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeNodeContentProvider.class",
+    "bytes": 907,
+    "sha256": "730f0abaa4f33465d5208ad871c935196df5a73326038ec72a24ff64b437b4e8"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreePath.class",
+    "bytes": 2212,
+    "sha256": "8403a4347bec4a501de3470f5df2066f8426e1a6d7646a2f02e689e74e12d945"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreePathViewerComparator.class",
+    "bytes": 1831,
+    "sha256": "17f5ea90ae61ba9b8fda1cf748da64496885c9f89211b361816f8aa7d8501510"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreePathViewerSorter.class",
+    "bytes": 2057,
+    "sha256": "3835a6d6655dca3add2a33ef20cc3b94ba3949605aeb4d198a6b48969d6401fc"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeSelection$InitializeData.class",
+    "bytes": 1625,
+    "sha256": "8dff5753d55cbfe058e8e65d63a2b7f81df4ba770078f0f0f4ca266d83dc69b2"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeSelection.class",
+    "bytes": 3265,
+    "sha256": "591ddf8866762b6f751cdc07866eaba2bd0849d5f78e389c118be00c6aa260bc"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeViewer.class",
+    "bytes": 26442,
+    "sha256": "6ccbf10d4968cee3b05f2d57cc1c55a1355f142d3216613c932cb73bfffa4a38"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeViewerColumn.class",
+    "bytes": 1227,
+    "sha256": "b27301a4db013a6ce68b662f8bc62fc1d473e6d21059b3e6e74a8dde13df2895"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeViewerEditor.class",
+    "bytes": 3412,
+    "sha256": "4790def8b5fe41a480f89cfd10addaffaf41f2725b2b70a2a4a1bf4ad2b4332c"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeViewerFocusCellManager$1.class",
+    "bytes": 1976,
+    "sha256": "491f92fe847ad4f6ead97ce0ced8472de07eccc2012048cc084cdcdaa6739be1"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeViewerFocusCellManager.class",
+    "bytes": 2770,
+    "sha256": "34a254f7e7152c65c606177beca19399a21c8e66610c6e32a4cba664e44afec4"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/TreeViewerRow.class",
+    "bytes": 5693,
+    "sha256": "dbe6247fbd46404143a363af62009e5e15a29dcc211a758015caf392cbe1d2bd"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/Viewer$1.class",
+    "bytes": 934,
+    "sha256": "df247398c87be83fe1c92486f28dddc2015c4970213af20e2b011b68ea0ed826"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/Viewer.class",
+    "bytes": 5019,
+    "sha256": "b02912319c37e3b5353bc80ee2f1666e403819c324e2ad576d08aca8bc1635aa"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerCell.class",
+    "bytes": 4459,
+    "sha256": "fa5e528e8b1cbfabf1f0c34af27a7b90df924db4297e9423b7460615615d6903"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerColumn.class",
+    "bytes": 4924,
+    "sha256": "f9c045a02054f6b2b2406ab5f4dc463f34f34c9396d8a92a8083852285a64e1f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerComparator.class",
+    "bytes": 4123,
+    "sha256": "e5341a8cfb1ec6ad765a9a2108c11eed8f3051282b33370a2b4a882914133099"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerDropAdapter.class",
+    "bytes": 5630,
+    "sha256": "4100909cc8014333375d6ee64c81dd6ca73e191f00003670185fc2b16d765d7f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerFilter.class",
+    "bytes": 1029,
+    "sha256": "edd71e04249d77db95aeba805e62e442faed3787fca3eb293c86c67ad5fcf462"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerLabel.class",
+    "bytes": 3641,
+    "sha256": "6f24e2408cc73bdcb78ec0767988b39ebed7f7c4bce2edb3557ac6be6dd636b8"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerRow.class",
+    "bytes": 4488,
+    "sha256": "85e1967c17f6e707662817eab9c4c2c6ea7632577f6b4d5f8549c5a4fa9e3941"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/ViewerSorter.class",
+    "bytes": 716,
+    "sha256": "1b8e2c6600fcfffdd370504a5401a9a1e8d23884454fa51c3beeae0278ab701e"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/WrappedViewerLabelProvider.class",
+    "bytes": 4414,
+    "sha256": "c59d080e7cc8b9b1f5fd0f083dda202ddc55b3a220dae322949192e9847b8b8f"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/AbstractConcurrentModel.class",
+    "bytes": 1792,
+    "sha256": "bb27d4b842a0729e6fd12282a74bf27bf59f4690f1b5d153cbcf76f18a6d4197"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/AbstractVirtualTable.class",
+    "bytes": 478,
+    "sha256": "d9f925889292175a15d9509cd09cacb5b213316640ed52c99ba4e4e9ec21bc98"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/BackgroundContentProvider$1.class",
+    "bytes": 974,
+    "sha256": "06a716bdb7e0765856c3912ba4760ab6b3007be122ed37611413e2035638e6a0"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/BackgroundContentProvider$SortThread.class",
+    "bytes": 1260,
+    "sha256": "87914519e36dc68393b04c9c093b80e2a490caa96837f6cf6a38d06c3f63c133"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/BackgroundContentProvider.class",
+    "bytes": 7152,
+    "sha256": "5e2ec69ce79b25e529d54b6fae9ef8ce2cf8e50f33eb5e8a41732f06d29470ad"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/ChangeQueue$Change.class",
+    "bytes": 617,
+    "sha256": "5bfbcdd2950fe89d38d0594edbd9feed5be8f6defdefd78a9e960a8f6284901a"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/ChangeQueue.class",
+    "bytes": 1505,
+    "sha256": "e8b7919058f073135ac8bf265c15c3472e57f80d5e2223abf55d0214ce220eef"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/ConcurrentTableUpdator$Range.class",
+    "bytes": 485,
+    "sha256": "7e9f10d7dcada6fe188771aaa6fa0cead89a4de791d9040ae2f017d533c5ac43"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/ConcurrentTableUpdator.class",
+    "bytes": 4904,
+    "sha256": "f453d3f5fac5b5b7f708b8a61598f2b402278b4f926a85f7e865d4ec857ef84e"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/DeferredContentProvider$TableViewerAdapter.class",
+    "bytes": 1601,
+    "sha256": "9666423dd1e1627d9b154a90f396dba5dc03cf73f57f823c7514bfeba5e74f43"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/DeferredContentProvider.class",
+    "bytes": 2517,
+    "sha256": "d9e622c153f5fbf25c85e92ed9e8820816a3c17d11ef629f879c48ee7ed1ffef"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/IConcurrentModel.class",
+    "bytes": 382,
+    "sha256": "a916d25f57f7e5fb7e97988e74fad9495ba3e827e449c3d0fd68cd399c42eaa7"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/IConcurrentModelListener.class",
+    "bytes": 259,
+    "sha256": "bc0556b036384325da4d375eb2051a94cd7e7865075e1572e6107b736fb56693"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/IntHashMap.class",
+    "bytes": 1172,
+    "sha256": "35b9c3b1d9ef70d9725fe428bf77348e510af3a60e14f899082f32125e2139b9"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/LazySortedCollection$1.class",
+    "bytes": 581,
+    "sha256": "0a16c1a8b0976d4b1f8c9ef8e307203fc6a961e85b38f2c17dc9c232939e39a4"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/LazySortedCollection$Edge.class",
+    "bytes": 1630,
+    "sha256": "1b40c5356d817c88af1d9789e9d88ec2109ad91c85479d808faf3a56d3218e4e"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/LazySortedCollection.class",
+    "bytes": 11826,
+    "sha256": "eec5bcb7166158786ab2537d269224d04242ef38191a1b740fde9a853a4f7821"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/SetModel.class",
+    "bytes": 1913,
+    "sha256": "4b83364b6c7107a58d657f51e9eac4da10e9d3f5b0698cd8a2eb65ebb97faa36"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/deferred/package.html",
+    "bytes": 550,
+    "sha256": "48bb2dc05fb08321376d61965cb9bc41ada817fdf8322a72ede8effc4ea6a54b"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/internal/ExpandableNode.class",
+    "bytes": 4063,
+    "sha256": "18ec3c252427b56558b0aab6470f0a108180250bce2a3e78e7c0b0d2a2b942c1"
+  },
+  {
+    "path": "org/eclipse/jface/viewers/package.html",
+    "bytes": 2969,
+    "sha256": "5382e22e59b00b15070e0bb52623630f96ce0f6a6f0901b9680c6f3a0fd8e56f"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/AbstractCompositeFactory.class",
+    "bytes": 1982,
+    "sha256": "0fe922c654f4b7be91e114a10c666635eccfc859ff2cf168143975669208a466"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/AbstractControlFactory.class",
+    "bytes": 4848,
+    "sha256": "ada340ecb6dfdd5af411ee31e37305e3cf7d18d9cc746418bf3f3efbce77e200"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/AbstractItemFactory.class",
+    "bytes": 2366,
+    "sha256": "a0ac472fcfebb8453b052bec3f9ad589dc5e2ad81e04204c0d6c9fa5198703eb"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/AbstractWidgetFactory.class",
+    "bytes": 3735,
+    "sha256": "65fef2ea6cbe39511fffa2f67a8d368d00a2d998f481284396c3a97c2281d33e"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/BrowserFactory.class",
+    "bytes": 3379,
+    "sha256": "7ee4919d15afe0cca06eb6d58b60b322ce629b4e72d2dab68a796fc58c7c4ba8"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/ButtonFactory.class",
+    "bytes": 3193,
+    "sha256": "ae0c9019622d55eb2729d7bdb46113738a44e384a1aa6368c8257de2b6fc0ef0"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/CompositeFactory.class",
+    "bytes": 2485,
+    "sha256": "ec6b8ac2d044a0e9eb81a6d699009b2431122a2f0b6702ddde86d50e2945ec7e"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/DateTimeFactory.class",
+    "bytes": 2628,
+    "sha256": "51710e84f5308c6ed18ecb242203b764f28a62802a51d3f2f00ca16659d70376"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/GroupFactory.class",
+    "bytes": 2009,
+    "sha256": "3502ac2bcae9c82f730566edea5aaf94638db3db4e1fda8ebecad9895c2b6d06"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/LabelFactory.class",
+    "bytes": 2702,
+    "sha256": "f473ba72ecebdd841edf41711a2942cd67e190b9741d25801141ddc858289415"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/LinkFactory.class",
+    "bytes": 2726,
+    "sha256": "e616bcc21927847cffa65373b5cc79af3a3c0c090f5b25a86d1053d0cf2f8e9e"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/Property.class",
+    "bytes": 496,
+    "sha256": "3f6d8ce7ee1dbd16eeb33747f5f6108d524e01fb8b506baa5282b9da7648bc83"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/SashFactory.class",
+    "bytes": 2352,
+    "sha256": "62243a34a059273fca8ad3c74e8f23626007384fcfd821e31e6b6c25e0a8ea4c"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/SashFormFactory.class",
+    "bytes": 1926,
+    "sha256": "4caa2b15e81000ca3613bb4f00e92463de1c8f5ea594144ba0f1e6b4846fe6ea"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/ShellFactory.class",
+    "bytes": 5167,
+    "sha256": "b03359499cbf6c33a1a8894c022fb65b8d078fcc803c4038d495330bc5fc0ab8"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/SpinnerFactory.class",
+    "bytes": 3946,
+    "sha256": "5fa67ae70cc5421234e729f5884ebe841cc003a2611e6ad8462726b7eff55af2"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/TableColumnFactory.class",
+    "bytes": 3815,
+    "sha256": "8358fee41ccd11f2f2c0f72ebe1725ca5eeba528d70548f6257bb5d2eca2cc56"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/TableFactory.class",
+    "bytes": 3164,
+    "sha256": "85c6ea77c9bcfe8231ce4a0dec60408a7d731f8712dd5f18a332d48ecf7b3cd4"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/TextFactory.class",
+    "bytes": 4122,
+    "sha256": "b562d3419a88e0d2a42f4a686b2e19542e2dfad2c49097fc72fa95c797450c60"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/TreeColumnFactory.class",
+    "bytes": 3793,
+    "sha256": "d9b6b3dfa8f547f50b1bcca824d4b3910c01641cbefee01bd8a8f5c0ff4ac357"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/TreeFactory.class",
+    "bytes": 3847,
+    "sha256": "8375a4d7f4691c1ac182c7bfe429b3da1b33d2749cfe06b4e73f6bd19d504812"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/WidgetFactory.class",
+    "bytes": 2752,
+    "sha256": "c58aa7170bd1aeb05b3f2c5127805a80e6e8c31b85f2ffd524e53cbe5d00017e"
+  },
+  {
+    "path": "org/eclipse/jface/widgets/WidgetSupplier.class",
+    "bytes": 576,
+    "sha256": "b1d762851d0a735ba8d78e841652fef66f13137991e6803618d18392c09ab712"
+  },
+  {
+    "path": "org/eclipse/jface/window/ApplicationWindow$ApplicationWindowLayout.class",
+    "bytes": 2798,
+    "sha256": "861170c67c8721eed4cb67c2da9514bf72513c5795daf41527c85fe31b94dcc4"
+  },
+  {
+    "path": "org/eclipse/jface/window/ApplicationWindow.class",
+    "bytes": 10604,
+    "sha256": "0701319a030a32bf10336ed0118112bf6e6fde25e56277729ee01483721511c8"
+  },
+  {
+    "path": "org/eclipse/jface/window/DefaultToolTip.class",
+    "bytes": 3299,
+    "sha256": "85dca6c510de1fa2cf6b0680df5ef3f0657b349c66fe15c14982f903b456d44f"
+  },
+  {
+    "path": "org/eclipse/jface/window/IShellProvider.class",
+    "bytes": 189,
+    "sha256": "f517ae3bc9b50779abd65d37129edc13b765bd9c7529cb82a5edcf10af2c0991"
+  },
+  {
+    "path": "org/eclipse/jface/window/SameShellProvider.class",
+    "bytes": 644,
+    "sha256": "e87b8468baa2d717e52cf856094a0fbd290c31941abb3adcce6785d1d88b616b"
+  },
+  {
+    "path": "org/eclipse/jface/window/ToolTip$ToolTipOwnerControlListener.class",
+    "bytes": 1571,
+    "sha256": "a6bbfdc9521f5a38abd561c25ce2414a50054cfd3e055a87facbdc8972fb23e2"
+  },
+  {
+    "path": "org/eclipse/jface/window/ToolTip$TooltipHideListener.class",
+    "bytes": 1479,
+    "sha256": "a6c0fdf1a8cbd45ae974da3f033a5273a69ee5589efe38c2ca9fa86217bb7c4c"
+  },
+  {
+    "path": "org/eclipse/jface/window/ToolTip.class",
+    "bytes": 9958,
+    "sha256": "e95ca4362a1d413db0314197c9c1782429810821f98916130de7336af4f09b72"
+  },
+  {
+    "path": "org/eclipse/jface/window/Window$1.class",
+    "bytes": 841,
+    "sha256": "3b5bf74bab24bb94cd20326bdeb36de8cef6bd98ea838b771607281305c927b4"
+  },
+  {
+    "path": "org/eclipse/jface/window/Window$DefaultExceptionHandler.class",
+    "bytes": 578,
+    "sha256": "255b9210ae0908fa8f08421a36ec4d4f9080d063ff5fefeed6703f720a880fae"
+  },
+  {
+    "path": "org/eclipse/jface/window/Window$FontChangeListener.class",
+    "bytes": 676,
+    "sha256": "f1ce0670af70dc7e2731a2c2087dc7a7b8ab4949e5412a72ac7bef3b31b73e7c"
+  },
+  {
+    "path": "org/eclipse/jface/window/Window$IExceptionHandler.class",
+    "bytes": 296,
+    "sha256": "acef03924f8400b8d9bf1bcd317fa44177f63f4790afc93f0d8a7cc5f5022aea"
+  },
+  {
+    "path": "org/eclipse/jface/window/Window.class",
+    "bytes": 11228,
+    "sha256": "fb9e4d02001d7c6c4b2f7caa438791562a53f982960651d786aa942bf9487ff9"
+  },
+  {
+    "path": "org/eclipse/jface/window/WindowManager.class",
+    "bytes": 1977,
+    "sha256": "bbd8d96b1a69140822950e9b1e1501f21f79cc5d27a2d04b23392b70e31388dd"
+  },
+  {
+    "path": "org/eclipse/jface/window/package.html",
+    "bytes": 1457,
+    "sha256": "81e24887354971bf2c9f7472c624f2a06732cca7bfdf31f179a48b01ac8d181f"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/IWizard.class",
+    "bytes": 1292,
+    "sha256": "cd168ea7deb750b6edefd7ddfe0fe5c7b62358bf664c5375065fe7792a01e859"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/IWizardContainer.class",
+    "bytes": 483,
+    "sha256": "db9e733bf14db3672b52a916a84aa201c6200969f5d655ad5687a3f30bac21cf"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/IWizardContainer2.class",
+    "bytes": 216,
+    "sha256": "196d4b6dedec4bd17c9fc25915fd7f4202e8b13ae56fedda88cf6970c23162c8"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/IWizardNode.class",
+    "bytes": 301,
+    "sha256": "c96850f0fa241c2ac7379a5d5ced5fda26fb9ba8b8813744a48f67ce76df21b1"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/IWizardPage.class",
+    "bytes": 676,
+    "sha256": "ea4aa7525b128fcf5732cc4360a7ce9890b7bf48bb8f34ebec71be12f1d92069"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/ProgressMonitorPart.class",
+    "bytes": 9211,
+    "sha256": "964945d935cf3ff451463f826225d2731bd5b60cc4fecd7bb6daa9256add67e1"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/Wizard.class",
+    "bytes": 6915,
+    "sha256": "2eb02445e38fdcd4f3d41746886c6871354c46babdf304b5b98bd38127cd9ea0"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog$1.class",
+    "bytes": 1905,
+    "sha256": "b0cdc228146298eb23812c56da60b81837ee98a34879df96ded44a3104832983"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog$2.class",
+    "bytes": 834,
+    "sha256": "76955f3f573e120fb9e86d039ee685c37bfd13c8030e20d98d3b1e4179b9aaf3"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog$3.class",
+    "bytes": 834,
+    "sha256": "4ea1ef1d10296dd26cd07bff52cfb17e74ab031d32b368a832af390fdc68e25c"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog$4.class",
+    "bytes": 911,
+    "sha256": "7a71103f10fcff90c8c493a7ebbbd10d0050c036e0130f5a6dcaa080f82d5412"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog$5.class",
+    "bytes": 915,
+    "sha256": "d7279cd2c95bee41ff01418b2e234679745be2daf54ccb60b9d7546999cd72b9"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog$6.class",
+    "bytes": 929,
+    "sha256": "8c55fc7b37d12bc53f0fa6fd924652d98e6c76f985ac14b080502ea18284ebe6"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog$PageContainerFillLayout.class",
+    "bytes": 2472,
+    "sha256": "d05201ddc80cf0a3ba94ad8fe1e1f98c32a3dbc7871a3ef4f9bfeefd74ad633f"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardDialog.class",
+    "bytes": 26391,
+    "sha256": "233a8093a1a0df091e6d43ad00e2279c806482d35b780a8702cf4ad0b176fab3"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardPage.class",
+    "bytes": 3561,
+    "sha256": "b2332ae881bf7a44764480d704de472da1758995faffce023d2ba30f4828e7d3"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/WizardSelectionPage.class",
+    "bytes": 2131,
+    "sha256": "5c4839ea269d848b3162e0cdb77104c5a0fdf5b1ee4b3d3a48162da44d85780a"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/images/page.png",
+    "bytes": 718,
+    "sha256": "1875e318fd5f87efbbbff3333998f34ed9fd04a9a630fc2b6c10ef0f6c453438"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/images/page.svg",
+    "bytes": 936,
+    "sha256": "1a9656aaafb9ce211618a072b0bccd8c8bae6fa560d59b5792ad2e723c8af3a3"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/images/stop.png",
+    "bytes": 326,
+    "sha256": "d9399cfaaa51d1b58a19d3dc651d3b8fcb8a785744114c4b697bf0d8b9e5b069"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/images/stop.svg",
+    "bytes": 5085,
+    "sha256": "7aee42c793928542d4a1e1d4d199802bfc62675b77fc9c60bfb9c32dafc761a8"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/images/stop@2x.png",
+    "bytes": 531,
+    "sha256": "4142380b8680c769dd44596c78d50144ad6a7efb88af67fa033c3ee8e7d4abf9"
+  },
+  {
+    "path": "org/eclipse/jface/wizard/package.html",
+    "bytes": 2176,
+    "sha256": "98d29590331f4d719fb3a37c50c13cbafd96621952226726428e15b360e44e09"
+  }
+]

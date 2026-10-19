@@ -1,0 +1,215 @@
+{
+  "review": "Independent read-only review of the first native JFace M3 tree gate failure",
+  "test": "org.eclipse.jface.tests.viewers.M3TreeForwardingTest#testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings",
+  "reported_failure": {
+    "source": "Root and native-runner report; no additional native run by this reviewer",
+    "test_count": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "assertion_line": 165,
+    "expected_expanded_count": 2,
+    "actual_expanded_count": 1
+  },
+  "conclusion": "The fixture selects a leaf as its second requested expanded item. That expectation conflicts with the existing SWT leaf-expansion contract. The observed count is consistent with that contract and does not justify an SWT owner change.",
+  "minimal_fixture_correction": {
+    "statement": "child.basicAddChild();",
+    "placement": "After selecting child, before fTreeViewer.setInput(root).",
+    "uses_existing_fixture_API": true,
+    "adds_real_model_elements": 1,
+    "fires_model_event": false,
+    "root_sibling_count_retained": 200,
+    "parent_child_count_retained": 200,
+    "selected_child_count_before": 0,
+    "selected_child_count_after": 1,
+    "assertions_changed": false,
+    "SetData_budgets_changed": false,
+    "model_elements_before": 40201,
+    "model_elements_after": 40202
+  },
+  "SWT_source_changes_proposed": false,
+  "remaining_verification": "The native owner must rerun the unchanged assertions with the corrected nonleaf fixture; later hidden-state/tree-path assertions have not been qualified by this source review.",
+  "source_files": [
+    {
+      "repository": "hsoliwal/eclipse.platform.ui",
+      "revision": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+      "path": "tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/TestElement.java",
+      "git_blob": "55c6af7c9ff0af06d6d77f327d307016c9d357cc",
+      "sha256": "36b4cf1f7b75e7a20981674117e1ebe28bca57b381bf51506b5687d10c9217c4",
+      "facts": [
+        {
+          "lines": [
+            47,
+            61
+          ],
+          "fact": "The recursive model constructor adds children only when the current level is less than numLevels."
+        },
+        {
+          "lines": [
+            120,
+            122
+          ],
+          "fact": "createModel starts the root at level zero."
+        },
+        {
+          "lines": [
+            94,
+            99
+          ],
+          "fact": "basicAddChild creates and appends exactly one child without invoking fireModelChanged."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.ui",
+      "revision": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+      "path": "tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java",
+      "git_blob": "1fcc1ce609db5e61f71dd8446c7097efbce1b2e3",
+      "sha256": "972fccacdbdccd2515906ad3871ffd8c5a265b6604c3854419ceb10b69a42f1a",
+      "facts": [
+        {
+          "lines": [
+            153,
+            165
+          ],
+          "fact": "The failing fixture chooses a level-one parent and level-two child from createModel(2, 200), then expects both to be expanded."
+        },
+        {
+          "lines": [
+            169,
+            185
+          ],
+          "fact": "Later assertions require the child to retain expansion beneath a collapsed parent and preserve no-new-SetData enumeration."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "revision": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "path": "tests/org.eclipse.swt.tests/JUnit Tests/org/eclipse/swt/tests/junit/Test_org_eclipse_swt_widgets_TreeItem.java",
+      "git_blob": "f542a24f5c81a7d595a68fce21914265f8767793",
+      "sha256": "9c9f18135681f08559edc32730f814dbaba632fe85e21ff11565e7e0724b1fdb",
+      "facts": [
+        {
+          "lines": [
+            807,
+            838
+          ],
+          "fact": "The existing shared SWT test explicitly requires leaves to remain unexpanded before and after expansion requests."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "revision": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "path": "bundles/org.eclipse.swt/Eclipse SWT/common/org/eclipse/swt/widgets/TreeExpansionModel.java",
+      "git_blob": "41f554036f1e5dc3fcb7d2470e21d64c3bf40af1",
+      "sha256": "ee7b36efec39357666447acf181e6c473e2f8a446c6ad10e3a6910523dc2af4c",
+      "facts": [
+        {
+          "lines": [
+            97,
+            108
+          ],
+          "fact": "Bulk requested expansion validates and pins items, then delegates to replaceExpanded under the redraw transaction."
+        },
+        {
+          "lines": [
+            110,
+            131
+          ],
+          "fact": "Enumeration reads item expanded state; replacement calls each item setExpanded and therefore preserves its leaf rule."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "revision": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "path": "bundles/org.eclipse.swt/Eclipse SWT/gtk/org/eclipse/swt/widgets/TreeItem.java",
+      "git_blob": "c75918de5c62cfd6ba04eff26e4b83b508750011",
+      "sha256": "0476a9fcbe8c3a834a6f69bac2c21d7b849e44a621b5b9c0015e48255579011f",
+      "facts": [
+        {
+          "lines": [
+            1562,
+            1595
+          ],
+          "fact": "GTK bounded virtual and regular expansion paths refuse leaf expansion."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "revision": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "path": "bundles/org.eclipse.swt/Eclipse SWT/gtk/org/eclipse/swt/widgets/Tree.java",
+      "git_blob": "7644cb88337858402c7b82b1b0b584653c90e192",
+      "sha256": "5f3c6c36e71115d6d4ac346c460aca906d2d736be4210de2f5ad8646b9217bf7",
+      "facts": [
+        {
+          "lines": [
+            2536,
+            2565
+          ],
+          "fact": "Tree expanded-item public APIs forward to TreeExpansionModel."
+        },
+        {
+          "lines": [
+            2568,
+            2595
+          ],
+          "fact": "Nonmaterializing virtual modelChildren enumerates only represented topology children."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "revision": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "path": "bundles/org.eclipse.swt/Eclipse SWT/cocoa/org/eclipse/swt/widgets/TreeItem.java",
+      "git_blob": "e40223f0234e7a446fe3cbdfc58d4e8f4b7eb0ec",
+      "sha256": "8361c2fc2db5a8fb4ddb569340bfc107c4d6fb27cbc3a66bf17dc0dab431dd7e",
+      "facts": [
+        {
+          "lines": [
+            1395,
+            1405
+          ],
+          "fact": "Cocoa refuses expansion when itemCount is zero."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "revision": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "path": "bundles/org.eclipse.swt/Eclipse SWT/win32/org/eclipse/swt/widgets/TreeItem.java",
+      "git_blob": "9412735e023733669c421618edb6dc31cf94d137",
+      "sha256": "bf2e604944438154ff0855396df32809bd6a97441884e8e323be5539acc06d61",
+      "facts": [
+        {
+          "lines": [
+            1476,
+            1486
+          ],
+          "fact": "Win32 uses the viewport owner when present and otherwise refuses native leaf expansion."
+        }
+      ]
+    },
+    {
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "revision": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "path": "bundles/org.eclipse.swt/Eclipse SWT/win32/org/eclipse/swt/widgets/TreeViewport.java",
+      "git_blob": "6a4963d3d54a412fcbf444baddb0989d822fa924",
+      "sha256": "9f1c9ebab30843ae608d4dd62d7ea50a82ef8e3795b05fe6b9b3caf8110c42e7",
+      "facts": [
+        {
+          "lines": [
+            1008,
+            1016
+          ],
+          "fact": "The Win32 viewport owner resolves unknown child count and refuses expansion for zero children."
+        }
+      ]
+    }
+  ],
+  "existing_source_files_modified": false,
+  "native_tests_executed_by_this_reviewer": false
+}

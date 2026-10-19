@@ -1,0 +1,51 @@
+{
+  "uiHead": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "textOwnerSha256": "35d09cd5c3fccc281acfdc8b4ba96131f8f54e15c587ae9d5e9556e4d6e1cc30",
+  "targets": [
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/commands/CommandManager.java",
+      "before": "6fea6566700e8a78bd776b8fe32c96d7908b61a079765bafb98ee071da2ed410",
+      "after": "cdfbbe650c4532b420f5b237ed367bb377700f5842b57ea80d9a4387dbe18f45"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/OrderedSlotMap.java",
+      "before": "ABSENT",
+      "after": "4df22f477ec194168f2d58acc21c543982be8069a26b3b7062377cf92d3b0853"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/PackedHashMap.java",
+      "before": "ABSENT",
+      "after": "3c7c81bca569a5ca3aac9a391bb52d4ba17df62773587683dd30d5b6fd9ea3d0"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotArrays.java",
+      "before": "ABSENT",
+      "after": "1c3308080f8abf2dda559d99c0f53fa0905317d8ebbd10f179dca29c5f687333"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java",
+      "before": "ABSENT",
+      "after": "b11f111f75d60607841b5b50c711b980db29f712860146c8097025fc5705ff09"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotSpliterators.java",
+      "before": "ABSENT",
+      "after": "4326c99f40ea4a09ecf197e15d9c2b5cd058652de2f0ae5833a05d39278c3dc9"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.classpath",
+      "before": "14bd863f6f090dd4c5d9de028c15c8ab425306f427391eaa6842f210c6c788c8",
+      "after": "e452df62748c2a594efbeffca83797e53b90a2127f100737739ac1a4ccfa1c4c"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.settings/org.eclipse.jdt.core.prefs",
+      "before": "b619605232a7de308b39c50fc8795364d46aa9787de776653fbe73bd5ba06681",
+      "after": "67d8e10970b95842d4bf16940992b947948c4a46cb28d06938a5c222917423a8"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+      "before": "9710b78545ff6276a3aefc6e45d04dd6b4c5ac05bdcb3076d3ac0bd22bc13bee",
+      "after": "96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21"
+    }
+  ]
+}

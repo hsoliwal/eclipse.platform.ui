@@ -1,0 +1,60 @@
+{
+  "command": [
+    "bash",
+    "/tmp/eclipse-m3-20261018/toolchain/swt-native-gtk3/build.sh",
+    "-gtk3"
+  ],
+  "cwd": "/tmp/eclipse-m3-20261018/toolchain/swt-native-gtk3",
+  "environment": {
+    "PATH": "/tmp/eclipse-m3-20261018/toolchain/native-bin:/root/.codex/tmp/arg0/codex-arg0VmpIdj:/opt/codex/codex-path:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "PKG_CONFIG_SYSROOT_DIR": "/tmp/eclipse-m3-20261018/toolchain/native-sysroot",
+    "PKG_CONFIG_LIBDIR": "/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/lib/x86_64-linux-gnu/pkgconfig:/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/lib/pkgconfig:/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/share/pkgconfig",
+    "GTK_XCFLAGS": "-I/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/include -I/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/include/x86_64-linux-gnu",
+    "LIBRARY_PATH": "/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/lib/x86_64-linux-gnu:/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/lib",
+    "SWT_LFLAGS": "-L/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/lib/x86_64-linux-gnu",
+    "SWT_JAVA_HOME": "/tmp/m3-toolchain/jdk21",
+    "GTK_VERSION": "3.0",
+    "MAKEFLAGS": "-j4"
+  },
+  "exit_code": 0,
+  "seconds": 20.11523861599926,
+  "source_repository": "hsoliwal/eclipse.platform.swt",
+  "source_commit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+  "libraries": [
+    {
+      "name": "libswt-atk-gtk-4975r10.so",
+      "bytes": 43408,
+      "sha256": "ff2855d483fc997f2692a0f9d6e3775eb90743db49e53a576c42a7d60797eb34"
+    },
+    {
+      "name": "libswt-awt-gtk-4975r10.so",
+      "bytes": 14408,
+      "sha256": "6fba450120f753344e4a52ea6c731118d4272c325c16363ce7e65a22aa74b68d"
+    },
+    {
+      "name": "libswt-cairo-gtk-4975r10.so",
+      "bytes": 48096,
+      "sha256": "9831d69a167f8f939da8ed49eeefda34638b99753d08c05b589696003d3283e5"
+    },
+    {
+      "name": "libswt-glx-gtk-4975r10.so",
+      "bytes": 14496,
+      "sha256": "1d7ed632ecc66cccaeaacf3cddd59737c74055aceed22a2213b822614737cfed"
+    },
+    {
+      "name": "libswt-gtk-4975r10.so",
+      "bytes": 626888,
+      "sha256": "37e0fdf931b6edf192729c74ff9fb4e75233a7d7546d72c91a729fc4f44f3685"
+    },
+    {
+      "name": "libswt-pi3-gtk-4975r10.so",
+      "bytes": 516544,
+      "sha256": "25f405825a7e90afd21eb34e893df662048a36cf77e4809a8aa4de64b34210c2"
+    },
+    {
+      "name": "libswt-webkit-gtk-4975r10.so",
+      "bytes": 75888,
+      "sha256": "c1d23d9a5b8d30fdfb5fe0e8c28a3114e11978b141b1e76b03dfa442a0418d4a"
+    }
+  ]
+}

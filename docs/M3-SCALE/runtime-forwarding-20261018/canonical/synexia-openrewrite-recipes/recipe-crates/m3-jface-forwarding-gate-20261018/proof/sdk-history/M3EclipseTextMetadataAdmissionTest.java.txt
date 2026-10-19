@@ -1,0 +1,149 @@
+// SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+// SPDX-License-Identifier: Apache-2.0
+package com.synexia.rewrite;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import org.junit.jupiter.api.Test;
+import org.openrewrite.InMemoryExecutionContext;
+import org.openrewrite.SourceFile;
+import org.openrewrite.internal.InMemoryLargeSourceSet;
+import org.openrewrite.text.PlainText;
+
+/** Real SDK admission and source-path regressions for the shared metadata owner. */
+final class M3EclipseTextMetadataAdmissionTest {
+    private static final String PREFIX = "eclipse-m3-text-";
+    private static final String SUFFIX = "-20261018";
+
+    private static M3HashPinnedTextSnapshotRecipe recipe(String fixture) {
+        return new M3HashPinnedTextSnapshotRecipe(PREFIX + fixture + SUFFIX);
+    }
+
+    private static InMemoryExecutionContext context() {
+        return new InMemoryExecutionContext(failure -> { throw new AssertionError(failure); });
+    }
+
+    private static String resource(String fixture, String name) throws Exception {
+        String path = "/com/synexia/rewrite/hash-pinned-text/" + PREFIX + fixture + SUFFIX + "/" + name;
+        try (var input = M3EclipseTextMetadataAdmissionTest.class.getResourceAsStream(path)) {
+            assertNotNull(input, path);
+            return new String(input.readAllBytes(), StandardCharsets.UTF_8);
+        }
+    }
+
+    private static PlainText source(String fixture) throws Exception {
+        String path = resource(fixture, "manifest.tsv").split("\\t", -1)[0];
+        return PlainText.builder().sourcePath(Path.of(path)).text(resource(fixture, "before.txt")).build();
+    }
+
+    private static Map<String, String> run(String fixture, List<SourceFile> input) {
+        Map<String, String> changed = new TreeMap<>();
+        for (var result : recipe(fixture).run(new InMemoryLargeSourceSet(input), context(), 1)
+                .getChangeset().getAllResults()) {
+            assertNotNull(result.getAfter());
+            changed.put(result.getAfter().getSourcePath().toString(), result.getAfter().printAll());
+        }
+        return changed;
+    }
+
+    private static void accepted(String fixture) throws Exception {
+        PlainText before = source(fixture);
+        Map<String, String> changed = assertDoesNotThrow(() -> run(fixture, List.of(before)),
+                "Exact metadata owner must be admitted: " + fixture);
+        String expected = resource(fixture, "candidate.txt");
+        assertEquals(Map.of(before.getSourcePath().toString(), expected), changed);
+        assertTrue(run(fixture, List.of(before.withText(expected))).isEmpty(), "Fixed point: " + fixture);
+    }
+
+    private static void requireCause(Throwable failure, String message) {
+        for (Throwable current = failure; current != null; current = current.getCause()) {
+            if (current instanceof IllegalStateException
+                    && current.getMessage() != null && current.getMessage().contains(message)) {
+                return;
+            }
+        }
+        throw new AssertionError("Expected IllegalStateException containing " + message, failure);
+    }
+
+    @Test
+    void exactRootMetadataOwnersGenerateAndReplay() throws Exception {
+        accepted("root-gitattributes");
+        accepted("root-gitmodules");
+    }
+
+    @Test
+    void exactJFaceTestManifestGeneratesAndReplays() throws Exception {
+        accepted("jface-test-manifest");
+    }
+
+    @Test
+    void exactCommandJava21MetadataGeneratesAndReplays() throws Exception {
+        accepted("commands-classpath");
+        accepted("commands-compiler");
+    }
+
+    @Test
+    void neighboringOwnersRemainRefused() {
+        for (String fixture : List.of("nested-gitmodules", "nested-gitattributes",
+                "jface-classpath", "commands-other-prefs", "other-test-manifest")) {
+            IllegalStateException failure = assertThrows(IllegalStateException.class,
+                    () -> recipe(fixture).targetPaths(), fixture);
+            assertTrue(failure.getMessage().contains("invalid hash-pinned text manifest row"), fixture);
+        }
+    }
+
+    @Test
+    void gitSegmentsRemainRefusedIgnoringCase() {
+        for (String fixture : List.of("root-git-directory", "nested-git-directory",
+                "case-git-directory")) {
+            IllegalStateException failure = assertThrows(IllegalStateException.class,
+                    () -> recipe(fixture).targetPaths(), fixture);
+            assertTrue(failure.getMessage().contains("invalid hash-pinned text manifest row"), fixture);
+        }
+    }
+
+    @Test
+    void scannerRefusesNormalizedTargetAliases() throws Exception {
+        for (String fixture : List.of("root-gitattributes", "root-gitmodules")) {
+            PlainText before = source(fixture);
+            SourceFile alias = before.withSourcePath(Path.of("nested", "..", before.getSourcePath().toString()));
+            RuntimeException failure = assertThrows(RuntimeException.class,
+                    () -> run(fixture, List.of(alias)), fixture);
+            requireCause(failure, "non-canonical target path");
+        }
+    }
+
+    @Test
+    void visitorRefusesAliasIntroducedAfterScan() throws Exception {
+        var recipe = recipe("root-gitattributes");
+        var context = context();
+        var inventory = recipe.getInitialValue(context);
+        PlainText before = source("root-gitattributes");
+        recipe.getScanner(inventory).visit(before, context);
+        SourceFile alias = before.withSourcePath(Path.of("nested", "..", ".gitattributes"));
+        RuntimeException failure = assertThrows(RuntimeException.class,
+                () -> recipe.getVisitor(inventory).visit(alias, context));
+        requireCause(failure, "target changed after scan");
+    }
+
+    @Test
+    void unrelatedNoncanonicalPathDoesNotChangeTargetScope() throws Exception {
+        PlainText target = source("root-gitattributes");
+        var input = new ArrayList<SourceFile>();
+        input.add(target);
+        input.add(PlainText.builder().sourcePath(Path.of("unrelated", "..", "decoy.xml"))
+                .text("<unrelated/>\\n").build());
+        assertEquals(Map.of(".gitattributes", resource("root-gitattributes", "candidate.txt")),
+                run("root-gitattributes", input));
+    }
+}

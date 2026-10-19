@@ -1,0 +1,339 @@
+{
+  "repository": "hsoliwal/eclipse.platform.swt",
+  "commit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+  "command": [
+    "/tmp/m3-toolchain/jdk21/bin/java",
+    "-Dws=gtk",
+    "build-scripts/CollectSources.java",
+    "-nativeSources",
+    "/tmp/eclipse-m3-20261018/toolchain/swt-native-gtk3"
+  ],
+  "cwd": "/tmp/eclipse-m3-20261018/forks/eclipse.platform.swt/bundles/org.eclipse.swt",
+  "files": [
+    {
+      "name": "atk.c",
+      "bytes": 20202,
+      "sha256": "5f1d7007d1bdb0261a478e8831321b6459196f06f1377cfbf44e7a622eba4afb"
+    },
+    {
+      "name": "atk.h",
+      "bytes": 1107,
+      "sha256": "7469a8c39fa2f9281bd018d9d0084dc96dbd27d4dad63323dfda2566980b1852"
+    },
+    {
+      "name": "atk_custom.c",
+      "bytes": 969,
+      "sha256": "f1c48565a23b8101ac751cbe94e960ce376647cd0e11ccd1192cf263389c8d19"
+    },
+    {
+      "name": "atk_custom.h",
+      "bytes": 1017,
+      "sha256": "d12b6df21b69feefc1e6a9b6381b89f5921068ca692dc5b8af6ce3986ff12e4d"
+    },
+    {
+      "name": "atk_stats.c",
+      "bytes": 1009,
+      "sha256": "79e7c3cbccb5b8ddb328324c4851d23d73ad8942259a118a208412ae7f2f873d"
+    },
+    {
+      "name": "atk_stats.h",
+      "bytes": 3196,
+      "sha256": "9da25b746b87f21a31a5a1926c073eccc90bac1c70a7c8ce5354bcc24036189c"
+    },
+    {
+      "name": "atk_structs.c",
+      "bytes": 55629,
+      "sha256": "8daf033170f39c87649ac14257cf0f4f9983a556ed61af361bb9ca8a87e55b6d"
+    },
+    {
+      "name": "atk_structs.h",
+      "bytes": 7091,
+      "sha256": "30ee05f560119d9014eb26dbfb8370b00c7a9d5722e6504a7ca512f8f1d0a2e3"
+    },
+    {
+      "name": "build.sh",
+      "bytes": 8903,
+      "sha256": "b1c7ba4d5fc3b9d369e0a4e425d75e50ad459e3c31b9d00e3451254e4ffa854a"
+    },
+    {
+      "name": "c.c",
+      "bytes": 12494,
+      "sha256": "353a615858b406128359aae4a8ea7f9f2941b4c91c4898071c2d1c46337db70c"
+    },
+    {
+      "name": "c.h",
+      "bytes": 787,
+      "sha256": "447e5d2c2f3a480b34c4c3ae41f64c0f3155c7a75e120bdc515b520df3f94817"
+    },
+    {
+      "name": "c_stats.c",
+      "bytes": 733,
+      "sha256": "d47b9d3be9238439427c0d918e04a3d3a9c93191f318631b4a5f71131902dd3d"
+    },
+    {
+      "name": "c_stats.h",
+      "bytes": 1338,
+      "sha256": "8000ae54f17cbdc8fb7ed330c91bd5ae79addd045a6a30097f112a12675def9b"
+    },
+    {
+      "name": "c_structs.c",
+      "bytes": 735,
+      "sha256": "a81c513389d158697ce2b9eefa19f9ccc69945b04d6a0606a160183266d3265c"
+    },
+    {
+      "name": "c_structs.h",
+      "bytes": 710,
+      "sha256": "4cf9db93cde4485a1c07ab9d690f1126eafb412a4a3fee3fa49eaac029785a01"
+    },
+    {
+      "name": "cairo.c",
+      "bytes": 51904,
+      "sha256": "f2d8b6cad5eca1a1dd28354fef2ff925934b531aa19609c2a79f2392cb9eb917"
+    },
+    {
+      "name": "cairo.h",
+      "bytes": 1174,
+      "sha256": "a57e3003e0636f5c9341be5b8f40b31eed336c2277864e8b7f3506a3e6f8a71e"
+    },
+    {
+      "name": "cairo_custom.h",
+      "bytes": 1268,
+      "sha256": "4517deeac83e26c354d898d50ef08991e1795dbf771e0bd6557a0b15ecd86e26"
+    },
+    {
+      "name": "cairo_stats.c",
+      "bytes": 913,
+      "sha256": "ade8766d6a58db5143e4778d523f16d15b1170cc0ceb5cde6f1811741f74a6bb"
+    },
+    {
+      "name": "cairo_stats.h",
+      "bytes": 4915,
+      "sha256": "faf88b757970e3a28b6ca529d7befe378651275cecb4b9deef3ea1896b5a078f"
+    },
+    {
+      "name": "cairo_structs.c",
+      "bytes": 5775,
+      "sha256": "60e3bc87154b00ca9989911212061bfd607214d24578ae12d835b4b81c48b36c"
+    },
+    {
+      "name": "cairo_structs.h",
+      "bytes": 2491,
+      "sha256": "fe2627f43d09120531628141fd54ddf95ad63e811a0e0cd2f7db9a0109402ac6"
+    },
+    {
+      "name": "callback.c",
+      "bytes": 52520,
+      "sha256": "c621c87c5bc5d6f857cfda82d4638fc45b0e1f3f88af3998b30a4ba1fe759213"
+    },
+    {
+      "name": "callback.h",
+      "bytes": 1229,
+      "sha256": "12779db8f2913f37de994e63abf4900ecf38d36624d39a9f904f8d596b171daa"
+    },
+    {
+      "name": "check_dependencies.sh",
+      "bytes": 2226,
+      "sha256": "5ebb7ac419f30373cacfeb6cff276267624634f28d21869bfd41ba727db6a23f"
+    },
+    {
+      "name": "glx.c",
+      "bytes": 5666,
+      "sha256": "51ebc4f628b4b606beb6df809c897aa456a8cd3c897d19f1f81b2259de3ecf68"
+    },
+    {
+      "name": "glx.h",
+      "bytes": 711,
+      "sha256": "302e5f1bea85f14ca4ac09b50bb5433ff24692bd4aca9d8e4b450e5011146331"
+    },
+    {
+      "name": "glx_stats.c",
+      "bytes": 735,
+      "sha256": "83b7cdc26dd4e6b263b4af59838d1e7676d5ee6b74cbbf5065b1858ef5cb31bc"
+    },
+    {
+      "name": "glx_stats.h",
+      "bytes": 1116,
+      "sha256": "7f680fadda442cf5575804d138039c3180653000f04c9914da2348d35ef4a045"
+    },
+    {
+      "name": "glx_structs.c",
+      "bytes": 4138,
+      "sha256": "f8bebf4e3f8c0ac3aaa638aaa3f027b0d8b3aed451a72f9de5275026da628d64"
+    },
+    {
+      "name": "glx_structs.h",
+      "bytes": 1172,
+      "sha256": "a28e479dedd448a1dd2b8d1f8ca14eab46a5d2831a410ef3cbb01d7a2512a9af"
+    },
+    {
+      "name": "gtk3.c",
+      "bytes": 104161,
+      "sha256": "9dacb025716742d15e1a0e212b3a80d9883fce0e425214c0f935d6a388f739d5"
+    },
+    {
+      "name": "gtk3.h",
+      "bytes": 836,
+      "sha256": "c82fbfaa3f45f5546efad3b983cf2d56bafb360908282a5773442079d3f887d3"
+    },
+    {
+      "name": "gtk3_stats.c",
+      "bytes": 736,
+      "sha256": "0e309e0f83c2398c6afb29ea9ad0fde95f8a7b3dbe9e6a79d8dbdc971b8bfdd2"
+    },
+    {
+      "name": "gtk3_stats.h",
+      "bytes": 9401,
+      "sha256": "665f32fb0ba285551f804a1cddc3d82d4d61c2b9d910e48571b6bf7fed583842"
+    },
+    {
+      "name": "gtk3_structs.c",
+      "bytes": 30984,
+      "sha256": "46bdf134744b6c088fa3b4c468bc78d51d5b5e684baa366f7823432b25657334"
+    },
+    {
+      "name": "gtk3_structs.h",
+      "bytes": 5612,
+      "sha256": "25c2c699da42dcb00c60f53aa638a04b1079cf722056396d565af205bdb6f725"
+    },
+    {
+      "name": "gtk4.c",
+      "bytes": 120300,
+      "sha256": "208767d428b65a0a32555a1ddbfb4119a2538b1f446ddbcbba5f39db44084359"
+    },
+    {
+      "name": "gtk4.h",
+      "bytes": 837,
+      "sha256": "17889d1b5a44b2b02413245eea4844be466dd9953e4a288f079b7e10f88786a0"
+    },
+    {
+      "name": "gtk4_stats.c",
+      "bytes": 736,
+      "sha256": "9f23be81dca51b9aa8740036bb30ba90980b3942dde96ddc6b56c0eb4ee172d6"
+    },
+    {
+      "name": "gtk4_stats.h",
+      "bytes": 10452,
+      "sha256": "e1f4d59c2073d78d8e16ce82de654acf0e90ebca8123b6cb9672428d6c273000"
+    },
+    {
+      "name": "gtk4_structs.c",
+      "bytes": 738,
+      "sha256": "e585279b1947d3f88b577b79f6505233238a5969215900d1eddd22a2e9031ca6"
+    },
+    {
+      "name": "gtk4_structs.h",
+      "bytes": 713,
+      "sha256": "beca8e07ab829ea556416348a07bf814f4db322c9c7022a5e86bea29e1a2fabe"
+    },
+    {
+      "name": "make_common.mak",
+      "bytes": 576,
+      "sha256": "0c71d27b1cc3aa6315de04db1da14df2577202fac071392d8607fb77b7e5cf83"
+    },
+    {
+      "name": "make_linux.mak",
+      "bytes": 10498,
+      "sha256": "aa6b3a4fa64a32bee2461a9184202007bdbc6afc5d9f0cb1f49ab5d60eea3177"
+    },
+    {
+      "name": "makefile",
+      "bytes": 359,
+      "sha256": "f2f95949072bb200b49d051e4c3a7d756b5c17ab29c635e9984100652e4d0c01"
+    },
+    {
+      "name": "os.c",
+      "bytes": 546871,
+      "sha256": "3aca63d10d19018b67a06e43ed03044a51403b1ccb84e0dee3c76d327994edbb"
+    },
+    {
+      "name": "os.h",
+      "bytes": 11011,
+      "sha256": "7fdbad152c0495a741060e636c086ac6cbc2b96927e335985b3b078c7d16fba6"
+    },
+    {
+      "name": "os_custom.c",
+      "bytes": 123771,
+      "sha256": "0e9747640e277c22fc5a824a286c062008b53940688c88c4bb07d86325b06626"
+    },
+    {
+      "name": "os_custom.h",
+      "bytes": 8375,
+      "sha256": "75c16311cbbcb9e5146612d26895d5e59a98ed5883ecea1ccddab3d654ee83b5"
+    },
+    {
+      "name": "os_stats.c",
+      "bytes": 1008,
+      "sha256": "8a4380c07ced58c6905b911b277cc625d8cb938e307e1d7bbe448f7eab435327"
+    },
+    {
+      "name": "os_stats.h",
+      "bytes": 44944,
+      "sha256": "543265bae0088629c2c6281f37732b8c69dc3fa4839cc5ca99a4bc77d8f5486e"
+    },
+    {
+      "name": "os_structs.c",
+      "bytes": 43877,
+      "sha256": "18cdfbf2e2cb769cf65f9a98efd9295ea4e627b43280c406acaba2b455000a10"
+    },
+    {
+      "name": "os_structs.h",
+      "bytes": 11469,
+      "sha256": "cc7d0bb66f7151050fae85eee320f81b939eab48988edac6fc59739be61768c4"
+    },
+    {
+      "name": "swt.c",
+      "bytes": 943,
+      "sha256": "2215d80cd31b17c3de72b719559e442fb4dd6b095495701b5d51ade058fc5c00"
+    },
+    {
+      "name": "swt.h",
+      "bytes": 3068,
+      "sha256": "ad16d58937f9d3ce59f57083257c7989f3d1277cc9605cce331173decd6c8293"
+    },
+    {
+      "name": "swt_awt.c",
+      "bytes": 3810,
+      "sha256": "0ec1b7ba696b28e900c5e751204715433b5b2c741a531439ee615a309b3aa262"
+    },
+    {
+      "name": "webkitgtk.c",
+      "bytes": 87270,
+      "sha256": "ab67284fc1b8a1bec059046037f80b3fa52aeb0c70301ffb81fe63085225bc26"
+    },
+    {
+      "name": "webkitgtk.h",
+      "bytes": 5047,
+      "sha256": "806e4f90a7a648a782ceaa4259ee20ca9c9a4ae0c6531fd9b2551a5a589a9aa9"
+    },
+    {
+      "name": "webkitgtk_custom.c",
+      "bytes": 3050,
+      "sha256": "ddbe4d73774cfe09e28b8831308c16b9ee706e350f3ed7ed287edf078f24bb9f"
+    },
+    {
+      "name": "webkitgtk_custom.h",
+      "bytes": 1149,
+      "sha256": "efe8bf047746c9c3724d2edb7256c8af81200fa8ccb55bd2e86ac734adaffc36"
+    },
+    {
+      "name": "webkitgtk_stats.c",
+      "bytes": 1015,
+      "sha256": "494aee14111e3a2d451e4e7c2d3abe8d3492f4c7ea864f1975e546b2a9c5e3b4"
+    },
+    {
+      "name": "webkitgtk_stats.h",
+      "bytes": 7007,
+      "sha256": "18146ef986b902299d7dfd7c2be702cf833c7404592d0f0716109dd1c8b8ad92"
+    },
+    {
+      "name": "webkitgtk_structs.c",
+      "bytes": 2703,
+      "sha256": "6408204acd1ec62e8464b543a0272da7c7a435d64f7f4f2d6cb775416657d505"
+    },
+    {
+      "name": "webkitgtk_structs.h",
+      "bytes": 1465,
+      "sha256": "4e73a064a5ff452457b9d1a352465dd3891dce632b6d5f1406b40882644ea330"
+    }
+  ]
+}

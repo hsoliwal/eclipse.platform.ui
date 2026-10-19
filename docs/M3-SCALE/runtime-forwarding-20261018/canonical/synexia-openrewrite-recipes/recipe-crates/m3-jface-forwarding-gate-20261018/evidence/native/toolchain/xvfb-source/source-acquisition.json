@@ -1,0 +1,47 @@
+{
+  "source_package": "xorg-server",
+  "version": "2:21.1.12-1ubuntu1.8",
+  "authenticated_source_index_pins": {
+    "release": "archive.ubuntu.com_ubuntu_dists_noble-updates_InRelease",
+    "base": "https://archive.ubuntu.com/ubuntu/dists/noble-updates/",
+    "files": [
+      {
+        "sha256": "636b38f4a67a90fed614677d76562f0783a2016f22d368f6ed8d8bfae137b7be",
+        "bytes": 555756,
+        "path": "main/source/Sources.xz"
+      },
+      {
+        "sha256": "6f6878e21ea7c50b6ef621775256aa605413a1dfcb15b91ed69c554db29d90f3",
+        "bytes": 461500,
+        "path": "universe/source/Sources.xz"
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "xorg-server_21.1.12.orig.tar.gz",
+      "sha256": "f76a5878b0e6d16415cf0cd24ffc21090845fef3bc4ada45e57ea86b6c8fb75b",
+      "bytes": 9023823,
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/x/xorg-server/xorg-server_21.1.12.orig.tar.gz"
+    },
+    {
+      "name": "xorg-server_21.1.12.orig.tar.gz.asc",
+      "sha256": "4dcd14c489665fcc8257f24b3ce88e711945c831fe4a9ca81087b915ddc057a0",
+      "bytes": 488,
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/x/xorg-server/xorg-server_21.1.12.orig.tar.gz.asc"
+    },
+    {
+      "name": "xorg-server_21.1.12-1ubuntu1.8.diff.gz",
+      "sha256": "5371522bd81cae405e5300957eb82ced84dea277eb5b7d8eba94e72176d37244",
+      "bytes": 254407,
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/x/xorg-server/xorg-server_21.1.12-1ubuntu1.8.diff.gz"
+    },
+    {
+      "name": "xorg-server_21.1.12-1ubuntu1.8.dsc",
+      "sha256": "e31053378207d3363ab1cd65c80edc80daafdfef79586e6f3f4a70a6ad38b34d",
+      "bytes": 4423,
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/x/xorg-server/xorg-server_21.1.12-1ubuntu1.8.dsc"
+    }
+  ],
+  "dpkg_source": "/usr/bin/dpkg-source"
+}

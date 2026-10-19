@@ -1,0 +1,251 @@
+{
+  "schema": "m3-command-registries-source-pins-v1",
+  "spdxLicenseId": "Apache-2.0",
+  "canonicalSourceRepository": "hsoliwal/com.synexia",
+  "canonicalCratePath": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-command-registries-20261018",
+  "canonicalDonorRevision": "140c263a90f9803b9c46103c63355a286e0515f0",
+  "receiverRepository": "hsoliwal/eclipse.platform.ui",
+  "receiverRevision": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "publicDonorRepository": "hsoliwal/M3jdk21",
+  "publicDonorRevision": "ed0d5435eb8796cfd4c9375edfc05b72bb16c8c6",
+  "sharedRecipeOwners": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "blob": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db",
+      "sha256": "962d37d62d740c3e8055c365a048ae7ee0479c26a9f6bbfe741e540d6c1134ab"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "blob": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40",
+      "sha256": "67f7b81126e4736c7b61b444fa6545153a61e23c012975ca796fcee623ab6625"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "blob": "6cdce424ecfca8b023daae9a9128e2a3312f3d8b",
+      "sha256": "35d09cd5c3fccc281acfdc8b4ba96131f8f54e15c587ae9d5e9556e4d6e1cc30"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "blob": "d24729950508857280ea1b56d4e930f05137ec85",
+      "sha256": "13660b59f60ec2941ec19e9bc8964ffd4b04689cdc33cd19711fba14b8da09a4"
+    }
+  ],
+  "sharedTextOwnerRevisionBinding": "content-addressed candidate from the same canonical publication; not present in source base 140c263a90f9803b9c46103c63355a286e0515f0",
+  "recipe": {
+    "name": "com.synexia.eclipse.CommandRegistryForwarding20261018",
+    "descriptor": {
+      "path": "resources/META-INF/rewrite/m3-eclipse-command-registries-20261018.yml",
+      "sha256": "446be489ff7ba337bdd853bdae6e51dfb74c1d9d0d5b256759d7dec2eb469726",
+      "gitBlob": "d50a03c611b25d9a8ad9d084342a5a92c283bb97",
+      "bytes": 828
+    },
+    "mavenPom": {
+      "path": "pom.xml",
+      "sha256": "d16144a99289657dd9d74e330503ef76cde3ffc8e0987cf41757982cc4c97eef",
+      "gitBlob": "79f714461939a9850c6d2190b50d9a1dc3e2f526",
+      "bytes": 3267
+    },
+    "defaultRecipeOwnerRoot": "${project.basedir}/../../src/main/java",
+    "qualificationSourceSnapshots": [
+      {
+        "qualifiedPath": "pom.xml",
+        "archivePath": "proof/qualified-source/pom.xml.txt",
+        "sha256": "004c8c2fae28b1fdc653ae8e237c0bb6b15c9baf128f8285ece19d9c05d793c4",
+        "gitBlob": "4ea25fc91a5a65aeb79414ad6a90fb2d777e1273",
+        "bytes": 3259
+      },
+      {
+        "qualifiedPath": "src/test/java/com/synexia/rewrite/M3CommandRegistryForwardingRecipeTest.java",
+        "archivePath": "proof/qualified-source/M3CommandRegistryForwardingRecipeTest.java.txt",
+        "sha256": "4e0204afd50e494e998cb6cb38340ad8ffb2a6a68e1113207ac3993bbc169f70",
+        "gitBlob": "ec459921994470ea289e0a57f664cbe0e16014cd",
+        "bytes": 8311
+      }
+    ]
+  },
+  "receiverPreAndPostImages": [
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/commands/CommandManager.java",
+      "before": "6fea6566700e8a78bd776b8fe32c96d7908b61a079765bafb98ee071da2ed410",
+      "after": "cdfbbe650c4532b420f5b237ed367bb377700f5842b57ea80d9a4387dbe18f45"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/OrderedSlotMap.java",
+      "before": "ABSENT",
+      "after": "4df22f477ec194168f2d58acc21c543982be8069a26b3b7062377cf92d3b0853"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/PackedHashMap.java",
+      "before": "ABSENT",
+      "after": "3c7c81bca569a5ca3aac9a391bb52d4ba17df62773587683dd30d5b6fd9ea3d0"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotArrays.java",
+      "before": "ABSENT",
+      "after": "1c3308080f8abf2dda559d99c0f53fa0905317d8ebbd10f179dca29c5f687333"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java",
+      "before": "ABSENT",
+      "after": "b11f111f75d60607841b5b50c711b980db29f712860146c8097025fc5705ff09"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotSpliterators.java",
+      "before": "ABSENT",
+      "after": "4326c99f40ea4a09ecf197e15d9c2b5cd058652de2f0ae5833a05d39278c3dc9"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.classpath",
+      "before": "14bd863f6f090dd4c5d9de028c15c8ab425306f427391eaa6842f210c6c788c8",
+      "after": "e452df62748c2a594efbeffca83797e53b90a2127f100737739ac1a4ccfa1c4c"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.settings/org.eclipse.jdt.core.prefs",
+      "before": "b619605232a7de308b39c50fc8795364d46aa9787de776653fbe73bd5ba06681",
+      "after": "67d8e10970b95842d4bf16940992b947948c4a46cb28d06938a5c222917423a8"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+      "before": "9710b78545ff6276a3aefc6e45d04dd6b4c5ac05bdcb3076d3ac0bd22bc13bee",
+      "after": "96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21"
+    }
+  ],
+  "donorSources": [
+    {
+      "donor": "synexia-common/src/main/java/com/synexia/common/collections/jdk/PackedHashMap.java",
+      "blob": "99d665440d96d94a323a85f9c4bf20347acfb593",
+      "sha256": "a7060599b2f33bc14c168e9e2394fc3f49526d2f5d7dbb249e3c580ebcdfec9e",
+      "target": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/PackedHashMap.java",
+      "outputSha256": "3c7c81bca569a5ca3aac9a391bb52d4ba17df62773587683dd30d5b6fd9ea3d0",
+      "nlsTags": 6,
+      "sourceUrl": "https://github.com/hsoliwal/com.synexia/blob/140c263a90f9803b9c46103c63355a286e0515f0/synexia-common/src/main/java/com/synexia/common/collections/jdk/PackedHashMap.java"
+    },
+    {
+      "donor": "synexia-common/src/main/java/com/synexia/common/collections/jdk/SlotMap.java",
+      "blob": "3ceabb2f939096e16562940009495484c0cf581f",
+      "sha256": "16fb80dd4fe51f355894466f8c4d2f80ea7a5b9ffeb01f9eef17af957d49e332",
+      "target": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java",
+      "outputSha256": "b11f111f75d60607841b5b50c711b980db29f712860146c8097025fc5705ff09",
+      "nlsTags": 6,
+      "sourceUrl": "https://github.com/hsoliwal/com.synexia/blob/140c263a90f9803b9c46103c63355a286e0515f0/synexia-common/src/main/java/com/synexia/common/collections/jdk/SlotMap.java"
+    },
+    {
+      "donor": "synexia-common/src/main/java/com/synexia/common/collections/jdk/OrderedSlotMap.java",
+      "blob": "1cd8a99925c3b399f4ed256c73c682c324adf727",
+      "sha256": "0cef50b76b48904e836eea23b3b33abb8888eb6fca078d7f941df7ab1a516a13",
+      "target": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/OrderedSlotMap.java",
+      "outputSha256": "4df22f477ec194168f2d58acc21c543982be8069a26b3b7062377cf92d3b0853",
+      "nlsTags": 2,
+      "sourceUrl": "https://github.com/hsoliwal/com.synexia/blob/140c263a90f9803b9c46103c63355a286e0515f0/synexia-common/src/main/java/com/synexia/common/collections/jdk/OrderedSlotMap.java"
+    },
+    {
+      "donor": "synexia-common/src/main/java/com/synexia/common/collections/jdk/SlotArrays.java",
+      "blob": "4fe0b5517f4f96f38876ebfe1bfd329d66def204",
+      "sha256": "ae3fae638766ad6d65867a1762fb664956335c63129ab47c2c2ccfa54c577932",
+      "target": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotArrays.java",
+      "outputSha256": "1c3308080f8abf2dda559d99c0f53fa0905317d8ebbd10f179dca29c5f687333",
+      "nlsTags": 2,
+      "sourceUrl": "https://github.com/hsoliwal/com.synexia/blob/140c263a90f9803b9c46103c63355a286e0515f0/synexia-common/src/main/java/com/synexia/common/collections/jdk/SlotArrays.java"
+    },
+    {
+      "donor": "synexia-common/src/main/java/com/synexia/common/collections/jdk/SlotSpliterators.java",
+      "blob": "dbc4800a6de911557fe34e884a5f3a3a08afb7a7",
+      "sha256": "bb7d05da5f98ca92cab8a49a921ecf7085219b74e2f9a7220010211c05072dff",
+      "target": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotSpliterators.java",
+      "outputSha256": "4326c99f40ea4a09ecf197e15d9c2b5cd058652de2f0ae5833a05d39278c3dc9",
+      "nlsTags": 0,
+      "sourceUrl": "https://github.com/hsoliwal/com.synexia/blob/140c263a90f9803b9c46103c63355a286e0515f0/synexia-common/src/main/java/com/synexia/common/collections/jdk/SlotSpliterators.java"
+    }
+  ],
+  "metadata": [
+    {
+      "path": "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+      "blob": "e3efe38379488e2f59c33665b514f8879169b941",
+      "beforeSha256": "9710b78545ff6276a3aefc6e45d04dd6b4c5ac05bdcb3076d3ac0bd22bc13bee",
+      "afterSha256": "96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21",
+      "changes": [
+        [
+          "Bundle-RequiredExecutionEnvironment: JavaSE-17",
+          "Bundle-RequiredExecutionEnvironment: JavaSE-21"
+        ]
+      ]
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.settings/org.eclipse.jdt.core.prefs",
+      "blob": "4234feac01411d1730f1e3d501cbbd4970c4e856",
+      "beforeSha256": "b619605232a7de308b39c50fc8795364d46aa9787de776653fbe73bd5ba06681",
+      "afterSha256": "67d8e10970b95842d4bf16940992b947948c4a46cb28d06938a5c222917423a8",
+      "changes": [
+        [
+          "org.eclipse.jdt.core.compiler.codegen.targetPlatform=17",
+          "org.eclipse.jdt.core.compiler.codegen.targetPlatform=21"
+        ],
+        [
+          "org.eclipse.jdt.core.compiler.compliance=17",
+          "org.eclipse.jdt.core.compiler.compliance=21"
+        ],
+        [
+          "org.eclipse.jdt.core.compiler.source=17",
+          "org.eclipse.jdt.core.compiler.source=21"
+        ]
+      ]
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.classpath",
+      "blob": "81fe078c20c05db46a8281fbb1a72875a5322b45",
+      "beforeSha256": "14bd863f6f090dd4c5d9de028c15c8ab425306f427391eaa6842f210c6c788c8",
+      "afterSha256": "e452df62748c2a594efbeffca83797e53b90a2127f100737739ac1a4ccfa1c4c",
+      "changes": [
+        [
+          "/JavaSE-17\"",
+          "/JavaSE-21\""
+        ]
+      ]
+    }
+  ],
+  "qualifiedExternalBinaryInputs": [
+    {
+      "artifact": "org.eclipse.equinox.common",
+      "version": "3.21.0",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.common/3.21.0/org.eclipse.equinox.common-3.21.0.jar",
+      "bytes": 161122,
+      "sha256": "2545ed27d408f19882695703097e5998bf25652bd0dac76a8e6d1391ec228ab7",
+      "published_sha1": "41bfb057e8e477ccd9ec9fa9dffc3c5bbb580920",
+      "published_sha1_verified": true,
+      "bundle_version": "3.21.0.v20260604-1221"
+    },
+    {
+      "artifact": "org.eclipse.osgi",
+      "version": "3.24.300",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.osgi/3.24.300/org.eclipse.osgi-3.24.300.jar",
+      "bytes": 1615320,
+      "sha256": "4a770aa4a78df653af871073c8b4ddd56884895f5fc71d10c40b4289ac7c8b9f",
+      "published_sha1": "cb886c6a2338c6a544efe08dd78843b280bd496f",
+      "published_sha1_verified": true,
+      "bundle_version": "3.24.300.v20260721-1251"
+    },
+    {
+      "group": "org.eclipse.jdt",
+      "artifact": "ecj",
+      "version": "3.46.100",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/jdt/ecj/3.46.100/ecj-3.46.100.jar",
+      "bytes": 3384534,
+      "sha256": "74c93172475fee0cd4e6eefb44233516dd40525642da35d009146d97ea598229",
+      "published_sha1": "a06c482cdb8601a94328aae668c7236e3818fbe9",
+      "published_sha1_verified": true
+    }
+  ],
+  "openRewriteVersion": "8.17.1",
+  "mavenJUnitVersion": "5.10.2",
+  "mavenSurefireVersion": "3.2.5",
+  "mavenCompilerPluginVersion": "3.13.0",
+  "buildRuntimeJdkVersion": "21.0.12.1+1",
+  "eclipseCompilerBaselineRelease": 17,
+  "eclipseCompilerGeneratedRelease": 21,
+  "preservedQualifiedReceipt": {
+    "path": "RECEIPT.json",
+    "sha256": "91f1df4d3a60c884469a32e98b7b942496f7ffdedbe69fac2ecc6d3e93e53bb8",
+    "gitBlob": "df32653da68670e180995548fdc5bfd870f1fb18",
+    "bytes": 14604
+  }
+}

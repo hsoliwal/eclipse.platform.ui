@@ -1,0 +1,54 @@
+[
+  {
+    "artifact": "org.eclipse.equinox.common",
+    "version": "3.21.0",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.common/3.21.0/org.eclipse.equinox.common-3.21.0.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar",
+    "bytes": 161122,
+    "sha256": "2545ed27d408f19882695703097e5998bf25652bd0dac76a8e6d1391ec228ab7",
+    "published_sha1": "41bfb057e8e477ccd9ec9fa9dffc3c5bbb580920",
+    "published_sha1_verified": true,
+    "prior_receipt_sha256": "2545ed27d408f19882695703097e5998bf25652bd0dac76a8e6d1391ec228ab7",
+    "prior_receipt_sha256_matches": true,
+    "bundle_version": "3.21.0.v20260604-1221"
+  },
+  {
+    "artifact": "org.eclipse.osgi",
+    "version": "3.24.300",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.osgi/3.24.300/org.eclipse.osgi-3.24.300.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar",
+    "bytes": 1615320,
+    "sha256": "4a770aa4a78df653af871073c8b4ddd56884895f5fc71d10c40b4289ac7c8b9f",
+    "published_sha1": "cb886c6a2338c6a544efe08dd78843b280bd496f",
+    "published_sha1_verified": true,
+    "prior_receipt_sha256": "4a770aa4a78df653af871073c8b4ddd56884895f5fc71d10c40b4289ac7c8b9f",
+    "prior_receipt_sha256_matches": true,
+    "bundle_version": "3.24.300.v20260721-1251"
+  },
+  {
+    "artifact": "org.eclipse.core.commands",
+    "version": "3.13.0",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.commands/3.13.0/org.eclipse.core.commands-3.13.0.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar",
+    "bytes": 121051,
+    "sha256": "fe916979793d364fcd0a71c15c3fa803d60a8566cff8c64b0eef04918b5b6a65",
+    "published_sha1": "52df69c731cc71de6ce2d4f9b2c86cbf50079836",
+    "published_sha1_verified": true,
+    "prior_receipt_sha256": "fe916979793d364fcd0a71c15c3fa803d60a8566cff8c64b0eef04918b5b6a65",
+    "prior_receipt_sha256_matches": true,
+    "bundle_version": "3.13.0.v20260605-1749"
+  },
+  {
+    "artifact": "org.eclipse.jface",
+    "version": "3.40.0",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.jface/3.40.0/org.eclipse.jface-3.40.0.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.jface-3.40.0.jar",
+    "bytes": 1234834,
+    "sha256": "618096177f82c1dd54ac5ee7c22bef793588f19dd6c7ce2830935e2223b37fb4",
+    "published_sha1": "0ae8972e1dc919fd2f52961ffeae7bf23eb2bfa6",
+    "published_sha1_verified": true,
+    "prior_receipt_sha256": "618096177f82c1dd54ac5ee7c22bef793588f19dd6c7ce2830935e2223b37fb4",
+    "prior_receipt_sha256_matches": true,
+    "bundle_version": "3.40.0.v20260710-0650"
+  }
+]

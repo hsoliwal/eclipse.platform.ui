@@ -153,6 +153,8 @@ public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 		TestElement root = TestElement.createModel(2, 200);
 		TestElement parent = root.getChildAt(150);
 		TestElement child = parent.getChildAt(175);
+		// Expansion requires a nonleaf; keep the 200-sibling model otherwise unchanged.
+		child.basicAddChild();
 		fTreeViewer.setInput(root);
 		processEvents();
 

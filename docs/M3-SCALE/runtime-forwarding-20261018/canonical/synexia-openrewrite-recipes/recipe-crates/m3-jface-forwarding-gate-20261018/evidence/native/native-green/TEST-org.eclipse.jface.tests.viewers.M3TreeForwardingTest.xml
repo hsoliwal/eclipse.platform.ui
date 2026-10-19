@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="org.eclipse.jface.tests.viewers.M3TreeForwardingTest" time="1.007" tests="1" errors="0" skipped="0" failures="0" flakes="0">
+  <properties>
+    <property name="java.specification.version" value="25"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/tmp/eclipse-m3-20261018/native-gate/test-classes:/tmp/eclipse-m3-20261018/native-gate/target/classes:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/junit-platform-console-standalone-1.14.4.jar:/tmp/eclipse-m3-20261018/native-gate/swt-classes:/tmp/eclipse-m3-20261018/native-gate/jface-classes:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261018/native-gate/../commands-authoring/target/org.eclipse.core.commands-m3-proof.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.core.jobs-3.15.900.jar"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="25"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="/tmp/eclipse-m3-20261018/toolchain/jdk25/lib"/>
+    <property name="sun.java.command" value="/tmp/eclipse-m3-20261018/native-gate/target/surefire/surefirebooter-20261018054727551_3.jar /tmp/eclipse-m3-20261018/native-gate/target/surefire 2026-10-18T05-47-26_257-jvmRun1 surefire-20261018054727551_1tmp surefire_0-20261018054727551_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="M3TreeForwardingTest#testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings"/>
+    <property name="surefire.test.class.path" value="/tmp/eclipse-m3-20261018/native-gate/test-classes:/tmp/eclipse-m3-20261018/native-gate/target/classes:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/junit-platform-console-standalone-1.14.4.jar:/tmp/eclipse-m3-20261018/native-gate/swt-classes:/tmp/eclipse-m3-20261018/native-gate/jface-classes:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261018/native-gate/../commands-authoring/target/org.eclipse.core.commands-m3-proof.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261018/native-gate/../toolchain/eclipse-deps/org.eclipse.core.jobs-3.15.900.jar"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/root"/>
+    <property name="user.language" value="en"/>
+    <property name="org.eclipse.swt.internal.gtk.theme" value="Yaru"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-08-18"/>
+    <property name="java.home" value="/tmp/eclipse-m3-20261018/toolchain/jdk25"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/tmp/eclipse-m3-20261018/native-gate"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/tmp/eclipse-m3-20261018/native-gate/target/surefire/surefirebooter-20261018054727551_3.jar"/>
+    <property name="org.eclipse.swt.internal.gtk.version" value="3.24.41"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="25.0.4.1+1-LTS"/>
+    <property name="org.eclipse.swt.internal.deviceZoom" value="100"/>
+    <property name="user.name" value="root"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.18.55"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="org.eclipse.swt.internal.gdk.backend" value="x11"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-25.0.4.1+1"/>
+    <property name="localRepository" value="/root/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="25.0.4.1"/>
+    <property name="user.dir" value="/tmp/eclipse-m3-20261018/native-gate"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/tmp/eclipse-m3-20261018/native-gate/../toolchain/swt-native-gtk3"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="25.0.4.1+1-LTS"/>
+    <property name="stdin.encoding" value="UTF-8"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="maven.repo.local" value="/root/.m2/repository"/>
+    <property name="java.class.version" value="69.0"/>
+    <property name="org.eclipse.jface.tests.m3Required" value="true"/>
+  </properties>
+  <testcase name="testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings" classname="org.eclipse.jface.tests.viewers.M3TreeForwardingTest" time="0.973">
+    <system-err><![CDATA[SWT SessionManagerDBus: Failed to connect to org.gnome.SessionManager: Failed to execute child process “dbus-launch” (No such file or directory)
+SWT SessionManagerDBus: Failed to connect to org.xfce.SessionManager: Failed to execute child process “dbus-launch” (No such file or directory)
+]]></system-err>
+  </testcase>
+</testsuite>

@@ -1,0 +1,33 @@
+{
+  "phase": "real SDK four-target generation and fixed-point/refusal proof",
+  "command": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=/tmp/m3-parser-maven-repository",
+    "-Drecipe.owner.root=/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes",
+    "-Dmaterialize.dir=/tmp/eclipse-m3-20261018/ui-gate-authoring/generated",
+    "test"
+  ],
+  "exit": 0,
+  "wallSeconds": 38.318,
+  "kernelSha256": "35d09cd5c3fccc281acfdc8b4ba96131f8f54e15c587ae9d5e9556e4d6e1cc30",
+  "logSha256": "d559b62cce57d3fe4bc0ee3b4a329d42630a4df7db5ff34f0627559dfa718661",
+  "suites": [
+    {
+      "suite": "com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest",
+      "tests": "8",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "suite": "com.synexia.rewrite.M3JFaceForwardingGateRecipeTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ]
+}

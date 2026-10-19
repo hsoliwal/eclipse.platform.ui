@@ -1,0 +1,98 @@
+{
+  "schema": "M3_JFACE_FORWARDING_GATE_SOURCE_PINS_V1",
+  "source_date": "2026-10-18",
+  "receiver_repository": "https://github.com/hsoliwal/eclipse.platform.ui",
+  "receiver_base_commit": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "swt_repository": "https://github.com/hsoliwal/eclipse.platform.swt",
+  "swt_commit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+  "recipe": "com.synexia.eclipse.JFaceForwardingGate20261018",
+  "sdk_version": "8.17.1",
+  "outputs": [
+    {
+      "path": "tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/AllViewersTests.java",
+      "before_sha256": "2506cd513e5717bffba33bb355aa7cfc376dce3a2affefa8581cccf54988715f",
+      "after_sha256": "d7e709eb482f3d89d067df2eb8a6329c18d9bfaa06597ef1476dfbd78aa300a0",
+      "after_git_blob": "46565219eb1691ce38467de9add505c660b10573",
+      "kind": "java",
+      "template": "resources/com/synexia/rewrite/hash-pinned-java/m3-jface-forwarding-gate-20261018/AllViewersTests.java.txt",
+      "before_git_blob": "0b9b8a39c36dd35ff1085be301f90c7ce06a5e68"
+    },
+    {
+      "path": "tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/M3TreeForwardingTest.java",
+      "before_sha256": "ABSENT",
+      "after_sha256": "c82162dfe7fec3900d196618ca2e987bbb020dc2e5371a64d2f3941db9e87bc7",
+      "after_git_blob": "a2a8a81d85cdf40fae3f5ca1cd6fc85a2f8335df",
+      "kind": "java",
+      "template": "resources/com/synexia/rewrite/hash-pinned-java/m3-jface-forwarding-gate-20261018/M3TreeForwardingTest.java.txt"
+    },
+    {
+      "path": "pom.xml",
+      "before_sha256": "d52c0f37c02b546f76156e539d88683249556b82fd60ba10d3c4f183e2b6a708",
+      "after_sha256": "2b526220a599904310d552bd522baef3bb5c619132bf88878267b13e1107ed7b",
+      "after_git_blob": "a343a6eb12d25627447f5d3967ed63de809043ac",
+      "kind": "text",
+      "template": "resources/com/synexia/rewrite/hash-pinned-text/m3-jface-forwarding-gate-20261018/pom.xml.txt",
+      "before_git_blob": "97ed6d3c36762b38dda3780a556f287e5451954c"
+    },
+    {
+      "path": "tests/org.eclipse.jface.tests/META-INF/MANIFEST.MF",
+      "before_sha256": "ac762a585c9b97f476db0e7c1605c44389f4c1f359712817bc8c13ae3808661d",
+      "after_sha256": "8e9f9028552bc28585c18b3c88b377260f8974eb7f0d0132df63059727b46b1b",
+      "after_git_blob": "47f39656a47aa81c5d46cd7e3464e57ddce3c4ca",
+      "kind": "text",
+      "template": "resources/com/synexia/rewrite/hash-pinned-text/m3-jface-forwarding-gate-20261018/JFaceTests.MANIFEST.MF.txt",
+      "before_git_blob": "4c3c0b31d7bf8e3d7c0228a71260989a271b1f83"
+    },
+    {
+      "path": "tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java",
+      "before_sha256": "972fccacdbdccd2515906ad3871ffd8c5a265b6604c3854419ceb10b69a42f1a",
+      "after_sha256": "96f9ca262513ee4f964016d35682ac8a8641a976d9b1d957dac0968d34ad55c7",
+      "after_git_blob": "b7d8293f4b1d52b8ac8ff8e6d7afdf91c5c62dbb",
+      "kind": "text",
+      "template": "resources/com/synexia/rewrite/hash-pinned-text/m3-jface-forwarding-gate-20261018/VirtualLazyTreeViewerTest.java.txt",
+      "before_git_blob": "1fcc1ce609db5e61f71dd8446c7097efbce1b2e3",
+      "admission": "Exact crate/path/before/after Java 25 fixture bootstrap; independently compiled by actual javac 25 and executed in native gate"
+    }
+  ],
+  "owners": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "git_blob": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db",
+      "sha256": "962d37d62d740c3e8055c365a048ae7ee0479c26a9f6bbfe741e540d6c1134ab"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "git_blob": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40",
+      "sha256": "67f7b81126e4736c7b61b444fa6545153a61e23c012975ca796fcee623ab6625"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "git_blob": "cc5f86ab579d2f4b1b9bc4c26b4592d2d8142244",
+      "sha256": "58c94f4b87a6e4a53268808bf0c635fe7bd56e2864cb8fe46483c85efba771d0"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "git_blob": "d24729950508857280ea1b56d4e930f05137ec85",
+      "sha256": "13660b59f60ec2941ec19e9bc8964ffd4b04689cdc33cd19711fba14b8da09a4"
+    }
+  ],
+  "qualification": {
+    "recipe_sdk": {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "receipt": "evidence/final-sdk.json"
+    },
+    "native": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "bc984d3d195c38ef37619a0954b73ee35bea0b2585b587e25c734256a6a3e52a",
+      "commands_bundle_sha256": "4d7573b670652c41d105210deeffde877c9034e2bd2916a6fb7ec4b5cf454c1e"
+    },
+    "full_tycho_pde": "NOT_RUN",
+    "complete_eclipse_m3_runtime": "NOT_IMPLEMENTED"
+  }
+}

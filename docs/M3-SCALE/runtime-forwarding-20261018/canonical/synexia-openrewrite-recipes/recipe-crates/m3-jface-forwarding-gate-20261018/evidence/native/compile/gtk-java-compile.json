@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "sourceCommit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+  "javaSourceCount": 546,
+  "command": [
+    "/tmp/m3-toolchain/jdk21/bin/javac",
+    "-J-Xmx1g",
+    "--release",
+    "21",
+    "-encoding",
+    "UTF-8",
+    "-d",
+    "/tmp/eclipse-m3-20261018/native-gate/swt-classes",
+    "@/tmp/eclipse-m3-20261018/native-gate/gtk-java-sources.args"
+  ],
+  "exit": 0,
+  "wallSeconds": 18.216,
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "copiedResourceCount": 5
+}

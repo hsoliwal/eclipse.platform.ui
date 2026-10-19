@@ -1,0 +1,23 @@
+/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/dialogs/AnimatorFactory.java:41: warning: [removal] ControlAnimator in org.eclipse.jface.dialogs has been deprecated and marked for removal
+	public ControlAnimator createAnimator(Control control) {
+	       ^
+/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/dialogs/AnimatorFactory.java:42: warning: [removal] ControlAnimator in org.eclipse.jface.dialogs has been deprecated and marked for removal
+		return new ControlAnimator(control);
+		           ^
+/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java:57: warning: [removal] AnimatorFactory in org.eclipse.jface.dialogs has been deprecated and marked for removal
+	private static AnimatorFactory animatorFactory;
+	               ^
+/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java:215: warning: [removal] AnimatorFactory in org.eclipse.jface.dialogs has been deprecated and marked for removal
+	public static void setAnimatorFactory(AnimatorFactory factory) {
+	                                      ^
+/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java:228: warning: [removal] AnimatorFactory in org.eclipse.jface.dialogs has been deprecated and marked for removal
+	public static AnimatorFactory getAnimatorFactory() {
+	              ^
+/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java:230: warning: [removal] AnimatorFactory in org.eclipse.jface.dialogs has been deprecated and marked for removal
+			animatorFactory = new AnimatorFactory();
+			                      ^
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+6 warnings
