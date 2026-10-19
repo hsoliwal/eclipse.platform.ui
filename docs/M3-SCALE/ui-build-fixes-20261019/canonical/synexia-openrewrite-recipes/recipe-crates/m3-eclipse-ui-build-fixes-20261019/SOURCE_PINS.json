@@ -1,0 +1,109 @@
+{
+  "schema": "M3_ECLIPSE_UI_BUILD_FIXES_SOURCE_PINS_V1",
+  "source_date": "2026-10-19",
+  "receiver_repository": "https://github.com/hsoliwal/eclipse.platform.ui",
+  "receiver_base_commit": "52f64fe74beb3f8763cefd28651c5d5ab01d5d92",
+  "inherited_treeviewer_base": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "swt_repository": "https://github.com/hsoliwal/eclipse.platform.swt",
+  "swt_commit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+  "canonical_owner_source_commit": "06388d86767d4baa86c5461b755421415b14278d",
+  "recipe": "com.synexia.eclipse.UiBuildFixes20261019",
+  "sdk_version": "8.17.1",
+  "outputs": [
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "kind": "java",
+      "before_git_blob": "88a47bcd2a5f57ebae1fe71bde045daa1637122c",
+      "before_sha256": "452e14431b4daaffba75542c15dc2feed92e074c67d82973844eac48f5d3b9ca",
+      "after_git_blob": "8e9c66c447f4477845a3179eaa2d5414107b428e",
+      "after_sha256": "d8aa44e5eba5f59b4b22b347406807b253229773ee9d109ca65cf4b73c8635a8",
+      "before_bytes": 39462,
+      "after_bytes": 39602,
+      "template": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-ui-build-fixes-20261019/TreeViewer.java.txt",
+      "license": "EPL-2.0"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+      "kind": "text",
+      "before_git_blob": "fecb415017b94be12c543d9f1ee1f4a86804da58",
+      "before_sha256": "96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21",
+      "after_git_blob": "cedff7292f838a1128774926f333d3ff5419f175",
+      "after_sha256": "c3523aff9975eade3d856f702bf1ca72489f4b73fc17f4e2a07eb8485f6b58a5",
+      "before_bytes": 758,
+      "after_bytes": 756,
+      "template": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ui-build-fixes-20261019/Commands.MANIFEST.MF.txt",
+      "license": "EPL-2.0"
+    }
+  ],
+  "owners": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "git_blob": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db",
+      "sha256": "962d37d62d740c3e8055c365a048ae7ee0479c26a9f6bbfe741e540d6c1134ab"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "git_blob": "d24729950508857280ea1b56d4e930f05137ec85",
+      "sha256": "13660b59f60ec2941ec19e9bc8964ffd4b04689cdc33cd19711fba14b8da09a4"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "git_blob": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40",
+      "sha256": "67f7b81126e4736c7b61b444fa6545153a61e23c012975ca796fcee623ab6625"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "git_blob": "cc5f86ab579d2f4b1b9bc4c26b4592d2d8142244",
+      "sha256": "58c94f4b87a6e4a53268808bf0c635fe7bd56e2864cb8fe46483c85efba771d0"
+    }
+  ],
+  "unchanged_compiler_policy": {
+    "path": "bundles/org.eclipse.jface/.settings/org.eclipse.jdt.core.prefs",
+    "git_blob": "6f67fa9bd52b6b2749d28198c310303def888cb2",
+    "sha256": "db3c65bac35c97d6130bef400ca3878e0f4e4ea90253cec52d7d47e6483d1e21",
+    "nonExternalizedStringLiteral": "error",
+    "source": "21",
+    "target": "21"
+  },
+  "repair_contract": {
+    "nls_comment_additions": 10,
+    "runtime_literal_bytes_changed": false,
+    "bundle_version_before": "3.13.100.qualifier",
+    "bundle_version_after": "3.14.0.qualifier",
+    "commands_bree_before_and_after": "JavaSE-21",
+    "public_api_source_changes": false,
+    "native_proof_reused_as_history_only": true,
+    "native_rerun": false,
+    "original_crates_changed": false,
+    "shared_owners_changed": false
+  },
+  "qualification": {
+    "sdk": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "receipt": "evidence/qualification/recipe-sdk.json"
+    },
+    "ecj_baseline": {
+      "exit": 255,
+      "errors": 10,
+      "warnings": 26,
+      "receipt": "evidence/qualification/ecj-baseline.json"
+    },
+    "ecj_candidate": {
+      "exit": 0,
+      "errors": 0,
+      "warnings": 26,
+      "receipt": "evidence/qualification/ecj-candidate.json"
+    },
+    "bytecode_direct_equality": {
+      "classes": 1,
+      "bytes": 32414,
+      "receipt": "evidence/qualification/treeviewer-bytecode-direct-readback.json"
+    },
+    "native_rerun": false,
+    "full_tycho_pde": "NOT_RUN",
+    "api_tools_rerun": "NOT_RUN"
+  }
+}

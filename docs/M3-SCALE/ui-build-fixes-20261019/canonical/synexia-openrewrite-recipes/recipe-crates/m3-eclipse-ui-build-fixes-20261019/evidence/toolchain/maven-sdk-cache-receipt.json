@@ -1,0 +1,66 @@
+[
+  {
+    "artifact": "org.openrewrite:rewrite-core:8.17.1",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/openrewrite/rewrite-core/8.17.1/rewrite-core-8.17.1.jar",
+    "bytes": 3392625,
+    "sha256": "d7c07f91ab085a39bf1b40d7f2a7796a52619aaeefeca1481435e685aa663efa",
+    "published_sha1": "88a6ab348d0555ad6e04efc6fb8b5d2dc7b10e3a",
+    "verified": true
+  },
+  {
+    "artifact": "org.openrewrite:rewrite-java:8.17.1",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/openrewrite/rewrite-java/8.17.1/rewrite-java-8.17.1.jar",
+    "bytes": 1613246,
+    "sha256": "32a3b27c0eafeb44c776500ae1378efdfb79d490a6afd7b58be07c6c0d6c55ff",
+    "published_sha1": "789f98dba7aa7093b917dbec70f6768ba6dfcdb7",
+    "verified": true
+  },
+  {
+    "artifact": "org.openrewrite:rewrite-java-21:8.17.1",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/openrewrite/rewrite-java-21/8.17.1/rewrite-java-21-8.17.1.jar",
+    "bytes": 109302,
+    "sha256": "7e654435905cf6afb9e659185773de0b75e4282c8e30c916ad15fd16b0fba9f4",
+    "published_sha1": "4ad86cf0980f231ac7f94abdb37f741c3adf271c",
+    "verified": true
+  },
+  {
+    "artifact": "org.openrewrite:rewrite-yaml:8.17.1",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/openrewrite/rewrite-yaml/8.17.1/rewrite-yaml-8.17.1.jar",
+    "bytes": 245085,
+    "sha256": "0203cc3b08f519975ed2dc2d20091f0b8e0ab20f72016871c05e50feb49e5a13",
+    "published_sha1": "2628294c8956131a54a8cbac3898a6b35675a5f3",
+    "verified": true
+  },
+  {
+    "artifact": "org.junit.jupiter:junit-jupiter-api:5.10.2",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar",
+    "bytes": 210956,
+    "sha256": "afff77c186cd317275803872fa5133aa801fd6ac40bd91c78a6cf8009b4b17cc",
+    "published_sha1": "fb55d6e2bce173f35fd28422e7975539621055ef",
+    "verified": true
+  },
+  {
+    "artifact": "org.junit.jupiter:junit-jupiter-engine:5.10.2",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar",
+    "bytes": 244690,
+    "sha256": "b6df35da750a546ae932376f11b3c0df841f0c90c7cb2944cd39adb432886e4b",
+    "published_sha1": "f1f8fe97bd58e85569205f071274d459c2c4f8cd",
+    "verified": true
+  },
+  {
+    "artifact": "org.apache.maven.surefire:surefire-junit-platform:3.2.5",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/apache/maven/surefire/surefire-junit-platform/3.2.5/surefire-junit-platform-3.2.5.jar",
+    "bytes": 27152,
+    "sha256": "a426d731705a4804f33b5f51ff9dd6c13eaba15bac41e2a01595ccd137548ef3",
+    "published_sha1": "359ef45ecdbc6ee4eabdd017fc01fba00668acd6",
+    "verified": true
+  },
+  {
+    "artifact": "org.junit.platform:junit-platform-launcher:1.10.2",
+    "path": "/tmp/eclipse-m3-20261019/maven-cache/org/junit/platform/junit-platform-launcher/1.10.2/junit-platform-launcher-1.10.2.jar",
+    "bytes": 183814,
+    "sha256": "aed4f42fb90ada9b347c231f13656fc09121ba20dab6dc646a6bd9d4da31e4aa",
+    "published_sha1": "8125dd29e847ca274dd1a7a9ca54859acc284cb3",
+    "verified": true
+  }
+]

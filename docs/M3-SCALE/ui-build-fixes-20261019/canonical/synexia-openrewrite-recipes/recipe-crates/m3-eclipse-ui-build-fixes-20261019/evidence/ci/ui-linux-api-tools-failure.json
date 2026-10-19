@@ -1,0 +1,94 @@
+{
+  "scope": "Bounded original GitHub Actions API Tools failure excerpt, retained from prior read; no log refetch or workflow rerun.",
+  "repo": "hsoliwal/eclipse.platform.ui",
+  "pullRequest": 17,
+  "head": "52f64fe74beb3f8763cefd28651c5d5ab01d5d92",
+  "workflowRun": 39132706917,
+  "jobId": 117690950891,
+  "jobUrl": "https://github.com/hsoliwal/eclipse.platform.ui/actions/runs/39132706917/job/117690950891",
+  "observedAt": "2026-10-19T03:47:26.409Z",
+  "path": "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+  "error": "The minor version should be incremented in version 3.13.100, since execution environments have been changed since version 3.13.0",
+  "lines": [
+    {
+      "line": 1913,
+      "text": "2026-10-18T15:01:37.0394105Z [INFO] Total time:  04:58 min"
+    },
+    {
+      "line": 1914,
+      "text": "2026-10-18T15:01:37.0394699Z [INFO] Finished at: 2026-10-18T15:01:37Z"
+    },
+    {
+      "line": 1915,
+      "text": "2026-10-18T15:01:37.0395454Z [INFO] ------------------------------------------------------------------------"
+    },
+    {
+      "line": 1916,
+      "text": "2026-10-18T15:01:37.0981793Z [ERROR] Failed to execute goal org.eclipse.tycho:tycho-apitools-plugin:5.0.4:verify (verify) on project org.eclipse.core.commands: There are API errors:"
+    },
+    {
+      "line": 1917,
+      "text": "2026-10-18T15:01:37.1002023Z [ERROR] META-INF/MANIFEST.MF:5 The minor version should be incremented in version 3.13.100, since execution environments have been changed since version 3.13.0"
+    },
+    {
+      "line": 1918,
+      "text": "2026-10-18T15:01:37.1004088Z [ERROR] -> [Help 1]"
+    },
+    {
+      "line": 1919,
+      "text": "2026-10-18T15:01:37.1005794Z org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.eclipse.tycho:tycho-apitools-plugin:5.0.4:verify (verify) on project org.eclipse.core.commands: There are API errors:"
+    },
+    {
+      "line": 1920,
+      "text": "2026-10-18T15:01:37.1008225Z META-INF/MANIFEST.MF:5 The minor version should be incremented in version 3.13.100, since execution environments have been changed since version 3.13.0"
+    },
+    {
+      "line": 1921,
+      "text": "2026-10-18T15:01:37.1009902Z     at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:333)"
+    },
+    {
+      "line": 1922,
+      "text": "2026-10-18T15:01:37.1011434Z     at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)"
+    },
+    {
+      "line": 1923,
+      "text": "2026-10-18T15:01:37.1013017Z     at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)"
+    },
+    {
+      "line": 1924,
+      "text": "2026-10-18T15:01:37.1014346Z     at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)"
+    },
+    {
+      "line": 1943,
+      "text": "2026-10-18T15:01:37.1040262Z     at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:362)"
+    },
+    {
+      "line": 1944,
+      "text": "2026-10-18T15:01:37.1041588Z     at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)"
+    },
+    {
+      "line": 1945,
+      "text": "2026-10-18T15:01:37.1043422Z Caused by: org.eclipse.tycho.core.exceptions.VersionBumpRequiredException: There are API errors:"
+    },
+    {
+      "line": 1946,
+      "text": "2026-10-18T15:01:37.1045167Z META-INF/MANIFEST.MF:5 The minor version should be incremented in version 3.13.100, since execution environments have been changed since version 3.13.0"
+    },
+    {
+      "line": 1947,
+      "text": "2026-10-18T15:01:37.1046809Z     at org.eclipse.tycho.apitools.ApiAnalysisMojo.getApiError (ApiAnalysisMojo.java:302)"
+    },
+    {
+      "line": 1948,
+      "text": "2026-10-18T15:01:37.1048081Z     at org.eclipse.tycho.apitools.ApiAnalysisMojo.execute (ApiAnalysisMojo.java:264)"
+    },
+    {
+      "line": 1949,
+      "text": "2026-10-18T15:01:37.1049586Z     at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)"
+    },
+    {
+      "line": 1950,
+      "text": "2026-10-18T15:01:37.1051067Z     at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)"
+    }
+  ]
+}

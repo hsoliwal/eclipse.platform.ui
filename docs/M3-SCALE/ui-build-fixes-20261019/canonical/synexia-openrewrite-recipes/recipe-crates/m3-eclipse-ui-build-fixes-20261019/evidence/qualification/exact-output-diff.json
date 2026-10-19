@@ -1,0 +1,18 @@
+{
+  "nls_comment_lines": [
+    77,
+    79,
+    81,
+    83,
+    85,
+    87,
+    89,
+    91,
+    122,
+    135
+  ],
+  "literal_or_executable_bytes_changed": false,
+  "line_count_unchanged": true,
+  "manifest_only_change": "Bundle-Version: 3.13.100.qualifier -> 3.14.0.qualifier",
+  "bree_unchanged": "JavaSE-21"
+}

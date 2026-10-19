@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "artifacts": [
+    {
+      "name": "jdk21",
+      "version": "Temurin 21.0.12.1+1",
+      "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+      "algorithm": "sha256",
+      "checksum_suffix": ".sha256.txt",
+      "checksum_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sha256.txt",
+      "upstream_checksum": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+      "bytes": 207473347,
+      "sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+      "local_artifact": "/tmp/eclipse-m3-20261019/toolchain/artifacts/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+      "toolchain_path": "/tmp/eclipse-m3-20261019/toolchain/jdk21"
+    },
+    {
+      "name": "maven",
+      "version": "Apache Maven 3.9.12",
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.12/apache-maven-3.9.12-bin.tar.gz",
+      "algorithm": "sha512",
+      "checksum_suffix": ".sha512",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.12/apache-maven-3.9.12-bin.tar.gz.sha512",
+      "upstream_checksum": "0a1be79f02466533fc1a80abbef8796e4f737c46c6574ede5658b110899942a94db634477dfd3745501c80aef9aac0d4f841d38574373f7e2d24cce89d694f70",
+      "bytes": 9233336,
+      "sha256": "fa2c9948729296c23afd18fd01a90f62cdda09a46191b54a8bc3764c2eee812e",
+      "local_artifact": "/tmp/eclipse-m3-20261019/toolchain/artifacts/apache-maven-3.9.12-bin.tar.gz",
+      "toolchain_path": "/tmp/eclipse-m3-20261019/toolchain/maven"
+    },
+    {
+      "name": "ecj",
+      "version": "Eclipse ECJ 3.46.100",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/jdt/ecj/3.46.100/ecj-3.46.100.jar",
+      "algorithm": "sha1",
+      "checksum_suffix": ".sha1",
+      "expected_sha1": "a06c482cdb8601a94328aae668c7236e3818fbe9",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/jdt/ecj/3.46.100/ecj-3.46.100.jar.sha1",
+      "upstream_checksum": "a06c482cdb8601a94328aae668c7236e3818fbe9",
+      "bytes": 3384534,
+      "sha256": "74c93172475fee0cd4e6eefb44233516dd40525642da35d009146d97ea598229",
+      "local_artifact": "/tmp/eclipse-m3-20261019/toolchain/artifacts/ecj-3.46.100.jar"
+    }
+  ]
+}

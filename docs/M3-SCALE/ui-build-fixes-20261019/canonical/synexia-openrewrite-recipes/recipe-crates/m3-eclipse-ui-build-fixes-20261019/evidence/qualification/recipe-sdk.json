@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261019/toolchain/maven/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-C",
+    "-Dmaven.repo.local=/tmp/eclipse-m3-20261019/maven-cache",
+    "-f",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/pom.xml",
+    "-Dcanonical.classpath=/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/swt-classes:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.jface-3.40.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar",
+    "-Dmaterialize.dir=/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/recipe-output",
+    "test"
+  ],
+  "cwd": "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019",
+  "exit": 0,
+  "wall_seconds": 11.194,
+  "log": "evidence/qualification/recipe-sdk.log",
+  "log_sha256": "144d2644bf88b74f95811db934224ec38d5099b8472d2f18139fa21819f78ef5",
+  "kind": "SDK_EXECUTION",
+  "junit": {
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "outputs": [
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "bytes": 39602,
+      "git_blob": "8e9c66c447f4477845a3179eaa2d5414107b428e",
+      "sha256": "d8aa44e5eba5f59b4b22b347406807b253229773ee9d109ca65cf4b73c8635a8"
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+      "bytes": 756,
+      "git_blob": "cedff7292f838a1128774926f333d3ff5419f175",
+      "sha256": "c3523aff9975eade3d856f702bf1ca72489f4b73fc17f4e2a07eb8485f6b58a5"
+    }
+  ],
+  "junit_xml_sha256": "453fc76b0ac384a34f9cc115c2a4b83305efef41b86d632868f295b115799224"
+}

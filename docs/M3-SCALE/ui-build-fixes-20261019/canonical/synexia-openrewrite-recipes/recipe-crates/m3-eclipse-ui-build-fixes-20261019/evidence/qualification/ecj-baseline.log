@@ -1,0 +1,189 @@
+----------
+1. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/dialogs/AnimatorFactory.java (at line 41)
+	public ControlAnimator createAnimator(Control control) {
+	       ^^^^^^^^^^^^^^^
+The type ControlAnimator has been deprecated since version 2025-03 and marked for removal
+----------
+2. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/dialogs/AnimatorFactory.java (at line 42)
+	return new ControlAnimator(control);
+	           ^^^^^^^^^^^^^^^
+The type ControlAnimator has been deprecated since version 2025-03 and marked for removal
+----------
+----------
+3. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/preference/ScopedPreferenceStore.java (at line 362)
+	@SuppressWarnings("restriction")
+	                  ^^^^^^^^^^^^^
+Unnecessary @SuppressWarnings("restriction")
+----------
+----------
+4. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/resource/ResourceLocator.java (at line 72)
+	url = new URL(filePath);
+	          ^^^
+The constructor URL(String) is deprecated since version 20
+----------
+----------
+5. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java (at line 149)
+	@SuppressWarnings("restriction")
+	                  ^^^^^^^^^^^^^
+Unnecessary @SuppressWarnings("restriction")
+----------
+6. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java (at line 155)
+	@SuppressWarnings("restriction")
+	                  ^^^^^^^^^^^^^
+Unnecessary @SuppressWarnings("restriction")
+----------
+7. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java (at line 214)
+	return new URL(url.getProtocol(), url.getHost(), url.getPort(), file);
+	           ^^^
+The constructor URL(String, String, int, String) is deprecated since version 20
+----------
+8. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java (at line 358)
+	result = new URL(urlString);
+	             ^^^
+The constructor URL(String) is deprecated since version 20
+----------
+----------
+9. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java (at line 57)
+	private static AnimatorFactory animatorFactory;
+	               ^^^^^^^^^^^^^^^
+The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal
+----------
+10. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java (at line 215)
+	public static void setAnimatorFactory(AnimatorFactory factory) {
+	                                      ^^^^^^^^^^^^^^^
+The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal
+----------
+11. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java (at line 228)
+	public static AnimatorFactory getAnimatorFactory() {
+	              ^^^^^^^^^^^^^^^
+The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal
+----------
+12. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java (at line 230)
+	animatorFactory = new AnimatorFactory();
+	                      ^^^^^^^^^^^^^^^
+The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal
+----------
+----------
+13. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java (at line 1970)
+	boolean internalDelegateExpandToControl(Widget widget, int level) {
+	                                               ^^^^^^
+The value of the parameter widget is not used
+----------
+14. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java (at line 1970)
+	boolean internalDelegateExpandToControl(Widget widget, int level) {
+	                                                           ^^^^^
+The value of the parameter level is not used
+----------
+15. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java (at line 1974)
+	boolean internalDelegateCollapseToControl(Widget widget, int level) {
+	                                                 ^^^^^^
+The value of the parameter widget is not used
+----------
+16. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java (at line 1974)
+	boolean internalDelegateCollapseToControl(Widget widget, int level) {
+	                                                             ^^^^^
+The value of the parameter level is not used
+----------
+17. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java (at line 1978)
+	boolean internalDelegateExpandSelectionToControl(int level) {
+	                                                     ^^^^^
+The value of the parameter level is not used
+----------
+18. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java (at line 1982)
+	boolean internalDelegateCollapseSelectionToControl(int level) {
+	                                                       ^^^^^
+The value of the parameter level is not used
+----------
+19. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java (at line 1990)
+	boolean internalDelegateSetExpandedItems(List<Item> items) {
+	                                                    ^^^^^
+The value of the parameter items is not used
+----------
+----------
+20. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 77)
+	swtTreeOperation("expandToLevel", int.class);
+	                 ^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+21. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 79)
+	swtTreeOperation("expandToLevel", TreeItem.class, int.class);
+	                 ^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+22. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 81)
+	swtTreeOperation("collapseToLevel", int.class);
+	                 ^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+23. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 83)
+	swtTreeOperation("collapseToLevel", TreeItem.class, int.class);
+	                 ^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+24. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 85)
+	swtTreeOperation("expandSelectionToLevel", int.class);
+	                 ^^^^^^^^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+25. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 87)
+	swtTreeOperation("collapseSelectionToLevel", int.class);
+	                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+26. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 89)
+	swtTreeQuery("getExpandedItems", TreeItem[].class);
+	             ^^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+27. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 91)
+	swtTreeOperation("setExpandedItems", TreeItem[].class);
+	                 ^^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+28. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 122)
+	throw new IllegalStateException("Unable to invoke SWT Tree bulk operation", failure);
+	                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+29. ERROR in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 135)
+	throw new IllegalStateException("Unable to invoke SWT Tree state query", failure);
+	                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+----------
+30. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 365)
+	? invokeSwtTreeOperation(SWT_TREE_EXPAND_TO_LEVEL, tree, level)
+	                                                         ^^^^^
+The expression of type int is boxed into Integer
+----------
+31. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 367)
+	&& invokeSwtTreeOperation(SWT_TREE_EXPAND_ITEM_TO_LEVEL, tree, item, level);
+	                                                                     ^^^^^
+The expression of type int is boxed into Integer
+----------
+32. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 380)
+	? invokeSwtTreeOperation(SWT_TREE_COLLAPSE_TO_LEVEL, tree, level)
+	                                                           ^^^^^
+The expression of type int is boxed into Integer
+----------
+33. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 382)
+	&& invokeSwtTreeOperation(SWT_TREE_COLLAPSE_ITEM_TO_LEVEL, tree, item, level);
+	                                                                       ^^^^^
+The expression of type int is boxed into Integer
+----------
+34. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 394)
+	boolean delegated = invokeSwtTreeOperation(SWT_TREE_EXPAND_SELECTION_TO_LEVEL, tree, level);
+	                                                                                     ^^^^^
+The expression of type int is boxed into Integer
+----------
+35. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java (at line 406)
+	boolean delegated = invokeSwtTreeOperation(SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL, tree, level);
+	                                                                                       ^^^^^
+The expression of type int is boxed into Integer
+----------
+----------
+36. WARNING in /tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/wizard/ProgressMonitorPart.java (at line 55)
+	IProgressMonitorWithBlocking {
+	^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The type IProgressMonitorWithBlocking is deprecated
+----------
+36 problems (10 errors, 26 warnings)

@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+# SPDX-License-Identifier: Apache-2.0
+type: specs.openrewrite.org/v1beta/recipe
+name: com.synexia.eclipse.UiBuildFixes20261019
+displayName: Eclipse UI compiler and execution-environment version repair
+description: Preserve TreeViewer behavior while marking ten runtime string literals, and align the Commands minor version with its already changed execution environment.
+recipeList:
+  - com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe:
+      crateName: m3-eclipse-ui-build-fixes-20261019
+  - com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe:
+      crateName: m3-eclipse-ui-build-fixes-20261019

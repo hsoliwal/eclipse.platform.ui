@@ -1,0 +1,95 @@
+=== Original job log lines 34-34 ===
+2026-10-18T14:10:15.2021960Z Uses: eclipse-platform/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@refs/heads/master (750262c69b42b42cf0036ce4db7dfcdbbe0ff504)
+
+=== Original job log lines 308-324 ===
+2026-10-18T14:10:52.3583990Z ##[group]Run mvn --show-version --update-snapshots --errors  -Pbree-libs  --fail-at-end clean verify
+2026-10-18T14:10:52.3584850Z [36;1m mvn --show-version --update-snapshots --errors  -Pbree-libs  --fail-at-end clean verify[0m
+2026-10-18T14:10:52.3841020Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-18T14:10:52.3841370Z env:
+2026-10-18T14:10:52.3841700Z   MAVEN_ARGS: --batch-mode --no-transfer-progress
+2026-10-18T14:10:52.3842320Z   JAVA_HOME: /Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.4-101.0.LTS/aarch64/Contents/Home
+2026-10-18T14:10:52.3843070Z   JAVA_HOME_11_AARCH64: /Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.32-101/aarch64/Contents/Home
+2026-10-18T14:10:52.3843800Z   JAVA_HOME_17_AARCH64: /Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-101/aarch64/Contents/Home
+2026-10-18T14:10:52.3844590Z   JAVA_HOME_21_AARCH64: /Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-101.0.LTS/aarch64/Contents/Home
+2026-10-18T14:10:52.3845420Z   JAVA_HOME_25_AARCH64: /Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.4-101.0.LTS/aarch64/Contents/Home
+2026-10-18T14:10:52.3845870Z ##[endgroup]
+2026-10-18T14:10:52.7336170Z Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5)
+2026-10-18T14:10:52.7424040Z Maven home: /Users/runner/hostedtoolcache/maven/3.9.16/arm64
+2026-10-18T14:10:52.7449210Z Java version: 25.0.4.1, vendor: Eclipse Adoptium, runtime: /Users/runner/hostedtoolcache/Java_Temurin-Hotspot_jdk/25.0.4-101.0.LTS/aarch64/Contents/Home
+2026-10-18T14:10:52.7480800Z Default locale: en_US, platform encoding: UTF-8
+2026-10-18T14:10:52.7481360Z OS name: "mac os x", version: "26.6.2", arch: "aarch64", family: "mac"
+2026-10-18T14:10:57.9380590Z [INFO] Error stacktraces are turned on.
+
+=== Original job log lines 1217-1217 ===
+2026-10-18T14:13:29.1781800Z 35 problems (10 errors, 25 warnings)
+
+=== Original job log lines 2293-2308 ===
+2026-10-18T14:13:37.5136810Z [INFO] Reactor Summary:
+2026-10-18T14:13:37.5136970Z [INFO] 
+2026-10-18T14:13:37.5137210Z [INFO] eclipse.platform.ui 4.42.0-SNAPSHOT ................ SUCCESS [  0.506 s]
+2026-10-18T14:13:37.5137610Z [INFO] [aggregator] bundles 4.42.0-SNAPSHOT ............... SUCCESS [  0.003 s]
+2026-10-18T14:13:37.5138000Z [INFO] [bundle] Commands 3.13.100-SNAPSHOT ................ SUCCESS [ 10.190 s]
+2026-10-18T14:13:37.5138410Z [INFO] [bundle] JFace Data Binding Observables 1.13.600-SNAPSHOT SUCCESS [  1.801 s]
+2026-10-18T14:13:37.5138840Z [INFO] [bundle] JFace Data Binding Properties 1.10.600-SNAPSHOT SUCCESS [  0.626 s]
+2026-10-18T14:13:37.5139240Z [INFO] [bundle] JFace Data Binding 1.13.900-SNAPSHOT ...... SUCCESS [  0.898 s]
+2026-10-18T14:13:37.5139660Z [INFO] [bundle] JFace Data Binding for JavaBeans 1.10.600-SNAPSHOT SUCCESS [  0.382 s]
+2026-10-18T14:13:37.5140080Z [INFO] [bundle] Eclipse e4 core commands 1.1.900-SNAPSHOT . SUCCESS [  0.662 s]
+2026-10-18T14:13:37.5140480Z [INFO] [bundle] Eclipse Model Xpath 0.6.100-SNAPSHOT ...... SUCCESS [  0.283 s]
+2026-10-18T14:13:37.5140910Z [INFO] [bundle] Eclipse UI Dependency Injection 1.5.800-SNAPSHOT SUCCESS [  0.524 s]
+2026-10-18T14:13:37.5141410Z [INFO] [bundle] Eclipse UI Application Services 1.6.800-SNAPSHOT SUCCESS [  0.413 s]
+2026-10-18T14:13:37.5141830Z [INFO] [bundle] Eclipse Workbench Model 2.4.1000-SNAPSHOT . SUCCESS [  1.488 s]
+2026-10-18T14:13:37.5142220Z [INFO] [bundle] JFace 3.42.0-SNAPSHOT ..................... FAILURE [  1.881 s]
+2026-10-18T14:13:37.5142590Z [INFO] [bundle] Eclipse Bindings Support 0.15.300-SNAPSHOT  SKIPPED
+
+=== Original job log lines 2410-2455 ===
+2026-10-18T14:13:37.5205980Z [INFO] BUILD FAILURE
+2026-10-18T14:13:37.5206230Z [INFO] ------------------------------------------------------------------------
+2026-10-18T14:13:37.5206580Z [INFO] Total time:  02:39 min
+2026-10-18T14:13:37.5207680Z [INFO] Finished at: 2026-10-18T14:13:37Z
+2026-10-18T14:13:37.5208980Z [INFO] ------------------------------------------------------------------------
+2026-10-18T14:13:37.5989140Z [ERROR] Failed to execute goal org.eclipse.tycho:tycho-compiler-plugin:5.0.4:compile (default-compile) on project org.eclipse.jface: Compilation failure: Compilation failure: 
+2026-10-18T14:13:37.5994310Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[77] 
+2026-10-18T14:13:37.6005810Z [ERROR] 	swtTreeOperation("expandToLevel", int.class);
+2026-10-18T14:13:37.6006410Z [ERROR] 	                 ^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6006850Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6007790Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[79] 
+2026-10-18T14:13:37.6008760Z [ERROR] 	swtTreeOperation("expandToLevel", TreeItem.class, int.class);
+2026-10-18T14:13:37.6009510Z [ERROR] 	                 ^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6010000Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6010840Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[81] 
+2026-10-18T14:13:37.6012930Z [ERROR] 	swtTreeOperation("collapseToLevel", int.class);
+2026-10-18T14:13:37.6013580Z [ERROR] 	                 ^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6014110Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6014980Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[83] 
+2026-10-18T14:13:37.6015760Z [ERROR] 	swtTreeOperation("collapseToLevel", TreeItem.class, int.class);
+2026-10-18T14:13:37.6016370Z [ERROR] 	                 ^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6016810Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6017620Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[85] 
+2026-10-18T14:13:37.6018410Z [ERROR] 	swtTreeOperation("expandSelectionToLevel", int.class);
+2026-10-18T14:13:37.6019030Z [ERROR] 	                 ^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6019510Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6020770Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[87] 
+2026-10-18T14:13:37.6021550Z [ERROR] 	swtTreeOperation("collapseSelectionToLevel", int.class);
+2026-10-18T14:13:37.6022190Z [ERROR] 	                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6022620Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6023470Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[89] 
+2026-10-18T14:13:37.6024190Z [ERROR] 	swtTreeQuery("getExpandedItems", TreeItem[].class);
+2026-10-18T14:13:37.6024830Z [ERROR] 	             ^^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6025320Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6026160Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[91] 
+2026-10-18T14:13:37.6026900Z [ERROR] 	swtTreeOperation("setExpandedItems", TreeItem[].class);
+2026-10-18T14:13:37.6027510Z [ERROR] 	                 ^^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6028000Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6028870Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[122] 
+2026-10-18T14:13:37.6032930Z [ERROR] 	throw new IllegalStateException("Unable to invoke SWT Tree bulk operation", failure);
+2026-10-18T14:13:37.6034210Z [ERROR] 	                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6034750Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+2026-10-18T14:13:37.6035570Z [ERROR] /Users/runner/work/eclipse.platform.ui/eclipse.platform.ui/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:[135] 
+2026-10-18T14:13:37.6036430Z [ERROR] 	throw new IllegalStateException("Unable to invoke SWT Tree state query", failure);
+2026-10-18T14:13:37.6037600Z [ERROR] 	                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-18T14:13:37.6038040Z [ERROR] Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+
+=== Original job log lines 2517-2519 ===
+2026-10-18T14:13:37.6191400Z [ERROR] After correcting the problems, you can resume the build with the command
+2026-10-18T14:13:37.6191830Z [ERROR]   mvn <args> -rf :org.eclipse.jface
+2026-10-18T14:13:38.0872620Z ##[error]Process completed with exit code 1.

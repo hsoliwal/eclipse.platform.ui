@@ -1,0 +1,46 @@
+{
+  "schema": "m3-eclipse-ci-callers-readback-seal-v1",
+  "spdxLicenseId": "Apache-2.0",
+  "sealedAt": "2026-10-19T06:11:40.903793+00:00",
+  "receivers": [
+    {
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "repository": "hsoliwal/eclipse.platform",
+      "sourceRevision": "0708647baec7b8122c55685e7ac3cab759ab23b9",
+      "path": ".github/workflows/ci.yml",
+      "readbackUrl": "https://github.com/hsoliwal/eclipse.platform/blob/0708647baec7b8122c55685e7ac3cab759ab23b9/.github/workflows/ci.yml"
+    },
+    {
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "repository": "hsoliwal/eclipse.platform.ui",
+      "sourceRevision": "3db425b5da9f5dafb9d66ae91ef0cae8b271d17a",
+      "path": ".github/workflows/ci.yml",
+      "readbackUrl": "https://github.com/hsoliwal/eclipse.platform.ui/blob/3db425b5da9f5dafb9d66ae91ef0cae8b271d17a/.github/workflows/ci.yml"
+    }
+  ],
+  "sharedWorkflow": {
+    "path": ".github/workflows/mavenBuild.yml",
+    "bytes": 3363,
+    "sha256": "23522344c0010e850bdc279312e9c0ebf546f0af97162e51d59024d533d4c0d9",
+    "gitBlob": "d6d1096b7f38bb975fa3c9e3e6c0ef47a9166fbf",
+    "repository": "hsoliwal/eclipse.platform.releng.aggregator",
+    "sourceRevision": "c723152cc91c409d17e0c8702ed5bb2ad398b337",
+    "readbackUrl": "https://github.com/hsoliwal/eclipse.platform.releng.aggregator/blob/c723152cc91c409d17e0c8702ed5bb2ad398b337/.github/workflows/mavenBuild.yml"
+  },
+  "sharedWorkflowMatchesPreviouslyQualifiedActualSdkOutput": true,
+  "publishedBranchReadbackReportedBy": "integration owner before this readback and sealing",
+  "readbackTool": "GitHub plugin fetch_file using exact immutable commits",
+  "initialRecipeStage": "NO_OP_BASELINE_FOR_ACTUAL_SDK_RED",
+  "reviewedPostimage": {
+    "path": ".github/workflows/ci.yml",
+    "bytes": 449,
+    "sha256": "b4d17a179805598dea0a66e969819766b4d35f00cbf43778756095715bb07939",
+    "gitBlob": "41ac6662f18298e13a9ac7860141066c6cf350e2"
+  },
+  "qualificationRun": false,
+  "remoteWrites": false
+}

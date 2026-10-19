@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "comparison": "byte-for-byte equality of every emitted class under identical javac/classpath/options",
+  "class_count": 1,
+  "classes": {
+    "org/eclipse/jface/viewers/TreeViewer.class": "a6ae637da106c2cce9f3fb2de07d51e2f2bfcccd3f0d111e038d819779cb09c8"
+  },
+  "before_source_sha256": "452e14431b4daaffba75542c15dc2feed92e074c67d82973844eac48f5d3b9ca",
+  "after_source_sha256": "d8aa44e5eba5f59b4b22b347406807b253229773ee9d109ca65cf4b73c8635a8",
+  "native_rerun": false
+}

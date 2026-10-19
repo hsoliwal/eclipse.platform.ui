@@ -17,4 +17,4 @@ on:
 
 jobs:
   build:
-    uses: eclipse-platform/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@master
+    uses: hsoliwal/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@c723152cc91c409d17e0c8702ed5bb2ad398b337

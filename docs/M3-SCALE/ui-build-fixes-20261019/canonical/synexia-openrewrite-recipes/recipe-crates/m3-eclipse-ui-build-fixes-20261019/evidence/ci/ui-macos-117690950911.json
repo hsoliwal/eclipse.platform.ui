@@ -1,0 +1,178 @@
+{
+  "repository": "hsoliwal/eclipse.platform.ui",
+  "pull_request": 17,
+  "run_id": 39132706917,
+  "job_id": 117690950911,
+  "job_name": "build / Verify MacOS",
+  "job_conclusion": "failure",
+  "head_revision": "52f64fe74beb3f8763cefd28651c5d5ab01d5d92",
+  "base_revision": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "job_url": "https://github.com/hsoliwal/eclipse.platform.ui/actions/runs/39132706917/job/117690950911",
+  "failed_step": {
+    "number": 5,
+    "name": "Build with Maven",
+    "process_exit": 1
+  },
+  "prerequisites": [
+    {
+      "name": "Checkout",
+      "conclusion": "success"
+    },
+    {
+      "name": "Set up Java",
+      "conclusion": "success"
+    },
+    {
+      "name": "Set up Maven",
+      "conclusion": "success"
+    }
+  ],
+  "command": "mvn --show-version --update-snapshots --errors -Pbree-libs --fail-at-end clean verify",
+  "toolchain": {
+    "maven": "3.9.16",
+    "java": "25.0.4.1",
+    "vendor": "Eclipse Adoptium",
+    "os": "mac os x",
+    "os_version": "26.6.2",
+    "architecture": "aarch64",
+    "tycho_compiler": "5.0.4"
+  },
+  "reusable_workflow": {
+    "repository": "eclipse-platform/eclipse.platform.releng.aggregator",
+    "path": ".github/workflows/mavenBuild.yml",
+    "declared_ref": "refs/heads/master",
+    "resolved_revision": "750262c69b42b42cf0036ce4db7dfcdbbe0ff504"
+  },
+  "failure": {
+    "project": "org.eclipse.jface",
+    "version": "3.42.0-SNAPSHOT",
+    "goal": "org.eclipse.tycho:tycho-compiler-plugin:5.0.4:compile",
+    "errors": 10,
+    "warnings": 25,
+    "diagnostic": "Non-externalized string literal; it should be followed by //$NON-NLS-<n>$",
+    "compiler_policy": {
+      "path": "bundles/org.eclipse.jface/.settings/org.eclipse.jdt.core.prefs",
+      "line": 89,
+      "key": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "value": "error"
+    },
+    "source_findings": [
+      {
+        "source_line": 77,
+        "source": "\t\t\tswtTreeOperation(\"expandToLevel\", int.class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 79,
+        "source": "\t\t\tswtTreeOperation(\"expandToLevel\", TreeItem.class, int.class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 81,
+        "source": "\t\t\tswtTreeOperation(\"collapseToLevel\", int.class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 83,
+        "source": "\t\t\tswtTreeOperation(\"collapseToLevel\", TreeItem.class, int.class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 85,
+        "source": "\t\t\tswtTreeOperation(\"expandSelectionToLevel\", int.class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 87,
+        "source": "\t\t\tswtTreeOperation(\"collapseSelectionToLevel\", int.class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 89,
+        "source": "\t\t\tswtTreeQuery(\"getExpandedItems\", TreeItem[].class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 91,
+        "source": "\t\t\tswtTreeOperation(\"setExpandedItems\", TreeItem[].class);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 122,
+        "source": "\t\t\tthrow new IllegalStateException(\"Unable to invoke SWT Tree bulk operation\", failure);",
+        "required_annotation": "//$NON-NLS-1$"
+      },
+      {
+        "source_line": 135,
+        "source": "\t\t\tthrow new IllegalStateException(\"Unable to invoke SWT Tree state query\", failure);",
+        "required_annotation": "//$NON-NLS-1$"
+      }
+    ]
+  },
+  "reactor_evidence": {
+    "commands_project": "org.eclipse.core.commands",
+    "commands_version": "3.13.100-SNAPSHOT",
+    "commands_result": "SUCCESS",
+    "jface_result": "FAILURE",
+    "native_test_execution_proven_by_this_job": false
+  },
+  "baseline_comparison": [
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "base_blob": "88a47bcd2a5f57ebae1fe71bde045daa1637122c",
+      "head_blob": "88a47bcd2a5f57ebae1fe71bde045daa1637122c",
+      "blob_equal": true,
+      "full_content_equal": true
+    },
+    {
+      "path": "bundles/org.eclipse.jface/.settings/org.eclipse.jdt.core.prefs",
+      "base_blob": "6f67fa9bd52b6b2749d28198c310303def888cb2",
+      "head_blob": "6f67fa9bd52b6b2749d28198c310303def888cb2",
+      "blob_equal": true,
+      "full_content_equal": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "base_blob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "head_blob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "blob_equal": true,
+      "full_content_equal": true
+    }
+  ],
+  "classification": "Inherited source-policy defect exposed by Tycho/ECJ; failing source and error policy are byte-identical in the base and PR head.",
+  "required_fix": "Append //$NON-NLS-1$ to the ten listed runtime method-name/diagnostic string lines in TreeViewer.java, preserving the existing nonExternalizedStringLiteral=error policy. Qualify the corrected actual JFace source with the real Tycho/ECJ project settings.",
+  "limits": "No baseline CI rerun was performed. Source identity establishes that these ten literal omissions predate this PR; no claim is made about a previous baseline job outcome or subsequent reactor results after fixing them.",
+  "saved_log_scope": {
+    "full_log_lines": 2576,
+    "excerpt_ranges": [
+      [
+        34,
+        34
+      ],
+      [
+        308,
+        324
+      ],
+      [
+        1217,
+        1217
+      ],
+      [
+        2293,
+        2308
+      ],
+      [
+        2410,
+        2455
+      ],
+      [
+        2517,
+        2519
+      ]
+    ],
+    "full_log_saved": false
+  },
+  "source_edits": 0,
+  "tests_rerun": 0,
+  "remote_writes": 0
+}

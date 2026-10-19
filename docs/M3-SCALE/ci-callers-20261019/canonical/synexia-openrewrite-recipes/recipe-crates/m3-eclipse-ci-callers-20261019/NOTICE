@@ -1,0 +1,27 @@
+Eclipse CI caller pin — M3 recipe crate
+
+First-party recipe, test, Maven configuration and authored metadata:
+Copyright 2026 Hitesh Soliwal and Contributors to the Synexia Project.
+SPDX-License-Identifier: Apache-2.0
+See LICENSE-APACHE-2.0.
+
+The exact .github/workflows/ci.yml inputs originate in the Platform and UI
+repositories at the immutable receiving revisions recorded in SOURCE_PINS.json.
+Both source files have Git blob fde222c38eb768bb09e2373d965627fa117a2ab6.
+Their separate source fixtures and common reviewed postimage retain the
+Eclipse Platform project's EPL-2.0 terms, authorship and attribution.
+See LICENSE-EPL-2.0, UPSTREAM-NOTICE-platform and UPSTREAM-NOTICE-ui.
+
+Modification: replace only the existing jobs.build.uses line with the same
+workflow path in hsoliwal/eclipse.platform.releng.aggregator at the actual
+published immutable commit identified by SOURCE_PINS.json. The recipe's
+Apache-2.0 license does not relicense its workflow payload.
+
+The Maven proof layout and SDK invocation pattern reuse the qualified
+m3-eclipse-ci-longpaths-20261019 crate at canonical source revision
+83759bbb74ce7775fd967cd918927c823f78c161. The same unchanged shared Java
+owners are compiled from the default canonical source path. No second
+transformation owner is introduced.
+
+Execution logs are factual proof output. Their preservation makes no
+authorship claim over third-party tool messages or underlying project source.

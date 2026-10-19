@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261019/toolchain/jdk21/bin/java",
+    "-Xmx1g",
+    "-jar",
+    "/tmp/eclipse-m3-20261019/toolchain/artifacts/ecj-3.46.100.jar",
+    "-properties",
+    "/tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/.settings/org.eclipse.jdt.core.prefs",
+    "--release",
+    "21",
+    "-proc:none",
+    "-encoding",
+    "UTF-8",
+    "-g",
+    "-classpath",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/swt-classes:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar",
+    "-d",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/ecj-candidate-classes",
+    "-log",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/ecj-candidate.xml",
+    "@/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/ecj-candidate-sources.args"
+  ],
+  "cwd": "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019",
+  "exit": 0,
+  "wall_seconds": 2.331,
+  "log": "evidence/qualification/ecj-candidate.log",
+  "log_sha256": "81ad306086ffc4d654d16a4e756e2dfbe0dea8e1fc47f9cd240f0b44a56fa0df",
+  "errors": 0,
+  "warnings": 26,
+  "diagnostic_xml_sha256": "be18a3b996dbfb4d208283ffeb09ec714bb4053ff9d84c89590bd6ea7c8fbce1",
+  "diagnostic_xml_disposition": "Generated under target; full text compiler log retained in evidence",
+  "error_details": []
+}

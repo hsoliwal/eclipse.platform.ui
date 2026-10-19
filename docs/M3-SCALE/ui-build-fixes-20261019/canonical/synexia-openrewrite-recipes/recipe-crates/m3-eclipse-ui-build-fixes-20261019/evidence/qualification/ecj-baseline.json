@@ -1,0 +1,133 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261019/toolchain/jdk21/bin/java",
+    "-Xmx1g",
+    "-jar",
+    "/tmp/eclipse-m3-20261019/toolchain/artifacts/ecj-3.46.100.jar",
+    "-properties",
+    "/tmp/eclipse-m3-20261019/receivers/eclipse.platform.releng.aggregator/eclipse.platform.ui/bundles/org.eclipse.jface/.settings/org.eclipse.jdt.core.prefs",
+    "--release",
+    "21",
+    "-proc:none",
+    "-encoding",
+    "UTF-8",
+    "-g",
+    "-classpath",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/swt-classes:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar",
+    "-d",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/ecj-baseline-classes",
+    "-log",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/ecj-baseline.xml",
+    "@/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/ecj-baseline-sources.args"
+  ],
+  "cwd": "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019",
+  "exit": 255,
+  "wall_seconds": 2.761,
+  "log": "evidence/qualification/ecj-baseline.log",
+  "log_sha256": "d1c167f3982e59aa2e792fd6a990904e4d31bad217da9b93ad56857032552f9b",
+  "errors": 10,
+  "warnings": 26,
+  "diagnostic_xml_sha256": "19c51e4d478e2ddc2caaf3bced63218f3ede269fcf9aac26a2ffbe57b0e8f580",
+  "error_details": [
+    {
+      "categoryID": "140",
+      "charEnd": "3149",
+      "charStart": "3135",
+      "id": "NonExternalizedStringLiteral",
+      "line": "77",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "3265",
+      "charStart": "3251",
+      "id": "NonExternalizedStringLiteral",
+      "line": "79",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "3396",
+      "charStart": "3380",
+      "id": "NonExternalizedStringLiteral",
+      "line": "81",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "3516",
+      "charStart": "3500",
+      "id": "NonExternalizedStringLiteral",
+      "line": "83",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "3662",
+      "charStart": "3639",
+      "id": "NonExternalizedStringLiteral",
+      "line": "85",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "3796",
+      "charStart": "3771",
+      "id": "NonExternalizedStringLiteral",
+      "line": "87",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "3909",
+      "charStart": "3892",
+      "id": "NonExternalizedStringLiteral",
+      "line": "89",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "4033",
+      "charStart": "4016",
+      "id": "NonExternalizedStringLiteral",
+      "line": "91",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "5103",
+      "charStart": "5062",
+      "id": "NonExternalizedStringLiteral",
+      "line": "122",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    },
+    {
+      "categoryID": "140",
+      "charEnd": "5490",
+      "charStart": "5452",
+      "id": "NonExternalizedStringLiteral",
+      "line": "135",
+      "optionKey": "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral",
+      "problemID": "536871173",
+      "severity": "ERROR"
+    }
+  ]
+}

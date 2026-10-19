@@ -1,0 +1,2 @@
+# target	before-sha256	after-sha256	template
+bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF	96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21	c3523aff9975eade3d856f702bf1ca72489f4b73fc17f4e2a07eb8485f6b58a5	Commands.MANIFEST.MF.txt

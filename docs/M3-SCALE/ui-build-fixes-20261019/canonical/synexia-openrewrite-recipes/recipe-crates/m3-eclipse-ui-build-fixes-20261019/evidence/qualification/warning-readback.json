@@ -1,0 +1,162 @@
+{
+  "unchanged_warning_count": 26,
+  "comparison": "same source path, line, diagnostic id and message",
+  "warnings": [
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/dialogs/AnimatorFactory.java",
+      "line": 41,
+      "id": "UsingTerminallyDeprecatedSinceVersionType",
+      "message": "The type ControlAnimator has been deprecated since version 2025-03 and marked for removal"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/dialogs/AnimatorFactory.java",
+      "line": 42,
+      "id": "UsingTerminallyDeprecatedSinceVersionType",
+      "message": "The type ControlAnimator has been deprecated since version 2025-03 and marked for removal"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/preference/ScopedPreferenceStore.java",
+      "line": 362,
+      "id": "UnusedWarningToken",
+      "message": "Unnecessary @SuppressWarnings(\"restriction\")"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/resource/ResourceLocator.java",
+      "line": 72,
+      "id": "UsingDeprecatedSinceVersionConstructor",
+      "message": "The constructor URL(String) is deprecated since version 20"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java",
+      "line": 149,
+      "id": "UnusedWarningToken",
+      "message": "Unnecessary @SuppressWarnings(\"restriction\")"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java",
+      "line": 155,
+      "id": "UnusedWarningToken",
+      "message": "Unnecessary @SuppressWarnings(\"restriction\")"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java",
+      "line": 214,
+      "id": "UsingDeprecatedSinceVersionConstructor",
+      "message": "The constructor URL(String, String, int, String) is deprecated since version 20"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/resource/URLImageDescriptor.java",
+      "line": 358,
+      "id": "UsingDeprecatedSinceVersionConstructor",
+      "message": "The constructor URL(String) is deprecated since version 20"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java",
+      "line": 57,
+      "id": "UsingTerminallyDeprecatedSinceVersionType",
+      "message": "The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java",
+      "line": 215,
+      "id": "UsingTerminallyDeprecatedSinceVersionType",
+      "message": "The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java",
+      "line": 228,
+      "id": "UsingTerminallyDeprecatedSinceVersionType",
+      "message": "The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/util/Policy.java",
+      "line": 230,
+      "id": "UsingTerminallyDeprecatedSinceVersionType",
+      "message": "The type AnimatorFactory has been deprecated since version 2025-03 and marked for removal"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "line": 1970,
+      "id": "ArgumentIsNeverUsed",
+      "message": "The value of the parameter widget is not used"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "line": 1970,
+      "id": "ArgumentIsNeverUsed",
+      "message": "The value of the parameter level is not used"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "line": 1974,
+      "id": "ArgumentIsNeverUsed",
+      "message": "The value of the parameter widget is not used"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "line": 1974,
+      "id": "ArgumentIsNeverUsed",
+      "message": "The value of the parameter level is not used"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "line": 1978,
+      "id": "ArgumentIsNeverUsed",
+      "message": "The value of the parameter level is not used"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "line": 1982,
+      "id": "ArgumentIsNeverUsed",
+      "message": "The value of the parameter level is not used"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "line": 1990,
+      "id": "ArgumentIsNeverUsed",
+      "message": "The value of the parameter items is not used"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "line": 365,
+      "id": "BoxingConversion",
+      "message": "The expression of type int is boxed into Integer"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "line": 367,
+      "id": "BoxingConversion",
+      "message": "The expression of type int is boxed into Integer"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "line": 380,
+      "id": "BoxingConversion",
+      "message": "The expression of type int is boxed into Integer"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "line": 382,
+      "id": "BoxingConversion",
+      "message": "The expression of type int is boxed into Integer"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "line": 394,
+      "id": "BoxingConversion",
+      "message": "The expression of type int is boxed into Integer"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "line": 406,
+      "id": "BoxingConversion",
+      "message": "The expression of type int is boxed into Integer"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/wizard/ProgressMonitorPart.java",
+      "line": 55,
+      "id": "UsingDeprecatedType",
+      "message": "The type IProgressMonitorWithBlocking is deprecated"
+    }
+  ]
+}

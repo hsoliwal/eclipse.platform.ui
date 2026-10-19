@@ -1,0 +1,181 @@
+{
+  "schema": "m3-eclipse-ci-callers-sdk-run-v1",
+  "spdxLicenseId": "Apache-2.0",
+  "phase": "green",
+  "startedAt": "2026-10-19T06:12:55.318019+00:00",
+  "finishedAt": "2026-10-19T06:12:58.684655+00:00",
+  "wallSeconds": 3.367,
+  "command": [
+    "/tmp/eclipse-m3-20261019/toolchain/maven/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-C",
+    "-Dmaven.repo.local=/tmp/eclipse-m3-20261019/maven-cache",
+    "-f",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/pom.xml",
+    "-Dmaterialize.dir=/tmp/eclipse-m3-20261019/ci-callers-authoring/materialized",
+    "test"
+  ],
+  "cwd": "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019",
+  "javaHome": "/tmp/eclipse-m3-20261019/toolchain/jdk21",
+  "toolchainVersionCommands": [
+    {
+      "command": [
+        "/tmp/eclipse-m3-20261019/toolchain/jdk21/bin/java",
+        "-version"
+      ],
+      "output": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)\nOpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)\n"
+    },
+    {
+      "command": [
+        "/tmp/eclipse-m3-20261019/toolchain/maven/bin/mvn",
+        "-version"
+      ],
+      "output": "Apache Maven 3.9.12 (848fbb4bf2d427b72bdb2471c22fced7ebd9a7a1)\nMaven home: /tmp/eclipse-m3-20261019/toolchain/maven\nJava version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: /tmp/eclipse-m3-20261019/toolchain/jdk21\nDefault locale: en, platform encoding: UTF-8\nOS name: \"linux\", version: \"6.18.55\", arch: \"amd64\", family: \"unix\"\n"
+    }
+  ],
+  "offline": true,
+  "recipeOwnerRootOverridden": false,
+  "qualifiedInputs": [
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/pom.xml",
+      "bytes": 3382,
+      "sha256": "b261d7855129b46cc353e9791eac905dccacba9cf64d20b5b0e593bfc5cb77ff",
+      "gitBlob": "65a3a94e2dd44ff9eb4b4bbbb34d80720d507183"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/CONTRACT.md",
+      "bytes": 3162,
+      "sha256": "1c535c2f6632f49a754c6fe7718f09bb94431a22690999cc9940921ce2a667c8",
+      "gitBlob": "5483c76305555489b4f0e31d8b940acb10cbed40"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/SPECTRUM.md",
+      "bytes": 1840,
+      "sha256": "0a3e76cd7ba35f2304489d4a317bd311bda625b2f0dca4ee9f51c6a6cb02a571",
+      "gitBlob": "8da3bb8e01062a08443373a5a2f9cef61ef8955c"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/SOURCE_PINS.json",
+      "bytes": 6593,
+      "sha256": "98dbf5066de652609e8abdbecf058d8114b2fb272a99342b6c785d5885359a29",
+      "gitBlob": "87c305430a5bb0ca9e826d5574dc7b17fc3aeff2"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/COVERAGE.tsv",
+      "bytes": 933,
+      "sha256": "963dab92b12ab654e0a34aa978464e054414f481b3886d20d9ec0bc4b4913d35",
+      "gitBlob": "38a1c07ba1b93e77d78102df00812544bcaaa932"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/src/test/java/com/synexia/rewrite/M3EclipseCiCallersRecipeTest.java",
+      "bytes": 10221,
+      "sha256": "90a10518825c385e225541b67ccea2de49af3a41caf198314b3071fd5b1add95",
+      "gitBlob": "af492d33691317d199db6a44d135899c2d230986"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/META-INF/rewrite/m3-eclipse-ci-callers-20261019.yml",
+      "bytes": 580,
+      "sha256": "8277c926e3f82f7c8a2bd4b80e36581db4fe58add426bf22c7c45f73d48ca6e3",
+      "gitBlob": "fda29b84d614a9bde826e746513e58ed02cd8f4c"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/before-platform-ci.yml.txt",
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/before-ui-ci.yml.txt",
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/ci.yml.txt",
+      "bytes": 449,
+      "sha256": "b4d17a179805598dea0a66e969819766b4d35f00cbf43778756095715bb07939",
+      "gitBlob": "41ac6662f18298e13a9ac7860141066c6cf350e2"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/manifest.tsv",
+      "bytes": 166,
+      "sha256": "86aa90d1f751febd92f806e6137379f2c9c0128127875563913aa9003fa91f7e",
+      "gitBlob": "97318c11ad109eebe3f7aae80243c4e48be4ac1d"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/bound-workflow-commit.txt",
+      "bytes": 41,
+      "sha256": "6b9d44a8a03c24fbb529966db653b0f42029914de6a39f2c79b3a666daa77fbd",
+      "gitBlob": "3104079d4cd35162d81cd19e602fad83f380dde2"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/reviewed-after.sha256",
+      "bytes": 65,
+      "sha256": "06caea50c98fa796830207cf6375a50f90f4c06d0b1a28e88a71f1b84a59e414",
+      "gitBlob": "9bc20efa45c8939be0c54e320ca0f58df857abd4"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "bytes": 1052,
+      "sha256": "962d37d62d740c3e8055c365a048ae7ee0479c26a9f6bbfe741e540d6c1134ab",
+      "gitBlob": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "bytes": 7655,
+      "sha256": "13660b59f60ec2941ec19e9bc8964ffd4b04689cdc33cd19711fba14b8da09a4",
+      "gitBlob": "d24729950508857280ea1b56d4e930f05137ec85"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "bytes": 31181,
+      "sha256": "67f7b81126e4736c7b61b444fa6545153a61e23c012975ca796fcee623ab6625",
+      "gitBlob": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "bytes": 20355,
+      "sha256": "58c94f4b87a6e4a53268808bf0c635fe7bd56e2864cb8fe46483c85efba771d0",
+      "gitBlob": "cc5f86ab579d2f4b1b9bc4c26b4592d2d8142244"
+    }
+  ],
+  "redSnapshots": [],
+  "exitCode": 0,
+  "rawLog": {
+    "path": "evidence/sdk-green/maven.log",
+    "bytes": 2200,
+    "sha256": "d5a058ccdf3a609d62985ec8e5ff5720356771f9ff7d455459dd05983edf836b",
+    "gitBlob": "6288f1b3b2701416ef23855ae0e71f1d7597c4d0"
+  },
+  "rawXml": {
+    "path": "evidence/sdk-green/TEST-com.synexia.rewrite.M3EclipseCiCallersRecipeTest.xml",
+    "bytes": 14260,
+    "sha256": "7680eafa8125d12c339bc8664cb5bfde20961c44a240c1d0b83dd6ff77f85ff5",
+    "gitBlob": "7e337b6c5fadf70cd2f971fb22bb999f17d3f523"
+  },
+  "testCounts": {
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testIssues": [],
+  "runtimeOrNativeTestsRun": false,
+  "hostedWindowsCheckoutRun": false,
+  "actualSdkMaterializedOutputs": [
+    {
+      "path": "eclipse.platform/.github/workflows/ci.yml",
+      "bytes": 449,
+      "sha256": "b4d17a179805598dea0a66e969819766b4d35f00cbf43778756095715bb07939",
+      "gitBlob": "41ac6662f18298e13a9ac7860141066c6cf350e2"
+    },
+    {
+      "path": "eclipse.platform.ui/.github/workflows/ci.yml",
+      "bytes": 449,
+      "sha256": "b4d17a179805598dea0a66e969819766b4d35f00cbf43778756095715bb07939",
+      "gitBlob": "41ac6662f18298e13a9ac7860141066c6cf350e2"
+    }
+  ]
+}

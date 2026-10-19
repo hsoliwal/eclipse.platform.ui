@@ -1,0 +1,24 @@
+M3 Eclipse UI build fixes, 2026-10-19
+Copyright © 2026 Hitesh Soliwal and Contributors to the Synexia Project.
+
+The recipe descriptor, Maven proof, SDK tests, documentation and proof tooling
+are Synexia-authored Apache-2.0 material. They compose the existing canonical
+M3HashPinnedJavaSnapshotRecipe and M3HashPinnedTextSnapshotRecipe without changes.
+
+The exact before/candidate TreeViewer.java fixtures, Commands MANIFEST.MF
+fixtures and JFace compiler preferences derive from hsoliwal/eclipse.platform.ui
+at 52f64fe74beb3f8763cefd28651c5d5ab01d5d92 and retain Eclipse Public License 2.0
+rights. TreeViewer preserves its original IBM Corporation and other contributor
+copyright/attribution header. Modifications in this crate add only ten NLS marker
+comments and increment the Commands bundle minor version. Recipe licensing does
+not relicense these Eclipse source or metadata payloads.
+
+Compiler source inventories identify additional unmodified Eclipse UI and SWT
+inputs; they are verification inputs, not copied replacement implementations.
+The recorded genuine OpenRewrite, JUnit, Eclipse, OSGi, JDK and Maven artifacts
+retain their own licenses and are not shipped as binaries in this crate.
+Original failed CI excerpts retain their diagnostic meaning and source identity.
+The Apache-2.0 designation for generated proof records does not claim authorship
+of, or relicense, third-party diagnostic text, quoted sources or tool output.
+
+Full Apache-2.0 and EPL-2.0 license texts are provided alongside this NOTICE.

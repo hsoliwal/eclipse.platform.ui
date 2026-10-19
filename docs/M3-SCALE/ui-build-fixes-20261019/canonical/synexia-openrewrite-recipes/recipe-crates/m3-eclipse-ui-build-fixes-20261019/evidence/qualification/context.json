@@ -1,0 +1,95 @@
+{
+  "ui_commit": "52f64fe74beb3f8763cefd28651c5d5ab01d5d92",
+  "swt_commit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+  "swt_java_sources": 546,
+  "jface_java_sources": 423,
+  "compiler_preferences_sha256": "db3c65bac35c97d6130bef400ca3878e0f4e4ea90253cec52d7d47e6483d1e21",
+  "ecj_sha256": "74c93172475fee0cd4e6eefb44233516dd40525642da35d009146d97ea598229",
+  "java_release_sha256": "ebbd70bf00bab6d39addf51969c5ff244030b86b29de400b9fb10612ebd3ceec",
+  "swt_source_argument_file_sha256": "041b224d07b8b661e23cc434cb2b8182524b8ee8bde7bdd76e6f066a919dd299",
+  "dependencies": [
+    {
+      "artifact": "org.eclipse.equinox.common",
+      "version": "3.21.0",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.common/3.21.0/org.eclipse.equinox.common-3.21.0.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.common/3.21.0/org.eclipse.equinox.common-3.21.0.jar.sha1",
+      "published_sha1": "41bfb057e8e477ccd9ec9fa9dffc3c5bbb580920",
+      "sha256": "2545ed27d408f19882695703097e5998bf25652bd0dac76a8e6d1391ec228ab7",
+      "bytes": 161122,
+      "prior_evidence_bytes_match": true
+    },
+    {
+      "artifact": "org.eclipse.osgi",
+      "version": "3.24.300",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.osgi/3.24.300/org.eclipse.osgi-3.24.300.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.osgi/3.24.300/org.eclipse.osgi-3.24.300.jar.sha1",
+      "published_sha1": "cb886c6a2338c6a544efe08dd78843b280bd496f",
+      "sha256": "4a770aa4a78df653af871073c8b4ddd56884895f5fc71d10c40b4289ac7c8b9f",
+      "bytes": 1615320,
+      "prior_evidence_bytes_match": true
+    },
+    {
+      "artifact": "org.eclipse.core.commands",
+      "version": "3.13.0",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.commands/3.13.0/org.eclipse.core.commands-3.13.0.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.commands/3.13.0/org.eclipse.core.commands-3.13.0.jar.sha1",
+      "published_sha1": "52df69c731cc71de6ce2d4f9b2c86cbf50079836",
+      "sha256": "fe916979793d364fcd0a71c15c3fa803d60a8566cff8c64b0eef04918b5b6a65",
+      "bytes": 121051,
+      "prior_evidence_bytes_match": true
+    },
+    {
+      "artifact": "org.eclipse.jface",
+      "version": "3.40.0",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.jface/3.40.0/org.eclipse.jface-3.40.0.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.jface/3.40.0/org.eclipse.jface-3.40.0.jar.sha1",
+      "published_sha1": "0ae8972e1dc919fd2f52961ffeae7bf23eb2bfa6",
+      "sha256": "618096177f82c1dd54ac5ee7c22bef793588f19dd6c7ce2830935e2223b37fb4",
+      "bytes": 1234834,
+      "prior_evidence_bytes_match": true
+    },
+    {
+      "artifact": "org.eclipse.equinox.preferences",
+      "version": "3.12.100",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.preferences/3.12.100/org.eclipse.equinox.preferences-3.12.100.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.preferences/3.12.100/org.eclipse.equinox.preferences-3.12.100.jar.sha1",
+      "published_sha1": "31ec4b200952d71e06ef4546dceb8fed08fefd34",
+      "sha256": "fd04e81a28ab32b6bb073286eb293c44b760176fcf1e35ef15614d62df820f86",
+      "bytes": 130382,
+      "prior_evidence_bytes_match": true
+    },
+    {
+      "artifact": "org.eclipse.equinox.bidi",
+      "version": "1.5.400",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.bidi/1.5.400/org.eclipse.equinox.bidi-1.5.400.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.bidi/1.5.400/org.eclipse.equinox.bidi-1.5.400.jar.sha1",
+      "published_sha1": "87c02be645e67f6b5d5b403efc381c9f9e5bc54c",
+      "sha256": "78599009dc5a0f02881406798d7e07e25ac222930a985757bca61632867c7abe",
+      "bytes": 55787,
+      "prior_evidence_bytes_match": true
+    },
+    {
+      "artifact": "org.eclipse.pde.api.tools.annotations",
+      "version": "1.4.100",
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/pde/org.eclipse.pde.api.tools.annotations/1.4.100/org.eclipse.pde.api.tools.annotations-1.4.100.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/eclipse/pde/org.eclipse.pde.api.tools.annotations/1.4.100/org.eclipse.pde.api.tools.annotations-1.4.100.jar.sha1",
+      "published_sha1": "1cbbc9ff1f80bc90703c4c1f03d332140a703ab7",
+      "sha256": "a8f8e05d485102893593879f5d5afa1be8b216d733ad130e3e7ab4366dde7060",
+      "bytes": 15374,
+      "prior_evidence_bytes_match": true
+    },
+    {
+      "artifact": "org.osgi.service.prefs",
+      "version": "1.1.2",
+      "url": "https://repo.maven.apache.org/maven2/org/osgi/org.osgi.service.prefs/1.1.2/org.osgi.service.prefs-1.1.2.jar",
+      "checksum_url": "https://repo.maven.apache.org/maven2/org/osgi/org.osgi.service.prefs/1.1.2/org.osgi.service.prefs-1.1.2.jar.sha1",
+      "published_sha1": "44351fdfb119ee920394c1a27c938288c93c03c8",
+      "sha256": "43c7c870710e363405d422da653cce0d798a4537f76e4930f79bceadd3a55345",
+      "bytes": 20165,
+      "prior_evidence_bytes_match": true
+    }
+  ],
+  "native_test_rerun": false,
+  "full_tycho_pde": "NOT_RUN",
+  "api_tools_rerun": "NOT_RUN"
+}

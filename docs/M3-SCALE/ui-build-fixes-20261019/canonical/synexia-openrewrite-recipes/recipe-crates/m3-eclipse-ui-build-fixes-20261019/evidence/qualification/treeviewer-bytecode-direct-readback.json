@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "comparison": "direct bytes equality, with SHA-256 also recorded",
+  "class_count": 1,
+  "classes": [
+    {
+      "path": "org/eclipse/jface/viewers/TreeViewer.class",
+      "bytes": 32414,
+      "sha256": "a6ae637da106c2cce9f3fb2de07d51e2f2bfcccd3f0d111e038d819779cb09c8"
+    }
+  ],
+  "native_rerun": false
+}

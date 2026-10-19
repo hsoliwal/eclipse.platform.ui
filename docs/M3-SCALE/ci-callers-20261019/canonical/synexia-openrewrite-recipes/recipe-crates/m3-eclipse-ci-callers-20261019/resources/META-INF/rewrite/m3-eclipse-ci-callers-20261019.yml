@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+# SPDX-License-Identifier: Apache-2.0
+type: specs.openrewrite.org/v1beta/recipe
+name: com.synexia.eclipse.CiCallers20261019
+displayName: Pin existing Eclipse CI callers to the published shared workflow
+description: >-
+  Changes only the shared-workflow uses value in one exact existing ci.yml.
+  The same pinned recipe is applied independently to the Platform and UI receivers.
+recipeList:
+  - com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe:
+      crateName: m3-eclipse-ci-callers-20261019

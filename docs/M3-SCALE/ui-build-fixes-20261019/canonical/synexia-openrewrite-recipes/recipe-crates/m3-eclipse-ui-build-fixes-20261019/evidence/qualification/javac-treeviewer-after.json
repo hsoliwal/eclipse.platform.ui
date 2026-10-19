@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261019/toolchain/jdk21/bin/javac",
+    "--release",
+    "21",
+    "-proc:none",
+    "-encoding",
+    "UTF-8",
+    "-g",
+    "-sourcepath",
+    "",
+    "-classpath",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/ecj-candidate-classes:/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/swt-classes:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar:/tmp/eclipse-m3-20261019/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar",
+    "-d",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/qualification/javac-after-classes",
+    "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019/target/recipe-output/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java"
+  ],
+  "cwd": "/tmp/eclipse-m3-20261019/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ui-build-fixes-20261019",
+  "exit": 0,
+  "wall_seconds": 0.826,
+  "log": "evidence/qualification/javac-treeviewer-after.log",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

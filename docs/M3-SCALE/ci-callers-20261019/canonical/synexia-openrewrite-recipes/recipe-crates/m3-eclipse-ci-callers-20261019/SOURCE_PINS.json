@@ -1,0 +1,144 @@
+{
+  "schema": "m3-eclipse-ci-callers-source-pins-v1",
+  "spdxLicenseId": "Apache-2.0",
+  "canonicalSourceRepository": "hsoliwal/com.synexia",
+  "canonicalCratePath": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019",
+  "canonicalHandoffBaseRevision": "83759bbb74ce7775fd967cd918927c823f78c161",
+  "sharedOwnerSourceRevision": "83759bbb74ce7775fd967cd918927c823f78c161",
+  "recipeName": "com.synexia.eclipse.CiCallers20261019",
+  "javaRecipeOwner": "com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe",
+  "defaultRecipeOwnerRoot": "${project.basedir}/../../src/main/java",
+  "sharedRecipeOwners": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "gitBlob": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db",
+      "sha256": "962d37d62d740c3e8055c365a048ae7ee0479c26a9f6bbfe741e540d6c1134ab",
+      "bytes": 1052
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "gitBlob": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40",
+      "sha256": "67f7b81126e4736c7b61b444fa6545153a61e23c012975ca796fcee623ab6625",
+      "bytes": 31181
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "gitBlob": "cc5f86ab579d2f4b1b9bc4c26b4592d2d8142244",
+      "sha256": "58c94f4b87a6e4a53268808bf0c635fe7bd56e2864cb8fe46483c85efba771d0",
+      "bytes": 20355
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "gitBlob": "d24729950508857280ea1b56d4e930f05137ec85",
+      "sha256": "13660b59f60ec2941ec19e9bc8964ffd4b04689cdc33cd19711fba14b8da09a4",
+      "bytes": 7655
+    }
+  ],
+  "manifestTargetPaths": [
+    ".github/workflows/ci.yml"
+  ],
+  "targetCountPerInvocation": 1,
+  "receiverPreimages": [
+    {
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "repository": "hsoliwal/eclipse.platform",
+      "sourceRevision": "0708647baec7b8122c55685e7ac3cab759ab23b9",
+      "path": ".github/workflows/ci.yml",
+      "readbackUrl": "https://github.com/hsoliwal/eclipse.platform/blob/0708647baec7b8122c55685e7ac3cab759ab23b9/.github/workflows/ci.yml"
+    },
+    {
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "repository": "hsoliwal/eclipse.platform.ui",
+      "sourceRevision": "3db425b5da9f5dafb9d66ae91ef0cae8b271d17a",
+      "path": ".github/workflows/ci.yml",
+      "readbackUrl": "https://github.com/hsoliwal/eclipse.platform.ui/blob/3db425b5da9f5dafb9d66ae91ef0cae8b271d17a/.github/workflows/ci.yml"
+    }
+  ],
+  "reviewedPostimage": {
+    "path": ".github/workflows/ci.yml",
+    "bytes": 449,
+    "sha256": "b4d17a179805598dea0a66e969819766b4d35f00cbf43778756095715bb07939",
+    "gitBlob": "41ac6662f18298e13a9ac7860141066c6cf350e2"
+  },
+  "receiverInvocations": "Two independent SDK source sets, each containing its own existing ci.yml fixture.",
+  "actualSharedWorkflow": {
+    "path": ".github/workflows/mavenBuild.yml",
+    "bytes": 3363,
+    "sha256": "23522344c0010e850bdc279312e9c0ebf546f0af97162e51d59024d533d4c0d9",
+    "gitBlob": "d6d1096b7f38bb975fa3c9e3e6c0ef47a9166fbf",
+    "repository": "hsoliwal/eclipse.platform.releng.aggregator",
+    "sourceRevision": "c723152cc91c409d17e0c8702ed5bb2ad398b337",
+    "readbackUrl": "https://github.com/hsoliwal/eclipse.platform.releng.aggregator/blob/c723152cc91c409d17e0c8702ed5bb2ad398b337/.github/workflows/mavenBuild.yml"
+  },
+  "workflowPublicationOrder": "Integration owner confirmed the actual workflow commit and branch readback before caller postimages or qualification were sealed; independent GitHub plugin file readback matched the qualified workflow.",
+  "qualifiedWorkflowSourceCrate": {
+    "repository": "hsoliwal/com.synexia",
+    "sourceRevision": "83759bbb74ce7775fd967cd918927c823f78c161",
+    "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-longpaths-20261019",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "historicalProofRerunByCallerCrate": false
+  },
+  "exactReplacement": {
+    "before": "    uses: eclipse-platform/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@master\n",
+    "after": "    uses: hsoliwal/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@c723152cc91c409d17e0c8702ed5bb2ad398b337\n",
+    "allOtherBytesUnchanged": true
+  },
+  "toolchain": {
+    "javaRelease": 21,
+    "javaDistribution": "Temurin 21.0.12.1+1",
+    "mavenVersion": "3.9.12",
+    "openRewriteVersion": "8.17.1",
+    "junitJupiterVersion": "5.10.2",
+    "surefireVersion": "3.2.5"
+  },
+  "rights": {
+    "workflowLicense": "EPL-2.0",
+    "firstPartyRecipeLicense": "Apache-2.0",
+    "sharedLicense": {
+      "bytes": 14198,
+      "sha256": "0becf16567beb77fa252b7664631dd177c8f9a1889e48995b45379c7130e5303",
+      "gitBlob": "e23ece2c852415800ac224b74ede6c5849f6f88d",
+      "path": "LICENSE-EPL-2.0",
+      "sourcePath": "LICENSE"
+    },
+    "upstreamNotices": [
+      {
+        "bytes": 1031,
+        "sha256": "8fe178643d542e5e295aac10d47cd15f9fde21a0b4b3aa18fc2fcc881b3ac435",
+        "gitBlob": "7c7be94972190f925439332ddac74d1668ea3ba7",
+        "path": "UPSTREAM-NOTICE-platform",
+        "repository": "hsoliwal/eclipse.platform",
+        "sourceRevision": "0708647baec7b8122c55685e7ac3cab759ab23b9",
+        "sourcePath": "NOTICE",
+        "readbackUrl": "https://github.com/hsoliwal/eclipse.platform/blob/0708647baec7b8122c55685e7ac3cab759ab23b9/NOTICE"
+      },
+      {
+        "bytes": 691,
+        "sha256": "3f62e3dde5ae0ab0a1f10dba6dc186444ac16aa27be7d4b674195de337d9ca0b",
+        "gitBlob": "8758c2e03df46f00ff789791d05fb9d2a8b57861",
+        "path": "UPSTREAM-NOTICE-ui",
+        "repository": "hsoliwal/eclipse.platform.ui",
+        "sourceRevision": "3db425b5da9f5dafb9d66ae91ef0cae8b271d17a",
+        "sourcePath": "NOTICE",
+        "readbackUrl": "https://github.com/hsoliwal/eclipse.platform.ui/blob/3db425b5da9f5dafb9d66ae91ef0cae8b271d17a/NOTICE"
+      }
+    ]
+  },
+  "scope": {
+    "newWorkflows": 0,
+    "sharedWorkflowSourceEdits": false,
+    "callerTriggersOrGatesChanged": false,
+    "callerInputsPermissionsAndConcurrencyChanged": false,
+    "sharedOwnerEdits": false,
+    "gitlinkEdits": false,
+    "hostedActionsRunByCrate": false,
+    "wholeEclipseAcceptance": false
+  }
+}

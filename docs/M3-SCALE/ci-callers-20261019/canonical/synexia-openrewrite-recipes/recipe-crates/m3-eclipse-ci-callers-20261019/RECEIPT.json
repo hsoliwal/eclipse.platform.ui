@@ -1,0 +1,230 @@
+{
+  "schema": "m3-eclipse-ci-callers-receipt-v1",
+  "spdxLicenseId": "Apache-2.0",
+  "qualifiedAt": "2026-10-19T06:17:24.586470+00:00",
+  "status": "EXACT_CALLER_SDK_QUALIFIED_FOR_TWO_INDEPENDENT_RECEIVERS",
+  "recipeName": "com.synexia.eclipse.CiCallers20261019",
+  "canonicalSourceRepository": "hsoliwal/com.synexia",
+  "canonicalCratePath": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019",
+  "canonicalHandoffBaseRevision": "83759bbb74ce7775fd967cd918927c823f78c161",
+  "sourcePins": {
+    "path": "SOURCE_PINS.json",
+    "bytes": 6593,
+    "sha256": "98dbf5066de652609e8abdbecf058d8114b2fb272a99342b6c785d5885359a29",
+    "gitBlob": "87c305430a5bb0ca9e826d5574dc7b17fc3aeff2"
+  },
+  "coverage": {
+    "path": "COVERAGE.tsv",
+    "bytes": 933,
+    "sha256": "963dab92b12ab654e0a34aa978464e054414f481b3886d20d9ec0bc4b4913d35",
+    "gitBlob": "38a1c07ba1b93e77d78102df00812544bcaaa932"
+  },
+  "sourceReadback": {
+    "path": "evidence/source/readback-seal.json",
+    "bytes": 2227,
+    "sha256": "93a462c82ced34fe8c116bf4ccbf3db4d46f79d984779cbd303e53eec223a595",
+    "gitBlob": "94d45ee893bb946b2ff13a8bcb8d6790307695dd"
+  },
+  "sharedRecipeOwners": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "gitBlob": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db",
+      "sha256": "962d37d62d740c3e8055c365a048ae7ee0479c26a9f6bbfe741e540d6c1134ab",
+      "bytes": 1052
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "gitBlob": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40",
+      "sha256": "67f7b81126e4736c7b61b444fa6545153a61e23c012975ca796fcee623ab6625",
+      "bytes": 31181
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "gitBlob": "cc5f86ab579d2f4b1b9bc4c26b4592d2d8142244",
+      "sha256": "58c94f4b87a6e4a53268808bf0c635fe7bd56e2864cb8fe46483c85efba771d0",
+      "bytes": 20355
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "gitBlob": "d24729950508857280ea1b56d4e930f05137ec85",
+      "sha256": "13660b59f60ec2941ec19e9bc8964ffd4b04689cdc33cd19711fba14b8da09a4",
+      "bytes": 7655
+    }
+  ],
+  "defaultOwnerRootUsed": true,
+  "recipeOwnerRootOverridden": false,
+  "receiverPreimages": [
+    {
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "repository": "hsoliwal/eclipse.platform",
+      "sourceRevision": "0708647baec7b8122c55685e7ac3cab759ab23b9",
+      "path": ".github/workflows/ci.yml",
+      "readbackUrl": "https://github.com/hsoliwal/eclipse.platform/blob/0708647baec7b8122c55685e7ac3cab759ab23b9/.github/workflows/ci.yml"
+    },
+    {
+      "bytes": 423,
+      "sha256": "a87ca1d04beb4f49a19628db2e46b32e62b302b716c89ce408faf4d8d228bf1d",
+      "gitBlob": "fde222c38eb768bb09e2373d965627fa117a2ab6",
+      "repository": "hsoliwal/eclipse.platform.ui",
+      "sourceRevision": "3db425b5da9f5dafb9d66ae91ef0cae8b271d17a",
+      "path": ".github/workflows/ci.yml",
+      "readbackUrl": "https://github.com/hsoliwal/eclipse.platform.ui/blob/3db425b5da9f5dafb9d66ae91ef0cae8b271d17a/.github/workflows/ci.yml"
+    }
+  ],
+  "actualSharedWorkflow": {
+    "path": ".github/workflows/mavenBuild.yml",
+    "bytes": 3363,
+    "sha256": "23522344c0010e850bdc279312e9c0ebf546f0af97162e51d59024d533d4c0d9",
+    "gitBlob": "d6d1096b7f38bb975fa3c9e3e6c0ef47a9166fbf",
+    "repository": "hsoliwal/eclipse.platform.releng.aggregator",
+    "sourceRevision": "c723152cc91c409d17e0c8702ed5bb2ad398b337",
+    "readbackUrl": "https://github.com/hsoliwal/eclipse.platform.releng.aggregator/blob/c723152cc91c409d17e0c8702ed5bb2ad398b337/.github/workflows/mavenBuild.yml"
+  },
+  "qualification": {
+    "mavenInvocations": 2,
+    "actualTestRuns": 2,
+    "qualifiedInputsPerPhase": 17,
+    "red": {
+      "receipt": {
+        "path": "evidence/sdk-red/receipt.json",
+        "bytes": 8535,
+        "sha256": "c946ba7a19411e51546b63c176bd66673bb75a1695bdfd97bdebb9f8da203925",
+        "gitBlob": "e501da6b0cbacfd4a1e6bc8a711de01981eec50e"
+      },
+      "testCounts": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      "exitCode": 1,
+      "expectedFailure": {
+        "testcase": "namedRecipePinsEachReceiverAndMaterializes",
+        "kind": "failure",
+        "message": "The SDK must pin the existing caller for eclipse.platform ==> expected: <1> but was: <0>"
+      }
+    },
+    "green": {
+      "receipt": {
+        "path": "evidence/sdk-green/receipt.json",
+        "bytes": 8394,
+        "sha256": "36cded4a6d62520f21818ff97c0100497f363b317dcc631778483963ac106c85",
+        "gitBlob": "480ae3f7f459b34605161f515a21ceb7a54809b5"
+      },
+      "testCounts": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "exitCode": 0
+    },
+    "onlyChangedQualifiedInputsBetweenRedAndGreen": [
+      "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/ci.yml.txt",
+      "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-ci-callers-20261019/resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-ci-callers-20261019/manifest.tsv"
+    ],
+    "actualSdkMaterializedOutputs": [
+      {
+        "path": "eclipse.platform.ui/.github/workflows/ci.yml",
+        "bytes": 449,
+        "sha256": "b4d17a179805598dea0a66e969819766b4d35f00cbf43778756095715bb07939",
+        "gitBlob": "41ac6662f18298e13a9ac7860141066c6cf350e2"
+      },
+      {
+        "path": "eclipse.platform/.github/workflows/ci.yml",
+        "bytes": 449,
+        "sha256": "b4d17a179805598dea0a66e969819766b4d35f00cbf43778756095715bb07939",
+        "gitBlob": "41ac6662f18298e13a9ac7860141066c6cf350e2"
+      }
+    ],
+    "independentReceiverInvocations": 2,
+    "manifestTargetsPerInvocation": 1,
+    "resultsPerPositiveReceiverInvocation": 1,
+    "materializationMethod": "namedRecipePinsEachReceiverAndMaterializes writes each independent named SDK changeset result.",
+    "inverseUsesReplacementRestoresEveryOriginalByte": true,
+    "fixedPointRefusalAliasesUnrelatedPermutationAndTwoWorkerChecks": true,
+    "actualPublishedWorkflowReadbackPrecededPostimageSealing": true,
+    "futureCommitPlaceholdersUsed": false
+  },
+  "protectedSourceVerification": {
+    "expectedPublishedSourceRevision": "83759bbb74ce7775fd967cd918927c823f78c161",
+    "protectedInventory": {
+      "path": "/tmp/eclipse-m3-20261019/ci-callers-authoring/protected-365-files.json",
+      "bytes": 115887,
+      "sha256": "1850361b14c37444c2b02202d72c182b546cc3e89c0aac96de5e1a6246debebf",
+      "gitBlob": "00646570337284f347fcc1e588c95ecb86e3fa8d"
+    },
+    "verifiedFiles": 365,
+    "historicalQualifiedCrateFiles": 361,
+    "sharedOwnerFiles": 4,
+    "changedFiles": [],
+    "allProtectedFilesUnchanged": true,
+    "historicalTestsRerun": false
+  },
+  "verifiedSdkArtifacts": [
+    {
+      "artifact": "org.openrewrite:rewrite-core:8.17.1",
+      "bytes": 3392625,
+      "sha256": "d7c07f91ab085a39bf1b40d7f2a7796a52619aaeefeca1481435e685aa663efa",
+      "published_sha1": "88a6ab348d0555ad6e04efc6fb8b5d2dc7b10e3a",
+      "verified": true
+    },
+    {
+      "artifact": "org.openrewrite:rewrite-java:8.17.1",
+      "bytes": 1613246,
+      "sha256": "32a3b27c0eafeb44c776500ae1378efdfb79d490a6afd7b58be07c6c0d6c55ff",
+      "published_sha1": "789f98dba7aa7093b917dbec70f6768ba6dfcdb7",
+      "verified": true
+    },
+    {
+      "artifact": "org.openrewrite:rewrite-java-21:8.17.1",
+      "bytes": 109302,
+      "sha256": "7e654435905cf6afb9e659185773de0b75e4282c8e30c916ad15fd16b0fba9f4",
+      "published_sha1": "4ad86cf0980f231ac7f94abdb37f741c3adf271c",
+      "verified": true
+    },
+    {
+      "artifact": "org.junit.jupiter:junit-jupiter-api:5.10.2",
+      "bytes": 210956,
+      "sha256": "afff77c186cd317275803872fa5133aa801fd6ac40bd91c78a6cf8009b4b17cc",
+      "published_sha1": "fb55d6e2bce173f35fd28422e7975539621055ef",
+      "verified": true
+    },
+    {
+      "artifact": "org.junit.jupiter:junit-jupiter-engine:5.10.2",
+      "bytes": 244690,
+      "sha256": "b6df35da750a546ae932376f11b3c0df841f0c90c7cb2944cd39adb432886e4b",
+      "published_sha1": "f1f8fe97bd58e85569205f071274d459c2c4f8cd",
+      "verified": true
+    },
+    {
+      "artifact": "org.apache.maven.surefire:surefire-junit-platform:3.2.5",
+      "bytes": 27152,
+      "sha256": "a426d731705a4804f33b5f51ff9dd6c13eaba15bac41e2a01595ccd137548ef3",
+      "published_sha1": "359ef45ecdbc6ee4eabdd017fc01fba00668acd6",
+      "verified": true
+    },
+    {
+      "artifact": "org.junit.platform:junit-platform-launcher:1.10.2",
+      "bytes": 183814,
+      "sha256": "aed4f42fb90ada9b347c231f13656fc09121ba20dab6dc646a6bd9d4da31e4aa",
+      "published_sha1": "8125dd29e847ca274dd1a7a9ca54859acc284cb3",
+      "verified": true
+    }
+  ],
+  "scope": {
+    "hostedActionsExecutedByCrate": false,
+    "windowsCheckoutExecutedByCrate": false,
+    "eclipseMavenTychoPdeAcceptance": false,
+    "wholeEclipseAcceptance": false,
+    "historicalRuntimeNativeOrSdkProofsRerun": false,
+    "sharedWorkflowSourceEdited": false,
+    "callerTriggersPermissionsInputsConcurrencyOrOtherBodyEdited": false,
+    "sharedOwnersEdited": false,
+    "gitlinksEdited": false,
+    "remoteWrites": false,
+    "globalLedgerOrCanonicalHomeEdited": false
+  }
+}
