@@ -109,4 +109,3 @@ public final class M3FirstIndex {
 		return comparer == null ? key.equals(element) : comparer.equals(key, element);
 	}
 }
-
