@@ -1,0 +1,15 @@
+{
+  "command": [
+    "javac",
+    "--release",
+    "21",
+    "-proc:none",
+    "-Xlint:all",
+    "-Werror",
+    "-d",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/annotations",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/deps/org/eclipse/pde/api/tools/annotations/NoExtend.java"
+  ],
+  "exit": 0,
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

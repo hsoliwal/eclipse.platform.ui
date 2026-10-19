@@ -54,15 +54,42 @@ public final class M3ViewerArrays {
 		if (size == 0) {
 			return elements;
 		}
-		Object[] out = new Object[size];
+		int sample = Math.min(16, size);
+		Object[] out = null;
 		int count = 0;
-		for (int i = 0; i < size; ++i) {
+		for (int i = 0; i < sample; i++) {
 			Object element = elements[i];
 			if (filter.select(viewer, parent, element)) {
+				if (out == null) {
+					out = new Object[sample];
+				}
 				out[count++] = element;
 			}
 		}
-		return count == size ? out : Arrays.copyOf(out, count);
+		if (size > sample && count >= sample / 2) {
+			// A dense prefix selects the original tight array loop once, so the
+			// remaining elements do not pay a growth check per accepted value.
+			out = Arrays.copyOf(out, size);
+			for (int i = sample; i < size; i++) {
+				Object element = elements[i];
+				if (filter.select(viewer, parent, element)) {
+					out[count++] = element;
+				}
+			}
+		} else {
+			for (int i = sample; i < size; i++) {
+				Object element = elements[i];
+				if (filter.select(viewer, parent, element)) {
+					if (out == null) {
+						out = new Object[sample];
+					} else if (count == out.length) {
+						out = Arrays.copyOf(out, (int) Math.min(size, (long) count * 2));
+					}
+					out[count++] = element;
+				}
+			}
+		}
+		return out == null ? new Object[0] : count == out.length ? out : Arrays.copyOf(out, count);
 	}
 
 	public static void sort(ViewerComparator comparator, Viewer viewer, Object[] elements) {

@@ -1,0 +1,1 @@
+mask=1023 rows=1024 loops=30000 result=1 allocatedBytesPerCall=4136.005066666667 cpuNsPerCall=1602.6700666666666

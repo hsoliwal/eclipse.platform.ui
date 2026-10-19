@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+# SPDX-License-Identifier: Apache-2.0
+type: specs.openrewrite.org/v1beta/recipe
+name: com.synexia.eclipse.JFacePackedForwarding20261019
+displayName: Eclipse JFace M3 array forwarding
+description: Extract reviewed array atoms while retaining Eclipse API and callback boundaries.
+recipeList:
+  - com.synexia.rewrite.M3HashPinnedJavaSnapshotRecipe:
+      crateName: m3-jface-packed-forwarding-20261019

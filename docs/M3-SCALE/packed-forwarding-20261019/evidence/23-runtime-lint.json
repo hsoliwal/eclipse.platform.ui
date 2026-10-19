@@ -1,0 +1,16 @@
+{
+  "command": [
+    "java",
+    "-cp",
+    "/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/google/guava/guava/31.0.1-jre/guava-31.0.1-jre.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/com/puppycrawl/tools/checkstyle/9.3/checkstyle-9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/info/picocli/picocli/4.6.2/picocli-4.6.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/antlr/antlr4-runtime/4.9.3/antlr4-runtime-4.9.3.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/reflections/reflections/0.10.2/reflections-0.10.2.jar:/workspace/scratch/0b39bc8b80ec/proof/m2/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar",
+    "com.puppycrawl.tools.checkstyle.Main",
+    "-c",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/checkstyle.xml",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/MemoryAgent.java",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/JFacePackedCostProbe.java",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/JFaceArrayCostProbe.java",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/JFaceNativeContracts.java"
+  ],
+  "exit": 0,
+  "logSha256": "2ee89ca49ecae1bb5b3de5ffcc8a964e605f1b1c6fbe072073a1ea4feaa4e230"
+}
