@@ -1,0 +1,33 @@
+# Copyright (c) 2026 Synexia, Hitesh Soliwal (hsoliwal@gmail.com) and others.
+# SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: com.synexia.openrewrite.viewport.MarkersViewDeltaHooks
+displayName: Markers view on marker deltas (M3)
+description: >-
+  Hooks of the markers views' delta path (docs/m3/markers-view/DESIGN.md): the change listener offers the
+  IMarkerDeltas to M3MarkerDeltas before scheduling a clean rebuild; a clean rebuild supersedes pending deltas;
+  categories sort completely so deltas insert by binary search; Markers gains one replace method for the patch.
+recipeList:
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkersChangeListener]
+      methodName: resourceChanged
+      anchor: "builder.getUpdateScheduler().scheduleUpdate();"
+      position: BEFORE
+      statements: "\t\t\tif (M3MarkerDeltas.offer(this, event, listeningTypes)) {\n\t\t\t\treturn;\n\t\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.CachedMarkerBuilder]
+      methodName: scheduleUpdateJob
+      parameterCount: 3
+      position: METHOD_START
+      statements: "\t\tM3MarkerDeltas.supersede(this);"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: getShowingLimit
+      position: METHOD_START
+      statements: "\t\tif (M3MarkerDeltas.fullSort()) {\n\t\t\treturn available;\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3AddMemberIfMissing:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      memberName: m3Replace
+      beforeMethod: getClone
+      memberSource: "\t/**\n\t * Replaces the model in one step with the result of a marker delta patch\n\t * (M3MarkerDeltas; docs/m3/markers-view/DESIGN.md).\n\t *\n\t * @param entries       the entries, grouped by category\n\t * @param newCategories the categories over {@code entries}\n\t * @param counts        the counts: errors, warnings, infos, others\n\t */\n\tsynchronized void m3Replace(MarkerEntry[] entries, MarkerCategory[] newCategories, Integer[] counts) {\n\t\tmarkerEntryArray = entries;\n\t\tcategories = newCategories;\n\t\tmarkerCounts = counts;\n\t\tmarkerToEntryMap = null;\n\t}\n"

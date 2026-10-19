@@ -10,6 +10,7 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Hitesh Soliwal (Synexia) - M3 marker delta path hooks (docs/m3/markers-view)
  ******************************************************************************/
 
 package org.eclipse.ui.internal.views.markers;
@@ -121,6 +122,9 @@ class MarkersChangeListener implements IResourceChangeListener {
 				return;
 			}
 			if(!hasApplicableTypes(event)){
+				return;
+			}
+			if (M3MarkerDeltas.offer(this, event, listeningTypes)) {
 				return;
 			}
 
