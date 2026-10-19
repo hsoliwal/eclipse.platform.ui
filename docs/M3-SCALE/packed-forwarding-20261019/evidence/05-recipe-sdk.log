@@ -1,0 +1,29 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------< com.synexia.m3:jface-packed-forwarding-proof >------------
+[INFO] Building jface-packed-forwarding-proof 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-cli) @ jface-packed-forwarding-proof ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.synexia.rewrite.M3JFacePackedForwardingRecipeTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.91 s -- in com.synexia.rewrite.M3JFacePackedForwardingRecipeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.590 s
+[INFO] Finished at: 2026-10-19T05:54:52+01:00
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,135 @@
+{
+  "sourceRepository": "hsoliwal/com.synexia",
+  "sourceRevision": "47981356df68c2e12c658d2d6fe3969b695aa2fe",
+  "targetRepository": "hsoliwal/eclipse.platform.ui",
+  "targetRevision": "ab142a3cb11a88192a4f9c86950436ee1ddb56a4",
+  "priorRecipe": "m3-jface-array-forwarding-20261017",
+  "history": [
+    {
+      "sha": "3531d87d33c2227ef356180e7d8916627678b4de",
+      "subject": "Remove the unused enumerators from CustomHashtable"
+    },
+    {
+      "sha": "4513b90e2a154fdf9b762cf7a470bc1edadbf1e2",
+      "subject": "Hash tree paths incrementally when restoring the expansion state"
+    },
+    {
+      "sha": "2cbe3c0dcb7b91e51d50fadb7847eaa5926edbde",
+      "subject": "Bug 547207 - [cleanup] Fix space/tab indentation mess in platform.ui"
+    },
+    {
+      "sha": "50eaebb7f3eab7259c532684d7e017651aae8f6c",
+      "subject": "Bug 535802 - EPL 2.0 conversion for JFace plug-ins"
+    },
+    {
+      "sha": "7ff699a71ce3ef4b973a7dc392bd3cc4fd12e2cc",
+      "subject": "Bug 527191 - Fix unnecessary else clause warnings in platform.ui"
+    }
+  ],
+  "disclosure": "Routine adaptation of already-public EPL JFace and previously published packed-array patterns. No private unpublished invention-specific implementation is exported.",
+  "engines": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "revision": "47981356df68c2e12c658d2d6fe3969b695aa2fe"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "revision": "47981356df68c2e12c658d2d6fe3969b695aa2fe"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "revision": "47981356df68c2e12c658d2d6fe3969b695aa2fe"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "revision": "47981356df68c2e12c658d2d6fe3969b695aa2fe"
+    }
+  ],
+  "frozenInputs": [
+    {
+      "path": "bundles/org.eclipse.jface/META-INF/MANIFEST.MF",
+      "gitBlob": "762d8a325cbba01de50eda09a28849d3731996c5",
+      "sha256": "50e83739dc8509e6a4d6720daff0a5fa399427ed9b98fe1d8d2b6ba6fd0e156f"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/build.properties",
+      "gitBlob": "1a4e6609095015cc978135169e694f504a2f3e81",
+      "sha256": "0ca6d040e538cfdc7ad704978458046e67b6c2c50a9178f83e8b1e36c0f911ac"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/internal/m3/M3ViewerArrays.java",
+      "gitBlob": "e6ee963c961125b828d338c2c6a1f1cc88249deb",
+      "sha256": "3aac1e4ddfff090ad38447b632dcc357188cf878500ecc858256c38830f64386"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTableViewer.java",
+      "gitBlob": "4b6ae82e4cde6d2585e08c2c1896b2da2be6ad69",
+      "sha256": "97d65926a2de43168a505781bc51f7264fda76d9797d714cd914c94cf568f80b"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/AbstractTreeViewer.java",
+      "gitBlob": "9d4831571aa09efe36b2e2f7e0ff5dc7dfa334c6",
+      "sha256": "c2b95377e7ed59c51f8aae30dcde3283c12e044a2a4bc975fcc01df2a8e70786"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ArrayContentProvider.java",
+      "gitBlob": "a40d21c71d8c19a61bbbbc587bd8e152db62746f",
+      "sha256": "acba461695f6e0f60b978c2c38b5b41bbf18735378e5da66b4a767ba9a5a028b"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/CustomHashtable.java",
+      "gitBlob": "977ead79a509328c486a1ccaf9dfe2308bf35095",
+      "sha256": "35010e90c37e48305d1a74402ce81a5e5272c01d1816ced2ca43c2c82179483c"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/IElementComparer.java",
+      "gitBlob": "f1112b524c94dac688c0b5f6ed0fd7b2fe8a4a56",
+      "sha256": "82e8af3042cb3351931b2872ae5d9c5b9e256a5c6f81b2e8950bf1c3abe43115"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredSelection.java",
+      "gitBlob": "21a4f7bc583e146d49b528707f6e670bf89a69d3",
+      "sha256": "2fbf7396df3b1c3a6b7fcaffed73791cb74e8ce439889dc7beb6e90b23e87b87"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewer.java",
+      "gitBlob": "0f7f8be7c5ef2c4752cd0571af24d995435c0c81",
+      "sha256": "f6235b625ec869cebafba0cf4f276d3e9d4f9befef99d27e861fac30f8332687"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TableViewer.java",
+      "gitBlob": "6308484c1ee718b41f180d2721616f60972478e2",
+      "sha256": "37847292e457a28212b4cf0b7c7881a96e199b33b9028b4b68b672df452fa172"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreePath.java",
+      "gitBlob": "06415df435f7674609ef394574be1c32fdd5f447",
+      "sha256": "2de64e40ef8c9fed17f9b0872826985cb91042affef13c1ad8ac91008ea76889"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreePathViewerComparator.java",
+      "gitBlob": "3994ff0605fcaabefebf6cdc82acd7384d5419e5",
+      "sha256": "87dfffe52d7c08f45e0cfcdcdf527fa115a1b24c95ce34ee07315c317e1072a3"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeSelection.java",
+      "gitBlob": "8903657bd15cbd9ee0447a9eef158c28b55d8a1c",
+      "sha256": "c28a3d0fc73aa674bf2f2c24b787ee6d043ad380d08308a6700ce848171c5acf"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java",
+      "gitBlob": "88a47bcd2a5f57ebae1fe71bde045daa1637122c",
+      "sha256": "452e14431b4daaffba75542c15dc2feed92e074c67d82973844eac48f5d3b9ca"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerComparator.java",
+      "gitBlob": "e1cf0960702e4457ea437214c0e7b79cb5812386",
+      "sha256": "31f7672e1a6d68196f776aaac87843860396e27ef6e5d33a1a94b69ef79506d4"
+    },
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ViewerFilter.java",
+      "gitBlob": "6d6cb663b2ec6700a8a2c6a8071c47ec4044b00d",
+      "sha256": "732369fed6ff073d444ddba78198d861a180b0ad6c0feb534707ba881e055f67"
+    }
+  ]
+}

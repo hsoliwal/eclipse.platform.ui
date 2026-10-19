@@ -1,0 +1,21 @@
+{
+  "command": [
+    "javap",
+    "-protected",
+    "-s",
+    "-classpath",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/candidate-classes:/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+    "org.eclipse.jface.viewers.CustomHashtable",
+    "org.eclipse.jface.viewers.TreeSelection",
+    "org.eclipse.jface.viewers.StructuredViewer",
+    "org.eclipse.jface.viewers.AbstractTreeViewer",
+    "org.eclipse.jface.viewers.TreeViewer",
+    "org.eclipse.jface.viewers.ViewerFilter",
+    "org.eclipse.jface.viewers.ViewerComparator",
+    "org.eclipse.jface.viewers.TreePath",
+    "org.eclipse.jface.viewers.StructuredSelection",
+    "org.eclipse.jface.viewers.ArrayContentProvider"
+  ],
+  "exit": 0,
+  "logSha256": "3cc5c460f5cb8aa54bb2b3ff56e21bd647808c1b626e32dfd85fba63a80f35cd"
+}

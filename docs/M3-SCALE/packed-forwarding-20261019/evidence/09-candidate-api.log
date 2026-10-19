@@ -1,0 +1,494 @@
+Compiled from "CustomHashtable.java"
+final class org.eclipse.jface.viewers.CustomHashtable {
+  public static final int DEFAULT_CAPACITY;
+    descriptor: I
+  public org.eclipse.jface.viewers.CustomHashtable();
+    descriptor: ()V
+
+  public org.eclipse.jface.viewers.CustomHashtable(int);
+    descriptor: (I)V
+
+  public org.eclipse.jface.viewers.CustomHashtable(org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Lorg/eclipse/jface/viewers/IElementComparer;)V
+
+  public org.eclipse.jface.viewers.CustomHashtable(int, org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (ILorg/eclipse/jface/viewers/IElementComparer;)V
+
+  public org.eclipse.jface.viewers.CustomHashtable(org.eclipse.jface.viewers.CustomHashtable, org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Lorg/eclipse/jface/viewers/CustomHashtable;Lorg/eclipse/jface/viewers/IElementComparer;)V
+
+  public org.eclipse.jface.viewers.IElementComparer getComparer();
+    descriptor: ()Lorg/eclipse/jface/viewers/IElementComparer;
+
+  public boolean containsKey(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public java.lang.Object get(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Ljava/lang/Object;
+
+  public java.lang.Object put(java.lang.Object, java.lang.Object);
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+  public java.lang.Object remove(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Ljava/lang/Object;
+
+  public java.lang.Object remove(java.lang.Object, int);
+    descriptor: (Ljava/lang/Object;I)Ljava/lang/Object;
+
+  public int size();
+    descriptor: ()I
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "ArrayContentProvider.java"
+public class org.eclipse.jface.viewers.ArrayContentProvider implements org.eclipse.jface.viewers.IStructuredContentProvider {
+  public org.eclipse.jface.viewers.ArrayContentProvider();
+    descriptor: ()V
+
+  public static org.eclipse.jface.viewers.ArrayContentProvider getInstance();
+    descriptor: ()Lorg/eclipse/jface/viewers/ArrayContentProvider;
+
+  public java.lang.Object[] getElements(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)[Ljava/lang/Object;
+}
+Compiled from "ViewerFilter.java"
+public abstract class org.eclipse.jface.viewers.ViewerFilter {
+  public java.lang.Object[] filter(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object[]);
+    descriptor: (Lorg/eclipse/jface/viewers/Viewer;Ljava/lang/Object;[Ljava/lang/Object;)[Ljava/lang/Object;
+
+  public java.lang.Object[] filter(org.eclipse.jface.viewers.Viewer, org.eclipse.jface.viewers.TreePath, java.lang.Object[]);
+    descriptor: (Lorg/eclipse/jface/viewers/Viewer;Lorg/eclipse/jface/viewers/TreePath;[Ljava/lang/Object;)[Ljava/lang/Object;
+
+  public boolean isFilterProperty(java.lang.Object, java.lang.String);
+    descriptor: (Ljava/lang/Object;Ljava/lang/String;)Z
+
+  public abstract boolean select(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object);
+    descriptor: (Lorg/eclipse/jface/viewers/Viewer;Ljava/lang/Object;Ljava/lang/Object;)Z
+}
+Compiled from "ViewerComparator.java"
+public class org.eclipse.jface.viewers.ViewerComparator {
+  public org.eclipse.jface.viewers.ViewerComparator();
+    descriptor: ()V
+
+  public org.eclipse.jface.viewers.ViewerComparator(java.util.Comparator<? super java.lang.String>);
+    descriptor: (Ljava/util/Comparator;)V
+
+  public int category(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)I
+
+  public int compare(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object);
+    descriptor: (Lorg/eclipse/jface/viewers/Viewer;Ljava/lang/Object;Ljava/lang/Object;)I
+
+  public boolean isSorterProperty(java.lang.Object, java.lang.String);
+    descriptor: (Ljava/lang/Object;Ljava/lang/String;)Z
+
+  public void sort(org.eclipse.jface.viewers.Viewer, java.lang.Object[]);
+    descriptor: (Lorg/eclipse/jface/viewers/Viewer;[Ljava/lang/Object;)V
+}
+Compiled from "TreePath.java"
+public final class org.eclipse.jface.viewers.TreePath {
+  public static final org.eclipse.jface.viewers.TreePath EMPTY;
+    descriptor: Lorg/eclipse/jface/viewers/TreePath;
+  public org.eclipse.jface.viewers.TreePath(java.lang.Object[]);
+    descriptor: ([Ljava/lang/Object;)V
+
+  public java.lang.Object getSegment(int);
+    descriptor: (I)Ljava/lang/Object;
+
+  public int getSegmentCount();
+    descriptor: ()I
+
+  public java.lang.Object getFirstSegment();
+    descriptor: ()Ljava/lang/Object;
+
+  public java.lang.Object getLastSegment();
+    descriptor: ()Ljava/lang/Object;
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public int hashCode();
+    descriptor: ()I
+
+  public int hashCode(org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Lorg/eclipse/jface/viewers/IElementComparer;)I
+
+  public boolean equals(org.eclipse.jface.viewers.TreePath, org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Lorg/eclipse/jface/viewers/TreePath;Lorg/eclipse/jface/viewers/IElementComparer;)Z
+
+  public boolean startsWith(org.eclipse.jface.viewers.TreePath, org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Lorg/eclipse/jface/viewers/TreePath;Lorg/eclipse/jface/viewers/IElementComparer;)Z
+
+  public org.eclipse.jface.viewers.TreePath getParentPath();
+    descriptor: ()Lorg/eclipse/jface/viewers/TreePath;
+
+  public org.eclipse.jface.viewers.TreePath createChildPath(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Lorg/eclipse/jface/viewers/TreePath;
+}
+Compiled from "StructuredSelection.java"
+public class org.eclipse.jface.viewers.StructuredSelection implements org.eclipse.jface.viewers.IStructuredSelection {
+  public static final org.eclipse.jface.viewers.StructuredSelection EMPTY;
+    descriptor: Lorg/eclipse/jface/viewers/StructuredSelection;
+  public org.eclipse.jface.viewers.StructuredSelection();
+    descriptor: ()V
+
+  public org.eclipse.jface.viewers.StructuredSelection(java.lang.Object[]);
+    descriptor: ([Ljava/lang/Object;)V
+
+  public org.eclipse.jface.viewers.StructuredSelection(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public org.eclipse.jface.viewers.StructuredSelection(java.util.List);
+    descriptor: (Ljava/util/List;)V
+
+  public org.eclipse.jface.viewers.StructuredSelection(java.util.List, org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Ljava/util/List;Lorg/eclipse/jface/viewers/IElementComparer;)V
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public int hashCode();
+    descriptor: ()I
+
+  public java.lang.Object getFirstElement();
+    descriptor: ()Ljava/lang/Object;
+
+  public boolean isEmpty();
+    descriptor: ()Z
+
+  public java.util.Iterator iterator();
+    descriptor: ()Ljava/util/Iterator;
+
+  public int size();
+    descriptor: ()I
+
+  public java.lang.Object[] toArray();
+    descriptor: ()[Ljava/lang/Object;
+
+  public java.util.List toList();
+    descriptor: ()Ljava/util/List;
+
+  public java.util.stream.Stream<java.lang.Object> stream();
+    descriptor: ()Ljava/util/stream/Stream;
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+}
+Compiled from "TreeSelection.java"
+public class org.eclipse.jface.viewers.TreeSelection extends org.eclipse.jface.viewers.StructuredSelection implements org.eclipse.jface.viewers.ITreeSelection {
+  public static final org.eclipse.jface.viewers.TreeSelection EMPTY;
+    descriptor: Lorg/eclipse/jface/viewers/TreeSelection;
+  public org.eclipse.jface.viewers.TreeSelection(org.eclipse.jface.viewers.TreePath[]);
+    descriptor: ([Lorg/eclipse/jface/viewers/TreePath;)V
+
+  public org.eclipse.jface.viewers.TreeSelection(org.eclipse.jface.viewers.TreePath[], org.eclipse.jface.viewers.IElementComparer);
+    descriptor: ([Lorg/eclipse/jface/viewers/TreePath;Lorg/eclipse/jface/viewers/IElementComparer;)V
+
+  public org.eclipse.jface.viewers.TreeSelection(org.eclipse.jface.viewers.TreePath);
+    descriptor: (Lorg/eclipse/jface/viewers/TreePath;)V
+
+  public org.eclipse.jface.viewers.TreeSelection(org.eclipse.jface.viewers.TreePath, org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Lorg/eclipse/jface/viewers/TreePath;Lorg/eclipse/jface/viewers/IElementComparer;)V
+
+  public org.eclipse.jface.viewers.TreeSelection();
+    descriptor: ()V
+
+  public org.eclipse.jface.viewers.IElementComparer getElementComparer();
+    descriptor: ()Lorg/eclipse/jface/viewers/IElementComparer;
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public org.eclipse.jface.viewers.TreePath[] getPaths();
+    descriptor: ()[Lorg/eclipse/jface/viewers/TreePath;
+
+  public org.eclipse.jface.viewers.TreePath[] getPathsFor(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)[Lorg/eclipse/jface/viewers/TreePath;
+}
+Compiled from "StructuredViewer.java"
+public abstract class org.eclipse.jface.viewers.StructuredViewer extends org.eclipse.jface.viewers.ContentViewer implements org.eclipse.jface.viewers.IPostSelectionProvider {
+  public void addDoubleClickListener(org.eclipse.jface.viewers.IDoubleClickListener);
+    descriptor: (Lorg/eclipse/jface/viewers/IDoubleClickListener;)V
+
+  public void addOpenListener(org.eclipse.jface.viewers.IOpenListener);
+    descriptor: (Lorg/eclipse/jface/viewers/IOpenListener;)V
+
+  public void addPostSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener);
+    descriptor: (Lorg/eclipse/jface/viewers/ISelectionChangedListener;)V
+
+  public void addDragSupport(int, org.eclipse.swt.dnd.Transfer[], org.eclipse.swt.dnd.DragSourceListener);
+    descriptor: (I[Lorg/eclipse/swt/dnd/Transfer;Lorg/eclipse/swt/dnd/DragSourceListener;)V
+
+  public void addDropSupport(int, org.eclipse.swt.dnd.Transfer[], org.eclipse.swt.dnd.DropTargetListener);
+    descriptor: (I[Lorg/eclipse/swt/dnd/Transfer;Lorg/eclipse/swt/dnd/DropTargetListener;)V
+
+  public void addFilter(org.eclipse.jface.viewers.ViewerFilter);
+    descriptor: (Lorg/eclipse/jface/viewers/ViewerFilter;)V
+
+  public org.eclipse.jface.viewers.IElementComparer getComparer();
+    descriptor: ()Lorg/eclipse/jface/viewers/IElementComparer;
+
+  public org.eclipse.jface.viewers.ViewerFilter[] getFilters();
+    descriptor: ()[Lorg/eclipse/jface/viewers/ViewerFilter;
+
+  public org.eclipse.jface.viewers.ISelection getSelection();
+    descriptor: ()Lorg/eclipse/jface/viewers/ISelection;
+
+  public org.eclipse.jface.viewers.IStructuredSelection getStructuredSelection() throws java.lang.ClassCastException;
+    descriptor: ()Lorg/eclipse/jface/viewers/IStructuredSelection;
+
+  public org.eclipse.jface.viewers.ViewerSorter getSorter();
+    descriptor: ()Lorg/eclipse/jface/viewers/ViewerSorter;
+
+  public org.eclipse.jface.viewers.ViewerComparator getComparator();
+    descriptor: ()Lorg/eclipse/jface/viewers/ViewerComparator;
+
+  public void refresh();
+    descriptor: ()V
+
+  public void refresh(boolean);
+    descriptor: (Z)V
+
+  public void refresh(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public void refresh(java.lang.Object, boolean);
+    descriptor: (Ljava/lang/Object;Z)V
+
+  public void removeOpenListener(org.eclipse.jface.viewers.IOpenListener);
+    descriptor: (Lorg/eclipse/jface/viewers/IOpenListener;)V
+
+  public void removePostSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener);
+    descriptor: (Lorg/eclipse/jface/viewers/ISelectionChangedListener;)V
+
+  public void removeDoubleClickListener(org.eclipse.jface.viewers.IDoubleClickListener);
+    descriptor: (Lorg/eclipse/jface/viewers/IDoubleClickListener;)V
+
+  public void removeFilter(org.eclipse.jface.viewers.ViewerFilter);
+    descriptor: (Lorg/eclipse/jface/viewers/ViewerFilter;)V
+
+  public void setFilters(org.eclipse.jface.viewers.ViewerFilter...);
+    descriptor: ([Lorg/eclipse/jface/viewers/ViewerFilter;)V
+
+  public void resetFilters();
+    descriptor: ()V
+
+  public abstract void reveal(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public void setContentProvider(org.eclipse.jface.viewers.IContentProvider);
+    descriptor: (Lorg/eclipse/jface/viewers/IContentProvider;)V
+
+  public final void setInput(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public void setSelection(org.eclipse.jface.viewers.ISelection, boolean);
+    descriptor: (Lorg/eclipse/jface/viewers/ISelection;Z)V
+
+  public void setSorter(org.eclipse.jface.viewers.ViewerSorter);
+    descriptor: (Lorg/eclipse/jface/viewers/ViewerSorter;)V
+
+  public void setComparator(org.eclipse.jface.viewers.ViewerComparator);
+    descriptor: (Lorg/eclipse/jface/viewers/ViewerComparator;)V
+
+  public void setUseHashlookup(boolean);
+    descriptor: (Z)V
+
+  public void setComparer(org.eclipse.jface.viewers.IElementComparer);
+    descriptor: (Lorg/eclipse/jface/viewers/IElementComparer;)V
+
+  public org.eclipse.swt.widgets.Widget testFindItem(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Lorg/eclipse/swt/widgets/Widget;
+
+  public org.eclipse.swt.widgets.Widget[] testFindItems(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)[Lorg/eclipse/swt/widgets/Widget;
+
+  public void update(java.lang.Object[], java.lang.String[]);
+    descriptor: ([Ljava/lang/Object;[Ljava/lang/String;)V
+
+  public void update(java.lang.Object, java.lang.String[]);
+    descriptor: (Ljava/lang/Object;[Ljava/lang/String;)V
+
+  public void setLabelProvider(org.eclipse.jface.viewers.IBaseLabelProvider);
+    descriptor: (Lorg/eclipse/jface/viewers/IBaseLabelProvider;)V
+}
+Compiled from "AbstractTreeViewer.java"
+public abstract class org.eclipse.jface.viewers.AbstractTreeViewer extends org.eclipse.jface.viewers.ColumnViewer {
+  public static final int ALL_LEVELS;
+    descriptor: I
+  public static final int NO_EXPAND;
+    descriptor: I
+  public void add(java.lang.Object, java.lang.Object...);
+    descriptor: (Ljava/lang/Object;[Ljava/lang/Object;)V
+
+  public void add(java.lang.Object, java.lang.Object);
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)V
+
+  public void addTreeListener(org.eclipse.jface.viewers.ITreeViewerListener);
+    descriptor: (Lorg/eclipse/jface/viewers/ITreeViewerListener;)V
+
+  public void collapseAll();
+    descriptor: ()V
+
+  public void collapseSelection();
+    descriptor: ()V
+
+  public void collapseSelectionToLevel(int);
+    descriptor: (I)V
+
+  public void collapseToLevel(java.lang.Object, int);
+    descriptor: (Ljava/lang/Object;I)V
+
+  public void expandAll();
+    descriptor: ()V
+
+  public void expandSelection();
+    descriptor: ()V
+
+  public void expandSelectionToLevel(int);
+    descriptor: (I)V
+
+  public void expandAll(boolean);
+    descriptor: (Z)V
+
+  public void expandToLevel(int);
+    descriptor: (I)V
+
+  public void expandToLevel(int, boolean);
+    descriptor: (IZ)V
+
+  public void expandToLevel(java.lang.Object, int);
+    descriptor: (Ljava/lang/Object;I)V
+
+  public void expandToLevel(java.lang.Object, int, boolean);
+    descriptor: (Ljava/lang/Object;IZ)V
+
+  public int getAutoExpandLevel();
+    descriptor: ()I
+
+  public int getAutoExpandOnSingleChildLevels();
+    descriptor: ()I
+
+  public java.lang.Object[] getExpandedElements();
+    descriptor: ()[Ljava/lang/Object;
+
+  public boolean getExpandedState(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public boolean isExpandable(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public void remove(java.lang.Object...);
+    descriptor: ([Ljava/lang/Object;)V
+
+  public void remove(java.lang.Object, java.lang.Object...);
+    descriptor: (Ljava/lang/Object;[Ljava/lang/Object;)V
+
+  public void remove(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public void removeTreeListener(org.eclipse.jface.viewers.ITreeViewerListener);
+    descriptor: (Lorg/eclipse/jface/viewers/ITreeViewerListener;)V
+
+  public void reveal(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)V
+
+  public org.eclipse.swt.widgets.Item scrollDown(int, int);
+    descriptor: (II)Lorg/eclipse/swt/widgets/Item;
+
+  public org.eclipse.swt.widgets.Item scrollUp(int, int);
+    descriptor: (II)Lorg/eclipse/swt/widgets/Item;
+
+  public void setAutoExpandLevel(int);
+    descriptor: (I)V
+
+  public void setAutoExpandOnSingleChildLevels(int);
+    descriptor: (I)V
+
+  public void setContentProvider(org.eclipse.jface.viewers.IContentProvider);
+    descriptor: (Lorg/eclipse/jface/viewers/IContentProvider;)V
+
+  public void setExpandedElements(java.lang.Object...);
+    descriptor: ([Ljava/lang/Object;)V
+
+  public void setExpandedTreePaths(org.eclipse.jface.viewers.TreePath...);
+    descriptor: ([Lorg/eclipse/jface/viewers/TreePath;)V
+
+  public void setExpandedState(java.lang.Object, boolean);
+    descriptor: (Ljava/lang/Object;Z)V
+
+  public void setExpandedStateWithAutoExpandOnSingleChild(java.lang.Object, boolean);
+    descriptor: (Ljava/lang/Object;Z)V
+
+  public org.eclipse.swt.widgets.Item[] getChildren(org.eclipse.swt.widgets.Widget, java.lang.Object[]);
+    descriptor: (Lorg/eclipse/swt/widgets/Widget;[Ljava/lang/Object;)[Lorg/eclipse/swt/widgets/Item;
+
+  public java.lang.Object[] getVisibleExpandedElements();
+    descriptor: ()[Ljava/lang/Object;
+
+  public org.eclipse.jface.viewers.ISelection getSelection();
+    descriptor: ()Lorg/eclipse/jface/viewers/ISelection;
+
+  public org.eclipse.jface.viewers.ITreeSelection getStructuredSelection() throws java.lang.ClassCastException;
+    descriptor: ()Lorg/eclipse/jface/viewers/ITreeSelection;
+
+  public org.eclipse.jface.viewers.TreePath[] getExpandedTreePaths();
+    descriptor: ()[Lorg/eclipse/jface/viewers/TreePath;
+
+  public void insert(java.lang.Object, java.lang.Object, int);
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;I)V
+
+  public void setExpandPreCheckFilters(boolean);
+    descriptor: (Z)V
+
+  public boolean contains(java.lang.Object, java.lang.Object);
+    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)Z
+
+  public org.eclipse.jface.viewers.IStructuredSelection getStructuredSelection() throws java.lang.ClassCastException;
+    descriptor: ()Lorg/eclipse/jface/viewers/IStructuredSelection;
+}
+Compiled from "TreeViewer.java"
+public class org.eclipse.jface.viewers.TreeViewer extends org.eclipse.jface.viewers.AbstractTreeViewer {
+  public org.eclipse.jface.viewers.TreeViewer(org.eclipse.swt.widgets.Composite);
+    descriptor: (Lorg/eclipse/swt/widgets/Composite;)V
+
+  public org.eclipse.jface.viewers.TreeViewer(org.eclipse.swt.widgets.Composite, int);
+    descriptor: (Lorg/eclipse/swt/widgets/Composite;I)V
+
+  public org.eclipse.jface.viewers.TreeViewer(org.eclipse.swt.widgets.Tree);
+    descriptor: (Lorg/eclipse/swt/widgets/Tree;)V
+
+  public org.eclipse.swt.widgets.Control getControl();
+    descriptor: ()Lorg/eclipse/swt/widgets/Control;
+
+  public org.eclipse.jface.viewers.IBaseLabelProvider getLabelProvider();
+    descriptor: ()Lorg/eclipse/jface/viewers/IBaseLabelProvider;
+
+  public org.eclipse.swt.widgets.Tree getTree();
+    descriptor: ()Lorg/eclipse/swt/widgets/Tree;
+
+  public void setChildCount(java.lang.Object, int);
+    descriptor: (Ljava/lang/Object;I)V
+
+  public void replace(java.lang.Object, int, java.lang.Object);
+    descriptor: (Ljava/lang/Object;ILjava/lang/Object;)V
+
+  public boolean isExpandable(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public void remove(java.lang.Object, int);
+    descriptor: (Ljava/lang/Object;I)V
+
+  public void setContentProvider(org.eclipse.jface.viewers.IContentProvider);
+    descriptor: (Lorg/eclipse/jface/viewers/IContentProvider;)V
+
+  public void setHasChildren(java.lang.Object, boolean);
+    descriptor: (Ljava/lang/Object;Z)V
+
+  public void setSelection(org.eclipse.jface.viewers.ISelection, boolean);
+    descriptor: (Lorg/eclipse/jface/viewers/ISelection;Z)V
+
+  public void editElement(java.lang.Object, int);
+    descriptor: (Ljava/lang/Object;I)V
+}

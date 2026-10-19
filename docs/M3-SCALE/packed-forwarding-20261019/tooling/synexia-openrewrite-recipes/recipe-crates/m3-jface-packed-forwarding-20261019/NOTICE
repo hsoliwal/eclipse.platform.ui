@@ -1,0 +1,6 @@
+This crate adapts public Eclipse JFace source, retaining EPL-2.0 and its original contributors.
+The templates and frozen JFace/PDE input sources remain EPL-2.0, not Apache-relicensed output.
+Reusable recipe/proof contributions are Apache-2.0 by Hitesh Soliwal and Synexia contributors.
+The unchanged canonical recipe engine stays in synexia-openrewrite-recipes/src/main/java.
+The preceding recipe's test and qualification code is reused with its original Apache-2.0 terms.
+No LeetCode, HackerRank or GeeksforGeeks editorial/submission implementation is copied.

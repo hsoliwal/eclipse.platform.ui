@@ -1,0 +1,6 @@
+LOOKUP trial=0 nsPerOp=14.699838 bytesPerOp=8.0E-5
+LOOKUP trial=1 nsPerOp=42.6972635 bytesPerOp=0.0
+LOOKUP trial=2 nsPerOp=10.8199655 bytesPerOp=0.0
+CHURN nsPerPair=26.650768 bytesPerPair=32.0
+RETAINED fullBytes=426544 fullObjects=10001 fullArrays=1 emptyBytes=106544 emptyObjects=1 reusedBytes=426544
+REMOVED_REFERENCES_RELEASED

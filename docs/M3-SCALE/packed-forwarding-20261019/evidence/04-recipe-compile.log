@@ -1,0 +1,24 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------< com.synexia.m3:jface-packed-forwarding-proof >------------
+[INFO] Building jface-packed-forwarding-proof 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ jface-packed-forwarding-proof ---
+[INFO] Copying 7 resources from resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ jface-packed-forwarding-proof ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ jface-packed-forwarding-proof ---
+[INFO] skip non existing resourceDirectory /workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ jface-packed-forwarding-proof ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.244 s
+[INFO] Finished at: 2026-10-19T05:54:38+01:00
+[INFO] ------------------------------------------------------------------------
