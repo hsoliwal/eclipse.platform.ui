@@ -20,7 +20,7 @@ for n in "$@"; do
     bash C:/m3-superset/tools/hidden_java.sh $(( BUDGET * (LAST - first + 2) + 60 )) "$OUT/bench/$LABEL-$n-$first.log" \
       -Xmx${XMX:-1500m} -Djava.io.tmpdir=$(cygpath -w "$OUT/tmp") ${JAVA_OPTS:-} -cp "$CP" \
       org.eclipse.jface.tests.viewers.m3.M3ViewerBench "$(cygpath -w "$RES")" "$LABEL" "$n" "$first" "$BUDGET" "$LAST"
-    done_idx=$(awk -F'\t' -v n="$n" '$4 == n { print $7 }' "$RES" 2>/dev/null | sort -n | tail -1)
+    done_idx=$(awk -F'\t' -v n="$n" '$3 == n { print $6 }' "$RES" 2>/dev/null | sort -n | tail -1)
     if [ -z "$done_idx" ] || [ "$done_idx" -lt "$first" ]; then
       echo "n=$n scenario $first produced no row (crash?): see $OUT/bench/$LABEL-$n-$first.log"; first=$((first + 1))
     else
