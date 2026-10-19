@@ -168,3 +168,41 @@ See `FOSS_REUSE_DECISION.tsv` and `PROVENANCE.tsv`. In short:
    recompute.
 4. FilteredTree (`org.eclipse.ui.dialogs` / `org.eclipse.e4.ui.dialogs.filteredtree`) on `M3TreeViewerModel` when the
    content provider is declared thread-safe.
+
+## 11. Revision 2 (user, 2026-10-19): one model, deltas end to end
+
+Governing rule: memory `feedback-one-model-delta-processing.md`. The user's words:
+- "the JFace viewer should support delta updates";
+- "if the update falls in the visible region the viewport should update, otherwise the scrollbar changes";
+- "why have 10 models and 10 hash maps; against DOOPS".
+
+What changes in this design:
+
+- **One model.** A viewer in the M3 path keeps no element store of its own: no `CustomHashtable` element map and no
+  cached sorted or filtered children. Elements map to int ids in one lane store: the M3 viewer model of Layer B,
+  section 5. Row <-> id goes through the view lanes (`visible`, `rowOf`). The widget side is the SWT viewport, through
+  the enhanced-API seam:
+  - `M3BulkUpdates` (map row M3-BULK-UPDATES, leaf 8);
+  - `M3DiffApply` (M3-DIFF-APPLY, leaf 10);
+  - `M3RowExtents` (M3-ESTIMATED-HEIGHTS, leaf 16), in the integration jar.
+
+  On stock SWT, the same model drives a `SWT.VIRTUAL` widget through `setItemCount`/`clear`/`SetData`. Items and
+  element facades are deferred: they are created only when an API asks.
+- **Deltas.** A viewer delta is runs of insert/remove/update/move over ids (`M3ViewerDelta`, int lanes). Applying it
+  patches the view lanes incrementally:
+  - removal is one compaction pass;
+  - insertion is a binary search in the sorted order;
+  - a changed sort key is a remove plus an insert.
+
+  The widget patch then splits by the visible window:
+  - rows inside it are cleared and refilled, so `SetData` asks only for those rows;
+  - rows outside it change nothing but the item count, so only the scroll bar and the extents change;
+  - the top row is kept by shifting `topIndex` by the net insertions above it.
+- **refresh() without a delta** stays supported. In the M3 path it diffs the old and new id sequences (LIS, as in
+  `M3DiffApply`) and applies the same patch, never a rebuild.
+- **Coalescing.** Deltas queue under the superseding-generation debounce of section 5.1. Consecutive runs merge
+  before the patch.
+- **Layer A** (section 4) stays: it is the stock-API fast path for clients that keep their own model and call the
+  stock viewer API.
+- **First consumer:** the Markers view (`docs/m3/markers-view/DESIGN.md`). It turns `IMarkerDelta`s into these
+  deltas. Project Explorer (CNF) and Outline follow.
