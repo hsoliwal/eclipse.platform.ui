@@ -302,8 +302,57 @@ public final class M3MarkersBench implements IStartup {
 		items[1] = ui(() -> Integer.valueOf(itemCount(viewer().getTree()))).intValue();
 		row("diff-resize-full-refreshes", n, refreshes.get() - refreshed, 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		row("diff-resize-items-delta", n, items[1] - items[0], 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		hiddenSweep(lines, n);
 		Files.write(log, lines, StandardCharsets.UTF_8);
 		row("diff-counters", n, -1, -1, deltaCounters()); //$NON-NLS-1$
+	}
+
+	/**
+	 * Hidden viewport (brief rule 24): the view is minimized, a build-like batch changes up to 10^4 markers in one
+	 * operation, then the view is restored. While hidden the tree must do nothing (no paint, no item created or
+	 * disposed); after the restore its rows must equal stock's, after one window patch.
+	 */
+	private void hiddenSweep(List<String> lines, int n) throws Exception {
+		int k = Math.min(10_000, markers.size() / 2);
+		int[] paints = { 0 };
+		org.eclipse.swt.widgets.Listener counter = e -> paints[0]++;
+		ui(() -> {
+			viewer().getTree().addListener(org.eclipse.swt.SWT.Paint, counter);
+			page().setPartState(page().getReference(view), IWorkbenchPage.STATE_MINIMIZED);
+			return null;
+		});
+		settle();
+		int itemsBefore = ui(() -> Integer.valueOf(itemCount(viewer().getTree()))).intValue();
+		paints[0] = 0;
+		int refreshed = refreshes.get();
+		workspace().run((IWorkspaceRunnable) m -> {
+			for (int i = 0; i < k; i++) {
+				IMarker marker = markers.get(i * (markers.size() / k));
+				marker.setAttribute(IMarker.SEVERITY, (marker.getAttribute(IMarker.SEVERITY, 0) + 1) % 3);
+			}
+		}, null);
+		settle();
+		int hiddenPaints = paints[0];
+		int hiddenItems = ui(() -> Integer.valueOf(itemCount(viewer().getTree()))).intValue() - itemsBefore;
+		int hiddenRefreshes = refreshes.get() - refreshed;
+		paints[0] = 0;
+		refreshed = refreshes.get();
+		ui(() -> {
+			page().setPartState(page().getReference(view), IWorkbenchPage.STATE_RESTORED);
+			page().activate(view);
+			return null;
+		});
+		settle();
+		lines.add("hidden " + k + " then shown | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-hidden-paints", n, hiddenPaints, k, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-hidden-items-delta", n, hiddenItems, k, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-hidden-ui-updates", n, hiddenRefreshes, k, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-shown-paints", n, paints[0], k, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-shown-ui-updates", n, refreshes.get() - refreshed, k, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		ui(() -> {
+			viewer().getTree().removeListener(org.eclipse.swt.SWT.Paint, counter);
+			return null;
+		});
 	}
 
 	private static int itemCount(Tree tree) {

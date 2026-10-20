@@ -22,16 +22,27 @@ cp -r "$OUT/cand/classes/." "$J/"
 sed -i 's/^Export-Package: /Export-Package: org.eclipse.jface.viewers.m3,/' "$J/META-INF/MANIFEST.MF"
 rm -f "$E/plugins/org.eclipse.jface_m3.jar"
 (cd "$J" && "$JDK/bin/jar" cfm "$E/plugins/org.eclipse.jface_m3.jar" META-INF/MANIFEST.MF .)
-# 2. org.eclipse.ui.ide
+# 2. org.eclipse.ui.workbench: the M3 helpers (org.eclipse.ui.internal.m3, e.g. M3PartVisibility) added and exported
+WB=$(grep -E '^org\.eclipse\.ui\.workbench,' "$E/config-stock/org.eclipse.equinox.simpleconfigurator/bundles.info" | cut -d, -f3 | sed 's|^file:/||')
+W=$B/workbench-jar; rm -rf "$W" "$B/wb-classes" && mkdir -p "$W" "$B/wb-classes"
 grep -v '^#' "$E/config-stock/org.eclipse.equinox.simpleconfigurator/bundles.info" | cut -d, -f3 | sed 's|^file:/||' | grep '\.jar$' | grep -v m3bench > "$B/cp.list"
+{ echo "-cp"; echo "$OUT/cand/classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
+"$JDK/bin/javac" --release 21 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/wb-classes" \
+  "$WT"/bundles/org.eclipse.ui.workbench/eclipseui/org/eclipse/ui/internal/m3/*.java
+(cd "$W" && "$JDK/bin/jar" xf "$WB" && rm -f META-INF/*.SF META-INF/*.RSA META-INF/*.DSA META-INF/*.EC)
+cp -r "$B/wb-classes/." "$W/"
+sed -i 's/^Export-Package: /Export-Package: org.eclipse.ui.internal.m3;x-internal:=true,/' "$W/META-INF/MANIFEST.MF"
+rm -f "$E/plugins/org.eclipse.ui.workbench_m3.jar"
+(cd "$W" && "$JDK/bin/jar" cfm "$E/plugins/org.eclipse.ui.workbench_m3.jar" META-INF/MANIFEST.MF .)
+# 3. org.eclipse.ui.ide
 M=$WT/bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers
 HOOKED=$(grep -o '\$M/[A-Za-z]*\.java' "$WT/docs/m3/markers-view/tools/apply_recipe.sh" | sed "s|\\\$M|$M|")
 rm -rf "$B/classes" "$B/jar" && mkdir -p "$B/classes" "$B/jar"
 # the class path (425 jars) goes through an argument file: the command line is too long for Windows
-{ echo "-cp"; echo "$OUT/cand/classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
+{ echo "-cp"; echo "$OUT/cand/classes;$B/wb-classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
 "$JDK/bin/javac" --release 21 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/classes" "$M"/M3*.java $HOOKED
 (cd "$B/jar" && "$JDK/bin/jar" xf "$POOL/$STOCK" && rm -f META-INF/*.SF META-INF/*.RSA META-INF/*.DSA META-INF/*.EC)
 cp -r "$B/classes/." "$B/jar/"
 rm -f "$E/plugins/org.eclipse.ui.ide_m3.jar"
 (cd "$B/jar" && "$JDK/bin/jar" cfm "$E/plugins/org.eclipse.ui.ide_m3.jar" META-INF/MANIFEST.MF .)
-echo "overlay: org.eclipse.jface_m3.jar ($(find "$OUT/cand/classes" -name '*.class' | wc -l) classes), org.eclipse.ui.ide_m3.jar ($(find "$B/classes" -name '*.class' | wc -l) classes from $STOCK)"
+echo "overlay: org.eclipse.jface_m3.jar ($(find "$OUT/cand/classes" -name '*.class' | wc -l) classes), org.eclipse.ui.workbench_m3.jar (+$(find "$B/wb-classes" -name '*.class' | wc -l)), org.eclipse.ui.ide_m3.jar ($(find "$B/classes" -name '*.class' | wc -l) classes from $STOCK)"

@@ -31,6 +31,8 @@ if [ "$5" != --inner ]; then
     sed -i "s|^org\.eclipse\.ui\.ide,\([^,]*\),[^,]*,|org.eclipse.ui.ide,\1,file:/${IDE_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
     JFACE_JAR=${JFACE_JAR:-$E/plugins/org.eclipse.jface_m3.jar}
     sed -i "s|^org\.eclipse\.jface,\([^,]*\),[^,]*,|org.eclipse.jface,\1,file:/${JFACE_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
+    WORKBENCH_JAR=${WORKBENCH_JAR:-$E/plugins/org.eclipse.ui.workbench_m3.jar}
+    sed -i "s|^org\.eclipse\.ui\.workbench,\([^,]*\),[^,]*,|org.eclipse.ui.workbench,\1,file:/${WORKBENCH_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   fi
   SC=$(ls "$POOL" | grep '^org.eclipse.equinox.simpleconfigurator_' | head -1)
   FW=$(ls "$POOL" | grep '^org.eclipse.osgi_3' | head -1); CS=$(ls "$POOL" | grep '^org.eclipse.osgi.compatibility.state_' | head -1)

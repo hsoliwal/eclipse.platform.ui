@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.internal.m3.M3PartVisibility;
 import org.eclipse.ui.views.markers.internal.MarkerGroup;
 import org.eclipse.ui.views.markers.internal.MarkerGroupingEntry;
 
@@ -90,10 +91,11 @@ final class M3MarkerDeltas {
 	private static final byte NONE = 0;
 
 	/** Counters for the differential and the benchmark: see {@link #counters()}. */
-	private static final int[] COUNTERS = new int[3];
+	private static final int[] COUNTERS = new int[4];
 	private static final int APPLIED = 0;
 	private static final int FALLBACKS = 1;
 	private static final int BUILDS = 2;
+	private static final int SHOWN = 3;
 
 	private final MarkersChangeListener listener;
 	private final CachedMarkerBuilder builder;
@@ -117,12 +119,14 @@ final class M3MarkerDeltas {
 
 	/**
 	 * The counters the differential and the benchmark read: deltas applied
-	 * through the lanes, fallbacks to a clean rebuild, clean rebuilds started.
+	 * through the lanes, fallbacks to a clean rebuild, clean rebuilds started,
+	 * window patches applied when a hidden view showed again.
 	 *
-	 * @return {@code "applied=<n> fallbacks=<n> builds=<n>"}
+	 * @return {@code "applied=<n> fallbacks=<n> builds=<n> shown-patches=<n>"}
 	 */
 	static synchronized String counters() {
-		return "applied=" + COUNTERS[APPLIED] + " fallbacks=" + COUNTERS[FALLBACKS] + " builds=" + COUNTERS[BUILDS]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "applied=" + COUNTERS[APPLIED] + " fallbacks=" + COUNTERS[FALLBACKS] + " builds=" + COUNTERS[BUILDS] //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ " shown-patches=" + COUNTERS[SHOWN]; //$NON-NLS-1$
 	}
 
 	private static synchronized void count(int counter) {
@@ -413,9 +417,25 @@ final class M3MarkerDeltas {
 		}
 		List<M3MarkerLanes.Category> touched = lanes.apply(changes);
 		count(APPLIED);
+		if (visibility == null) {
+			visibility = M3PartVisibility.watch(view, () -> shown(view));
+		}
+		if (visibility.isHidden()) {
+			// hidden viewport (brief rule 24): the lanes stay current, the tree does no native work; the touched
+			// categories and changed markers accumulate for one window patch when the view shows again
+			hide(lanes, touched, changed);
+			visibility.markDirty();
+			view.updateTitle();
+			return;
+		}
 		if (view.getActiveViewerInputClone().m3 == lanes) {
 			patchTree(view, lanes, touched, changed);
 		} // else a rebuilt model waits for its UI update, which refreshes the tree from these lanes
+		finishPatch(view, lanes);
+	}
+
+	/* what UIUpdateJob does after its refresh, and the title */
+	private static void finishPatch(ExtendedMarkersView view, M3MarkerLanes lanes) {
 		// UIUpdateJob: with no saved state, a single category is recorded for expansion
 		if (view.getCategoriesToExpand().isEmpty()) {
 			M3MarkerCategory[] categories = lanes.categories();
@@ -426,6 +446,56 @@ final class M3MarkerDeltas {
 		view.reexpandCategories();
 		view.updateTitle();
 		view.updateStatusLine(view.getViewer().getStructuredSelection());
+	}
+
+	/* the coalesced dirty window of a hidden view: O(changed) ids and the touched categories */
+	private M3MarkerLanes hiddenLanes;
+	private List<M3MarkerLanes.Category> hiddenTouched;
+	private M3LongSet hiddenChanged;
+	private M3PartVisibility visibility;
+
+	private void hide(M3MarkerLanes lanes, List<M3MarkerLanes.Category> touched, M3LongSet changed) {
+		if (hiddenLanes != lanes) {
+			hiddenLanes = lanes;
+			hiddenTouched = new ArrayList<>();
+			hiddenChanged = new M3LongSet(64);
+		}
+		for (M3MarkerLanes.Category c : touched) {
+			if (!hiddenTouched.contains(c)) {
+				hiddenTouched.add(c);
+			}
+		}
+		changed.forEach(hiddenChanged::add);
+	}
+
+	/* the view shows again: one window patch against the current lanes */
+	private void shown(ExtendedMarkersView view) {
+		M3MarkerLanes lanes = hiddenLanes;
+		List<M3MarkerLanes.Category> touched = hiddenTouched;
+		M3LongSet changed = hiddenChanged;
+		hiddenLanes = null;
+		hiddenTouched = null;
+		hiddenChanged = null;
+		if (lanes == null || view.isDisposed() || builder.getMarkers().m3 != lanes
+				|| view.getActiveViewerInputClone().m3 != lanes) {
+			return; // nothing hidden, or a clean rebuild replaced the lanes: its UI update refreshes the tree
+		}
+		count(SHOWN);
+		patchTree(view, lanes, touched, changed);
+		finishPatch(view, lanes);
+	}
+
+	/**
+	 * @param view a markers view
+	 * @return the number of window patches applied on show after a hidden
+	 *         period with changes (tests and the bench), or -1 when the view is
+	 *         not watched
+	 */
+	static int hiddenPatches(ExtendedMarkersView view) {
+		synchronized (BY_BUILDER) {
+			M3MarkerDeltas deltas = BY_BUILDER.get(view.getBuilder());
+			return deltas == null || deltas.visibility == null ? -1 : deltas.visibility.patches();
+		}
 	}
 
 	/* the tree patch: categories removed and added; per touched category its label and the rows of its window */
