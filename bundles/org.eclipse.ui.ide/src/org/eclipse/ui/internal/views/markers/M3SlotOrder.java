@@ -323,11 +323,4 @@ public final class M3SlotOrder {
 		blocks[blockCount] = null;
 		lengths[blockCount] = 0;
 	}
-
-	/**
-	 * @return the number of blocks (tests)
-	 */
-	int blockCount() {
-		return blockCount;
-	}
 }

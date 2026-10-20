@@ -350,7 +350,7 @@ final class M3MarkerDeltas {
 					return Status.OK_STATUS;
 				}
 				if (batchKinds[i] != NONE) {
-					changes.add(prepare(batchIds[i], batchKinds[i], batchMarkers[i], lanes, selected, filters,
+					changes.add(prepareOne(batchIds[i], batchKinds[i], batchMarkers[i], lanes, selected, filters,
 							group));
 				}
 			}
@@ -370,7 +370,7 @@ final class M3MarkerDeltas {
 	}
 
 	/* one changed marker: its keys and category when it is (still) selected by the filters, else it leaves */
-	private static M3MarkerLanes.Change prepare(long id, byte kind, IMarker marker, M3MarkerLanes lanes,
+	private static M3MarkerLanes.Change prepareOne(long id, byte kind, IMarker marker, M3MarkerLanes lanes,
 			IResource[] selected, Collection<MarkerFieldFilterGroup> filters, MarkerGroup group)
 			throws CoreException {
 		M3MarkerLanes.Change change = new M3MarkerLanes.Change().set(id, marker, null, null, null);

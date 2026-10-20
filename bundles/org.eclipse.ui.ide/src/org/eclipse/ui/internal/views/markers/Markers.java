@@ -11,6 +11,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Mickael Istria (Red Hat Inc.) - Bug 486901
+ *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  ******************************************************************************/
 
 package org.eclipse.ui.internal.views.markers;
@@ -66,6 +67,12 @@ class Markers {
 	}
 
 	/**
+	 * The lane model in M3 mode (M3MarkerLanes, docs/m3/markers-view/PROBLEMS_VIEW.md); {@code null} while
+	 * the entry array is the model.
+	 */
+	volatile M3MarkerLanes m3;
+
+	/**
 	 * Update with newly collected markers
 	 *
 	 * @param markerEntries
@@ -83,6 +90,15 @@ class Markers {
 				markerToEntryMap = null;
 			}
 			markerCounts = null;
+			if (M3MarkerDeltas.ENABLED) {
+				m3 = sortAndGroup ? M3MarkerDeltas.build(this, markerEntries, monitor) : null;
+				if (m3 != null) {
+					categories = m3.categories();
+					markerEntryArray = EMPTY_ENTRY_ARRAY;
+					markerCounts = m3.counts();
+					return !monitor.isCanceled();
+				}
+			}
 			if (markerEntries.isEmpty()) {
 				categories = EMPTY_CATEGORY_ARRAY;
 				markerEntryArray = EMPTY_ENTRY_ARRAY;
@@ -141,6 +157,15 @@ class Markers {
 	}
 
 	synchronized boolean sortMarkerEntries(IProgressMonitor monitor) {
+		M3MarkerLanes lanes = m3;
+		if (lanes != null) {
+			if (lanes.resort(builder.getComparator())) {
+				return true;
+			}
+			m3 = null;
+			builder.scheduleUpdate();
+			return false;
+		}
 		if (monitor.isCanceled()) {
 			return false;
 		}
@@ -292,6 +317,10 @@ class Markers {
 	 *         [errors,warnings,infos,others]
 	 */
 	Integer[] getMarkerCounts() {
+		M3MarkerLanes lanes = m3;
+		if (lanes != null) {
+			return lanes.counts();
+		}
 		if (markerCounts == null) {
 			markerCounts = getMarkerCounts(markerEntryArray);
 		}
@@ -325,6 +354,10 @@ class Markers {
 	 * @return {@link MarkerItem}
 	 */
 	public synchronized MarkerItem getMarkerItem(IMarker marker) {
+		M3MarkerLanes lanes = m3;
+		if (lanes != null) {
+			return lanes.item(marker);
+		}
 		if (markerToEntryMap == null) {
 			markerToEntryMap = new HashMap<>();
 			for (MarkerEntry markerEntry : markerEntryArray) {
@@ -348,6 +381,10 @@ class Markers {
 	 * @return Returns the categories.
 	 */
 	MarkerCategory[] getCategories() {
+		M3MarkerLanes lanes = m3;
+		if (lanes != null) {
+			return lanes.categories();
+		}
 		return categories;
 	}
 
@@ -355,6 +392,10 @@ class Markers {
 	 * @return MarkerSupportItem[]
 	 */
 	public MarkerSupportItem[] getElements() {
+		M3MarkerLanes lanes = m3;
+		if (lanes != null) {
+			return lanes.categories();
+		}
 		if (builder.isShowingHierarchy()) {
 			return categories;
 		}
@@ -373,6 +414,10 @@ class Markers {
 	 */
 	Markers getClone() {
 		Markers markers = new Markers(builder);
+		markers.m3 = m3;
+		if (markers.m3 != null) {
+			return markers;
+		}
 		if (!inChange) {
 			markers.markerEntryArray = markerEntryArray.clone();
 			markers.categories = categories.clone();
