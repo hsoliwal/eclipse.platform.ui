@@ -43,7 +43,7 @@ public class CharacterPairMatcherRegistry {
 	 * Creates the registry and binds it to the extension point.
 	 */
 	public CharacterPairMatcherRegistry() {
-		Platform.getExtensionRegistry().addRegistryChangeListener(_ -> outOfSync = true, EXTENSION_POINT_ID);
+		Platform.getExtensionRegistry().addRegistryChangeListener(unused -> outOfSync = true, EXTENSION_POINT_ID);
 	}
 
 	/**

@@ -180,7 +180,7 @@ public class WizardNewFolderMainPage extends WizardPage implements Listener {
 				}
 			});
 		}
-		linkedResourceGroup = new CreateLinkedResourceGroup(IResource.FOLDER, _ -> {
+		linkedResourceGroup = new CreateLinkedResourceGroup(IResource.FOLDER, unused -> {
 			setPageComplete(validatePage());
 			firstLinkCheck = false;
 		}, new CreateLinkedResourceGroup.IStringValue() {

@@ -243,7 +243,7 @@ public class UrlImageDescriptorTest {
 	public void testURLModifierReturningNullKeepsOriginalURL() {
 		ImageDescriptor descriptor = ImageDescriptor
 				.createFromURL(FileImageDescriptorTest.class.getResource("/icons/imagetests/zoomIn.png"));
-		ImageURLModifiers.setURLModifier(_ -> null);
+		ImageURLModifiers.setURLModifier(unused -> null);
 
 		assertEquals("zoomIn.png", IPath.fromOSString(imagePath(descriptor, 100)).lastSegment());
 	}
@@ -254,7 +254,7 @@ public class UrlImageDescriptorTest {
 		URL rectangular = FileImageDescriptorTest.class.getResource("/icons/imagetests/rectangular-57x16.png");
 		ImageDescriptor descriptor = ImageDescriptor.createFromURL(zoomIn);
 
-		ImageURLModifiers.setURLModifier(_ -> rectangular);
+		ImageURLModifiers.setURLModifier(unused -> rectangular);
 		assertEquals("rectangular-57x16.png", IPath.fromOSString(imagePath(descriptor, 100)).lastSegment());
 
 		ImageURLModifiers.setURLModifier(null);
@@ -300,7 +300,7 @@ public class UrlImageDescriptorTest {
 		URL rectangular = FileImageDescriptorTest.class.getResource("/icons/imagetests/rectangular-57x16.png");
 		ImageDescriptor descriptor = ImageDescriptor.createFromURL(zoomIn);
 
-		ImageURLModifiers.setURLModifier(_ -> rectangular);
+		ImageURLModifiers.setURLModifier(unused -> rectangular);
 
 		URL adapted = Adapters.adapt(descriptor, URL.class);
 		assertNotNull(adapted, "URLImageDescriptor does not adapt to URL");

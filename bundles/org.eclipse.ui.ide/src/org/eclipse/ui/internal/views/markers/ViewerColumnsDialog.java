@@ -198,7 +198,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		gridData = new GridData();
 		gridData.widthHint = convertWidthInCharsToPixels(5);
 		widthText.setLayoutData(gridData);
-		widthText.addModifyListener(_ -> updateWidth());
+		widthText.addModifyListener(unused -> updateWidth());
 		setWidthEnabled(false);
 		return widthText;
 	}
@@ -231,7 +231,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 
 		final TableColumn column = new TableColumn(table, SWT.NONE);
 		column.setText(MarkerMessages.MarkerPreferences_VisibleColumnsTitle);
-		Listener columnResize = _ -> column.setWidth(table.getClientArea().width);
+		Listener columnResize = unused -> column.setWidth(table.getClientArea().width);
 		table.addListener(SWT.Resize, columnResize);
 
 		visibleViewer = new TableViewer(table);
@@ -269,7 +269,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 
 		final TableColumn column = new TableColumn(table, SWT.NONE);
 		column.setText(MarkerMessages.MarkerPreferences_HiddenColumnsTitle);
-		Listener columnResize = _ -> column.setWidth(table.getClientArea().width);
+		Listener columnResize = unused -> column.setWidth(table.getClientArea().width);
 		table.addListener(SWT.Resize, columnResize);
 
 		nonVisibleViewer = new TableViewer(table);

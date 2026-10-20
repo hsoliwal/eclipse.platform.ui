@@ -35,7 +35,7 @@ public class IconsRegistry {
 	private boolean outOfSync = true;
 
 	public IconsRegistry() {
-		Platform.getExtensionRegistry().addRegistryChangeListener(_ -> outOfSync = true, EXTENSION_POINT_ID);
+		Platform.getExtensionRegistry().addRegistryChangeListener(unused -> outOfSync = true, EXTENSION_POINT_ID);
 	}
 
 	public ImageDescriptor getImageDescriptor(IContentType[] contentTypes) {

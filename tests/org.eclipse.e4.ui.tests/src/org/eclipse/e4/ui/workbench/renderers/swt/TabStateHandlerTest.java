@@ -273,7 +273,7 @@ public class TabStateHandlerTest {
 
 	private MPlaceholder placeHolder(final MPart part) {
 		return (MPlaceholder) Proxy.newProxyInstance(getClass()
-				.getClassLoader(), new Class<?>[] { MPlaceholder.class }, (Object _, Method method, Object[] _) -> {
+				.getClassLoader(), new Class<?>[] { MPlaceholder.class }, (Object unused, Method method, Object[] unused2) -> {
 					if ("getRef".equals(method.getName())) {
 						return part;
 					}

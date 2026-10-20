@@ -192,7 +192,7 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 	 */
 	private void createNameListener() {
 
-		Listener listener = _ -> {
+		Listener listener = unused -> {
 			setLocationForSelection();
 			applyValidationResult(checkValid(), false);
 		};

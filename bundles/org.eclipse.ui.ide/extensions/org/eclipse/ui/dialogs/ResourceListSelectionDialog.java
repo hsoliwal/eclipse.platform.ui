@@ -454,7 +454,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			}
 		});
 
-		pattern.addModifyListener(_ -> refresh(false));
+		pattern.addModifyListener(unused -> refresh(false));
 
 		resourceNames.addSelectionListener(new SelectionAdapter() {
 			@Override

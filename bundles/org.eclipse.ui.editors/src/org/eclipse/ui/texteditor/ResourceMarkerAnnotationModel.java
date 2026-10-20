@@ -187,7 +187,7 @@ public class ResourceMarkerAnnotationModel extends AbstractMarkerAnnotationModel
 
 	@Override
 	protected void deleteMarkers(final IMarker[] markers) throws CoreException {
-		fWorkspace.run((IWorkspaceRunnable) _ -> {
+		fWorkspace.run((IWorkspaceRunnable) unused -> {
 			for (IMarker marker : markers) {
 				marker.delete();
 			}

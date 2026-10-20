@@ -26,7 +26,7 @@ public class ForegroundAction implements IWorkbenchWindowActionDelegate {
 	@Override
 	public void run(IAction action) {
 		try {
-			ResourcesPlugin.getWorkspace().run((IWorkspaceRunnable) _ -> {
+			ResourcesPlugin.getWorkspace().run((IWorkspaceRunnable) unused -> {
 				// no-op
 			}, null);
 		} catch (OperationCanceledException | CoreException e) {

@@ -279,7 +279,7 @@ public class RenameResourceAction extends WorkspaceAction {
 		textEditor = new Text(textEditorParent, SWT.NONE);
 		textEditor.setFont(navigatorTree.getFont());
 		textEditorParent.setBackground(textEditor.getBackground());
-		textEditor.addListener(SWT.Modify, _ -> {
+		textEditor.addListener(SWT.Modify, unused -> {
 			Point textSize = textEditor.computeSize(SWT.DEFAULT,
 					SWT.DEFAULT);
 			textSize.x += textSize.y; // Add extra space for new

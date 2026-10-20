@@ -133,7 +133,7 @@ public class CancelingParticipantTests {
 
 	@BeforeEach
 	public void setUp() {
-		fLogListener= (status, _) -> fLogEntries.add(status);
+		fLogListener= (status, unused) -> fLogEntries.add(status);
 		Platform.addLogListener(fLogListener);
 		fLogEntries= new ArrayList<>();
 	}
