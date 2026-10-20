@@ -26,6 +26,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -38,7 +39,9 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
@@ -114,33 +117,64 @@ public final class M3MarkersBench implements IStartup {
 		String desc = waitDescription(d -> d.contains(counted), 600_000);
 		row("initial-build", n, millis(t0), -1, desc);
 		settle();
-		for (int k : new int[] { 1, 100, 10_000 }) {
-			if (k > n) {
-				continue;
+		ui(() -> {
+			viewer().expandAll(); // the categories as a user works with them: windows of rows shown
+			return null;
+		});
+		settle();
+		Job.getJobManager().addJobChangeListener(jobCounter);
+		if (!Boolean.getBoolean("m3.markers.skipMeasure")) { //$NON-NLS-1$
+			for (int k : new int[] { 1, 100, 10_000 }) {
+				if (k > n) {
+					continue;
+				}
+				for (int rep = 0; rep < (k >= 10_000 ? 3 : 5); rep++) {
+					measureBatch(n, k, rep);
+				}
 			}
-			for (int rep = 0; rep < (k >= 10_000 ? 3 : 5); rep++) {
-				measureBatch(n, k, rep);
-			}
+			heap(n);
 		}
-		heap(n);
 		String log = System.getProperty("m3.markers.log"); //$NON-NLS-1$
 		if (log != null) {
-			differential(Path.of(log), Long.getLong("m3.markers.seed", 1).longValue(), //$NON-NLS-1$
+			differential(Path.of(log), n, Long.getLong("m3.markers.seed", 1).longValue(), //$NON-NLS-1$
 					Integer.getInteger("m3.markers.steps", 30).intValue(), project); //$NON-NLS-1$
 		}
 	}
 
+	/** Counts the markers view's UI updates (each one a full tree refresh) and clean rebuild jobs. */
+	private final JobChangeAdapter jobCounter = new JobChangeAdapter() {
+		@Override
+		public void done(IJobChangeEvent event) {
+			String name = event.getJob().getClass().getName();
+			if (name.endsWith(".views.markers.UIUpdateJob")) { //$NON-NLS-1$
+				refreshes.incrementAndGet();
+			} else if (name.endsWith(".views.markers.MarkerUpdateJob")) { //$NON-NLS-1$
+				rebuilds.incrementAndGet();
+			}
+		}
+	};
+	private final AtomicInteger refreshes = new AtomicInteger();
+	private final AtomicInteger rebuilds = new AtomicInteger();
+
 	/**
 	 * One delta of {@code k} markers (error to warning, in one workspace operation, so one resource change event
-	 * carries {@code k} marker deltas), measured until the title shows it, then reverted (not measured).
+	 * carries {@code k} marker deltas), measured until the title shows it, then restored to the exact former
+	 * severities (not measured).
 	 */
 	private void measureBatch(int n, int k, int rep) throws Exception {
 		List<IMarker> batch = new ArrayList<>(k);
 		int stride = k * 3 <= n ? 3 : 1;
 		for (int i = 0; i < k; i++) {
-			batch.add(markers.get(i * stride));
+			// i * 3 + 2 has severity error (i % 3) while the stride is 3
+			batch.add(markers.get(stride == 3 ? i * 3 + 2 : i));
+		}
+		int[] former = new int[k];
+		for (int i = 0; i < k; i++) {
+			former[i] = batch.get(i).getAttribute(IMarker.SEVERITY, -1);
 		}
 		String before = description();
+		int refreshed = refreshes.get();
+		int rebuilt = rebuilds.get();
 		com.sun.management.ThreadMXBean threads = (com.sun.management.ThreadMXBean) ManagementFactory
 				.getThreadMXBean();
 		com.sun.management.OperatingSystemMXBean os = (com.sun.management.OperatingSystemMXBean) ManagementFactory
@@ -157,16 +191,33 @@ public final class M3MarkersBench implements IStartup {
 		long t = millis(t0);
 		long allocated = threads.getTotalThreadAllocatedBytes() - bytes;
 		long cpuMillis = (os.getProcessCpuTime() - cpu) / 1_000_000;
+		settle();
 		row("delta" + k + "-ms", n, t, rep, after); //$NON-NLS-1$
 		row("delta" + k + "-bytes", n, allocated, rep, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		row("delta" + k + "-cpu-ms", n, cpuMillis, rep, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("delta" + k + "-full-refreshes", n, refreshes.get() - refreshed, rep, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("delta" + k + "-rebuilds", n, rebuilds.get() - rebuilt, rep, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		workspace().run((IWorkspaceRunnable) m -> {
-			for (IMarker marker : batch) {
-				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			for (int i = 0; i < k; i++) {
+				batch.get(i).setAttribute(IMarker.SEVERITY, former[i]);
 			}
 		}, null);
 		waitDescription(d -> d.equals(before), 600_000);
 		settle();
+	}
+
+	/** The markers view's viewer, through its package-private {@code getViewer()} (reflection: internal class). */
+	private TreeViewer viewer() throws ReflectiveOperationException {
+		for (Class<?> c = view.getClass(); c != null; c = c.getSuperclass()) {
+			try {
+				Method m = c.getDeclaredMethod("getViewer"); //$NON-NLS-1$
+				m.setAccessible(true);
+				return (TreeViewer) m.invoke(view);
+			} catch (NoSuchMethodException e) {
+				// try the superclass
+			}
+		}
+		throw new NoSuchMethodException("getViewer"); //$NON-NLS-1$
 	}
 
 	private void heap(int n) throws Exception {
@@ -192,17 +243,89 @@ public final class M3MarkersBench implements IStartup {
 		}
 	}
 
-	/** Seeded marker edits; after each, the view's answers are written to the log. */
-	private void differential(Path log, long seed, int steps, IProject project) throws Exception {
+	/**
+	 * Seeded marker edits; after each, the view's answers are written to the log. Then a resize sweep and a
+	 * column-resize sweep (viewport deltas, brief rule 24) with their answers. The number of full tree refreshes
+	 * (UI update jobs) and clean rebuilds during each phase go to the results, not to the log.
+	 */
+	private void differential(Path log, int n, long seed, int steps, IProject project) throws Exception {
 		Random random = new Random(seed);
 		List<String> lines = new ArrayList<>();
+		ui(() -> {
+			TreeViewer viewer = viewer();
+			List<Object> rows = new ArrayList<>();
+			for (TreeItem category : viewer.getTree().getItems()) {
+				for (TreeItem child : category.getItems()) {
+					if (rows.size() < 3 && child.getData() != null) {
+						rows.add(child.getData());
+					}
+				}
+			}
+			viewer.setSelection(new org.eclipse.jface.viewers.StructuredSelection(rows));
+			return null;
+		});
+		settle();
 		lines.add("start | " + answers()); //$NON-NLS-1$
+		int refreshed = refreshes.get();
+		int rebuilt = rebuilds.get();
 		for (int step = 0; step < steps; step++) {
 			String op = edit(random, project);
 			settle();
 			lines.add(step + " " + op + " | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+		row("diff-edits-full-refreshes", n, refreshes.get() - refreshed, steps, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-edits-rebuilds", n, rebuilds.get() - rebuilt, steps, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		refreshed = refreshes.get();
+		int[] items = { ui(() -> Integer.valueOf(itemCount(viewer().getTree()))).intValue(), 0 };
+		for (int step = 0; step < 6; step++) {
+			int s = step;
+			ui(() -> {
+				org.eclipse.swt.widgets.Shell shell = viewer().getTree().getShell();
+				org.eclipse.swt.graphics.Point size = shell.getSize();
+				shell.setSize(size.x + (s % 2 == 0 ? -120 : 120), size.y + (s % 2 == 0 ? -90 : 90));
+				return null;
+			});
+			settle();
+			lines.add("resize " + step + " | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		for (int step = 0; step < 6; step++) {
+			int s = step;
+			ui(() -> {
+				Tree tree = viewer().getTree();
+				org.eclipse.swt.widgets.TreeColumn column = tree.getColumn(s % tree.getColumnCount());
+				column.setWidth(Math.max(20, column.getWidth() + (s % 2 == 0 ? 60 : -60)));
+				return null;
+			});
+			settle();
+			lines.add("column " + step + " | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		items[1] = ui(() -> Integer.valueOf(itemCount(viewer().getTree()))).intValue();
+		row("diff-resize-full-refreshes", n, refreshes.get() - refreshed, 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-resize-items-delta", n, items[1] - items[0], 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		Files.write(log, lines, StandardCharsets.UTF_8);
+		row("diff-counters", n, -1, -1, deltaCounters()); //$NON-NLS-1$
+	}
+
+	private static int itemCount(Tree tree) {
+		int count = 0;
+		for (TreeItem category : tree.getItems()) {
+			count += 1 + category.getItemCount();
+		}
+		return count;
+	}
+
+	/** The M3 delta path's counters (applied, fallbacks, builds), when the M3 bundle is installed; else "-". */
+	private String deltaCounters() {
+		try {
+			// the view class lives in org.eclipse.ui.ide: its loader sees the internal markers package
+			Class<?> c = Class.forName("org.eclipse.ui.internal.views.markers.M3MarkerDeltas", true, //$NON-NLS-1$
+					view.getClass().getClassLoader());
+			Method m = c.getDeclaredMethod("counters"); //$NON-NLS-1$
+			m.setAccessible(true);
+			return String.valueOf(m.invoke(null));
+		} catch (ReflectiveOperationException | LinkageError e) {
+			return "-"; //$NON-NLS-1$
+		}
 	}
 
 	private String edit(Random random, IProject project) throws CoreException {
@@ -244,37 +367,30 @@ public final class M3MarkersBench implements IStartup {
 		return op.get();
 	}
 
-	/** The view's answers: title, then every category with its label, expansion and shown children. */
+	/**
+	 * The view's answers: title, then every category with its label, expansion and shown children, then the
+	 * selection (widget and viewer).
+	 */
 	private String answers() {
 		return ui(() -> {
 			StringBuilder b = new StringBuilder(((ViewPart) view).getContentDescription());
-			Tree tree = viewTree();
-			if (tree != null) {
-				for (TreeItem category : tree.getItems()) {
-					b.append(" || ").append(text(category)).append(category.getExpanded() ? " +" : " -"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					if (category.getExpanded()) {
-						for (TreeItem child : category.getItems()) {
-							b.append(" | ").append(text(child)); //$NON-NLS-1$
-						}
+			TreeViewer viewer = viewer();
+			Tree tree = viewer.getTree();
+			for (TreeItem category : tree.getItems()) {
+				b.append(" || ").append(text(category)).append(category.getExpanded() ? " +" : " -"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				if (category.getExpanded()) {
+					for (TreeItem child : category.getItems()) {
+						b.append(" | ").append(text(child)); //$NON-NLS-1$
 					}
 				}
 			}
+			b.append(" || selection"); //$NON-NLS-1$
+			for (TreeItem item : tree.getSelection()) {
+				b.append(" | ").append(text(item)); //$NON-NLS-1$
+			}
+			b.append(" || viewer selection ").append(viewer.getStructuredSelection().size()); //$NON-NLS-1$
 			return b.toString();
 		});
-	}
-
-	/** The markers view's tree, through its package-private {@code getViewer()} (reflection: internal class). */
-	private Tree viewTree() throws ReflectiveOperationException {
-		for (Class<?> c = view.getClass(); c != null; c = c.getSuperclass()) {
-			try {
-				Method m = c.getDeclaredMethod("getViewer"); //$NON-NLS-1$
-				m.setAccessible(true);
-				return ((TreeViewer) m.invoke(view)).getTree();
-			} catch (NoSuchMethodException e) {
-				// try the superclass
-			}
-		}
-		return null;
 	}
 
 	private static String text(TreeItem item) {

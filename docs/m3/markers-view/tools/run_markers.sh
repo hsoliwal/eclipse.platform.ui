@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
 # Markers view benchmark/differential inside the official Eclipse 2026-09 bundles (read from the p2 pool, never
 # written), on the hidden desktop, with configuration, workspace, user area and temp on S:.
-# Usage: run_markers.sh <stock|m3> <n> [seed steps]      (IDE_JAR=<overlay org.eclipse.ui.ide jar> for m3)
+# Usage: run_markers.sh <stock|m3|m3orig> <n> [seed steps]   (non-stock sides: IDE_JAR and JFACE_JAR overlays from
+# build_overlay.sh; MARKERS_OPTS=-Dorg.eclipse.ui.ide.markers.mode=viewport -Djface.viewer.mode=viewport for m3)
 set -e
 WT=${WT:-S:/m3-scratch/worktrees/platform-ui}
 OUT=${OUT:-S:/m3-scratch/jface}; E=$OUT/eclipse; mkdir -p "$E/plugins" "$OUT/tmp"
@@ -28,6 +29,8 @@ if [ "$5" != --inner ]; then
   } > "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   if [ "$SIDE" != stock ]; then
     sed -i "s|^org\.eclipse\.ui\.ide,\([^,]*\),[^,]*,|org.eclipse.ui.ide,\1,file:/${IDE_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
+    JFACE_JAR=${JFACE_JAR:-$E/plugins/org.eclipse.jface_m3.jar}
+    sed -i "s|^org\.eclipse\.jface,\([^,]*\),[^,]*,|org.eclipse.jface,\1,file:/${JFACE_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   fi
   SC=$(ls "$POOL" | grep '^org.eclipse.equinox.simpleconfigurator_' | head -1)
   FW=$(ls "$POOL" | grep '^org.eclipse.osgi_3' | head -1); CS=$(ls "$POOL" | grep '^org.eclipse.osgi.compatibility.state_' | head -1)
