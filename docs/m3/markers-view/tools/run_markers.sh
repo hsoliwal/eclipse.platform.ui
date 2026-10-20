@@ -13,27 +13,30 @@ SIDE=$1 N=$2 SEED=${3:-} STEPS=${4:-30}
 if [ "$5" != --inner ]; then
   INSTALL=$(cygpath -m ~/eclipse/jee-2026-09/eclipse); POOL=$(cygpath -m ~/.p2/pool/plugins)
   JDK25=F:/jdks/temurin25/jdk-25.0.4.1+1
+  # one configuration per side and size: runs of one side in two desktop slots never share a configuration area;
+  # the bench jar and the overlay jars are copied into it, so a rebuild never touches a queued or running run
+  CFG=$E/config-$SIDE-$N; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator" "$CFG/jars"
   # 1. bench bundle
-  B=$WT/docs/m3/markers-view/bench-bundle; C=$OUT/markers-bench; rm -rf "$C" && mkdir -p "$C/classes"
+  B=$WT/docs/m3/markers-view/bench-bundle; C=$OUT/markers-bench-$SIDE-$N; rm -rf "$C" && mkdir -p "$C/classes"
   CP=$(ls "$POOL" | grep -E '^org\.eclipse\.(ui\.workbench|ui\.ide|core\.resources|core\.runtime|equinox\.common|core\.jobs|jface|swt\.win32\.win32\.x86_64|osgi|equinox\.registry|core\.commands|ui\.views)_[0-9]' | grep '\.jar$' | sed "s|^|$POOL/|" | tr '\n' ';')
   "C:/Program Files/Java/jdk-21/bin/javac" --release 21 -nowarn -encoding UTF-8 -proc:none -cp "$CP" -d "$C/classes" $(find "$B/src" -name '*.java')
   cp -r "$B/META-INF" "$B/plugin.xml" "$C/classes/"
-  (cd "$C/classes" && "C:/Program Files/Java/jdk-21/bin/jar" cfm "$E/plugins/org.eclipse.ui.ide.m3bench_1.0.0.jar" META-INF/MANIFEST.MF .)
+  (cd "$C/classes" && "C:/Program Files/Java/jdk-21/bin/jar" cfm "$CFG/jars/org.eclipse.ui.ide.m3bench_1.0.0.jar" META-INF/MANIFEST.MF .)
   # 2. configuration: platform bundles only (no EPP, Oomph, p2, intro), plus the bench bundle
-  # one configuration per side and size: runs of one side in two desktop slots never share a configuration area
-  CFG=$E/config-$SIDE-$N; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator"
   BI=$INSTALL/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info
   { grep '^#' "$BI"
     grep -v '^#' "$BI" | grep -E '^(org\.eclipse\.(osgi|equinox|core|e4|emf|ui|jface|swt|help|text|urischeme|platform|ant\.core|update|compare|debug|search|ltk|team|ecf)|org\.slf4j|ch\.qos|org\.apache\.(felix|aries|commons|batik|xmlgraphics|lucene|ant)|org\.osgi|javax|jakarta|org\.w3c|com\.ibm\.icu|com\.sun\.jna|org\.objectweb|org\.sat4j|org\.tukaani|org\.bouncycastle|bc[a-z]+,|org\.apache\.httpcomponents|com\.github\.weisj)' \
       | grep -vE '^[^,]*(equinox\.p2\.ui|p2\.updatechecker|oomph|epp|cheatsheets|ui\.views\.log|ui\.trace|e4\.tools|ui\.monitoring|team\.svn)[^,]*,'
-    echo "org.eclipse.ui.ide.m3bench,1.0.0,file:/$E/plugins/org.eclipse.ui.ide.m3bench_1.0.0.jar,4,false"
+    echo "org.eclipse.ui.ide.m3bench,1.0.0,file:/$CFG/jars/org.eclipse.ui.ide.m3bench_1.0.0.jar,4,false"
   } > "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   if [ "$SIDE" != stock ]; then
-    sed -i "s|^org\.eclipse\.ui\.ide,\([^,]*\),[^,]*,|org.eclipse.ui.ide,\1,file:/${IDE_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
-    JFACE_JAR=${JFACE_JAR:-$E/plugins/org.eclipse.jface_m3.jar}
-    sed -i "s|^org\.eclipse\.jface,\([^,]*\),[^,]*,|org.eclipse.jface,\1,file:/${JFACE_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
-    WORKBENCH_JAR=${WORKBENCH_JAR:-$E/plugins/org.eclipse.ui.workbench_m3.jar}
-    sed -i "s|^org\.eclipse\.ui\.workbench,\([^,]*\),[^,]*,|org.eclipse.ui.workbench,\1,file:/${WORKBENCH_JAR},|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
+    # snapshot of the overlays (build_overlay.sh) at queue time
+    cp "${IDE_JAR:-$E/plugins/org.eclipse.ui.ide_m3.jar}" "$CFG/jars/org.eclipse.ui.ide_m3.jar"
+    cp "${JFACE_JAR:-$E/plugins/org.eclipse.jface_m3.jar}" "$CFG/jars/org.eclipse.jface_m3.jar"
+    cp "${WORKBENCH_JAR:-$E/plugins/org.eclipse.ui.workbench_m3.jar}" "$CFG/jars/org.eclipse.ui.workbench_m3.jar"
+    for b in ui.ide jface ui.workbench; do
+      sed -i "s|^org\.eclipse\.${b//./\\.},\([^,]*\),[^,]*,|org.eclipse.$b,\1,file:/$CFG/jars/org.eclipse.${b}_m3.jar,|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
+    done
   fi
   SC=$(ls "$POOL" | grep '^org.eclipse.equinox.simpleconfigurator_' | head -1)
   FW=$(ls "$POOL" | grep '^org.eclipse.osgi_3' | head -1); CS=$(ls "$POOL" | grep '^org.eclipse.osgi.compatibility.state_' | head -1)

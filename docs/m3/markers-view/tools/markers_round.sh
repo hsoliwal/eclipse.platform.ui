@@ -6,8 +6,6 @@
 # differential script; then the two logs are compared. Usage: markers_round.sh <seed> <steps> <n>...
 # SIDES="stock m3" by default; m3orig (overlays, both modes off) can be added.
 D=$(dirname "$0"); SEED=$1 STEPS=$2; shift 2
-export IDE_JAR=S:/m3-scratch/jface/eclipse/plugins/org.eclipse.ui.ide_m3.jar
-export JFACE_JAR=S:/m3-scratch/jface/eclipse/plugins/org.eclipse.jface_m3.jar
 E=S:/m3-scratch/jface/eclipse
 for n in "$@"; do
   for side in ${SIDES:-stock m3}; do
