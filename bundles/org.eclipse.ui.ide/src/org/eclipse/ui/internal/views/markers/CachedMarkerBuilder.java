@@ -11,7 +11,6 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Stefan Winkler <stefan@winklerweb.net> - Bug 537099
- *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  *******************************************************************************/
 package org.eclipse.ui.internal.views.markers;
 
@@ -213,10 +212,6 @@ public class CachedMarkerBuilder {
 	 * @return int
 	 */
 	static int getTotalMarkerCount(Markers markers) {
-		M3MarkerLanes lanes = markers.m3;
-		if (lanes != null) {
-			return lanes.size();
-		}
 		MarkerSupportItem[] elements = markers.getElements();
 		if (elements.length == 0 || elements[0].isConcrete()) {
 			return elements.length;
@@ -421,7 +416,6 @@ public class CachedMarkerBuilder {
 	 * schedules marker update job
 	 */
 	MarkerUpdateJob scheduleUpdateJob(long delay, boolean clean, boolean[] newChangeFlags) {
-		M3MarkerDeltas.supersede(this);
 
 		setBuilding(true);
 		updateChangeFlags(newChangeFlags);

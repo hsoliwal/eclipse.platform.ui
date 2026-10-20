@@ -202,7 +202,7 @@ final class M3MarkerDeltas {
 				continue;
 			}
 			try {
-				MarkerGroupingEntry key = group.findGroupValue(marker.getType(), marker);
+				MarkerGroupingEntry key = group == null ? null : group.findGroupValue(marker.getType(), marker);
 				keys = M3MarkerKeys.read(marker, lanes.needsType(), keys);
 				lanes.add(change.set(keys.id, marker, keys, key, entry));
 			} catch (CoreException e) {
@@ -234,7 +234,7 @@ final class M3MarkerDeltas {
 
 	/* the lane model is built and the view state is one the delta path covers */
 	private boolean ready() {
-		if (builder.isBuilding() || !builder.isShowingHierarchy() || builder.getGenerator() == null
+		if (builder.isBuilding() || builder.getGenerator() == null
 				|| builder.getMarkers().m3 == null) {
 			return false;
 		}
@@ -385,7 +385,7 @@ final class M3MarkerDeltas {
 		if (!MarkerContentGenerator.select(candidate, selected, filters)) {
 			return change;
 		}
-		MarkerGroupingEntry key = group.findGroupValue(marker.getType(), marker);
+		MarkerGroupingEntry key = group == null ? null : group.findGroupValue(marker.getType(), marker);
 		candidate.clearCache();
 		return change.set(id, marker, M3MarkerKeys.read(marker, lanes.needsType(), null), key, candidate);
 	}
@@ -437,7 +437,7 @@ final class M3MarkerDeltas {
 	/* what UIUpdateJob does after its refresh, and the title */
 	private static void finishPatch(ExtendedMarkersView view, M3MarkerLanes lanes) {
 		// UIUpdateJob: with no saved state, a single category is recorded for expansion
-		if (view.getCategoriesToExpand().isEmpty()) {
+		if (view.getBuilder().isShowingHierarchy() && view.getCategoriesToExpand().isEmpty()) {
 			M3MarkerCategory[] categories = lanes.categories();
 			if (categories.length == 1) {
 				view.getCategoriesToExpand().add(categories[0].getDescription());
@@ -504,6 +504,16 @@ final class M3MarkerDeltas {
 		TreeViewer viewer = view.getViewer();
 		Object input = viewer.getInput();
 		M3ViewerDelta delta = new M3ViewerDelta();
+		if (lanes.isFlat()) {
+			M3MarkerLanes.Category flat = lanes.flatCategory();
+			if (flat != null) {
+				patchRows(delta, lanes, flat, input, viewer.getTree().getItems(), limit(view), changed);
+			}
+			if (!delta.isEmpty()) {
+				((MarkersTreeViewer) viewer).m3PreservingSelection(() -> M3Viewers.apply(viewer, delta));
+			}
+			return;
+		}
 		for (M3MarkerLanes.Category c : touched) {
 			if (lanes.indexOf(c) < 0 && viewer.testFindItem(c.facade) != null) {
 				delta.remove(c.facade);
@@ -572,6 +582,15 @@ final class M3MarkerDeltas {
 		if (rows.length == 0 || rows.length == 1 && rows[0].getData() == null) {
 			return; // never expanded: the content provider gives the window on expansion
 		}
+		patchRows(delta, lanes, c, c.facade, rows, limit, changed);
+	}
+
+	/*
+	 * The rows under one parent (a category item, or the tree itself in the flat presentation) against the
+	 * category's window: O(window), whatever the size of the category.
+	 */
+	private static void patchRows(M3ViewerDelta delta, M3MarkerLanes lanes, M3MarkerLanes.Category c,
+			Object parent, Item[] rows, int limit, M3LongSet changed) {
 		int[] next = lanes.windowSlots(c, limit);
 		M3LongSet nextIds = new M3LongSet(next.length);
 		for (int slot : next) {
@@ -594,7 +613,7 @@ final class M3MarkerDeltas {
 		}
 		for (int j = 0; j < next.length; j++) {
 			if (!kept.contains(lanes.id(next[j]))) {
-				delta.add(c.facade, lanes.facade(next[j]), j);
+				delta.add(parent, lanes.facade(next[j]), j);
 			}
 		}
 	}

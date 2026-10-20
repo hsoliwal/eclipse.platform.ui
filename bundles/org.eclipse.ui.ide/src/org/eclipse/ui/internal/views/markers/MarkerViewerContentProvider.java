@@ -10,7 +10,6 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
- *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  ******************************************************************************/
 
 package org.eclipse.ui.internal.views.markers;
@@ -49,9 +48,6 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof M3MarkerCategory category && markersView.getSearchFilter() == null) {
-			return category.window(M3MarkerDeltas.limit(markersView));
-		}
 		if (parentElement instanceof MarkerSupportItem markerItem) {
 			MarkerSupportItem[] children = markerItem.getChildren();
 			return getLimitedChildren(children);
@@ -124,9 +120,6 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public boolean hasChildren(Object element) {
-		if (element instanceof M3MarkerCategory category) {
-			return category.getChildrenCount() > 0;
-		}
 		return element instanceof MarkerSupportItem markerItem ? markerItem.getChildren().length > 0 : false;
 	}
 }

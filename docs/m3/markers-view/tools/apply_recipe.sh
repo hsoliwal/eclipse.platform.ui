@@ -9,7 +9,7 @@ JAVA_HOME="C:/Program Files/Java/jdk-21"
 C=K:/m3-work/syn-recipes/synexia-openrewrite-recipes/crates/m3-viewport-catalogue-recipes
 CPR="$(cygpath -w "$WT/docs/m3/markers-view/recipe");$C/target/classes;$(cat $C/target/cp.txt)"
 M="$SRC/org/eclipse/ui/internal/views/markers"
-FILES=("$M/MarkersChangeListener.java" "$M/CachedMarkerBuilder.java" "$M/Markers.java" "$M/MarkerViewerContentProvider.java" "$M/MarkersTreeViewer.java")
+FILES=("$M/MarkersChangeListener.java" "$M/CachedMarkerBuilder.java" "$M/Markers.java" "$M/MarkerViewerContentProvider.java" "$M/MarkersTreeViewer.java" "$M/ExtendedMarkersView.java")
 for pass in 1 2; do
   echo "recipe pass $pass: $("$JAVA_HOME/bin/java" -Xmx1g -Djava.io.tmpdir="$(cygpath -w "$OUT/tmp")" -cp "$CPR" \
     com.synexia.openrewrite.viewport.M3PerFileApply com.synexia.openrewrite.viewport.MarkersViewDeltaHooks \

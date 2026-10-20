@@ -10,7 +10,6 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
- *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  *******************************************************************************/
 
 package org.eclipse.ui.internal.views.markers;
@@ -56,16 +55,6 @@ public class MarkersTreeViewer extends TreeViewer {
 	public void removeAndClearAll() {
 		removeAll(getControl());
 		unmapAllElements();
-	}
-
-	/**
-	 * Runs a window patch of the lane model (M3MarkerDeltas) the way refresh does: the selection is kept, and
-	 * selection listeners hear only of a selection that changed.
-	 *
-	 * @param patch the patch
-	 */
-	void m3PreservingSelection(Runnable patch) {
-		preservingSelection(patch);
 	}
 
 	@Override

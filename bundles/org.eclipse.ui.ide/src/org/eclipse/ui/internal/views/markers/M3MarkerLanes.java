@@ -142,12 +142,49 @@ final class M3MarkerLanes {
 	 */
 	static M3MarkerLanes create(Markers owner, MarkerComparator comparator) {
 		CachedMarkerBuilder builder = owner.getBuilder();
-		if (!M3MarkerDeltas.ENABLED || !builder.isShowingHierarchy()) {
+		if (!M3MarkerDeltas.ENABLED) {
 			return null;
 		}
 		MarkerGroup group = builder.getCategoryGroup();
-		M3MarkerLanes lanes = new M3MarkerLanes(owner, group.getEntriesComparator(), group.getMarkerField());
+		// flat presentation (no grouping): one implicit category without a tree item (FALLBACKS_TO_DELTAS.md)
+		M3MarkerLanes lanes = group == null ? new M3MarkerLanes(owner, null, null)
+				: new M3MarkerLanes(owner, group.getEntriesComparator(), group.getMarkerField());
 		return lanes.compile(comparator) ? lanes : null;
+	}
+
+	/** @return whether the view is flat: the rows are the tree's top-level items */
+	boolean isFlat() {
+		return categoryOrder == null;
+	}
+
+	/** @return the implicit category of the flat presentation, or {@code null} before the first row */
+	Category flatCategory() {
+		return categories.isEmpty() ? null : categories.get(0);
+	}
+
+	/**
+	 * The shown rows of the flat presentation.
+	 *
+	 * @param limit the marker limit, or a negative value for none
+	 * @return the entries of the window, in order
+	 */
+	MarkerEntry[] flatWindow(int limit) {
+		Category c = flatCategory();
+		return c == null ? new MarkerEntry[0] : window(c, limit);
+	}
+
+	/**
+	 * Markers.getElements: the categories, or every row of the flat presentation
+	 * (an API asks for all of them).
+	 *
+	 * @return the elements
+	 */
+	MarkerSupportItem[] elements() {
+		if (!isFlat()) {
+			return categories();
+		}
+		Category c = flatCategory();
+		return c == null ? new MarkerEntry[0] : children(c);
 	}
 
 	/* the comparator's fields as lane kinds; false when one is unknown */
@@ -295,6 +332,9 @@ final class M3MarkerLanes {
 
 	/* remove categories that lost their last slot */
 	private void dropEmpty() {
+		if (isFlat()) {
+			return; // the implicit category stays, empty or not
+		}
 		for (int i = categories.size() - 1; i >= 0; i--) {
 			Category c = categories.get(i);
 			if (c.order.size() == 0) {
@@ -306,6 +346,9 @@ final class M3MarkerLanes {
 
 	/* the category of a change: found by the group's comparator (TreeMap equality), else created in order */
 	private Category categoryFor(Change change) {
+		if (isFlat()) {
+			return categories.isEmpty() ? newCategory(0, null, null) : categories.get(0);
+		}
 		int lo = 0;
 		int hi = categories.size() - 1;
 		while (lo <= hi) {
@@ -319,12 +362,18 @@ final class M3MarkerLanes {
 				return categories.get(mid);
 			}
 		}
-		int id = nextCategoryId++;
 		// stock names a category after its first entry (Markers.groupIntoCategories)
-		String name = categoryField.getValue(change.item);
-		Category created = new Category(id, change.group, new M3MarkerCategory(owner, this, name),
-				new M3SlotOrder(comparator(kinds, descending)));
-		created.facade.lane = created;
+		return newCategory(lo, change.group, categoryField.getValue(change.item));
+	}
+
+	/* a category at position lo; the flat presentation's implicit category has no facade (rows have no parent) */
+	private Category newCategory(int lo, MarkerGroupingEntry key, String name) {
+		int id = nextCategoryId++;
+		M3MarkerCategory facade = name == null ? null : new M3MarkerCategory(owner, this, name);
+		Category created = new Category(id, key, facade, new M3SlotOrder(comparator(kinds, descending)));
+		if (facade != null) {
+			facade.lane = created;
+		}
 		categories.add(lo, created);
 		if (id == byId.length) {
 			byId = Arrays.copyOf(byId, id << 1);
@@ -550,7 +599,7 @@ final class M3MarkerLanes {
 	M3MarkerCategory[] categories() {
 		M3MarkerCategory[] a = categoryArray;
 		if (a == null) {
-			a = new M3MarkerCategory[categories.size()];
+			a = new M3MarkerCategory[isFlat() ? 0 : categories.size()];
 			for (int i = 0; i < a.length; i++) {
 				a[i] = categories.get(i).facade;
 			}

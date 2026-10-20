@@ -66,7 +66,7 @@ recipeList:
       declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
       methodName: getElements
       position: METHOD_START
-      statements: "\t\tM3MarkerLanes lanes = m3;\n\t\tif (lanes != null) {\n\t\t\treturn lanes.categories();\n\t\t}"
+      statements: "\t\tM3MarkerLanes lanes = m3;\n\t\tif (lanes != null) {\n\t\t\treturn lanes.elements();\n\t\t}"
   - com.synexia.openrewrite.viewport.M3InsertStatements:
       declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
       methodName: getClone
@@ -88,3 +88,13 @@ recipeList:
       memberName: m3PreservingSelection
       beforeMethod: doUpdateItem
       memberSource: "\t/**\n\t * Runs a window patch of the lane model (M3MarkerDeltas) the way refresh does: the selection is kept, and\n\t * selection listeners hear only of a selection that changed.\n\t *\n\t * @param patch the patch\n\t */\n\tvoid m3PreservingSelection(Runnable patch) {\n\t\tpreservingSelection(patch);\n\t}\n"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkerViewerContentProvider]
+      methodName: getElements
+      position: METHOD_START
+      statements: "\t\tif (inputElement instanceof Markers markers && markers.m3 != null && markers.m3.isFlat()\n\t\t\t\t&& markersView.getSearchFilter() == null) {\n\t\t\treturn markers.m3.flatWindow(M3MarkerDeltas.limit(markersView));\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.ExtendedMarkersView]
+      methodName: getStatusMessage
+      position: METHOD_START
+      statements: "\t\tM3MarkerLanes m3Lanes = markers.m3;\n\t\tif (m3Lanes != null && m3Lanes.isFlat() && getSearchFilter() == null) {\n\t\t\t// flat lane model: the counts come from the lanes, no entry per marker (same messages as below)\n\t\t\tint m3Total = m3Lanes.size();\n\t\t\tint m3Shown = applyMarkerLimit(m3Total);\n\t\t\tif (counts[0].intValue() == 0 && counts[1].intValue() == 0) {\n\t\t\t\treturn m3Shown >= m3Total ? NLS.bind(MarkerMessages.filter_itemsMessage, m3Total)\n\t\t\t\t\t\t: NLS.bind(MarkerMessages.filter_matchedMessage, m3Shown, m3Total);\n\t\t\t}\n\t\t\tString m3Message = formatSummaryBreakdown(counts);\n\t\t\treturn m3Shown >= m3Total ? m3Message\n\t\t\t\t\t: NLS.bind(MarkerMessages.problem_filter_matchedMessage, m3Message, m3Shown, m3Total);\n\t\t}"
