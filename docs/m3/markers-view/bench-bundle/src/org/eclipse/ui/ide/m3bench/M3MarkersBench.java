@@ -227,11 +227,11 @@ public final class M3MarkersBench implements IStartup {
 		}
 		long used = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed();
 		row("heap-used-bytes", n, used, -1, ""); //$NON-NLS-1$
-		String jcmd = Path.of(System.getProperty("java.home"), "bin", "jcmd").toString(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		Process p = new ProcessBuilder(jcmd, String.valueOf(ProcessHandle.current().pid()), "GC.class_histogram") //$NON-NLS-1$
-				.redirectErrorStream(true).start();
-		String histogram = new String(p.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-		p.waitFor();
+		// GC.class_histogram in process (DiagnosticCommand MBean): jcmd cannot attach to a JVM on the hidden desktop
+		// and blocked the run forever
+		String histogram = String.valueOf(ManagementFactory.getPlatformMBeanServer().invoke(
+				new javax.management.ObjectName("com.sun.management:type=DiagnosticCommand"), "gcClassHistogram", //$NON-NLS-1$ //$NON-NLS-2$
+				new Object[] { new String[0] }, new String[] { String[].class.getName() }));
 		for (String line : histogram.split("\\R")) { //$NON-NLS-1$
 			if (line.matches(
 					".*\\s(\\S*\\.(MarkerEntry|MarkerCategory|MarkerInfo|MarkerAttributeMap|M3Marker\\w*)|org\\.eclipse\\.swt\\.widgets\\.TreeItem|java\\.text\\.\\w*CollationKey|java\\.util\\.concurrent\\.ConcurrentHashMap(\\$Node)?)\\s*(\\(.*)?$")) { //$NON-NLS-1$
