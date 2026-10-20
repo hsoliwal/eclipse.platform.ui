@@ -17,7 +17,6 @@ package org.eclipse.ui.internal.views.markers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,11 +35,12 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.m3.M3ViewerDelta;
+import org.eclipse.jface.viewers.m3.M3Viewers;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.ui.views.markers.MarkerItem;
 import org.eclipse.ui.views.markers.internal.MarkerGroup;
 import org.eclipse.ui.views.markers.internal.MarkerGroupingEntry;
 
@@ -49,25 +49,27 @@ import org.eclipse.ui.views.markers.internal.MarkerGroupingEntry;
  * <p>
  * The original view answers every marker change with a clean rebuild: a new
  * {@link MarkerEntry} for every marker in scope, every filter evaluated again,
- * every category regrouped and sorted, and the whole tree refreshed. This class
- * consumes the {@link IMarkerDelta}s of the resource change event instead:
+ * every category regrouped and sorted, and the whole tree refreshed. In M3 mode
+ * the model is {@link M3MarkerLanes} and this class feeds it the
+ * {@link IMarkerDelta}s of each resource change event:
  * </p>
  * <ol>
  * <li>{@link #offer} records the applicable deltas by marker id (lanes, merged
- * per id) and schedules one debounced job; a newer clean rebuild supersedes
- * them (generation counter);</li>
- * <li>the job (worker thread) creates entries only for added or changed
- * markers, evaluates the filters for them only and finds their category;</li>
- * <li>{@link #apply} (UI thread) patches the model with one merge pass per
- * category (references only, no attribute reads for unchanged markers) and
- * patches the tree: rows inside a category's shown window are removed,
- * inserted or relabelled; outside the window only the category label (its
- * count) and the title counts change.</li>
+ * per id) and schedules one debounced job; a clean rebuild supersedes them
+ * (generation counter);</li>
+ * <li>the job (worker thread) reads keys, filters and categories of the changed
+ * markers only (one attribute lookup per marker);</li>
+ * <li>one {@code asyncExec} applies them on the UI thread: each changed marker
+ * leaves and re-enters its category's order (O(log n) compares, at most one
+ * block of slots moved), the counters follow, and the tree is patched inside
+ * the shown windows only, through one {@link M3ViewerDelta}. Outside a window
+ * only the category label (its count) and the title change.</li>
  * </ol>
- * Anything the delta path does not cover falls back to the original clean
- * rebuild: flat (ungrouped) presentation, an active search text, filters with
- * a resource scope, more than {@link #MAX_PENDING} pending deltas, or an error.
- * Design: {@code docs/m3/markers-view/DESIGN.md}.
+ * The original clean rebuild still runs for the first input and for changes of
+ * filters, grouping, sorting or scope, and when the view is in a state the lanes
+ * do not cover (flat presentation, an active search text, a resource scope,
+ * more than {@link #MAX_PENDING} pending deltas, an error). Design:
+ * {@code docs/m3/markers-view/DESIGN.md}, {@code FALLBACKS_TO_DELTAS.md}.
  */
 final class M3MarkerDeltas {
 
@@ -77,7 +79,7 @@ final class M3MarkerDeltas {
 	/** Whether the delta path is on: {@code -Dorg.eclipse.ui.ide.markers.mode=viewport}. */
 	static final boolean ENABLED = "viewport".equals(System.getProperty(PROPERTY)); //$NON-NLS-1$
 
-	/** Above this many pending deltas a clean rebuild is cheaper. */
+	/** Above this many pending deltas a clean rebuild runs instead (to be measured, FALLBACKS_TO_DELTAS.md). */
 	static final int MAX_PENDING = 50_000;
 
 	/** The debounce of the original update scheduler (MarkerUpdateScheduler.SHORT_DELAY), kept for the delta job. */
@@ -87,6 +89,12 @@ final class M3MarkerDeltas {
 	private static final Map<CachedMarkerBuilder, M3MarkerDeltas> BY_BUILDER = new WeakHashMap<>();
 	private static final byte NONE = 0;
 
+	/** Counters for the differential and the benchmark: see {@link #counters()}. */
+	private static final int[] COUNTERS = new int[3];
+	private static final int APPLIED = 0;
+	private static final int FALLBACKS = 1;
+	private static final int BUILDS = 2;
+
 	private final MarkersChangeListener listener;
 	private final CachedMarkerBuilder builder;
 	private final Job job;
@@ -94,7 +102,6 @@ final class M3MarkerDeltas {
 	/* pending deltas: lanes indexed by slot, plus an open-addressing id -> slot+1 table */
 	private long[] ids = new long[16];
 	private byte[] kinds = new byte[16];
-	private int[] oldSeverities = new int[16];
 	private IMarker[] markers = new IMarker[16];
 	private int size;
 	private int[] table = new int[32];
@@ -106,6 +113,20 @@ final class M3MarkerDeltas {
 		job = Job.create("M3 marker deltas", this::prepare); //$NON-NLS-1$
 		job.setSystem(true);
 		job.setPriority(Job.SHORT);
+	}
+
+	/**
+	 * The counters the differential and the benchmark read: deltas applied
+	 * through the lanes, fallbacks to a clean rebuild, clean rebuilds started.
+	 *
+	 * @return {@code "applied=<n> fallbacks=<n> builds=<n>"}
+	 */
+	static synchronized String counters() {
+		return "applied=" + COUNTERS[APPLIED] + " fallbacks=" + COUNTERS[FALLBACKS] + " builds=" + COUNTERS[BUILDS]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
+	private static synchronized void count(int counter) {
+		COUNTERS[counter]++;
 	}
 
 	/**
@@ -138,6 +159,7 @@ final class M3MarkerDeltas {
 		if (!ENABLED) {
 			return;
 		}
+		count(BUILDS);
 		M3MarkerDeltas deltas;
 		synchronized (BY_BUILDER) {
 			deltas = BY_BUILDER.get(builder);
@@ -148,13 +170,43 @@ final class M3MarkerDeltas {
 	}
 
 	/**
-	 * Whether categories are sorted completely, not only their shown window: the
-	 * delta path inserts by binary search.
+	 * Builds the lane model of a clean rebuild from the gathered entries (the
+	 * entries the filters selected); they are not kept.
 	 *
-	 * @return {@code true} when the delta path is on
+	 * @param model   the view's model
+	 * @param entries the selected entries
+	 * @param monitor the rebuild's monitor
+	 * @return the lanes, or {@code null} when the view is in a state the lanes
+	 *         do not cover or the rebuild was cancelled
 	 */
-	static boolean fullSort() {
-		return ENABLED;
+	static M3MarkerLanes build(Markers model, Collection<MarkerEntry> entries, IProgressMonitor monitor) {
+		CachedMarkerBuilder builder = model.getBuilder();
+		M3MarkerLanes lanes = M3MarkerLanes.create(model, builder.getComparator());
+		if (lanes == null) {
+			return null;
+		}
+		MarkerGroup group = builder.getCategoryGroup();
+		M3MarkerLanes.Change change = new M3MarkerLanes.Change();
+		M3MarkerKeys keys = null;
+		int i = 0;
+		for (MarkerEntry entry : entries) {
+			if ((++i & 4095) == 0 && monitor.isCanceled()) {
+				return null;
+			}
+			IMarker marker = entry.getMarker();
+			if (marker == null) {
+				continue;
+			}
+			try {
+				MarkerGroupingEntry key = group.findGroupValue(marker.getType(), marker);
+				keys = M3MarkerKeys.read(marker, lanes.needsType(), keys);
+				lanes.add(change.set(keys.id, marker, keys, key, entry));
+			} catch (CoreException e) {
+				entry.checkIfMarkerStale(); // stock skips a stale marker when grouping (Markers.groupMarkerEntries)
+			}
+		}
+		lanes.finishBuild();
+		return lanes;
 	}
 
 	private synchronized boolean accept(IResourceChangeEvent event, Set<String> types) {
@@ -164,21 +216,22 @@ final class M3MarkerDeltas {
 		}
 		for (IMarkerDelta delta : event.findMarkerDeltas(null, true)) {
 			if (types.contains(delta.getType())) {
-				add(delta.getId(), (byte) delta.getKind(), delta.getMarker(),
-						delta.getKind() == IResourceDelta.ADDED ? -2 : delta.getAttribute(IMarker.SEVERITY, -1));
+				add(delta.getId(), (byte) delta.getKind(), delta.getMarker());
 			}
 		}
 		if (size > MAX_PENDING) {
 			clear();
+			count(FALLBACKS);
 			return false;
 		}
 		job.schedule(DEBOUNCE_MILLIS);
 		return true;
 	}
 
-	/* the model is built and the view state is one the delta path covers */
+	/* the lane model is built and the view state is one the delta path covers */
 	private boolean ready() {
-		if (builder.isBuilding() || !builder.isShowingHierarchy() || builder.getGenerator() == null) {
+		if (builder.isBuilding() || !builder.isShowingHierarchy() || builder.getGenerator() == null
+				|| builder.getMarkers().m3 == null) {
 			return false;
 		}
 		ExtendedMarkersView view = listener.getView();
@@ -193,7 +246,7 @@ final class M3MarkerDeltas {
 		return true;
 	}
 
-	private void add(long id, byte kind, IMarker marker, int oldSeverity) {
+	private void add(long id, byte kind, IMarker marker) {
 		int slot = find(id);
 		if (slot < 0) {
 			grow();
@@ -201,7 +254,6 @@ final class M3MarkerDeltas {
 			ids[slot] = id;
 			kinds[slot] = kind;
 			markers[slot] = marker;
-			oldSeverities[slot] = oldSeverity;
 			index(id, slot);
 			return;
 		}
@@ -210,7 +262,6 @@ final class M3MarkerDeltas {
 			kinds[slot] = kind == IResourceDelta.REMOVED ? NONE : IResourceDelta.ADDED;
 		} else if (before == NONE) {
 			kinds[slot] = kind;
-			oldSeverities[slot] = oldSeverity;
 		} else {
 			kinds[slot] = (byte) (kind == IResourceDelta.REMOVED ? IResourceDelta.REMOVED : IResourceDelta.CHANGED);
 		}
@@ -257,7 +308,6 @@ final class M3MarkerDeltas {
 			ids = Arrays.copyOf(ids, capacity);
 			kinds = Arrays.copyOf(kinds, capacity);
 			markers = Arrays.copyOf(markers, capacity);
-			oldSeverities = Arrays.copyOf(oldSeverities, capacity);
 		}
 	}
 
@@ -268,19 +318,12 @@ final class M3MarkerDeltas {
 		size = 0;
 	}
 
-	/** One prepared change: the marker, its new entry (or null when it leaves the view) and its category. */
-	private record Change(long id, byte kind, MarkerEntry entry, String category, MarkerGroupingEntry key,
-			int oldSeverity) {
-	}
-
-	/* worker thread: entries, filters and categories for the changed markers only */
+	/* worker thread: keys, filters and categories for the changed markers only */
 	private IStatus prepare(IProgressMonitor monitor) {
 		long gen;
-		List<Change> changes = new ArrayList<>();
 		long[] batchIds;
 		byte[] batchKinds;
 		IMarker[] batchMarkers;
-		int[] batchSeverities;
 		int n;
 		synchronized (this) {
 			gen = generation;
@@ -288,38 +331,28 @@ final class M3MarkerDeltas {
 			batchIds = Arrays.copyOf(ids, n);
 			batchKinds = Arrays.copyOf(kinds, n);
 			batchMarkers = Arrays.copyOf(markers, n);
-			batchSeverities = Arrays.copyOf(oldSeverities, n);
 			Arrays.fill(markers, 0, size, null);
 			Arrays.fill(table, 0);
 			size = 0;
 		}
+		List<M3MarkerLanes.Change> changes = new ArrayList<>(n);
 		try {
 			MarkerContentGenerator generator = builder.getGenerator();
-			if (generator == null) {
+			M3MarkerLanes lanes = builder.getMarkers().m3;
+			if (generator == null || lanes == null) {
 				return Status.OK_STATUS;
 			}
 			IResource[] selected = generator.getSelectedResources();
 			Collection<MarkerFieldFilterGroup> filters = generator.getEnabledFilters();
 			MarkerGroup group = builder.getCategoryGroup();
 			for (int i = 0; i < n; i++) {
-				byte kind = batchKinds[i];
-				if (kind == NONE) {
-					continue;
+				if ((i & 4095) == 4095 && stale(gen)) {
+					return Status.OK_STATUS;
 				}
-				IMarker marker = batchMarkers[i];
-				MarkerEntry entry = null;
-				MarkerGroupingEntry key = null;
-				if (kind != IResourceDelta.REMOVED && marker.exists()) {
-					MarkerEntry candidate = new MarkerEntry(marker);
-					if (MarkerContentGenerator.select(candidate, selected, filters)) {
-						entry = candidate;
-						key = group.findGroupValue(marker.getType(), marker);
-					}
-					candidate.clearCache();
+				if (batchKinds[i] != NONE) {
+					changes.add(prepare(batchIds[i], batchKinds[i], batchMarkers[i], lanes, selected, filters,
+							group));
 				}
-				String category = entry == null ? null
-						: group.getMarkerField().getValue(entry);
-				changes.add(new Change(batchIds[i], kind, entry, category, key, batchSeverities[i]));
 			}
 		} catch (CoreException | RuntimeException e) {
 			fallback(e);
@@ -336,289 +369,162 @@ final class M3MarkerDeltas {
 		return Status.OK_STATUS;
 	}
 
+	/* one changed marker: its keys and category when it is (still) selected by the filters, else it leaves */
+	private static M3MarkerLanes.Change prepare(long id, byte kind, IMarker marker, M3MarkerLanes lanes,
+			IResource[] selected, Collection<MarkerFieldFilterGroup> filters, MarkerGroup group)
+			throws CoreException {
+		M3MarkerLanes.Change change = new M3MarkerLanes.Change().set(id, marker, null, null, null);
+		if (kind == IResourceDelta.REMOVED || !marker.exists()) {
+			return change;
+		}
+		MarkerEntry candidate = new MarkerEntry(marker);
+		if (!MarkerContentGenerator.select(candidate, selected, filters)) {
+			return change;
+		}
+		MarkerGroupingEntry key = group.findGroupValue(marker.getType(), marker);
+		candidate.clearCache();
+		return change.set(id, marker, M3MarkerKeys.read(marker, lanes.needsType(), null), key, candidate);
+	}
+
+	private synchronized boolean stale(long gen) {
+		return gen != generation;
+	}
+
 	private void fallback(Exception e) {
 		LOG.log(Level.WARNING, "marker delta path failed, rebuilding the view", e); //$NON-NLS-1$
+		count(FALLBACKS);
 		clear();
 		builder.getUpdateScheduler().scheduleUpdate();
 	}
 
-	/* UI thread: patch the model with one merge pass, then the tree rows inside the shown windows */
-	private void apply(long gen, List<Change> changes) {
-		synchronized (this) {
-			if (gen != generation) {
-				return;
-			}
+	/* UI thread: patch the lanes, then the tree rows inside the shown windows */
+	private void apply(long gen, List<M3MarkerLanes.Change> changes) {
+		if (stale(gen)) {
+			return;
 		}
 		ExtendedMarkersView view = listener.getView();
 		if (view == null || view.isDisposed() || builder.isBuilding() || !ready()) {
 			return;
 		}
-		Markers model = builder.getMarkers();
-		MarkerCategory[] oldCategories;
-		MarkerCategory[] newCategories;
-		synchronized (model) {
-			oldCategories = model.getCategories();
-			Patch patch = new Patch(model, changes);
-			if (!patch.build()) {
-				fallback(new IllegalStateException("marker delta does not fit the model")); //$NON-NLS-1$
-				return;
-			}
-			newCategories = patch.categories;
-			model.m3Replace(patch.entries, newCategories, patch.counts);
-			Markers clone = builder.getClonedMarkers();
-			if (clone != model) {
-				clone.m3Replace(patch.entries, newCategories, patch.counts);
-			}
-		}
-		patchTree(view, oldCategories, newCategories, changes);
-		view.updateTitle();
-	}
-
-	/** The model patch: new entry array, categories and counts from the old ones and the changes. */
-	private final class Patch {
-		final Markers model;
-		final List<Change> changes;
-		MarkerEntry[] entries;
-		MarkerCategory[] categories;
-		Integer[] counts;
-
-		Patch(Markers model, List<Change> changes) {
-			this.model = model;
-			this.changes = changes;
-		}
-
-		boolean build() {
-			MarkerEntry[] old = model.getMarkerEntryArray();
-			MarkerCategory[] oldCategories = model.getCategories();
-			Integer[] oldCounts = model.getMarkerCounts();
-			int[] counts4 = { oldCounts[0].intValue(), oldCounts[1].intValue(), oldCounts[2].intValue(),
-					oldCounts[3].intValue() };
-			// one pass: which old positions leave (removed or changed markers)
-			M3LongSet changedIds = new M3LongSet(changes.size());
-			for (Change c : changes) {
-				changedIds.add(c.id);
-			}
-			boolean[] leaving = new boolean[old.length];
-			int left = 0;
-			for (int i = 0; i < old.length; i++) {
-				IMarker marker = old[i].getMarker();
-				if (marker != null && changedIds.contains(marker.getId())) {
-					leaving[i] = true;
-					left++;
-				}
-			}
-			for (Change c : changes) {
-				if (c.oldSeverity != -2 && c.kind != IResourceDelta.ADDED) {
-					// counted before only when it was in the view; the scan above found it there
-					if (wasShown(old, leaving, c.id)) {
-						counts4[countIndex(c.oldSeverity)]--;
-					}
-				}
-				if (c.entry != null) {
-					Object severity = c.entry.getAttributeValue(IMarker.SEVERITY);
-					counts4[countIndex(severity instanceof Integer s ? s.intValue() : -1)]++;
-				}
-			}
-			// group the arriving entries by category name, each group sorted
-			Comparator<MarkerItem> order = builder.getComparator().getFieldsComparator();
-			List<String> names = new ArrayList<>();
-			List<List<MarkerEntry>> arriving = new ArrayList<>();
-			List<MarkerGroupingEntry> keys = new ArrayList<>();
-			for (Change c : changes) {
-				if (c.entry == null) {
-					continue;
-				}
-				int at = names.indexOf(c.category);
-				if (at < 0) {
-					names.add(c.category);
-					keys.add(c.key);
-					arriving.add(new ArrayList<>());
-					at = names.size() - 1;
-				}
-				arriving.get(at).add(c.entry);
-			}
-			for (List<MarkerEntry> list : arriving) {
-				list.sort(order);
-			}
-			// category order: existing categories keep their order; new ones go by the group comparator
-			MarkerGroup group = builder.getCategoryGroup();
-			Comparator<MarkerGroupingEntry> categoryOrder = group.getEntriesComparator();
-			List<String> orderNames = new ArrayList<>();
-			List<MarkerGroupingEntry> orderKeys = new ArrayList<>();
-			for (MarkerCategory category : oldCategories) {
-				orderNames.add(category.getName());
-				orderKeys.add(keyOf(old, category, leaving, keys, names));
-			}
-			for (int i = 0; i < names.size(); i++) {
-				if (!orderNames.contains(names.get(i))) {
-					MarkerGroupingEntry key = keys.get(i);
-					int at = 0;
-					while (at < orderKeys.size() && orderKeys.get(at) != null
-							&& categoryOrder.compare(orderKeys.get(at), key) <= 0) {
-						at++;
-					}
-					orderNames.add(at, names.get(i));
-					orderKeys.add(at, key);
-				}
-			}
-			int total = old.length - left;
-			for (List<MarkerEntry> list : arriving) {
-				total += list.size();
-			}
-			entries = new MarkerEntry[total];
-			List<MarkerCategory> made = new ArrayList<>();
-			int out = 0;
-			for (String name : orderNames) {
-				MarkerCategory before = categoryNamed(oldCategories, name);
-				int at = names.indexOf(name);
-				List<MarkerEntry> in = at < 0 ? List.of() : arriving.get(at);
-				int start = out;
-				int i = before == null ? 0 : before.start;
-				int end = before == null ? -1 : before.end;
-				int j = 0;
-				while (i <= end || j < in.size()) {
-					while (i <= end && leaving[i]) {
-						i++;
-					}
-					if (i > end) {
-						while (j < in.size()) {
-							entries[out++] = in.get(j++);
-						}
-						break;
-					}
-					if (j < in.size() && order.compare(in.get(j), old[i]) < 0) {
-						entries[out++] = in.get(j++);
-					} else {
-						entries[out++] = old[i++];
-					}
-				}
-				if (out > start) {
-					made.add(new MarkerCategory(model, start, out - 1, name));
-				}
-			}
-			if (out != total) {
-				return false;
-			}
-			categories = made.toArray(new MarkerCategory[0]);
-			counts = new Integer[] { Integer.valueOf(counts4[0]), Integer.valueOf(counts4[1]),
-					Integer.valueOf(counts4[2]), Integer.valueOf(counts4[3]) };
-			return true;
-		}
-
-		private boolean wasShown(MarkerEntry[] old, boolean[] leaving, long id) {
-			for (int i = 0; i < old.length; i++) {
-				if (leaving[i] && old[i].getMarker() != null && old[i].getMarker().getId() == id) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/* the grouping key of an existing category, from an entry that stays (its attributes are unchanged) */
-		private MarkerGroupingEntry keyOf(MarkerEntry[] old, MarkerCategory category, boolean[] leaving,
-				List<MarkerGroupingEntry> keys, List<String> names) {
-			int at = names.indexOf(category.getName());
-			if (at >= 0) {
-				return keys.get(at);
-			}
-			for (int i = category.start; i <= category.end; i++) {
-				IMarker marker = old[i].getMarker();
-				if (!leaving[i] && marker != null) {
-					try {
-						return builder.getCategoryGroup().findGroupValue(marker.getType(), marker);
-					} catch (CoreException e) {
-						return null;
-					}
-				}
-			}
-			return null;
-		}
-	}
-
-	/** Severity to the index of {@link Markers#getMarkerCounts()}: errors, warnings, infos, others. */
-	static int countIndex(int severity) {
-		return switch (severity) {
-		case IMarker.SEVERITY_ERROR -> 0;
-		case IMarker.SEVERITY_WARNING -> 1;
-		case IMarker.SEVERITY_INFO -> 2;
-		default -> 3;
-		};
-	}
-
-	private static MarkerCategory categoryNamed(MarkerCategory[] categories, String name) {
-		for (MarkerCategory category : categories) {
-			if (category.getName().equals(name)) {
-				return category;
-			}
-		}
-		return null;
-	}
-
-	/* the tree patch: categories added/removed; per expanded category only the rows of its shown window */
-	private void patchTree(ExtendedMarkersView view, MarkerCategory[] oldCategories, MarkerCategory[] newCategories,
-			List<Change> changes) {
-		TreeViewer viewer = view.getViewer();
-		Object input = viewer.getInput();
+		M3MarkerLanes lanes = builder.getMarkers().m3;
 		M3LongSet changed = new M3LongSet(changes.size());
-		for (Change c : changes) {
+		for (M3MarkerLanes.Change c : changes) {
 			changed.add(c.id);
 		}
-		for (MarkerCategory before : oldCategories) {
-			if (categoryNamed(newCategories, before.getName()) == null) {
-				viewer.remove(before);
+		List<M3MarkerLanes.Category> touched = lanes.apply(changes);
+		count(APPLIED);
+		if (view.getActiveViewerInputClone().m3 == lanes) {
+			patchTree(view, lanes, touched, changed);
+		} // else a rebuilt model waits for its UI update, which refreshes the tree from these lanes
+		// UIUpdateJob: with no saved state, a single category is recorded for expansion
+		if (view.getCategoriesToExpand().isEmpty()) {
+			M3MarkerCategory[] categories = lanes.categories();
+			if (categories.length == 1) {
+				view.getCategoriesToExpand().add(categories[0].getDescription());
 			}
 		}
-		int limit = view.getGenerator().isMarkerLimitsEnabled() ? view.getGenerator().getMarkerLimits() : -1;
-		for (int c = 0; c < newCategories.length; c++) {
-			MarkerCategory category = newCategories[c];
-			MarkerCategory before = categoryNamed(oldCategories, category.getName());
-			if (before == null) {
-				viewer.insert(input, category, c);
+		view.reexpandCategories();
+		view.updateTitle();
+		view.updateStatusLine(view.getViewer().getStructuredSelection());
+	}
+
+	/* the tree patch: categories removed and added; per touched category its label and the rows of its window */
+	private static void patchTree(ExtendedMarkersView view, M3MarkerLanes lanes,
+			List<M3MarkerLanes.Category> touched, M3LongSet changed) {
+		TreeViewer viewer = view.getViewer();
+		Object input = viewer.getInput();
+		M3ViewerDelta delta = new M3ViewerDelta();
+		for (M3MarkerLanes.Category c : touched) {
+			if (lanes.indexOf(c) < 0 && viewer.testFindItem(c.facade) != null) {
+				delta.remove(c.facade);
+			}
+		}
+		M3MarkerCategory[] categories = lanes.categories();
+		List<M3MarkerCategory> expand = new ArrayList<>();
+		for (int i = 0; i < categories.length; i++) {
+			M3MarkerCategory category = categories[i];
+			if (contains(touched, category) && viewer.testFindItem(category) == null) {
+				delta.add(input, category, i);
 				if (view.getCategoriesToExpand().contains(category.getName())) {
-					viewer.setExpandedState(category, true);
+					expand.add(category);
 				}
+			}
+		}
+		int limit = limit(view);
+		for (M3MarkerLanes.Category c : touched) {
+			if (lanes.indexOf(c) < 0) {
 				continue;
 			}
-			viewer.update(category, null);
-			Widget widget = viewer.testFindItem(category);
-			if (!(widget instanceof TreeItem item) || !item.getExpanded()) {
-				continue;
+			Widget widget = viewer.testFindItem(c.facade);
+			if (widget instanceof TreeItem item) {
+				delta.update(c.facade, null);
+				patchWindow(delta, lanes, c, item, limit, changed);
 			}
-			patchWindow(viewer, category, item, limit, changed);
+		}
+		if (delta.isEmpty()) {
+			return;
+		}
+		((MarkersTreeViewer) viewer).m3PreservingSelection(() -> M3Viewers.apply(viewer, delta));
+		for (M3MarkerCategory category : expand) {
+			viewer.setExpandedState(category, true);
 		}
 	}
 
-	/* rows of one expanded category: remove rows that left the window, insert rows that entered it */
-	private static void patchWindow(TreeViewer viewer, MarkerCategory category, TreeItem item, int limit,
-			M3LongSet changed) {
-		MarkerSupportItem[] all = category.getChildren();
-		int shown = limit > 0 ? Math.min(limit, all.length) : all.length;
-		M3LongSet next = new M3LongSet(shown);
-		for (int i = 0; i < shown; i++) {
-			IMarker marker = ((MarkerEntry) all[i]).getMarker();
-			if (marker != null) {
-				next.add(marker.getId());
+	private static boolean contains(List<M3MarkerLanes.Category> touched, M3MarkerCategory category) {
+		for (M3MarkerLanes.Category c : touched) {
+			if (c.facade == category) {
+				return true;
 			}
 		}
-		List<Object> gone = new ArrayList<>();
-		M3LongSet kept = new M3LongSet(shown);
-		for (Item child : item.getItems()) {
-			if (child.getData() instanceof MarkerEntry entry && entry.getMarker() != null) {
+		return false;
+	}
+
+	/**
+	 * MarkerViewerContentProvider.getLimitedChildren: the marker limit.
+	 *
+	 * @param view the view
+	 * @return the limit, or -1 for none
+	 */
+	static int limit(ExtendedMarkersView view) {
+		MarkerContentGenerator generator = view.getGenerator();
+		int limit = generator.getMarkerLimits();
+		return generator.isMarkerLimitsEnabled() && limit > 0 ? limit : -1;
+	}
+
+	/*
+	 * Rows of one category whose items exist (expanded once): rows that left the
+	 * window or changed are removed, rows that entered it (or changed) are inserted
+	 * at their window index, in increasing order.
+	 */
+	private static void patchWindow(M3ViewerDelta delta, M3MarkerLanes lanes, M3MarkerLanes.Category c,
+			TreeItem item, int limit, M3LongSet changed) {
+		Item[] rows = item.getItems();
+		if (rows.length == 0 || rows.length == 1 && rows[0].getData() == null) {
+			return; // never expanded: the content provider gives the window on expansion
+		}
+		int[] next = lanes.windowSlots(c, limit);
+		M3LongSet nextIds = new M3LongSet(next.length);
+		for (int slot : next) {
+			nextIds.add(lanes.id(slot));
+		}
+		M3LongSet kept = new M3LongSet(rows.length);
+		for (Item row : rows) {
+			if (row.getData() instanceof MarkerEntry entry && entry.getMarker() != null) {
 				long id = entry.getMarker().getId();
-				if (changed.contains(id) || !next.contains(id)) {
-					gone.add(entry);
+				if (changed.contains(id) || !nextIds.contains(id)) {
+					delta.remove(entry);
+					int slot = lanes.find(id);
+					if (slot >= 0 && !nextIds.contains(id)) {
+						lanes.releaseFacade(slot);
+					}
 				} else {
 					kept.add(id);
 				}
 			}
 		}
-		if (!gone.isEmpty()) {
-			viewer.remove(gone.toArray());
-		}
-		for (int i = 0; i < shown; i++) {
-			MarkerEntry entry = (MarkerEntry) all[i];
-			if (entry.getMarker() == null || !kept.contains(entry.getMarker().getId())) {
-				viewer.insert(category, entry, i);
+		for (int j = 0; j < next.length; j++) {
+			if (!kept.contains(lanes.id(next[j]))) {
+				delta.add(c.facade, lanes.facade(next[j]), j);
 			}
 		}
 	}
