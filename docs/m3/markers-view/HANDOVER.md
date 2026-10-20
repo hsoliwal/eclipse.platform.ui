@@ -59,9 +59,11 @@ scope diff against lanes (commit d13d2522a5), the view-template parser and spec,
 differential harness, API matrix mechanical pass.
 
 Open, in order:
-1. **Regression to fix first:** OPTIMIZATION_LEDGER rows "JV-R3 jface viewer mode original->viewport": `table.filter50`
-   at 10^5 times out (>60 s) in viewport mode, against 28 s stock. `table.add1pct.sorted` at 10^4 is 99 -> 130 ms.
-   The `refresh.sel10.hash` row improved (17,389 -> 4,750 ms). Find the filter path that is not on lanes.
+1. **Re-measure, not a regression (corrected 2026-10-20 14:20):** the JV-R3 `table.filter50` 10^5 timeout and the
+   `add1pct.sorted` 99 -> 130 ms rows were single runs with 3 desktop slots busy. The ledger's "JV-R3 note" row
+   (commit f52d18dcc8) shows viewport mode changes only `M3ViewerPaths.removeRows/selectRows`
+   (AbstractTableViewer.java:744, 895); setInput, refresh and filter run the same code in both modes. Re-run
+   `M3ViewerBench` as a median of 5 on quiet slots before calling it either way.
 2. DELTA_GATE FAIL row: `CachedMarkerBuilder.java:597,611` (working-set listener: `group.refresh()` then a full
    update). Make it the scope set-diff.
 3. Deferred `MarkerEntry` facades: no entry object for rows outside the window; replace `Markers.markerToEntryMap`
@@ -91,3 +93,4 @@ S:/m3-scratch, never write to G:, D: or E:.
 ## Log
 
 - 2026-10-20 13:40: handover written by the lead (Claude) from branch head af302a4438.
+- 2026-10-20 14:05 (JFace agent): item 2 code done in d13d2522a5 (WorkingSetListener and requestMarkerUpdate offer scope changes to M3MarkerDeltas.scopeChanged: gather diff against the lanes, one delta); DELTA_GATE rows now PASS pending the differential scope sweep. Harness fixes since: m3Building readiness (fcdb7394b8: every earlier delta fell back), osgi.configuration.cascaded=false (2c12e1b555: every earlier m3 run had loaded the stock pool jars), in-process class histogram (3f4203ea90). Runs queued: round 1000 (stock+m3), stock 10^4 (done, 60-line log), stock 10^5. Item 1: same-build A/B with 5 interleaved repetitions under one slot (tools/run_ab.sh) queued; source check says viewport mode only changes remove/select paths (ledger note aab7823a2f).
