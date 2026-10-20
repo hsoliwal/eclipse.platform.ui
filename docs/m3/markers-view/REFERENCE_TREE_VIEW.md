@@ -72,3 +72,27 @@ User, 2026-10-20: "you own the implementation, you are not a layer on it", "INTR
   `!control.isPartVisible()` and its callback becomes an `SWT.PartVisible` listener on the view's tree. The
   view-side contract stays the same: lanes take deltas while hidden, and one patch runs on show. This is the change
   to make when the SWT event lands; it is tracked in TREE_VIEW_API_MATRIX.tsv.
+
+## Adoption recipe: from TreeViewer + refresh() to deltas (rule 27 template)
+
+A view moves in five mechanical steps. Each step is a recipe hook like the Problems view's
+(docs/m3/markers-view/recipe), and the second recipe pass must report UNCHANGED.
+
+1. **Spec.** Write `<ViewClass>.m3view` next to the view class (`M3ViewSpec`, org.eclipse.jface.viewers.m3). It
+   names the adapter, the lanes, grouping, sort, filters, counts and presentation. Example: ProblemsView.m3view.
+2. **Change source.** Hook the view's model listener at the line where it schedules its rebuild: offer the event to
+   the adapter first, and keep the rebuild for what the adapter declines (`if (Adapter.offer(...)) return;`).
+   The Problems view does this at `MarkersChangeListener.resourceChanged` before `scheduleUpdate()`.
+3. **Model.** Where the view builds its element list, build the lanes instead (`Markers.updateWithNewMarkers` ->
+   `M3MarkerDeltas.build`). The view's model accessors (elements, children, counts, item lookup, clone) answer from
+   the lanes, and facades are created only for shown rows.
+4. **Content provider.** Children and elements return the parent's window from the lanes. hasChildren comes from a
+   count, never from materialized children.
+5. **Patch.** The adapter's job applies the lanes change on the UI thread and patches the tree through one
+   `M3ViewerDelta` (`M3Viewers.apply`) inside `preservingSelection`. While the part is hidden it only marks dirty,
+   and on show it patches once (M3PartVisibility now, SWT.PartVisible next). Scope and filter changes diff the
+   selected ids against the lanes instead of rebuilding.
+
+The template runtime factors steps 3 to 5 out of M3MarkerLanes and M3MarkerDeltas into generic parts: lane schema,
+adapter interface, scope/filter/search lanes, grouping and sort lanes, delta viewer and counts. After that, a view
+conversion is its spec plus steps 1 and 2.
