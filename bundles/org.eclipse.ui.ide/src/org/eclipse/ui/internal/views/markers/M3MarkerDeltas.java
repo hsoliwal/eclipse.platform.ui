@@ -234,7 +234,8 @@ final class M3MarkerDeltas {
 
 	/* the lane model is built and the view state is one the delta path covers */
 	private boolean ready() {
-		if (builder.isBuilding() || builder.getGenerator() == null
+		// m3Building, not isBuilding: isBuilding also reports the listener receiving the very event offered here
+		if (builder.m3Building() || builder.getGenerator() == null
 				|| builder.getMarkers().m3 == null) {
 			return false;
 		}
@@ -403,7 +404,7 @@ final class M3MarkerDeltas {
 			return;
 		}
 		ExtendedMarkersView view = listener.getView();
-		if (view == null || view.isDisposed() || builder.isBuilding() || !ready()) {
+		if (view == null || view.isDisposed() || !ready()) {
 			return;
 		}
 		M3MarkerLanes lanes = builder.getMarkers().m3;

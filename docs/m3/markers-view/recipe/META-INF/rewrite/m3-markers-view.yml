@@ -98,3 +98,8 @@ recipeList:
       methodName: getStatusMessage
       position: METHOD_START
       statements: "\t\tM3MarkerLanes m3Lanes = markers.m3;\n\t\tif (m3Lanes != null && m3Lanes.isFlat() && getSearchFilter() == null) {\n\t\t\t// flat lane model: the counts come from the lanes, no entry per marker (same messages as below)\n\t\t\tint m3Total = m3Lanes.size();\n\t\t\tint m3Shown = applyMarkerLimit(m3Total);\n\t\t\tif (counts[0].intValue() == 0 && counts[1].intValue() == 0) {\n\t\t\t\treturn m3Shown >= m3Total ? NLS.bind(MarkerMessages.filter_itemsMessage, m3Total)\n\t\t\t\t\t\t: NLS.bind(MarkerMessages.filter_matchedMessage, m3Shown, m3Total);\n\t\t\t}\n\t\t\tString m3Message = formatSummaryBreakdown(counts);\n\t\t\treturn m3Shown >= m3Total ? m3Message\n\t\t\t\t\t: NLS.bind(MarkerMessages.problem_filter_matchedMessage, m3Message, m3Shown, m3Total);\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3AddMemberIfMissing:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.CachedMarkerBuilder]
+      memberName: m3Building
+      beforeMethod: setBuilding
+      memberSource: "\t/**\n\t * Whether a clean rebuild is running, without the change listener's receiving flag that\n\t * {@link #isBuilding()} adds: the delta path asks from inside resourceChanged (M3MarkerDeltas).\n\t *\n\t * @return whether a clean rebuild is running\n\t */\n\tboolean m3Building() {\n\t\treturn building;\n\t}\n"

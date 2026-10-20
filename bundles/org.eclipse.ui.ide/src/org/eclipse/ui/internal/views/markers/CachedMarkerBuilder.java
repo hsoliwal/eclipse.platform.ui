@@ -239,6 +239,16 @@ public class CachedMarkerBuilder {
 	}
 
 	/**
+	 * Whether a clean rebuild is running, without the change listener's receiving flag that
+	 * {@link #isBuilding()} adds: the delta path asks from inside resourceChanged (M3MarkerDeltas).
+	 *
+	 * @return whether a clean rebuild is running
+	 */
+	boolean m3Building() {
+		return building;
+	}
+
+	/**
 	 * Update the flag that indicates if the markers are building/changing
 	 */
 	void setBuilding(boolean building) {
