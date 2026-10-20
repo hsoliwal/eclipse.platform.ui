@@ -303,6 +303,7 @@ public final class M3MarkersBench implements IStartup {
 		row("diff-resize-full-refreshes", n, refreshes.get() - refreshed, 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		row("diff-resize-items-delta", n, items[1] - items[0], 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		hiddenSweep(lines, n);
+		scopeSweep(lines, n);
 		Files.write(log, lines, StandardCharsets.UTF_8);
 		row("diff-counters", n, -1, -1, deltaCounters()); //$NON-NLS-1$
 	}
@@ -353,6 +354,50 @@ public final class M3MarkersBench implements IStartup {
 			viewer().getTree().removeListener(org.eclipse.swt.SWT.Paint, counter);
 			return null;
 		});
+	}
+
+	/**
+	 * Scope and filter changes (Bug 296695): up to four declared filter groups are enabled in turn, with the
+	 * selection on one file and then on the project, and disabled again; each step logs the answers. Stock rebuilds
+	 * on each; the M3 path diffs a gather against its lanes. Reached through the generator's package-private API.
+	 */
+	private void scopeSweep(List<String> lines, int n) throws Exception {
+		Object generator = invoke(view, "getGenerator"); //$NON-NLS-1$
+		List<Object> groups = new ArrayList<>((java.util.Collection<?>) invoke(generator, "getAllFilters")); //$NON-NLS-1$
+		int refreshed = refreshes.get();
+		int rebuilt = rebuilds.get();
+		int steps = Math.min(4, groups.size());
+		for (int g = 0; g < steps; g++) {
+			Object group = groups.get(g);
+			String name = String.valueOf(invoke(group, "getName")); //$NON-NLS-1$
+			ui(() -> invoke(generator, "toggleFilter", group)); //$NON-NLS-1$
+			settle();
+			lines.add("filter toggled " + name + " | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
+			for (Object[] selection : new Object[][] { { files.get(Math.min(1, files.size() - 1)) },
+					{ files.get(0).getProject() } }) {
+				ui(() -> invoke(generator, "updateSelectedResource", selection, Boolean.TRUE)); //$NON-NLS-1$
+				settle();
+				lines.add("select " + selection[0] + " | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			ui(() -> invoke(generator, "toggleFilter", group)); //$NON-NLS-1$
+			settle();
+			lines.add("filter toggled back " + name + " | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		row("diff-scope-full-refreshes", n, refreshes.get() - refreshed, steps, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-scope-rebuilds", n, rebuilds.get() - rebuilt, steps, ""); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/* a declared method of the object's class or a superclass, made accessible (internal package-private API) */
+	private static Object invoke(Object target, String name, Object... args) throws ReflectiveOperationException {
+		for (Class<?> c = target.getClass(); c != null; c = c.getSuperclass()) {
+			for (Method m : c.getDeclaredMethods()) {
+				if (m.getName().equals(name) && m.getParameterCount() == args.length) {
+					m.setAccessible(true);
+					return m.invoke(target, args);
+				}
+			}
+		}
+		throw new NoSuchMethodException(target.getClass().getName() + '.' + name);
 	}
 
 	private static int itemCount(Tree tree) {
