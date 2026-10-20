@@ -114,8 +114,13 @@ public final class M3MarkersBench implements IStartup {
 		String desc = waitDescription(d -> d.contains(counted), 600_000);
 		row("initial-build", n, millis(t0), -1, desc);
 		settle();
-		for (int rep = 0; rep < 5; rep++) {
-			measureChange(n, rep);
+		for (int k : new int[] { 1, 100, 10_000 }) {
+			if (k > n) {
+				continue;
+			}
+			for (int rep = 0; rep < (k >= 10_000 ? 3 : 5); rep++) {
+				measureBatch(n, k, rep);
+			}
 		}
 		heap(n);
 		String log = System.getProperty("m3.markers.log"); //$NON-NLS-1$
@@ -125,9 +130,16 @@ public final class M3MarkersBench implements IStartup {
 		}
 	}
 
-	/** One severity change (error to warning), measured until the title shows it, then reverted. */
-	private void measureChange(int n, int rep) throws Exception {
-		IMarker marker = markers.get(rep * 3);
+	/**
+	 * One delta of {@code k} markers (error to warning, in one workspace operation, so one resource change event
+	 * carries {@code k} marker deltas), measured until the title shows it, then reverted (not measured).
+	 */
+	private void measureBatch(int n, int k, int rep) throws Exception {
+		List<IMarker> batch = new ArrayList<>(k);
+		int stride = k * 3 <= n ? 3 : 1;
+		for (int i = 0; i < k; i++) {
+			batch.add(markers.get(i * stride));
+		}
 		String before = description();
 		com.sun.management.ThreadMXBean threads = (com.sun.management.ThreadMXBean) ManagementFactory
 				.getThreadMXBean();
@@ -136,17 +148,23 @@ public final class M3MarkersBench implements IStartup {
 		long bytes = threads.getTotalThreadAllocatedBytes();
 		long cpu = os.getProcessCpuTime();
 		long t0 = System.nanoTime();
-		workspace().run((IWorkspaceRunnable) m -> marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING),
-				null);
+		workspace().run((IWorkspaceRunnable) m -> {
+			for (IMarker marker : batch) {
+				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+			}
+		}, null);
 		String after = waitDescription(d -> !d.equals(before), 600_000);
 		long t = millis(t0);
 		long allocated = threads.getTotalThreadAllocatedBytes() - bytes;
 		long cpuMillis = (os.getProcessCpuTime() - cpu) / 1_000_000;
-		row("one-change-ms", n, t, rep, after);
-		row("one-change-bytes", n, allocated, rep, ""); //$NON-NLS-1$
-		row("one-change-cpu-ms", n, cpuMillis, rep, ""); //$NON-NLS-1$
-		workspace().run((IWorkspaceRunnable) m -> marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR),
-				null);
+		row("delta" + k + "-ms", n, t, rep, after); //$NON-NLS-1$
+		row("delta" + k + "-bytes", n, allocated, rep, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("delta" + k + "-cpu-ms", n, cpuMillis, rep, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		workspace().run((IWorkspaceRunnable) m -> {
+			for (IMarker marker : batch) {
+				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			}
+		}, null);
 		waitDescription(d -> d.equals(before), 600_000);
 		settle();
 	}
