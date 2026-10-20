@@ -16,6 +16,7 @@
  *     Andrey Loskutov <loskutov@gmx.de> - Bug 446864, 466927
  *     Mickael Istria (Red Hat Inc.) - Bug 486901
  *     Patrik Suzzi <psuzzi@gmail.com> - Bug 489250
+ *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  *******************************************************************************/
 package org.eclipse.ui.internal.views.markers;
 
@@ -951,6 +952,19 @@ public class ExtendedMarkersView extends ViewPart {
 	 * @return String
 	 */
 	private String getStatusMessage(Markers markers, Integer[] counts) {
+		M3MarkerLanes m3Lanes = markers.m3;
+		if (m3Lanes != null && m3Lanes.isFlat() && getSearchFilter() == null) {
+			// flat lane model: the counts come from the lanes, no entry per marker (same messages as below)
+			int m3Total = m3Lanes.size();
+			int m3Shown = applyMarkerLimit(m3Total);
+			if (counts[0].intValue() == 0 && counts[1].intValue() == 0) {
+				return m3Shown >= m3Total ? NLS.bind(MarkerMessages.filter_itemsMessage, m3Total)
+						: NLS.bind(MarkerMessages.filter_matchedMessage, m3Shown, m3Total);
+			}
+			String m3Message = formatSummaryBreakdown(counts);
+			return m3Shown >= m3Total ? m3Message
+					: NLS.bind(MarkerMessages.problem_filter_matchedMessage, m3Message, m3Shown, m3Total);
+		}
 		String status = MarkerSupportInternalUtilities.EMPTY_STRING;
 		int totalCount = CachedMarkerBuilder.getTotalMarkerCount(markers);
 		int filteredCount = 0;
