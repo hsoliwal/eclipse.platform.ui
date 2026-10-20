@@ -50,6 +50,7 @@ eclipse.application=org.eclipse.ui.ide.workbench
 eclipse.product=org.eclipse.platform.ide
 osgi.splashPath=platform\:/base/plugins/org.eclipse.platform
 eclipse.pluginCustomization=${CFG/:/\:}/plugin_customization.ini
+osgi.configuration.cascaded=false
 CFGEOF
   # no welcome page, no workspace prompt, no update check: nothing but the workbench and the bench
   printf '%s\n' org.eclipse.ui/showIntro=false org.eclipse.ui.ide/SHOW_WORKSPACE_SELECTION_DIALOG=false \
