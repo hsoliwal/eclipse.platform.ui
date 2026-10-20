@@ -195,7 +195,6 @@ public class M3ViewersTest {
 	@Test
 	public void postMergesABurstAndAppliesOnce() throws Exception {
 		TableViewer v = table();
-		int[] refreshes = { 0 };
 		Thread poster = new Thread(() -> {
 			for (int i = 0; i < 3; i++) {
 				String e = "p" + i;
@@ -209,7 +208,6 @@ public class M3ViewersTest {
 		poster.join();
 		waitUntil(() -> v.getTable().getItemCount() == 8);
 		assertEquals("r0 r1 r2 r3 r4 p0 p1 p2", texts(v));
-		assertEquals(0, refreshes[0]);
 	}
 
 	@Test

@@ -318,7 +318,14 @@ public final class M3ViewerDifferential {
 			v.setInput(input());
 			record(display, v, "setInput");
 			for (int step = 0; step < steps; step++) {
-				String op = operate(v);
+				String op;
+				try {
+					op = operate(v);
+				} catch (RuntimeException e) {
+					// a defect of the viewer under test is part of its behaviour: record it and stop this script
+					log.add(step + " exception " + e.getClass().getName() + " " + e.getMessage());
+					break;
+				}
 				record(display, v, step + " " + op);
 			}
 		} finally {
