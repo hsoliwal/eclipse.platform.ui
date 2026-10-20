@@ -45,3 +45,12 @@ what Java 21 rejects; it must be empty.
    (`-Dosgi.requiredJavaVersion=21`).
 
 Donor decisions: FOSS_REUSE_DECISION.tsv. Census of the Java 22+ lines before the recipe: CENSUS.tsv.
+
+## Multipass marks
+
+1. Pass one, grep census: CENSUS.tsv (every Java 22+ line before the recipe).
+2. Recipe and gate: RECIPE_CHANGES.tsv, COLLISIONS.tsv, GATE_RESIDUE.tsv, FILE_MARKS.tsv (one status per Java file).
+3. Pass two, mechanical marks: PASS2_MARKS.tsv (`jdk21_pass2.sh`): every changed Java line with bundle, scope
+   (MAIN/TEST/EXAMPLE), type, enclosing method, construct and a permalink. Now: TEST TRY_RESOURCE 6, TEST LAMBDA_PARAM 135, MAIN TRY_RESOURCE 15, MAIN LAMBDA_PARAM 142, EXAMPLE LAMBDA_PARAM 32.
+4. Final pass (reads pass two, after the token reset): naming review where `unused` hides intent, and the
+   residue API rows.
