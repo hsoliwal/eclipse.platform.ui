@@ -96,7 +96,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	static class ResourceDescriptor implements Comparable<ResourceDescriptor> {
 		String label;
 
-		ArrayList<IResource> resources = new ArrayList<>();
+		ArrayList<IResource> resources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		boolean resourcesSorted = true;
 
@@ -113,7 +113,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 
 		int lastMatch = descriptorsSize - 1;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			Display display = resourceNames.getDisplay();
 			final int itemIndex[] = { 0 };
@@ -121,7 +121,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			// Keep track of if the widget got disposed
 			// so that we can abort if required
 			final boolean[] disposed = { false };
-			display.syncExec(() -> {
+			display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				// Be sure the widget still exists
 				if (resourceNames.isDisposed()) {
 					disposed[0] = true;
@@ -149,7 +149,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 					lastMatch = getLastMatch();
 				}
 				last = lastMatch;
-				for (int i = firstMatch; i <= lastMatch; i++) {
+				for (int i = firstMatch; i <= lastMatch; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (i % 50 == 0) {
 						try {
 							Thread.sleep(10);
@@ -162,7 +162,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 						return;
 					}
 					final int index = i;
-					display.syncExec(() -> {
+					display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (stop || resourceNames.isDisposed()) {
 							return;
 						}
@@ -173,7 +173,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			} else {
 				last = lastMatch;
 				boolean setFirstMatch = true;
-				for (int i = firstMatch; i <= lastMatch; i++) {
+				for (int i = firstMatch; i <= lastMatch; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (i % 50 == 0) {
 						try {
 							Thread.sleep(10);
@@ -192,7 +192,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 							firstMatch = index;
 						}
 						last = index;
-						display.syncExec(() -> {
+						display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							if (stop || resourceNames.isDisposed()) {
 								return;
 							}
@@ -208,7 +208,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			}
 
 			lastMatch = last;
-			display.syncExec(() -> {
+			display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (resourceNames.isDisposed()) {
 					return;
 				}
@@ -236,7 +236,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 
 		boolean refilter = false;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			Display display = resourceNames.getDisplay();
 			final int itemIndex[] = { 0 };
@@ -244,7 +244,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			// Keep track of if the widget got disposed
 			// so that we can abort if required
 			final boolean[] disposed = { false };
-			display.syncExec(() -> {
+			display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				// Be sure the widget still exists
 				if (resourceNames.isDisposed()) {
 					disposed[0] = true;
@@ -258,7 +258,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			}
 
 			if (!refilter) {
-				for (int i = 0; i <= lastMatch; i++) {
+				for (int i = 0; i <= lastMatch; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (i % 50 == 0) {
 						try {
 							Thread.sleep(10);
@@ -271,7 +271,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 						return;
 					}
 					final int index = i;
-					display.syncExec(() -> {
+					display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (stop || resourceNames.isDisposed()) {
 							return;
 						}
@@ -281,7 +281,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 				}
 			} else {
 				// we're filtering the previous list
-				for (int i = firstMatch; i <= lastMatch; i++) {
+				for (int i = firstMatch; i <= lastMatch; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (i % 50 == 0) {
 						try {
 							Thread.sleep(10);
@@ -295,7 +295,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 					}
 					final int index = i;
 					if (match(descriptors[index].label)) {
-						display.syncExec(() -> {
+						display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							if (stop || resourceNames.isDisposed()) {
 								return;
 							}
@@ -310,7 +310,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 				return;
 			}
 
-			display.syncExec(() -> {
+			display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (resourceNames.isDisposed()) {
 					return;
 				}
@@ -369,7 +369,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			return text.substring(0, text.length() - 1);
 		}
 		if (!text.isEmpty() && !text.endsWith("*")) { //$NON-NLS-1$
-			return text + "*"; //$NON-NLS-1$
+			return text + "*"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return text;
 	}
@@ -409,7 +409,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	 *
 	 * @param parent parent to create the dialog widgets in
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite dialogAreaComposite = (Composite) super.createDialogArea(parent);
 		Label l = new Label(dialogAreaComposite, SWT.NONE);
@@ -445,7 +445,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			updateFilterThread = new UpdateFilterThread();
 		}
 
-		pattern.addKeyListener(new KeyAdapter() {
+		pattern.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_DOWN) {
@@ -454,9 +454,9 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			}
 		});
 
-		pattern.addModifyListener(unused -> refresh(false));
+		pattern.addModifyListener(unused -> refresh(false)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
-		resourceNames.addSelectionListener(new SelectionAdapter() {
+		resourceNames.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateFolders((ResourceDescriptor) e.item.getData());
@@ -468,7 +468,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			}
 		});
 
-		folderNames.addSelectionListener(new SelectionAdapter() {
+		folderNames.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				okPressed();
@@ -478,7 +478,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 		if (getAllowUserToToggleDerived()) {
 			showDerivedButton = new Button(dialogAreaComposite, SWT.CHECK);
 			showDerivedButton.setText(IDEWorkbenchMessages.ResourceSelectionDialog_showDerived);
-			showDerivedButton.addSelectionListener(new SelectionAdapter() {
+			showDerivedButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					setShowDerived(showDerivedButton.getSelection());
@@ -514,7 +514,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 		allowUserToToggleDerived = allow;
 	}
 
-	private void filterResources(boolean force) {
+	private void filterResources(boolean force) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String oldPattern = force ? null : patternString;
 		patternString = adjustPattern();
 		if (!force && patternString.equals(oldPattern)) {
@@ -556,13 +556,13 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	 * assumes the patternString does not contain any '?' characters and that it
 	 * contains only one '*' character at the end of the string.
 	 */
-	private int getFirstMatch() {
+	private int getFirstMatch() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int high = descriptorsSize;
 		int low = -1;
 		boolean match = false;
 		ResourceDescriptor desc = new ResourceDescriptor();
 		desc.label = patternString.substring(0, patternString.length() - 1);
-		while (high - low > 1) {
+		while (high - low > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int index = (high + low) / 2;
 			String label = descriptors[index].label;
 			if (match(label)) {
@@ -583,7 +583,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 		return -1;
 	}
 
-	private void gatherResources(boolean force) {
+	private void gatherResources(boolean force) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String oldPattern = force ? null : patternString;
 		patternString = adjustPattern();
 		if (!force && patternString.equals(oldPattern)) {
@@ -612,7 +612,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			}
 		}
 
-		final ArrayList<IResource> resources = new ArrayList<>();
+		final ArrayList<IResource> resources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		BusyIndicator.showWhile(getShell().getDisplay(), () -> {
 			getMatchingResources(resources);
 			IResource resourcesArray[] = new IResource[resources.size()];
@@ -641,13 +641,13 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	 * assumes the patternString does not contain any '?' characters and that it
 	 * contains only one '*' character at the end of the string.
 	 */
-	private int getLastMatch() {
+	private int getLastMatch() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int high = descriptorsSize;
 		int low = -1;
 		boolean match = false;
 		ResourceDescriptor desc = new ResourceDescriptor();
 		desc.label = patternString.substring(0, patternString.length() - 1);
-		while (high - low > 1) {
+		while (high - low > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int index = (high + low) / 2;
 			String label = descriptors[index].label;
 			if (match(label)) {
@@ -675,9 +675,9 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	 *
 	 * @param resources resources that match
 	 */
-	private void getMatchingResources(final ArrayList<IResource> resources) {
+	private void getMatchingResources(final ArrayList<IResource> resources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			container.accept(proxy -> {
+			container.accept(proxy -> { //FLLDCIM: MARK — T07  LAMBDA
 				// optionally exclude derived resources (bugs 38085 and 81333)
 				if (!getShowDerived() && proxy.isDerived()) {
 					return false;
@@ -753,10 +753,10 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	 *
 	 * @param resources resources to create resource descriptors for
 	 */
-	private void initDescriptors(final IResource resources[]) {
+	private void initDescriptors(final IResource resources[]) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BusyIndicator.showWhile(null, () -> {
 			descriptors = new ResourceDescriptor[resources.length];
-			for (int i1 = 0; i1 < resources.length; i1++) {
+			for (int i1 = 0; i1 < resources.length; i1++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource r = resources[i1];
 				ResourceDescriptor d = new ResourceDescriptor();
 				// TDB: Should use the label provider and compare performance.
@@ -774,7 +774,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 			}
 			ResourceDescriptor current = descriptors[index];
 			IResource currentResource = current.resources.get(0);
-			for (int i2 = 1; i2 < descriptorsSize; i2++) {
+			for (int i2 = 1; i2 < descriptorsSize; i2++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ResourceDescriptor next = descriptors[i2];
 				IResource nextResource = next.resources.get(0);
 				if (nextResource.getType() == currentResource.getType() && next.label.equals(current.label)) {
@@ -819,7 +819,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	protected void okPressed() {
 		TableItem items[] = folderNames.getSelection();
 		if (items.length == 1) {
-			ArrayList<Object> result = new ArrayList<>();
+			ArrayList<Object> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			result.add(items[0].getData());
 			setResult(result);
 		}
@@ -861,7 +861,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	 *
 	 * @param desc resource descriptor of the selected resource
 	 */
-	private void updateFolders(final ResourceDescriptor desc) {
+	private void updateFolders(final ResourceDescriptor desc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BusyIndicator.showWhile(getShell().getDisplay(), () -> {
 			if (!desc.resourcesSorted) {
 				// sort the folder names
@@ -873,7 +873,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 				desc.resourcesSorted = true;
 			}
 			folderNames.removeAll();
-			for (Object element : desc.resources) {
+			for (Object element : desc.resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TableItem newItem = new TableItem(folderNames, SWT.NONE);
 				IResource r = (IResource) element;
 				newItem.setText(getParentLabel(r));
@@ -892,7 +892,7 @@ public class ResourceListSelectionDialog extends SelectionDialog {
 	 * @param itemPos   position of the existing item to update
 	 * @param itemCount number of items in the resources table widget
 	 */
-	private void updateItem(int index, int itemPos, int itemCount) {
+	private void updateItem(int index, int itemPos, int itemCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ResourceDescriptor desc = descriptors[index];
 		TableItem item;
 		if (itemPos < itemCount) {

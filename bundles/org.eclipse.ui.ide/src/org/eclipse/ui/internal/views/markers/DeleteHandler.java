@@ -36,7 +36,7 @@ import org.eclipse.ui.views.markers.internal.MarkerMessages;
  */
 public class DeleteHandler extends MarkerViewHandler {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) {
 
 		final MarkerSupportView view = getView(event);
@@ -60,7 +60,7 @@ public class DeleteHandler extends MarkerViewHandler {
 			return view;
 		}
 
-		WorkspaceJob deleteJob= new WorkspaceJob(IDEWorkbenchMessages.MarkerDeleteHandler_JobTitle) { //See Bug#250807
+		WorkspaceJob deleteJob= new WorkspaceJob(IDEWorkbenchMessages.MarkerDeleteHandler_JobTitle) { //See Bug#250807 //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public IStatus runInWorkspace(IProgressMonitor monitor) {
 				monitor.beginTask(IDEWorkbenchMessages.MarkerDeleteHandler_JobMessageLabel, 10 * selected.length);

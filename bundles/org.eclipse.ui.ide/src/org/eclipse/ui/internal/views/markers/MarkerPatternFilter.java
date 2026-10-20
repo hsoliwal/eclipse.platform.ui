@@ -25,7 +25,7 @@ import org.eclipse.ui.views.markers.MarkerItem;
  * any of the values shown in their columns (description, resource, path,
  * location, type, ...).
  */
-class MarkerPatternFilter extends PatternFilter {
+class MarkerPatternFilter extends PatternFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private final ExtendedMarkersView view;
 
@@ -87,7 +87,7 @@ class MarkerPatternFilter extends PatternFilter {
 			// through isParentMatch(...) as long as any of their markers match
 			return false;
 		}
-		for (MarkerField field : view.getVisibleFields()) {
+		for (MarkerField field : view.getVisibleFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (matches(field, item)) {
 				return true;
 			}

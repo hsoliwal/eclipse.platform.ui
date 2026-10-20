@@ -98,7 +98,7 @@ public class QuickFixPage extends WizardPage {
 		setMessage(problemDescription);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -167,7 +167,7 @@ public class QuickFixPage extends WizardPage {
 	 *
 	 * @return {@link Composite}
 	 */
-	private Composite createTableButtons(Composite control) {
+	private Composite createTableButtons(Composite control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite buttonComposite = new Composite(control, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -181,7 +181,7 @@ public class QuickFixPage extends WizardPage {
 		selectAll.setText(MarkerMessages.selectAllAction_title);
 		selectAll.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
 
-		selectAll.addSelectionListener(new SelectionAdapter() {
+		selectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				markersTable.setAllChecked(true);
@@ -194,7 +194,7 @@ public class QuickFixPage extends WizardPage {
 		deselectAll
 				.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
 
-		deselectAll.addSelectionListener(new SelectionAdapter() {
+		deselectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				markersTable.setAllChecked(false);
@@ -205,11 +205,11 @@ public class QuickFixPage extends WizardPage {
 		return buttonComposite;
 	}
 
-	private void createResolutionsList(Composite control) {
+	private void createResolutionsList(Composite control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		resolutionsList = new TableViewer(control, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		resolutionsList.setContentProvider(ArrayContentProvider.getInstance());
 
-		resolutionsList.setLabelProvider(new LabelProvider() {
+		resolutionsList.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object element) {
 				return ((IMarkerResolution) element).getLabel();
@@ -221,7 +221,7 @@ public class QuickFixPage extends WizardPage {
 			}
 		});
 
-		resolutionsList.setInput(resolutions.keySet().toArray());
+		resolutionsList.setInput(resolutions.keySet().toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		resolutionsList.setComparator(new ViewerComparator() {
 			/**
@@ -259,9 +259,9 @@ public class QuickFixPage extends WizardPage {
 			}
 		});
 
-		resolutionsList
-				.addSelectionChangedListener(unused -> {
-					markersTable.refresh();
+		resolutionsList //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+				.addSelectionChangedListener(unused -> { //FLLDCIM: MARK — T04  LAMBDA
+					markersTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					setPageComplete(markersTable.getCheckedElements().length > 0);
 				});
 	}
@@ -269,7 +269,7 @@ public class QuickFixPage extends WizardPage {
 	/**
 	 * Create the table that shows the markers.
 	 */
-	private void createMarkerTable(Composite control) {
+	private void createMarkerTable(Composite control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		markersTable = CheckboxTableViewer.newCheckList(control, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
 
 		createTableColumns();
@@ -301,7 +301,7 @@ public class QuickFixPage extends WizardPage {
 			}
 		});
 
-		markersTable.setLabelProvider(new ITableLabelProvider() {
+		markersTable.setLabelProvider(new ITableLabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 			private final Translation translation = new Translation();
 
@@ -313,7 +313,7 @@ public class QuickFixPage extends WizardPage {
 				return null;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public String getColumnText(Object element, int columnIndex) {
 				IMarker marker =(IMarker) element;
 				if (columnIndex == 0) {
@@ -358,7 +358,7 @@ public class QuickFixPage extends WizardPage {
 			}
 		});
 
-		markersTable.addCheckStateListener(event -> {
+		markersTable.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			if (event.getChecked()) {
 				setPageComplete(true);
 			} else {
@@ -367,7 +367,7 @@ public class QuickFixPage extends WizardPage {
 
 		});
 		showMarkers.accept(markersTable);
-		markersTable.setInput(this);
+		markersTable.setInput(this); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**

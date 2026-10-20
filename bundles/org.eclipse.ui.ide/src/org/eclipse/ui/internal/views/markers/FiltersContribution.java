@@ -33,7 +33,7 @@ import org.eclipse.ui.views.markers.internal.MarkerMessages;
  */
 public class FiltersContribution extends MarkersContribution {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IContributionItem[] getContributionItems() {
 		final ExtendedMarkersView view = getView();
 		if (view == null) {
@@ -48,7 +48,7 @@ public class FiltersContribution extends MarkersContribution {
 
 		Iterator<MarkerFieldFilterGroup> groupsIterator = groups.iterator();
 		IContributionItem[] items = new IContributionItem[groups.size() + 2];
-		for (int i = 0; i < groups.size(); i++) {
+		for (int i = 0; i < groups.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final MarkerFieldFilterGroup group = groupsIterator.next();
 			items[i] = new ContributionItem() {
 
@@ -56,7 +56,7 @@ public class FiltersContribution extends MarkersContribution {
 				public void fill(Menu menu, int index) {
 					MenuItem item = new MenuItem(menu, SWT.CHECK);
 					item.setText(group.getName());
-					item.addListener(SWT.Selection, getMenuItemListener(group,
+					item.addListener(SWT.Selection, getMenuItemListener(group, //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 							view));
 
 					if (view != null && view.isEnabled(group)) {
@@ -91,7 +91,7 @@ public class FiltersContribution extends MarkersContribution {
 	 *
 	 * @return IContributionItem
 	 */
-	private IContributionItem getShowAllContribution() {
+	private IContributionItem getShowAllContribution() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new ContributionItem() {
 
 			@Override
@@ -100,7 +100,7 @@ public class FiltersContribution extends MarkersContribution {
 				item.setText(MarkerMessages.MarkerFilter_showAllCommand_title);
 				item.setSelection(noFiltersSelected());
 
-				item.addListener(SWT.Selection, unused -> {
+				item.addListener(SWT.Selection, unused -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 					ExtendedMarkersView view = getView();
 					if (view != null) {
 						view.disableAllFilters();
@@ -121,7 +121,7 @@ public class FiltersContribution extends MarkersContribution {
 				}
 
 				Iterator<MarkerFieldFilterGroup> groupsIterator = view.getAllFilters().iterator();
-				while (groupsIterator.hasNext()) {
+				while (groupsIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MarkerFieldFilterGroup group = groupsIterator.next();
 					if (group.isEnabled()) {
 						return false;

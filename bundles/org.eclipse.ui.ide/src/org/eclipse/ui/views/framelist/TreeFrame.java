@@ -126,9 +126,9 @@ public class TreeFrame extends Frame {
 	 */
 	private List<IAdaptable> restoreElements(IMemento memento) {
 		IMemento[] elementMem = memento.getChildren(TAG_ELEMENT);
-		List<IAdaptable> elements = new ArrayList<>(elementMem.length);
+		List<IAdaptable> elements = new ArrayList<>(elementMem.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IMemento currentMemento : elementMem) {
+		for (IMemento currentMemento : elementMem) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String factoryID = currentMemento.getString(TAG_FACTORY_ID);
 			if (factoryID != null) {
 				IElementFactory factory = PlatformUI.getWorkbench()
@@ -146,7 +146,7 @@ public class TreeFrame extends Frame {
 	 *
 	 * @param memento memento to restore frame from
 	 */
-	public void restoreState(IMemento memento) {
+	public void restoreState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMemento childMem = memento.getChild(TAG_FRAME_INPUT);
 
 		if (childMem == null) {
@@ -189,7 +189,7 @@ public class TreeFrame extends Frame {
 	 * @param memento memento to persist elements in
 	 */
 	private void saveElements(Object[] elements, IMemento memento) {
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPersistableElement persistable = Adapters.adapt(element, IPersistableElement.class);
 			if (persistable != null) {
 				IMemento elementMem = memento.createChild(TAG_ELEMENT);
@@ -204,7 +204,7 @@ public class TreeFrame extends Frame {
 	 *
 	 * @param memento memento to persist the frame state in.
 	 */
-	public void saveState(IMemento memento) {
+	public void saveState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPersistableElement persistable = Adapters.adapt(input, IPersistableElement.class);
 		if (persistable != null) {
 			IMemento frameMemento = memento.createChild(TAG_FRAME_INPUT);

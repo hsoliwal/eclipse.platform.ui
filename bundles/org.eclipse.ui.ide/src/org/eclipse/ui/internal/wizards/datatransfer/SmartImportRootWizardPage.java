@@ -112,7 +112,7 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class SmartImportRootWizardPage extends WizardPage {
 
-	static final String IMPORTED_SOURCES = SmartImportRootWizardPage.class.getName() + ".knownSources"; //$NON-NLS-1$
+	static final String IMPORTED_SOURCES = SmartImportRootWizardPage.class.getName() + ".knownSources"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String STORE_HIDE_ALREADY_OPEN = "SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN"; //$NON-NLS-1$
 
@@ -146,11 +146,11 @@ public class SmartImportRootWizardPage extends WizardPage {
 	// Progress monitor
 	protected Supplier<ProgressMonitorPart> wizardProgressMonitor = new Supplier<>() {
 		private ProgressMonitorPart progressMonitorPart;
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ProgressMonitorPart get() {
 			if (progressMonitorPart == null) {
 				try {
-					getWizard().getContainer().run(false, true, monitor -> {
+					getWizard().getContainer().run(false, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 						if (monitor instanceof ProgressMonitorPart) {
 							progressMonitorPart = (ProgressMonitorPart) monitor;
 						}
@@ -275,7 +275,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		this.selection = initialSelection;
 		this.workingSets = initialWorkingSets;
 		if (this.workingSets == null) {
-			this.workingSets = new HashSet<>();
+			this.workingSets = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 		setWizard(wizard);
 	}
@@ -291,7 +291,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		return (SmartImportWizard) super.getWizard();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		setTitle(DataTransferMessages.SmartImportWizardPage_importProjectsInFolderTitle);
 		setDescription(DataTransferMessages.SmartImportWizardPage_importProjectsInFolderDescription);
@@ -321,13 +321,13 @@ public class SmartImportRootWizardPage extends WizardPage {
 		setControl(res);
 	}
 
-	private void createLink(Composite res) {
+	private void createLink(Composite res) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Link showOtherImportWizards = new Link(res, SWT.NONE);
 		showOtherImportWizards
-				.setText("<A>" + DataTransferMessages.SmartImportWizardPage_showOtherSpecializedImportWizard + "</A>"); //$NON-NLS-1$ //$NON-NLS-2$
+				.setText("<A>" + DataTransferMessages.SmartImportWizardPage_showOtherSpecializedImportWizard + "</A>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		showOtherImportWizards.setLayoutData(new GridData(SWT.END, SWT.END, true, false, 4, 1));
-		showOtherImportWizards.addSelectionListener(new SelectionAdapter() {
-			@Override
+		showOtherImportWizards.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				ImportExportWizard importWizard = new ImportExportWizard(ImportExportWizard.IMPORT);
 				IStructuredSelection sel = null;
@@ -367,7 +367,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		this.workingSetsGroup = new WorkingSetGroup(workingSetComposite, wsSel, workingSetIds);
 	}
 
-	private void createInputSelectionOptions(Composite parent) {
+	private void createInputSelectionOptions(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label rootDirectoryLabel = new Label(parent, SWT.NONE);
 		rootDirectoryLabel.setText(DataTransferMessages.SmartImportWizardPage_selectRootDirectory);
 		rootDirectoryText = new Combo(parent, SWT.BORDER);
@@ -377,7 +377,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		}
 		GridData rootDirectoryTextLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		rootDirectoryText.setLayoutData(rootDirectoryTextLayoutData);
-		rootDirectoryText.addModifyListener(new ModifyListener() {
+		rootDirectoryText.addModifyListener(new ModifyListener() { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			@Override
 			public void modifyText(ModifyEvent e) {
 				SmartImportRootWizardPage.this.selection = new File(((Combo) e.widget).getText());
@@ -399,7 +399,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 
 			private void expandSelectedArchive() {
 				try {
-					getContainer().run(true, true, monitor -> {
+					getContainer().run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 						getWizard().expandArchive(selection, monitor);
 						if (monitor.isCanceled()) {
 							throw new InterruptedException();
@@ -423,8 +423,8 @@ public class SmartImportRootWizardPage extends WizardPage {
 		Button directoryButton = new Button(parent, SWT.PUSH);
 		directoryButton.setText(DataTransferMessages.SmartImportWizardPage_browse);
 		setButtonLayoutData(directoryButton);
-		directoryButton.addSelectionListener(new SelectionAdapter() {
-			@Override
+		directoryButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog dialog = new DirectoryDialog(getShell(), SWT.SHEET);
 				dialog.setText(DataTransferMessages.SmartImportWizardPage_browseForFolder);
@@ -449,8 +449,8 @@ public class SmartImportRootWizardPage extends WizardPage {
 		Button browseArchiveButton = new Button(parent, SWT.PUSH);
 		browseArchiveButton.setText(DataTransferMessages.SmartImportWizardPage_selectArchiveButton);
 		setButtonLayoutData(browseArchiveButton);
-		browseArchiveButton.addSelectionListener(new SelectionAdapter() {
-			@Override
+		browseArchiveButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell(), SWT.SHEET);
 				dialog.setText(DataTransferMessages.SmartImportWizardPage_selectArchiveTitle);
@@ -479,13 +479,13 @@ public class SmartImportRootWizardPage extends WizardPage {
 	/**
 	 * Creates the UI elements for the import options
 	 */
-	private void createConfigurationOptions(Composite parent) {
+	private void createConfigurationOptions(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData layoutData = new GridData(SWT.LEFT, SWT.CENTER, false, false, 4, 1);
 		final Button skipDotFoldersCheckbox = new Button(parent, SWT.CHECK);
 		skipDotFoldersCheckbox.setText(DataTransferMessages.SmartImportWizardPage_skipDotFolders);
 		skipDotFoldersCheckbox.setLayoutData(layoutData);
 		skipDotFoldersCheckbox.setSelection(this.skipDotFolders);
-		skipDotFoldersCheckbox.addSelectionListener(new SelectionAdapter() {
+		skipDotFoldersCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				SmartImportRootWizardPage.this.skipDotFolders = skipDotFoldersCheckbox.getSelection();
@@ -497,7 +497,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		closeProjectsCheckbox.setText(DataTransferMessages.SmartImportWizardPage_closeProjectsAfterImport);
 		closeProjectsCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 4, 1));
 		closeProjectsCheckbox.setSelection(closeProjectsAfterImport);
-		closeProjectsCheckbox.addSelectionListener(SelectionListener
+		closeProjectsCheckbox.addSelectionListener(SelectionListener //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				.widgetSelectedAdapter(unused -> closeProjectsAfterImport = closeProjectsCheckbox.getSelection()));
 
 		Link showDetectorsLink = new Link(parent, SWT.NONE);
@@ -507,17 +507,17 @@ public class SmartImportRootWizardPage extends WizardPage {
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 4;
 		showDetectorsLink.setLayoutData(gridData);
-		showDetectorsLink.addSelectionListener(new SelectionAdapter() {
+		showDetectorsLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				StringBuilder message = new StringBuilder();
+				StringBuilder message = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				message.append(DataTransferMessages.SmartImportWizardPage_availableDetectors_description);
 				message.append('\n');
 				message.append('\n');
-				List<String> extensionsLabels = new ArrayList<>(
+				List<String> extensionsLabels = new ArrayList<>( //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						ProjectConfiguratorExtensionManager.getAllExtensionLabels());
 				extensionsLabels.sort(null);
-				for (String extensionLabel : extensionsLabels) {
+				for (String extensionLabel : extensionsLabels) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					message.append("* "); //$NON-NLS-1$
 					message.append(extensionLabel);
 					message.append('\n');
@@ -530,7 +530,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		detectNestedProjectsCheckbox.setText(DataTransferMessages.SmartImportWizardPage_detectNestedProjects);
 		detectNestedProjectsCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 4, 1));
 		detectNestedProjectsCheckbox.setSelection(this.detectNestedProjects);
-		detectNestedProjectsCheckbox.addSelectionListener(new SelectionAdapter() {
+		detectNestedProjectsCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				SmartImportRootWizardPage.this.detectNestedProjects = detectNestedProjectsCheckbox.getSelection();
@@ -542,7 +542,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		configureProjectsCheckbox.setText(DataTransferMessages.SmartImportWizardPage_configureProjects);
 		configureProjectsCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 4, 1));
 		configureProjectsCheckbox.setSelection(this.configureProjects);
-		configureProjectsCheckbox.addSelectionListener(new SelectionAdapter() {
+		configureProjectsCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				SmartImportRootWizardPage.this.configureProjects = configureProjectsCheckbox.getSelection();
@@ -552,7 +552,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 
 	}
 
-	private Composite createProposalsGroup(Composite parent) {
+	private Composite createProposalsGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite res = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(res);
 		PatternFilter patternFilter = new PatternFilter();
@@ -569,7 +569,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		GridData treeGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		treeGridData.heightHint = 150;
 		tree.getControl().setLayoutData(treeGridData);
-		tree.setContentProvider(new ITreeContentProvider() {
+		tree.setContentProvider(new ITreeContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getElements(Object inputElement) {
 				return ((Map<File, ?>) inputElement).keySet().toArray(File[]::new);
@@ -606,7 +606,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 				return SmartImportRootWizardPage.this.directoriesToImport.contains(element);
 			}
 		});
-		tree.addCheckStateListener(event -> {
+		tree.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			if (isExistingProject((File) event.getElement()) || isExistingProjectName((File) event.getElement())) {
 				tree.setChecked(event.getElement(), false);
 				return;
@@ -621,32 +621,32 @@ public class SmartImportRootWizardPage extends WizardPage {
 
 		tree.getTree().setHeaderVisible(true);
 		ViewerColumn pathColumn = new TreeViewerColumn(tree, SWT.NONE);
-		pathColumn.setLabelProvider(new FolderForProjectsLabelProvider());
+		pathColumn.setLabelProvider(new FolderForProjectsLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		tree.getTree().getColumn(0).setText(DataTransferMessages.SmartImportProposals_folder);
 		tree.getTree().getColumn(0).setWidth(500);
 		ViewerColumn projectTypeColumn = new TreeViewerColumn(tree, SWT.NONE);
-		projectTypeColumn.setLabelProvider(projectLP);
+		projectTypeColumn.setLabelProvider(projectLP); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		tree.getTree().getColumn(1).setText(DataTransferMessages.SmartImportProposals_importAs);
 		tree.getTree().getColumn(1).setWidth(150);
 		TreeColumn folderCol = ((TreeViewerColumn) pathColumn).getColumn();
-		folderCol.addSelectionListener(new SelectionAdapter() {
+		folderCol.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				comparator.setColumn(0);
 				tree.getTree().setSortColumn(folderCol);
 				tree.getTree().setSortDirection(comparator.getDirection());
-				tree.refresh();
+				tree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		});
 
 		TreeColumn impAsCol = ((TreeViewerColumn) projectTypeColumn).getColumn();
-		impAsCol.addSelectionListener(new SelectionAdapter() {
+		impAsCol.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				comparator.setColumn(1);
 				tree.getTree().setSortColumn(impAsCol);
 				tree.getTree().setSortDirection(comparator.getDirection());
-				tree.refresh();
+				tree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		});
 		comparator.setColumn(0);
@@ -666,10 +666,10 @@ public class SmartImportRootWizardPage extends WizardPage {
 		selectAllButton = new Button(selectionButtonsGroup, SWT.PUSH);
 		setButtonLayoutData(selectAllButton);
 		selectAllButton.setText(DataTransferMessages.DataTransfer_selectAll);
-		selectAllButton.addSelectionListener(new SelectionAdapter() {
+		selectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (TreeItem item : tree.getTree().getItems()) {
+				for (TreeItem item : tree.getTree().getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					File dir = (File) item.getData();
 					if (isExistingProject(dir) || isExistingProjectName(dir)) {
 						tree.setChecked(dir, false);
@@ -684,10 +684,10 @@ public class SmartImportRootWizardPage extends WizardPage {
 		deselectAllButton = new Button(selectionButtonsGroup, SWT.PUSH);
 		setButtonLayoutData(deselectAllButton);
 		deselectAllButton.setText(DataTransferMessages.DataTransfer_deselectAll);
-		deselectAllButton.addSelectionListener(new SelectionAdapter() {
+		deselectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (Object item : tree.getCheckedElements()) {
+				for (Object item : tree.getCheckedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					tree.setChecked(item, false);
 					SmartImportRootWizardPage.this.directoriesToImport.remove(item);
 				}
@@ -700,15 +700,15 @@ public class SmartImportRootWizardPage extends WizardPage {
 		selectionSummary.setText(NLS.bind(DataTransferMessages.SmartImportProposals_selectionSummary, 0, 0));
 		Button hideProjectsAlreadyInWorkspace = new Button(selectionButtonsGroup, SWT.CHECK);
 		hideProjectsAlreadyInWorkspace.setText(DataTransferMessages.SmartImportProposals_hideExistingProjects);
-		hideProjectsAlreadyInWorkspace.addSelectionListener(new SelectionAdapter() {
-			final ViewerFilter existingProjectsFilter = new ViewerFilter() {
+		hideProjectsAlreadyInWorkspace.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			final ViewerFilter existingProjectsFilter = new ViewerFilter() { //FLLDCIM: MARK — T23  ANONYMOUS
 				@Override
 				public boolean select(Viewer viewer, Object parentElement, Object element) {
 					return !isExistingProject((File) element);
 				}
 			};
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				ViewerFilter[] currentFilters = tree.getFilters();
 				ViewerFilter[] newFilters = null;
@@ -718,22 +718,22 @@ public class SmartImportRootWizardPage extends WizardPage {
 					System.arraycopy(currentFilters, 0, newFilters, 0, currentFilters.length);
 					newFilters[newFilters.length - 1] = existingProjectsFilter;
 				} else {
-					List<ViewerFilter> filters = new ArrayList<>(
+					List<ViewerFilter> filters = new ArrayList<>( //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							currentFilters.length > 0 ? currentFilters.length - 1 : 0);
-					for (ViewerFilter filter : currentFilters) {
+					for (ViewerFilter filter : currentFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (filter != existingProjectsFilter) {
 							filters.add(filter);
 						}
 					}
 					newFilters = filters.toArray(new ViewerFilter[filters.size()]);
 				}
-				tree.setFilters(newFilters);
+				tree.setFilters(newFilters); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			}
 		});
 		hideProjectsAlreadyInWorkspace.setSelection(hideAlreadyOpen);
 		// to trigger initial selection -> adds viewerfilter when hideAlreadyOpen = true
 		hideProjectsAlreadyInWorkspace.notifyListeners(SWT.Selection, new Event());
-		tree.setInput(Collections.emptyMap());
+		tree.setInput(Collections.emptyMap()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		return res;
 	}
@@ -760,7 +760,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 			return direction;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(Viewer viewer, Object e1, Object e2) {
 			File f1 = (File) e1;
 			File f2 = (File) e2;
@@ -789,7 +789,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 	}
 
 	private IProject findExistingProject(File element) {
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath location = project.getLocation();
 			if (location != null && element.equals(location.toFile())) {
 				return project;
@@ -807,7 +807,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		return !name.isEmpty() && ResourcesPlugin.getWorkspace().getRoot().getProject(name).exists();
 	}
 
-	protected void validatePage() {
+	protected void validatePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// reset error message
 		setErrorMessage(null);
 		// order of invocation of setErrorMessage == reverse order of priority
@@ -862,21 +862,21 @@ public class SmartImportRootWizardPage extends WizardPage {
 	 * @return The user selected working sets to assign to imported projects.
 	 */
 	public Set<IWorkingSet> getSelectedWorkingSets() {
-		this.workingSets = new HashSet<>();
+		this.workingSets = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		// workingSetsGroup doesn't support listeners...
 		Runnable workingSetsRetriever = () -> {
 			java.util.Collections.addAll(SmartImportRootWizardPage.this.workingSets, SmartImportRootWizardPage.this.workingSetsGroup
 					.getSelectedWorkingSets());
 		};
 		if (Display.getCurrent() == null) {
-			getContainer().getShell().getDisplay().syncExec(workingSetsRetriever);
+			getContainer().getShell().getDisplay().syncExec(workingSetsRetriever); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		} else {
 			workingSetsRetriever.run();
 		}
 		return this.workingSets;
 	}
 
-	private void proposalsSelectionChanged() {
+	private void proposalsSelectionChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getWizard().createOrGetConfiguredImportJob() != null) {
 			if (potentialProjects.size() == 1 && potentialProjects.values().iterator().next().isEmpty()) {
 				getWizard().createOrGetConfiguredImportJob().setDirectoriesToImport(null);
@@ -885,8 +885,8 @@ public class SmartImportRootWizardPage extends WizardPage {
 				selectionSummary.setText(NLS.bind(DataTransferMessages.SmartImportProposals_selectionSummary,
 						directoriesToImport.size(), 1));
 			} else {
-				Set<File> excludedDirectories = new HashSet<>(((Map<File, ?>) this.tree.getInput()).keySet());
-				for (File directory : this.directoriesToImport) {
+				Set<File> excludedDirectories = new HashSet<>(((Map<File, ?>) this.tree.getInput()).keySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (File directory : this.directoriesToImport) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					excludedDirectories.remove(directory);
 				}
 				getWizard().createOrGetConfiguredImportJob().setDirectoriesToImport(directoriesToImport);
@@ -924,7 +924,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		return skipDotFolders;
 	}
 
-	private void refreshProposals() {
+	private void refreshProposals() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		stopAndDisconnectCurrentWork();
 		this.potentialProjects = Collections.emptyMap();
 		proposalsUpdated();
@@ -963,18 +963,18 @@ public class SmartImportRootWizardPage extends WizardPage {
 			previousFocusControl.setFocus();
 			rootDirectoryText.setSelection(initialSelection);
 			ToolItem stopButton = getStopButton(wizardProgressMonitor.get());
-			stopButton.addSelectionListener(this.cancelWorkListener);
+			stopButton.addSelectionListener(this.cancelWorkListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			jobMonitor = ProgressManager.getInstance().progressFor(refreshProposalsJob);
 			delegateMonitor = new DelegateProgressMonitorInUIThreadAndPreservingFocus(wizardProgressMonitor.get());
 			jobMonitor.addProgressListener(delegateMonitor);
 			refreshProposalsJob.setPriority(Job.INTERACTIVE);
 			refreshProposalsJob.setUser(true);
 			refreshProposalsJob.addJobChangeListener(new JobChangeAdapter() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void done(IJobChangeEvent event) {
 					Control control = tree.getControl();
 					if (!control.isDisposed()) {
-						control.getDisplay().asyncExec(() -> {
+						control.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							IStatus result = event.getResult();
 							if (!control.isDisposed() && result.isOK()) {
 								computingItem.dispose();
@@ -1004,9 +1004,9 @@ public class SmartImportRootWizardPage extends WizardPage {
 	}
 
 	private static ToolItem getStopButton(ProgressMonitorPart part) {
-		for (Control control : part.getChildren()) {
+		for (Control control : part.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (control instanceof ToolBar) {
-				for (ToolItem item : ((ToolBar) control).getItems()) {
+				for (ToolItem item : ((ToolBar) control).getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (item.getToolTipText().equals(JFaceResources.getString("ProgressMonitorPart.cancelToolTip"))) { //$NON-NLS-1$ ))
 						return item;
 					}
@@ -1023,9 +1023,9 @@ public class SmartImportRootWizardPage extends WizardPage {
 	}
 
 	private void proposalsUpdated() {
-		tree.setInput(potentialProjects);
-		this.directoriesToImport = new HashSet<>();
-		for (File dir : potentialProjects.keySet()) {
+		tree.setInput(potentialProjects); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		this.directoriesToImport = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (File dir : potentialProjects.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(isExistingProject(dir) || isExistingProjectName(dir))) {
 				directoriesToImport.add(dir);
 			}

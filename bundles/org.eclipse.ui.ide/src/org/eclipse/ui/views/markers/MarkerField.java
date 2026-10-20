@@ -67,7 +67,7 @@ public abstract class MarkerField {
 	 *            the image being overlaid
 	 * @return Image
 	 */
-	public Image annotateImage(MarkerItem item, Image image) {
+	public Image annotateImage(MarkerItem item, Image image) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImageDescriptor[] descriptors = new ImageDescriptor[5];
 		if (item != null) {
 			IMarker marker = item.getMarker();
@@ -263,6 +263,6 @@ public abstract class MarkerField {
 
 	@Override
 	public String toString() {
-		return getName() + " (" + getClass().getName() + ')'; //$NON-NLS-1$
+		return getName() + " (" + getClass().getName() + ')'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

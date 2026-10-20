@@ -89,7 +89,7 @@ public class ChooseWorkspaceData {
 	 */
 	public String getInitialDefault() {
 		if (initialDefault == null) {
-			setInitialDefault(System.getProperty("user.dir") //$NON-NLS-1$
+			setInitialDefault(System.getProperty("user.dir") //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ File.separator + "workspace"); //$NON-NLS-1$
 		}
 		return initialDefault;
@@ -108,7 +108,7 @@ public class ChooseWorkspaceData {
 		}
 
 		dir = IPath.fromOSString(dir).toOSString();
-		while (dir.charAt(dir.length() - 1) == File.separatorChar) {
+		while (dir.charAt(dir.length() - 1) == File.separatorChar) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dir = dir.substring(0, dir.length() - 1);
 		}
 		initialDefault = dir;
@@ -182,7 +182,7 @@ public class ChooseWorkspaceData {
 	 * Update the persistent store. Call this function after the currently
 	 * selected value has been found to be ok.
 	 */
-	public void writePersistedData() {
+	public void writePersistedData() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// 1. get config pref node
 		Preferences node = ConfigurationScope.INSTANCE.getNode(IDEWorkbenchPlugin.IDE_WORKBENCH);
 
@@ -200,7 +200,7 @@ public class ChooseWorkspaceData {
 			File newFolder = new File(selection);
 			String oldEntry = recentWorkspaces[0];
 			recentWorkspaces[0] = selection;
-			for (int i = 1; i < recentWorkspaces.length && oldEntry != null; ++i) {
+			for (int i = 1; i < recentWorkspaces.length && oldEntry != null; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				File oldFolder = new File (oldEntry);
 				// If selection represents a file location we already have, don't store it
 				if (newFolder.compareTo(oldFolder) == 0){
@@ -258,7 +258,7 @@ public class ChooseWorkspaceData {
 	 * @return true if the values were successfully retrieved and false
 	 *         otherwise
 	 */
-	public boolean readPersistedData() {
+	public boolean readPersistedData() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store = new ScopedPreferenceStore(ConfigurationScope.INSTANCE,
 				IDEWorkbenchPlugin.IDE_WORKBENCH);
 
@@ -284,11 +284,11 @@ public class ChooseWorkspaceData {
 	/**
 	 * The the list of recent workspaces must be stored as a string in the preference node.
 	 */
-	private static String encodeStoredWorkspacePaths(String[] recent) {
-		StringBuilder buff = new StringBuilder();
+	private static String encodeStoredWorkspacePaths(String[] recent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buff = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		String path = null;
-		for (String recentPath : recent) {
+		for (String recentPath : recent) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (recentPath == null) {
 				break;
 			}
@@ -309,7 +309,7 @@ public class ChooseWorkspaceData {
 	 * The the preference for recent workspaces must be converted from the
 	 * storage string into an array.
 	 */
-	private static String[] decodeStoredWorkspacePaths(int protocol, int max, String prefValue) {
+	private static String[] decodeStoredWorkspacePaths(int protocol, int max, String prefValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] paths = new String[max];
 		if (prefValue == null || prefValue.length() <= 0) {
 			return paths;
@@ -333,7 +333,7 @@ public class ChooseWorkspaceData {
 		}
 
 		StringTokenizer tokenizer = new StringTokenizer(prefValue, tokens);
-		for (int i = 0; i < paths.length && tokenizer.hasMoreTokens(); ++i) {
+		for (int i = 0; i < paths.length && tokenizer.hasMoreTokens(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paths[i] = tokenizer.nextToken();
 		}
 

@@ -66,8 +66,8 @@ public class MarkerCopyHandler extends MarkerViewHandler {
 	 *            the view being copied
 	 * @return the marker report
 	 */
-	static String createMarkerReport(ExtendedMarkersView view, IMarker[] markers) {
-		StringBuilder report = new StringBuilder();
+	static String createMarkerReport(ExtendedMarkersView view, IMarker[] markers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder report = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		MarkerField[] fields = view.getVisibleFields();
 
@@ -75,7 +75,7 @@ public class MarkerCopyHandler extends MarkerViewHandler {
 		final char DELIMITER = '\t';
 
 		// create header
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			report.append(fields[i].getColumnHeaderText());
 			if (i == fields.length - 1) {
 				report.append(NEWLINE);
@@ -84,9 +84,9 @@ public class MarkerCopyHandler extends MarkerViewHandler {
 			}
 		}
 
-		for (IMarker marker : markers) {
+		for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
-			for (int j = 0; j < fields.length; j++) {
+			for (int j = 0; j < fields.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				report.append(fields[j].getValue(MarkerSupportInternalUtilities
 						.newMarkerItem(marker)));
 				if (j == fields.length - 1) {

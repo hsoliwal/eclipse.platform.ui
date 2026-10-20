@@ -52,7 +52,7 @@ public class ResourceSaveableFilter implements ISaveableFilter {
 			return true;
 		}
 		// For backwards compatibility, we need to check the parts
-		for (IWorkbenchPart workbenchPart : containingParts) {
+		for (IWorkbenchPart workbenchPart : containingParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workbenchPart instanceof IEditorPart editorPart) {
 				if (isEditingDescendantOf(editorPart)) {
 					return true;
@@ -70,16 +70,16 @@ public class ResourceSaveableFilter implements ISaveableFilter {
 	 * @return whether the given saveable contains any resources that are descendants of the root
 	 *         resources
 	 */
-	private boolean isDescendantOfRoots(Saveable saveable) {
+	private boolean isDescendantOfRoots(Saveable saveable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// First, try and adapt the saveable to a resource mapping.
 		ResourceMapping mapping = ResourceUtil.getResourceMapping(saveable);
 		if (mapping != null) {
 			try {
 				ResourceTraversal[] traversals = mapping.getTraversals(
 						ResourceMappingContext.LOCAL_CONTEXT, null);
-				for (ResourceTraversal traversal : traversals) {
+				for (ResourceTraversal traversal : traversals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource[] resources = traversal.getResources();
-					for (IResource resource : resources) {
+					for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (isDescendantOfRoots(resource)) {
 							return true;
 						}
@@ -111,7 +111,7 @@ public class ResourceSaveableFilter implements ISaveableFilter {
 	 *         roots
 	 */
 	private boolean isDescendantOfRoots(IResource resource) {
-		for (IResource root : roots) {
+		for (IResource root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root.getFullPath().isPrefixOf(resource.getFullPath())) {
 				return true;
 			}

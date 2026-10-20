@@ -74,7 +74,7 @@ class Markers {
 	 * @param sortAndGroup
 	 *            true sort and group them
 	 */
-	synchronized boolean updateWithNewMarkers(Collection<MarkerEntry> markerEntries,
+	synchronized boolean updateWithNewMarkers(Collection<MarkerEntry> markerEntries, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean sortAndGroup, IProgressMonitor monitor) {
 		boolean initialVal = inChange;
 		try {
@@ -118,7 +118,7 @@ class Markers {
 	/**
 	 * Sort the contained marker entries and build categories if required.
 	 */
-	private synchronized boolean sortAndMakeCategories(IProgressMonitor monitor) {
+	private synchronized boolean sortAndMakeCategories(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean initialVal = inChange;
 		try {
 			inChange = true;
@@ -141,7 +141,7 @@ class Markers {
 		}
 	}
 
-	synchronized boolean sortMarkerEntries(IProgressMonitor monitor) {
+	synchronized boolean sortMarkerEntries(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor.isCanceled()) {
 			return false;
 		}
@@ -152,7 +152,7 @@ class Markers {
 			inChange = true;
 			if (builder.isShowingHierarchy()) {
 				Comparator<MarkerItem> comparator = markerComparator.getFieldsComparator();
-				for (MarkerCategory category : categories) {
+				for (MarkerCategory category : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (monitor.isCanceled()) {
 						return false;
 					}
@@ -180,7 +180,7 @@ class Markers {
 			monitor.worked(50);
 			return true;
 		} catch (IllegalArgumentException e) {
-			StringBuilder err = new StringBuilder("Bug 371586: broken comparator. "); //$NON-NLS-1$
+			StringBuilder err = new StringBuilder("Bug 371586: broken comparator. "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (lastCategory != null) {
 				err.append(lastCategory);
 			} else {
@@ -230,7 +230,7 @@ class Markers {
 		MarkerCategory[] markerCategories = new MarkerCategory[boundaryInfoMap.size()];
 		int i = 0;
 		int end = 0;
-		for (Entry<MarkerGroupingEntry, Integer> entry : boundaryInfoMap.entrySet()) {
+		for (Entry<MarkerGroupingEntry, Integer> entry : boundaryInfoMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			end = entry.getValue();
 			markerCategories[i++] = new MarkerCategory(this, start, end,
 					builder.getCategoryGroup().getMarkerField()
@@ -248,11 +248,11 @@ class Markers {
 	 *
 	 * @return {@link Map}
 	 */
-	private Map<MarkerGroupingEntry, Integer> groupMarkerEntries(MarkerEntry[] entries, MarkerGroup group,
+	private Map<MarkerGroupingEntry, Integer> groupMarkerEntries(MarkerEntry[] entries, MarkerGroup group, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int k, IProgressMonitor monitor) {
-		TreeMap<MarkerGroupingEntry, List<MarkerEntry>> map = new TreeMap<>(
+		TreeMap<MarkerGroupingEntry, List<MarkerEntry>> map = new TreeMap<>( //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 				group.getEntriesComparator());
-		for (int i = 0; i <= k; i++) {
+		for (int i = 0; i <= k; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMarker marker = entries[i].getMarker();
 			if (marker == null) {
 				continue;// skip stale markers
@@ -264,7 +264,7 @@ class Markers {
 				MarkerGroupingEntry groupingEntry = group.findGroupValue(marker.getType(), marker);
 				List<MarkerEntry> list = map.get(groupingEntry);
 				if (list == null) {
-					list = new ArrayList<>();
+					list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					map.put(groupingEntry, list);
 				}
 				list.add(entries[i]);
@@ -272,15 +272,15 @@ class Markers {
 				entries[i].checkIfMarkerStale();
 			}
 		}
-		TreeMap<MarkerGroupingEntry, Integer> result = new TreeMap<>(
+		TreeMap<MarkerGroupingEntry, Integer> result = new TreeMap<>( //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 				group.getEntriesComparator());
 		int i = 0;
-		for (Entry<MarkerGroupingEntry, List<MarkerEntry>> mapEntry : map.entrySet()) {
+		for (Entry<MarkerGroupingEntry, List<MarkerEntry>> mapEntry : map.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (monitor.isCanceled()) {
 				return Collections.emptyMap();
 			}
 			MarkerGroupingEntry key = mapEntry.getKey();
-			for (MarkerEntry entry : mapEntry.getValue()) {
+			for (MarkerEntry entry : mapEntry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				entries[i++] = entry;
 			}
 			result.put(key, i - 1);
@@ -312,7 +312,7 @@ class Markers {
 	 */
 	static Integer[] getMarkerCounts(MarkerEntry[] entries) {
 		int[] ints = new int[] { 0, 0, 0, 0 };
-		for (MarkerEntry entry : entries) {
+		for (MarkerEntry entry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int severity = entry.getAttributeValue(IMarker.SEVERITY) instanceof Integer value ? value.intValue() : -1;
 			if (severity >= IMarker.SEVERITY_INFO) {
 				ints[severity]++;
@@ -330,8 +330,8 @@ class Markers {
 	 */
 	public synchronized MarkerItem getMarkerItem(IMarker marker) {
 		if (markerToEntryMap == null) {
-			markerToEntryMap = new HashMap<>();
-			for (MarkerEntry markerEntry : markerEntryArray) {
+			markerToEntryMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (MarkerEntry markerEntry : markerEntryArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMarker nextMarker = markerEntry.getMarker();
 				if (nextMarker != null) {
 					markerToEntryMap.put(nextMarker, markerEntry);

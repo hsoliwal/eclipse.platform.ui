@@ -40,7 +40,7 @@ public class FileInPlaceEditorInput extends FileEditorInput implements
 	 * A resource listener to update the input and in-place
 	 * editor if the input's file resource changes.
 	 */
-	private final IResourceChangeListener resourceListener = new IResourceChangeListener() {
+	private final IResourceChangeListener resourceListener = new IResourceChangeListener() { //FLLDCIM: MARK — T07  ANONYMOUS
 		@Override
 		public void resourceChanged(IResourceChangeEvent event) {
 			IResourceDelta mainDelta = event.getDelta();
@@ -53,7 +53,7 @@ public class FileInPlaceEditorInput extends FileEditorInput implements
 			}
 		}
 
-		private boolean processDelta(final IResourceDelta delta) {
+		private boolean processDelta(final IResourceDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Runnable changeRunnable = null;
 
 			switch (delta.getKind()) {
@@ -84,7 +84,7 @@ public class FileInPlaceEditorInput extends FileEditorInput implements
 			}
 
 			if (changeRunnable != null && embeddedEditor != null) {
-				embeddedEditor.getSite().getShell().getDisplay().asyncExec(
+				embeddedEditor.getSite().getShell().getDisplay().asyncExec( //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						changeRunnable);
 			}
 

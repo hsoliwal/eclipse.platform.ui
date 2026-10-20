@@ -73,7 +73,7 @@ public class WelcomeEditorInput implements IEditorInput {
 
 			@Override
 			public void saveState(IMemento memento) {
-				memento.putString(FEATURE_ID, aboutInfo.getFeatureId() + ':'
+				memento.putString(FEATURE_ID, aboutInfo.getFeatureId() + ':' //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ aboutInfo.getVersionId());
 			}
 		};

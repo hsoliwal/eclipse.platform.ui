@@ -51,16 +51,16 @@ public class MarkerTypesModel {
 	private final HashMap<String, MarkerType> types;
 
 	// marker type id to its direct subtypes
-	private final Map<String, List<MarkerType>> subtypes = new HashMap<>();
+	private final Map<String, List<MarkerType>> subtypes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Creates a new marker types model.
 	 */
 	private MarkerTypesModel() {
 		types = readTypes();
-		for (MarkerType type : types.values()) {
-			for (String supertypeId : type.getSupertypeIds()) {
-				subtypes.computeIfAbsent(supertypeId, unused -> new ArrayList<>()).add(type);
+		for (MarkerType type : types.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String supertypeId : type.getSupertypeIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				subtypes.computeIfAbsent(supertypeId, unused -> new ArrayList<>()).add(type); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 		}
 	}
@@ -109,22 +109,22 @@ public class MarkerTypesModel {
 	/**
 	 * Reads the marker types from the registry.
 	 */
-	private HashMap<String, MarkerType> readTypes() {
-		HashMap<String, MarkerType> result = new HashMap<>();
+	private HashMap<String, MarkerType> readTypes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashMap<String, MarkerType> result = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(ResourcesPlugin.PI_RESOURCES,
 				ResourcesPlugin.PT_MARKERS);
 		if (point != null) {
 			// Gather all registered marker types.
-			for (IExtension ext : point.getExtensions()) {
+			for (IExtension ext : point.getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = ext.getUniqueIdentifier();
 				String label = ext.getLabel();
 				if (label.isEmpty()) {
 					label = getWellKnownLabel(id);
 				}
-				ArrayList<String> supersList = new ArrayList<>();
+				ArrayList<String> supersList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				IConfigurationElement[] configElements = ext.getConfigurationElements();
-				for (IConfigurationElement configElement : configElements) {
+				for (IConfigurationElement configElement : configElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (configElement.getName().equalsIgnoreCase("super")) {//$NON-NLS-1$
 						String sup = configElement.getAttribute("type");//$NON-NLS-1$
 						if (sup != null) {

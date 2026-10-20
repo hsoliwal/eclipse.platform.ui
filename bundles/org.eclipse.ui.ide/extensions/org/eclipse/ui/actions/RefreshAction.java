@@ -66,12 +66,12 @@ import org.eclipse.ui.internal.ide.dialogs.IDEResourceInfoUtils;
  * resource</li>
  * </ul>
  */
-public class RefreshAction extends WorkspaceAction {
+public class RefreshAction extends WorkspaceAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID + ".RefreshAction";//$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".RefreshAction";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Creates a new action.
@@ -110,7 +110,7 @@ public class RefreshAction extends WorkspaceAction {
 	 * Checks whether the given project's location has been deleted. If so,
 	 * prompts the user with whether to delete the project or not.
 	 */
-	void checkLocationDeleted(IProject project) throws CoreException {
+	void checkLocationDeleted(IProject project) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!project.exists()) {
 			return;
 		}
@@ -137,7 +137,7 @@ public class RefreshAction extends WorkspaceAction {
 
 			// Must prompt user in UI thread (we're in the operation thread
 			// here).
-			getShell().getDisplay().syncExec(dialog::open);
+			getShell().getDisplay().syncExec(dialog::open); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 			// Do the deletion back in the operation thread
 			if (dialog.getReturnCode() == 0) { // yes was chosen
@@ -174,7 +174,7 @@ public class RefreshAction extends WorkspaceAction {
 	protected List<? extends IResource> getSelectedResources() {
 		List<? extends IResource> resources = super.getSelectedResources();
 		if (resources.isEmpty()) {
-			List<IResource> list = new ArrayList<>();
+			List<IResource> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			list.add(ResourcesPlugin.getWorkspace().getRoot());
 			return list;
 		}
@@ -214,29 +214,29 @@ public class RefreshAction extends WorkspaceAction {
 		selectionChanged(currentSelection);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	final protected IRunnableWithProgress createOperation(final IStatus[] errorStatus) {
 		ISchedulingRule rule = null;
 		IResourceRuleFactory factory = ResourcesPlugin.getWorkspace().getRuleFactory();
 
-		List<? extends IResource> actionResources = new ArrayList<>(getActionResources());
+		List<? extends IResource> actionResources = new ArrayList<>(getActionResources()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (shouldPerformResourcePruning()) {
 			actionResources = pruneResources(actionResources);
 		}
 		final List<? extends IResource> resources = actionResources;
 
 		Iterator<? extends IResource> res = resources.iterator();
-		while (res.hasNext()) {
+		while (res.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rule = MultiRule.combine(rule, factory.refreshRule(res.next()));
 		}
-		return new WorkspaceModifyOperation(rule) {
+		return new WorkspaceModifyOperation(rule) { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public void execute(IProgressMonitor mon) {
 				SubMonitor subMonitor = SubMonitor.convert(mon, resources.size());
 				MultiStatus errors = null;
 				subMonitor.setTaskName(getOperationMessage());
 				Iterator<? extends IResource> resourcesEnum = resources.iterator();
-				while (resourcesEnum.hasNext()) {
+				while (resourcesEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						IResource resource = resourcesEnum.next();
 						refreshResource(resource, subMonitor.split(1));
@@ -275,19 +275,19 @@ public class RefreshAction extends WorkspaceAction {
 			checkLocationDeleted((IProject) resource);
 		} else if (resource.getType() == IResource.ROOT) {
 			IProject[] projects = ((IWorkspaceRoot) resource).getProjects();
-			for (IProject project : projects) {
+			for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkLocationDeleted(project);
 			}
 		}
 		resource.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		final IStatus[] errorStatus = new IStatus[1];
 		errorStatus[0] = Status.OK_STATUS;
 		final WorkspaceModifyOperation op = (WorkspaceModifyOperation) createOperation(errorStatus);
-		WorkspaceJob job = new WorkspaceJob("refresh") { //$NON-NLS-1$
+		WorkspaceJob job = new WorkspaceJob("refresh") { //$NON-NLS-1$ //FLLDCIM: MARK — T09  ANONYMOUS
 
 			@Override
 			public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {

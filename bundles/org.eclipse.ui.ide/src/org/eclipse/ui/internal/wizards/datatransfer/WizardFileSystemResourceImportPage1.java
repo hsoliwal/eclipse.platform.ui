@@ -189,7 +189,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 * @param defaultButton <code>true</code> if the button is to be the
 	 *   default button, and <code>false</code> otherwise
 	 */
-	protected Button createButton(Composite parent, int id, String label,
+	protected Button createButton(Composite parent, int id, String label, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean defaultButton) {
 		// increment the number of columns in the button bar
 		((GridLayout) parent.getLayout()).numColumns++;
@@ -219,7 +219,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 *
 	 * @param parent the parent control
 	 */
-	protected final void createButtonsGroup(Composite parent) {
+	protected final void createButtonsGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// top level group
 		Composite buttonComposite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -240,7 +240,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 				handleTypesEditButtonPressed();
 			}
 		};
-		selectTypesButton.addSelectionListener(listener);
+		selectTypesButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		setButtonLayoutData(selectTypesButton);
 
 		selectAllButton = createButton(buttonComposite,
@@ -253,7 +253,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 				updateWidgetEnablements();
 			}
 		};
-		selectAllButton.addSelectionListener(listener);
+		selectAllButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		setButtonLayoutData(selectAllButton);
 
 		deselectAllButton = createButton(buttonComposite,
@@ -266,7 +266,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 				updateWidgetEnablements();
 			}
 		};
-		deselectAllButton.addSelectionListener(listener);
+		deselectAllButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		setButtonLayoutData(deselectAllButton);
 
 	}
@@ -282,7 +282,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	/**
 	 *	Create the import options specification widgets.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createOptionsGroupButtons(Group optionsGroup) {
 
 		// overwrite... checkbox
@@ -295,7 +295,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		createTopLevelFolderCheckbox.setFont(optionsGroup.getFont());
 		createTopLevelFolderCheckbox.setText(DataTransferMessages.FileImport_createTopLevel);
 		createTopLevelFolderCheckbox.setSelection(false);
-		createTopLevelFolderCheckbox.addSelectionListener(new SelectionAdapter() {
+		createTopLevelFolderCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateWidgetEnablements();
@@ -310,7 +310,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 			GridData data= setButtonLayoutData(advancedButton);
 			data.horizontalAlignment= GridData.BEGINNING;
 			advancedButton.setLayoutData(data);
-			advancedButton.addSelectionListener(new SelectionAdapter() {
+			advancedButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleAdvancedButtonSelect();
@@ -320,7 +320,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		updateWidgetEnablements();
 	}
 
-	private Composite createAdvancedSection(Composite parent) {
+	private Composite createAdvancedSection(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite compositeForSection= new Composite(parent, SWT.NONE);
 		compositeForSection.setFont(parent.getFont());
 		compositeForSection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -336,7 +336,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		createLinksInWorkspaceButton.setText(DataTransferMessages.FileImport_createLinksInWorkspace);
 		createLinksInWorkspaceButton.setSelection(false);
 
-		createLinksInWorkspaceButton.addSelectionListener(new SelectionAdapter() {
+		createLinksInWorkspaceButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateWidgetEnablements();
@@ -354,7 +354,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		createVirtualFoldersButton.setToolTipText(DataTransferMessages.FileImport_createVirtualFoldersTooltip);
 		createVirtualFoldersButton.setSelection(false);
 
-		createVirtualFoldersButton.addSelectionListener(new SelectionAdapter() {
+		createVirtualFoldersButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateWidgetEnablements();
@@ -417,7 +417,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 *
 	 * @since 3.6
 	 */
-	private void handleAdvancedButtonSelect() {
+	private void handleAdvancedButtonSelect() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell= getShell();
 		Point shellSize= shell.getSize();
 		Composite composite= (Composite)getControl();
@@ -446,7 +446,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	/**
 	 *	Create the group for creating the root directory
 	 */
-	protected void createRootDirectoryGroup(Composite parent) {
+	protected void createRootDirectoryGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite sourceContainerGroup = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
@@ -468,14 +468,14 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		sourceNameField.setFont(parent.getFont());
 		BidiUtils.applyBidiProcessing(sourceNameField, StructuredTextTypeHandlerFactory.FILE);
 
-		sourceNameField.addSelectionListener(new SelectionAdapter() {
+		sourceNameField.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateFromSourceField();
 			}
 		});
 
-		sourceNameField.addKeyListener(new KeyListener() {
+		sourceNameField.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			/*
 			 * @see KeyListener.keyPressed
 			 */
@@ -495,9 +495,9 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 			}
 		});
 
-		sourceNameField.addModifyListener(unused -> entryChanged = true);
+		sourceNameField.addModifyListener(unused -> entryChanged = true); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
-		sourceNameField.addFocusListener(new FocusListener() {
+		sourceNameField.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 			/*
 			 * @see FocusListener.focusGained(FocusEvent)
 			 */
@@ -523,7 +523,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		// source browse button
 		sourceBrowseButton = new Button(sourceContainerGroup, SWT.PUSH);
 		sourceBrowseButton.setText(DataTransferMessages.DataTransfer_browse);
-		sourceBrowseButton.addListener(SWT.Selection, this);
+		sourceBrowseButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		sourceBrowseButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL));
 		sourceBrowseButton.setFont(parent.getFont());
@@ -554,7 +554,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 * file system object merits one.  The criteria for this are:
 	 * Also create the children.
 	 */
-	protected MinimizedFileSystemElement createRootElement(
+	protected MinimizedFileSystemElement createRootElement( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object fileSystemObject, IImportStructureProvider provider) {
 		boolean isContainer = provider.isFolder(fileSystemObject);
 		String elementLabel = provider.getLabel(fileSystemObject);
@@ -610,7 +610,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	/**
 	 *	Execute the passed import operation.  Answer a boolean indicating success.
 	 */
-	protected boolean executeImportOperation(ImportOperation op) {
+	protected boolean executeImportOperation(ImportOperation op) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		initializeOperation(op);
 
 		try {
@@ -641,7 +641,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 *
 	 * @return boolean
 	 */
-	public boolean finish() {
+	public boolean finish() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!ensureSourceIsValid()) {
 			return false;
 		}
@@ -649,8 +649,8 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		saveWidgetValues();
 
 		Iterator<?> resourcesEnum = getSelectedResources().iterator();
-		List<Object> fileSystemObjects = new ArrayList<>();
-		while (resourcesEnum.hasNext()) {
+		List<Object> fileSystemObjects = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (resourcesEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fileSystemObjects.add(((FileSystemElement) resourcesEnum.next())
 					.getFileSystemObject());
 		}
@@ -672,7 +672,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 */
 	@Override
 	protected ITreeContentProvider getFileProvider() {
-		return new WorkbenchContentProvider() {
+		return new WorkbenchContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getChildren(Object o) {
 				if (o instanceof MinimizedFileSystemElement element) {
@@ -705,9 +705,9 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 * Returns a content provider for <code>FileSystemElement</code>s that returns
 	 * only folders as children.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ITreeContentProvider getFolderProvider() {
-		return new WorkbenchContentProvider() {
+		return new WorkbenchContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getChildren(Object o) {
 				if (o instanceof MinimizedFileSystemElement element) {
@@ -807,7 +807,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 *	Open an appropriate source browser so that the user can specify a source
 	 *	to import from
 	 */
-	protected void handleSourceBrowseButtonPressed() {
+	protected void handleSourceBrowseButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String currentSource = this.sourceNameField.getText();
 		DirectoryDialog dialog = new DirectoryDialog(
@@ -844,7 +844,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	/**
 	 *  Import the resources with extensions as specified by the user
 	 */
-	protected boolean importResources(List<Object> fileSystemObjects) {
+	protected boolean importResources(List<Object> fileSystemObjects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImportOperation operation;
 
 		boolean shouldImportTopLevelFoldersRecursively = selectionGroup.isEveryItemChecked() &&
@@ -921,7 +921,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 		}
 
 		Iterator<Object> itr = selectedTypes.iterator();
-		while (itr.hasNext()) {
+		while (itr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (extension.equalsIgnoreCase((String) itr.next())) {
 				return true;
 			}
@@ -933,7 +933,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	/**
 	 *	Repopulate the view based on the currently entered directory.
 	 */
-	protected void resetSelection() {
+	protected void resetSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		MinimizedFileSystemElement currentRoot = getFileSystemTree();
 		this.selectionGroup.setRoot(currentRoot);
@@ -959,7 +959,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 *	Use the dialog store to restore widget values to the values that they held
 	 *	last time this wizard was used to completion
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void restoreWidgetValues() {
 		IDialogSettings settings = getDialogSettings();
 		if (settings != null) {
@@ -969,7 +969,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 			}
 
 			// set filenames history
-			for (String sourceName : sourceNames) {
+			for (String sourceName : sourceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				sourceNameField.add(sourceName);
 			}
 
@@ -1007,7 +1007,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 * 	Since Finish was pressed, write widget values to the dialog store so that they
 	 *	will persist into the next invocation of this wizard page
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void saveWidgetValues() {
 		IDialogSettings settings = getDialogSettings();
 		if (settings != null) {
@@ -1077,14 +1077,14 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 *
 	 * @param path the path to be added
 	 */
-	protected void setSourceName(String path) {
+	protected void setSourceName(String path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (path.length() > 0) {
 
 			this.currentSourceName = path;
 			String[] currentItems = this.sourceNameField.getItems();
 			int selectionIndex = -1;
-			for (int i = 0; i < currentItems.length; i++) {
+			for (int i = 0; i < currentItems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (currentItems[i].equals(path)) {
 					selectionIndex = i;
 				}
@@ -1106,7 +1106,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	/**
 	 * Update the tree to only select those elements that match the selected types
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setupSelectionsBasedOnSelectedTypes() {
 		ProgressMonitorDialog dialog = new ProgressMonitorJobsDialog(
 				getContainer().getShell());
@@ -1121,7 +1121,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 					throw new InterruptedException();
 				}
 				Iterator<?> filesList = files.iterator();
-				while (filesList.hasNext()) {
+				while (filesList.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (monitor.isCanceled()) {
 						throw new InterruptedException();
 					}
@@ -1135,7 +1135,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 				if (files == null) {
 					throw new InterruptedException();
 				}
-				for (Object file : files) {
+				for (Object file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (monitor.isCanceled()) {
 						throw new InterruptedException();
 					}
@@ -1146,7 +1146,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 			private void checkFile(Object fileElement) {
 				MinimizedFileSystemElement file = (MinimizedFileSystemElement) fileElement;
 				if (isExportableExtension(file.getFileNameExtension())) {
-					List<Object> elements = new ArrayList<>();
+					List<Object> elements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					FileSystemElement parent = file.getParent();
 					if (selectionMap.containsKey(parent)) {
 						elements = selectionMap.get(parent);
@@ -1158,7 +1158,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 
 		};
 
-		IRunnableWithProgress runnable = monitor -> {
+		IRunnableWithProgress runnable = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			monitor
 			.beginTask(
 					DataTransferMessages.ImportPage_filterSelections, IProgressMonitor.UNKNOWN);
@@ -1207,7 +1207,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 * Check if widgets are enabled or disabled by a change in the dialog.
 	 * Provided here to give access to inner classes.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateWidgetEnablements() {
 		super.updateWidgetEnablements();
 		enableButtonGroup(ensureSourceIsValid());
@@ -1234,7 +1234,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 *	Answer a boolean indicating whether self's source specification
 	 *	widgets currently all contain valid values.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean validateSourceGroup() {
 		File sourceDirectory = getSourceDirectory();
 		if (sourceDirectory == null) {

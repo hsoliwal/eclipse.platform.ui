@@ -40,7 +40,7 @@ public class ContentTypeDecorator implements ILightweightLabelDecorator {
 
 	private boolean fHasEditorAssociationOverrides;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void decorate(Object element, IDecoration decoration) {
 		if (!(element instanceof IFile)) {
 			return;

@@ -55,7 +55,7 @@ public final class ResourceUtil {
 	 * @param editorInput the editor input, or <code>null</code>
 	 * @return the file corresponding to the editor input, or <code>null</code>
 	 */
-	public static IFile getFile(IEditorInput editorInput) {
+	public static IFile getFile(IEditorInput editorInput) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Note: do not treat IFileEditorInput as a special case.  Use the adapter mechanism instead.
 		// See Bug 87288 [IDE] [EditorMgmt] Should avoid explicit checks for [I]FileEditorInput
 		IFile file = Adapters.adapt(editorInput, IFile.class);
@@ -109,7 +109,7 @@ public final class ResourceUtil {
 	 * @param file the file
 	 * @return the matching editor, or <code>null</code>
 	 */
-	public static IEditorPart findEditor(IWorkbenchPage page, IFile file) {
+	public static IEditorPart findEditor(IWorkbenchPage page, IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// handle the common case where the editor input is a FileEditorInput
 		IEditorPart editor = page.findEditor(new FileEditorInput(file));
 		if (editor != null) {
@@ -117,7 +117,7 @@ public final class ResourceUtil {
 		}
 		// check for editors that have their own kind of input that adapts to IFile,
 		// being careful not to force loading of the editor
-		for (IEditorReference ref : page.getEditorReferences()) {
+		for (IEditorReference ref : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart part = ref.getEditor(false);
 			if (part != null) {
 				IFile editorFile = getFile(part.getEditorInput());
@@ -149,7 +149,7 @@ public final class ResourceUtil {
 	 * @return the resource corresponding to the model element, or <code>null</code>
 	 * @since 3.2
 	 */
-	public static IFile getFile(Object element) {
+	public static IFile getFile(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null) {
 			return null;
 		}
@@ -215,7 +215,7 @@ public final class ResourceUtil {
 	 * @param mapping the resource mapping
 	 * @return the resource, or <code>null</code>
 	 */
-	private static IResource getResourceFromResourceMapping(ResourceMapping mapping) {
+	private static IResource getResourceFromResourceMapping(ResourceMapping mapping) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ResourceTraversal[] traversals = mapping.getTraversals(null, null);
 			if (traversals.length != 1) {

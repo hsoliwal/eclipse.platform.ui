@@ -130,7 +130,7 @@ public class ProjectContentsLocationArea {
 	/**
 	 * Create the contents of the receiver.
 	 */
-	private void createContents(Composite composite, boolean defaultEnabled) {
+	private void createContents(Composite composite, boolean defaultEnabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int columns = 4;
 
@@ -151,7 +151,7 @@ public class ProjectContentsLocationArea {
 
 		createUserEntryArea(projectGroup, defaultEnabled);
 
-		useDefaultsButton.addSelectionListener(new SelectionAdapter() {
+		useDefaultsButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean useDefaults = useDefaultsButton.getSelection();
@@ -185,7 +185,7 @@ public class ProjectContentsLocationArea {
 	/**
 	 * Create the area for user entry.
 	 */
-	private void createUserEntryArea(Composite composite, boolean defaultEnabled) {
+	private void createUserEntryArea(Composite composite, boolean defaultEnabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// location label
 		locationLabel = new Label(composite, SWT.NONE);
 		locationLabel.setText(IDEWorkbenchMessages.ProjectLocationSelectionDialog_locationLabel);
@@ -200,7 +200,7 @@ public class ProjectContentsLocationArea {
 		// browse button
 		browseButton = new Button(composite, SWT.PUSH);
 		browseButton.setText(BROWSE_LABEL);
-		browseButton.addSelectionListener(new SelectionAdapter() {
+		browseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleLocationBrowseButtonPressed();
@@ -218,7 +218,7 @@ public class ProjectContentsLocationArea {
 					.getLocation().toOSString()));
 		}
 
-		locationPathField.addModifyListener(unused -> errorReporter.reportError(checkValidLocation(), false));
+		locationPathField.addModifyListener(unused -> errorReporter.reportError(checkValidLocation(), false)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class ProjectContentsLocationArea {
 	/**
 	 * Open an appropriate directory browser
 	 */
-	private void handleLocationBrowseButtonPressed() {
+	private void handleLocationBrowseButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String selectedDirectory = null;
 		String dirName = getPathFromLocationField();
@@ -370,7 +370,7 @@ public class ProjectContentsLocationArea {
 	 *
 	 * @return String
 	 */
-	public String checkValidLocation() {
+	public String checkValidLocation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String locationFieldContents = locationPathField.getText();
 		if (locationFieldContents.isEmpty()) {

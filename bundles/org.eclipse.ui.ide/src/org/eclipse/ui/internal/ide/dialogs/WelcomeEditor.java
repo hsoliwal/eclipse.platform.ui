@@ -83,9 +83,9 @@ public class WelcomeEditor extends EditorPart {
 
 	private WelcomeParser parser;
 
-	private final ArrayList<StyleRange> hyperlinkRanges = new ArrayList<>();
+	private final ArrayList<StyleRange> hyperlinkRanges = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final ArrayList<StyledText> texts = new ArrayList<>();
+	private final ArrayList<StyledText> texts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private ScrolledComposite scrolledComposite;
 
@@ -183,7 +183,7 @@ public class WelcomeEditor extends EditorPart {
 		WelcomeItem item = (WelcomeItem) text.getData();
 		int currentSelectionEnd = text.getSelection().y;
 
-		for (StyleRange range : text.getStyleRanges()) {
+		for (StyleRange range : text.getStyleRanges()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (range.start >= currentSelectionEnd) {
 				if (item.isLinkAt(range.start)) {
 					return range;
@@ -196,7 +196,7 @@ public class WelcomeEditor extends EditorPart {
 	/**
 	 * Finds the previous link before the current selection.
 	 */
-	private StyleRange findPreviousLink(StyledText text) {
+	private StyleRange findPreviousLink(StyledText text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (text == null) {
 			return null;
 		}
@@ -205,7 +205,7 @@ public class WelcomeEditor extends EditorPart {
 		StyleRange[] ranges = text.getStyleRanges();
 		int currentSelectionStart = text.getSelection().x;
 
-		for (int i = ranges.length - 1; i > -1; i--) {
+		for (int i = ranges.length - 1; i > -1; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((ranges[i].start + ranges[i].length) < currentSelectionStart) {
 				if (item.isLinkAt(ranges[i].start + ranges[i].length - 1)) {
 					return ranges[i];
@@ -222,7 +222,7 @@ public class WelcomeEditor extends EditorPart {
 		int currentSelectionEnd = text.getSelection().y;
 		int currentSelectionStart = text.getSelection().x;
 
-		for (StyleRange range : text.getStyleRanges()) {
+		for (StyleRange range : text.getStyleRanges()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((currentSelectionStart >= range.start)
 					&& (currentSelectionEnd <= (range.start + range.length))) {
 				return range;
@@ -234,10 +234,10 @@ public class WelcomeEditor extends EditorPart {
 	/**
 	 * Adds listeners to the given styled text
 	 */
-	private void addListeners(StyledText styledText) {
+	private void addListeners(StyledText styledText) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Cursor handCursor = styledText.getDisplay().getSystemCursor(SWT.CURSOR_HAND);
 		Cursor busyCursor = styledText.getDisplay().getSystemCursor(SWT.CURSOR_WAIT);
-		styledText.addMouseListener(new MouseAdapter() {
+		styledText.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDown(MouseEvent e) {
 				if (e.button != 1) {
@@ -246,7 +246,7 @@ public class WelcomeEditor extends EditorPart {
 				mouseDown = true;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void mouseUp(MouseEvent e) {
 				mouseDown = false;
 				StyledText text = (StyledText) e.widget;
@@ -270,7 +270,7 @@ public class WelcomeEditor extends EditorPart {
 			}
 		});
 
-		styledText.addMouseMoveListener(e -> {
+		styledText.addMouseMoveListener(e -> { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			// Do not change cursor on drag events
 			if (mouseDown) {
 				if (!dragEvent) {
@@ -292,7 +292,7 @@ public class WelcomeEditor extends EditorPart {
 			}
 		});
 
-		styledText.addTraverseListener(e -> {
+		styledText.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			StyledText text = (StyledText) e.widget;
 
 			switch (e.detail) {
@@ -382,13 +382,13 @@ public class WelcomeEditor extends EditorPart {
 			}
 		});
 
-		styledText.addKeyListener(new KeyListener() {
+		styledText.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyReleased(KeyEvent e) {
 				//Ignore a key release
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent event) {
 				StyledText text = (StyledText) event.widget;
 				if (event.character == ' ' || event.character == SWT.CR) {
@@ -428,7 +428,7 @@ public class WelcomeEditor extends EditorPart {
 			}
 		});
 
-		styledText.addFocusListener(new FocusAdapter() {
+		styledText.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(FocusEvent e) {
 				// Remember current text widget
@@ -451,7 +451,7 @@ public class WelcomeEditor extends EditorPart {
 			}
 		});
 
-		styledText.addSelectionListener(new SelectionAdapter() {
+		styledText.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// enable/disable copy action
@@ -467,7 +467,7 @@ public class WelcomeEditor extends EditorPart {
 	 * @param parent the SWT parent for the title area composite
 	 * @return the created info area composite
 	 */
-	private Composite createInfoArea(Composite parent) {
+	private Composite createInfoArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create the title area which will contain
 		// a title, message, and image.
 		this.scrolledComposite = new ScrolledComposite(parent, SWT.V_SCROLL
@@ -526,7 +526,7 @@ public class WelcomeEditor extends EditorPart {
 
 		// Create the welcome items
 		Label imageLabel = null;
-		for (WelcomeItem welcomeItem : getItems()) {
+		for (WelcomeItem welcomeItem : getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Label label = new Label(infoArea, SWT.NONE);
 			label.setBackground(background);
 			label.setImage(PlatformUI.getWorkbench().getSharedImages()
@@ -589,14 +589,14 @@ public class WelcomeEditor extends EditorPart {
 			final int adjust = HINDENT + bounds.width + layout.verticalSpacing
 					+ (layout.marginWidth * 2);
 			final int adjustFirst = HINDENT + (layout.marginWidth * 2);
-			infoArea.addListener(SWT.Resize, unused -> {
+			infoArea.addListener(SWT.Resize, unused -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				int w = scrolledComposite.getClientArea().width;
 				// if the horizontal scroll bar exists, we want to wrap to the
 				// minimum wrap width
 				if (w < WRAP_MIN_WIDTH) {
 					w = WRAP_MIN_WIDTH;
 				}
-				for (int i = 0; i < texts.size(); i++) {
+				for (int i = 0; i < texts.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int extent;
 					if (i == 0) {
 						extent = w - adjustFirst;
@@ -652,7 +652,7 @@ public class WelcomeEditor extends EditorPart {
 	 *
 	 * @param parent the parent control
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 		// read our contents
 		readFile();
@@ -680,12 +680,12 @@ public class WelcomeEditor extends EditorPart {
 		getSite().getWorkbenchWindow().getWorkbench().getHelpSystem().setHelp(
 				editorComposite, IIDEHelpContextIds.WELCOME_EDITOR);
 
-		this.colorListener = event -> {
+		this.colorListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (event.getProperty()
 					.equals(JFacePreferences.HYPERLINK_COLOR)) {
 				Color fg = JFaceColors.getHyperlinkText(editorComposite
 						.getDisplay());
-				for (StyleRange range : hyperlinkRanges) {
+				for (StyleRange range : hyperlinkRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					range.foreground = fg;
 				}
 			}
@@ -702,7 +702,7 @@ public class WelcomeEditor extends EditorPart {
 	 * @param parent the SWT parent for the title area composite
 	 * @return the created title area composite
 	 */
-	private Composite createTitleArea(Composite parent) {
+	private Composite createTitleArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get the background color for the title area
 		Display display = parent.getDisplay();
 		Color background = JFaceColors.getBannerBackground(display);
@@ -723,7 +723,7 @@ public class WelcomeEditor extends EditorPart {
 
 		// Message label
 		final CLabel messageLabel = new CLabel(titleArea, SWT.LEFT) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected String shortenText(GC gc, String text, int width) {
 				if (gc.textExtent(text, SWT.DRAW_MNEMONIC).x <= width) {
 					return text;
@@ -732,30 +732,30 @@ public class WelcomeEditor extends EditorPart {
 				int ellipseWidth = gc.textExtent(ellipsis, SWT.DRAW_MNEMONIC).x;
 				int length = text.length();
 				int end = length - 1;
-				while (end > 0) {
+				while (end > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					text = text.substring(0, end);
 					int l1 = gc.textExtent(text, SWT.DRAW_MNEMONIC).x;
 					if (l1 + ellipseWidth <= width) {
-						return text + ellipsis;
+						return text + ellipsis; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					end--;
 				}
-				return text + ellipsis;
+				return text + ellipsis; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		};
 		JFaceColors.setColors(messageLabel, foreground, background);
 		messageLabel.setText(getBannerTitle());
 		messageLabel.setFont(JFaceResources.getHeaderFont());
 
-		final IPropertyChangeListener fontListener = event -> {
+		final IPropertyChangeListener fontListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (JFaceResources.HEADER_FONT.equals(event.getProperty())) {
 				messageLabel.setFont(JFaceResources.getHeaderFont());
 			}
 		};
 
-		messageLabel.addDisposeListener(unused -> JFaceResources.getFontRegistry().removeListener(fontListener));
+		messageLabel.addDisposeListener(unused -> JFaceResources.getFontRegistry().removeListener(fontListener)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
-		JFaceResources.getFontRegistry().addListener(fontListener);
+		JFaceResources.getFontRegistry().addListener(fontListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		messageLabel.setLayoutData(gd);
@@ -923,7 +923,7 @@ public class WelcomeEditor extends EditorPart {
 	/**
 	 * Reads the welcome file
 	 */
-	public void readFile() {
+	public void readFile() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		URL url = ((WelcomeEditorInput) getEditorInput()).getAboutInfo()
 				.getWelcomePageURL();
 
@@ -954,7 +954,7 @@ public class WelcomeEditor extends EditorPart {
 	 * Sets the styled text's bold ranges
 	 */
 	private void setBoldRanges(StyledText styledText, int[][] boldRanges) {
-		for (int[] boldRange : boldRanges) {
+		for (int[] boldRange : boldRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StyleRange r = new StyleRange(boldRange[0], boldRange[1], null, null, SWT.BOLD);
 			styledText.setStyleRange(r);
 		}
@@ -982,7 +982,7 @@ public class WelcomeEditor extends EditorPart {
 		//Color fg = styledText.getDisplay().getSystemColor(SWT.COLOR_BLUE);
 		Color fg = JFaceColors.getHyperlinkText(styledText.getShell()
 				.getDisplay());
-		for (int[] linkRange : linkRanges) {
+		for (int[] linkRange : linkRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StyleRange r = new StyleRange(linkRange[0], linkRange[1],
 					fg, null);
 			styledText.setStyleRange(r);

@@ -268,7 +268,7 @@ public class ExtendedMarkersView extends ViewPart {
 		}
 
 		MarkerSupportItem[] children = markerItem.getChildren();
-		for (MarkerSupportItem element : children) {
+		for (MarkerSupportItem element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addAllConcreteItems(element, allMarkers);
 		}
 
@@ -293,7 +293,7 @@ public class ExtendedMarkersView extends ViewPart {
 			allMarkers.add(markerItem.getMarker());
 		}
 		MarkerSupportItem[] children = markerItem.getChildren();
-		for (MarkerSupportItem element : children) {
+		for (MarkerSupportItem element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addMarkers(element, allMarkers);
 
 		}
@@ -303,7 +303,7 @@ public class ExtendedMarkersView extends ViewPart {
 	/**
 	 * Create the columns for the receiver.
 	 */
-	private void createViewer(Composite parent) {
+	private void createViewer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		parent.setLayout(new FillLayout());
 
 		filteredTree = new MarkersFilteredTree(parent,
@@ -323,7 +323,7 @@ public class ExtendedMarkersView extends ViewPart {
 		 * Workaround for TeeColumn.getWidth() returning 0 in some cases, see
 		 * https://bugs.eclipse.org/341865 for details.
 		 */
-		viewer.getTree().addPaintListener(new PaintListener() {
+		viewer.getTree().addPaintListener(new PaintListener() { //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 			@Override
 			public void paintControl(PaintEvent e) {
 				treePainted= true;
@@ -338,14 +338,14 @@ public class ExtendedMarkersView extends ViewPart {
 	 * @param currentColumns
 	 *            the columns to refresh
 	 */
-	private void createColumns(TreeColumn[] currentColumns, int[] widths) {
+	private void createColumns(TreeColumn[] currentColumns, int[] widths) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Tree tree = viewer.getTree();
 		TableLayout layout = new TableLayout();
 
 		MarkerField[] fields = generator.getVisibleFields();
 
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerField markerField = fields[i];
 			TreeViewerColumn column = null;
 			if (i < currentColumns.length) {
@@ -354,12 +354,12 @@ public class ExtendedMarkersView extends ViewPart {
 				column = new TreeViewerColumn(viewer, SWT.NONE);
 				column.getColumn().setResizable(true);
 				column.getColumn().setMoveable(true);
-				column.getColumn().addSelectionListener(getHeaderListener());
+				column.getColumn().addSelectionListener(getHeaderListener()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			}
 
 			column.getColumn().setData(MARKER_FIELD, markerField);
 			// Show the help in the first column
-			column.setLabelProvider(new MarkerColumnLabelProvider(markerField));
+			column.setLabelProvider(new MarkerColumnLabelProvider(markerField)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			column.getColumn().setText(markerField.getColumnHeaderText());
 			column.getColumn().setToolTipText(
 					markerField.getColumnTooltipText());
@@ -400,7 +400,7 @@ public class ExtendedMarkersView extends ViewPart {
 
 		// Remove extra columns
 		if (currentColumns.length > fields.length) {
-			for (int i = fields.length; i < currentColumns.length; i++) {
+			for (int i = fields.length; i < currentColumns.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				currentColumns[i].dispose();
 			}
 		}
@@ -432,12 +432,12 @@ public class ExtendedMarkersView extends ViewPart {
 	 *
 	 * @return desired width for the column representing markerField
 	 */
-	int getFieldWidth(MarkerField markerField, int preferredWidth, boolean considerUIWidths) {
+	int getFieldWidth(MarkerField markerField, int preferredWidth, boolean considerUIWidths) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Tree tree = getViewer().getTree();
 
 		if (considerUIWidths) {
 			TreeColumn[] columns= tree.getColumns();
-			for (TreeColumn column : columns) {
+			for (TreeColumn column : columns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (markerField.equals(column.getData(MARKER_FIELD))) {
 					return column.getWidth();
 				}
@@ -468,7 +468,7 @@ public class ExtendedMarkersView extends ViewPart {
 		return preferredWidth;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 
 		createViewer(parent);
@@ -507,7 +507,7 @@ public class ExtendedMarkersView extends ViewPart {
 	}
 
 	private void startView() {
-		viewer.setInput(builder.getMarkers());
+		viewer.setInput(builder.getMarkers()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		//always use a clone for Thread safety
 		IContentProvider contentProvider = viewer.getContentProvider();
 		Markers clone = createViewerInputClone();
@@ -523,7 +523,7 @@ public class ExtendedMarkersView extends ViewPart {
 	 * @since 3.8
 	 */
 	private void addDoubleClickListener() {
-		viewer.addDoubleClickListener(event -> {
+		viewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			ISelection selection = event.getSelection();
 			if(selection instanceof ITreeSelection ss) {
 				if(ss.size() == 1) {
@@ -548,7 +548,7 @@ public class ExtendedMarkersView extends ViewPart {
 	}
 
 	private void addSelectionListener() {
-		viewer.addSelectionChangedListener(event -> {
+		viewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			ISelection selection = event.getSelection();
 			if (selection instanceof IStructuredSelection){
 				updateStatusLine((IStructuredSelection)selection);
@@ -558,7 +558,7 @@ public class ExtendedMarkersView extends ViewPart {
 
 	private void addHelpListener() {
 		// Set help on the view itself
-		viewer.getControl().addHelpListener(unused -> {
+		viewer.getControl().addHelpListener(unused -> { //FLLDCIM: MARK — T14 HELP CALL
 			IContextProvider provider = Adapters.adapt(ExtendedMarkersView.this, IContextProvider.class);
 			if (provider == null) {
 				return;
@@ -570,7 +570,7 @@ public class ExtendedMarkersView extends ViewPart {
 	}
 
 	private void addExpansionListener() {
-		viewer.getTree().addTreeListener(new TreeAdapter() {
+		viewer.getTree().addTreeListener(new TreeAdapter() { //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 			@Override
 			public void treeCollapsed(TreeEvent e) {
 				removeExpandedCategory((MarkerCategory) e.item.getData());
@@ -583,7 +583,7 @@ public class ExtendedMarkersView extends ViewPart {
 		});
 	}
 
-	private void addLinkWithEditorSupport() {
+	private void addLinkWithEditorSupport() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		new OpenAndLinkWithEditorHelper(viewer) {
 			@Override
 			protected void activate(ISelection selection) {
@@ -615,8 +615,8 @@ public class ExtendedMarkersView extends ViewPart {
 	 * @since 3.8
 	 */
 	IMarker[] getOpenableMarkers() {
-		HashSet<IMarker> result = new HashSet<>();
-		for (Object o : viewer.getStructuredSelection()) {
+		HashSet<IMarker> result = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object o : viewer.getStructuredSelection()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof MarkerSupportItem next) {
 				if (next.isConcrete()) {
 					result.add(((MarkerEntry) next).getMarker());
@@ -638,7 +638,7 @@ public class ExtendedMarkersView extends ViewPart {
 		generator.disableAllFilters();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		builder.cancelUpdate();
 		cancelQueuedUpdates();
@@ -672,8 +672,8 @@ public class ExtendedMarkersView extends ViewPart {
 	 */
 	MarkerSupportItem[] getAllConcreteItems() {
 		MarkerSupportItem[] elements =getActiveViewerInputClone().getElements();
-		Collection<MarkerSupportItem> allMarkers = new ArrayList<>();
-		for (MarkerSupportItem element : elements) {
+		Collection<MarkerSupportItem> allMarkers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MarkerSupportItem element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addAllConcreteItems(element, allMarkers);
 		}
 		MarkerSupportItem[] markers = new MarkerSupportItem[allMarkers.size()];
@@ -697,8 +697,8 @@ public class ExtendedMarkersView extends ViewPart {
 	 */
 	IMarker[] getAllMarkers() {
 		MarkerSupportItem[] elements =getActiveViewerInputClone().getElements();
-		Collection<IMarker> allMarkers = new ArrayList<>();
-		for (MarkerSupportItem element : elements) {
+		Collection<IMarker> allMarkers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MarkerSupportItem element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addMarkers(element, allMarkers);
 
 		}
@@ -721,17 +721,17 @@ public class ExtendedMarkersView extends ViewPart {
 	 *
 	 * @return Collection of MarkerCategory.
 	 */
-	Collection<String> getCategoriesToExpand() {
+	Collection<String> getCategoriesToExpand() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (categoriesToExpand == null) {
-			categoriesToExpand = new HashSet<>();
+			categoriesToExpand = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (this.memento != null) {
 				IMemento expanded = this.memento.getChild(TAG_EXPANDED);
 				if (expanded != null) {
 					IMemento[] mementoCategories = expanded.getChildren(TAG_CATEGORY);
 					MarkerCategory[] markerCategories =getActiveViewerInputClone().getCategories();
 					if (markerCategories != null) {
-						for (MarkerCategory markerCategorie : markerCategories) {
-							for (IMemento mementoCategorie : mementoCategories) {
+						for (MarkerCategory markerCategorie : markerCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							for (IMemento mementoCategorie : mementoCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (markerCategorie.getName().equals(mementoCategorie.getID())) {
 									categoriesToExpand.add(markerCategorie.getName());
 								}
@@ -821,8 +821,8 @@ public class ExtendedMarkersView extends ViewPart {
 	 *
 	 * @return IPartListener2
 	 */
-	private IPartListener2 getPartListener() {
-		return new IPartListener2() {
+	private IPartListener2 getPartListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
@@ -893,7 +893,7 @@ public class ExtendedMarkersView extends ViewPart {
 			 */
 			private boolean hasPendingChanges() {
 				boolean[] changeFlags = builder.readChangeFlags();
-				for (boolean b : changeFlags) {
+				for (boolean b : changeFlags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (b) {
 						return true;
 					}
@@ -908,11 +908,11 @@ public class ExtendedMarkersView extends ViewPart {
 	 *
 	 * @return Array of {@link IMarker}
 	 */
-	public IMarker[] getSelectedMarkers() {
+	public IMarker[] getSelectedMarkers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStructuredSelection structured = viewer.getStructuredSelection();
-		final List<IMarker> result = new ArrayList<>(structured.size());
+		final List<IMarker> result = new ArrayList<>(structured.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		MarkerCategory lastCategory = null;
-		for (Iterator<?> i = structured.iterator(); i.hasNext();) {
+		for (Iterator<?> i = structured.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object item = i.next();
 			if (item instanceof MarkerSupportItem next) {
 				if (next.isConcrete()) {
@@ -924,7 +924,7 @@ public class ExtendedMarkersView extends ViewPart {
 					lastCategory = (MarkerCategory) next;
 					final MarkerEntry[] children = (MarkerEntry[]) lastCategory.getChildren();
 
-					for (MarkerEntry element : children) {
+					for (MarkerEntry element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						result.add(element.getMarker());
 					}
 				}
@@ -950,14 +950,14 @@ public class ExtendedMarkersView extends ViewPart {
 	 *            [errors,warnings,infos,others]
 	 * @return String
 	 */
-	private String getStatusMessage(Markers markers, Integer[] counts) {
+	private String getStatusMessage(Markers markers, Integer[] counts) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String status = MarkerSupportInternalUtilities.EMPTY_STRING;
 		int totalCount = CachedMarkerBuilder.getTotalMarkerCount(markers);
 		int filteredCount = 0;
 		MarkerSupportItem[] categories = markers.getCategories();
 		// Categories might be null if building is still happening
 		if (categories != null && builder.isShowingHierarchy()) {
-			for (MarkerSupportItem categorie : categories) {
+			for (MarkerSupportItem categorie : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// the categories cache their counts, which are needed for their
 				// labels anyway
 				filteredCount += categorie instanceof MarkerCategory category ? category.getShownChildrenCount()
@@ -1001,7 +1001,7 @@ public class ExtendedMarkersView extends ViewPart {
 	 * cache the result, see {@link MarkerCategory#getShownChildrenCount()}.
 	 * </p>
 	 */
-	int countMatchingSearchFilter(MarkerSupportItem[] items) {
+	int countMatchingSearchFilter(MarkerSupportItem[] items) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MarkerPatternFilter searchFilter = getSearchFilter();
 		if (searchFilter == null) {
 			// No active text filter: the content provider enforces the marker
@@ -1012,7 +1012,7 @@ public class ExtendedMarkersView extends ViewPart {
 		// then applies the limit to the matching subset, so count all matches
 		// and then apply the same limit to that count.
 		int matching = 0;
-		for (MarkerSupportItem item : items) {
+		for (MarkerSupportItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (searchFilter.matches(item)) {
 				matching++;
 			}
@@ -1097,7 +1097,7 @@ public class ExtendedMarkersView extends ViewPart {
 		return generator.getVisibleFields();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void init(IViewSite site, IMemento m) throws PartInitException {
 		super.init(site, m);
 		ContentGeneratorDescriptor generatorDescriptor = null;
@@ -1129,11 +1129,11 @@ public class ExtendedMarkersView extends ViewPart {
 		// Add in the markers view actions
 
 		menuService.populateContributionManager((ContributionManager) site
-				.getActionBars().getMenuManager(), "menu:" //$NON-NLS-1$
+				.getActionBars().getMenuManager(), "menu:" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ MarkerSupportRegistry.MARKERS_ID);
 		menuService.populateContributionManager((ContributionManager) site
 				.getActionBars().getToolBarManager(),
-				"toolbar:" + MarkerSupportRegistry.MARKERS_ID); //$NON-NLS-1$
+				"toolbar:" + MarkerSupportRegistry.MARKERS_ID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		builder.restoreState(m);
 
@@ -1158,7 +1158,7 @@ public class ExtendedMarkersView extends ViewPart {
 		IViewSite site = (IViewSite) getSite();
 		String viewId = site.getId();
 		if (site.getSecondaryId() != null) {
-			viewId = viewId + site.getSecondaryId();
+			viewId = viewId + site.getSecondaryId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return viewId;
 	}
@@ -1255,7 +1255,7 @@ public class ExtendedMarkersView extends ViewPart {
 
 	protected void openSelectedMarkers() {
 		IMarker[] markers = getOpenableMarkers();
-		for (IMarker marker : markers) {
+		for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPage page = getSite().getPage();
 			openMarkerInEditor(marker, page);
 		}
@@ -1290,7 +1290,7 @@ public class ExtendedMarkersView extends ViewPart {
 		if (!getCategoriesToExpand().isEmpty() && builder.isShowingHierarchy()) {
 			MarkerItem[] items =getActiveViewerInputClone().getElements();
 			IContentProvider provider = viewer.getContentProvider();
-			for (int i = 0; i < items.length; i++) {
+			for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String name = ((MarkerCategory) items[i]).getName();
 				if (getCategoriesToExpand().contains(name)) {
 					if (provider instanceof ILazyTreeContentProvider) {
@@ -1328,7 +1328,7 @@ public class ExtendedMarkersView extends ViewPart {
 		getCategoriesToExpand().remove(category.getName());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveState(IMemento m) {
 		super.saveState(m);
 		if (customPartName != null) {
@@ -1345,14 +1345,14 @@ public class ExtendedMarkersView extends ViewPart {
 		if (!getCategoriesToExpand().isEmpty()) {
 			IMemento expanded = m.createChild(TAG_EXPANDED);
 			Iterator<String> categories = getCategoriesToExpand().iterator();
-			while (categories.hasNext()) {
+			while (categories.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				expanded.createChild(TAG_CATEGORY, categories.next());
 			}
 		}
 		IMemento columnEntry = m.createChild(TAG_COLUMN_WIDTHS);
 		MarkerField[] fields = new MarkerField[viewer.getTree().getColumnCount()];
 		int[] positions = viewer.getTree().getColumnOrder();
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TreeColumn column = viewer.getTree().getColumn(i);
 			MarkerField markerField= (MarkerField)column.getData(MARKER_FIELD);
 
@@ -1396,14 +1396,14 @@ public class ExtendedMarkersView extends ViewPart {
 	 */
 	void setPrimarySortField(MarkerField field) {
 		TreeColumn[] columns = viewer.getTree().getColumns();
-		for (TreeColumn treeColumn : columns) {
+		for (TreeColumn treeColumn : columns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (treeColumn.getData(MARKER_FIELD).equals(field)) {
 				setPrimarySortField(field, treeColumn);
 				return;
 			}
 		}
 		StatusManager.getManager().handle(
-				Status.warning("Sorting by non visible field " //$NON-NLS-1$
+				Status.warning("Sorting by non visible field " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ field.getName()));
 	}
 
@@ -1422,8 +1422,8 @@ public class ExtendedMarkersView extends ViewPart {
 	 * Set the selection of the receiver. reveal the item if reveal is true.
 	 */
 	void setSelection(StructuredSelection structuredSelection, boolean reveal) {
-		List<MarkerItem> newSelection = new ArrayList<>(structuredSelection.size());
-		for (Object next : structuredSelection) {
+		List<MarkerItem> newSelection = new ArrayList<>(structuredSelection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object next : structuredSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (next instanceof IMarker) {
 				MarkerItem marker = builder.getMarkers().getMarkerItem(
 						(IMarker) next);
@@ -1466,7 +1466,7 @@ public class ExtendedMarkersView extends ViewPart {
 	/**
 	 * Update the status line with the new selection
 	 */
-	void updateStatusLine(IStructuredSelection newSelection) {
+	void updateStatusLine(IStructuredSelection newSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String message = null;
 
 		if (newSelection == null || newSelection.isEmpty()) {
@@ -1479,8 +1479,8 @@ public class ExtendedMarkersView extends ViewPart {
 
 		} else {
 			Iterator<?> elements = newSelection.iterator();
-			Collection<MarkerSupportItem> result = new ArrayList<>();
-			while (elements.hasNext()) {
+			Collection<MarkerSupportItem> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			while (elements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (elements.next() instanceof MarkerSupportItem next) {
 					if (next.isConcrete()) {
 						result.add(next);
@@ -1630,7 +1630,7 @@ public class ExtendedMarkersView extends ViewPart {
 	 * view instance.
 	 */
 	private void addShowFilterTextPreferenceListener() {
-		showFilterTextPreferenceListener = event -> {
+		showFilterTextPreferenceListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (IWorkbenchPreferenceConstants.INITIALLY_SHOW_FILTER_TEXT_IN_MARKER_VIEWS.equals(event.getProperty())) {
 				if (showFilterTextSetByUser || isDisposed()) {
 					return;
@@ -1732,7 +1732,7 @@ public class ExtendedMarkersView extends ViewPart {
 	 *
 	 * @return UIUpdateJob
 	 */
-	UIUpdateJob scheduleUpdate(long delay) {
+	UIUpdateJob scheduleUpdate(long delay) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		synchronized (builder.getUpdateScheduler().getSchedulingLock()) {
 			if (uiUpdateJob != null) {
 				// ensure cancellation before calling the method
@@ -1776,7 +1776,7 @@ public class ExtendedMarkersView extends ViewPart {
 	 * @return part
 	 */
 	static String newSecondaryID(IViewPart part) {
-		while (part.getSite().getPage().findViewReference(
+		while (part.getSite().getPage().findViewReference( //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				part.getSite().getId(), String.valueOf(instanceCount)) != null) {
 			instanceCount++;
 		}
@@ -1787,7 +1787,7 @@ public class ExtendedMarkersView extends ViewPart {
 	/**
 	 * Open the supplied marker in an editor in page
 	 */
-	public static void openMarkerInEditor(IMarker marker, IWorkbenchPage page) {
+	public static void openMarkerInEditor(IMarker marker, IWorkbenchPage page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// optimization: if the active editor has the same input as
 		// the
 		// selected marker then
@@ -1818,7 +1818,7 @@ public class ExtendedMarkersView extends ViewPart {
 		showIn(marker, page, page.getPerspective().getDefaultShowIn());
 	}
 
-	private static boolean showIn(IMarker marker, IWorkbenchPage page, String targetPartId) {
+	private static boolean showIn(IMarker marker, IWorkbenchPage page, String targetPartId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (targetPartId == null || WorkbenchPlugin.getDefault().getViewRegistry().find(targetPartId) == null) {
 			return false;
 		}
@@ -1851,7 +1851,7 @@ public class ExtendedMarkersView extends ViewPart {
 			this.view = view;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 
 			// Do not respond to our own selections
@@ -1860,18 +1860,18 @@ public class ExtendedMarkersView extends ViewPart {
 			}
 
 			// get Objects to adapt
-			List<Object> objectsToAdapt = new ArrayList<>();
+			List<Object> objectsToAdapt = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (part instanceof IEditorPart editor) {
 				objectsToAdapt.add(editor.getEditorInput());
 			} else if (selection instanceof IStructuredSelection) {
-				for (Object object : (IStructuredSelection) selection) {
+				for (Object object : (IStructuredSelection) selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					objectsToAdapt.add(object);
 				}
 			}
 			// try to adapt them in resources and add it to the
 			// selectedElements
 			Set<Object> selectedElements = new LinkedHashSet<>();
-			for (Object object : objectsToAdapt) {
+			for (Object object : objectsToAdapt) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object resElement = MarkerResourceUtil.adapt2ResourceElement(object);
 				if (resElement != null) {
 					selectedElements.add(resElement);

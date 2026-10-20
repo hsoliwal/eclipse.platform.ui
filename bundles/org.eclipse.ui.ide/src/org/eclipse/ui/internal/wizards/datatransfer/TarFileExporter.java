@@ -77,7 +77,7 @@ public class TarFileExporter implements IFileExporter {
 	 *  @exception java.io.IOException
 	 *  @exception org.eclipse.core.runtime.CoreException
 	 */
-	private void write(TarEntry entry, IFile contents) throws IOException, CoreException {
+	private void write(TarEntry entry, IFile contents) throws IOException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final URI location = contents.getLocationURI();
 		if (location == null) {
 			throw new FileNotFoundException(contents.getFullPath().toOSString());
@@ -88,7 +88,7 @@ public class TarFileExporter implements IFileExporter {
 			outputStream.putNextEntry(entry);
 			int n;
 			byte[] readBuffer = new byte[4096];
-			while ((n = contentStream.read(readBuffer)) > 0) {
+			while ((n = contentStream.read(readBuffer)) > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				outputStream.write(readBuffer, 0, n);
 			}
 		}
@@ -96,7 +96,7 @@ public class TarFileExporter implements IFileExporter {
 		outputStream.closeEntry();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void write(IContainer container, String destinationPath)
 			throws IOException {
 		if (!resolveLinks && container.isLinked(IResource.DEPTH_INFINITE)) {

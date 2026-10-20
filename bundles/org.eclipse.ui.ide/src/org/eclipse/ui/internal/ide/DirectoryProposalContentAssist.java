@@ -58,7 +58,7 @@ import org.eclipse.ui.internal.WorkbenchMessages;
  */
 public class DirectoryProposalContentAssist {
 
-	private static class FileNameSubstringMatchContentProposalProvider implements IContentProposalProvider {
+	private static class FileNameSubstringMatchContentProposalProvider implements IContentProposalProvider { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private List<String> proposals = Collections.emptyList();
 
@@ -98,7 +98,7 @@ public class DirectoryProposalContentAssist {
 
 	}
 
-	private static class OpenableContentProposalAdapter extends ContentProposalAdapter {
+	private static class OpenableContentProposalAdapter extends ContentProposalAdapter { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private static final String CONTENT_ASSIST_DECORATION_ID = "org.eclipse.ui.internal.ide.DirectoryProposalContentAssist$ReopenableContentProposalAdapter"; //$NON-NLS-1$
 
@@ -135,7 +135,7 @@ public class DirectoryProposalContentAssist {
 		 **/
 		private FieldDecoration getContentAssistFieldDecoration(KeyStroke keyStroke) {
 			FieldDecorationRegistry registry = FieldDecorationRegistry.getDefault();
-			String decId = CONTENT_ASSIST_DECORATION_ID + keyStroke;
+			String decId = CONTENT_ASSIST_DECORATION_ID + keyStroke; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			FieldDecoration dec = registry.getFieldDecoration(decId);
 
 			// If there is not one, base ours on the standard JFace one.
@@ -204,7 +204,7 @@ public class DirectoryProposalContentAssist {
 	 * after the proposals have been updated by the asynchronous job.
 	 */
 	private boolean popupActivated = false;
-	private final List<CompletableFuture<Void>> proposalUpdateFutures = Collections.synchronizedList(new ArrayList<>());
+	private final List<CompletableFuture<Void>> proposalUpdateFutures = Collections.synchronizedList(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Applies auto-completion to a Combo that is intended to be used to choose a
@@ -213,7 +213,7 @@ public class DirectoryProposalContentAssist {
 	 *
 	 * @param combo the Combo that gets the auto-completion applied
 	 */
-	public void apply(Combo combo) {
+	public void apply(Combo combo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		directoryCombo = combo;
 		autoCompleteField = new DirectoryProposalAutoCompleteField(directoryCombo, new ComboContentAdapter());
 
@@ -234,12 +234,12 @@ public class DirectoryProposalContentAssist {
 			}
 		});
 
-		directoryCombo.addModifyListener(unused -> {
+		directoryCombo.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			updateProposals(directoryCombo.getText().substring(0, directoryCombo.getCaretPosition()), false);
 		});
 
 		// use key release because otherwise the caret position is not yet updated
-		directoryCombo.addKeyListener(KeyListener.keyReleasedAdapter(e -> {
+		directoryCombo.addKeyListener(KeyListener.keyReleasedAdapter(e -> { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			if (e.keyCode == SWT.ESC) {
 				popupActivated = false;
 			}
@@ -249,7 +249,7 @@ public class DirectoryProposalContentAssist {
 			}
 		}));
 
-		directoryCombo.addMouseListener(MouseListener.mouseUpAdapter(e -> {
+		directoryCombo.addMouseListener(MouseListener.mouseUpAdapter(e -> { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			popupActivated = false;
 			int caretPosition = ((Combo) e.getSource()).getCaretPosition();
 			updateProposals(directoryCombo.getText().substring(0, caretPosition), popupActivated);
@@ -267,7 +267,7 @@ public class DirectoryProposalContentAssist {
 	 * new directory. If the current content of the combo is not a valid directory
 	 * the proposals get cleared.
 	 */
-	private void updateProposals(String textFromCombo, boolean openProposalPopup) {
+	private void updateProposals(String textFromCombo, boolean openProposalPopup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Path dir = pathWithoutFileName(textFromCombo);
 		if (dir != null && dir.equals(lastDir)) {
 			if (openProposalPopup) {
@@ -294,12 +294,12 @@ public class DirectoryProposalContentAssist {
 		try (Stream<Path> files = Files.list(dir)) {
 			return filterPaths(files.sorted()).collect(toList());
 		} catch (IOException ex) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 	}
 
 	private void updateProposals(List<String> proposals, boolean openProposalPopup) {
-		directoryCombo.getDisplay().syncExec(() -> autoCompleteField.refreshProposals(proposals, openProposalPopup));
+		directoryCombo.getDisplay().syncExec(() -> autoCompleteField.refreshProposals(proposals, openProposalPopup)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	private Path pathWithoutFileName(String inputPath) {
@@ -350,7 +350,7 @@ public class DirectoryProposalContentAssist {
 			} catch (IOException e) {
 				return false;
 			}
-		}).map(path -> path.toString() + File.separator);
+		}).map(path -> path.toString() + File.separator); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public DirectoryProposalAutoCompleteField getAutoCompleteField() {

@@ -26,7 +26,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
  *
  * @since 2.0
  */
-public class ResourceWorkingSetFilter extends ViewerFilter {
+public class ResourceWorkingSetFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	private IWorkingSet workingSet = null;
 
 	private IAdaptable[] cachedWorkingSet = null;
@@ -79,7 +79,7 @@ public class ResourceWorkingSetFilter extends ViewerFilter {
 	 * @return true if element is enclosed by a working set element and
 	 * 	false otherwise.
 	 */
-	private boolean isEnclosed(IResource element) {
+	private boolean isEnclosed(IResource element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath elementPath = element.getFullPath();
 		IAdaptable[] workingSetElements = cachedWorkingSet;
 
@@ -89,7 +89,7 @@ public class ResourceWorkingSetFilter extends ViewerFilter {
 			workingSetElements = workingSet.getElements();
 		}
 
-		for (IAdaptable workingSetElement : workingSetElements) {
+		for (IAdaptable workingSetElement : workingSetElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContainmentAdapter containmentAdapter = workingSetElement.getAdapter(IContainmentAdapter.class);
 
 			// if there is no IContainmentAdapter defined for the working

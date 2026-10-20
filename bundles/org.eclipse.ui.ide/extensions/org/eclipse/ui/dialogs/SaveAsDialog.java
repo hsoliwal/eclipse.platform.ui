@@ -95,7 +95,7 @@ public class SaveAsDialog extends TitleAreaDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IIDEHelpContextIds.SAVE_AS_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 
 		Control contents = super.createContents(parent);
@@ -133,7 +133,7 @@ public class SaveAsDialog extends TitleAreaDialog {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// top level composite
 		Composite parentComposite = (Composite) super.createDialogArea(parent);
@@ -185,7 +185,7 @@ public class SaveAsDialog extends TitleAreaDialog {
 		setDialogComplete(validatePage());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 		// Get new path.
 		IPath path = resourceGroup.getContainerFullPath().append(resourceGroup.getResource());
@@ -270,7 +270,7 @@ public class SaveAsDialog extends TitleAreaDialog {
 	 *
 	 * @return <code>true</code> if valid, and <code>false</code> otherwise
 	 */
-	private boolean validatePage() {
+	private boolean validatePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!resourceGroup.areAllValuesValid()) {
 			if (!resourceGroup.getResource().isEmpty()) {
 				setErrorMessage(resourceGroup.getProblemMessage());

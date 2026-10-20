@@ -101,7 +101,7 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 	 *
 	 * @param errorMsg the error message to show if it is not <code>null</code>
 	 */
-	private void applyValidationResult(String errorMsg, boolean infoOnly) {
+	private void applyValidationResult(String errorMsg, boolean infoOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int code;
 		boolean allowFinish = false;
 
@@ -161,7 +161,7 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 	@Override
 	protected void computeResult() {
 
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add(this.projectNameField.getText());
 		list.add(locationArea.getProjectLocation());
 		setResult(list);
@@ -197,7 +197,7 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 			applyValidationResult(checkValid(), false);
 		};
 
-		this.projectNameField.addListener(SWT.Modify, listener);
+		this.projectNameField.addListener(SWT.Modify, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 	 *
 	 * @param parent the parent composite
 	 */
-	private void createProjectNameGroup(Composite parent) {
+	private void createProjectNameGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 		// project specification group
 		Composite projectGroup = new Composite(parent, SWT.NONE);
@@ -246,7 +246,7 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 		}
 
 		String newName = computeNewName(projectName);
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!workspace.getRoot().getProject(newName).exists()) {
 				return newName;
 			}
@@ -267,7 +267,7 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 				return m.replaceFirst("2"); //$NON-NLS-1$
 			}
 		}
-		return fileNameNoExtension + "2"; //$NON-NLS-1$
+		return fileNameNoExtension + "2"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

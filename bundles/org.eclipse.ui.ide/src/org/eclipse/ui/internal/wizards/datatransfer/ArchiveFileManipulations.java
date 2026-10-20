@@ -64,7 +64,7 @@ public class ArchiveFileManipulations {
 			return false;
 		}
 
-		try (ZipFile unused = new ZipFile(fileName)) {
+		try (ZipFile unused = new ZipFile(fileName)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 			return true;
 		} catch (IOException ioException) {
 			return false;

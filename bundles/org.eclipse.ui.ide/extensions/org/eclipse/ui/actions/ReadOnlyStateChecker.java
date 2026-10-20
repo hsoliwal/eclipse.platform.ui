@@ -68,7 +68,7 @@ public class ReadOnlyStateChecker {
 	 * just add it, otherwise it is a container and the children need to be checked too.
 	 * Return true if all items are selected and false if any are skipped.
 	 */
-	private boolean checkAcceptedResource(IResource resourceToCheck,
+	private boolean checkAcceptedResource(IResource resourceToCheck, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<IResource> selectedChildren) throws CoreException {
 
 		if (resourceToCheck.getType() == IResource.FILE) {
@@ -106,14 +106,14 @@ public class ReadOnlyStateChecker {
 	 * @param itemsToCheck resources to check
 	 * @return the resulting selected resources
 	 */
-	public IResource[] checkReadOnlyResources(IResource[] itemsToCheck) {
+	public IResource[] checkReadOnlyResources(IResource[] itemsToCheck) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		List<IResource> selections = new ArrayList<>();
+		List<IResource> selections = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int result = IDialogConstants.CANCEL_ID;
 		try {
 			result = checkReadOnlyResources(itemsToCheck, selections);
 		} catch (final CoreException exception) {
-			shell.getDisplay().syncExec(() -> ErrorDialog.openError(shell, READ_ONLY_EXCEPTION_MESSAGE,
+			shell.getDisplay().syncExec(() -> ErrorDialog.openError(shell, READ_ONLY_EXCEPTION_MESSAGE, //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					null, exception.getStatus()));
 		}
 
@@ -141,7 +141,7 @@ public class ReadOnlyStateChecker {
 	 * @param itemsToCheck IResource[]
 	 * @param allSelected the List of currently selected resources to add to.
 	 */
-	private int checkReadOnlyResources(IResource[] itemsToCheck,
+	private int checkReadOnlyResources(IResource[] itemsToCheck, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<IResource> allSelected) throws CoreException {
 
 		//Shortcut. If the user has already selected yes to all then just return it
@@ -150,9 +150,9 @@ public class ReadOnlyStateChecker {
 		}
 
 		boolean noneSkipped = true;
-		List<IResource> selectedChildren = new ArrayList<>();
+		List<IResource> selectedChildren = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IResource resourceToCheck : itemsToCheck) {
+		for (IResource resourceToCheck : itemsToCheck) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ResourceAttributes checkAttributes = resourceToCheck.getResourceAttributes();
 			if (!yesToAllSelected && shouldCheck(resourceToCheck)
 					&& checkAttributes!=null
@@ -224,7 +224,7 @@ public class ReadOnlyStateChecker {
 	 *
 	 * @param resource - the resource being queried.
 	 */
-	private int queryYesToAllNoCancel(IResource resource) {
+	private int queryYesToAllNoCancel(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final MessageDialog dialog = new MessageDialog(this.shell,
 				this.titleMessage, null, MessageFormat.format(this.mainMessage,
@@ -239,7 +239,7 @@ public class ReadOnlyStateChecker {
 				return super.getShellStyle() | SWT.SHEET;
 			}
 		};
-		shell.getDisplay().syncExec(dialog::open);
+		shell.getDisplay().syncExec(dialog::open); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		int result = dialog.getReturnCode();
 		if (result == 0) {
 			return IDialogConstants.YES_ID;

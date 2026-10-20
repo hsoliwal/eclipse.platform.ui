@@ -99,7 +99,7 @@ public class MarkerQuery {
 	 * @param marker the marker to perform the query against
 	 * @return a marker query result or <code>null</code>
 	 */
-	public MarkerQueryResult performQuery(IMarker marker) {
+	public MarkerQueryResult performQuery(IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check type
 		try {
 			if (type != null) {
@@ -118,7 +118,7 @@ public class MarkerQuery {
 
 		// Check attributes
 		String[] values = new String[attributes.length];
-		for (int i = 0; i < attributes.length; i++) {
+		for (int i = 0; i < attributes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Object value = marker.getAttribute(attributes[i]);
 				if (value == null) {
@@ -167,7 +167,7 @@ public class MarkerQuery {
 
 		hashCode = hashCode * 37 + (matchTypeChildren ? 1 : 2);
 
-		for (String attribute : attributes) {
+		for (String attribute : attributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hashCode = hashCode * 37 + attribute.hashCode();
 		}
 	}

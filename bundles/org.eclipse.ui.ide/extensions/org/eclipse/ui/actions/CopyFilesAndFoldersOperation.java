@@ -144,7 +144,7 @@ public class CopyFilesAndFoldersOperation {
 		boolean isFile = !originalName.hasTrailingSeparator();
 
 		String newName = computeNewName(resourceName, isFile);
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath pathToTry = leadupSegment.append(newName);
 			if (!workspace.getRoot().exists(pathToTry)) {
 				return pathToTry;
@@ -153,7 +153,7 @@ public class CopyFilesAndFoldersOperation {
 		}
 	}
 
-	private static String computeNewName(String str, boolean isFile) {
+	private static String computeNewName(String str, boolean isFile) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int lastIndexOfDot = str.lastIndexOf('.');
 		String fileExtension = ""; //$NON-NLS-1$
 		String fileNameNoExtension = str;
@@ -173,9 +173,9 @@ public class CopyFilesAndFoldersOperation {
 			} catch (NumberFormatException e) {
 				numberStr = m.replaceFirst("2"); //$NON-NLS-1$
 			}
-			return numberStr + fileExtension;
+			return numberStr + fileExtension; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		return fileNameNoExtension + "2" + fileExtension; //$NON-NLS-1$
+		return fileNameNoExtension + "2" + fileExtension; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class CopyFilesAndFoldersOperation {
 		MultiStatus multiStatus = new MultiStatus(PlatformUI.PLUGIN_ID,
 				IStatus.OK, getProblemsMessage(), null);
 
-		for (IFileStore store : stores) {
+		for (IFileStore store : stores) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!store.exists()) {
 				String message = NLS.bind(IDEWorkbenchMessages.CopyFilesAndFoldersOperation_resourceDeleted,
 								store.getName());
@@ -242,11 +242,11 @@ public class CopyFilesAndFoldersOperation {
 	 *            IResources to checl
 	 * @return Multi status with one error message for each missing file.
 	 */
-	IStatus checkExist(IResource[] resources) {
+	IStatus checkExist(IResource[] resources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MultiStatus multiStatus = new MultiStatus(PlatformUI.PLUGIN_ID,
 				IStatus.OK, getProblemsMessage(), null);
 
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource != null && !resource.isVirtual()) {
 				URI location = resource.getLocationURI();
 				String message = null;
@@ -289,7 +289,7 @@ public class CopyFilesAndFoldersOperation {
 	 *         whether the current resource or all resources can be overwritten,
 	 *         or if the operation should be canceled.
 	 */
-	private int checkOverwrite(final IResource source,
+	private int checkOverwrite(final IResource source, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IResource destination) {
 		final int[] result = new int[1];
 
@@ -362,7 +362,7 @@ public class CopyFilesAndFoldersOperation {
 				result[0] = resultId[dialog.getReturnCode()];
 			}
 		};
-		messageShell.getDisplay().syncExec(query);
+		messageShell.getDisplay().syncExec(query); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		return result[0];
 	}
 
@@ -376,11 +376,11 @@ public class CopyFilesAndFoldersOperation {
 	 * @param existing
 	 *            holds the collected existing files
 	 */
-	private void collectExistingReadonlyFiles(IPath destinationPath,
+	private void collectExistingReadonlyFiles(IPath destinationPath, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource[] copyResources, ArrayList<IFile> existing) {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 
-		for (IResource resource : copyResources) {
+		for (IResource resource : copyResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath newDestinationPath = destinationPath.append(resource.getName());
 			IResource newDestination = workspaceRoot.findMember(newDestinationPath);
 			IFolder folder;
@@ -433,12 +433,12 @@ public class CopyFilesAndFoldersOperation {
 	 *             created in
 	 *             {@link #getUndoableCopyOrMoveOperation(IResource[], IPath)}
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void copy(IResource[] resources, IPath destination, IProgressMonitor monitor) throws CoreException {
 		SubMonitor subMonitor = SubMonitor.convert(monitor,
 				IDEWorkbenchMessages.CopyFilesAndFoldersOperation_CopyResourcesTask, resources.length);
 
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SubMonitor iterationMonitor = subMonitor.split(1).setWorkRemaining(100);
 			IPath destinationPath = destination.append(resource.getName());
 			IWorkspace workspace = resource.getWorkspace();
@@ -595,7 +595,7 @@ public class CopyFilesAndFoldersOperation {
 	 *            destination to which resources will be copied
 	 * @return IResource[] the resulting {@link IResource}[]
 	 */
-	private IResource[] copyResources(final IResource[] resources,
+	private IResource[] copyResources(final IResource[] resources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContainer destination, boolean fork) {
 		final IPath destinationPath = destination.getFullPath();
 		final IResource[][] copiedResources = new IResource[1][0];
@@ -614,7 +614,7 @@ public class CopyFilesAndFoldersOperation {
 			return copiedResources[0];
 		}
 
-		IRunnableWithProgress op = monitor -> copyResources(resources, destinationPath, copiedResources, monitor);
+		IRunnableWithProgress op = monitor -> copyResources(resources, destinationPath, copiedResources, monitor); //FLLDCIM: MARK — T09  LAMBDA
 
 		try {
 			PlatformUI.getWorkbench().getProgressService().run(fork, true, op);
@@ -711,9 +711,9 @@ public class CopyFilesAndFoldersOperation {
 	 *
 	 * @return IFileStore[]
 	 */
-	private IFileStore[] buildFileStores(URI[] uris) {
+	private IFileStore[] buildFileStores(URI[] uris) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFileStore[] stores = new IFileStore[uris.length];
-		for (int i = 0; i < uris.length; i++) {
+		for (int i = 0; i < uris.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFileStore store;
 			try {
 				store = EFS.getStore(uris[i]);
@@ -747,7 +747,7 @@ public class CopyFilesAndFoldersOperation {
 	 * @see Thread#currentThread()
 	 * @since 3.6
 	 */
-	public void copyOrLinkFiles(final String[] fileNames, IContainer destination, int dropOperation) {
+	public void copyOrLinkFiles(final String[] fileNames, IContainer destination, int dropOperation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= IDEWorkbenchPlugin.getDefault().getPreferenceStore();
 		boolean targetIsVirtual= destination.isVirtual();
 		String dndPreference= store.getString(targetIsVirtual ? IDEInternalPreferences.IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE : IDEInternalPreferences.IMPORT_FILES_AND_FOLDERS_MODE);
@@ -850,7 +850,7 @@ public class CopyFilesAndFoldersOperation {
 	 */
 	private IFileStore[] buildFileStores(final String[] fileNames) {
 		IFileStore[] stores = new IFileStore[fileNames.length];
-		for (int i = 0; i < fileNames.length; i++) {
+		for (int i = 0; i < fileNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFileStore store = IDEResourceInfoUtils.getFileStore(fileNames[i]);
 			if (store == null) {
 				reportFileInfoNotFound(fileNames[i]);
@@ -866,7 +866,7 @@ public class CopyFilesAndFoldersOperation {
 	 */
 	private void reportFileInfoNotFound(final String fileName) {
 
-		messageShell.getDisplay().syncExec(() -> ErrorDialog.openError(messageShell, getProblemsTitle(),
+		messageShell.getDisplay().syncExec(() -> ErrorDialog.openError(messageShell, getProblemsTitle(), //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				NLS.bind(IDEWorkbenchMessages.CopyFilesAndFoldersOperation_infoNotFound, fileName), null));
 	}
 
@@ -878,7 +878,7 @@ public class CopyFilesAndFoldersOperation {
 	 * @param destination
 	 *            destination to which files will be copied
 	 */
-	private void copyFileStores(IContainer destination,
+	private void copyFileStores(IContainer destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IFileStore[] stores, boolean fork, IProgressMonitor monitor) {
 		// test files for existence separate from validate API
 		// because an external file may not exist until the copy actually
@@ -896,7 +896,7 @@ public class CopyFilesAndFoldersOperation {
 		final IPath destinationPath = destination.getFullPath();
 
 		if (fork) {
-			WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+			WorkspaceModifyOperation op = new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 				@Override
 				public void execute(IProgressMonitor operationMonitor) {
 					copyFileStores(stores, destinationPath, operationMonitor);
@@ -928,7 +928,7 @@ public class CopyFilesAndFoldersOperation {
 	 *            The status to display
 	 */
 	private void displayError(final IStatus status) {
-		messageShell.getDisplay().syncExec(() -> ErrorDialog.openError(messageShell, getProblemsTitle(), null, status));
+		messageShell.getDisplay().syncExec(() -> ErrorDialog.openError(messageShell, getProblemsTitle(), null, status)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**
@@ -966,7 +966,7 @@ public class CopyFilesAndFoldersOperation {
 	 * @return true the resource was deleted successfully false the resource was
 	 *         not deleted because a CoreException occurred
 	 */
-	boolean delete(IResource resource, IProgressMonitor monitor) {
+	boolean delete(IResource resource, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean force = false; // don't force deletion of out-of-sync resources
 
 		if (resource.getType() == IResource.PROJECT) {
@@ -1001,7 +1001,7 @@ public class CopyFilesAndFoldersOperation {
 	 *            the error message to show
 	 */
 	private void displayError(final String message) {
-		messageShell.getDisplay().syncExec(() -> MessageDialog.openError(messageShell, getProblemsTitle(), message));
+		messageShell.getDisplay().syncExec(() -> MessageDialog.openError(messageShell, getProblemsTitle(), message)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**
@@ -1030,7 +1030,7 @@ public class CopyFilesAndFoldersOperation {
 	protected File[] getFiles(String[] fileNames) {
 		File[] files = new File[fileNames.length];
 
-		for (int i = 0; i < fileNames.length; i++) {
+		for (int i = 0; i < fileNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			files[i] = new File(fileNames[i]);
 		}
 		return files;
@@ -1059,13 +1059,13 @@ public class CopyFilesAndFoldersOperation {
 	 * @return the new full path for the copy, or <code>null</code> if the
 	 *         resource should not be copied
 	 */
-	private IPath getNewNameFor(final IPath originalName,
+	private IPath getNewNameFor(final IPath originalName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IWorkspace workspace) {
 		final IResource resource = workspace.getRoot().findMember(originalName);
 		final IPath prefix = resource.getFullPath().removeLastSegments(1);
 		final String returnValue[] = { "" }; //$NON-NLS-1$
 
-		messageShell.getDisplay().syncExec(() -> {
+		messageShell.getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			IInputValidator validator = string -> {
 				if (resource.getName().equals(string)) {
 					return IDEWorkbenchMessages.CopyFilesAndFoldersOperation_nameMustBeDifferent;
@@ -1202,11 +1202,11 @@ public class CopyFilesAndFoldersOperation {
 	 * @return <code>true</code> if at least one of the given source
 	 *         resource's parent container is the same as the destination
 	 */
-	boolean isDestinationSameAsSource(IResource[] sourceResources,
+	boolean isDestinationSameAsSource(IResource[] sourceResources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContainer destination) {
 		IPath destinationLocation = destination.getLocation();
 
-		for (IResource resource : sourceResources) {
+		for (IResource resource : sourceResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.getParent().equals(destination)) {
 				return true;
 			} else if (destinationLocation != null) {
@@ -1239,12 +1239,12 @@ public class CopyFilesAndFoldersOperation {
 	 * @return <code>true</code> if the copy operation completed without
 	 *         errors
 	 */
-	private boolean performCopy(IResource[] resources, IPath destination,
+	private boolean performCopy(IResource[] resources, IPath destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProgressMonitor monitor) {
 		try {
 			if (!isMove()) {
 				IPath[] destPaths = new IPath[resources.length];
-				for (int i = 0; i < resources.length; i++) {
+				for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					destPaths[i] = destination.append(resources[i].getName());
 				}
 				if (tryPerformLTKcopy(resources, destPaths)) {
@@ -1295,12 +1295,12 @@ public class CopyFilesAndFoldersOperation {
 	 * @return <code>true</code> if the copy operation completed without
 	 *         errors.
 	 */
-	private boolean performCopyWithAutoRename(IResource[] resources,
+	private boolean performCopyWithAutoRename(IResource[] resources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPath destination, IProgressMonitor monitor) {
 		IWorkspace workspace = resources[0].getWorkspace();
 		IPath[] destinationPaths = new IPath[resources.length];
 		try {
-			for (int i = 0; i < resources.length; i++) {
+			for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource source = resources[i];
 				destinationPaths[i] = destination.append(source.getName());
 				if (source.getType() != IResource.FILE) {
@@ -1358,7 +1358,7 @@ public class CopyFilesAndFoldersOperation {
 	 * @param monitor
 	 *            a progress monitor for showing progress and for cancelation
 	 */
-	private void performFileImport(IFileStore[] stores, IContainer target,
+	private void performFileImport(IFileStore[] stores, IContainer target, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProgressMonitor monitor) {
 		IOverwriteQuery query = pathString -> {
 			if (alwaysOverwrite) {
@@ -1372,7 +1372,7 @@ public class CopyFilesAndFoldersOperation {
 					IDEWorkbenchMessages.CopyFilesAndFoldersOperation_overwriteAllButtonLabel,
 					IDEWorkbenchMessages.CopyFilesAndFoldersOperation_dontOverwriteButtonLabel,
 					IDialogConstants.CANCEL_LABEL };
-			messageShell.getDisplay().syncExec(() -> {
+			messageShell.getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				MessageDialog dialog = new MessageDialog(messageShell,
 						IDEWorkbenchMessages.CopyFilesAndFoldersOperation_question, null, msg,
 						MessageDialog.QUESTION, 0, options) {
@@ -1455,14 +1455,14 @@ public class CopyFilesAndFoldersOperation {
 	 *            the source resources
 	 * @return an error message, or <code>null</code> if the path is valid
 	 */
-	public String validateDestination(IContainer destination,
+	public String validateDestination(IContainer destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource[] sourceResources) {
 		if (!isAccessible(destination)) {
 			return IDEWorkbenchMessages.CopyFilesAndFoldersOperation_destinationAccessError;
 		}
 		IContainer firstParent = null;
 		URI destinationLocation = destination.getLocationURI();
-		for (IResource sourceResource : sourceResources) {
+		for (IResource sourceResource : sourceResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (firstParent == null) {
 				firstParent = sourceResource.getParent();
 			} else if (!firstParent.equals(sourceResource.getParent())) {
@@ -1534,7 +1534,7 @@ public class CopyFilesAndFoldersOperation {
 	 */
 	private boolean validateEdit(IContainer destination,
 			IResource[] sourceResources) {
-		ArrayList<IFile> copyFiles = new ArrayList<>();
+		ArrayList<IFile> copyFiles = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		collectExistingReadonlyFiles(destination.getFullPath(),
 				sourceResources, copyFiles);
@@ -1566,7 +1566,7 @@ public class CopyFilesAndFoldersOperation {
 			String[] sourceNames) {
 
 		IFileStore[] stores = new IFileStore[sourceNames.length];
-		for (int i = 0; i < sourceNames.length; i++) {
+		for (int i = 0; i < sourceNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFileStore store = IDEResourceInfoUtils
 					.getFileStore(sourceNames[i]);
 			if (store == null) {
@@ -1599,7 +1599,7 @@ public class CopyFilesAndFoldersOperation {
 	 *            the source IFileStore
 	 * @return an error message, or <code>null</code> if the path is valid
 	 */
-	private String validateImportDestinationInternal(IContainer destination,
+	private String validateImportDestinationInternal(IContainer destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IFileStore[] sourceStores) {
 		if (!isAccessible(destination)) {
 			return IDEWorkbenchMessages.CopyFilesAndFoldersOperation_destinationAccessError;
@@ -1616,7 +1616,7 @@ public class CopyFilesAndFoldersOperation {
 								IDEWorkbenchMessages.CopyFilesAndFoldersOperation_internalError,
 								exception.getLocalizedMessage());
 			}
-			for (IFileStore fileStore : sourceStores) {
+			for (IFileStore fileStore : sourceStores) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IFileStore parentFileStore = fileStore.getParent();
 
 				if (fileStore != null) {
@@ -1648,7 +1648,7 @@ public class CopyFilesAndFoldersOperation {
 	 *            source resource
 	 * @return String error message or null if the destination is valid
 	 */
-	private String validateLinkedResource(IContainer destination,
+	private String validateLinkedResource(IContainer destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource source) {
 		if (!source.isLinked() || source.isVirtual()) {
 			return null;
@@ -1668,7 +1668,7 @@ public class CopyFilesAndFoldersOperation {
 			// prevent merging linked folders that point to the same
 			// file system folder
 			try {
-				for (IResource resource : destination.members()) {
+				for (IResource resource : destination.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (sourceLocation.equals(resource.getLocation()) && source.getName().equals(resource.getName())) {
 						return NLS
 								.bind(
@@ -1697,15 +1697,15 @@ public class CopyFilesAndFoldersOperation {
 	 * @return <code>true</code> if there would be no name collisions, and
 	 *         <code>false</code> if there would
 	 */
-	private IResource[] validateNoNameCollisions(IContainer destination,
+	private IResource[] validateNoNameCollisions(IContainer destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource[] sourceResources) {
-		List<IResource> copyItems = new ArrayList<>();
+		List<IResource> copyItems = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkspaceRoot workspaceRoot = destination.getWorkspace().getRoot();
 		int overwrite = IDialogConstants.NO_ID;
 
 		// Check to see if we would be overwriting a parent folder.
 		// Cancel entire copy operation if we do.
-		for (final IResource resource : sourceResources) {
+		for (final IResource resource : sourceResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPath destinationPath = destination.getFullPath().append(
 					resource.getName());
 			final IPath sourcePath = resource.getFullPath();
@@ -1722,7 +1722,7 @@ public class CopyFilesAndFoldersOperation {
 			}
 		}
 		// Check for overwrite conflicts
-		for (final IResource resource : sourceResources) {
+		for (final IResource resource : sourceResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPath destinationPath = destination.getFullPath().append(
 					resource.getName());
 
@@ -1747,7 +1747,7 @@ public class CopyFilesAndFoldersOperation {
 		return copyItems.toArray(new IResource[copyItems.size()]);
 	}
 
-	private void copyResources(final IResource[] resources, final IPath destinationPath,
+	private void copyResources(final IResource[] resources, final IPath destinationPath, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IResource[][] copiedResources, IProgressMonitor mon) {
 		IResource[] copyResources = resources;
 

@@ -41,7 +41,7 @@ final class M3LongSet {
 		}
 		int mask = keys.length - 1;
 		int i = slot(id);
-		while (keys[i] != 0) {
+		while (keys[i] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[i] == id) {
 				return;
 			}
@@ -55,7 +55,7 @@ final class M3LongSet {
 			return zero;
 		}
 		int mask = keys.length - 1;
-		for (int i = slot(id); keys[i] != 0; i = (i + 1) & mask) {
+		for (int i = slot(id); keys[i] != 0; i = (i + 1) & mask) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[i] == id) {
 				return true;
 			}

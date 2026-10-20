@@ -29,7 +29,7 @@ public class AllErrorsParameters extends FiltersContributionParameters {
 
 	private static Map<String, Integer> errorsMap;
 	static {
-		errorsMap = new HashMap<>();
+		errorsMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		errorsMap.put(IMarker.SEVERITY, SeverityAndDescriptionFieldFilter.SEVERITY_ERROR);
 	}
 
