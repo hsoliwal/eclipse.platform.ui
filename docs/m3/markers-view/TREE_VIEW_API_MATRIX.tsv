@@ -1,0 +1,306 @@
+class	visibility	method	signature	used_by_markers_view	lane_delta_status	differential	delta_gate
+Viewer	protected	Viewer	protected Viewer()	0	TODO	TODO	TODO
+Viewer	public	addHelpListener	public void addHelpListener(HelpListener listener)	1	TODO	TODO	TODO
+Viewer	public	addSelectionChangedListener	public void addSelectionChangedListener(ISelectionChangedListener listener)	5	TODO	TODO	TODO
+Viewer	protected	fireHelpRequested	protected void fireHelpRequested(HelpEvent event)	0	TODO	TODO	TODO
+Viewer	protected	fireSelectionChanged	protected void fireSelectionChanged(final SelectionChangedEvent event)	0	TODO	TODO	TODO
+Viewer	public	getControl	public abstract Control getControl();	16	TODO	TODO	TODO
+Viewer	public	getData	public Object getData(String key)	9	TODO	TODO	TODO
+Viewer	public	getInput	public abstract Object getInput();	4	TODO	TODO	TODO
+Viewer	public	getSelection	public abstract ISelection getSelection();	24	TODO	TODO	TODO
+Viewer	protected	handleHelpRequest	protected void handleHelpRequest(HelpEvent event)	0	TODO	TODO	TODO
+Viewer	protected	inputChanged	protected void inputChanged(Object input, Object oldInput)	2	TODO	TODO	TODO
+Viewer	public	refresh	public abstract void refresh();	19	TODO	TODO	TODO
+Viewer	public	removeHelpListener	public void removeHelpListener(HelpListener listener)	0	TODO	TODO	TODO
+Viewer	public	removeSelectionChangedListener	public void removeSelectionChangedListener(	0	TODO	TODO	TODO
+Viewer	public	scrollDown	public Item scrollDown(int x, int y)	0	TODO	TODO	TODO
+Viewer	public	scrollUp	public Item scrollUp(int x, int y)	0	TODO	TODO	TODO
+Viewer	public	setData	public void setData(String key, Object value)	2	TODO	TODO	TODO
+Viewer	public	setInput	public abstract void setInput(Object input);	7	TODO	TODO	TODO
+Viewer	public	setSelection	public void setSelection(ISelection selection)	38	TODO	TODO	TODO
+Viewer	public	setSelection	public abstract void setSelection(ISelection selection, boolean reveal);	38	TODO	TODO	TODO
+ContentViewer	protected	ContentViewer	protected ContentViewer()	0	TODO	TODO	TODO
+ContentViewer	public	getContentProvider	public IContentProvider getContentProvider()	3	TODO	TODO	TODO
+ContentViewer	public	getInput	public Object getInput()	4	TODO	TODO	TODO
+ContentViewer	public	getLabelProvider	public IBaseLabelProvider getLabelProvider()	0	TODO	TODO	TODO
+ContentViewer	protected	handleDispose	protected void handleDispose(DisposeEvent event)	0	TODO	TODO	TODO
+ContentViewer	protected	handleLabelProviderChanged	protected void handleLabelProviderChanged(LabelProviderChangedEvent event)	0	TODO	TODO	TODO
+ContentViewer	protected	hookControl	protected void hookControl(Control control)	0	TODO	TODO	TODO
+ContentViewer	protected	labelProviderChanged	protected void labelProviderChanged()	0	TODO	TODO	TODO
+ContentViewer	public	setContentProvider	public void setContentProvider(IContentProvider contentProvider)	7	TODO	TODO	TODO
+ContentViewer	public	setInput	public void setInput(Object input)	7	TODO	TODO	TODO
+ContentViewer	public	setLabelProvider	public void setLabelProvider(IBaseLabelProvider labelProvider)	7	TODO	TODO	TODO
+StructuredViewer	protected	StructuredViewer	protected StructuredViewer()	0	TODO	TODO	TODO
+StructuredViewer	public	addDoubleClickListener	public void addDoubleClickListener(IDoubleClickListener listener)	1	TODO	TODO	TODO
+StructuredViewer	public	addOpenListener	public void addOpenListener(IOpenListener listener)	0	TODO	TODO	TODO
+StructuredViewer	public	addPostSelectionChangedListener	public void addPostSelectionChangedListener(ISelectionChangedListener listener)	0	TODO	TODO	TODO
+StructuredViewer	public	addDragSupport	public void addDragSupport(int operations, Transfer[] transferTypes, DragSourceListener listener)	1	TODO	TODO	TODO
+StructuredViewer	public	addDropSupport	public void addDropSupport(int operations, Transfer[] transferTypes,	0	TODO	TODO	TODO
+StructuredViewer	public	addFilter	public void addFilter(ViewerFilter filter)	0	TODO	TODO	TODO
+StructuredViewer	protected	assertElementsNotNull	protected void assertElementsNotNull(Object... elements)	0	TODO	TODO	TODO
+StructuredViewer	protected	associate	protected void associate(Object element, Item item)	0	TODO	TODO	TODO
+StructuredViewer	protected	disassociate	protected void disassociate(Item item)	0	TODO	TODO	TODO
+StructuredViewer	protected	doFindInputItem	protected abstract Widget doFindInputItem(Object element);	0	TODO	TODO	TODO
+StructuredViewer	protected	doFindItem	protected abstract Widget doFindItem(Object element);	0	TODO	TODO	TODO
+StructuredViewer	protected	doUpdateItem	protected abstract void doUpdateItem(Widget item, Object element, boolean fullMap);	1	TODO	TODO	TODO
+StructuredViewer	protected	equals	protected boolean equals(Object elementA, Object elementB)	76	TODO	TODO	TODO
+StructuredViewer	protected	filter	protected Object[] filter(Object[] elements)	1	TODO	TODO	TODO
+StructuredViewer	protected	findItem	protected final Widget findItem(Object element)	0	TODO	TODO	TODO
+StructuredViewer	protected	findItems	protected final Widget[] findItems(Object element)	0	TODO	TODO	TODO
+StructuredViewer	protected	fireDoubleClick	protected void fireDoubleClick(final DoubleClickEvent event)	0	TODO	TODO	TODO
+StructuredViewer	protected	fireOpen	protected void fireOpen(final OpenEvent event)	0	TODO	TODO	TODO
+StructuredViewer	protected	firePostSelectionChanged	protected void firePostSelectionChanged(final SelectionChangedEvent event)	0	TODO	TODO	TODO
+StructuredViewer	public	getComparer	public IElementComparer getComparer()	0	TODO	TODO	TODO
+StructuredViewer	protected	getFilteredChildren	protected Object[] getFilteredChildren(Object parent)	0	TODO	TODO	TODO
+StructuredViewer	public	getFilters	public ViewerFilter[] getFilters()	1	TODO	TODO	TODO
+StructuredViewer	protected	getItem	protected Item getItem(int x, int y)	0	TODO	TODO	TODO
+StructuredViewer	protected	getRawChildren	protected Object[] getRawChildren(Object parent)	0	TODO	TODO	TODO
+StructuredViewer	protected	getRoot	protected Object getRoot()	5	TODO	TODO	TODO
+StructuredViewer	public	getSelection	public ISelection getSelection()	24	TODO	TODO	TODO
+StructuredViewer	public	getStructuredSelection	public IStructuredSelection getStructuredSelection() throws ClassCastException	15	TODO	TODO	TODO
+StructuredViewer	protected	getSelectionFromWidget	protected abstract List getSelectionFromWidget();	0	TODO	TODO	TODO
+StructuredViewer	protected	getSortedChildren	protected Object[] getSortedChildren(Object parent)	0	TODO	TODO	TODO
+StructuredViewer	public	getSorter	public ViewerSorter getSorter()	0	TODO	TODO	TODO
+StructuredViewer	public	getComparator	public ViewerComparator getComparator()	2	TODO	TODO	TODO
+StructuredViewer	protected	handleDoubleSelect	protected void handleDoubleSelect(SelectionEvent event)	0	TODO	TODO	TODO
+StructuredViewer	protected	handleOpen	protected void handleOpen(SelectionEvent event)	0	TODO	TODO	TODO
+StructuredViewer	protected	handleInvalidSelection	protected void handleInvalidSelection(ISelection invalidSelection, ISelection newSelection)	0	TODO	TODO	TODO
+StructuredViewer	protected	handleLabelProviderChanged	protected void handleLabelProviderChanged(LabelProviderChangedEvent event)	0	TODO	TODO	TODO
+StructuredViewer	protected	handleSelect	protected void handleSelect(SelectionEvent event)	0	TODO	TODO	TODO
+StructuredViewer	protected	handlePostSelect	protected void handlePostSelect(SelectionEvent e)	0	TODO	TODO	TODO
+StructuredViewer	protected	hookControl	protected void hookControl(Control control)	0	TODO	TODO	TODO
+StructuredViewer	protected	hasFilters	protected boolean hasFilters()	0	TODO	TODO	TODO
+StructuredViewer	protected	internalRefresh	protected abstract void internalRefresh(Object element);	0	TODO	TODO	TODO
+StructuredViewer	protected	internalRefresh	protected void internalRefresh(Object element, boolean updateLabels)	0	TODO	TODO	TODO
+StructuredViewer	protected	mapElement	protected void mapElement(Object element, Widget item)	0	TODO	TODO	TODO
+StructuredViewer	protected	needsRefilter	protected boolean needsRefilter(Object element, String property)	0	TODO	TODO	TODO
+StructuredViewer	protected	preservingSelection	protected void preservingSelection(Runnable updateCode)	0	TODO	TODO	TODO
+StructuredViewer	public	refresh	public void refresh()	19	TODO	TODO	TODO
+StructuredViewer	public	refresh	public void refresh(boolean updateLabels)	19	TODO	TODO	TODO
+StructuredViewer	public	refresh	public void refresh(final Object element)	19	TODO	TODO	TODO
+StructuredViewer	public	refresh	public void refresh(final Object element, final boolean updateLabels)	19	TODO	TODO	TODO
+StructuredViewer	protected	refreshItem	protected final void refreshItem(Widget widget, Object element)	0	TODO	TODO	TODO
+StructuredViewer	public	removeOpenListener	public void removeOpenListener(IOpenListener listener)	0	TODO	TODO	TODO
+StructuredViewer	public	removePostSelectionChangedListener	public void removePostSelectionChangedListener(ISelectionChangedListener listener)	0	TODO	TODO	TODO
+StructuredViewer	public	removeDoubleClickListener	public void removeDoubleClickListener(IDoubleClickListener listener)	0	TODO	TODO	TODO
+StructuredViewer	public	removeFilter	public void removeFilter(ViewerFilter filter)	0	TODO	TODO	TODO
+StructuredViewer	public	setFilters	public void setFilters(ViewerFilter... filters)	0	TODO	TODO	TODO
+StructuredViewer	public	resetFilters	public void resetFilters()	0	TODO	TODO	TODO
+StructuredViewer	public	reveal	public abstract void reveal(Object element);	0	TODO	TODO	TODO
+StructuredViewer	public	setContentProvider	public void setContentProvider(IContentProvider provider)	7	TODO	TODO	TODO
+StructuredViewer	protected	assertContentProviderType	protected void assertContentProviderType(IContentProvider provider)	0	TODO	TODO	TODO
+StructuredViewer	public	setInput	public final void setInput(Object input)	7	TODO	TODO	TODO
+StructuredViewer	public	setSelection	public void setSelection(ISelection selection, boolean reveal)	38	TODO	TODO	TODO
+StructuredViewer	protected	setSelectionToWidget	protected abstract void setSelectionToWidget(@SuppressWarnings("rawtypes") List l, boolean reveal);	0	TODO	TODO	TODO
+StructuredViewer	protected	setSelectionToWidget	protected void setSelectionToWidget(ISelection selection, boolean reveal)	0	TODO	TODO	TODO
+StructuredViewer	public	setSorter	public void setSorter(ViewerSorter sorter)	0	TODO	TODO	TODO
+StructuredViewer	public	setComparator	public void setComparator(ViewerComparator comparator)	2	TODO	TODO	TODO
+StructuredViewer	public	setUseHashlookup	public void setUseHashlookup(boolean enable)	1	TODO	TODO	TODO
+StructuredViewer	public	setComparer	public void setComparer(IElementComparer comparer)	0	TODO	TODO	TODO
+StructuredViewer	public	testFindItem	public Widget testFindItem(Object element)	1	TODO	TODO	TODO
+StructuredViewer	public	testFindItems	public Widget[] testFindItems(Object element)	0	TODO	TODO	TODO
+StructuredViewer	protected	unmapAllElements	protected void unmapAllElements()	0	TODO	TODO	TODO
+StructuredViewer	protected	unmapElement	protected void unmapElement(Object element)	0	TODO	TODO	TODO
+StructuredViewer	protected	unmapElement	protected void unmapElement(Object element, Widget item)	0	TODO	TODO	TODO
+StructuredViewer	public	update	public void update(Object[] elements, String[] properties)	8	TODO	TODO	TODO
+StructuredViewer	public	update	public void update(Object element, String[] properties)	8	TODO	TODO	TODO
+StructuredViewer	protected	internalUpdate	protected void internalUpdate(Widget widget, Object element, String[] properties)	0	TODO	TODO	TODO
+StructuredViewer	protected	updateItem	protected final void updateItem(Widget widget, Object element)	0	TODO	TODO	TODO
+StructuredViewer	protected	updateSelection	protected void updateSelection(ISelection selection)	0	TODO	TODO	TODO
+StructuredViewer	protected	usingElementMap	protected boolean usingElementMap()	0	TODO	TODO	TODO
+StructuredViewer	public	setLabelProvider	public void setLabelProvider(IBaseLabelProvider labelProvider)	7	TODO	TODO	TODO
+StructuredViewer	protected	buildLabel	protected void buildLabel(ViewerLabel updateLabel, Object element)	0	TODO	TODO	TODO
+StructuredViewer	protected	getColorAndFontCollector	protected ColorAndFontCollector getColorAndFontCollector()	0	TODO	TODO	TODO
+StructuredViewer	protected	handleDispose	protected void handleDispose(DisposeEvent event)	0	TODO	TODO	TODO
+ColumnViewer	public	ColumnViewer	public ColumnViewer()	0	TODO	TODO	TODO
+ColumnViewer	protected	hookControl	protected void hookControl(Control control)	0	TODO	TODO	TODO
+ColumnViewer	protected	hookEditingSupport	protected void hookEditingSupport(Control control)	0	TODO	TODO	TODO
+ColumnViewer	protected	createViewerEditor	protected abstract ColumnViewerEditor createViewerEditor();	0	TODO	TODO	TODO
+ColumnViewer	public	getCell	public ViewerCell getCell(Point point)	0	TODO	TODO	TODO
+ColumnViewer	protected	getViewerRow	protected ViewerRow getViewerRow(Point point)	0	TODO	TODO	TODO
+ColumnViewer	protected	getViewerRowFromItem	protected abstract ViewerRow getViewerRowFromItem(Widget item);	0	TODO	TODO	TODO
+ColumnViewer	protected	getColumnViewerOwner	protected abstract Widget getColumnViewerOwner(int columnIndex);	0	TODO	TODO	TODO
+ColumnViewer	protected	getItemAt	protected abstract Item getItemAt(Point point);	0	TODO	TODO	TODO
+ColumnViewer	protected	getItem	protected Item getItem(int x, int y)	0	TODO	TODO	TODO
+ColumnViewer	public	setLabelProvider	public void setLabelProvider(IBaseLabelProvider labelProvider)	7	TODO	TODO	TODO
+ColumnViewer	public	cancelEditing	public void cancelEditing()	0	TODO	TODO	TODO
+ColumnViewer	public	applyEditorValue	public void applyEditorValue()	0	TODO	TODO	TODO
+ColumnViewer	public	editElement	public void editElement(Object element, int column)	0	TODO	TODO	TODO
+ColumnViewer	public	getCellEditors	public CellEditor[] getCellEditors()	0	TODO	TODO	TODO
+ColumnViewer	public	getCellModifier	public ICellModifier getCellModifier()	0	TODO	TODO	TODO
+ColumnViewer	public	getColumnProperties	public Object[] getColumnProperties()	0	TODO	TODO	TODO
+ColumnViewer	public	isCellEditorActive	public boolean isCellEditorActive()	0	TODO	TODO	TODO
+ColumnViewer	public	refresh	public void refresh(Object element)	19	TODO	TODO	TODO
+ColumnViewer	public	refresh	public void refresh(Object element, boolean updateLabels)	19	TODO	TODO	TODO
+ColumnViewer	public	update	public void update(Object element, String[] properties)	8	TODO	TODO	TODO
+ColumnViewer	public	setCellEditors	public void setCellEditors(CellEditor[] editors)	0	TODO	TODO	TODO
+ColumnViewer	public	setCellModifier	public void setCellModifier(ICellModifier modifier)	0	TODO	TODO	TODO
+ColumnViewer	public	setColumnProperties	public void setColumnProperties(String[] columnProperties)	0	TODO	TODO	TODO
+ColumnViewer	protected	doGetColumnCount	protected abstract int doGetColumnCount();	0	TODO	TODO	TODO
+ColumnViewer	public	getLabelProvider	public CellLabelProvider getLabelProvider(int columnIndex)	0	TODO	TODO	TODO
+ColumnViewer	protected	handleDispose	protected void handleDispose(DisposeEvent event)	0	TODO	TODO	TODO
+ColumnViewer	protected	triggerEditorActivationEvent	protected void triggerEditorActivationEvent(	0	TODO	TODO	TODO
+ColumnViewer	public	setColumnViewerEditor	public void setColumnViewerEditor(ColumnViewerEditor columnViewerEditor)	0	TODO	TODO	TODO
+ColumnViewer	public	getColumnViewerEditor	public ColumnViewerEditor getColumnViewerEditor()	0	TODO	TODO	TODO
+ColumnViewer	protected	getRawChildren	protected Object[] getRawChildren(Object parent)	0	TODO	TODO	TODO
+ColumnViewer	protected	checkBusy	protected boolean checkBusy()	0	TODO	TODO	TODO
+ColumnViewer	protected	setBusy	protected void setBusy(boolean busy)	0	TODO	TODO	TODO
+ColumnViewer	public	isBusy	public boolean isBusy()	0	TODO	TODO	TODO
+ColumnViewer	protected	getSortedChildren	protected Object[] getSortedChildren(Object parent)	0	TODO	TODO	TODO
+ColumnViewer	public	setDisplayIncrementally	public void setDisplayIncrementally(int incrementSize)	0	TODO	TODO	TODO
+ColumnViewer	protected	disassociate	protected void disassociate(Item item)	0	TODO	TODO	TODO
+ColumnViewer	protected	handleDoubleSelect	protected void handleDoubleSelect(SelectionEvent event)	0	TODO	TODO	TODO
+ColumnViewer	public	isExpandableNode	public final boolean isExpandableNode(Object element)	0	TODO	TODO	TODO
+ColumnViewer	protected	updateSelection	protected void updateSelection(ISelection selection)	0	TODO	TODO	TODO
+ColumnViewer	protected	firePostSelectionChanged	protected void firePostSelectionChanged(SelectionChangedEvent event)	0	TODO	TODO	TODO
+ColumnViewer	protected	unmapAllElements	protected void unmapAllElements()	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	AbstractTreeViewer	protected AbstractTreeViewer()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	add	public void add(Object parentElementOrTreePath, Object... childElements)	87	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalAdd	protected void internalAdd(Widget widget, Object parentElementOrTreePath,	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	indexForElement	protected int indexForElement(Widget parent, Object element)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getSortedChildren	protected Object[] getSortedChildren(Object parentElementOrTreePath)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	add	public void add(Object parentElementOrTreePath, Object childElement)	87	TODO	TODO	TODO
+AbstractTreeViewer	protected	addSelectionListener	protected void addSelectionListener(Control control,	21	TODO	TODO	TODO
+AbstractTreeViewer	public	addTreeListener	public void addTreeListener(ITreeViewerListener listener)	1	TODO	TODO	TODO
+AbstractTreeViewer	protected	addTreeListener	protected abstract void addTreeListener(Control control,	1	TODO	TODO	TODO
+AbstractTreeViewer	protected	associate	protected void associate(Object element, Item item)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	collapseAll	public void collapseAll()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	collapseSelection	public void collapseSelection()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	collapseSelectionToLevel	public void collapseSelectionToLevel(int level)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	collapseToLevel	public void collapseToLevel(Object elementOrTreePath, int level)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	createChildren	protected void createChildren(final Widget widget)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	createTreeItem	protected void createTreeItem(Widget parent, Object element, int index)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	disassociate	protected void disassociate(Item item)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	doFindInputItem	protected Widget doFindInputItem(Object element)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	doFindItem	protected Widget doFindItem(Object element)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	doUpdateItem	protected void doUpdateItem(final Item item, Object element)	1	TODO	TODO	TODO
+AbstractTreeViewer	protected	isSameSelection	protected boolean isSameSelection(List<Item> items, Item[] current)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	doUpdateItem	protected void doUpdateItem(Widget widget, Object element, boolean fullMap)	1	TODO	TODO	TODO
+AbstractTreeViewer	public	expandAll	public void expandAll()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	expandSelection	public void expandSelection()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	expandSelectionToLevel	public void expandSelectionToLevel(int level)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	expandAll	public void expandAll(boolean disableRedraw)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	expandToLevel	public void expandToLevel(int level)	1	TODO	TODO	TODO
+AbstractTreeViewer	public	expandToLevel	public void expandToLevel(int level, boolean disableRedraw)	1	TODO	TODO	TODO
+AbstractTreeViewer	public	expandToLevel	public void expandToLevel(Object elementOrTreePath, int level)	1	TODO	TODO	TODO
+AbstractTreeViewer	public	expandToLevel	public void expandToLevel(Object elementOrTreePath, int level, boolean disableRedraw)	1	TODO	TODO	TODO
+AbstractTreeViewer	protected	fireTreeCollapsed	protected void fireTreeCollapsed(final TreeExpansionEvent event)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	fireTreeExpanded	protected void fireTreeExpanded(final TreeExpansionEvent event)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	getAutoExpandLevel	public int getAutoExpandLevel()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	getAutoExpandOnSingleChildLevels	public int getAutoExpandOnSingleChildLevels()	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getChildren	protected abstract Item[] getChildren(Widget widget);	21	TODO	TODO	TODO
+AbstractTreeViewer	protected	getChild	protected Item getChild(Widget widget, int index)	3	TODO	TODO	TODO
+AbstractTreeViewer	protected	getExpanded	protected abstract boolean getExpanded(Item item);	1	TODO	TODO	TODO
+AbstractTreeViewer	public	getExpandedElements	public Object[] getExpandedElements()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	getExpandedState	public boolean getExpandedState(Object elementOrTreePath)	2	TODO	TODO	TODO
+AbstractTreeViewer	protected	getItemCount	protected abstract int getItemCount(Control control);	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getItemCount	protected abstract int getItemCount(Item item);	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getItems	protected abstract Item[] getItems(Item item);	1	TODO	TODO	TODO
+AbstractTreeViewer	protected	getNextItem	protected Item getNextItem(Item item, boolean includeChildren)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getParentItem	protected abstract Item getParentItem(Item item);	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getPreviousItem	protected Item getPreviousItem(Item item)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getRawChildren	protected Object[] getRawChildren(Object parentElementOrTreePath)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getSelection	protected abstract Item[] getSelection(Control control);	24	TODO	TODO	TODO
+AbstractTreeViewer	protected	getSelectionFromWidget	protected List getSelectionFromWidget()	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	handleDoubleSelect	protected void handleDoubleSelect(SelectionEvent event)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	handleTreeCollapse	protected void handleTreeCollapse(TreeEvent event)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	handleTreeExpand	protected void handleTreeExpand(TreeEvent event)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	hookControl	protected void hookControl(Control control)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	inputChanged	protected void inputChanged(Object input, Object oldInput)	2	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalInitializeTree	protected void internalInitializeTree(Control tree)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalCollapseToLevel	protected void internalCollapseToLevel(Widget widget, int level)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalExpand	protected Widget internalExpand(Object elementOrPath, boolean expand)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getParentElement	protected Object getParentElement(Object elementOrTreePath)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalGetWidgetToSelect	protected Widget internalGetWidgetToSelect(Object elementOrTreePath)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalExpandToLevel	protected void internalExpandToLevel(Widget widget, int level)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalRefresh	protected void internalRefresh(Object element)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalRefresh	protected void internalRefresh(Object element, boolean updateLabels)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalRefresh	protected void internalRefresh(Widget widget, Object element,	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalRemove	protected void internalRemove(Object[] elementsOrPaths)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	internalRemove	protected void internalRemove(Object parent, Object[] elements)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	isExpandable	public boolean isExpandable(Object elementOrTreePath)	1	TODO	TODO	TODO
+AbstractTreeViewer	protected	labelProviderChanged	protected void labelProviderChanged()	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	newItem	protected abstract Item newItem(Widget parent, int style, int index);	0	TODO	TODO	TODO
+AbstractTreeViewer	public	remove	public void remove(final Object... elementsOrTreePaths)	12	TODO	TODO	TODO
+AbstractTreeViewer	public	remove	public void remove(final Object parent, final Object... elements)	12	TODO	TODO	TODO
+AbstractTreeViewer	public	remove	public void remove(Object elementsOrTreePaths)	12	TODO	TODO	TODO
+AbstractTreeViewer	protected	removeAll	protected abstract void removeAll(Control control);	3	TODO	TODO	TODO
+AbstractTreeViewer	public	removeTreeListener	public void removeTreeListener(ITreeViewerListener listener)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	reveal	public void reveal(Object elementOrTreePath)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	scrollDown	public Item scrollDown(int x, int y)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	scrollUp	public Item scrollUp(int x, int y)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	setAutoExpandLevel	public void setAutoExpandLevel(int level)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	setAutoExpandOnSingleChildLevels	public void setAutoExpandOnSingleChildLevels(int level)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	setContentProvider	public void setContentProvider(IContentProvider provider)	7	TODO	TODO	TODO
+AbstractTreeViewer	protected	assertContentProviderType	protected void assertContentProviderType(IContentProvider provider)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	setExpanded	protected abstract void setExpanded(Item item, boolean expand);	1	TODO	TODO	TODO
+AbstractTreeViewer	public	setExpandedElements	public void setExpandedElements(Object... elements)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	setExpandedTreePaths	public void setExpandedTreePaths(TreePath... treePaths)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	setExpandedState	public void setExpandedState(Object elementOrTreePath, boolean expanded)	3	TODO	TODO	TODO
+AbstractTreeViewer	public	setExpandedStateWithAutoExpandOnSingleChild	public void setExpandedStateWithAutoExpandOnSingleChild(Object elementOrTreePath, boolean expanded)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	setSelection	protected abstract void setSelection(List<Item> items);	38	TODO	TODO	TODO
+AbstractTreeViewer	protected	setSelectionToWidget	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List v, boolean reveal)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	showItem	protected abstract void showItem(Item item);	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	updateChildren	protected void updateChildren(Widget widget, Object parent,	0	TODO	TODO	TODO
+AbstractTreeViewer	public	getChildren	public Item[] getChildren(Widget widget, Object[] elementChildren)	21	TODO	TODO	TODO
+AbstractTreeViewer	protected	updatePlus	protected void updatePlus(Item item, Object element)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	getVisibleExpandedElements	public Object[] getVisibleExpandedElements()	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getTreePathFromItem	protected TreePath getTreePathFromItem(Item item)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	getSelection	public ISelection getSelection()	24	TODO	TODO	TODO
+AbstractTreeViewer	public	getStructuredSelection	public ITreeSelection getStructuredSelection() throws ClassCastException	15	TODO	TODO	TODO
+AbstractTreeViewer	protected	setSelectionToWidget	protected void setSelectionToWidget(ISelection selection, boolean reveal)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	getExpandedTreePaths	public TreePath[] getExpandedTreePaths()	0	TODO	TODO	TODO
+AbstractTreeViewer	public	insert	public void insert(Object parentElementOrTreePath, Object element,	2	TODO	TODO	TODO
+AbstractTreeViewer	protected	getColumnViewerOwner	protected Widget getColumnViewerOwner(int columnIndex)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getItemAt	protected Item getItemAt(Point point)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	createViewerEditor	protected ColumnViewerEditor createViewerEditor()	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	doGetColumnCount	protected int doGetColumnCount()	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	buildLabel	protected void buildLabel(ViewerLabel updateLabel, Object elementOrPath)	0	TODO	TODO	TODO
+AbstractTreeViewer	protected	getViewerRowFromItem	protected ViewerRow getViewerRowFromItem(Widget item)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	setExpandPreCheckFilters	public void setExpandPreCheckFilters(boolean checkFilters)	0	TODO	TODO	TODO
+AbstractTreeViewer	public	contains	public boolean contains(Object parent, Object element)	22	TODO	TODO	TODO
+TreeViewer	public	TreeViewer	public TreeViewer(Composite parent)	0	TODO	TODO	TODO
+TreeViewer	public	TreeViewer	public TreeViewer(Composite parent, int style)	0	TODO	TODO	TODO
+TreeViewer	public	TreeViewer	public TreeViewer(Tree tree)	0	TODO	TODO	TODO
+TreeViewer	protected	addTreeListener	protected void addTreeListener(Control c, TreeListener listener)	1	TODO	TODO	TODO
+TreeViewer	protected	getColumnViewerOwner	protected Widget getColumnViewerOwner(int columnIndex)	0	TODO	TODO	TODO
+TreeViewer	protected	getChildren	protected Item[] getChildren(Widget o)	21	TODO	TODO	TODO
+TreeViewer	public	getControl	public Control getControl()	16	TODO	TODO	TODO
+TreeViewer	protected	getExpanded	protected boolean getExpanded(Item item)	1	TODO	TODO	TODO
+TreeViewer	protected	getItemAt	protected Item getItemAt(Point p)	0	TODO	TODO	TODO
+TreeViewer	protected	getItemCount	protected int getItemCount(Control widget)	0	TODO	TODO	TODO
+TreeViewer	protected	getItemCount	protected int getItemCount(Item item)	0	TODO	TODO	TODO
+TreeViewer	protected	getItems	protected Item[] getItems(Item item)	1	TODO	TODO	TODO
+TreeViewer	public	getLabelProvider	public IBaseLabelProvider getLabelProvider()	0	TODO	TODO	TODO
+TreeViewer	protected	getParentItem	protected Item getParentItem(Item item)	0	TODO	TODO	TODO
+TreeViewer	protected	getSelection	protected Item[] getSelection(Control widget)	24	TODO	TODO	TODO
+TreeViewer	public	getTree	public Tree getTree()	19	TODO	TODO	TODO
+TreeViewer	protected	hookControl	protected void hookControl(Control control)	0	TODO	TODO	TODO
+TreeViewer	protected	createViewerEditor	protected ColumnViewerEditor createViewerEditor()	0	TODO	TODO	TODO
+TreeViewer	protected	newItem	protected Item newItem(Widget parent, int flags, int ix)	0	TODO	TODO	TODO
+TreeViewer	protected	removeAll	protected void removeAll(Control widget)	3	TODO	TODO	TODO
+TreeViewer	protected	setExpanded	protected void setExpanded(Item node, boolean expand)	1	TODO	TODO	TODO
+TreeViewer	protected	setSelection	protected void setSelection(List<Item> items)	38	TODO	TODO	TODO
+TreeViewer	protected	showItem	protected void showItem(Item item)	0	TODO	TODO	TODO
+TreeViewer	protected	getChild	protected Item getChild(Widget widget, int index)	3	TODO	TODO	TODO
+TreeViewer	protected	assertContentProviderType	protected void assertContentProviderType(IContentProvider provider)	0	TODO	TODO	TODO
+TreeViewer	protected	getRawChildren	protected Object[] getRawChildren(Object parent)	0	TODO	TODO	TODO
+TreeViewer	public	setChildCount	public void setChildCount(final Object elementOrTreePath, final int count)	0	TODO	TODO	TODO
+TreeViewer	public	replace	public void replace(final Object parentElementOrTreePath, final int index,	0	TODO	TODO	TODO
+TreeViewer	public	isExpandable	public boolean isExpandable(Object element)	1	TODO	TODO	TODO
+TreeViewer	protected	getParentElement	protected Object getParentElement(Object element)	0	TODO	TODO	TODO
+TreeViewer	protected	internalAdd	protected void internalAdd(Widget widget, Object parentElement,	0	TODO	TODO	TODO
+TreeViewer	protected	internalRefreshStruct	protected void internalRefreshStruct(Widget widget, Object element,	0	TODO	TODO	TODO
+TreeViewer	protected	mapElement	protected void mapElement(Object element, final Widget item)	0	TODO	TODO	TODO
+TreeViewer	protected	getViewerRowFromItem	protected ViewerRow getViewerRowFromItem(Widget item)	0	TODO	TODO	TODO
+TreeViewer	protected	internalInitializeTree	protected void internalInitializeTree(Control widget)	0	TODO	TODO	TODO
+TreeViewer	protected	updatePlus	protected void updatePlus(Item item, Object element)	0	TODO	TODO	TODO
+TreeViewer	public	remove	public void remove(final Object parentOrTreePath, final int index)	12	TODO	TODO	TODO
+TreeViewer	protected	handleTreeExpand	protected void handleTreeExpand(TreeEvent event)	0	TODO	TODO	TODO
+TreeViewer	protected	handleTreeCollapse	protected void handleTreeCollapse(TreeEvent event)	0	TODO	TODO	TODO
+TreeViewer	public	setContentProvider	public void setContentProvider(IContentProvider provider)	7	TODO	TODO	TODO
+TreeViewer	public	setHasChildren	public void setHasChildren(final Object elementOrTreePath, final boolean hasChildren)	0	TODO	TODO	TODO
+TreeViewer	protected	disassociate	protected void disassociate(Item item)	0	TODO	TODO	TODO
+TreeViewer	protected	doGetColumnCount	protected int doGetColumnCount()	0	TODO	TODO	TODO
+TreeViewer	public	setSelection	public void setSelection(ISelection selection, boolean reveal)	38	TODO	TODO	TODO
+TreeViewer	public	editElement	public void editElement(Object element, int column)	0	TODO	TODO	TODO
