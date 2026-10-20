@@ -22,8 +22,8 @@ if [ "$5" != --inner ]; then
   CFG=$E/config-$SIDE; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator"
   BI=$INSTALL/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info
   { grep '^#' "$BI"
-    grep -v '^#' "$BI" | grep -E '^(org\.eclipse\.(osgi|equinox|core|e4|emf|ui|jface|swt|help|text|urischeme|platform|ant.core|update|compare|debug|search|ltk|team)|org.slf4j|ch.qos|org.apache\.(felix|aries|commons|batik|xmlgraphics|lucene)|org\.osgi|javax|jakarta|org\.w3c|com\.ibm\.icu|com\.sun\.jna|org\.objectweb|org\.sat4j|org\.tukaani|org\.bouncycastle|org\.apache\.httpcomponents|com\.github\.weisj)' \
-      | grep -vE '^[^,]*(equinox.p2.ui|p2.updatechecker|oomph|epp|cheatsheets|ui\.views\.log|ui\.trace|e4\.tools|ui\.monitoring)[^,]*,'
+    grep -v '^#' "$BI" | grep -E '^(org\.eclipse\.(osgi|equinox|core|e4|emf|ui|jface|swt|help|text|urischeme|platform|ant\.core|update|compare|debug|search|ltk|team|ecf)|org\.slf4j|ch\.qos|org\.apache\.(felix|aries|commons|batik|xmlgraphics|lucene|ant)|org\.osgi|javax|jakarta|org\.w3c|com\.ibm\.icu|com\.sun\.jna|org\.objectweb|org\.sat4j|org\.tukaani|org\.bouncycastle|bc[a-z]+,|org\.apache\.httpcomponents|com\.github\.weisj)' \
+      | grep -vE '^[^,]*(equinox\.p2\.ui|p2\.updatechecker|oomph|epp|cheatsheets|ui\.views\.log|ui\.trace|e4\.tools|ui\.monitoring|team\.svn)[^,]*,'
     echo "org.eclipse.ui.ide.m3bench,1.0.0,file:/$E/plugins/org.eclipse.ui.ide.m3bench_1.0.0.jar,4,false"
   } > "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   if [ "$SIDE" != stock ]; then
@@ -40,10 +40,11 @@ org.eclipse.equinox.simpleconfigurator.configUrl=file\:${CFG/:/\:}/org.eclipse.e
 eclipse.application=org.eclipse.ui.ide.workbench
 eclipse.product=org.eclipse.platform.ide
 osgi.splashPath=platform\:/base/plugins/org.eclipse.platform
+eclipse.pluginCustomization=${CFG/:/\:}/plugin_customization.ini
 CFGEOF
-  printf "org.eclipse.ui/showIntro=false
-org.eclipse.ui.ide/SHOW_WORKSPACE_SELECTION_DIALOG=false
-" > "$CFG/plugin_customization.ini"
+  # no welcome page, no workspace prompt, no update check: nothing but the workbench and the bench
+  printf '%s\n' org.eclipse.ui/showIntro=false org.eclipse.ui.ide/SHOW_WORKSPACE_SELECTION_DIALOG=false \
+    org.eclipse.equinox.p2.ui.sdk.scheduler/enabled=false > "$CFG/plugin_customization.ini"
   echo "bundles: $(grep -vc '^#' "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info")"
   # 3. first start outside the lock, headless (no application): Equinox installs the framework extensions and asks
   #    for a restart (exit 23, which only the native launcher handles), the second start resolves; the measured run
