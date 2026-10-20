@@ -71,8 +71,14 @@ CFG=$E/config-$SIDE-$N; [ -d "$CFG" ] || CFG=$E/config-$SIDE
 WS=$E/ws-$SIDE-$N; rm -rf "$WS" "$E/user-$SIDE-$N"; mkdir -p "$WS"
 LAUNCHER=$(ls "$POOL" | grep '^org.eclipse.equinox.launcher_' | head -1)
 RES=$E/markers-results.tsv; LABEL=$SIDE-$N
+COV=""
+if [ -n "${COVER:-}" ] && [ "$SIDE" != stock ]; then
+  # JaCoCo over the M3 classes the run exercises (markers lanes and delta path, the viewer delta API, the part visibility bridge)
+  AG=$(cygpath -m "$HOME/.m2/repository")/org/jacoco/org.jacoco.agent/0.8.15/org.jacoco.agent-0.8.15-runtime.jar; mkdir -p "$OUT/coverage"
+  COV="-javaagent:$(cygpath -w "$AG")=destfile=$(cygpath -w "$OUT/coverage/markers-$SIDE-$N.exec"),includes=org.eclipse.ui.internal.views.markers.M3*:org.eclipse.jface.viewers.m3.*:org.eclipse.ui.internal.m3.*"
+fi
 DIFF=""; [ -n "$SEED" ] && DIFF="-Dm3.markers.log=$(cygpath -w "$E/diff-$SIDE-$N-$SEED.log") -Dm3.markers.seed=$SEED -Dm3.markers.steps=$STEPS"
 w() { cygpath -w "$1"; }
-CMD="\"$(w "$JDK25/bin/java.exe")\" -Xmx${XMX:-4g} -XX:+UseG1GC -XX:ErrorFile=$(w "$OUT/tmp")\hs_err_%p.log --add-modules=ALL-SYSTEM -Djava.io.tmpdir=$(w "$OUT/tmp") -Dosgi.requiredJavaVersion=21 -Dosgi.user.area=$(w "$E/user-$SIDE-$N") -Dm3.markers.out=$(w "$RES") -Dm3.markers.label=$LABEL -Dm3.markers.n=$N $DIFF ${MARKERS_OPTS:-} -jar $(w "$POOL/$LAUNCHER") -install $(w "$INSTALL") -configuration $(w "$CFG") -data $(w "$WS") -nosplash -consoleLog ${MARKERS_ARGS:-}"
+CMD="\"$(w "$JDK25/bin/java.exe")\" -Xmx${XMX:-4g} -XX:+UseG1GC -XX:ErrorFile=$(w "$OUT/tmp")\hs_err_%p.log --add-modules=ALL-SYSTEM -Djava.io.tmpdir=$(w "$OUT/tmp") -Dosgi.requiredJavaVersion=21 -Dosgi.user.area=$(w "$E/user-$SIDE-$N") -Dm3.markers.out=$(w "$RES") -Dm3.markers.label=$LABEL -Dm3.markers.n=$N $DIFF $COV ${MARKERS_OPTS:-} -jar $(w "$POOL/$LAUNCHER") -install $(w "$INSTALL") -configuration $(w "$CFG") -data $(w "$WS") -nosplash -consoleLog ${MARKERS_ARGS:-}"
 powershell -NoProfile -ExecutionPolicy Bypass -File "$(cygpath -w C:/m3-superset/tools/run_hidden_desktop.ps1)" -TimeoutSec ${MARKERS_TIMEOUT:-1800} -Log "$(w "$E/run-$LABEL.log")" -CommandLine "$CMD" -Desktop "${M3_UI_DESKTOP:-m3-ui-tests}" || echo "hidden desktop run: exit $?"
 grep -P "^$LABEL\t" "$RES" || { echo "no rows for $LABEL; log tail:"; tail -30 "$E/run-$LABEL.log"; }
