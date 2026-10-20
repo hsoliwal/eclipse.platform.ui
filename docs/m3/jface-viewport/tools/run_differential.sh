@@ -6,7 +6,7 @@
 . "$(dirname "$0")/jface_env.sh"
 if [ "$1" != --inner ]; then
   . "$(dirname "$0")/snapshot.sh"; snapshot "$OUT/runs/diff-$2"
-  exec bash C:/m3-superset/tools/ui_lock.sh jface-viewport bash "$0" --inner "$@"
+  exec bash "$(dirname "$0")/ui_lock_local.sh" jface-viewport bash "$0" --inner "$@"
 fi
 shift
 TAG=$1 FIRST=$2 COUNT=$3 STEPS=${4:-60}

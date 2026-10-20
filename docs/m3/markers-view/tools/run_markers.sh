@@ -42,7 +42,7 @@ eclipse.product=org.eclipse.platform.ide
 osgi.splashPath=platform\:/base/plugins/org.eclipse.platform
 CFGEOF
   echo "bundles: $(grep -vc '^#' "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info")"
-  exec bash C:/m3-superset/tools/ui_lock.sh jface-viewport bash "$0" "$SIDE" "$N" "$SEED" "$STEPS" --inner "$INSTALL" "$POOL" "$JDK25"
+  exec bash "$WT/docs/m3/jface-viewport/tools/ui_lock_local.sh" jface-viewport bash "$0" "$SIDE" "$N" "$SEED" "$STEPS" --inner "$INSTALL" "$POOL" "$JDK25"
 fi
 INSTALL=$6 POOL=$7 JDK25=$8
 CFG=$E/config-$SIDE; WS=$E/ws-$SIDE-$N; rm -rf "$WS" "$E/user-$SIDE"; mkdir -p "$WS"
