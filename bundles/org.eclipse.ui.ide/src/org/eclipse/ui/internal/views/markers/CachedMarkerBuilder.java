@@ -212,6 +212,10 @@ public class CachedMarkerBuilder {
 	 * @return int
 	 */
 	static int getTotalMarkerCount(Markers markers) {
+		M3MarkerLanes lanes = markers.m3;
+		if (lanes != null) {
+			return lanes.size();
+		}
 		MarkerSupportItem[] elements = markers.getElements();
 		if (elements.length == 0 || elements[0].isConcrete()) {
 			return elements.length;
@@ -416,6 +420,7 @@ public class CachedMarkerBuilder {
 	 * schedules marker update job
 	 */
 	MarkerUpdateJob scheduleUpdateJob(long delay, boolean clean, boolean[] newChangeFlags) {
+		M3MarkerDeltas.supersede(this);
 
 		setBuilding(true);
 		updateChangeFlags(newChangeFlags);

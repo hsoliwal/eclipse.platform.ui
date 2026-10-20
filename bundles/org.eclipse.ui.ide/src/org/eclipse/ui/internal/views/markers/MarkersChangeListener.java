@@ -123,6 +123,9 @@ class MarkersChangeListener implements IResourceChangeListener {
 			if(!hasApplicableTypes(event)){
 				return;
 			}
+			if (M3MarkerDeltas.offer(this, event, listeningTypes)) {
+				return;
+			}
 
 			builder.getUpdateScheduler().scheduleUpdate();
 		} finally {
