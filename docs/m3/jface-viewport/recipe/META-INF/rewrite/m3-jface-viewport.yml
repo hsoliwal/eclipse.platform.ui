@@ -38,3 +38,9 @@ recipeList:
       parameterCount: 2
       position: METHOD_START
       statements: "\t\tif (M3ViewerPaths.selectListRows(this, in, reveal, listMap)) {\n\t\t\treturn;\n\t\t}"
+  # M3Viewers: a refresh never runs ahead of deltas queued with M3Viewers.post (flush first)
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.jface.viewers.StructuredViewer]
+      methodName: refresh
+      position: METHOD_START
+      statements: "\t\torg.eclipse.jface.viewers.m3.M3Viewers.flush(this);"
