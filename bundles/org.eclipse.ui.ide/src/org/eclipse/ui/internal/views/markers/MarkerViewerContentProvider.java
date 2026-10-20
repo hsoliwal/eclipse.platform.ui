@@ -49,7 +49,8 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof M3MarkerCategory category && markersView.getSearchFilter() == null) {
+		if (parentElement instanceof M3MarkerCategory category) {
+			// the lanes answer with the search text applied before the limit (M3MarkerLanes.windowSlots)
 			return category.window(M3MarkerDeltas.limit(markersView));
 		}
 		if (parentElement instanceof MarkerSupportItem markerItem) {
@@ -61,8 +62,7 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof Markers markers && markers.m3 != null && markers.m3.isFlat()
-				&& markersView.getSearchFilter() == null) {
+		if (inputElement instanceof Markers markers && markers.m3 != null && markers.m3.isFlat()) {
 			return markers.m3.flatWindow(M3MarkerDeltas.limit(markersView));
 		}
 		//use clone

@@ -55,6 +55,10 @@ final class M3MarkerLanes {
 		MarkerGroupingEntry group;
 		/** The entry the filters saw; it names a category the first time one is needed. */
 		MarkerItem item;
+		/** Whether the view's search text keeps the row (true without a search text). */
+		boolean textHit = true;
+		/** The lanes' text generation the hit was computed for. */
+		int textGeneration;
 
 		Change set(long markerId, IMarker m, M3MarkerKeys k, MarkerGroupingEntry g, MarkerItem i) {
 			id = markerId;
@@ -62,6 +66,8 @@ final class M3MarkerLanes {
 			keys = k;
 			group = g;
 			item = i;
+			textHit = true;
+			textGeneration = 0;
 			return this;
 		}
 	}
@@ -112,6 +118,10 @@ final class M3MarkerLanes {
 	private long[] created = new long[64];
 	private int[] type = new int[64];
 	private MarkerEntry[] facades = new MarkerEntry[64];
+	/* the view's search text (MarkerPatternFilter): one hit bit per slot, meaningful while textFilter != null */
+	private long[] textHits = new long[1];
+	private MarkerPatternFilter textFilter;
+	private int textGeneration;
 	private int slots;
 	private int[] free = new int[16];
 	private int freeCount;
@@ -428,6 +438,7 @@ final class M3MarkerLanes {
 		path[slot] = labels.acquire(k.path);
 		created[slot] = k.created;
 		type[slot] = k.type == null ? -1 : labels.acquire(k.type);
+		setTextHit(slot, change.textHit);
 		facades[slot] = null;
 	}
 
@@ -689,11 +700,9 @@ final class M3MarkerLanes {
 	 * @return the entries of the window, in order
 	 */
 	MarkerEntry[] window(Category c, int limit) {
-		int n = limit < 0 ? c.order.size() : Math.min(limit, c.order.size());
-		int[] head = new int[n];
-		c.order.head(n, head);
-		MarkerEntry[] out = new MarkerEntry[n];
-		for (int i = 0; i < n; i++) {
+		int[] head = windowSlots(c, limit);
+		MarkerEntry[] out = new MarkerEntry[head.length];
+		for (int i = 0; i < head.length; i++) {
 			out[i] = facade(head[i]);
 		}
 		return out;
@@ -707,10 +716,98 @@ final class M3MarkerLanes {
 	 * @return the slots, in order
 	 */
 	int[] windowSlots(Category c, int limit) {
-		int n = limit < 0 ? c.order.size() : Math.min(limit, c.order.size());
-		int[] head = new int[n];
-		c.order.head(n, head);
-		return head;
+		int size = c.order.size();
+		if (textFilter == null) {
+			int n = limit < 0 ? size : Math.min(limit, size);
+			int[] head = new int[n];
+			c.order.head(n, head);
+			return head;
+		}
+		// a search text: the matching rows first, then the limit (MarkerViewerContentProvider.getLimitedChildren)
+		int max = limit < 0 ? size : Math.min(limit, size);
+		int[] head = new int[max];
+		int n = 0;
+		for (int i = 0; i < size && n < max; i++) {
+			int slot = c.order.get(i);
+			if (textHit(slot)) {
+				head[n++] = slot;
+			}
+		}
+		return n == max ? head : Arrays.copyOf(head, n);
+	}
+
+	/**
+	 * The search text of the view as a lane: a hit bit per slot. Called on the
+	 * UI thread when the text changes (MarkerPatternFilter.setPattern, before
+	 * the viewer refresh that follows typing) and by a clean rebuild after
+	 * {@link #finishBuild()}.
+	 *
+	 * @param filter the active search filter, or {@code null} for none
+	 */
+	void applyText(MarkerPatternFilter filter) {
+		textGeneration++;
+		textFilter = filter;
+		if (filter == null) {
+			return;
+		}
+		for (int s = 0; s < slots; s++) {
+			if (state[s] != 0) {
+				MarkerEntry e = facades[s];
+				if (e == null) {
+					e = new MarkerEntry(markers[s]);
+					e.setCategory(byId[category[s]].facade);
+				}
+				setTextHit(s, filter.matches(e));
+			}
+		}
+	}
+
+	/** The active search filter, or {@code null}. */
+	MarkerPatternFilter textFilter() {
+		return textFilter;
+	}
+
+	/** Increases on every {@link #applyText}. */
+	int textGeneration() {
+		return textGeneration;
+	}
+
+	/** Whether the search text keeps a slot; every slot without a search text. */
+	boolean textHit(int slot) {
+		return textFilter == null || (textHits[slot >>> 6] & (1L << (slot & 63))) != 0;
+	}
+
+	void setTextHit(int slot, boolean hit) {
+		int word = slot >>> 6;
+		if (word >= textHits.length) {
+			textHits = Arrays.copyOf(textHits, Math.max(word + 1, textHits.length << 1));
+		}
+		if (hit) {
+			textHits[word] |= 1L << (slot & 63);
+		} else {
+			textHits[word] &= ~(1L << (slot & 63));
+		}
+	}
+
+	/**
+	 * The rows of a category the search text keeps (all of them without a
+	 * search text): what stock counts with MarkerPatternFilter over every child.
+	 *
+	 * @param c a category
+	 * @return the matching row count
+	 */
+	int matching(Category c) {
+		int size = c.order.size();
+		if (textFilter == null) {
+			return size;
+		}
+		int m = 0;
+		for (int i = 0; i < size; i++) {
+			if (textHit(c.order.get(i))) {
+				m++;
+			}
+		}
+		return m;
 	}
 
 	/**

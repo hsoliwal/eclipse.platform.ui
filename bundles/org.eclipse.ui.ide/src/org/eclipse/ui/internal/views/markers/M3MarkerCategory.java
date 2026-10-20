@@ -67,17 +67,8 @@ final class M3MarkerCategory extends MarkerCategory {
 	@Override
 	int getShownChildrenCount() {
 		ExtendedMarkersView view = owner.getBuilder().getView();
-		String pattern = view.getSearchFilterPattern();
-		if (pattern == null) {
-			return view.applyMarkerLimit(getChildrenCount());
-		}
-		int generation = lanes.generation();
-		if (generation != shownGeneration || !pattern.equals(shownPattern)) {
-			shownCount = view.countMatchingSearchFilter(getChildren());
-			shownPattern = pattern;
-			shownGeneration = generation;
-		}
-		return shownCount;
+		// the search text is a lane (M3MarkerLanes.applyText): what stock counts over every child
+		return view.applyMarkerLimit(lanes.matching(lane));
 	}
 
 	@Override

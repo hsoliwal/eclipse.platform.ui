@@ -263,6 +263,26 @@ final class M3MarkerDeltas {
 	}
 
 	/**
+	 * The view's search text changed (MarkerPatternFilter.setPattern, called by
+	 * the FilteredTree refresh job on the UI thread before its viewer refresh):
+	 * the lanes recompute their hits, so the windows the refresh reads are the
+	 * matching rows first, then the limit, as stock computes them.
+	 *
+	 * @param view   the view
+	 * @param filter the active search filter, or {@code null} for none
+	 */
+	static void textChanged(ExtendedMarkersView view, MarkerPatternFilter filter) {
+		if (!ENABLED || view == null || view.isDisposed()) {
+			return;
+		}
+		TreeViewer viewer = view.getViewer();
+		Object input = viewer == null ? null : viewer.getInput();
+		if (input instanceof Markers markers && markers.m3 != null) {
+			markers.m3.applyText(filter);
+		}
+	}
+
+	/**
 	 * A clean rebuild is starting: pending and prepared deltas are dropped, as the
 	 * rebuild reads the markers afresh.
 	 *
@@ -319,6 +339,9 @@ final class M3MarkerDeltas {
 			}
 		}
 		lanes.finishBuild();
+		// the search text as a lane: a hit per slot, before the viewer reads any window
+		ExtendedMarkersView view = builder.getView();
+		lanes.applyText(view == null || view.isDisposed() ? null : view.getSearchFilter());
 		return lanes;
 	}
 
@@ -353,7 +376,8 @@ final class M3MarkerDeltas {
 		// group's selectByScope against the current selection for each changed marker, which is exactly the
 		// membership a clean rebuild computes (gather under computeResources, then select). Selection and
 		// working-set changes are scope changes, handled apart (FALLBACKS_TO_DELTAS.md, Bug 296695).
-		return view != null && !view.isDisposed() && view.getSearchFilter() == null;
+		// the search text is a lane too (M3MarkerLanes.applyText), so it is no fallback state any more
+		return view != null && !view.isDisposed();
 	}
 
 	private void add(long id, byte kind, IMarker marker) {
@@ -455,13 +479,16 @@ final class M3MarkerDeltas {
 			IResource[] selected = generator.getSelectedResources();
 			Collection<MarkerFieldFilterGroup> filters = generator.getEnabledFilters();
 			MarkerGroup group = builder.getCategoryGroup();
+			ExtendedMarkersView view = listener.getView();
+			MarkerPatternFilter text = view == null || view.isDisposed() ? null : view.getSearchFilter();
+			int textGen = lanes.textGeneration();
 			for (int i = 0; i < n; i++) {
 				if ((i & 4095) == 4095 && stale(gen)) {
 					return Status.OK_STATUS;
 				}
 				if (batchKinds[i] != NONE) {
 					changes.add(prepareOne(batchIds[i], batchKinds[i], batchMarkers[i], lanes, selected, filters,
-							group));
+							group, text, textGen));
 				}
 			}
 		} catch (CoreException | RuntimeException e) {
@@ -481,8 +508,8 @@ final class M3MarkerDeltas {
 
 	/* one changed marker: its keys and category when it is (still) selected by the filters, else it leaves */
 	private static M3MarkerLanes.Change prepareOne(long id, byte kind, IMarker marker, M3MarkerLanes lanes,
-			IResource[] selected, Collection<MarkerFieldFilterGroup> filters, MarkerGroup group)
-			throws CoreException {
+			IResource[] selected, Collection<MarkerFieldFilterGroup> filters, MarkerGroup group,
+			MarkerPatternFilter text, int textGen) throws CoreException {
 		M3MarkerLanes.Change change = new M3MarkerLanes.Change().set(id, marker, null, null, null);
 		if (kind == IResourceDelta.REMOVED || !marker.exists()) {
 			return change;
@@ -493,7 +520,11 @@ final class M3MarkerDeltas {
 		}
 		MarkerGroupingEntry key = group == null ? null : group.findGroupValue(marker.getType(), marker);
 		candidate.clearCache();
-		return change.set(id, marker, M3MarkerKeys.read(marker, lanes.needsType(), null), key, candidate);
+		change.set(id, marker, M3MarkerKeys.read(marker, lanes.needsType(), null), key, candidate);
+		// the search text: the same test stock's PatternFilter runs on every child, for this row only
+		change.textHit = text == null || text.matches(candidate);
+		change.textGeneration = textGen;
+		return change;
 	}
 
 	private synchronized boolean stale(long gen) {
@@ -517,6 +548,15 @@ final class M3MarkerDeltas {
 			return;
 		}
 		M3MarkerLanes lanes = builder.getMarkers().m3;
+		// a search text typed after this batch was prepared: re-evaluate its hits here (UI thread, few rows)
+		MarkerPatternFilter text = lanes.textFilter();
+		int textGen = lanes.textGeneration();
+		for (M3MarkerLanes.Change c : changes) {
+			if (c.keys != null && c.textGeneration != textGen) {
+				c.textHit = text == null || c.item instanceof MarkerSupportItem item && text.matches(item);
+				c.textGeneration = textGen;
+			}
+		}
 		M3LongSet changed = new M3LongSet(changes.size());
 		for (M3MarkerLanes.Change c : changes) {
 			changed.add(c.id);

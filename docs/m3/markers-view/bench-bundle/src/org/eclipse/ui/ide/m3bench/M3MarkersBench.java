@@ -206,6 +206,25 @@ public final class M3MarkersBench implements IStartup {
 		settle();
 	}
 
+	/** Types into the view's search box (the private {@code filteredTree} field of ExtendedMarkersView). */
+	private void filterText(String text) throws ReflectiveOperationException {
+		for (Class<?> c = view.getClass(); c != null; c = c.getSuperclass()) {
+			try {
+				java.lang.reflect.Field f = c.getDeclaredField("filteredTree"); //$NON-NLS-1$
+				f.setAccessible(true);
+				Object tree = f.get(view);
+				ui(() -> {
+					((org.eclipse.ui.dialogs.FilteredTree) tree).getFilterControl().setText(text);
+					return null;
+				});
+				return;
+			} catch (NoSuchFieldException e) {
+				// try the superclass
+			}
+		}
+		throw new NoSuchFieldException("filteredTree"); //$NON-NLS-1$
+	}
+
 	/** The markers view's viewer, through its package-private {@code getViewer()} (reflection: internal class). */
 	private TreeViewer viewer() throws ReflectiveOperationException {
 		for (Class<?> c = view.getClass(); c != null; c = c.getSuperclass()) {
@@ -302,6 +321,25 @@ public final class M3MarkersBench implements IStartup {
 		items[1] = ui(() -> Integer.valueOf(itemCount(viewer().getTree()))).intValue();
 		row("diff-resize-full-refreshes", n, refreshes.get() - refreshed, 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		row("diff-resize-items-delta", n, items[1] - items[0], 12, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		// the search box: typed text (stock: PatternFilter over every child, then the limit; M3: a hit lane), with
+		// marker edits while the text is active, then the text cleared
+		refreshed = refreshes.get();
+		rebuilt = rebuilds.get();
+		for (String text : new String[] { "Added", "problem 1", "" }) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			filterText(text);
+			Thread.sleep(600); // the FilteredTree refresh job runs after its own delay
+			settle();
+			lines.add("search '" + text + "' | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$
+			if (!text.isEmpty()) {
+				for (int step = 0; step < 3; step++) {
+					String op = edit(random, project);
+					settle();
+					lines.add("search '" + text + "' " + step + " " + op + " | " + answers()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				}
+			}
+		}
+		row("diff-search-full-refreshes", n, refreshes.get() - refreshed, 9, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		row("diff-search-rebuilds", n, rebuilds.get() - rebuilt, 9, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		hiddenSweep(lines, n);
 		scopeSweep(lines, n);
 		Files.write(log, lines, StandardCharsets.UTF_8);
