@@ -20,7 +20,8 @@ if [ "$5" != --inner ]; then
   cp -r "$B/META-INF" "$B/plugin.xml" "$C/classes/"
   (cd "$C/classes" && "C:/Program Files/Java/jdk-21/bin/jar" cfm "$E/plugins/org.eclipse.ui.ide.m3bench_1.0.0.jar" META-INF/MANIFEST.MF .)
   # 2. configuration: platform bundles only (no EPP, Oomph, p2, intro), plus the bench bundle
-  CFG=$E/config-$SIDE; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator"
+  # one configuration per side and size: runs of one side in two desktop slots never share a configuration area
+  CFG=$E/config-$SIDE-$N; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator"
   BI=$INSTALL/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info
   { grep '^#' "$BI"
     grep -v '^#' "$BI" | grep -E '^(org\.eclipse\.(osgi|equinox|core|e4|emf|ui|jface|swt|help|text|urischeme|platform|ant\.core|update|compare|debug|search|ltk|team|ecf)|org\.slf4j|ch\.qos|org\.apache\.(felix|aries|commons|batik|xmlgraphics|lucene|ant)|org\.osgi|javax|jakarta|org\.w3c|com\.ibm\.icu|com\.sun\.jna|org\.objectweb|org\.sat4j|org\.tukaani|org\.bouncycastle|bc[a-z]+,|org\.apache\.httpcomponents|com\.github\.weisj)' \
@@ -57,20 +58,21 @@ CFGEOF
   LAUNCHER=$(ls "$POOL" | grep "^org.eclipse.equinox.launcher_" | head -1)
   for clean in -clean ""; do
     "$JDK25/bin/java.exe" -Xmx1g -XX:ErrorFile="$(cygpath -w "$OUT/tmp")\hs_err_%p.log" -Djava.io.tmpdir="$(cygpath -w "$OUT/tmp")" -jar "$POOL/$LAUNCHER" -install "$INSTALL" -configuration "$(cygpath -w "$CFG")" \
-      -data "$(cygpath -w "$E/ws-warm-$SIDE")" -nosplash -consoleLog $clean -application m3.none.app > "$E/warm-$SIDE.log" 2>&1 \
+      -data "$(cygpath -w "$E/ws-warm-$SIDE-$N")" -nosplash -consoleLog $clean -application m3.none.app > "$E/warm-$SIDE-$N.log" 2>&1 \
       && rc=0 || rc=$?
     echo "warm start ${clean:-plain}: exit $rc"
   done
-  echo "unresolved platform UI bundles: $(grep -cE "Could not resolve module: org\.eclipse\.(jface|swt|ui\.ide|ui\.workbench|ui\.views|e4\.ui)" "$E/warm-$SIDE.log" || true)"
+  echo "unresolved platform UI bundles: $(grep -cE "Could not resolve module: org\.eclipse\.(jface|swt|ui\.ide|ui\.workbench|ui\.views|e4\.ui)" "$E/warm-$SIDE-$N.log" || true)"
   [ -n "${WARM_ONLY:-}" ] && exit 0
   exec bash C:/m3-superset/tools/ui_lock.sh jface-viewport bash "$0" "$SIDE" "$N" "$SEED" "$STEPS" --inner "$INSTALL" "$POOL" "$JDK25"
 fi
 INSTALL=$6 POOL=$7 JDK25=$8
-CFG=$E/config-$SIDE; WS=$E/ws-$SIDE-$N; rm -rf "$WS" "$E/user-$SIDE"; mkdir -p "$WS"
+CFG=$E/config-$SIDE-$N; [ -d "$CFG" ] || CFG=$E/config-$SIDE
+WS=$E/ws-$SIDE-$N; rm -rf "$WS" "$E/user-$SIDE-$N"; mkdir -p "$WS"
 LAUNCHER=$(ls "$POOL" | grep '^org.eclipse.equinox.launcher_' | head -1)
 RES=$E/markers-results.tsv; LABEL=$SIDE-$N
 DIFF=""; [ -n "$SEED" ] && DIFF="-Dm3.markers.log=$(cygpath -w "$E/diff-$SIDE-$N-$SEED.log") -Dm3.markers.seed=$SEED -Dm3.markers.steps=$STEPS"
 w() { cygpath -w "$1"; }
-CMD="\"$(w "$JDK25/bin/java.exe")\" -Xmx${XMX:-4g} -XX:+UseG1GC -XX:ErrorFile=$(w "$OUT/tmp")\hs_err_%p.log --add-modules=ALL-SYSTEM -Djava.io.tmpdir=$(w "$OUT/tmp") -Dosgi.requiredJavaVersion=21 -Dosgi.user.area=$(w "$E/user-$SIDE") -Dm3.markers.out=$(w "$RES") -Dm3.markers.label=$LABEL -Dm3.markers.n=$N $DIFF ${MARKERS_OPTS:-} -jar $(w "$POOL/$LAUNCHER") -install $(w "$INSTALL") -configuration $(w "$CFG") -data $(w "$WS") -nosplash -consoleLog ${MARKERS_ARGS:-}"
+CMD="\"$(w "$JDK25/bin/java.exe")\" -Xmx${XMX:-4g} -XX:+UseG1GC -XX:ErrorFile=$(w "$OUT/tmp")\hs_err_%p.log --add-modules=ALL-SYSTEM -Djava.io.tmpdir=$(w "$OUT/tmp") -Dosgi.requiredJavaVersion=21 -Dosgi.user.area=$(w "$E/user-$SIDE-$N") -Dm3.markers.out=$(w "$RES") -Dm3.markers.label=$LABEL -Dm3.markers.n=$N $DIFF ${MARKERS_OPTS:-} -jar $(w "$POOL/$LAUNCHER") -install $(w "$INSTALL") -configuration $(w "$CFG") -data $(w "$WS") -nosplash -consoleLog ${MARKERS_ARGS:-}"
 powershell -NoProfile -ExecutionPolicy Bypass -File "$(cygpath -w C:/m3-superset/tools/run_hidden_desktop.ps1)" -TimeoutSec ${MARKERS_TIMEOUT:-1800} -Log "$(w "$E/run-$LABEL.log")" -CommandLine "$CMD" -Desktop "${M3_UI_DESKTOP:-m3-ui-tests}" || echo "hidden desktop run: exit $?"
 grep -P "^$LABEL\t" "$RES" || { echo "no rows for $LABEL; log tail:"; tail -30 "$E/run-$LABEL.log"; }

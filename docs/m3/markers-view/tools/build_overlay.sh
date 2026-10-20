@@ -13,7 +13,8 @@ set -e
 WT=${WT:-S:/m3-scratch/worktrees/platform-ui}; OUT=${OUT:-S:/m3-scratch/jface}; E=$OUT/eclipse; B=$OUT/markers-m3
 POOL=$(cygpath -m ~/.p2/pool/plugins); JDK="C:/Program Files/Java/jdk-21"
 STOCK=$(ls "$POOL" | grep '^org.eclipse.ui.ide_3' | head -1)
-JFACE=$(grep -E '^org\.eclipse\.jface,' "$E/config-stock/org.eclipse.equinox.simpleconfigurator/bundles.info" | cut -d, -f3 | sed 's|^file:/||')
+BI=$(ls -d "$E"/config-stock*/org.eclipse.equinox.simpleconfigurator/bundles.info | head -1)
+JFACE=$(grep -E '^org\.eclipse\.jface,' "$BI" | cut -d, -f3 | sed 's|^file:/||')
 mkdir -p "$B" "$E/plugins"
 # 1. JFace
 J=$B/jface-jar; rm -rf "$J" && mkdir -p "$J"
@@ -23,9 +24,9 @@ sed -i 's/^Export-Package: /Export-Package: org.eclipse.jface.viewers.m3,/' "$J/
 rm -f "$E/plugins/org.eclipse.jface_m3.jar"
 (cd "$J" && "$JDK/bin/jar" cfm "$E/plugins/org.eclipse.jface_m3.jar" META-INF/MANIFEST.MF .)
 # 2. org.eclipse.ui.workbench: the M3 helpers (org.eclipse.ui.internal.m3, e.g. M3PartVisibility) added and exported
-WB=$(grep -E '^org\.eclipse\.ui\.workbench,' "$E/config-stock/org.eclipse.equinox.simpleconfigurator/bundles.info" | cut -d, -f3 | sed 's|^file:/||')
+WB=$(grep -E '^org\.eclipse\.ui\.workbench,' "$BI" | cut -d, -f3 | sed 's|^file:/||')
 W=$B/workbench-jar; rm -rf "$W" "$B/wb-classes" && mkdir -p "$W" "$B/wb-classes"
-grep -v '^#' "$E/config-stock/org.eclipse.equinox.simpleconfigurator/bundles.info" | cut -d, -f3 | sed 's|^file:/||' | grep '\.jar$' | grep -v m3bench > "$B/cp.list"
+grep -v '^#' "$BI" | cut -d, -f3 | sed 's|^file:/||' | grep '\.jar$' | grep -v m3bench > "$B/cp.list"
 { echo "-cp"; echo "$OUT/cand/classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
 "$JDK/bin/javac" --release 21 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/wb-classes" \
   "$WT"/bundles/org.eclipse.ui.workbench/eclipseui/org/eclipse/ui/internal/m3/*.java
