@@ -239,15 +239,11 @@ final class M3MarkerDeltas {
 			return false;
 		}
 		ExtendedMarkersView view = listener.getView();
-		if (view == null || view.isDisposed() || view.getSearchFilter() != null) {
-			return false;
-		}
-		for (MarkerFieldFilterGroup group : builder.getGenerator().getEnabledFilters()) {
-			if (group.getScope() != MarkerFieldFilterGroup.ON_ANY) {
-				return false;
-			}
-		}
-		return true;
+		// A resource scope needs no fallback for marker deltas: MarkerContentGenerator.select evaluates every
+		// group's selectByScope against the current selection for each changed marker, which is exactly the
+		// membership a clean rebuild computes (gather under computeResources, then select). Selection and
+		// working-set changes are scope changes, handled apart (FALLBACKS_TO_DELTAS.md, Bug 296695).
+		return view != null && !view.isDisposed() && view.getSearchFilter() == null;
 	}
 
 	private void add(long id, byte kind, IMarker marker) {
