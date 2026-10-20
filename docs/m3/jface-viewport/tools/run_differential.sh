@@ -19,7 +19,21 @@ for side in stock original viewport; do
     -Djface.viewer.mode=$MODE $AGENT -cp "$(cygpath -w "$T");$(cygpath -w "$JF");$(cygpath -w "$SWT_JAR");$(deps)" \
     org.eclipse.jface.tests.viewers.m3.M3ViewerDifferential "$(cygpath -w "$D/$side")" "$FIRST" "$COUNT" "$STEPS"
 done
-for side in original viewport; do
-  n=$(ls "$D/stock" 2>/dev/null | wc -l); m=$(ls "$D/$side" 2>/dev/null | wc -l)
-  if [ "$n" -gt 0 ] && diff -rq "$D/stock" "$D/$side" > "$D/$side.diff" 2>&1; then echo "$side vs stock: IDENTICAL ($m/$n logs)"; else echo "$side vs stock: $(wc -l < "$D/$side.diff") differing logs ($m/$n)"; fi
-done
+# A log that differs only after a step where stock threw (the driver records "<step> exception ..." and ends the script)
+# is a stock defect, not a mismatch, when every line before that step is identical: the defect goes to
+# UPSTREAM_DEFECTS.tsv. Anything else that differs is a mismatch.
+compare() { # compare <side>: prints the summary line, writes <side>.diff (mismatches) and <side>.defects
+  local side=$1 same=0 defect=0 bad=0 f s
+  : > "${D:?}/$side.diff"; : > "${D:?}/$side.defects"
+  for f in $(ls "$D/stock"); do
+    if cmp -s "$D/stock/$f" "$D/$side/$f"; then same=$((same + 1)); continue; fi
+    s=$(grep -n -m1 '^[0-9]* exception ' "$D/stock/$f" | cut -d: -f1)
+    if [ -n "$s" ] && [ -f "$D/$side/$f" ] && cmp -s <(head -n $((s - 1)) "$D/stock/$f") <(head -n $((s - 1)) "$D/$side/$f"); then
+      defect=$((defect + 1)); echo "stock-defect $f line $s: $(sed -n "${s}p" "$D/stock/$f" | cut -c1-160)" >> "$D/$side.defects"
+    else
+      bad=$((bad + 1)); echo "$f" >> "$D/$side.diff"
+    fi
+  done
+  echo "$side vs stock: $bad mismatches ($same identical, $defect identical up to a stock exception; $(ls "$D/$side" | wc -l)/$(ls "$D/stock" | wc -l) logs)"
+}
+for side in original viewport; do compare $side; done
