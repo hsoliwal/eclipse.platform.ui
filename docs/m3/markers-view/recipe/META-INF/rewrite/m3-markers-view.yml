@@ -103,3 +103,14 @@ recipeList:
       memberName: m3Building
       beforeMethod: setBuilding
       memberSource: "\t/**\n\t * Whether a clean rebuild is running, without the change listener's receiving flag that\n\t * {@link #isBuilding()} adds: the delta path asks from inside resourceChanged (M3MarkerDeltas).\n\t *\n\t * @return whether a clean rebuild is running\n\t */\n\tboolean m3Building() {\n\t\treturn building;\n\t}\n"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkerContentGenerator]
+      methodName: requestMarkerUpdate
+      position: METHOD_START
+      statements: "\t\tif (builder != null && M3MarkerDeltas.scopeChanged(builder)) {\n\t\t\treturn;\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.CachedMarkerBuilder$WorkingSetListener]
+      methodName: propertyChange
+      anchor: "scheduleUpdate();"
+      position: BEFORE
+      statements: "\t\t\t\tif (M3MarkerDeltas.scopeChanged(CachedMarkerBuilder.this)) {\n\t\t\t\t\treturn;\n\t\t\t\t}"

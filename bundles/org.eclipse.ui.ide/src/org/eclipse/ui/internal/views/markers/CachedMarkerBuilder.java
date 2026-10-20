@@ -625,6 +625,9 @@ public class CachedMarkerBuilder {
 				}
 			}
 			if (needsUpdate) {
+				if (M3MarkerDeltas.scopeChanged(CachedMarkerBuilder.this)) {
+					return;
+				}
 				scheduleUpdate();
 			}
 		}

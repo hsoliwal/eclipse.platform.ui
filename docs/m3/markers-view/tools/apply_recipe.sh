@@ -9,7 +9,7 @@ JAVA_HOME="C:/Program Files/Java/jdk-21"
 C=K:/m3-work/syn-recipes/synexia-openrewrite-recipes/crates/m3-viewport-catalogue-recipes
 CPR="$(cygpath -w "$WT/docs/m3/markers-view/recipe");$C/target/classes;$(cat $C/target/cp.txt)"
 M="$SRC/org/eclipse/ui/internal/views/markers"
-FILES=("$M/MarkersChangeListener.java" "$M/CachedMarkerBuilder.java" "$M/Markers.java" "$M/MarkerViewerContentProvider.java" "$M/MarkersTreeViewer.java" "$M/ExtendedMarkersView.java")
+FILES=("$M/MarkersChangeListener.java" "$M/CachedMarkerBuilder.java" "$M/Markers.java" "$M/MarkerViewerContentProvider.java" "$M/MarkersTreeViewer.java" "$M/ExtendedMarkersView.java" "$M/MarkerContentGenerator.java")
 # The OpenRewrite Java 21 parser rejects unnamed variables (Java 22, e.g. "_ ->"): such a file parses as an error and
 # stays UNCHANGED. Each isolated "_" token is swapped for a unique placeholder before the passes and back after.
 sed -i "s/\b_\b/m3UnnamedVar0/g" "${FILES[@]}"

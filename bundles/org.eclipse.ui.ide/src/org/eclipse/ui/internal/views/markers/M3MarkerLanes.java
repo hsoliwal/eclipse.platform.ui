@@ -624,6 +624,24 @@ final class M3MarkerLanes {
 		return live;
 	}
 
+	/**
+	 * A consistent snapshot of the shown marker ids (any thread; the UI thread
+	 * applies changes under the same lock).
+	 *
+	 * @return the ids, sorted ascending
+	 */
+	synchronized long[] liveIds() {
+		long[] out = new long[live];
+		int k = 0;
+		for (int s = 0; s < slots; s++) {
+			if (state[s] != 0) {
+				out[k++] = ids[s];
+			}
+		}
+		Arrays.sort(out);
+		return out;
+	}
+
 	/** @return the number of distinct labels (heap evidence) */
 	int labelCount() {
 		return labels.size();

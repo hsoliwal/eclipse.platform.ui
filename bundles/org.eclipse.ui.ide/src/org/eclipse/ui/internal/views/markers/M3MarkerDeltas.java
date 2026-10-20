@@ -115,6 +115,115 @@ final class M3MarkerDeltas {
 		job = Job.create("M3 marker deltas", this::prepare); //$NON-NLS-1$
 		job.setSystem(true);
 		job.setPriority(Job.SHORT);
+		scopeJob = Job.create("M3 marker scope", this::diffScope); //$NON-NLS-1$
+		scopeJob.setSystem(true);
+		scopeJob.setPriority(Job.SHORT);
+	}
+
+	/* ---------------------------------------------------------------- scope and filter changes */
+
+	private final Job scopeJob;
+	private int knownLimit = Integer.MIN_VALUE;
+
+	/**
+	 * The shown set may have changed without any marker change: the selection
+	 * (resource-scoped filters), a working set, or the filters themselves
+	 * (MarkerContentGenerator.requestMarkerUpdate, CachedMarkerBuilder's working
+	 * set listener). Stock answers with a clean rebuild and a full refresh. In M3
+	 * mode one job gathers the markers the filters now select, diffs their ids
+	 * against the lanes (two-pointer merge of sorted id arrays) and applies only
+	 * the markers that entered or left, as one delta: an unchanged result makes
+	 * no update at all (the "contentChanged() == false" answer of Bug 296695).
+	 *
+	 * @param builder the view's builder
+	 * @return {@code true} when the change is taken; {@code false} to run the
+	 *         original clean rebuild
+	 */
+	static boolean scopeChanged(CachedMarkerBuilder builder) {
+		if (!ENABLED) {
+			return false;
+		}
+		M3MarkerDeltas deltas;
+		synchronized (BY_BUILDER) {
+			deltas = BY_BUILDER.computeIfAbsent(builder, b -> new M3MarkerDeltas(b.getMarkerListener(), b));
+		}
+		return deltas.acceptScope();
+	}
+
+	private synchronized boolean acceptScope() {
+		MarkerContentGenerator generator = builder.getGenerator();
+		if (!ready() || generator == null) {
+			return false;
+		}
+		int limit = generator.isMarkerLimitsEnabled() ? generator.getMarkerLimits() : -1;
+		if (knownLimit != Integer.MIN_VALUE && limit != knownLimit) {
+			knownLimit = limit;
+			return false; // the limit changed: every window changes, the clean rebuild refreshes them all
+		}
+		knownLimit = limit;
+		scopeJob.schedule(DEBOUNCE_MILLIS);
+		return true;
+	}
+
+	/* worker thread: gather what the filters select now, diff against the lanes */
+	private IStatus diffScope(IProgressMonitor monitor) {
+		long gen;
+		synchronized (this) {
+			gen = generation;
+		}
+		MarkerContentGenerator generator = builder.getGenerator();
+		M3MarkerLanes lanes = builder.getMarkers().m3;
+		if (generator == null || lanes == null) {
+			return Status.OK_STATUS;
+		}
+		try {
+			long[] shown = lanes.liveIds();
+			List<MarkerEntry> selected = new ArrayList<>();
+			if (!generator.generateMarkerEntries(selected, monitor) || stale(gen)) {
+				return Status.OK_STATUS;
+			}
+			MarkerEntry[] entries = selected.toArray(new MarkerEntry[0]);
+			Arrays.sort(entries, (a, b) -> Long.compare(a.getMarker().getId(), b.getMarker().getId()));
+			List<M3MarkerLanes.Change> changes = new ArrayList<>();
+			MarkerGroup group = builder.getCategoryGroup();
+			int i = 0;
+			int j = 0;
+			while (i < shown.length || j < entries.length) {
+				long left = i < shown.length ? shown[i] : Long.MAX_VALUE;
+				long right = j < entries.length ? entries[j].getMarker().getId() : Long.MAX_VALUE;
+				if (left == right) {
+					i++;
+					j++; // shown before and after: the marker deltas keep it current
+				} else if (left < right) {
+					changes.add(new M3MarkerLanes.Change().set(left, null, null, null, null));
+					i++;
+				} else {
+					MarkerEntry entry = entries[j++];
+					IMarker marker = entry.getMarker();
+					try {
+						MarkerGroupingEntry key = group == null ? null
+								: group.findGroupValue(marker.getType(), marker);
+						changes.add(new M3MarkerLanes.Change().set(right, marker,
+								M3MarkerKeys.read(marker, lanes.needsType(), null), key, entry));
+					} catch (CoreException e) {
+						// deleted since the gather: its REMOVED delta follows; stock skips it too
+					}
+				}
+			}
+			if (changes.isEmpty()) {
+				return Status.OK_STATUS; // the shown set did not change: no update at all
+			}
+			Display.getDefault().asyncExec(() -> {
+				try {
+					apply(gen, changes);
+				} catch (RuntimeException e) {
+					fallback(e);
+				}
+			});
+		} catch (RuntimeException e) {
+			fallback(e);
+		}
+		return Status.OK_STATUS;
 	}
 
 	/**
