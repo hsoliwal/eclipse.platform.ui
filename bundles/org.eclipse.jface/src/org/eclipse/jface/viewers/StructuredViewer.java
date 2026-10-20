@@ -1414,6 +1414,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	@Override
 	public void refresh() {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		Control control = getControl();
 		if (control != null) {
 			control.setRedraw(false);
@@ -1449,6 +1450,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(boolean updateLabels) {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		refresh(getRoot(), updateLabels);
 	}
 
@@ -1465,6 +1467,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the element
 	 */
 	public void refresh(final Object element) {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		preservingSelection(() -> internalRefresh(element));
 	}
 
@@ -1488,6 +1491,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(final Object element, final boolean updateLabels) {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		preservingSelection(() -> internalRefresh(element, updateLabels));
 	}
 
