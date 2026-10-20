@@ -22,8 +22,8 @@ if [ "$5" != --inner ]; then
   CFG=$E/config-$SIDE; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator"
   BI=$INSTALL/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info
   { grep '^#' "$BI"
-    grep -v '^#' "$BI" | grep -E '^(org\.eclipse\.(osgi|equinox|core|e4|emf|ui|jface|swt|help|text|urischeme|platform|ant\.core|update|compare\.core)|org\.apache\.(felix|aries|commons|batik|xmlgraphics|lucene)|org\.osgi|javax|jakarta|org\.w3c|com\.ibm\.icu|com\.sun\.jna|org\.objectweb|org\.sat4j|org\.tukaani|org\.bouncycastle|org\.apache\.httpcomponents)' \
-      | grep -vE '^[^,]*(intro|equinox\.p2|oomph|cheatsheets|ui\.views\.log|ui\.trace|e4\.tools|ui\.monitoring)[^,]*,'
+    grep -v '^#' "$BI" | grep -E '^(org\.eclipse\.(osgi|equinox|core|e4|emf|ui|jface|swt|help|text|urischeme|platform|ant.core|update|compare|debug|search|ltk|team)|org.slf4j|ch.qos|org.apache\.(felix|aries|commons|batik|xmlgraphics|lucene)|org\.osgi|javax|jakarta|org\.w3c|com\.ibm\.icu|com\.sun\.jna|org\.objectweb|org\.sat4j|org\.tukaani|org\.bouncycastle|org\.apache\.httpcomponents|com\.github\.weisj)' \
+      | grep -vE '^[^,]*(equinox.p2.ui|p2.updatechecker|oomph|epp|cheatsheets|ui\.views\.log|ui\.trace|e4\.tools|ui\.monitoring)[^,]*,'
     echo "org.eclipse.ui.ide.m3bench,1.0.0,file:/$E/plugins/org.eclipse.ui.ide.m3bench_1.0.0.jar,4,false"
   } > "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   if [ "$SIDE" != stock ]; then
@@ -41,7 +41,22 @@ eclipse.application=org.eclipse.ui.ide.workbench
 eclipse.product=org.eclipse.platform.ide
 osgi.splashPath=platform\:/base/plugins/org.eclipse.platform
 CFGEOF
+  printf "org.eclipse.ui/showIntro=false
+org.eclipse.ui.ide/SHOW_WORKSPACE_SELECTION_DIALOG=false
+" > "$CFG/plugin_customization.ini"
   echo "bundles: $(grep -vc '^#' "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info")"
+  # 3. first start outside the lock, headless (no application): Equinox installs the framework extensions and asks
+  #    for a restart (exit 23, which only the native launcher handles), the second start resolves; the measured run
+  #    then starts without -clean
+  LAUNCHER=$(ls "$POOL" | grep "^org.eclipse.equinox.launcher_" | head -1)
+  for clean in -clean ""; do
+    "$JDK25/bin/java.exe" -Xmx1g -Djava.io.tmpdir="$(cygpath -w "$OUT/tmp")" -jar "$POOL/$LAUNCHER" -install "$INSTALL" -configuration "$(cygpath -w "$CFG")" \
+      -data "$(cygpath -w "$E/ws-warm-$SIDE")" -nosplash -consoleLog $clean -application m3.none.app > "$E/warm-$SIDE.log" 2>&1 \
+      && rc=0 || rc=$?
+    echo "warm start ${clean:-plain}: exit $rc"
+  done
+  echo "unresolved platform UI bundles: $(grep -cE "Could not resolve module: org\.eclipse\.(jface|swt|ui\.ide|ui\.workbench|ui\.views|e4\.ui)" "$E/warm-$SIDE.log" || true)"
+  [ -n "${WARM_ONLY:-}" ] && exit 0
   exec bash C:/m3-superset/tools/ui_lock.sh jface-viewport bash "$0" "$SIDE" "$N" "$SEED" "$STEPS" --inner "$INSTALL" "$POOL" "$JDK25"
 fi
 INSTALL=$6 POOL=$7 JDK25=$8
@@ -50,6 +65,6 @@ LAUNCHER=$(ls "$POOL" | grep '^org.eclipse.equinox.launcher_' | head -1)
 RES=$E/markers-results.tsv; LABEL=$SIDE-$N
 DIFF=""; [ -n "$SEED" ] && DIFF="-Dm3.markers.log=$(cygpath -w "$E/diff-$SIDE-$N-$SEED.log") -Dm3.markers.seed=$SEED -Dm3.markers.steps=$STEPS"
 w() { cygpath -w "$1"; }
-CMD="\"$(w "$JDK25/bin/java.exe")\" -Xmx${XMX:-4g} -XX:+UseG1GC --add-modules=ALL-SYSTEM -Djava.io.tmpdir=$(w "$OUT/tmp") -Dosgi.requiredJavaVersion=21 -Dosgi.user.area=$(w "$E/user-$SIDE") -Dm3.markers.out=$(w "$RES") -Dm3.markers.label=$LABEL -Dm3.markers.n=$N $DIFF ${MARKERS_OPTS:-} -jar $(w "$POOL/$LAUNCHER") -install $(w "$INSTALL") -configuration $(w "$CFG") -data $(w "$WS") -nosplash -consoleLog -clean ${MARKERS_ARGS:-}"
-powershell -NoProfile -ExecutionPolicy Bypass -File "$(cygpath -w C:/m3-superset/tools/run_hidden_desktop.ps1)" -TimeoutSec ${MARKERS_TIMEOUT:-1800} -Log "$(w "$E/run-$LABEL.log")" -CommandLine "$CMD" -Desktop "${M3_UI_DESKTOP:-m3-ui-tests}"
+CMD="\"$(w "$JDK25/bin/java.exe")\" -Xmx${XMX:-4g} -XX:+UseG1GC --add-modules=ALL-SYSTEM -Djava.io.tmpdir=$(w "$OUT/tmp") -Dosgi.requiredJavaVersion=21 -Dosgi.user.area=$(w "$E/user-$SIDE") -Dm3.markers.out=$(w "$RES") -Dm3.markers.label=$LABEL -Dm3.markers.n=$N $DIFF ${MARKERS_OPTS:-} -jar $(w "$POOL/$LAUNCHER") -install $(w "$INSTALL") -configuration $(w "$CFG") -data $(w "$WS") -nosplash -consoleLog ${MARKERS_ARGS:-}"
+powershell -NoProfile -ExecutionPolicy Bypass -File "$(cygpath -w C:/m3-superset/tools/run_hidden_desktop.ps1)" -TimeoutSec ${MARKERS_TIMEOUT:-1800} -Log "$(w "$E/run-$LABEL.log")" -CommandLine "$CMD" -Desktop "${M3_UI_DESKTOP:-m3-ui-tests}" || echo "hidden desktop run: exit $?"
 grep -P "^$LABEL\t" "$RES" || { echo "no rows for $LABEL; log tail:"; tail -30 "$E/run-$LABEL.log"; }
