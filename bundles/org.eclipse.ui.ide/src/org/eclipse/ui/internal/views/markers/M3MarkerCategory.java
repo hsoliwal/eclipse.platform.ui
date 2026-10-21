@@ -28,10 +28,6 @@ final class M3MarkerCategory extends MarkerCategory {
 	/** The category in the lanes; set by the lanes right after construction. */
 	M3MarkerLanes.Category lane;
 
-	private String shownPattern;
-	private int shownGeneration = -1;
-	private int shownCount;
-
 	M3MarkerCategory(Markers owner, M3MarkerLanes lanes, String name) {
 		super(owner, 0, -1, name);
 		this.owner = owner;
@@ -73,6 +69,6 @@ final class M3MarkerCategory extends MarkerCategory {
 
 	@Override
 	void clearCache() {
-		shownGeneration = -1;
+		// Counts come directly from the lanes; this facade holds no child cache.
 	}
 }
