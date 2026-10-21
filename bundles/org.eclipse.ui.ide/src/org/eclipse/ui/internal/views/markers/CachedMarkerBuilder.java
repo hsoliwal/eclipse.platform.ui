@@ -11,7 +11,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Stefan Winkler <stefan@winklerweb.net> - Bug 537099
- *     Hitesh Soliwal (Synexia) - M3 marker delta path hooks (docs/m3/markers-view)
+ *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  *******************************************************************************/
 package org.eclipse.ui.internal.views.markers;
 
@@ -213,6 +213,10 @@ public class CachedMarkerBuilder {
 	 * @return int
 	 */
 	static int getTotalMarkerCount(Markers markers) {
+		M3MarkerLanes lanes = markers.m3;
+		if (lanes != null) {
+			return lanes.size();
+		}
 		MarkerSupportItem[] elements = markers.getElements();
 		if (elements.length == 0 || elements[0].isConcrete()) {
 			return elements.length;
@@ -232,6 +236,16 @@ public class CachedMarkerBuilder {
 	 */
 	boolean isBuilding() {
 		return building || markerListener.isReceivingChange();
+	}
+
+	/**
+	 * Whether a clean rebuild is running, without the change listener's receiving flag that
+	 * {@link #isBuilding()} adds: the delta path asks from inside resourceChanged (M3MarkerDeltas).
+	 *
+	 * @return whether a clean rebuild is running
+	 */
+	boolean m3Building() {
+		return building;
 	}
 
 	/**
@@ -611,6 +625,9 @@ public class CachedMarkerBuilder {
 				}
 			}
 			if (needsUpdate) {
+				if (M3MarkerDeltas.scopeChanged(CachedMarkerBuilder.this)) {
+					return;
+				}
 				scheduleUpdate();
 			}
 		}

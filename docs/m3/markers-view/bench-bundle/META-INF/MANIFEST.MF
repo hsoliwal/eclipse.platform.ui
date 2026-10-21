@@ -4,6 +4,7 @@ Bundle-Name: M3 Markers view benchmark
 Bundle-SymbolicName: org.eclipse.ui.ide.m3bench;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Vendor: Synexia
+Import-Package: javax.management
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.core.resources,

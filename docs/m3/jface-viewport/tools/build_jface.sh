@@ -24,6 +24,6 @@ for side in cand stock; do
   if [ $side = cand ]; then JF="$OUT/cand/classes"; else JF="$STOCK_JFACE"; fi
   rm -rf "$OUT/$side/tests" && mkdir -p "$OUT/$side/tests"
   "$J" --release 21 -encoding UTF-8 -nowarn -proc:none -g -cp "$JF;$SWT_JAR;$DEPS;$JUNIT" \
-    -d "$OUT/$side/tests" $(ls "$T"/*.java | grep -v -E "${M3_TEST_EXCLUDE_REGEX:-^$}") 2>&1 | grep -E "error" | head -20 || true
+    -d "$OUT/$side/tests" $(if [ $side = stock ]; then grep -L -E "org.eclipse.jface.(internal.m3|viewers.m3)" "$T"/*.java; else ls "$T"/*.java; fi) 2>&1 | grep -E "error" | head -20 || true
   echo "$side test classes: $(find "$OUT/$side/tests" -name '*.class' | wc -l)"
 done

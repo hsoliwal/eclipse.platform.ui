@@ -1,0 +1,15 @@
+# Copyright (c) 2026 Synexia, Hitesh Soliwal (hsoliwal@gmail.com) and others.
+# SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
+# View template spec of the Problems view (brief rule 27, docs/m3/view-template/VIEW_TEMPLATE.md). The lanes are those
+# of M3MarkerLanes; the sort is the Problems view's default MarkerComparator (severity and description, resource,
+# path, location, id, creation time).
+view.id=org.eclipse.ui.views.ProblemView
+element=IMarker
+source=markers
+lanes=id:long, severity:byte, message:label, resource:label, path:label, location:label, line:int, created:long, type:label, category:int
+group=severity|type|none
+sort=severity desc, message, resource, path, location, line, id, created
+filters=scope, severity, type, text
+counts=severity
+presentation=tree|flat
+label=MarkerColumnLabelProvider

@@ -74,21 +74,21 @@ import org.eclipse.swt.widgets.Widget;
 public class TreeViewer extends AbstractTreeViewer {
 
 	private static final MethodHandle SWT_TREE_EXPAND_TO_LEVEL =
-			swtTreeOperation("expandToLevel", int.class);
+			swtTreeOperation("expandToLevel", int.class); //$NON-NLS-1$
 	private static final MethodHandle SWT_TREE_EXPAND_ITEM_TO_LEVEL =
-			swtTreeOperation("expandToLevel", TreeItem.class, int.class);
+			swtTreeOperation("expandToLevel", TreeItem.class, int.class); //$NON-NLS-1$
 	private static final MethodHandle SWT_TREE_COLLAPSE_TO_LEVEL =
-			swtTreeOperation("collapseToLevel", int.class);
+			swtTreeOperation("collapseToLevel", int.class); //$NON-NLS-1$
 	private static final MethodHandle SWT_TREE_COLLAPSE_ITEM_TO_LEVEL =
-			swtTreeOperation("collapseToLevel", TreeItem.class, int.class);
+			swtTreeOperation("collapseToLevel", TreeItem.class, int.class); //$NON-NLS-1$
 	private static final MethodHandle SWT_TREE_EXPAND_SELECTION_TO_LEVEL =
-			swtTreeOperation("expandSelectionToLevel", int.class);
+			swtTreeOperation("expandSelectionToLevel", int.class); //$NON-NLS-1$
 	private static final MethodHandle SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL =
-			swtTreeOperation("collapseSelectionToLevel", int.class);
+			swtTreeOperation("collapseSelectionToLevel", int.class); //$NON-NLS-1$
 	private static final MethodHandle SWT_TREE_GET_EXPANDED_ITEMS =
-			swtTreeQuery("getExpandedItems", TreeItem[].class);
+			swtTreeQuery("getExpandedItems", TreeItem[].class); //$NON-NLS-1$
 	private static final MethodHandle SWT_TREE_SET_EXPANDED_ITEMS =
-			swtTreeOperation("setExpandedItems", TreeItem[].class);
+			swtTreeOperation("setExpandedItems", TreeItem[].class); //$NON-NLS-1$
 
 	private static MethodHandle swtTreeOperation(String name, Class<?>... parameterTypes) {
 		try {
@@ -119,7 +119,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		} catch (RuntimeException | Error failure) {
 			throw failure;
 		} catch (Throwable failure) {
-			throw new IllegalStateException("Unable to invoke SWT Tree bulk operation", failure);
+			throw new IllegalStateException("Unable to invoke SWT Tree bulk operation", failure); //$NON-NLS-1$
 		}
 	}
 
@@ -132,7 +132,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		} catch (RuntimeException | Error failure) {
 			throw failure;
 		} catch (Throwable failure) {
-			throw new IllegalStateException("Unable to invoke SWT Tree state query", failure);
+			throw new IllegalStateException("Unable to invoke SWT Tree state query", failure); //$NON-NLS-1$
 		}
 	}
 

@@ -14,6 +14,8 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.views.markers;
 
+import java.util.function.LongConsumer;
+
 /**
  * A set of marker ids: one {@code long[]} open-addressing lane with linear
  * probing (power-of-two capacity, load at most one half). No boxing, no entry
@@ -21,8 +23,9 @@ package org.eclipse.ui.internal.views.markers;
  */
 final class M3LongSet {
 
-	private final long[] keys;
-	private final int shift;
+	private long[] keys;
+	private int shift;
+	private int size;
 	private boolean zero;
 
 	/**
@@ -48,6 +51,9 @@ final class M3LongSet {
 			i = (i + 1) & mask;
 		}
 		keys[i] = id;
+		if (++size << 1 > keys.length) {
+			grow();
+		}
 	}
 
 	boolean contains(long id) {
@@ -61,6 +67,42 @@ final class M3LongSet {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @param action receives every id of the set
+	 */
+	void forEach(LongConsumer action) {
+		if (zero) {
+			action.accept(0);
+		}
+		for (long id : keys) {
+			if (id != 0) {
+				action.accept(id);
+			}
+		}
+	}
+
+	/** @return whether no id was added */
+	boolean isEmpty() {
+		return size == 0 && !zero;
+	}
+
+	/* doubles the table once it is half full (sets that accumulate, e.g. while the view is hidden) */
+	private void grow() {
+		long[] old = keys;
+		keys = new long[old.length << 1];
+		shift--;
+		int mask = keys.length - 1;
+		for (long id : old) {
+			if (id != 0) {
+				int i = slot(id);
+				while (keys[i] != 0) {
+					i = (i + 1) & mask;
+				}
+				keys[i] = id;
+			}
+		}
 	}
 
 	private int slot(long id) {
