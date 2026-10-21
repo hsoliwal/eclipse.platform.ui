@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -374,6 +375,41 @@ public class M3ViewersTest {
 		assertEquals(6, v.getTable().getItemCount(), "a timer from the flushed batch must not apply the later batch"); //$NON-NLS-1$
 		M3Viewers.flush(v);
 		assertEquals("r0 r1 r2 r3 r4 first later", texts(v)); //$NON-NLS-1$
+	}
+
+	@Test
+	public void longerLaterDelayCannotExtendTheFirstBatchDeadline() throws ReflectiveOperationException {
+		TableViewer viewer = table();
+		roots.add("early"); //$NON-NLS-1$
+		roots.add("late"); //$NON-NLS-1$
+
+		// Use the original UI-thread owner without a race between asyncExec
+		// and the timer pump. The actual SWT Display.timerExec still dispatches.
+		var enqueue = M3Viewers.class.getDeclaredMethod("enqueue", StructuredViewer.class, //$NON-NLS-1$
+				M3ViewerDelta.class, int.class);
+		enqueue.setAccessible(true);
+		int firstDelay = 35;
+		long before = System.nanoTime();
+		enqueue.invoke(null, viewer, new M3ViewerDelta().add(roots, "early", -1), firstDelay); //$NON-NLS-1$
+		long after = System.nanoTime();
+
+		Object queue = viewer.getControl().getData("org.eclipse.jface.viewers.m3.M3Viewers.queue"); //$NON-NLS-1$
+		var deadlineField = queue.getClass().getDeclaredField("deadlineNanos"); //$NON-NLS-1$
+		deadlineField.setAccessible(true);
+		long pinnedDeadline = deadlineField.getLong(queue);
+		long firstBudgetNanos = firstDelay * 4_000_000L;
+		assertTrue(pinnedDeadline - before >= firstBudgetNanos);
+		assertTrue(pinnedDeadline - after <= firstBudgetNanos);
+
+		// The old implementation calculated a new first-post ceiling using
+		// 4 * 4000 ms here; it could postpone these two rows for 16 seconds.
+		enqueue.invoke(null, viewer, new M3ViewerDelta().add(roots, "late", -1), 4_000); //$NON-NLS-1$
+		assertEquals(pinnedDeadline, deadlineField.getLong(queue));
+		long started = System.nanoTime();
+		waitUntil(() -> viewer.getTable().getItemCount() == 7);
+		assertTrue(Duration.ofNanos(System.nanoTime() - started).compareTo(Duration.ofSeconds(2)) < 0,
+				"long second delay may not starve first-post deadline"); //$NON-NLS-1$
+		assertEquals("r0 r1 r2 r3 r4 early late", texts(viewer)); //$NON-NLS-1$
 	}
 
 	@Test
