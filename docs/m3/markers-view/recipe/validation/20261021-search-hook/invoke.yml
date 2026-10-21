@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and contributors
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: com.synexia.m3.UiMarkersSearchHookRoute20261021
+displayName: Reconcile exact markers search hook descriptor
+description: Materialize one reviewed YAML descriptor from an exact preimage; Java hook and GUI gates remain separate.
+recipeList:
+  - com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe:
+      crateName: ui-search-hook-route-20261021

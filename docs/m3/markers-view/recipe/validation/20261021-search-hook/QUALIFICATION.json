@@ -1,0 +1,52 @@
+{
+  "schema": "synexia.recipe-qualification.v1",
+  "status": "SCOPED_DESCRIPTOR_MATERIALIZATION_PASS",
+  "recipe": "com.synexia.m3.UiMarkersSearchHookRoute20261021",
+  "scope": [
+    "docs/m3/markers-view/recipe/META-INF/rewrite/m3-markers-view.yml"
+  ],
+  "before_sha256": "6dd1cb2cfca34a8a5a19ce30e97f99f6535f35411e2558158d127d4822b053e2",
+  "after_sha256": "45e04e374dbcea2f9d77dc3921bde7cc6bd4ceda48b5210ed716d8a2e30e09f0",
+  "actual_phases": [
+    {
+      "id": "install",
+      "observed_exitcode": 0
+    },
+    {
+      "id": "dryrun",
+      "observed_exitcode": 0
+    },
+    {
+      "id": "apply",
+      "observed_exitcode": 0
+    },
+    {
+      "id": "fixedpoint",
+      "observed_exitcode": 0
+    },
+    {
+      "id": "drift",
+      "observed_exitcode": 1
+    }
+  ],
+  "gates": [
+    "source/tool/resource/class pins",
+    "one-path dry run2removed10added",
+    "exact apply",
+    "same-content unlisted control",
+    "fresh-process fixedpoint",
+    "separate drift refusal without edits",
+    "physical closure and closed-run readback"
+  ],
+  "global_descriptor": "HOLD_ENVIRONMENT_AND_FIT",
+  "AST_composite": "PENDING",
+  "worker_only_goal": "UNMET",
+  "SWT_GUI": "PENDING",
+  "limits": [
+    "Exact descriptor materialization only; current receiving rebind is descriptor-only, not whole current Java review.",
+    "Text host/OpenRewrite8.17.1. Private AST composite/OpenRewrite8.90.4 source-to-bytecode/toolchain and Java fixture gates remain pending.",
+    "setPattern -> textChanged -> applyText still matches all slots on UI thread. Worker, distinct-label memoization and cancellation are unimplemented/unqualified here.",
+    "SWT/GUI stock-candidate differential, full API/selection/expansion/search/scope/hidden behavior and performance remain pending.",
+    "No Java compile, JUnit method, installed-JDK, global recipe, whole-OS or per-child loaded-image/CWD admission."
+  ]
+}
