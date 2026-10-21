@@ -15,11 +15,13 @@
 package org.eclipse.jface.tests.viewers.m3;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -208,6 +210,25 @@ public class M3ViewersTest {
 		poster.join();
 		waitUntil(() -> v.getTable().getItemCount() == 8);
 		assertEquals("r0 r1 r2 r3 r4 p0 p1 p2", texts(v));
+	}
+
+	@Test
+	public void explicitDisplayPostFromWorkerTouchesSwtOnlyOnUiThread() throws Exception {
+		TableViewer v = table();
+		roots.add("explicit"); //$NON-NLS-1$
+		AtomicReference<Throwable> thrown = new AtomicReference<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.post(display, v, new M3ViewerDelta().add(roots, "explicit", -1), 0); //$NON-NLS-1$
+			} catch (Throwable failure) {
+				thrown.set(failure);
+			}
+		});
+		worker.start();
+		worker.join();
+		assertNull(thrown.get(), "post must not inspect SWT controls off-thread"); //$NON-NLS-1$
+		waitUntil(() -> v.getTable().getItemCount() == 6);
+		assertEquals("r0 r1 r2 r3 r4 explicit", texts(v)); //$NON-NLS-1$
 	}
 
 	@Test
