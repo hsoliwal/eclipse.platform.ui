@@ -76,7 +76,7 @@ public class M3ViewerDeltaTest {
 			assertEquals(delta.index(i), delta.index(i + 3));
 			assertArrayEquals(delta.properties(i), delta.properties(i + 3));
 		}
-		assertTrue(delta.isEmpty() == false);
+		assertFalse(delta.isEmpty());
 	}
 
 	@Test
