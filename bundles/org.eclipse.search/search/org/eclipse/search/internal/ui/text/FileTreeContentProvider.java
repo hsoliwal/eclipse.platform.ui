@@ -217,7 +217,10 @@ public class FileTreeContentProvider implements ITreeContentProvider, IFileSearc
 		int elementLimit = getElementLimit();
 		if (elementLimit != -1 && elementLimit < children.size()) {
 			Object[] limitedChildren = new Object[elementLimit];
-			System.arraycopy(children.toArray(), 0, limitedChildren, 0, elementLimit);
+			var iterator = children.iterator();
+			for (int i = 0; i < elementLimit; i++) {
+				limitedChildren[i] = iterator.next();
+			}
 			return limitedChildren;
 		}
 
