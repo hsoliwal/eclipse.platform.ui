@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -71,5 +72,25 @@ public class M3ViewerDeltaTest {
 		assertThrows(IllegalArgumentException.class, () -> d.update(null, null));
 		assertThrows(IndexOutOfBoundsException.class, () -> d.kind(0));
 		assertThrows(IndexOutOfBoundsException.class, () -> d.element(-1));
+	}
+	@Test
+	public void bulkAppendCopiesOriginalLanesExactlyOnceEvenForSelfAppend() {
+		String[] properties = { "label" };
+		M3ViewerDelta delta = new M3ViewerDelta().add("parent", "alpha", 7)
+				.update("beta", properties).refresh(null);
+		delta.append(delta);
+		assertEquals(6, delta.size());
+		for (int i = 0; i < 3; i++) {
+			assertEquals(delta.kind(i), delta.kind(i + 3));
+			assertSame(delta.element(i), delta.element(i + 3));
+			assertSame(delta.parent(i), delta.parent(i + 3));
+			assertEquals(delta.index(i), delta.index(i + 3));
+			assertSame(delta.properties(i), delta.properties(i + 3));
+		}
+		M3ViewerDelta other = new M3ViewerDelta().remove("gamma");
+		delta.append(other);
+		assertEquals(7, delta.size());
+		assertEquals("gamma", delta.element(6));
+		assertEquals(1, other.size());
 	}
 }
