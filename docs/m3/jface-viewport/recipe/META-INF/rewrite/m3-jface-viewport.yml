@@ -31,6 +31,13 @@ recipeList:
       anchor: "int i = 0;"
       position: BEFORE
       statements: "\t\t\tnumItemsToDispose = M3ViewerPaths.disposeStale(this, items, children, numItemsToDispose);"
+  # A5: equal preorder/callback order with iterative tree traversal (deep trees)
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.jface.viewers.AbstractTreeViewer]
+      methodName: internalFindItem
+      parameterTypes: "Item,Object"
+      position: METHOD_START
+      statements: "\t\tif (M3ViewerPaths.on(this)) {\n\t\t\treturn M3ViewerPaths.findTreeItem(this, parent, element);\n\t\t}"
   # A4: first-position table instead of a list map scan per selected element
   - com.synexia.openrewrite.viewport.M3InsertStatements:
       declaringClasses: [org.eclipse.jface.viewers.AbstractListViewer]
