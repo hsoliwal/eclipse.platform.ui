@@ -108,7 +108,9 @@ public final class M3ViewerDelta {
 	 * @return this delta
 	 */
 	public M3ViewerDelta append(M3ViewerDelta other) {
-		for (int i = 0; i < other.size; i++) {
+		// Snapshot the source length: append(this) must not grow its own loop bound.
+		int sourceSize = other.size;
+		for (int i = 0; i < sourceSize; i++) {
 			push(other.kinds[i], other.elements[i], other.parents[i], other.indexes[i], other.properties[i]);
 		}
 		return this;
