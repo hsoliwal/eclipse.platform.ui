@@ -2049,6 +2049,9 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @return Widget
 	 */
 	private Widget internalFindItem(Item parent, Object element) {
+		if (M3ViewerPaths.on(this)) {
+			return M3ViewerPaths.findTreeItem(this, parent, element);
+		}
 
 		// compare with node
 		Object data = parent.getData();
