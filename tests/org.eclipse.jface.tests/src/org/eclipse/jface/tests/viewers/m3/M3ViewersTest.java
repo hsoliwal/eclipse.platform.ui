@@ -16,6 +16,7 @@ package org.eclipse.jface.tests.viewers.m3;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -180,6 +182,50 @@ public class M3ViewersTest {
 		for (int i = 0; i < 5; i++) {
 			roots.add("r" + i);
 		}
+	}
+
+	@Test
+	public void nonHashedTreeSearchKeepsFirstPreorderMatch() {
+		class SearchableTreeViewer extends TreeViewer {
+			SearchableTreeViewer() {
+				super(shell, SWT.MULTI);
+			}
+
+			Widget lookup(Object element) {
+				return doFindItem(element);
+			}
+		}
+		SearchableTreeViewer v = new SearchableTreeViewer();
+		v.setContentProvider(new ITreeContentProvider() {
+			@Override
+			public Object[] getElements(Object input) {
+				return roots.toArray();
+			}
+
+			@Override
+			public Object[] getChildren(Object parent) {
+				return new Object[0];
+			}
+
+			@Override
+			public Object getParent(Object element) {
+				return null;
+			}
+
+			@Override
+			public boolean hasChildren(Object element) {
+				return false;
+			}
+		});
+		v.setLabelProvider(new LabelProvider());
+		v.setInput(roots);
+		TreeItem parent = v.getTree().getItem(0);
+		TreeItem first = new TreeItem(parent, SWT.NONE);
+		first.setData("needle"); //$NON-NLS-1$
+		TreeItem second = new TreeItem(parent, SWT.NONE);
+		second.setData("needle"); //$NON-NLS-1$
+		assertSame(first, v.lookup("needle")); //$NON-NLS-1$
+		assertNull(v.lookup("missing")); //$NON-NLS-1$
 	}
 
 	@Test
