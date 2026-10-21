@@ -1,0 +1,113 @@
+{
+  "schema": "M3_JFACE_QUEUE_QUALIFICATION_V1",
+  "recorded_utc": "2026-10-21T09:51:49.170216+00:00",
+  "canonical_recipe": "com.synexia.m3jdk.EclipseStructures20261021.jface-queue",
+  "canonical_parent_revision": "20ed2a74122214ea301fc70fe5dac1d61f85f822",
+  "target_revision": "67cd89ec3ea55e6bf13811666ffe90fe2c6adc08",
+  "actual_openrewrite_sdk": {
+    "status": "PASS",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reports": "relocation/sdk/TEST-com.synexia.rewrite.M3TaskRecipeTest.xml",
+    "coverage": [
+      "exact replay and fixed point",
+      "five schedules with deterministic roots",
+      "mixed before/after source states",
+      "drift/missing/duplicate/wrong-representation refusal",
+      "post-scan changes refusal",
+      "real Java declaration attribution",
+      "tampered template refusal",
+      "actual input traversal/symlink refusal"
+    ],
+    "accepted_run": "final clean relocation; unchanged canonical host, engines, test and receiver"
+  },
+  "actual_receiver": {
+    "status": "PASS",
+    "check_before_changes": 2,
+    "apply_changes": 2,
+    "check_after_changes": 0,
+    "receipt": "relocation/RELOCATION_RECEIPT.json"
+  },
+  "real_swt_jface_before": {
+    "status": "EXPECTED_FAILURES_RETAINED",
+    "tests": 5,
+    "passed": 2,
+    "failed": 3,
+    "production_source_sha256": "29bcec643ebefc7da119385bb82267e2bd875fbf0cee010cdbabc2d4afc49785",
+    "test_sha256": "60d344361b954b518c4a33a3bfcd7045ce86e4933173bf16598681abb294cbab",
+    "failures": [
+      "duplicate refresh callback count 2 rather than 1",
+      "stale flushed-batch timer drains later batch: 7 rows rather than 6",
+      "family refresh root reads 2 rather than 1 on first TableViewer case"
+    ],
+    "receipt": "ui-before/receipt.json",
+    "fixture": "ui-before/M3ViewersTest.java.txt"
+  },
+  "strict_javac": {
+    "status": "PASS",
+    "release": 21,
+    "flags": [
+      "-Xlint:all",
+      "-Werror"
+    ],
+    "actual_emitted_sources": true,
+    "receipt": "ui-after/compile-receipt.json"
+  },
+  "real_swt_jface_after": {
+    "status": "PASS",
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "test_classes": {
+      "M3ViewersTest": 14,
+      "M3ViewerDeltaTest": 4
+    },
+    "concrete_family_variants": 9,
+    "receipt": "ui-after/receipt.json"
+  },
+  "public_protected_api": {
+    "status": "PASS",
+    "equal": true,
+    "both_javap_sha256": "8b94c53d165ab9344f8da0534664cf24763523b433c8b735af2ff407d785cb9b",
+    "receipt": "api/receipt.json"
+  },
+  "runtime_boundary": {
+    "java": "Temurin 21.0.8+9",
+    "jface": "published org.eclipse.jface 3.40.0",
+    "swt": "published org.eclipse.swt.gtk.linux.x86_64 3.135.0, real JNI GTK3",
+    "junit": "JUnit Platform 1.14.4 / Jupiter 5.14.4",
+    "display": "official Xvfb, real 1024x768x24 X connection",
+    "exact_changed_owners": "M3Viewers and its test emitted by existing canonical recipe; unchanged M3ViewerDelta and its test from target revision",
+    "whole_repository_jface_source_build": false
+  },
+  "unqualified_gates": {
+    "full_pde_tycho_verify_java25": "NOT_RUN",
+    "exact_PR27_full_JFace_source_and_iterative_A5_integration": "NOT_RUN",
+    "lazy_provider_and_source_adapter_family_acceptance": "NOT_RUN",
+    "Problems_marker_pipeline_end_to_end": "NOT_RUN",
+    "Nebula_and_external_viewer_families": "NOT_RUN",
+    "native_platform_matrix_and_resource_budgets": "NOT_RUN",
+    "performance_speedup": "NOT_MEASURED"
+  },
+  "frozen_contract_note": "The contract retains its pre-execution qualification_disposition; this separate source-bound receipt records the completed gates without mutating the bound contract.",
+  "portable_preparation": {
+    "status": "PASS",
+    "preparer": "prepare-jface-queue.py",
+    "spec": "JFACE_QUEUE_INPUTS.json",
+    "preparer_sha256": "d8ea9062df24ff4050c92bf37cb6b299608904ebaa6042a36402bd00d29756d5",
+    "spec_sha256": "3fdcaa4dc1790e34d97e94c64b6bbf0e494e346d54db6ccd76068d8b0ce190d5",
+    "source_provider_path_refusal_cases": 4,
+    "inherited_invalid_javac_option_removed": true,
+    "genuine_parser_provider_classes": 3,
+    "target_modified_by_preparation": false,
+    "network_used": false,
+    "relocated_emission_equals_ui_tested_source": true,
+    "receipt": "relocation/RELOCATION_RECEIPT.json",
+    "generated_contracts_publish_as_operational_config": false
+  },
+  "canonical_evidence_root": "hsoliwal/com.synexia:synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/evidence/jface-queue",
+  "relative_receipt_paths_resolve_in": "canonical_evidence_root"
+}

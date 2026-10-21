@@ -173,6 +173,7 @@ public final class M3Viewers {
 		final StructuredViewer viewer;
 		M3ViewerDelta pending;
 		long generation;
+		long batch;
 		long firstPost;
 
 		Queue(StructuredViewer viewer) {
@@ -230,19 +231,29 @@ public final class M3Viewers {
 		long now = System.currentTimeMillis();
 		if (queue.pending == null) {
 			queue.pending = new M3ViewerDelta().append(delta);
+			queue.batch++;
 			queue.firstPost = now;
-		} else {
+		} else if (!redundantRefresh(queue.pending, delta)) {
 			queue.pending.append(delta);
 		}
 		long generation = ++queue.generation;
 		Queue q = queue;
+		long batch = q.batch;
 		long overdue = q.firstPost + 4L * delayMillis - now;
 		int wait = (int) Math.max(0, Math.min(delayMillis, overdue));
 		control.getDisplay().timerExec(wait, () -> {
-			if (q.generation == generation || System.currentTimeMillis() >= q.firstPost + 4L * delayMillis) {
+			if (q.pending != null && q.batch == batch
+					&& (q.generation == generation || System.currentTimeMillis() >= q.firstPost + 4L * delayMillis)) {
 				drain(q);
 			}
 		});
+	}
+
+	/* Only adjacent single-refresh posts coalesce; all other operation order is retained. */
+	private static boolean redundantRefresh(M3ViewerDelta pending, M3ViewerDelta delta) {
+		int last = pending.size() - 1;
+		return last >= 0 && delta.size() == 1 && delta.kind(0) == M3ViewerDelta.REFRESH
+				&& pending.kind(last) == M3ViewerDelta.REFRESH && pending.element(last) == delta.element(0);
 	}
 
 	private static void drain(Queue queue) {
