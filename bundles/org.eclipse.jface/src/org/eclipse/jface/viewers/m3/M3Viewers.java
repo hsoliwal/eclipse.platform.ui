@@ -173,7 +173,8 @@ public final class M3Viewers {
 		final StructuredViewer viewer;
 		M3ViewerDelta pending;
 		long generation;
-		long firstPost;
+		long batch;
+		long deadlineNanos;
 
 		Queue(StructuredViewer viewer) {
 			this.viewer = viewer;
@@ -211,19 +212,26 @@ public final class M3Viewers {
 			queue = new Queue(viewer);
 			control.setData(KEY, queue);
 		}
-		long now = System.currentTimeMillis();
+		long now = System.nanoTime();
 		if (queue.pending == null) {
 			queue.pending = new M3ViewerDelta().append(delta);
-			queue.firstPost = now;
+			queue.batch++;
+			// Fix the deadline at the first post. A later, longer debounce must
+			// never postpone an earlier batch or reinterpret a stale timer.
+			queue.deadlineNanos = now + 4_000_000L * delayMillis;
 		} else {
 			queue.pending.append(delta);
 		}
 		long generation = ++queue.generation;
+		long batch = queue.batch;
 		Queue q = queue;
-		long overdue = q.firstPost + 4L * delayMillis - now;
-		int wait = (int) Math.max(0, Math.min(delayMillis, overdue));
+		long remainingNanos = q.deadlineNanos - now;
+		int wait = (int) Math.min((long) delayMillis, Math.max(0L, remainingNanos / 1_000_000L));
 		control.getDisplay().timerExec(wait, () -> {
-			if (q.generation == generation || System.currentTimeMillis() >= q.firstPost + 4L * delayMillis) {
+			if (q.batch != batch || q.pending == null) {
+				return; // a timer from a completed batch cannot drain its successor
+			}
+			if (q.generation == generation || System.nanoTime() - q.deadlineNanos >= 0L) {
 				drain(q);
 			}
 		});
