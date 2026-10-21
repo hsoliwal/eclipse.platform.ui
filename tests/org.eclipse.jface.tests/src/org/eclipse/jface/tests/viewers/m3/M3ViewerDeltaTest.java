@@ -64,6 +64,22 @@ public class M3ViewerDeltaTest {
 	}
 
 	@Test
+	public void selfAppendCopiesOnlyTheOriginalOperations() {
+		String[] changed = { "label" }; //$NON-NLS-1$
+		M3ViewerDelta delta = new M3ViewerDelta().add("root", "a", 2).update("b", changed).remove("c"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		delta.append(delta);
+		assertEquals(6, delta.size());
+		for (int i = 0; i < 3; i++) {
+			assertEquals(delta.kind(i), delta.kind(i + 3));
+			assertEquals(delta.element(i), delta.element(i + 3));
+			assertEquals(delta.parent(i), delta.parent(i + 3));
+			assertEquals(delta.index(i), delta.index(i + 3));
+			assertArrayEquals(delta.properties(i), delta.properties(i + 3));
+		}
+		assertTrue(delta.isEmpty() == false);
+	}
+
+	@Test
 	public void rejectsNullElementsAndBadIndexes() {
 		M3ViewerDelta d = new M3ViewerDelta();
 		assertThrows(IllegalArgumentException.class, () -> d.add("p", null, 0));
