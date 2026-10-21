@@ -191,13 +191,29 @@ public final class M3Viewers {
 	 * @param delayMillis the debounce delay, 0 or more
 	 */
 	public static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
-		Control control = viewer.getControl();
-		if (control == null || control.isDisposed() || delta.isEmpty()) {
+		// Never read viewer/control/widget state from a worker thread. SWT's
+		// getDisplay() may reject access outside the owning UI thread.
+		Display current = Display.getCurrent();
+		post(current != null ? current : Display.getDefault(), viewer, delta, delayMillis);
+	}
+
+	/**
+	 * Posts a delta using the explicitly supplied owning UI display. Use this
+	 * overload for viewers on a non-default Display when posting from a worker
+	 * thread. The display must own the viewer's control.
+	 *
+	 * @param display the viewer's owning display
+	 * @param viewer the target structured viewer
+	 * @param delta operations to apply; do not modify after posting
+	 * @param delayMillis debounce delay, zero or greater
+	 */
+	public static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+		if (delta.isEmpty() || display.isDisposed()) {
 			return;
 		}
 		posted = true;
-		Display display = control.getDisplay();
-		display.asyncExec(() -> enqueue(viewer, delta, Math.max(0, delayMillis)));
+		int delay = Math.max(0, delayMillis);
+		display.asyncExec(() -> enqueue(viewer, delta, delay));
 	}
 
 	/* UI thread */
@@ -256,8 +272,13 @@ public final class M3Viewers {
 		if (!posted) {
 			return;
 		}
+		Display current = Display.getCurrent();
+		if (current == null) {
+			// Off-thread flush is deliberately a no-op, without touching SWT.
+			return;
+		}
 		Control control = viewer.getControl();
-		if (control == null || control.isDisposed() || control.getDisplay().getThread() != Thread.currentThread()) {
+		if (control == null || control.isDisposed() || control.getDisplay() != current) {
 			return;
 		}
 		if (control.getData(KEY) instanceof Queue queue && queue.pending != null) {
