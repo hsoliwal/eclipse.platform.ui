@@ -1,0 +1,148 @@
+{
+  "schema": "M3_RECEIVING_CUSTODY_V1",
+  "spdx_file_copyright_text": "2026 Hitesh Soliwal and Contributors to the Synexia Project",
+  "spdx_license_identifier": "Apache-2.0",
+  "status": "PREPARED_FROM_RECEIVED_SDK_OUTPUTS",
+  "canonical": {
+    "repository": "hsoliwal/com.synexia",
+    "commit": "20ed2a74122214ea301fc70fe5dac1d61f85f822",
+    "pull_request": "https://github.com/hsoliwal/com.synexia/pull/12639",
+    "crate": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021"
+  },
+  "product_repository": "hsoliwal/eclipse.platform.ui",
+  "bases": {
+    "qualified_source_commit": "39c657ea05697ddff9ac19df93208cb50501dfc0",
+    "publication_parent": "e6d4268625d2b46ff3b0639803d4239d18b4908c",
+    "publication_base_tree": "da0eb75f43f904b2ca51bbbd81cdcc39e8f90176",
+    "base_branch": "m3/jface-viewport-20261019",
+    "branch": "m3/marker-slot-index-20261021-b38a",
+    "qualified_to_publication_advance": {
+      "commits_ahead": 6,
+      "changed_unrelated_paths": [
+        "docs/m3/jface-viewport/DELTA_GATE.tsv",
+        "docs/m3/jface-viewport/tools/run_ab.sh",
+        "docs/m3/jface-viewport/tools/run_ab_safety_test.sh"
+      ],
+      "qualified_target_paths_changed": 0
+    }
+  },
+  "sdk_selections": [
+    {
+      "selection": "eclipse-slot-v2",
+      "recipe": "com.synexia.m3jdk.EclipseStructures20261021.eclipse-slot-v2",
+      "sdk_tests_passed": 8,
+      "qualified_target_count": 5,
+      "outputs_in_this_pr": 5,
+      "full_selection_output_root_sha256": "be2a6e98e1f9f9f4c0d4a2a4ee67b50889dc7412caf521c7b742dcf72af9a883",
+      "actual_receiving_fixedpoint_changes": 0
+    }
+  ],
+  "source_application": "Existing canonical OpenRewrite SDK results and receiving adapter; this receipt alone is authored metadata.",
+  "outputs": [
+    {
+      "path": "bundles/org.eclipse.ui.ide/META-INF/MANIFEST.MF",
+      "selection": "eclipse-slot-v2",
+      "before_sha256": "1651833f5fc29d73078646540bec78d8ac885aba2657fe50a208e38b1de6f252",
+      "sha256": "2b5920be6c3bf904dabee20f0a8193cb47f846aa21846c38358e69b315b21cc2",
+      "git_blob": "545c776c52ccd86d0e6578f60ce0d0c908563954",
+      "bytes": 3767
+    },
+    {
+      "path": "bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/M3SlotOrder.java",
+      "selection": "eclipse-slot-v2",
+      "before_sha256": "e10b308e46556c296ae1a21308ac964ac468ffdc5c239fa74ac545ba334ed121",
+      "sha256": "a51505f0d7ad241c331fb985b17f577396b4443905fbf198327b5f4dbd0ef421",
+      "git_blob": "0ea028e7b2c6e59e37f552a59ce75c070e53c042",
+      "bytes": 9946
+    },
+    {
+      "path": "tests/org.eclipse.ui.tests/build.properties",
+      "selection": "eclipse-slot-v2",
+      "before_sha256": "b6c206e48804c680bdacd25d7afa968ec7ab993f7aac4005b78f4fcdae1bd68d",
+      "sha256": "d9c3429de56ec3f765dc7be0c74c6a3c42fe910e0e412f8f8a6b03d21c957c96",
+      "git_blob": "8aac66098ebab6d54bcb177b43d72be8629d5b0b",
+      "bytes": 1310
+    },
+    {
+      "path": "tests/org.eclipse.ui.tests/src/test/java/org/eclipse/ui/tests/markers/M3SlotOrderContract.java",
+      "selection": "eclipse-slot-v2",
+      "before_sha256": "ABSENT",
+      "sha256": "7be7d2f8b301df86777f2d6041b1c66640c2900b9544a552623bf2d0ba759590",
+      "git_blob": "dbbf3f718829831f0302bff38209b2d1020a7649",
+      "bytes": 10022
+    },
+    {
+      "path": "tests/org.eclipse.ui.tests/src/test/java/org/eclipse/ui/tests/markers/M3SlotOrderIndexTest.java",
+      "selection": "eclipse-slot-v2",
+      "before_sha256": "ABSENT",
+      "sha256": "6a6a00ece92cdbb00f67f2fc03d1d64da82b2bf891327af2eb3254b743bf9c63",
+      "git_blob": "05f8d4cdac636f50b3af5f6f06823dae74b17d04",
+      "bytes": 421
+    }
+  ],
+  "validation": {
+    "strict_received_java21_compile": "PASS",
+    "public_descriptors": "EXACT_MATCH",
+    "differential_checks": 10402239,
+    "matching_comparator_calls": 26821503,
+    "junit_tests": 7,
+    "junit_jupiter_version": "5.14.0",
+    "structural_probe_checks": 405406,
+    "provider_production_java_source_files": 269,
+    "real_equinox_leaf_provider_wire": "PASS",
+    "missing_provider_refusal": "PASS",
+    "benchmark_cases": 28,
+    "large_cases_improved": 8,
+    "smaller_case_regressions": 9,
+    "new_native_symbol": false
+  },
+  "limits": [
+    "Current UI and test bundles require JavaSE-25; full Java 25 plugin dependency resolution/build is pending.",
+    "Focused Tycho/PDE execution, default UiTestSuite and IDE .classpath integration remain pending.",
+    "All-platform SWT/native/UI execution and an installed M3JDK21 IDE image remain pending.",
+    "The Equinox proof is the exact leaf consumer, not the complete org.eclipse.ui.ide bundle or IDE.",
+    "Nine smaller CPU cases regress; extra metadata and cold admission costs are retained.",
+    "Reachable-graph sizing is not GC-dominator retained heap; RSS/NMT does not establish native-memory reduction.",
+    "Finite evidence does not advance global receiving/family phases or replace product-owned acceptance.",
+    "This custody receipt is prepared locally; publication and remote Git-tree readback are separate actions."
+  ],
+  "evidence": [
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/SDK_QUALIFICATION.json",
+      "sha256": "90212245a6b8e85e7c54812863c5f456bf60513304c68b77f918d8e714c45544"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/contract/eclipse-slot-v2/TARGETS.json",
+      "sha256": "c307fecdd528d8c35b0f6f0fc84998dcd882bd4bf717f188025a7ebb724bb75c"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/evidence/eclipse/logs/accepted-v2-bench-summary.json",
+      "sha256": "39b9d15f34455c08f337e452bf5cffc10b69ee430a97d96fef0f101ef8886d69"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/evidence/eclipse/logs/sdk-received-v2-validation.json",
+      "sha256": "c311ac14678431b9bf06ab9b6c74358fdd9a316ec8a4a4dcabc26368c41645c9"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/evidence/publication/ui-advance-001.json",
+      "sha256": "b69249a5a6b96f56cb65e28a1fb4b6fc838fa0afc8f043a0905e29a3398a479e"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/evidence/publication/ui-head-001.json",
+      "sha256": "7b4073395cd5ce084e04effb65bb9a10bed4a0b53ba5af47cf56b7fe65b7813c"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/evidence/receiving/source-001/RECEIPT.json",
+      "sha256": "ad5efacb12cdd0d047c1ff68ce09aca73b2f44d534a22c6e23c35ea9db18c79e"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/evidence/sdk/sdk-eclipse-slot-v2-001/actual-sdk-output/candidate/SDK_RESULTS.tsv",
+      "sha256": "a6b328391a7edda8917807a3a864a53a3393f36a30be210b785047a883cb7725"
+    },
+    {
+      "path": "synexia-openrewrite-recipes/recipe-crates/m3-eclipse-structures-20261021/receive.py",
+      "sha256": "02a713e52d4aec57e8754826cfad2205248a5e1a9873119004c13171da0dc2ea"
+    }
+  ],
+  "license_scope": "Apache-2.0 applies to this authored receipt. All received files retain their existing per-file rights and notices."
+}
