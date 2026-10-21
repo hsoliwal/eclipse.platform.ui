@@ -21,7 +21,9 @@ import java.util.logging.Logger;
 import org.eclipse.jface.viewers.AbstractListViewer;
 import org.eclipse.jface.viewers.AbstractTableViewer;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.StructuredViewerInternals;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
@@ -31,9 +33,10 @@ import org.eclipse.swt.widgets.Display;
  * <ul>
  * <li>{@link #apply} applies a delta now, on the UI thread, with consecutive
  * operations of one kind batched into one viewer call;</li>
- * <li>{@link #post} queues a delta from any thread. Deltas posted in a burst
- * are merged and applied once, after {@code delayMillis} without a newer post
- * (superseding-generation debounce), and at the latest after four delays;</li>
+ * <li>{@link #post(StructuredViewer, M3ViewerDelta, int)} queues a delta from any
+ * thread. Deltas posted in a burst are merged and applied once, after
+ * {@code delayMillis} without a newer post
+ * (rescheduled debounce), and at the latest after four initial delays;</li>
  * <li>{@link #flush} applies a queued delta at once. The viewers call it
  * before every {@code refresh}, so a refresh never runs ahead of queued
  * deltas.</li>
@@ -60,7 +63,8 @@ public final class M3Viewers {
 
 	/**
 	 * Applies {@code delta} to {@code viewer} now. Must run on the viewer's UI
-	 * thread.
+	 * thread. ComboViewer UPDATE runs preserve their logical selection, including
+	 * explicit selection requests made by callbacks.
 	 *
 	 * @param viewer the viewer
 	 * @param delta  the delta; it is not changed
@@ -90,6 +94,37 @@ public final class M3Viewers {
 		}
 	}
 
+	/**
+	 * Applies {@code delta} now, preserving the viewer's selection across the
+	 * complete sequence. A selected element may be removed and reinserted by the
+	 * patch without exposing an intermediate selection change. An explicit
+	 * selection set by a callback takes precedence over restoring the old one.
+	 * Nested calls join the current selection boundary.
+	 * <p>
+	 * Checkbox viewers use their existing check-state preservation, including
+	 * the authority of an installed check-state provider. This method does not
+	 * save or restore a tree's expansion state. Exceptions propagate as for
+	 * {@link #apply}; a partially applied delta is not rolled back.
+	 * </p>
+	 * <p>
+	 * Must run on the viewer's UI thread. This entry point preserves selection
+	 * across the complete delta. Ordinary {@link #apply} and
+	 * {@link #post(StructuredViewer, M3ViewerDelta, int)} preserve ComboViewer
+	 * selection within each UPDATE run.
+	 * </p>
+	 *
+	 * @param viewer the viewer
+	 * @param delta  the delta; it is not changed
+	 * @since 3.43 (M3 enhanced API)
+	 */
+	public static void applyPreservingSelection(StructuredViewer viewer, M3ViewerDelta delta) {
+		Control control = viewer.getControl();
+		if (control == null || control.isDisposed() || delta.isEmpty()) {
+			return;
+		}
+		StructuredViewerInternals.preservingSelection(viewer, () -> apply(viewer, delta));
+	}
+
 	/* applies the run of operations starting at i; returns the index after it */
 	private static int run(StructuredViewer viewer, M3ViewerDelta delta, int i) {
 		byte kind = delta.kind(i);
@@ -117,7 +152,13 @@ public final class M3Viewers {
 					&& Arrays.equals(delta.properties(end), delta.properties(i))) {
 				end++;
 			}
-			viewer.update(elements(delta, i, end), delta.properties(i));
+			Object[] updated = elements(delta, i, end);
+			String[] properties = delta.properties(i);
+			if (viewer instanceof ComboViewer) {
+				StructuredViewerInternals.preservingSelection(viewer, () -> viewer.update(updated, properties));
+			} else {
+				viewer.update(updated, properties);
+			}
 		}
 		default -> {
 			if (delta.element(i) == null) {
@@ -168,15 +209,26 @@ public final class M3Viewers {
 		}
 	}
 
-	/** The queue of one viewer: the merged pending delta and the generation of the latest post. */
+	/** Nanoseconds per millisecond, shared by elapsed-time and timer conversions. */
+	private static final long NANOS_PER_MILLISECOND = 1_000_000L;
+
+	/** The UI-owned queue: one pending batch and one reusable timer per viewer. */
 	private static final class Queue {
 		final StructuredViewer viewer;
+		final Display display;
+		final Runnable timer;
 		M3ViewerDelta pending;
-		long generation;
-		long firstPost;
+		long firstPostNanos;
+		long maximumWaitNanos;
+		long dueNanos;
+		boolean lastRefreshLater;
+		boolean draining;
+		boolean disposed;
 
-		Queue(StructuredViewer viewer) {
+		Queue(StructuredViewer viewer, Display display) {
 			this.viewer = viewer;
+			this.display = display;
+			timer = () -> wake(this);
 		}
 	}
 
@@ -184,57 +236,104 @@ public final class M3Viewers {
 	 * Queues {@code delta} for {@code viewer}; it may be called from any thread.
 	 * Deltas posted within {@code delayMillis} of each other are merged; the
 	 * merged delta is applied on the UI thread after {@code delayMillis} without
-	 * a newer post, and at the latest {@code 4 * delayMillis} after the first.
+	 * a newer post, and at the latest after four times the burst's first delay.
+	 * Delivery always goes through the display's asynchronous queue, preserving
+	 * enqueue order between UI-thread and worker-thread posts.
 	 *
 	 * @param viewer      the viewer
 	 * @param delta       the delta; the caller must not change it afterwards
 	 * @param delayMillis the debounce delay, 0 or more
 	 */
 	public static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+		post(viewer, delta, delayMillis, false);
+	}
+
+	private static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
 		Control control = viewer.getControl();
 		if (control == null || control.isDisposed() || delta.isEmpty()) {
 			return;
 		}
 		posted = true;
 		Display display = control.getDisplay();
-		display.asyncExec(() -> enqueue(viewer, delta, Math.max(0, delayMillis)));
+		display.asyncExec(() -> enqueue(viewer, delta, Math.max(0, delayMillis), refreshLater));
 	}
 
-	/* UI thread */
-	private static void enqueue(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+	/* UI thread: only dedicated adjacent refreshLater requests may coalesce. */
+	private static void enqueue(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
 		Control control = viewer.getControl();
 		if (control == null || control.isDisposed()) {
 			return;
 		}
 		Queue queue = (Queue) control.getData(KEY);
 		if (queue == null) {
-			queue = new Queue(viewer);
-			control.setData(KEY, queue);
+			Queue created = new Queue(viewer, control.getDisplay());
+			control.setData(KEY, created);
+			control.addDisposeListener(event -> dispose(created));
+			queue = created;
 		}
-		long now = System.currentTimeMillis();
+		if (queue.disposed) {
+			return;
+		}
+		long now = System.nanoTime();
+		long delayNanos = delayMillis * NANOS_PER_MILLISECOND;
 		if (queue.pending == null) {
 			queue.pending = new M3ViewerDelta().append(delta);
-			queue.firstPost = now;
-		} else {
+			queue.firstPostNanos = now;
+			queue.maximumWaitNanos = 4L * delayNanos;
+		} else if (!refreshLater || !queue.lastRefreshLater) {
 			queue.pending.append(delta);
 		}
-		long generation = ++queue.generation;
-		Queue q = queue;
-		long overdue = q.firstPost + 4L * delayMillis - now;
-		int wait = (int) Math.max(0, Math.min(delayMillis, overdue));
-		control.getDisplay().timerExec(wait, () -> {
-			if (q.generation == generation || System.currentTimeMillis() >= q.firstPost + 4L * delayMillis) {
-				drain(q);
-			}
-		});
+		queue.lastRefreshLater = refreshLater;
+		long remaining = queue.maximumWaitNanos - (now - queue.firstPostNanos);
+		queue.dueNanos = now + Math.max(0L, Math.min(delayNanos, remaining));
+		schedule(queue);
+	}
+
+	/* Reusing the runnable replaces its previous SWT timer schedule. */
+	private static void schedule(Queue queue) {
+		long remaining = Math.max(0L, queue.dueNanos - System.nanoTime());
+		long millis = (remaining + NANOS_PER_MILLISECOND - 1) / NANOS_PER_MILLISECOND;
+		queue.display.timerExec((int) Math.min(Integer.MAX_VALUE, millis), queue.timer);
+	}
+
+	/* A stale invocation observes the current burst's deadline before doing work. */
+	private static void wake(Queue queue) {
+		if (queue.disposed || queue.pending == null) {
+			return;
+		}
+		if (queue.dueNanos - System.nanoTime() > 0) {
+			schedule(queue);
+		} else {
+			drain(queue);
+		}
+	}
+
+	private static void cancelTimer(Queue queue) {
+		if (!queue.display.isDisposed()) {
+			queue.display.timerExec(-1, queue.timer);
+		}
+	}
+
+	/* The control's dispose event releases pending element and property references. */
+	private static void dispose(Queue queue) {
+		queue.disposed = true;
+		queue.pending = null;
+		queue.lastRefreshLater = false;
+		cancelTimer(queue);
 	}
 
 	private static void drain(Queue queue) {
-		M3ViewerDelta delta = queue.pending;
-		queue.pending = null;
-		if (delta == null) {
+		if (queue.draining) {
 			return;
 		}
+		cancelTimer(queue);
+		M3ViewerDelta delta = queue.pending;
+		queue.pending = null;
+		queue.lastRefreshLater = false;
+		if (delta == null || queue.disposed) {
+			return;
+		}
+		queue.draining = true;
 		try {
 			apply(queue.viewer, delta);
 		} catch (RuntimeException e) {
@@ -242,6 +341,11 @@ public final class M3Viewers {
 			Control control = queue.viewer.getControl();
 			if (control != null && !control.isDisposed()) {
 				queue.viewer.refresh();
+			}
+		} finally {
+			queue.draining = false;
+			if (!queue.disposed && queue.pending != null) {
+				schedule(queue);
 			}
 		}
 	}
@@ -261,19 +365,20 @@ public final class M3Viewers {
 			return;
 		}
 		if (control.getData(KEY) instanceof Queue queue && queue.pending != null) {
-			queue.generation++;
 			drain(queue);
 		}
 	}
 
 	/**
-	 * Schedules a refresh of {@code viewer} through the same debounce: a burst
-	 * of calls refreshes once.
+	 * Schedules a refresh of {@code viewer} through the same debounce: adjacent
+	 * calls refresh once. An intervening explicit
+	 * {@link #post(StructuredViewer, M3ViewerDelta, int)} keeps its place
+	 * in the operation sequence and starts a new refresh group.
 	 *
 	 * @param viewer      the viewer
 	 * @param delayMillis the debounce delay
 	 */
 	public static void refreshLater(StructuredViewer viewer, int delayMillis) {
-		post(viewer, new M3ViewerDelta().refresh(null), delayMillis);
+		post(viewer, new M3ViewerDelta().refresh(null), delayMillis, true);
 	}
 }

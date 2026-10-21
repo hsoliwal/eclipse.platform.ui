@@ -12,6 +12,7 @@
  *     IBM Corporation - initial API and implementation
  *     Sebastian Davids - bug 69254
  *     Lars Vogel <Lars.Vogel@gmail.com> - Bug 430873
+ *     Hitesh Soliwal (Synexia) - clear absent selections without overwriting callbacks
  *******************************************************************************/
 
 package org.eclipse.jface.viewers;
@@ -209,6 +210,10 @@ public class ComboViewer extends AbstractListViewer {
 
 	@Override
 	protected void listSetSelection(int[] ixs) {
+		if (ixs.length == 0) {
+			listDeselectAll();
+			return;
+		}
 		if (combo == null) {
 			for (int ix : ixs) {
 				ccombo.select(ix);
@@ -224,7 +229,6 @@ public class ComboViewer extends AbstractListViewer {
 	protected void listDeselectAll() {
 		if (combo == null) {
 			ccombo.deselectAll();
-			ccombo.clearSelection();
 		} else {
 			combo.deselectAll();
 			combo.clearSelection();

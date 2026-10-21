@@ -1,20 +1,381 @@
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+# SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
+# V4 review template: 57 exact cases and a sealed corrected harness; CI execution remains pending.
 name: Continuous Integration
-concurrency: 
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
-
-on:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+'on':
   push:
-    branches: [ master ]
+    branches:
+    - master
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
+    - docs/**
+    - '*.md'
   pull_request:
-    branches: [ master ]
+    branches:
+    - master
+    - m3/jface-viewport-20261019
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
-
+    - docs/**
+    - '*.md'
 jobs:
   build:
+    if: github.event_name != 'pull_request' || github.base_ref == 'master'
     uses: eclipse-platform/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@master
+  m3-viewers:
+    if: github.event_name == 'pull_request' && github.base_ref == 'm3/jface-viewport-20261019'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    env:
+      AGGREGATOR_SHA: 78ad2a3326d7d304cb0a94d7c547f44240f80fe4
+      SWT_CORRECTION_SHA: 394bd63c4ba19e5e73bd8dd7c13b5ad3e7d76f3f
+      PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      UI_BASE_REPOSITORY: ${{ github.event.pull_request.base.repo.full_name }}
+      M3_EVIDENCE: ${{ runner.temp }}/m3-viewers-evidence
+    steps:
+    - name: Checkout exact UI PR head for routing
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.sha }}
+        path: ui-pr
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Route exact M3 owner paths
+      id: route
+      shell: bash
+      run: |
+        set -euo pipefail
+        python3 - <<'PY_ROUTE'
+        import json,os,pathlib,re,subprocess
+        repo=pathlib.Path('ui-pr')
+        for key in ('PR_BASE_SHA','PR_HEAD_SHA'):
+            assert re.fullmatch(r'[0-9a-f]{40}',os.environ[key]), key
+        assert re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+',os.environ['UI_BASE_REPOSITORY'])
+        def git(*args):
+            return subprocess.check_output(['git','-C',str(repo),*args],text=True).strip()
+        assert git('rev-parse','HEAD')==os.environ['PR_HEAD_SHA']
+        subprocess.run(['git','-C',str(repo),'fetch','--no-tags','--depth=1',
+            'https://github.com/'+os.environ['UI_BASE_REPOSITORY']+'.git',os.environ['PR_BASE_SHA']],check=True)
+        changed=git('diff','--name-only',os.environ['PR_BASE_SHA']+'...'+os.environ['PR_HEAD_SHA']).splitlines()
+        prefixes=('bundles/org.eclipse.jface/','bundles/org.eclipse.ui.ide/',
+                  'tests/org.eclipse.jface.tests/','tests/org.eclipse.ui.tests.harness/','.mvn/')
+        exact={'.github/workflows/ci.yml','pom.xml'}
+        matched=sorted(x for x in changed if x in exact or x.startswith(prefixes))
+        evidence=pathlib.Path(os.environ['M3_EVIDENCE']); evidence.mkdir()
+        (evidence/'routing.json').write_text(json.dumps({'base':os.environ['PR_BASE_SHA'],
+            'head':os.environ['PR_HEAD_SHA'],'changed':changed,'matched':matched},indent=2)+'\n')
+        with open(os.environ['GITHUB_OUTPUT'],'a') as output:
+            output.write('run='+str(bool(matched)).lower()+'\n')
+        print('M3 relevant paths:',len(matched))
+        PY_ROUTE
+    - name: Require a reviewed SWT correction commit
+      if: steps.route.outputs.run == 'true'
+      shell: bash
+      run: |
+        python3 - <<'PY_PIN'
+        import os,re
+        assert re.fullmatch(r'[0-9a-f]{40}',os.environ['SWT_CORRECTION_SHA']), 'Invalid reviewed SWT correction commit'
+        PY_PIN
+    - name: Checkout pinned full aggregator
+      if: steps.route.outputs.run == 'true'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        repository: eclipse-platform/eclipse.platform.releng.aggregator
+        ref: ${{ env.AGGREGATOR_SHA }}
+        path: platform
+        fetch-depth: 0
+        submodules: recursive
+        lfs: true
+        persist-credentials: false
+    - name: Overlay exact UI PR source
+      if: steps.route.outputs.run == 'true'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.sha }}
+        path: platform/eclipse.platform.ui
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Overlay reviewed SWT correction source and native LFS objects
+      if: steps.route.outputs.run == 'true'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        repository: hsoliwal/eclipse.platform.swt
+        ref: ${{ env.SWT_CORRECTION_SHA }}
+        path: platform/eclipse.platform.swt
+        fetch-depth: 0
+        lfs: true
+        persist-credentials: false
+    - name: Set up existing Java toolchains
+      if: steps.route.outputs.run == 'true'
+      uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad
+      with:
+        java-version: |
+          11
+          17
+          21
+          25
+        mvn-toolchain-id: |
+          JavaSE-11
+          JavaSE-17
+          JavaSE-21
+          JavaSE-25
+        distribution: temurin
+    - name: Set up existing Maven version
+      if: steps.route.outputs.run == 'true'
+      uses: stCarolas/setup-maven@12eb41b233df95d49b0c11fc1b5bc8312e5d4ce0
+      with:
+        maven-version: 3.9.16
+    - name: Seal source, exact test inventory, and hydrated native inputs
+      if: steps.route.outputs.run == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        command -v xvfb-run
+        python3 - <<'PY_PROVENANCE'
+        import hashlib,json,os,pathlib,re,subprocess
+        root=pathlib.Path('platform').resolve()
+        evidence=pathlib.Path(os.environ['M3_EVIDENCE'])
+        assert not re.search(r'\s',str(root)), 'Runner path must be safe in the existing Tycho argLine'
+        def git(path,*args):
+            return subprocess.check_output(['git','-C',str(path),*args],text=True).strip()
+        def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+        commits={'.':os.environ['AGGREGATOR_SHA'],'eclipse.platform.ui':os.environ['PR_HEAD_SHA'],
+                 'eclipse.platform.swt':os.environ['SWT_CORRECTION_SHA']}
+        for path,expected_sha in commits.items():
+            assert git(root/path,'rev-parse','HEAD')==expected_sha, (path,'wrong commit')
+            if path!='.': assert not git(root/path,'status','--porcelain','--untracked-files=no'), (path,'dirty input')
+        submodules=git(root,'submodule','status','--recursive').splitlines()
+        for line in submodules:
+            # strip() removes only the first line's clean prefix; normalize that one below.
+            if re.match(r'^[0-9a-f]{40} ',line): line=' '+line
+            match=re.fullmatch(r'([ +\-U])([0-9a-f]{40}) (\S+)(?: .*)?',line)
+            assert match, ('unparsed submodule',line)
+            state,commit,path=match.groups()
+            assert state==' ' or (state=='+' and path in commits and commits[path]==commit), line
+        swt=root/'eclipse.platform.swt'
+        fragment=swt/'binaries/org.eclipse.swt.gtk.linux.x86_64'
+        native=[]
+        for rel in git(swt,'ls-files','binaries/org.eclipse.swt.gtk.linux.x86_64/*.so').splitlines():
+            pointer=subprocess.check_output(['git','-C',str(swt),'show','HEAD:'+rel],text=True)
+            match=re.fullmatch(r'version https://git-lfs.github.com/spec/v1\noid sha256:([0-9a-f]{64})\nsize (\d+)\n?',pointer)
+            assert match, ('not an exact LFS pointer',rel)
+            path=swt/rel; data=path.read_bytes()
+            assert data[:4]==b'\x7fELF' and len(data)==int(match[2]) and hashlib.sha256(data).hexdigest()==match[1], rel
+            native.append({'path':str(path),'sha256':match[1],'bytes':len(data)})
+        assert native and all(any(pathlib.Path(x['path']).name.startswith(prefix) for x in native)
+            for prefix in ('libswt-gtk-','libswt-pi3-gtk-','libswt-cairo-gtk-','libswt-atk-gtk-'))
+        expected_tests={'org.eclipse.jface.tests.viewers.m3.M3ViewerDeltaTest': ['operationsKeepTheirOrderAndFields', 'lanesGrowAndAppendMerges', 'rejectsNullElementsAndBadIndexes', 'emptySelfAppendIsAnIdentity', 'selfAppendDuplicatesOriginalLanesExactlyOnce'], 'org.eclipse.jface.tests.viewers.m3.M3ViewSpecTest': ['parsesTheProblemsViewSpec', 'defaultsForOptionalKeys', 'theCommittedProblemsViewSpecIsValid', 'loadFindsTheSpecNextToTheClass', 'errorsNameTheProblem'], 'org.eclipse.jface.tests.viewers.m3.M3IndexTest': ['firstIndexAnswersLikeTheScan', 'firstIndexKeepsTheFirstOfEqualElements', 'firstIndexAcceptsZeroAndOneElement', 'identityIndexAnswersPositionsByIdentity', 'modeReadsTheProperties'], 'org.eclipse.jface.tests.viewers.m3.M3ViewersTest': ['appliesToTreeTableAndList', 'largeDeltasRunWithRedrawOff', 'postMergesABurstAndAppliesOnce', 'refreshFlushesQueuedDeltasFirst', 'refreshLaterRefreshesOnce', 'aFailingDeltaFallsBackToRefresh', 'disposedAndEmptyAreIgnored', 'flushOffTheUiThreadDoesNothing', 'allStructuredFamiliesPreserveRowsSelectionAndChecks', 'refreshLaterCoalescesProviderReadsForEveryFamily', 'explicitRefreshRecordsRetainTheirMultiplicity', 'explicitDeltaSeparatesAdjacentRefreshLaterRuns', 'anOldShortDelayCannotDrainANewLongDelayBurst', 'disposingAQueuedViewerPreventsLaterProviderCalls', 'zeroDelayPostsAreAsynchronousAndEventuallyDrain', 'theFirstDelayCapsABurstWhileLongDelayPostsContinue', 'reentrantDispatchAndFlushPreserveTheOuterBatchBeforeNewPosts', 'preservingDeltaRetainsReinsertedSelectionForEveryFamily', 'preservingDeltaRetainsMultipleSelectedElements', 'preservingDeltaNotifiesOnceForAPermanentlyRemovedSelection', 'callbackSelectionWinsAcrossNestedPreservingDeltas', 'checkStateProvidersRemainAuthoritativeDuringPreservingDeltas', 'preservingDeltaPropagatesFailuresAndReleasesItsScopeForEveryFamily', 'checkboxFailureKeepsPartialWidgetStateWithoutARollback', 'ordinaryApplyDoesNotRetainRemovedThenReinsertedSelection', 'preservingDeltaRestoresEqualReplacementFacadesWithHashCollisions', 'preservingTreeDeltasKeepTheSelectedPathAndUnaffectedExpansion', 'preservingSelectionDoesNotReexpandARecreatedUnselectedParent', 'preservingSelectionSkipsEmptyAndDisposedViewers', 'preservingSelectionRetainsExistingCheckboxDisposalBehavior', 'ordinaryComboUpdatesPreserveChangedSelectedLabelsDirectlyAndWhenPosted', 'comboLabelCallbacksKeepUpdatedDifferentAndEmptySelectionRequests', 'nativeComboModifyCallbacksKeepTheirLastRequestDuringMutationAndRestoration', 'comboUpdatesSkipUnneededRestorationWithoutARevealRequest', 'disabledPreservationStillExecutesOrdinaryAndExplicitComboUpdates', 'ordinaryComboUpdateFailureRestoresTheLastRequestAndReleasesItsScope', 'ordinaryComboUpdateInsideStockPreservationRetainsCallbackIntent', 'finalSelectionListenerStartsAFreshComboPreservationScope', 'comboViewersClearSelectionWhenAllRequestedElementsAreAbsent', 'ccomboDeselectAllCompletesBeforeModifyCallbacks', 'ccomboFinalRemovalRestorationHonorsModifySelectionAndDisposal', 'differentialScriptsHavePositiveGeometryAndCompleteEveryVariant']}
+        expected_test_hashes={'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewerDeltaTest.java': '862e1a7e220f22bef66b67cbd970c97c2c0a7ccb1feee11e701daac05ab4b805', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewSpecTest.java': 'ad8e0be98637f1349c57078a63eaed38c5108c35571f9f7e283113b0062ae5c6', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3IndexTest.java': 'f575ad7d1fd7bc690041d462f9009a6cba853374fd7a815aeae23f479f404325', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewersTest.java': '5b603debc4d2dfb1bdd12c36c4dcb5015d1968b0e85cf0569fcbfe7e2b6746dd'}
+        source_hashes={}
+        ui=root/'eclipse.platform.ui'
+        for rel,digest in expected_test_hashes.items():
+            path=ui/rel
+            assert sha(path)==digest, ('test source differs from reviewed input',rel)
+            source_hashes[str(path)]=digest
+            class_name='org.eclipse.jface.tests.viewers.m3.'+path.stem
+            methods=re.findall(r'@Test\s+(?:public\s+)?void\s+(\w+)\s*\(',path.read_text())
+            assert methods==expected_tests[class_name], ('test method inventory differs',class_name)
+        harness=ui/'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewerDifferential.java'
+        assert sha(harness)=='ba85eecc3c7f91bcdb7df8249e009390771bb9b6f68572402d0e411a2fea968a', 'Differential harness differs from reviewed input'
+        source_hashes[str(harness)]=sha(harness)
+        spec=ui/'bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ProblemsView.m3view'
+        assert spec.is_file(), 'The actual Problems spec must be exercised'
+        assert spec.stat().st_size==813 and sha(spec)=='7f86a615522dcf9ab08dd5fc863bb27d6b0a3292eee05271f8b0baa2e9deb6cb', 'Problems spec differs from the reviewed source'
+        for path in [spec,
+            ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ComboViewer.java',
+            ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewer.java',
+            ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewerInternals.java',
+            *sorted((ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3').glob('*.java')),
+            swt/'bundles/org.eclipse.swt/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/CCombo.java',
+            swt/'bundles/org.eclipse.swt/Eclipse SWT/common/org/eclipse/swt/custom/StylePolicy.java',
+            root/'pom.xml',root/'eclipse-platform-parent/pom.xml',root/'.mvn/extensions.xml',
+            fragment/'META-INF/MANIFEST.MF',fragment/'build.properties']:
+            assert path.is_file(), str(path)
+            source_hashes[str(path)]=sha(path)
+        receipt={'commits':commits,'submodules':submodules,'source_sha256':source_hashes,
+                 'native':native,'expected_tests':expected_tests,'expected_count':57}
+        (evidence/'source-before.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print('Verified source pins, 57 exact test methods, and',len(native),'hydrated native ELF files')
+        PY_PROVENANCE
+    - name: Verify both modes in the existing PDE reactor
+      if: steps.route.outputs.run == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        modules='eclipse.platform.swt/bundles/org.eclipse.swt,eclipse.platform.swt/binaries/org.eclipse.swt.gtk.linux.x86_64,eclipse.platform.ui/bundles/org.eclipse.jface,eclipse.platform.ui/bundles/org.eclipse.ui.ide,eclipse.platform.ui/tests/org.eclipse.jface.tests'
+        cd platform
+        for mode in original viewport; do
+          destination="$M3_EVIDENCE/$mode"
+          mkdir "$destination"
+          set +e
+          xvfb-run -a mvn --show-version --batch-mode --no-transfer-progress --errors \
+            -Pbree-libs -pl "$modules" -am \
+            -Dtest=M3ViewerDeltaTest,M3ViewSpecTest,M3IndexTest,M3ViewersTest \
+            -Dsurefire.failIfNoSpecifiedTests=false \
+            "-Dsurefire.systemProperties=-Djface.viewer.mode=$mode -Dm3.wt=$PWD/eclipse.platform.ui" \
+            clean verify 2>&1 | tee "$destination/maven.log"
+          maven_status=${PIPESTATUS[0]}
+          set -e
+          MODE="$mode" MAVEN_STATUS="$maven_status" python3 - <<'PY_VERIFY'
+        import collections,hashlib,json,os,pathlib,re,shutil,subprocess,xml.etree.ElementTree as ET,zipfile
+        root=pathlib.Path.cwd().resolve()
+        evidence=pathlib.Path(os.environ['M3_EVIDENCE'])
+        destination=evidence/os.environ['MODE']
+        receipt={'mode':os.environ['MODE'],'maven_exit':int(os.environ['MAVEN_STATUS']),'status':'FAIL'}
+        def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+        def properties(path):
+            logical=[]; pending=''
+            for raw in path.read_text().splitlines():
+                pending+=raw.lstrip() if pending else raw
+                if (len(pending)-len(pending.rstrip('\\')))%2:
+                    pending=pending[:-1]; continue
+                logical.append(pending); pending=''
+            assert not pending, 'Unterminated Java properties continuation'
+            values={}
+            def decode(match):
+                value=match[1]
+                if value.startswith('u'): return chr(int(value[1:],16))
+                return {'n':'\n','r':'\r','t':'\t','f':'\f'}.get(value,value)
+            for line in logical:
+                match=re.match(r'^(osgi\.bundles|osgi\.install\.area)\s*[=:]\s*(.*)$',line)
+                if match: values[match[1]]=re.sub(r'\\(u[0-9a-fA-F]{4}|.)',decode,match[2])
+            return values
+        def manifest(data):
+            text=data.decode('utf-8').replace('\r\n','\n').replace('\n ','')
+            return dict(line.split(': ',1) for line in text.splitlines() if ': ' in line)
+        def artifact(path):
+            if path.is_dir(): return manifest((path/'META-INF/MANIFEST.MF').read_bytes()),{}
+            with zipfile.ZipFile(path) as jar:
+                metadata=manifest(jar.read('META-INF/MANIFEST.MF'))
+                entries={name:hashlib.sha256(jar.read(name)).hexdigest() for name in (
+                    'org/eclipse/jface/viewers/ComboViewer.class',
+                    'org/eclipse/jface/viewers/StructuredViewer.class',
+                    'org/eclipse/jface/viewers/StructuredViewerInternals.class',
+                    'org/eclipse/jface/viewers/m3/M3Viewers.class',
+                    'org/eclipse/swt/custom/CCombo.class') if name in jar.namelist()}
+            return metadata,entries
+        try:
+            source=json.loads((evidence/'source-before.json').read_text())
+            tests=root/'eclipse.platform.ui/tests/org.eclipse.jface.tests'
+            reports=sorted((tests/'target/surefire-reports').glob('TEST-*.xml'))
+            assert reports, 'No JFace Surefire XML reports'
+            seen=[]; problems=[]
+            report_inventory=[]
+            for path in reports:
+                shutil.copy2(path,destination/path.name)
+                tree=ET.parse(path)
+                cases=list(tree.iter('testcase'))
+                verified_properties={}
+                if cases:
+                    for name,required_value in {'jface.viewer.mode':os.environ['MODE'],
+                                                'm3.wt':str(root/'eclipse.platform.ui')}.items():
+                        observed={item.get('value') for item in tree.iter('property') if item.get('name')==name}
+                        assert observed=={required_value}, ('Missing or conflicting runtime property',path.name,name,observed)
+                        verified_properties[name]=required_value
+                for case in cases:
+                    name=case.attrib['name']
+                    if name.endswith('()'): name=name[:-2]
+                    seen.append((case.attrib['classname'],name))
+                    for kind in ('failure','error','skipped'):
+                        if case.find(kind) is not None: problems.append((kind,case.attrib))
+                report_inventory.append({'name':path.name,'sha256':sha(path),'cases':len(cases),'runtime_properties':verified_properties})
+            expected={(class_name,method) for class_name,methods in source['expected_tests'].items() for method in methods}
+            assert len(expected)==57
+            receipt['reports']=report_inventory; receipt['testcases']=len(seen); receipt['problems']=problems
+            assert not problems, ('Test failures, errors, or skips',problems)
+            assert len(seen)==57 and len(set(seen))==57 and set(seen)==expected, ('Wrong exact test inventory',seen)
+            config=tests/'target/work/configuration/config.ini'
+            assert config.is_file(), 'Default Tycho runtime configuration missing; wiring unproven'
+            shutil.copy2(config,destination/'config.ini')
+            metadata=properties(config)
+            assert 'osgi.bundles' in metadata, 'No OSGi provider metadata'
+            required={
+                'org.eclipse.jface':root/'eclipse.platform.ui/bundles/org.eclipse.jface',
+                'org.eclipse.swt':root/'eclipse.platform.swt/bundles/org.eclipse.swt',
+                'org.eclipse.swt.gtk.linux.x86_64':root/'eclipse.platform.swt/binaries/org.eclipse.swt.gtk.linux.x86_64'}
+            providers={}; optional_ide=[]
+            for reference in metadata['osgi.bundles'].split(','):
+                match=re.fullmatch(r'reference:file:(.+?)(?:@(?:\d+(?::start)?|start))?',reference)
+                assert match, ('Unknown bundle reference form',reference)
+                path=pathlib.Path(match[1]).resolve()
+                attrs,entries=artifact(path)
+                name=attrs.get('Bundle-SymbolicName','').split(';',1)[0]
+                if name in required:
+                    assert name not in providers, ('Duplicate provider',name)
+                    assert path.is_file() and path.is_relative_to(required[name]/'target'), ('Non-reactor owner provider',name,str(path))
+                    providers[name]={'path':str(path),'sha256':sha(path),'manifest':attrs,'class_sha256':entries}
+                if name=='org.eclipse.ui.ide': optional_ide.append(str(path))
+            assert set(providers)==set(required), ('Missing owner provider',set(required)-set(providers))
+            assert {'org/eclipse/jface/viewers/ComboViewer.class','org/eclipse/jface/viewers/StructuredViewer.class',
+                    'org/eclipse/jface/viewers/StructuredViewerInternals.class',
+                    'org/eclipse/jface/viewers/m3/M3Viewers.class'} <= set(providers['org.eclipse.jface']['class_sha256'])
+            assert 'org/eclipse/swt/custom/CCombo.class' in providers['org.eclipse.swt.gtk.linux.x86_64']['class_sha256']
+            ide_module=root/'eclipse.platform.ui/bundles/org.eclipse.ui.ide'
+            ide_artifacts=[]
+            for path in sorted((ide_module/'target').glob('*.jar')):
+                attrs,entries=artifact(path)
+                if attrs.get('Bundle-SymbolicName','').split(';',1)[0]=='org.eclipse.ui.ide':
+                    ide_artifacts.append({'path':str(path),'sha256':sha(path),'manifest':attrs})
+            assert len(ide_artifacts)==1, ('Expected one compiled IDE artifact',ide_artifacts)
+            receipt['osgi']={'config_sha256':sha(config),'providers':providers,
+                'ide_runtime_references':optional_ide,'ide_artifacts':ide_artifacts,
+                'scope':'JFace PDE runtime; IDE artifact compiled, no workbench-launch claim'}
+            for path,digest in source['source_sha256'].items(): assert sha(pathlib.Path(path))==digest, ('Changed source',path)
+            for item in source['native']: assert sha(pathlib.Path(item['path']))==item['sha256'], ('Changed native',item['path'])
+            for rel,commit in source['commits'].items():
+                observed=subprocess.check_output(['git','-C',str(root/rel),'rev-parse','HEAD'],text=True).strip()
+                assert observed==commit, ('Changed checkout',rel)
+                if rel!='.':
+                    status=subprocess.check_output(['git','-C',str(root/rel),'status','--porcelain','--untracked-files=no'],text=True)
+                    assert not status, ('Tracked source changed during Maven',rel,status)
+            receipt['inputs_unchanged']=True
+            assert receipt['maven_exit']==0, ('Maven failed',receipt['maven_exit'])
+            receipt['status']='PASS'
+        except Exception as failure:
+            receipt['failure']=repr(failure)
+            raise
+        finally:
+            (destination/'gate.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print(os.environ['MODE']+': 57 exact M3 tests PASS; reactor JFace/SWT wiring verified')
+        PY_VERIFY
+        done
+    - name: Package bounded diagnostic evidence
+      id: package
+      if: always() && steps.route.outputs.run == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        python3 - <<'PY_PACKAGE'
+        import gzip,hashlib,json,os,pathlib
+        root=pathlib.Path(os.environ['M3_EVIDENCE'])
+        root.mkdir(exist_ok=True)
+        for path in root.rglob('*.log'):
+            content=path.read_bytes()
+            compressed=gzip.compress(content,mtime=0)
+            target=path.with_suffix(path.suffix+'.gz')
+            target.write_bytes(compressed)
+            path.with_suffix(path.suffix+'.json').write_text(json.dumps({'uncompressed_bytes':len(content),
+                'uncompressed_sha256':hashlib.sha256(content).hexdigest(),'gzip_sha256':hashlib.sha256(compressed).hexdigest()},indent=2)+'\n')
+            path.unlink()
+        files=[p for p in root.rglob('*') if p.is_file()]
+        size=sum(p.stat().st_size for p in files)
+        passed=size<=20*1024*1024
+        (root/'artifact-budget.json').write_text(json.dumps({'status':'PASS' if passed else 'FAIL',
+            'bytes':size,'limit_bytes':20*1024*1024,'files':len(files)},indent=2)+'\n')
+        with open(os.environ['GITHUB_OUTPUT'],'a') as output: output.write('upload='+str(passed).lower()+'\n')
+        assert passed, 'Artifact budget exceeded; bounded upload suppressed'
+        PY_PACKAGE
+    - name: Upload M3 verification evidence
+      if: always() && steps.package.outputs.upload == 'true'
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+      with:
+        name: m3-viewers-pde-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{ env.M3_EVIDENCE }}
+        if-no-files-found: error
+        retention-days: 7
