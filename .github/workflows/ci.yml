@@ -16,6 +16,7 @@ concurrency:
     branches:
     - master
     - m3/jface-viewport-20261019
+    - m3/viewer-fixes-20261021
     paths-ignore:
     - docs/**
     - '*.md'
@@ -24,7 +25,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.base_ref == 'master'
     uses: eclipse-platform/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@master
   m3-viewers:
-    if: github.event_name == 'pull_request' && github.base_ref == 'm3/jface-viewport-20261019'
+    if: github.event_name == 'pull_request' && (github.base_ref == 'm3/jface-viewport-20261019' || github.base_ref == 'm3/viewer-fixes-20261021')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
