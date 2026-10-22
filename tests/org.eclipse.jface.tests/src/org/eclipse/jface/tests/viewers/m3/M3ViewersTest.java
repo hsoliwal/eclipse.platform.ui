@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -266,5 +267,39 @@ public class M3ViewersTest {
 		assertEquals(5, v.getTable().getItemCount());
 		M3Viewers.flush(v);
 		assertEquals(6, v.getTable().getItemCount());
+	}
+	@Test
+	public void laterLongDelayCannotExtendFirstBatchDeadline() {
+		TableViewer v = table();
+		roots.add("early");
+		roots.add("late");
+		M3Viewers.post(v, new M3ViewerDelta().add(roots, "early", -1), 40);
+		M3Viewers.post(v, new M3ViewerDelta().add(roots, "late", -1), 2_000);
+		long started = System.nanoTime();
+		waitUntil(() -> v.getTable().getItemCount() == 7);
+		assertTrue(TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started) < 1_500,
+				"a later debounce must not extend the first batch's four-delay bound");
+		assertEquals("r0 r1 r2 r3 r4 early late", texts(v));
+	}
+
+	@Test
+	public void obsoleteTimerCannotDrainNewBatchAfterFlush() throws InterruptedException {
+		TableViewer v = table();
+		roots.add("first");
+		M3Viewers.post(v, new M3ViewerDelta().add(roots, "first", -1), 40);
+		drain();
+		M3Viewers.flush(v);
+		assertEquals(6, v.getTable().getItemCount());
+
+		roots.add("second");
+		M3Viewers.post(v, new M3ViewerDelta().add(roots, "second", -1), 5_000);
+		drain();
+		// Delay UI timer dispatch until the obsolete timer has elapsed.
+		Thread.sleep(250);
+		drain();
+		assertEquals(6, v.getTable().getItemCount(),
+				"the first batch's timer must not drain the second batch");
+		M3Viewers.flush(v);
+		assertEquals("r0 r1 r2 r3 r4 first second", texts(v));
 	}
 }
