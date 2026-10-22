@@ -656,7 +656,7 @@ final class M3MarkerDeltas {
 				patchRows(delta, lanes, flat, input, viewer.getTree().getItems(), limit(view), changed);
 			}
 			if (!delta.isEmpty()) {
-				((MarkersTreeViewer) viewer).m3PreservingSelection(() -> M3Viewers.apply(viewer, delta));
+				((MarkersTreeViewer) viewer).m3PreservingMarkerSelection(() -> M3Viewers.apply(viewer, delta));
 			}
 			return;
 		}
@@ -690,7 +690,7 @@ final class M3MarkerDeltas {
 		if (delta.isEmpty()) {
 			return;
 		}
-		((MarkersTreeViewer) viewer).m3PreservingSelection(() -> M3Viewers.apply(viewer, delta));
+		((MarkersTreeViewer) viewer).m3PreservingMarkerSelection(() -> M3Viewers.apply(viewer, delta));
 		for (M3MarkerCategory category : expand) {
 			viewer.setExpandedState(category, true);
 		}
