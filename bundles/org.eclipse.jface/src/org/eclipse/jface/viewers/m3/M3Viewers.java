@@ -174,7 +174,7 @@ public final class M3Viewers {
 		M3ViewerDelta pending;
 		long generation;
 		long batch;
-		long firstPost;
+		long deadlineNanos;
 
 		Queue(StructuredViewer viewer) {
 			this.viewer = viewer;
@@ -228,22 +228,29 @@ public final class M3Viewers {
 			queue = new Queue(viewer);
 			control.setData(KEY, queue);
 		}
-		long now = System.currentTimeMillis();
+		long now = System.nanoTime();
 		if (queue.pending == null) {
 			queue.pending = new M3ViewerDelta().append(delta);
 			queue.batch++;
-			queue.firstPost = now;
+			// One immutable first-post deadline for this batch. A later longer
+			// delay cannot move it or make an older timer govern a new batch.
+			queue.deadlineNanos = now + 4_000_000L * delayMillis;
 		} else if (!redundantRefresh(queue.pending, delta)) {
 			queue.pending.append(delta);
 		}
 		long generation = ++queue.generation;
 		Queue q = queue;
 		long batch = q.batch;
-		long overdue = q.firstPost + 4L * delayMillis - now;
-		int wait = (int) Math.max(0, Math.min(delayMillis, overdue));
+		long remainingNanos = q.deadlineNanos - now;
+		// Round UP when the absolute deadline is less than one millisecond
+		// away. Rounding down could leave every superseded timer early,
+		// making the pending batch wait forever without another post.
+		long deadlineMillis = remainingNanos <= 0 ? 0
+				: remainingNanos / 1_000_000L + (remainingNanos % 1_000_000L == 0 ? 0 : 1);
+		int wait = (int) Math.min((long) delayMillis, deadlineMillis);
 		control.getDisplay().timerExec(wait, () -> {
 			if (q.pending != null && q.batch == batch
-					&& (q.generation == generation || System.currentTimeMillis() >= q.firstPost + 4L * delayMillis)) {
+					&& (q.generation == generation || System.nanoTime() - q.deadlineNanos >= 0L)) {
 				drain(q);
 			}
 		});
