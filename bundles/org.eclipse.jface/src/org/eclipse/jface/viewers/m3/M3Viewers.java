@@ -21,7 +21,9 @@ import java.util.logging.Logger;
 import org.eclipse.jface.viewers.AbstractListViewer;
 import org.eclipse.jface.viewers.AbstractTableViewer;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.StructuredViewerInternals;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
@@ -31,9 +33,10 @@ import org.eclipse.swt.widgets.Display;
  * <ul>
  * <li>{@link #apply} applies a delta now, on the UI thread, with consecutive
  * operations of one kind batched into one viewer call;</li>
- * <li>{@link #post} queues a delta from any thread. Deltas posted in a burst
- * are merged and applied once, after {@code delayMillis} without a newer post
- * (superseding-generation debounce), and at the latest after four delays;</li>
+ * <li>{@link #post(StructuredViewer, M3ViewerDelta, int)} queues a delta from any
+ * thread. Deltas posted in a burst are merged and applied once, after
+ * {@code delayMillis} without a newer post
+ * (rescheduled debounce), and at the latest after four initial delays;</li>
  * <li>{@link #flush} applies a queued delta at once. The viewers call it
  * before every {@code refresh}, so a refresh never runs ahead of queued
  * deltas.</li>
@@ -60,7 +63,8 @@ public final class M3Viewers {
 
 	/**
 	 * Applies {@code delta} to {@code viewer} now. Must run on the viewer's UI
-	 * thread.
+	 * thread. ComboViewer UPDATE runs preserve their logical selection, including
+	 * explicit selection requests made by callbacks.
 	 *
 	 * @param viewer the viewer
 	 * @param delta  the delta; it is not changed
@@ -90,6 +94,37 @@ public final class M3Viewers {
 		}
 	}
 
+	/**
+	 * Applies {@code delta} now, preserving the viewer's selection across the
+	 * complete sequence. A selected element may be removed and reinserted by the
+	 * patch without exposing an intermediate selection change. An explicit
+	 * selection set by a callback takes precedence over restoring the old one.
+	 * Nested calls join the current selection boundary.
+	 * <p>
+	 * Checkbox viewers use their existing check-state preservation, including
+	 * the authority of an installed check-state provider. This method does not
+	 * save or restore a tree's expansion state. Exceptions propagate as for
+	 * {@link #apply}; a partially applied delta is not rolled back.
+	 * </p>
+	 * <p>
+	 * Must run on the viewer's UI thread. This entry point preserves selection
+	 * across the complete delta. Ordinary {@link #apply} and
+	 * {@link #post(StructuredViewer, M3ViewerDelta, int)} preserve ComboViewer
+	 * selection within each UPDATE run.
+	 * </p>
+	 *
+	 * @param viewer the viewer
+	 * @param delta  the delta; it is not changed
+	 * @since 3.43 (M3 enhanced API)
+	 */
+	public static void applyPreservingSelection(StructuredViewer viewer, M3ViewerDelta delta) {
+		Control control = viewer.getControl();
+		if (control == null || control.isDisposed() || delta.isEmpty()) {
+			return;
+		}
+		StructuredViewerInternals.preservingSelection(viewer, () -> apply(viewer, delta));
+	}
+
 	/* applies the run of operations starting at i; returns the index after it */
 	private static int run(StructuredViewer viewer, M3ViewerDelta delta, int i) {
 		byte kind = delta.kind(i);
@@ -117,7 +152,13 @@ public final class M3Viewers {
 					&& Arrays.equals(delta.properties(end), delta.properties(i))) {
 				end++;
 			}
-			viewer.update(elements(delta, i, end), delta.properties(i));
+			Object[] updated = elements(delta, i, end);
+			String[] properties = delta.properties(i);
+			if (viewer instanceof ComboViewer) {
+				StructuredViewerInternals.preservingSelection(viewer, () -> viewer.update(updated, properties));
+			} else {
+				viewer.update(updated, properties);
+			}
 		}
 		default -> {
 			if (delta.element(i) == null) {
