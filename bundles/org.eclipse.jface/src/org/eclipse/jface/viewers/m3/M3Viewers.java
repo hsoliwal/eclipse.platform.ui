@@ -249,13 +249,40 @@ public final class M3Viewers {
 	}
 
 	private static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
-		Control control = viewer.getControl();
-		if (control == null || control.isDisposed() || delta.isEmpty()) {
+		// Do not inspect the viewer or its SWT Control outside the UI thread.
+		// A caller on a secondary Display must supply that known owner explicitly.
+		java.util.Objects.requireNonNull(viewer, "viewer"); //$NON-NLS-1$
+		Display current = Display.getCurrent();
+		post(current != null ? current : Display.getDefault(), viewer, delta, delayMillis, refreshLater);
+	}
+
+	/**
+	 * Safely posts from a worker through the viewer's known owning SWT Display.
+	 * The existing three-argument post contract remains intact.
+	 *
+	 * @param display the known owning UI Display
+	 * @param viewer target viewer, read only on the UI thread
+	 * @param delta ordered immutable-after-post operation lanes
+	 * @param delayMillis the debounce delay
+	 */
+	public static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+		post(display, viewer, delta, delayMillis, false);
+	}
+
+	private static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta,
+			int delayMillis, boolean refreshLater) {
+		java.util.Objects.requireNonNull(display, "display"); //$NON-NLS-1$
+		java.util.Objects.requireNonNull(viewer, "viewer"); //$NON-NLS-1$
+		if (delta.isEmpty() || display.isDisposed()) {
 			return;
 		}
 		posted = true;
-		Display display = control.getDisplay();
-		display.asyncExec(() -> enqueue(viewer, delta, Math.max(0, delayMillis), refreshLater));
+		display.asyncExec(() -> {
+			Control control = viewer.getControl();
+			if (control != null && !control.isDisposed() && control.getDisplay() == display) {
+				enqueue(viewer, delta, Math.max(0, delayMillis), refreshLater);
+			}
+		});
 	}
 
 	/* UI thread: only dedicated adjacent refreshLater requests may coalesce. */
@@ -360,8 +387,12 @@ public final class M3Viewers {
 		if (!posted) {
 			return;
 		}
+		Display current = Display.getCurrent();
+		if (current == null) {
+			return; // Never read a viewer's SWT Control from a worker.
+		}
 		Control control = viewer.getControl();
-		if (control == null || control.isDisposed() || control.getDisplay().getThread() != Thread.currentThread()) {
+		if (control == null || control.isDisposed() || control.getDisplay() != current) {
 			return;
 		}
 		if (control.getData(KEY) instanceof Queue queue && queue.pending != null) {
