@@ -102,13 +102,15 @@ public final class M3ViewerDelta {
 
 	/**
 	 * Appends the operations of {@code other} to this delta, so that deltas
-	 * posted in a burst are applied as one.
+	 * posted in a burst are applied as one. The source operation count is fixed
+	 * at entry: appending this delta to itself duplicates its sequence once.
 	 *
 	 * @param other the later delta
 	 * @return this delta
 	 */
 	public M3ViewerDelta append(M3ViewerDelta other) {
-		for (int i = 0; i < other.size; i++) {
+		int sourceSize = other.size;
+		for (int i = 0; i < sourceSize; i++) {
 			push(other.kinds[i], other.elements[i], other.parents[i], other.indexes[i], other.properties[i]);
 		}
 		return this;

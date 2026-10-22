@@ -92,4 +92,17 @@ public class StructuredViewerInternals {
 		return viewer.findItems(element);
 	}
 
+	/**
+	 * Internal access for the explicit M3 delta selection boundary. The viewer
+	 * remains the owner of selection and subclass check-state preservation.
+	 *
+	 * @param viewer the viewer
+	 * @param updateCode the synchronous update
+	 * @since 3.43
+	 */
+	@NoReference
+	public static void preservingSelection(StructuredViewer viewer, Runnable updateCode) {
+		viewer.m3PreservingSelection(updateCode);
+	}
+
 }
