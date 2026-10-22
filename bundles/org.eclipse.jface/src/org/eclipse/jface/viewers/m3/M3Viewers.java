@@ -216,6 +216,7 @@ public final class M3Viewers {
 		long generation;
 		long batch;
 		long deadlineNanos;
+		boolean lastRefreshLater;
 
 		Queue(StructuredViewer viewer) {
 			this.viewer = viewer;
@@ -227,16 +228,22 @@ public final class M3Viewers {
 	 * Deltas posted within {@code delayMillis} of each other are merged; the
 	 * merged delta is applied on the UI thread after {@code delayMillis} without
 	 * a newer post, and at the latest {@code 4 * delayMillis} after the first.
+	 * Explicit REFRESH posts remain distinct; only adjacent dedicated
+	 * {@link #refreshLater(StructuredViewer, int)} requests may coalesce.
 	 *
 	 * @param viewer      the viewer
 	 * @param delta       the delta; the caller must not change it afterwards
 	 * @param delayMillis the debounce delay, 0 or more
 	 */
 	public static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+		post(viewer, delta, delayMillis, false);
+	}
+
+	private static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
 		// Never read viewer/control/widget state from a worker thread. SWT's
 		// getDisplay() may reject access outside the owning UI thread.
 		Display current = Display.getCurrent();
-		post(current != null ? current : Display.getDefault(), viewer, delta, delayMillis);
+		post(current != null ? current : Display.getDefault(), viewer, delta, delayMillis, refreshLater);
 	}
 
 	/**
@@ -250,16 +257,22 @@ public final class M3Viewers {
 	 * @param delayMillis debounce delay, zero or greater
 	 */
 	public static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+		post(display, viewer, delta, delayMillis, false);
+	}
+
+	private static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta,
+			int delayMillis, boolean refreshLater) {
 		if (delta.isEmpty() || display.isDisposed()) {
 			return;
 		}
 		posted = true;
 		int delay = Math.max(0, delayMillis);
-		display.asyncExec(() -> enqueue(viewer, delta, delay));
+		display.asyncExec(() -> enqueue(viewer, delta, delay, refreshLater));
 	}
 
 	/* UI thread */
-	private static void enqueue(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+	private static void enqueue(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis,
+			boolean refreshLater) {
 		Control control = viewer.getControl();
 		if (control == null || control.isDisposed()) {
 			return;
@@ -276,9 +289,10 @@ public final class M3Viewers {
 			// Fix the deadline at the first post. A later, longer debounce must
 			// never postpone an earlier batch or reinterpret a stale timer.
 			queue.deadlineNanos = now + 4_000_000L * delayMillis;
-		} else if (!redundantRefresh(queue.pending, delta)) {
+		} else if (!refreshLater || !queue.lastRefreshLater || !redundantRefresh(queue.pending, delta)) {
 			queue.pending.append(delta);
 		}
+		queue.lastRefreshLater = refreshLater;
 		long generation = ++queue.generation;
 		long batch = queue.batch;
 		Queue q = queue;
@@ -294,7 +308,7 @@ public final class M3Viewers {
 		});
 	}
 
-	/* Only adjacent single-refresh posts coalesce; all other operation order is retained. */
+	/* Only consecutive dedicated refreshLater calls to the same target coalesce. */
 	private static boolean redundantRefresh(M3ViewerDelta pending, M3ViewerDelta delta) {
 		int last = pending.size() - 1;
 		return last >= 0 && delta.size() == 1 && delta.kind(0) == M3ViewerDelta.REFRESH
@@ -304,6 +318,7 @@ public final class M3Viewers {
 	private static void drain(Queue queue) {
 		M3ViewerDelta delta = queue.pending;
 		queue.pending = null;
+		queue.lastRefreshLater = false;
 		if (delta == null) {
 			return;
 		}
@@ -351,6 +366,6 @@ public final class M3Viewers {
 	 * @param delayMillis the debounce delay
 	 */
 	public static void refreshLater(StructuredViewer viewer, int delayMillis) {
-		post(viewer, new M3ViewerDelta().refresh(null), delayMillis);
+		post(viewer, new M3ViewerDelta().refresh(null), delayMillis, true);
 	}
 }

@@ -334,6 +334,20 @@ public class M3ViewersTest {
 	}
 
 	@Test
+	public void explicitRefreshPostsRetainCardinalityAcrossDebouncedRefreshLater() {
+		RefreshCountingTableViewer v = new RefreshCountingTableViewer();
+		M3Viewers.refreshLater(v, 60_000);
+		M3Viewers.refreshLater(v, 60_000);
+		M3Viewers.post(v, new M3ViewerDelta().refresh(null), 60_000);
+		M3Viewers.post(v, new M3ViewerDelta().refresh(null), 60_000);
+		M3Viewers.refreshLater(v, 60_000);
+		drain();
+		M3Viewers.flush(v);
+		assertEquals(4, v.refreshCount,
+				"only consecutive dedicated refreshLater calls may coalesce"); //$NON-NLS-1$
+	}
+
+	@Test
 	public void refreshPostsKeepAnInterveningUpdate() {
 		RefreshCountingTableViewer v = new RefreshCountingTableViewer();
 		M3Viewers.refreshLater(v, 60_000);
