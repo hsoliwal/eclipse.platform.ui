@@ -1564,4 +1564,269 @@ public class M3ViewersTest {
 			}
 		}
 	}
+
+	@Test
+	public void ccomboValidSelectionHonorsModifyReselection() {
+		for (int style : new int[] { SWT.READ_ONLY, SWT.NONE }) {
+			for (int depth : new int[] { 1, 2 }) {
+				CCombo combo = new CCombo(shell, style);
+				combo.setItems(roots.toArray(String[]::new));
+				combo.select(0);
+				List<Integer> indices = new ArrayList<>();
+				List<String> labels = new ArrayList<>();
+				int[] selections = { 0 };
+				combo.addListener(SWT.Selection, event -> selections[0]++);
+				combo.addModifyListener(event -> {
+					indices.add(combo.getSelectionIndex());
+					labels.add(combo.getText());
+					if (indices.size() == 1) {
+						combo.select(3);
+					} else if (depth == 2 && indices.size() == 2) {
+						combo.select(4);
+					}
+				});
+				combo.select(1);
+				String context = "CCombo valid selection style=" + style + " depth=" + depth;
+				assertEquals(depth == 1 ? List.of(1, 3) : List.of(1, 3, 4), indices, context);
+				assertEquals(depth == 1 ? List.of("r1", "r3") : List.of("r1", "r3", "r4"), labels, context);
+				assertEquals(depth == 1 ? 3 : 4, combo.getSelectionIndex(), context);
+				assertEquals(depth == 1 ? "r3" : "r4", combo.getText(), context);
+				assertEquals(0, selections[0], context + " does not synthesize Selection");
+				combo.dispose();
+			}
+		}
+	}
+
+	@Test
+	public void ccomboValidSelectionAllowsModifyDisposal() {
+		for (int style : new int[] { SWT.READ_ONLY, SWT.NONE }) {
+			CCombo combo = new CCombo(shell, style);
+			combo.setItems(roots.toArray(String[]::new));
+			combo.select(0);
+			int[] indexAtCallback = { -2 };
+			String[] textAtCallback = { null };
+			combo.addModifyListener(event -> {
+				indexAtCallback[0] = combo.getSelectionIndex();
+				textAtCallback[0] = combo.getText();
+				combo.dispose();
+			});
+			combo.select(1);
+			assertTrue(combo.isDisposed(), "valid selection must finish after Modify disposal");
+			assertEquals(1, indexAtCallback[0], "requested row is complete before disposal");
+			assertEquals("r1", textAtCallback[0]);
+		}
+	}
+
+	@Test
+	public void ccomboPositiveRestorationHonorsModifySelectionAndDisposal() {
+		for (String outcome : new String[] { "select", "clear", "dispose" }) {
+			roots.clear();
+			setUpRoots();
+			RecordingComboViewer viewer = recordingCombo("ccombo");
+			CCombo combo = (CCombo) viewer.getControl();
+			viewer.setSelection(new StructuredSelection("r2"));
+			drainNativeSelectionEvents();
+			viewer.clearCalls();
+			SelectionEvents events = selectionEvents(viewer);
+			boolean[] called = { false };
+			int[] indexAtCallback = { -2 };
+			int[] itemsAtCallback = { -1 };
+			combo.addModifyListener(event -> {
+				if (!called[0] && !viewer.widgetReveals.isEmpty() && "r2".equals(combo.getText())) {
+					called[0] = true;
+					indexAtCallback[0] = combo.getSelectionIndex();
+					itemsAtCallback[0] = combo.getItemCount();
+					if ("dispose".equals(outcome)) {
+						combo.dispose();
+					} else if ("clear".equals(outcome)) {
+						viewer.setSelection(StructuredSelection.EMPTY, false);
+					} else {
+						viewer.setSelection(new StructuredSelection("r3"), true);
+					}
+				}
+			});
+			roots.remove("r2");
+			roots.add("r2");
+			M3Viewers.applyPreservingSelection(viewer, new M3ViewerDelta().remove("r2").add(roots, "r2", -1));
+			String context = "CCombo positive restoration " + outcome;
+			assertTrue(called[0], context + " must enter final valid restoration");
+			assertEquals(5, itemsAtCallback[0], context + " after reinsertion");
+			assertEquals(4, indexAtCallback[0], context + " restored r2 index before Modify");
+			if ("dispose".equals(outcome)) {
+				assertTrue(combo.isDisposed(), context);
+				assertSelectionEvents(events, 0, context);
+				assertTrue(viewer.boundarySelections.isEmpty(), context);
+			} else {
+				boolean selected = "select".equals(outcome);
+				assertEquals(String.join(" ", roots), texts(viewer), context);
+				assertEquals(selected ? "r3" : null, viewer.getStructuredSelection().getFirstElement(), context);
+				assertEquals(selected ? 2 : -1, combo.getSelectionIndex(), context);
+				assertEquals(selected ? "r3" : "", combo.getText(), context);
+				assertSelectionEvents(events, 1, context);
+				assertEquals(1, viewer.boundarySelections.size(), context);
+				assertEquals(viewer.getSelection(), events.changed().getFirst(), context);
+				assertEquals(viewer.getSelection(), events.postChanged().getFirst(), context);
+				assertEquals(selected, viewer.widgetReveals.getLast(), context + " callback reveal");
+				assertDrainedComboSelection(context, viewer, events, selected ? "r3" : null);
+				combo.dispose();
+			}
+		}
+	}
+
+	@Test
+	public void ccomboValidSelectionKeepsClearRequestsForDuplicateEmptyLabels() {
+		for (int style : new int[] { SWT.READ_ONLY, SWT.NONE }) {
+			for (String label : new String[] { "same", "" }) {
+				for (String operation : new String[] { "select-minus-one", "deselect-all", "deselect-one", "clear-text-selection" }) {
+					CCombo combo = new CCombo(shell, style);
+					combo.setItems(new String[] { label, label, "other" });
+					combo.select(2);
+					boolean[] called = { false };
+					int[] indexAtCallback = { -2 };
+					combo.addModifyListener(event -> {
+						if (!called[0]) {
+							called[0] = true;
+							indexAtCallback[0] = combo.getSelectionIndex();
+							switch (operation) {
+							case "select-minus-one" -> combo.select(-1);
+							case "deselect-all" -> combo.deselectAll();
+							case "deselect-one" -> combo.deselect(1);
+							case "clear-text-selection" -> combo.clearSelection();
+							default -> throw new IllegalStateException(operation);
+							}
+						}
+					});
+					combo.select(1);
+					String context = "CCombo duplicate clear " + style + " label=" + label + " " + operation;
+					assertTrue(called[0], context + " must enter Modify");
+					assertEquals(1, indexAtCallback[0], context + " before clear");
+					assertEquals(-1, combo.getSelectionIndex(), context + " explicit clear survives");
+					assertEquals("clear-text-selection".equals(operation) ? label : "", combo.getText(), context);
+					combo.dispose();
+				}
+
+				CCombo equalText = new CCombo(shell, style);
+				equalText.setItems(new String[] { label, label, "other" });
+				equalText.select(0);
+				List<Integer> equalIndices = new ArrayList<>();
+				equalText.addModifyListener(event -> equalIndices.add(equalText.getSelectionIndex()));
+				equalText.select(1);
+				String context = "CCombo equal text style=" + style + " label=" + label;
+				assertEquals(1, equalText.getSelectionIndex(), context + " requested duplicate row");
+				assertEquals(label, equalText.getText(), context);
+				for (int index : equalIndices) {
+					assertEquals(1, index, context + " completes before any delivered Modify");
+				}
+				if ("gtk".equals(SWT.getPlatform())) {
+					// GTK skips Verify and Modify when both the old and new text are empty.
+					assertEquals(label.isEmpty() ? List.of() : List.of(1), equalIndices, context + " GTK delivery");
+				}
+				equalText.dispose();
+			}
+		}
+	}
+
+	@Test
+	public void ccomboValidSelectionPreservesVerifyAndFailureSemantics() {
+		for (int style : new int[] { SWT.READ_ONLY, SWT.NONE }) {
+			CCombo unchanged = new CCombo(shell, style);
+			unchanged.setItems(roots.toArray(String[]::new));
+			unchanged.select(0);
+			int[] noOpEvents = { 0 };
+			unchanged.addListener(SWT.Verify, event -> noOpEvents[0]++);
+			unchanged.addListener(SWT.Modify, event -> noOpEvents[0]++);
+			unchanged.select(0);
+			unchanged.select(-2);
+			unchanged.select(unchanged.getItemCount());
+			unchanged.select(Integer.MAX_VALUE);
+			assertEquals(0, noOpEvents[0], "same and invalid indices must remain no-ops");
+			assertEquals(0, unchanged.getSelectionIndex());
+			assertEquals("r0", unchanged.getText());
+			unchanged.dispose();
+
+			CCombo veto = new CCombo(shell, style);
+			veto.setItems(roots.toArray(String[]::new));
+			veto.select(0);
+			int[] vetoIndex = { -2 };
+			int[] vetoModifies = { 0 };
+			veto.addVerifyListener(event -> {
+				vetoIndex[0] = veto.getSelectionIndex();
+				event.doit = false;
+			});
+			veto.addModifyListener(event -> vetoModifies[0]++);
+			veto.select(1);
+			assertEquals(0, vetoIndex[0], "Verify observes the previous row");
+			assertEquals(0, vetoModifies[0], "veto suppresses text modification");
+			assertEquals(1, veto.getSelectionIndex(), "existing veto only refuses the text replacement");
+			assertEquals("r0", veto.getText());
+			veto.dispose();
+
+			CCombo transformed = new CCombo(shell, style);
+			transformed.setItems(roots.toArray(String[]::new));
+			transformed.select(0);
+			int[] transformedVerifyIndex = { -2 };
+			int[] transformedModifyIndex = { -2 };
+			transformed.addVerifyListener(event -> {
+				transformedVerifyIndex[0] = transformed.getSelectionIndex();
+				event.text = "verified \u03b2\uD83D\uDE00";
+			});
+			transformed.addModifyListener(event -> transformedModifyIndex[0] = transformed.getSelectionIndex());
+			transformed.select(1);
+			assertEquals(0, transformedVerifyIndex[0]);
+			assertEquals(1, transformedModifyIndex[0], "transformed text keeps its requested row before Modify");
+			assertEquals(1, transformed.getSelectionIndex());
+			assertEquals("verified \u03b2\uD83D\uDE00", transformed.getText());
+			transformed.dispose();
+
+			CCombo nested = new CCombo(shell, style);
+			nested.setItems(roots.toArray(String[]::new));
+			nested.select(0);
+			boolean[] enteredVerify = { false };
+			List<Integer> nestedIndices = new ArrayList<>();
+			List<String> nestedLabels = new ArrayList<>();
+			nested.addVerifyListener(event -> {
+				if (!enteredVerify[0] && "r1".equals(event.text)) {
+					enteredVerify[0] = true;
+					nested.setText("nested");
+				}
+			});
+			nested.addModifyListener(event -> {
+				nestedIndices.add(nested.getSelectionIndex());
+				nestedLabels.add(nested.getText());
+			});
+			nested.select(1);
+			assertTrue(enteredVerify[0]);
+			assertEquals(List.of(-1, 1), nestedIndices, "Verify text mutation cannot consume the outer pending row");
+			assertEquals(List.of("nested", "r1"), nestedLabels);
+			assertEquals(1, nested.getSelectionIndex());
+			assertEquals("r1", nested.getText());
+			nested.dispose();
+
+			for (int eventType : new int[] { SWT.Verify, SWT.Modify }) {
+				CCombo failing = new CCombo(shell, style);
+				failing.setItems(roots.toArray(String[]::new));
+				failing.select(0);
+				RuntimeException failure = new IllegalStateException("deliberate CCombo listener failure " + eventType);
+				org.eclipse.swt.widgets.Listener listener = event -> { throw failure; };
+				failing.addListener(eventType, listener);
+				assertSame(failure, assertThrows(RuntimeException.class, () -> failing.select(1)));
+				failing.removeListener(eventType, listener);
+				failing.setText("after failure");
+				assertEquals(-1, failing.getSelectionIndex(), "failed selection leaves no pending state");
+				assertEquals("after failure", failing.getText());
+				failing.select(3);
+				assertEquals(3, failing.getSelectionIndex());
+				assertEquals("r3", failing.getText());
+				failing.dispose();
+			}
+
+			CCombo disposed = new CCombo(shell, style);
+			disposed.setItems(roots.toArray(String[]::new));
+			disposed.select(0);
+			disposed.addVerifyListener(event -> disposed.dispose());
+			disposed.select(1);
+			assertTrue(disposed.isDisposed(), "Verify disposal cannot enter the no-Modify fallback");
+		}
+	}
+
 }
