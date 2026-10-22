@@ -185,6 +185,51 @@ final class M3ViewerPaths {
 	}
 
 	/**
+	 * A5: the existing non-hashed tree lookup walks materialized items in
+	 * pre-order. Keep every getData, comparer and getChildren call in that
+	 * exact order, but represent the recursion stack as primitive offsets
+	 * over child arrays. Deep expanded trees no longer consume the Java
+	 * call stack; no extra per-node entry object or cached stale index.
+	 *
+	 * @param viewer tree viewer
+	 * @param parent first item to visit
+	 * @param element sought element
+	 * @return the first matching widget, or null
+	 */
+	static Widget findTreeItem(AbstractTreeViewer viewer, Item parent, Object element) {
+		Object data = parent.getData();
+		if (data != null && viewer.equals(data, element)) {
+			return parent;
+		}
+		Item[][] levels = new Item[8][];
+		int[] offsets = new int[8];
+		levels[0] = viewer.getChildren(parent);
+		int depth = 0;
+		while (depth >= 0) {
+			if (offsets[depth] == levels[depth].length) {
+				levels[depth--] = null;
+				continue;
+			}
+			Item item = levels[depth][offsets[depth]++];
+			Object childData = item.getData();
+			if (childData != null && viewer.equals(childData, element)) {
+				return item;
+			}
+			Item[] children = viewer.getChildren(item);
+			if (children.length > 0) {
+				++depth;
+				if (depth == levels.length) {
+					levels = Arrays.copyOf(levels, levels.length << 1);
+					offsets = Arrays.copyOf(offsets, offsets.length << 1);
+				}
+				levels[depth] = children;
+				offsets[depth] = 0;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * A4: {@link AbstractListViewer#setSelectionToWidget(List, boolean)}. The
 	 * original finds each element with a scan of the list map. Here a
 	 * first-position table over the list map is built once.
