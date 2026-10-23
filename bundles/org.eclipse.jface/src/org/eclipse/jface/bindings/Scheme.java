@@ -92,13 +92,13 @@ public final class Scheme extends NamedHandleObject implements Comparable {
 		}
 
 		if (listeners == null) {
-			listeners = new HashSet();
+			listeners = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 
 		listeners.add(schemeListener);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final int compareTo(final Object object) {
 		final Scheme scheme = (Scheme) object;
 		int compareTo = Util.compare(this.id, scheme.id);
@@ -137,7 +137,7 @@ public final class Scheme extends NamedHandleObject implements Comparable {
 	 *            The parent identifier for this scheme; may be
 	 *            <code>null</code>.
 	 */
-	public final void define(final String name, final String description,
+	public final void define(final String name, final String description, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String parentId) {
 		if (name == null) {
 			throw new NullPointerException(
@@ -180,7 +180,7 @@ public final class Scheme extends NamedHandleObject implements Comparable {
 		}
 
 		final Iterator listenerItr = listeners.iterator();
-		while (listenerItr.hasNext()) {
+		while (listenerItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ISchemeListener listener = (ISchemeListener) listenerItr
 					.next();
 			listener.schemeChanged(event);
@@ -205,7 +205,7 @@ public final class Scheme extends NamedHandleObject implements Comparable {
 	public final String getParentId() throws NotDefinedException {
 		if (!defined) {
 			throw new NotDefinedException(
-					"Cannot get the parent identifier from an undefined scheme. "  //$NON-NLS-1$
+					"Cannot get the parent identifier from an undefined scheme. "  //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ id);
 		}
 
@@ -245,10 +245,10 @@ public final class Scheme extends NamedHandleObject implements Comparable {
 	 *
 	 * @return The string representation; never <code>null</code>.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append("Scheme("); //$NON-NLS-1$
 			stringBuffer.append(id);
 			stringBuffer.append(',');
@@ -270,7 +270,7 @@ public final class Scheme extends NamedHandleObject implements Comparable {
 	 * the name, description and parent identifier to <code>null</code>.
 	 * Notification is sent to all listeners.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final void undefine() {
 		string = null;
 

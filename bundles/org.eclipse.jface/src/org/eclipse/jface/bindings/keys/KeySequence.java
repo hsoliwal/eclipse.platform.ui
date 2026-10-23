@@ -67,7 +67,7 @@ public final class KeySequence extends TriggerSequence implements Comparable {
 	 * The set of delimiters for <code>KeyStroke</code> objects allowed during
 	 * parsing of the formal string representation.
 	 */
-	public static final String KEY_STROKE_DELIMITERS = KEY_STROKE_DELIMITER
+	public static final String KEY_STROKE_DELIMITERS = KEY_STROKE_DELIMITER //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "\b\r\u007F\u001B\f\n\0\t\u000B"; //$NON-NLS-1$
 
 	/**
@@ -159,18 +159,18 @@ public final class KeySequence extends TriggerSequence implements Comparable {
 	 *             if the given formal string representation could not be parsed
 	 *             to a valid key sequence.
 	 */
-	public static final KeySequence getInstance(final String string)
+	public static final KeySequence getInstance(final String string) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws ParseException {
 		if (string == null) {
 			throw new NullPointerException();
 		}
 
-		final List<KeyStroke> keyStrokes = new ArrayList<>();
+		final List<KeyStroke> keyStrokes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final StringTokenizer stringTokenizer = new StringTokenizer(string,
 				KEY_STROKE_DELIMITERS);
 
 		try {
-			while (stringTokenizer.hasMoreTokens()) {
+			while (stringTokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				keyStrokes.add(KeyStroke.getInstance(stringTokenizer.nextToken()));
 			}
 
@@ -178,7 +178,7 @@ public final class KeySequence extends TriggerSequence implements Comparable {
 			return new KeySequence(keyStrokeArray);
 		} catch (final IllegalArgumentException | NullPointerException e) {
 			throw new ParseException(
-					"Could not construct key sequence with these key strokes: " //$NON-NLS-1$
+					"Could not construct key sequence with these key strokes: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ keyStrokes);
 		}
 	}
@@ -195,7 +195,7 @@ public final class KeySequence extends TriggerSequence implements Comparable {
 	protected KeySequence(final KeyStroke[] keyStrokes) {
 		super(keyStrokes);
 
-		for (int i = 0; i < triggers.length - 1; i++) {
+		for (int i = 0; i < triggers.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			KeyStroke keyStroke = (KeyStroke) triggers[i];
 
 			if (!keyStroke.isComplete()) {
@@ -241,7 +241,7 @@ public final class KeySequence extends TriggerSequence implements Comparable {
 		final int numberOfPrefixes = triggers.length;
 		final TriggerSequence[] prefixes = new TriggerSequence[numberOfPrefixes];
 		prefixes[0] = KeySequence.getInstance();
-		for (int i = 0; i < numberOfPrefixes - 1; i++) {
+		for (int i = 0; i < numberOfPrefixes - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final KeyStroke[] prefixKeyStrokes = new KeyStroke[i + 1];
 			System.arraycopy(triggers, 0, prefixKeyStrokes, 0, i + 1);
 			prefixes[i + 1] = KeySequence.getInstance(prefixKeyStrokes);
@@ -258,7 +258,7 @@ public final class KeySequence extends TriggerSequence implements Comparable {
 	 */
 	public final boolean isComplete() {
 		final int triggersLength = triggers.length;
-		for (int i = 0; i < triggersLength; i++) {
+		for (int i = 0; i < triggersLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!((KeyStroke) triggers[i]).isComplete()) {
 				return false;
 			}

@@ -72,7 +72,7 @@ public class EditorActionBuilder extends PluginActionBuilder {
 
 		public void editorChanged(IEditorPart editor) {
 			if (actions != null) {
-				for (ActionDescriptor ad : actions) {
+				for (ActionDescriptor ad : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					EditorPluginAction action = (EditorPluginAction) ad.getAction();
 					action.editorChanged(editor);
 				}
@@ -93,14 +93,14 @@ public class EditorActionBuilder extends PluginActionBuilder {
 
 		@Override
 		public void dispose() {
-			for (Object contribution : cache) {
+			for (Object contribution : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((EditorContribution) contribution).dispose();
 			}
 		}
 
 		public ActionDescriptor[] getExtendedActions() {
-			ArrayList<ActionDescriptor> results = new ArrayList<>();
-			for (Object contribution : cache) {
+			ArrayList<ActionDescriptor> results = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object contribution : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				EditorContribution ec = (EditorContribution) contribution;
 				if (ec.actions != null) {
 					results.addAll(ec.actions);
@@ -111,7 +111,7 @@ public class EditorActionBuilder extends PluginActionBuilder {
 
 		@Override
 		public void init(IActionBars bars, IWorkbenchPage page) {
-			for (Object contribution : cache) {
+			for (Object contribution : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((EditorContribution) contribution).contribute(bars.getMenuManager(), false, bars.getToolBarManager(),
 						true);
 			}
@@ -119,7 +119,7 @@ public class EditorActionBuilder extends PluginActionBuilder {
 
 		@Override
 		public void setActiveEditor(IEditorPart editor) {
-			for (Object contribution : cache) {
+			for (Object contribution : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((EditorContribution) contribution).editorChanged(editor);
 			}
 		}

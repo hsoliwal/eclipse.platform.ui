@@ -30,7 +30,7 @@ public interface IProgressConstants {
 	/**
 	 * Common prefix for properties defined in this interface.
 	 */
-	String PROPERTY_PREFIX = PlatformUI.PLUGIN_ID + ".workbench.progress"; //$NON-NLS-1$
+	String PROPERTY_PREFIX = PlatformUI.PLUGIN_ID + ".workbench.progress"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * This property provides a hint to the progress UI to keep Jobs in the UI after

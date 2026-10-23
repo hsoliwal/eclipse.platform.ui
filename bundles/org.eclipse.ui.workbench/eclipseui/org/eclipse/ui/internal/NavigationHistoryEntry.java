@@ -62,7 +62,7 @@ public class NavigationHistoryEntry {
 	 * Restores the state of the entry and the location if needed and then restores
 	 * the location.
 	 */
-	void restoreLocation() {
+	void restoreLocation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (editorInfo.editorInput != null && editorInfo.editorID != null) {
 			try {
 				IEditorPart editor = page.openEditor(editorInfo.editorInput, editorInfo.editorID, true,
@@ -149,7 +149,7 @@ public class NavigationHistoryEntry {
 
 	@Override
 	public String toString() {
-		return "Input<" + editorInfo.editorInput + "> Details<" + location + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "Input<" + editorInfo.editorInput + "> Details<" + location + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

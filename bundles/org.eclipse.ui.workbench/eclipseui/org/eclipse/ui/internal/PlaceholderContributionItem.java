@@ -200,7 +200,7 @@ final class PlaceholderContributionItem implements IContributionItem {
 	 */
 	@Override
 	public String toString() {
-		return "PlaceholderContributionItem(" + id + ")"; //$NON-NLS-1$//$NON-NLS-2$
+		return "PlaceholderContributionItem(" + id + ")"; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

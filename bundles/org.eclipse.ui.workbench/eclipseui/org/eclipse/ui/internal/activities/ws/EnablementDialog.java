@@ -55,7 +55,7 @@ public class EnablementDialog extends Dialog {
 
 	private Button dontAskButton;
 
-	private final Set<String> activitiesToEnable = new HashSet<>(7);
+	private final Set<String> activitiesToEnable = new HashSet<>(7); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private final Collection<String> activityIds;
 
@@ -88,7 +88,7 @@ public class EnablementDialog extends Dialog {
 		this.strings = strings;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		Font dialogFont = parent.getFont();
@@ -132,14 +132,14 @@ public class EnablementDialog extends Dialog {
 			text.setFont(dialogFont);
 		} else {
 			text.setText(RESOURCE_BUNDLE.getString("requiresMulti")); //$NON-NLS-1$
-			Set<String> activityIdsCopy = new HashSet<>(activityIds);
+			Set<String> activityIdsCopy = new HashSet<>(activityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			CheckboxTableViewer viewer = CheckboxTableViewer.newCheckList(composite,
 					SWT.CHECK | SWT.BORDER | SWT.SINGLE);
 			viewer.setContentProvider(new ActivityContentProvider());
-			viewer.setLabelProvider(new ActivityLabelProvider(manager));
-			viewer.setInput(activityIdsCopy);
+			viewer.setLabelProvider(new ActivityLabelProvider(manager)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+			viewer.setInput(activityIdsCopy); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			viewer.setCheckedElements(activityIdsCopy.toArray());
-			viewer.addCheckStateListener(event -> {
+			viewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 				if (event.getChecked()) {
 					activitiesToEnable.add((String) event.getElement());
 				} else {
@@ -148,7 +148,7 @@ public class EnablementDialog extends Dialog {
 
 				getButton(Window.OK).setEnabled(!activitiesToEnable.isEmpty());
 			});
-			viewer.addSelectionChangedListener(event -> {
+			viewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				selectedActivity = (String) event.getStructuredSelection().getFirstElement();
 				setDetails();
 			});
@@ -210,7 +210,7 @@ public class EnablementDialog extends Dialog {
 	/**
 	 * Set the text of the detail label and text area.
 	 */
-	protected void setDetails() {
+	protected void setDetails() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedActivity == null) {
 			detailsLabel.setText(strings.getProperty(WorkbenchTriggerPointAdvisor.NO_DETAILS,
 					RESOURCE_BUNDLE.getString(WorkbenchTriggerPointAdvisor.NO_DETAILS)));

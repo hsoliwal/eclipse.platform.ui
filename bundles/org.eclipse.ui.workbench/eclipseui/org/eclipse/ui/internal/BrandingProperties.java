@@ -82,8 +82,8 @@ public abstract class BrandingProperties {
 		}
 
 		StringTokenizer tokens = new StringTokenizer(value, ","); //$NON-NLS-1$
-		ArrayList<URL> array = new ArrayList<>(10);
-		while (tokens.hasMoreTokens()) {
+		ArrayList<URL> array = new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (tokens.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			array.add(getUrl(tokens.nextToken().trim(), definingBundle));
 		}
 
@@ -109,7 +109,7 @@ public abstract class BrandingProperties {
 		}
 
 		ImageDescriptor[] images = new ImageDescriptor[urls.length];
-		for (int i = 0; i < images.length; ++i) {
+		for (int i = 0; i < images.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			images[i] = ImageDescriptor.createFromURL(urls[i]);
 		}
 

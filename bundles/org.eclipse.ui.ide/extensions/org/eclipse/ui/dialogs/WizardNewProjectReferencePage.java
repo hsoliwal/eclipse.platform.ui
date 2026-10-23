@@ -66,7 +66,7 @@ public class WizardNewProjectReferencePage extends WizardPage {
 		super(pageName);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		Font font = parent.getFont();
@@ -89,10 +89,10 @@ public class WizardNewProjectReferencePage extends WizardPage {
 
 		data.heightHint = getDefaultFontHeight(referenceProjectsViewer.getTable(), PROJECT_LIST_MULTIPLIER);
 		referenceProjectsViewer.getTable().setLayoutData(data);
-		referenceProjectsViewer.setLabelProvider(WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider());
+		referenceProjectsViewer.setLabelProvider(WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		referenceProjectsViewer.setContentProvider(getContentProvider());
 		referenceProjectsViewer.setComparator(new ViewerComparator());
-		referenceProjectsViewer.setInput(ResourcesPlugin.getWorkspace());
+		referenceProjectsViewer.setInput(ResourcesPlugin.getWorkspace()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		setControl(composite);
 	}
@@ -104,7 +104,7 @@ public class WizardNewProjectReferencePage extends WizardPage {
 	 * @return the content provider
 	 */
 	protected IStructuredContentProvider getContentProvider() {
-		return new WorkbenchContentProvider() {
+		return new WorkbenchContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getChildren(Object element) {
 				if (!(element instanceof IWorkspace)) {

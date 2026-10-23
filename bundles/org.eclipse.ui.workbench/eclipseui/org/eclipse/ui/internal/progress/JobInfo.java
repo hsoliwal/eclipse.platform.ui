@@ -128,7 +128,7 @@ public class JobInfo extends JobTreeElement {
 	// for debugging only
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + "('" + job.getName() //$NON-NLS-1$
+		return this.getClass().getSimpleName() + "('" + job.getName() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "' isUser=" + job.isUser() //$NON-NLS-1$
 				+ " isBlocked=" + isBlocked() //$NON-NLS-1$
 				+ " priority=" + job.getPriority() //$NON-NLS-1$
@@ -167,7 +167,7 @@ public class JobInfo extends JobTreeElement {
 		return getJob().getName();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getDisplayImage() {
 		int done = getPercentDone();
 		if (done > 0) {
@@ -210,7 +210,7 @@ public class JobInfo extends JobTreeElement {
 	 *
 	 * @return String
 	 */
-	private String getDisplayStringWithStatus(boolean showProgress) {
+	private String getDisplayStringWithStatus(boolean showProgress) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isCanceled()) {
 			return NLS.bind(ProgressMessages.JobInfo_Cancelled, (new Object[] { getJob().getName() }));
 		}

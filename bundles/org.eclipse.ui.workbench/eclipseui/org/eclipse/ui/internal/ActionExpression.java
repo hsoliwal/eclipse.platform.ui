@@ -120,7 +120,7 @@ public class ActionExpression {
 		@Override
 		public boolean isEnabledFor(Object object) {
 			Iterator<AbstractExpression> iter = list.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				AbstractExpression expr = iter.next();
 				if (!expr.isEnabledFor(object)) {
 					return false;
@@ -141,7 +141,7 @@ public class ActionExpression {
 		 * @throws IllegalStateException if the expression tag is not defined in the
 		 *                               schema.
 		 */
-		public CompositeExpression(IConfigurationElement element) throws IllegalStateException {
+		public CompositeExpression(IConfigurationElement element) throws IllegalStateException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super();
 
 			IConfigurationElement[] children = element.getChildren();
@@ -149,8 +149,8 @@ public class ActionExpression {
 				throw new IllegalStateException("Composite expression cannot be empty"); //$NON-NLS-1$
 			}
 
-			list = new ArrayList<>(children.length);
-			for (IConfigurationElement configElement : children) {
+			list = new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IConfigurationElement configElement : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String tag = configElement.getName();
 				AbstractExpression expr = createExpression(configElement);
 				if (EXP_TYPE_OBJECT_CLASS.equals(tag)) {
@@ -161,16 +161,16 @@ public class ActionExpression {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String[] extractObjectClasses() {
 			Iterator<AbstractExpression> iterator = list.iterator();
 			List<String> classNames = null;
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				AbstractExpression next = iterator.next();
 				String[] objectClasses = next.extractObjectClasses();
 				if (objectClasses != null) {
 					if (classNames == null) {
-						classNames = new ArrayList<>();
+						classNames = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					}
 					classNames.addAll(Arrays.asList(objectClasses));
 				}
@@ -203,7 +203,7 @@ public class ActionExpression {
 		@Override
 		public boolean isEnabledForExpression(Object object, String expressionType) {
 			Iterator<AbstractExpression> iterator = list.iterator();
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				AbstractExpression next = iterator.next();
 				if (next.isEnabledForExpression(object, expressionType)) {
 					return true;
@@ -216,7 +216,7 @@ public class ActionExpression {
 		public Collection<String> valuesForExpression(String expressionType) {
 			Iterator<AbstractExpression> iterator = list.iterator();
 			Collection<String> allValues = null;
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				AbstractExpression next = iterator.next();
 				Collection<String> values = next.valuesForExpression(expressionType);
 				if (values != null) {
@@ -303,7 +303,7 @@ public class ActionExpression {
 				return true;
 			}
 			Class<?>[] superInterfaces = interfaceToCheck.getInterfaces();
-			for (Class<?> superInterface : superInterfaces) {
+			for (Class<?> superInterface : superInterfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (checkInterfaceHierarchy(superInterface)) {
 					return true;
 				}
@@ -343,7 +343,7 @@ public class ActionExpression {
 			return expressionHashCode;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean isEnabledFor(Object object) {
 			if (object == null) {
 				return false;
@@ -353,7 +353,7 @@ public class ActionExpression {
 			}
 
 			Class<?> clazz = object.getClass();
-			while (clazz != null) {
+			while (clazz != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// test the class itself
 				if (clazz.getName().equals(className)) {
 					return true;
@@ -361,7 +361,7 @@ public class ActionExpression {
 
 				// test all the interfaces the class implements
 				Class<?>[] interfaces = clazz.getInterfaces();
-				for (Class<?> currentInterface : interfaces) {
+				for (Class<?> currentInterface : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (checkInterfaceHierarchy(currentInterface)) {
 						return true;
 					}
@@ -437,7 +437,7 @@ public class ActionExpression {
 			return expressionHashCode;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean isEnabledFor(Object object) {
 			if (object == null) {
 				return false;
@@ -481,7 +481,7 @@ public class ActionExpression {
 		@Override
 		public Collection<String> valuesForExpression(String expressionType) {
 			if (expressionType.equals(name)) {
-				Collection<String> returnValue = new HashSet<>();
+				Collection<String> returnValue = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				returnValue.add(value);
 				return returnValue;
 			}
@@ -517,7 +517,7 @@ public class ActionExpression {
 		@Override
 		public boolean isEnabledFor(Object object) {
 			Iterator<AbstractExpression> iter = list.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				AbstractExpression expr = iter.next();
 				if (expr.isEnabledFor(object)) {
 					return true;
@@ -810,7 +810,7 @@ public class ActionExpression {
 	 * @throws IllegalStateException if the expression tag is not defined in the
 	 *                               schema.
 	 */
-	private static AbstractExpression createExpression(IConfigurationElement element) throws IllegalStateException {
+	private static AbstractExpression createExpression(IConfigurationElement element) throws IllegalStateException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String tag = element.getName();
 		if (tag.equals(EXP_TYPE_OR)) {
 			return new OrExpression(element);
@@ -834,7 +834,7 @@ public class ActionExpression {
 			return new SystemPropertyExpression(element);
 		}
 
-		throw new IllegalStateException("Action expression unrecognized element: " + tag); //$NON-NLS-1$
+		throw new IllegalStateException("Action expression unrecognized element: " + tag); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -929,7 +929,7 @@ public class ActionExpression {
 			return root.isEnabledFor(null);
 		}
 
-		for (Object element : selection) {
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isEnabledFor(element)) {
 				return false;
 			}

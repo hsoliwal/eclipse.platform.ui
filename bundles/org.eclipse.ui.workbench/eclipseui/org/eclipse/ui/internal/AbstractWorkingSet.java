@@ -70,7 +70,7 @@ public abstract class AbstractWorkingSet implements IAdaptable, IWorkingSet, Clo
 		this.name = name;
 		this.label = label;
 		labelBoundToName = Objects.equals(name, label);
-		uniqueId = System.currentTimeMillis() + "_" + counter++; //$NON-NLS-1$
+		uniqueId = System.currentTimeMillis() + "_" + counter++; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -94,7 +94,7 @@ public abstract class AbstractWorkingSet implements IAdaptable, IWorkingSet, Clo
 		return name;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setName(String newName) {
 		Assert.isNotNull(newName, "Working set name must not be null"); //$NON-NLS-1$
 		if (manager != null) {

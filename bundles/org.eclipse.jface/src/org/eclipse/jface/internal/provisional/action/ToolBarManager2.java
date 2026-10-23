@@ -133,7 +133,7 @@ public class ToolBarManager2 extends ToolBarManager implements IToolBarManager2 
 	 */
 	private void firePropertyChange(final PropertyChangeEvent event) {
 		final Object[] list = getListeners();
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((IPropertyChangeListener) element).propertyChange(event);
 		}
 	}

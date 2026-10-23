@@ -74,12 +74,12 @@ public class WorkspaceLock {
 	 *         workspace is locked but no details are available (or lock file is not
 	 *         accessible), or a formatted string with lock details
 	 */
-	public static String getWorkspaceLockDetails(URL workspaceUrl) {
+	public static String getWorkspaceLockDetails(URL workspaceUrl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Path lockFile = getLockInfoFile(workspaceUrl);
 		if (lockFile == null || !Files.exists(lockFile)) {
 			return null;
 		}
-		StringBuilder lockDetails = new StringBuilder();
+		StringBuilder lockDetails = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try (InputStream is = Files.newInputStream(lockFile)) {
 			Properties properties = new Properties();
 			properties.load(is);
@@ -100,7 +100,7 @@ public class WorkspaceLock {
 				lockDetails.append(NLS.bind(WorkbenchMessages.IDEApplication_workspaceLockPID, prop));
 			}
 		} catch (Exception e) {
-			WorkbenchPlugin.log("Could not read lock info file: " + lockFile, e); //$NON-NLS-1$
+			WorkbenchPlugin.log("Could not read lock info file: " + lockFile, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return lockDetails.toString();
 	}
@@ -161,7 +161,7 @@ public class WorkspaceLock {
 		String wsLockedError = lockMessage;
 		if (workspaceLockOwner != null && !workspaceLockOwner.isBlank()) {
 			String lockDetails = NLS.bind(WorkbenchMessages.IDEApplication_workspaceLockMessage, workspaceLockOwner);
-			wsLockedError += System.lineSeparator() + System.lineSeparator() + lockDetails;
+			wsLockedError += System.lineSeparator() + System.lineSeparator() + lockDetails; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		MessageDialog.openError(shell,
 				WorkbenchMessages.IDEApplication_workspaceCannotLockTitle, wsLockedError);
@@ -191,7 +191,7 @@ public class WorkspaceLock {
 	 * @return <code>true</code> if the file is definitely locked by any process,
 	 *         <code>false</code> otherwise
 	 */
-	private static boolean isLocked(File lockFile) {
+	private static boolean isLocked(File lockFile) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try (RandomAccessFile temp = new RandomAccessFile(lockFile, "rw")) { //$NON-NLS-1$
 			try {
 				try (FileLock tempLock = temp.getChannel().tryLock(0, 1, false)) {

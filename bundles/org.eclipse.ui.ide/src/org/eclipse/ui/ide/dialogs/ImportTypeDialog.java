@@ -131,7 +131,7 @@ public class ImportTypeDialog extends TrayDialog {
 		this(shell, selectAppropriateMask(dropOperation, names, target), RelativePathVariableGroup.getPreferredVariable(names, target));
 	}
 
-	private ImportTypeDialog(Shell parentShell, int operationMask, String preferredVariable) {
+	private ImportTypeDialog(Shell parentShell, int operationMask, String preferredVariable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parentShell);
 
 		this.preferredVariable = preferredVariable;
@@ -191,7 +191,7 @@ public class ImportTypeDialog extends TrayDialog {
 	// the format of the context is operationMask,value:operationMask,value:operationMask,value
 	private String readContextPreference(String key) {
 		String value = IDEWorkbenchPlugin.getDefault().getPreferenceStore().getString(key);
-		for (String keyPair : value.split(":")) { //$NON-NLS-1$
+		for (String keyPair : value.split(":")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String [] element = keyPair.split(","); //$NON-NLS-1$
 			if (element.length == 2) {
 				if (element[0].equals(Integer.toString(operationMask))) {
@@ -220,19 +220,19 @@ public class ImportTypeDialog extends TrayDialog {
 		}
 	}
 
-	private void writeContextPreference(String key, String value) {
+	private void writeContextPreference(String key, String value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String oldValue = IDEWorkbenchPlugin.getDefault().getPreferenceStore().getString(key);
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String [] keyPairs = oldValue.split(":"); //$NON-NLS-1$
 		boolean found = false;
-		for (int i = 0; i < keyPairs.length; i++) {
+		for (int i = 0; i < keyPairs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
 				buffer.append(":"); //$NON-NLS-1$
 			}
 			String [] element = keyPairs[i].split(","); //$NON-NLS-1$
 			if (element.length == 2) {
 				if (element[0].equals(Integer.toString(operationMask))) {
-					buffer.append(element[0] + "," + value); //$NON-NLS-1$
+					buffer.append(element[0] + "," + value); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					found = true;
 				} else {
 					buffer.append(keyPairs[i]);
@@ -243,7 +243,7 @@ public class ImportTypeDialog extends TrayDialog {
 			if (buffer.length() > 0) {
 				buffer.append(":"); //$NON-NLS-1$
 			}
-			buffer.append(operationMask + "," + value); //$NON-NLS-1$
+			buffer.append(operationMask + "," + value); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		String newValue = buffer.toString();
 		IDEWorkbenchPlugin.getDefault().getPreferenceStore().setValue(key, newValue);
@@ -270,7 +270,7 @@ public class ImportTypeDialog extends TrayDialog {
 				IIDEHelpContextIds.IMPORT_TYPE_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		boolean linkIsOnlyChoice = hasFlag(IMPORT_LINK) && !(hasFlag(IMPORT_COPY | IMPORT_MOVE) || (hasFlag(IMPORT_VIRTUAL_FOLDERS_AND_LINKS) && !hasFlag(IMPORT_FILES_ONLY)));
 
@@ -313,7 +313,7 @@ public class ImportTypeDialog extends TrayDialog {
 			gridData = new GridData(GridData.FILL_HORIZONTAL);
 			copyButton.setLayoutData(gridData);
 			copyButton.setData(IMPORT_COPY);
-			copyButton.addSelectionListener(listener);
+			copyButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			copyButton.setFont(parent.getFont());
 		}
 
@@ -323,7 +323,7 @@ public class ImportTypeDialog extends TrayDialog {
 			gridData = new GridData(GridData.FILL_HORIZONTAL);
 			moveButton.setLayoutData(gridData);
 			moveButton.setData(IMPORT_MOVE);
-			moveButton.addSelectionListener(listener);
+			moveButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			moveButton.setFont(parent.getFont());
 		}
 
@@ -333,7 +333,7 @@ public class ImportTypeDialog extends TrayDialog {
 			gridData = new GridData(GridData.FILL_HORIZONTAL);
 			linkButton.setLayoutData(gridData);
 			linkButton.setData(IMPORT_LINK);
-			linkButton.addSelectionListener(listener);
+			linkButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			linkButton.setFont(parent.getFont());
 		}
 
@@ -343,7 +343,7 @@ public class ImportTypeDialog extends TrayDialog {
 			gridData = new GridData(GridData.FILL_HORIZONTAL);
 			shadowCopyButton.setLayoutData(gridData);
 			shadowCopyButton.setData(IMPORT_VIRTUAL_FOLDERS_AND_LINKS);
-			shadowCopyButton.addSelectionListener(listener);
+			shadowCopyButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			shadowCopyButton.setFont(parent.getFont());
 		}
 
@@ -409,7 +409,7 @@ public class ImportTypeDialog extends TrayDialog {
 	private Control createLinkControl(Composite composite) {
 		Link link= new Link(composite, SWT.WRAP | SWT.RIGHT);
 		link.setText(IDEWorkbenchMessages.ImportTypeDialog_configureSettings);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				openSettingsPage();
@@ -428,7 +428,7 @@ public class ImportTypeDialog extends TrayDialog {
 		PreferencesUtil.createPreferenceDialogOn(getShell(), prefID, new String[] {prefID}, null).open();
 	}
 
-	protected Control createMessageArea(Composite parent) {
+	protected Control createMessageArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, 0);
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		composite.setLayoutData(gridData);
@@ -461,7 +461,7 @@ public class ImportTypeDialog extends TrayDialog {
 	 * @return true if a set of paths are files only or a mix of files and folders, false otherwise
 	 */
 	private static boolean areOnlyFiles(IResource[] resources) {
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.getType() != IResource.FILE) {
 				return false;
 			}
@@ -475,7 +475,7 @@ public class ImportTypeDialog extends TrayDialog {
 	 * @return true if a set of paths are files only or a mix of files and folders, false otherwise
 	 */
 	private static boolean areOnlyFiles(String[] names) {
-		for (String name : names) {
+		for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			File file = new File(name);
 			if (file.exists() && !file.isFile()) {
 				return false;

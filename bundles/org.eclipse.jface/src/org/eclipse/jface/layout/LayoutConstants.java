@@ -32,7 +32,7 @@ public final class LayoutConstants {
 	private static Point dialogSpacing = null;
 	private static Point minButtonSize = null;
 
-	private static void initializeConstants() {
+	private static void initializeConstants() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (dialogMargins != null) {
 			return;
 		}

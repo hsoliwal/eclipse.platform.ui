@@ -58,7 +58,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  * selection change event</li>
  * </ul>
  */
-public abstract class SelectionListenerAction extends BaseSelectionListenerAction {
+public abstract class SelectionListenerAction extends BaseSelectionListenerAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Indicates whether the selection has changes since <code>resources</code>
@@ -109,16 +109,16 @@ public abstract class SelectionListenerAction extends BaseSelectionListenerActio
 	 * Extracts <code>IResource</code>s from the current selection and adds
 	 * them to the resources list, and the rest into the non-resources list.
 	 */
-	private final void computeResources() {
+	private final void computeResources() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		resources = null;
 		nonResources = null;
 
 		IStructuredSelection structuredSelection = getStructuredSelection();
 		// assume selection contains mostly resources most times
-		List<IResource> resourcesTmp = new ArrayList<>(structuredSelection.size());
-		List<Object> nonResourcesTmp = new ArrayList<>();
+		List<IResource> resourcesTmp = new ArrayList<>(structuredSelection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Object> nonResourcesTmp = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Iterator<?> e = structuredSelection.iterator(); e.hasNext();) {
+		for (Iterator<?> e = structuredSelection.iterator(); e.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object next = e.next();
 
 			IResource resource = Adapters.adapt(next, IResource.class);
@@ -140,7 +140,7 @@ public abstract class SelectionListenerAction extends BaseSelectionListenerActio
 				}
 
 				if (traversals != null) {
-					for (ResourceTraversal traversal : traversals) {
+					for (ResourceTraversal traversal : traversals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IResource[] traversalResources = traversal.getResources();
 						if (traversalResources != null) {
 							resourcesFoundForThisSelection = true;
@@ -239,7 +239,7 @@ public abstract class SelectionListenerAction extends BaseSelectionListenerActio
 			return false;
 		}
 
-		for (IResource next : getSelectedResources()) {
+		for (IResource next : getSelectedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!resourceIsType(next, resourceMask)) {
 				return false;
 			}

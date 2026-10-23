@@ -44,13 +44,13 @@ import org.eclipse.ui.IWorkbenchWindow;
  */
 public class HandlerUtil {
 	private static void noVariableFound(ExecutionEvent event, String name) throws ExecutionException {
-		throw new ExecutionException("No " + name //$NON-NLS-1$
+		throw new ExecutionException("No " + name //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ " found while executing " + event.getCommand().getId()); //$NON-NLS-1$
 	}
 
 	private static void incorrectTypeFound(ExecutionEvent event, String name, Class expectedType, Class wrongType)
 			throws ExecutionException {
-		throw new ExecutionException("Incorrect type for " //$NON-NLS-1$
+		throw new ExecutionException("Incorrect type for " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ name + " found while executing " //$NON-NLS-1$
 				+ event.getCommand().getId() + ", expected " + expectedType.getName() //$NON-NLS-1$
 				+ " found " + wrongType.getName()); //$NON-NLS-1$
@@ -606,7 +606,7 @@ public class HandlerUtil {
 	 *                            the event doesn't have the radio state parameter
 	 * @since 3.5
 	 */
-	public static boolean matchesRadioState(ExecutionEvent event) throws ExecutionException {
+	public static boolean matchesRadioState(ExecutionEvent event) throws ExecutionException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String parameter = event.getParameter(RadioState.PARAMETER_ID);
 		if (parameter == null) {

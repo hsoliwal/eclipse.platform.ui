@@ -37,19 +37,19 @@ import org.eclipse.ui.views.markers.internal.MarkerMessages;
  */
 public class MarkCompletedHandler extends MarkerViewHandler {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) {
 
 		final ExecutionEvent finalEvent = event;
 		try {
-			PlatformUI.getWorkbench().getProgressService().run(true, true, mon -> {
+			PlatformUI.getWorkbench().getProgressService().run(true, true, mon -> { //FLLDCIM: MARK — T09  LAMBDA
 				SubMonitor subMonitor = SubMonitor.convert(mon, MarkerMessages.markCompletedHandler_task, 100);
 				IMarker[] markers = getSelectedMarkers(finalEvent);
 				if (markers.length == 0) {
 					return;
 				}
 
-				Map<String, Boolean> attrs = new HashMap<>();
+				Map<String, Boolean> attrs = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				attrs.put(IMarker.DONE, Boolean.TRUE);
 				IUndoableOperation op = new UpdateMarkersOperation(markers, attrs,
 						MarkerMessages.markCompletedAction_title, true);

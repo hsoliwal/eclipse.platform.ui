@@ -65,7 +65,7 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 	 * Expands an archive onto provided filesystem directory
 	 * @since 3.12
 	 */
-	private static final class ExpandArchiveIntoFilesystemOperation implements IRunnableWithProgress {
+	private static final class ExpandArchiveIntoFilesystemOperation implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 		private final File archive;
 		private final File destination;
 
@@ -74,14 +74,14 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 			this.destination = destination;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IProgressMonitor monitor) throws InvocationTargetException, OperationCanceledException {
 			monitor.beginTask(NLS.bind(DataTransferMessages.SmartImportWizardPage_expandingArchive, archive.getName(), destination.getName()),
 					1);
 			try (ILeveledImportStructureProvider importStructureProvider = createImportStructureProvider()) {
 				LinkedList<Object> toProcess = new LinkedList<>();
 				toProcess.add(importStructureProvider.getRoot());
-				while (!toProcess.isEmpty()) {
+				while (!toProcess.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (monitor.isCanceled()) {
 						throw new OperationCanceledException();
 					}
@@ -122,7 +122,7 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 			if (ArchiveFileManipulations.isTarFile(archive.getAbsolutePath())) {
 				importStructureProvider = new TarLeveledStructureProvider(new TarFile(archive));
 			} else if (ArchiveFileManipulations.isZipFile(archive.getAbsolutePath())) {
-				importStructureProvider = new ZipLeveledStructureProvider(new ZipFile(archive));
+				importStructureProvider = new ZipLeveledStructureProvider(new ZipFile(archive)); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 			}
 			return importStructureProvider;
 		}
@@ -131,7 +131,7 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 	private static final String SMART_IMPORT_SECTION_NAME = SmartImportWizard.class.getSimpleName();
 
 	private File initialSelection;
-	private Set<IWorkingSet> initialWorkingSets = new HashSet<>();
+	private Set<IWorkingSet> initialWorkingSets = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private SmartImportRootWizardPage projectRootPage;
 	private SmartImportJob easymportJob;
 	/**
@@ -171,7 +171,7 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		if (selection != null) {
-			for (Object item : selection) {
+			for (Object item : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				File asFile = toFile(item);
 				if (asFile != null && this.initialSelection == null) {
 					this.initialSelection = asFile;
@@ -229,7 +229,7 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 		addPage(this.projectRootPage);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		String[] previousProposals = getDialogSettings().getArray(SmartImportRootWizardPage.IMPORTED_SOURCES);
 		if (previousProposals == null) {
@@ -263,7 +263,7 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 	 * @return the (newly created) import job
 	 * @see #getCurrentImportJob()
 	 */
-	public SmartImportJob createOrGetConfiguredImportJob() {
+	public SmartImportJob createOrGetConfiguredImportJob() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final File root = this.projectRootPage.getSelectedRoot();
 		if (root == null) {
 			return null;
@@ -329,7 +329,7 @@ public class SmartImportWizard extends Wizard implements IImportWizard {
 			throw new IllegalArgumentException("Input must be an archive"); //$NON-NLS-1$
 		}
 		return new File(ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile(),
-				archive.getName() + "_expanded"); //$NON-NLS-1$
+				archive.getName() + "_expanded"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static boolean matchesPage(SmartImportJob job, SmartImportRootWizardPage page) {

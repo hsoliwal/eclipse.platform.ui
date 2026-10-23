@@ -129,7 +129,7 @@ final class M3MarkerLanes {
 	/* marker id -> slot + 1, open addressing */
 	private int[] table = new int[128];
 
-	private final List<Category> categories = new ArrayList<>();
+	private final List<Category> categories = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private Category[] byId = new Category[8];
 	private int nextCategoryId;
 	private M3MarkerCategory[] categoryArray;
@@ -198,12 +198,12 @@ final class M3MarkerLanes {
 	}
 
 	/* the comparator's fields as lane kinds; false when one is unknown */
-	private boolean compile(MarkerComparator comparator) {
+	private boolean compile(MarkerComparator comparator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MarkerField[] fields = comparator.getFields();
 		byte[] k = new byte[fields.length];
 		boolean[] d = new boolean[fields.length];
 		boolean type = false;
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			k[i] = M3MarkerKeys.kindOf(fields[i]);
 			if (k[i] == M3MarkerKeys.UNKNOWN) {
 				return false;
@@ -249,7 +249,7 @@ final class M3MarkerLanes {
 	/** Sorts every category once, at the end of a clean rebuild. */
 	void finishBuild() {
 		M3SlotOrder.SlotComparator order = comparator(kinds, descending);
-		for (Category c : categories) {
+		for (Category c : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			M3SlotOrder o = new M3SlotOrder(order);
 			if (c.pending != null) {
 				o.sortAndFill(c.pending, c.pendingSize);
@@ -269,20 +269,20 @@ final class M3MarkerLanes {
 	 * @return {@code false} when the new sort uses a field the lanes do not
 	 *         answer
 	 */
-	synchronized boolean resort(MarkerComparator comparator) {
+	synchronized boolean resort(MarkerComparator comparator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!compile(comparator)) {
 			return false;
 		}
 		M3SlotOrder.SlotComparator order = comparator(kinds, descending);
 		M3SlotOrder[] next = new M3SlotOrder[categories.size()];
-		for (int i = 0; i < next.length; i++) {
+		for (int i = 0; i < next.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			M3SlotOrder old = categories.get(i).order;
 			int[] members = new int[Math.max(1, old.size())];
 			int n = old.head(old.size(), members);
 			next[i] = new M3SlotOrder(order);
 			next[i].sortAndFill(members, n);
 		}
-		for (int i = 0; i < next.length; i++) {
+		for (int i = 0; i < next.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			categories.get(i).order = next[i];
 		}
 		Arrays.fill(facades, null);
@@ -300,9 +300,9 @@ final class M3MarkerLanes {
 	 *         category has an empty order and is no longer in
 	 *         {@link #categories()})
 	 */
-	synchronized List<Category> apply(List<Change> changes) {
-		List<Category> touched = new ArrayList<>();
-		for (Change change : changes) {
+	synchronized List<Category> apply(List<Change> changes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Category> touched = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Change change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int slot = find(change.id);
 			if (slot >= 0) {
 				Category before = byId[category[slot]];
@@ -332,7 +332,7 @@ final class M3MarkerLanes {
 	}
 
 	private static void mark(List<Category> touched, Category c) {
-		for (Category t : touched) {
+		for (Category t : touched) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (t == c) {
 				return;
 			}
@@ -345,7 +345,7 @@ final class M3MarkerLanes {
 		if (isFlat()) {
 			return; // the implicit category stays, empty or not
 		}
-		for (int i = categories.size() - 1; i >= 0; i--) {
+		for (int i = categories.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Category c = categories.get(i);
 			if (c.order.size() == 0) {
 				categories.remove(i);
@@ -355,13 +355,13 @@ final class M3MarkerLanes {
 	}
 
 	/* the category of a change: found by the group's comparator (TreeMap equality), else created in order */
-	private Category categoryFor(Change change) {
+	private Category categoryFor(Change change) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isFlat()) {
 			return categories.isEmpty() ? newCategory(0, null, null) : categories.get(0);
 		}
 		int lo = 0;
 		int hi = categories.size() - 1;
-		while (lo <= hi) {
+		while (lo <= hi) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (lo + hi) >>> 1;
 			int c = categoryOrder.compare(categories.get(mid).key, change.group);
 			if (c < 0) {
@@ -394,7 +394,7 @@ final class M3MarkerLanes {
 
 	/* ---------------------------------------------------------------- lanes */
 
-	private int allocate(long id) {
+	private int allocate(long id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int slot;
 		if (freeCount > 0) {
 			slot = free[--freeCount];
@@ -497,7 +497,7 @@ final class M3MarkerLanes {
 	 */
 	int find(long id) {
 		int mask = table.length - 1;
-		for (int i = hash(id) & mask; table[i] != 0; i = (i + 1) & mask) {
+		for (int i = hash(id) & mask; table[i] != 0; i = (i + 1) & mask) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ids[table[i] - 1] == id) {
 				return table[i] - 1;
 			}
@@ -508,7 +508,7 @@ final class M3MarkerLanes {
 	private void put(long id, int slot) {
 		int mask = table.length - 1;
 		int i = hash(id) & mask;
-		while (table[i] != 0) {
+		while (table[i] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i = (i + 1) & mask;
 		}
 		table[i] = slot + 1;
@@ -517,11 +517,11 @@ final class M3MarkerLanes {
 	private void unput(long id) {
 		int mask = table.length - 1;
 		int i = hash(id) & mask;
-		while (ids[table[i] - 1] != id) {
+		while (ids[table[i] - 1] != id) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i = (i + 1) & mask;
 		}
 		table[i] = 0;
-		for (int j = (i + 1) & mask; table[j] != 0; j = (j + 1) & mask) {
+		for (int j = (i + 1) & mask; table[j] != 0; j = (j + 1) & mask) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int slot = table[j] - 1;
 			table[j] = 0;
 			put(ids[slot], slot);
@@ -530,7 +530,7 @@ final class M3MarkerLanes {
 
 	private void rehash(int capacity) {
 		table = new int[capacity];
-		for (int s = 0; s < slots; s++) {
+		for (int s = 0; s < slots; s++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (state[s] != 0) {
 				put(ids[s], s);
 			}
@@ -552,7 +552,7 @@ final class M3MarkerLanes {
 		if (a == b) {
 			return 0;
 		}
-		for (int i = 0; i < k.length; i++) {
+		for (int i = 0; i < k.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int c = compareField(k[i], a, b);
 			if (c != 0) {
 				return d[i] ? -c : c;
@@ -562,7 +562,7 @@ final class M3MarkerLanes {
 		return c != 0 ? c : Integer.compare(a, b);
 	}
 
-	private int compareField(byte kind, int a, int b) {
+	private int compareField(byte kind, int a, int b) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (kind) {
 		case M3MarkerKeys.SEVERITY_DESCRIPTION:
 			int c = Integer.compare(severity[b], severity[a]);
@@ -589,7 +589,7 @@ final class M3MarkerLanes {
 		case M3MarkerKeys.TYPE:
 			return labels.compare(type[a], type[b]);
 		default:
-			throw new IllegalStateException("unknown field kind " + kind); //$NON-NLS-1$
+			throw new IllegalStateException("unknown field kind " + kind); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -611,7 +611,7 @@ final class M3MarkerLanes {
 		M3MarkerCategory[] a = categoryArray;
 		if (a == null) {
 			a = new M3MarkerCategory[isFlat() ? 0 : categories.size()];
-			for (int i = 0; i < a.length; i++) {
+			for (int i = 0; i < a.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				a[i] = categories.get(i).facade;
 			}
 			categoryArray = a;
@@ -644,7 +644,7 @@ final class M3MarkerLanes {
 	synchronized long[] liveIds() {
 		long[] out = new long[live];
 		int k = 0;
-		for (int s = 0; s < slots; s++) {
+		for (int s = 0; s < slots; s++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (state[s] != 0) {
 				out[k++] = ids[s];
 			}
@@ -702,7 +702,7 @@ final class M3MarkerLanes {
 	MarkerEntry[] window(Category c, int limit) {
 		int[] head = windowSlots(c, limit);
 		MarkerEntry[] out = new MarkerEntry[head.length];
-		for (int i = 0; i < head.length; i++) {
+		for (int i = 0; i < head.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			out[i] = facade(head[i]);
 		}
 		return out;
@@ -715,7 +715,7 @@ final class M3MarkerLanes {
 	 * @param limit the marker limit, or a negative value for none
 	 * @return the slots, in order
 	 */
-	int[] windowSlots(Category c, int limit) {
+	int[] windowSlots(Category c, int limit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int size = c.order.size();
 		if (textFilter == null) {
 			int n = limit < 0 ? size : Math.min(limit, size);
@@ -727,7 +727,7 @@ final class M3MarkerLanes {
 		int max = limit < 0 ? size : Math.min(limit, size);
 		int[] head = new int[max];
 		int n = 0;
-		for (int i = 0; i < size && n < max; i++) {
+		for (int i = 0; i < size && n < max; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int slot = c.order.get(i);
 			if (textHit(slot)) {
 				head[n++] = slot;
@@ -750,7 +750,7 @@ final class M3MarkerLanes {
 		if (filter == null) {
 			return;
 		}
-		for (int s = 0; s < slots; s++) {
+		for (int s = 0; s < slots; s++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (state[s] != 0) {
 				MarkerEntry e = facades[s];
 				if (e == null) {
@@ -802,7 +802,7 @@ final class M3MarkerLanes {
 			return size;
 		}
 		int m = 0;
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (textHit(c.order.get(i))) {
 				m++;
 			}
@@ -823,7 +823,7 @@ final class M3MarkerLanes {
 		int[] all = new int[n];
 		c.order.head(n, all);
 		MarkerEntry[] out = new MarkerEntry[n];
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerEntry e = facades[all[i]];
 			if (e == null) {
 				e = new MarkerEntry(markers[all[i]]);
@@ -842,7 +842,7 @@ final class M3MarkerLanes {
 	 * @param c a category
 	 * @return the highest severity, at least info
 	 */
-	int highestSeverity(Category c) {
+	int highestSeverity(Category c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (c.aboveError == 0) {
 			if (c.buckets[0] > 0) {
 				return IMarker.SEVERITY_ERROR;
@@ -851,7 +851,7 @@ final class M3MarkerLanes {
 		}
 		int highest = 0;
 		int n = c.order.size();
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int s = severity[c.order.get(i)];
 			if (s > highest) {
 				highest = s;

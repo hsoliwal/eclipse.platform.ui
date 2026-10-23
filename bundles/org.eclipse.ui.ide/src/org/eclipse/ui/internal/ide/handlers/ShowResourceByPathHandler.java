@@ -38,7 +38,7 @@ public class ShowResourceByPathHandler extends AbstractHandler {
 
 	private static final String PARAM_ID_RESOURCE_PATH = "resourcePath"; //$NON-NLS-1$
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		IResource resource = (IResource) event

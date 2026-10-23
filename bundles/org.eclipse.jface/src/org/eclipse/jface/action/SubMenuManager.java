@@ -70,12 +70,12 @@ public class SubMenuManager extends SubContributionManager implements
 		menuListeners.add(listener);
 		if (menuListener == null) {
 			menuListener = manager -> {
-				for (IMenuListener localListener : menuListeners) {
+				for (IMenuListener localListener : menuListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					localListener.menuAboutToShow(SubMenuManager.this);
 				}
 			};
 		}
-		getParentMenuManager().addMenuListener(menuListener);
+		getParentMenuManager().addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class SubMenuManager extends SubContributionManager implements
 		// do nothing
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void disposeManager() {
 		if (menuListener != null) {
 			getParentMenuManager().removeMenuListener(menuListener);
@@ -101,7 +101,7 @@ public class SubMenuManager extends SubContributionManager implements
 		// before they can be disposed
 		if (mapMenuToWrapper != null) {
 			Iterator<SubMenuManager> iter = mapMenuToWrapper.values().iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SubMenuManager wrapper = iter.next();
 				wrapper.disposeManager();
 			}
@@ -240,7 +240,7 @@ public class SubMenuManager extends SubContributionManager implements
 	 */
 	protected IMenuManager getWrapper(IMenuManager mgr) {
 		if (mapMenuToWrapper == null) {
-			mapMenuToWrapper = new HashMap<>(4);
+			mapMenuToWrapper = new HashMap<>(4); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		SubMenuManager wrapper = mapMenuToWrapper.get(mgr);
 		if (wrapper == null) {
@@ -278,7 +278,7 @@ public class SubMenuManager extends SubContributionManager implements
 		super.removeAll();
 		if (mapMenuToWrapper != null) {
 			Iterator<SubMenuManager> iter = mapMenuToWrapper.values().iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SubMenuManager wrapper = iter.next();
 				wrapper.removeAll();
 			}
@@ -313,7 +313,7 @@ public class SubMenuManager extends SubContributionManager implements
 		super.setVisible(visible);
 		if (mapMenuToWrapper != null) {
 			Iterator<SubMenuManager> iter = mapMenuToWrapper.values().iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SubMenuManager wrapper = iter.next();
 				wrapper.setVisible(visible);
 			}

@@ -50,7 +50,7 @@ import org.eclipse.ui.statushandlers.StatusAdapter;
  * This class is responsible for displaying the support area on the right side
  * of the status dialog.
  */
-public class SupportTray extends DialogTray implements ISelectionChangedListener {
+public class SupportTray extends DialogTray implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final Map<Object, Object> dialogState;
 
@@ -78,7 +78,7 @@ public class SupportTray extends DialogTray implements ISelectionChangedListener
 
 	private StatusAdapter lastSelectedStatus;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 
@@ -96,7 +96,7 @@ public class SupportTray extends DialogTray implements ISelectionChangedListener
 		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		container.setLayoutData(layoutData);
 
-		container.addListener(SWT.Dispose, event -> destroyImages());
+		container.addListener(SWT.Dispose, event -> destroyImages()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		if (!hideSupportButtons) {
 			ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
@@ -154,7 +154,7 @@ public class SupportTray extends DialogTray implements ISelectionChangedListener
 		hover = new Image(display, createCloseButtonDrawer(backgroundHot, border), 16, 16);
 	}
 
-	private ImageGcDrawer createCloseButtonDrawer(Color fillColor, Color borderColor) {
+	private ImageGcDrawer createCloseButtonDrawer(Color fillColor, Color borderColor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		return new ImageGcDrawer() {
 			@Override
@@ -191,7 +191,7 @@ public class SupportTray extends DialogTray implements ISelectionChangedListener
 				item.setImage(normal);
 				item.setHotImage(hover);
 				item.setToolTipText(JFaceResources.getString("close")); //$NON-NLS-1$
-				item.addListener(SWT.Selection, closeListener);
+				item.addListener(SWT.Selection, closeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			}
 		};
 	}
@@ -212,7 +212,7 @@ public class SupportTray extends DialogTray implements ISelectionChangedListener
 	 * @param statusAdapter StatusAdapter for which should be the support area
 	 *                      created.
 	 */
-	private void createSupportArea(Composite parent, StatusAdapter statusAdapter) {
+	private void createSupportArea(Composite parent, StatusAdapter statusAdapter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ErrorSupportProvider provider = getSupportProvider();
 

@@ -112,7 +112,7 @@ public class ColorDefinition extends ThemeElementDefinition implements IPluginCo
 			} catch (DataFormatException e) {
 				parsedValue = DEFAULT_COLOR_VALUE;
 				IStatus status = StatusUtil.newStatus(IStatus.WARNING,
-						"Could not parse value for theme color " + getId(), e); //$NON-NLS-1$
+						"Could not parse value for theme color " + getId(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				StatusManager.getManager().handle(status, StatusManager.LOG);
 			}
 		}

@@ -79,7 +79,7 @@ public abstract class Wizard implements IWizard, IShellProvider {
 	/**
 	 * This wizard's list of pages (element type: <code>IWizardPage</code>).
 	 */
-	private final List<IWizardPage> pages = new ArrayList<>();
+	private final List<IWizardPage> pages = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Indicates whether this wizard needs a progress monitor.
@@ -156,7 +156,7 @@ public abstract class Wizard implements IWizard, IShellProvider {
 	@Override
 	public boolean canFinish() {
 		// Default implementation is to check if all pages are complete.
-		for (IWizardPage page : pages) {
+		for (IWizardPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!page.isPageComplete()) {
 				return false;
 			}
@@ -175,7 +175,7 @@ public abstract class Wizard implements IWizard, IShellProvider {
 	@Override
 	public void createPageControls(Composite pageContainer) {
 		// the default behavior is to create all the pages controls
-		for (IWizardPage page : pages) {
+		for (IWizardPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			page.createControl(pageContainer);
 			// page is responsible for ensuring the created control is
 			// accessible
@@ -196,7 +196,7 @@ public abstract class Wizard implements IWizard, IShellProvider {
 	@Override
 	public void dispose() {
 		// notify pages
-		for (IWizardPage page : pages) {
+		for (IWizardPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				page.dispose();
 			} catch (Exception e) {
@@ -240,7 +240,7 @@ public abstract class Wizard implements IWizard, IShellProvider {
 
 	@Override
 	public IWizardPage getPage(String name) {
-		for (IWizardPage page : pages) {
+		for (IWizardPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String pageName = page.getName();
 			if (pageName.equals(name)) {
 				return page;
@@ -301,12 +301,12 @@ public abstract class Wizard implements IWizard, IShellProvider {
 		return windowTitle;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Point getMinimumWizardSize() {
 		int minWidth = SWT.DEFAULT;
 		int minHeight = SWT.DEFAULT;
 
-		for (IWizardPage page : pages) {
+		for (IWizardPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Point minPageSize = page.getMinimumPageSize();
 
 			if (minPageSize != null) {

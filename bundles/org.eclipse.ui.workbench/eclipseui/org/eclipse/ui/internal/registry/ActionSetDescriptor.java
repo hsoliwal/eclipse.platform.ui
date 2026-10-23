@@ -55,7 +55,7 @@ public class ActionSetDescriptor implements IActionSetDescriptor, IAdaptable, IW
 	 * @param configElement the configuration element
 	 * @throws CoreException thrown if there is an issue creating the descriptor
 	 */
-	public ActionSetDescriptor(IConfigurationElement configElement) throws CoreException {
+	public ActionSetDescriptor(IConfigurationElement configElement) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		this.configElement = configElement;
 		id = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
@@ -70,7 +70,7 @@ public class ActionSetDescriptor implements IActionSetDescriptor, IAdaptable, IW
 		// Sanity check.
 		if (label == null) {
 			throw new CoreException(new Status(IStatus.ERROR, PlatformUI.PLUGIN_ID, 0,
-					"Invalid extension (missing label): " + id, //$NON-NLS-1$
+					"Invalid extension (missing label): " + id, //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					null));
 		}
 	}
@@ -163,7 +163,7 @@ public class ActionSetDescriptor implements IActionSetDescriptor, IAdaptable, IW
 		if (id == null) {
 			return visible;
 		}
-		String prefId = INITIALLY_HIDDEN_PREF_ID_PREFIX + getId();
+		String prefId = INITIALLY_HIDDEN_PREF_ID_PREFIX + getId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		boolean hidden = Platform.getPreferencesService().getBoolean(
 				PlatformUI.PLUGIN_ID, prefId, false, null);
 		if (hidden) {
@@ -184,12 +184,12 @@ public class ActionSetDescriptor implements IActionSetDescriptor, IAdaptable, IW
 			return;
 		}
 		IEclipsePreferences prefs = InstanceScope.INSTANCE.getNode(PlatformUI.PLUGIN_ID);
-		String prefId = INITIALLY_HIDDEN_PREF_ID_PREFIX + getId();
+		String prefId = INITIALLY_HIDDEN_PREF_ID_PREFIX + getId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		prefs.putBoolean(prefId, !newValue);
 		try {
 			prefs.flush();
 		} catch (BackingStoreException e) {
-			WorkbenchPlugin.log("Failed to persist action set visibility preference for " + prefId, e); //$NON-NLS-1$
+			WorkbenchPlugin.log("Failed to persist action set visibility preference for " + prefId, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -229,7 +229,7 @@ public class ActionSetDescriptor implements IActionSetDescriptor, IAdaptable, IW
 
 	@Override
 	public String toString() {
-		return "ActionSetDescriptor [id=" + id + ", visible=" + visible + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "ActionSetDescriptor [id=" + id + ", visible=" + visible + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

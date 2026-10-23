@@ -92,7 +92,7 @@ public final class BindingService implements IBindingService {
 
 	private BindingPersistence bp;
 
-	private final Map<String, MBindingContext> bindingContexts = new HashMap<>();
+	private final Map<String, MBindingContext> bindingContexts = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private String[] activeSchemeIds;
 
@@ -103,7 +103,7 @@ public final class BindingService implements IBindingService {
 
 	private IEclipseContext context;
 
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void init() {
 		final Scheme activeScheme = manager.getActiveScheme();
 		if (activeScheme != null) {
@@ -209,9 +209,9 @@ public final class BindingService implements IBindingService {
 	@Override
 	public Map getPartialMatches(TriggerSequence trigger) {
 		final Collection<Binding> partialMatches = bindingService.getPartialMatches(trigger);
-		final Map<TriggerSequence, Binding> result = new HashMap<>(partialMatches.size());
+		final Map<TriggerSequence, Binding> result = new HashMap<>(partialMatches.size()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (Binding binding : partialMatches) {
+		for (Binding binding : partialMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.put(binding.getTriggerSequence(), binding);
 		}
 
@@ -282,7 +282,7 @@ public final class BindingService implements IBindingService {
 		persistToModel(activeScheme);
 	}
 
-	private void persistToModel(Scheme activeScheme) {
+	private void persistToModel(Scheme activeScheme) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// save the active scheme to the model
 		writeSchemeToModel(activeScheme);
 		activeSchemeIds = getSchemeIds(activeScheme.getId());
@@ -290,13 +290,13 @@ public final class BindingService implements IBindingService {
 
 		// weeds out any of the deleted system bindings using the binding
 		// manager
-		HashSet<Binding> activeBindings = new HashSet<>(manager.getActiveBindingsDisregardingContextFlat());
+		HashSet<Binding> activeBindings = new HashSet<>(manager.getActiveBindingsDisregardingContextFlat()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		// get all of the (active) model bindings that point to the actual runtime
 		// bindings
-		HashMap<Binding, MKeyBinding> bindingToKey = new HashMap<>();
-		for (MBindingTable table : application.getBindingTables()) {
-			for (MKeyBinding modelBinding : table.getBindings()) {
+		HashMap<Binding, MKeyBinding> bindingToKey = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (MBindingTable table : application.getBindingTables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (MKeyBinding modelBinding : table.getBindings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Object obj = modelBinding.getTransientData().get(EBindingService.MODEL_TO_BINDING_KEY);
 				if (obj instanceof Binding) {
 					bindingToKey.put((Binding) obj, modelBinding);
@@ -306,9 +306,9 @@ public final class BindingService implements IBindingService {
 
 		// go through each of the (active) bindings in the model to see if there are any
 		// bindings that we should remove
-		final HashSet<Binding> deleted = new HashSet<>(bindingToKey.keySet());
+		final HashSet<Binding> deleted = new HashSet<>(bindingToKey.keySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		deleted.removeAll(activeBindings);
-		for (Binding binding : deleted) {
+		for (Binding binding : deleted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (binding.getType() == Binding.USER) {
 				removeBinding(binding);
 			} else {
@@ -321,7 +321,7 @@ public final class BindingService implements IBindingService {
 
 		// go through each of the active bindings (from the binding manager) to
 		// see if there are any bindings that we should add to the runtime
-		for (Binding binding : activeBindings) {
+		for (Binding binding : activeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final MKeyBinding model = bindingToKey.get(binding);
 			MKeyBinding toAddModel = model;
 			Binding toAddBinding = binding;
@@ -380,8 +380,8 @@ public final class BindingService implements IBindingService {
 	}
 
 	private String[] getSchemeIds(String schemeId) {
-		final List<String> strings = new ArrayList<>();
-		while (schemeId != null) {
+		final List<String> strings = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (schemeId != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			strings.add(schemeId);
 			try {
 				schemeId = getScheme(schemeId).getParentId();
@@ -404,7 +404,7 @@ public final class BindingService implements IBindingService {
 			return 0;
 		}
 		if (!schemeId2.equals(schemeId1)) {
-			for (final String schemePointer : activeSchemeIds) {
+			for (final String schemePointer : activeSchemeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (schemeId2.equals(schemePointer)) {
 					return 1;
 				} else if (schemeId1.equals(schemePointer)) {
@@ -440,14 +440,14 @@ public final class BindingService implements IBindingService {
 		boolean found = false;
 		// replace the old scheme id
 		Iterator<String> i = tags.iterator();
-		while (i.hasNext() && !found) {
+		while (i.hasNext() && !found) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String tag = i.next();
 			if (tag.startsWith(EBindingService.ACTIVE_SCHEME_TAG)) {
 				i.remove();
 				found = true;
 			}
 		}
-		tags.add(EBindingService.ACTIVE_SCHEME_TAG + ":" + activeScheme.getId()); //$NON-NLS-1$
+		tags.add(EBindingService.ACTIVE_SCHEME_TAG + ":" + activeScheme.getId()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -462,7 +462,7 @@ public final class BindingService implements IBindingService {
 		return bindingService.getConflictsFor(sequence);
 	}
 
-	public MBindingContext getBindingContext(String id) {
+	public MBindingContext getBindingContext(String id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// cache
 		MBindingContext result = bindingContexts.get(id);
 		if (result == null) {
@@ -472,7 +472,7 @@ public final class BindingService implements IBindingService {
 				// create
 				result = MCommandsFactory.INSTANCE.createBindingContext();
 				result.setElementId(id);
-				result.setName("Auto::" + id); //$NON-NLS-1$
+				result.setName("Auto::" + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				application.getRootContext().add(result);
 			}
 			if (result != null) {
@@ -483,7 +483,7 @@ public final class BindingService implements IBindingService {
 	}
 
 	private MBindingContext searchContexts(String id, List<MBindingContext> rootContext) {
-		for (MBindingContext context : rootContext) {
+		for (MBindingContext context : rootContext) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (context.getElementId().equals(id)) {
 				return context;
 			}
@@ -514,7 +514,7 @@ public final class BindingService implements IBindingService {
 	}
 
 	private MBindingTable getMTable(String contextId) {
-		for (MBindingTable bt : application.getBindingTables()) {
+		for (MBindingTable bt : application.getBindingTables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (bt.getBindingContext().getElementId().equals(contextId)) {
 				return bt;
 			}
@@ -528,7 +528,7 @@ public final class BindingService implements IBindingService {
 
 	}
 
-	static private boolean isSameBinding(MKeyBinding existingBinding, MCommand cmd, Binding binding) {
+	static private boolean isSameBinding(MKeyBinding existingBinding, MCommand cmd, Binding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// see org.eclipse.jface.bindings.Binding#equals(final Object object)
 		if (!cmd.equals(existingBinding.getCommand())) {
 			return false;
@@ -551,24 +551,24 @@ public final class BindingService implements IBindingService {
 
 		String schemeId = binding.getSchemeId();
 		if (schemeId != null && !schemeId.equals(BindingPersistence.getDefaultSchemeId())) {
-			if (!modelTags.contains(EBindingService.SCHEME_ID_ATTR_TAG + ":" + schemeId)) { //$NON-NLS-1$
+			if (!modelTags.contains(EBindingService.SCHEME_ID_ATTR_TAG + ":" + schemeId)) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false;
 			}
 		}
 		String locale = binding.getLocale();
 		if (locale != null) {
-			if (!modelTags.contains(EBindingService.LOCALE_ATTR_TAG + ":" + locale)) { //$NON-NLS-1$
+			if (!modelTags.contains(EBindingService.LOCALE_ATTR_TAG + ":" + locale)) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false;
 			}
 		}
 		String platform = binding.getPlatform();
 		if (platform != null) {
-			if (!modelTags.contains(EBindingService.PLATFORM_ATTR_TAG + ":" + platform)) { //$NON-NLS-1$
+			if (!modelTags.contains(EBindingService.PLATFORM_ATTR_TAG + ":" + platform)) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false;
 			}
 		}
 		if (binding.getType() == Binding.USER) {
-			if (!modelTags.contains(EBindingService.TYPE_ATTR_TAG + ":user")) { //$NON-NLS-1$
+			if (!modelTags.contains(EBindingService.TYPE_ATTR_TAG + ":user")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false;
 			}
 		}
@@ -579,7 +579,7 @@ public final class BindingService implements IBindingService {
 	// Add some sort of timestamp on the source files and update
 	// only when it changes
 	// TBD placement: this should be in the "3.x bridge" code
-	static public MKeyBinding createOrUpdateMKeyBinding(MApplication application, MBindingTable table,
+	static public MKeyBinding createOrUpdateMKeyBinding(MApplication application, MBindingTable table, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Binding binding) {
 		boolean addToTable = false;
 
@@ -592,7 +592,7 @@ public final class BindingService implements IBindingService {
 		}
 
 		MKeyBinding keyBinding = null;
-		for (MKeyBinding existingBinding : table.getBindings()) {
+		for (MKeyBinding existingBinding : table.getBindings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Binding b = (Binding) existingBinding.getTransientData().get(EBindingService.MODEL_TO_BINDING_KEY);
 			if (binding.equals(b)) {
 				keyBinding = existingBinding;
@@ -610,7 +610,7 @@ public final class BindingService implements IBindingService {
 			keyBinding.setCommand(cmd);
 			keyBinding.setKeySequence(binding.getTriggerSequence().toString());
 
-			for (Object obj : parmCmd.getParameterMap().entrySet()) {
+			for (Object obj : parmCmd.getParameterMap().entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Map.Entry<String, String> entry = (Map.Entry<String, String>) obj;
 
 				String paramID = entry.getKey();
@@ -619,7 +619,7 @@ public final class BindingService implements IBindingService {
 				}
 				List<MParameter> bindingParams = keyBinding.getParameters();
 				MParameter p = null;
-				for (MParameter param : bindingParams) {
+				for (MParameter param : bindingParams) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (paramID.equals(param.getElementId())) {
 						p = param;
 						break;
@@ -640,17 +640,17 @@ public final class BindingService implements IBindingService {
 			// the default scheme
 			if (binding.getSchemeId() != null
 					&& !binding.getSchemeId().equals(BindingPersistence.getDefaultSchemeId())) {
-				tags.add(EBindingService.SCHEME_ID_ATTR_TAG + ":" + binding.getSchemeId()); //$NON-NLS-1$
+				tags.add(EBindingService.SCHEME_ID_ATTR_TAG + ":" + binding.getSchemeId()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if (binding.getLocale() != null) {
-				tags.add(EBindingService.LOCALE_ATTR_TAG + ":" + binding.getLocale()); //$NON-NLS-1$
+				tags.add(EBindingService.LOCALE_ATTR_TAG + ":" + binding.getLocale()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if (binding.getPlatform() != null) {
-				tags.add(EBindingService.PLATFORM_ATTR_TAG + ":" + binding.getPlatform()); //$NON-NLS-1$
+				tags.add(EBindingService.PLATFORM_ATTR_TAG + ":" + binding.getPlatform()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			// just add the 'type' tag if it's a user binding
 			if (binding.getType() == Binding.USER) {
-				tags.add(EBindingService.TYPE_ATTR_TAG + ":user"); //$NON-NLS-1$
+				tags.add(EBindingService.TYPE_ATTR_TAG + ":user"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -661,7 +661,7 @@ public final class BindingService implements IBindingService {
 		return keyBinding;
 	}
 
-	private MKeyBinding findMKeyBinding(MBindingTable table, Binding binding) {
+	private MKeyBinding findMKeyBinding(MBindingTable table, Binding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<MKeyBinding> mBindings = table.getBindings();
 
 		String bindingSchemeId = binding.getSchemeId() == null ? IBindingService.DEFAULT_DEFAULT_ACTIVE_SCHEME_ID
@@ -670,7 +670,7 @@ public final class BindingService implements IBindingService {
 		if (binding.getParameterizedCommand() != null) {
 			String commandId = binding.getParameterizedCommand().getId();
 
-			for (MKeyBinding curr : mBindings) {
+			for (MKeyBinding curr : mBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Binding transientBinding = (Binding) curr.getTransientData().get(EBindingService.MODEL_TO_BINDING_KEY);
 				if (transientBinding != null) {
 					if (binding.equals(transientBinding)) {
@@ -685,7 +685,7 @@ public final class BindingService implements IBindingService {
 					String schemeId = IBindingService.DEFAULT_DEFAULT_ACTIVE_SCHEME_ID;
 					List<String> tags = curr.getTags();
 					// grab the scheme id from the tags
-					for (String tag : tags) {
+					for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (tag.startsWith(EBindingService.SCHEME_ID_ATTR_TAG)) {
 							schemeId = tag.substring(9);
 							break;
@@ -708,10 +708,10 @@ public final class BindingService implements IBindingService {
 	 *
 	 * @param binding The binding to be removed; must not be <code>null</code>.
 	 */
-	public void removeBinding(final Binding binding) {
+	public void removeBinding(final Binding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MKeyBinding mKeyBinding;
 		MBindingTable table = null;
-		for (MBindingTable bt : application.getBindingTables()) {
+		for (MBindingTable bt : application.getBindingTables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (bt.getBindingContext().getElementId().equals(binding.getContextId())) {
 				table = bt;
 				break;

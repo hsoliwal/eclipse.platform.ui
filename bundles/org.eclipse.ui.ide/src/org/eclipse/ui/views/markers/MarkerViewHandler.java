@@ -102,7 +102,7 @@ public abstract class MarkerViewHandler extends AbstractHandler {
 		}
 
 		final IMarker[][] result = new IMarker[1][];
-		view.getSite().getShell().getDisplay().syncExec(() -> result[0] = view.getSelectedMarkers());
+		view.getSite().getShell().getDisplay().syncExec(() -> result[0] = view.getSelectedMarkers()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		return result[0];
 	}
 }

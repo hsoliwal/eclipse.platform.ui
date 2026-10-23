@@ -83,7 +83,7 @@ public final class BoldStylerProvider {
 	public Font getBoldFont() {
 		if (fBoldFont == null) {
 			FontData[] data= fFont.getFontData();
-			for (FontData element : data) {
+			for (FontData element : data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				element.setStyle(SWT.BOLD);
 			}
 			fBoldFont= new Font(fFont.getDevice(), data);

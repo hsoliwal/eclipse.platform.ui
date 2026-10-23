@@ -99,14 +99,14 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * flush the activations when the registry is re-read. This value is never
 	 * <code>null</code>
 	 */
-	private final Collection<IHandlerActivation> handlerActivations = new ArrayList<>();
+	private final Collection<IHandlerActivation> handlerActivations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * The menu contributions that have come from the registry. This is used to
 	 * flush the contributions when the registry is re-read. This value is never
 	 * <code>null</code>
 	 */
-	private final Collection<?> menuContributions = new ArrayList<>();
+	private final Collection<?> menuContributions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * The service locator from which services can be retrieved in the future; must
@@ -137,7 +137,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 		}
 		service.deactivateHandlers(handlerActivations);
 		final Iterator<IHandlerActivation> activationItr = handlerActivations.iterator();
-		while (activationItr.hasNext()) {
+		while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IHandlerActivation activation = activationItr.next();
 			final IHandler handler = activation.getHandler();
 			if (handler != null) {
@@ -181,7 +181,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * @return the fully-parameterized command; <code>null</code> if an error
 	 *         occurred.
 	 */
-	private ParameterizedCommand convertActionToCommand(final IConfigurationElement element, final String primaryId,
+	private ParameterizedCommand convertActionToCommand(final IConfigurationElement element, final String primaryId, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String secondaryId, final List<IStatus> warningsToLog) {
 		String commandId = readOptional(element, ATT_DEFINITION_ID);
 		Command command = null;
@@ -266,7 +266,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * @param warningsToLog        The collection of warnings while parsing this
 	 *                             extension point; must not be <code>null</code>.
 	 */
-	private void convertActionToHandler(final IConfigurationElement element, final String actionId,
+	private void convertActionToHandler(final IConfigurationElement element, final String actionId, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ParameterizedCommand command, final Expression activeWhenExpression, final String viewId,
 			final List<IStatus> warningsToLog) {
 		// Check to see if this is a retargettable action.
@@ -382,7 +382,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * cleared.
 	 * </p>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void read() {
 		clear();
 		LegacyActionPersistence.super.read();
@@ -395,7 +395,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 		final IConfigurationElement[][] indexedConfigurationElements = new IConfigurationElement[5][];
 
 		// Sort the actionSets extension point.
-		for (final IConfigurationElement configElement : registry.getConfigurationElementsFor(EXTENSION_ACTION_SETS)) {
+		for (final IConfigurationElement configElement : registry.getConfigurationElementsFor(EXTENSION_ACTION_SETS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configElement.getName();
 			if (TAG_ACTION_SET.equals(name)) {
 				addElementToIndexedArray(configElement, indexedConfigurationElements, INDEX_ACTION_SETS,
@@ -404,7 +404,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 		}
 
 		// Sort the editorActions extension point.
-		for (final IConfigurationElement configElement : registry
+		for (final IConfigurationElement configElement : registry //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.getConfigurationElementsFor(EXTENSION_EDITOR_ACTIONS)) {
 			final String name = configElement.getName();
 			if (TAG_EDITOR_CONTRIBUTION.equals(name)) {
@@ -414,7 +414,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 		}
 
 		// Sort the viewActions extension point.
-		for (final IConfigurationElement configElement : registry.getConfigurationElementsFor(EXTENSION_VIEW_ACTIONS)) {
+		for (final IConfigurationElement configElement : registry.getConfigurationElementsFor(EXTENSION_VIEW_ACTIONS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configElement.getName();
 			if (TAG_VIEW_CONTRIBUTION.equals(name)) {
 				addElementToIndexedArray(configElement, indexedConfigurationElements, INDEX_VIEW_CONTRIBUTIONS,
@@ -449,9 +449,9 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 *                              This value is required if this is a view action;
 	 *                              otherwise it can be <code>null</code>.
 	 */
-	private void readActions(final String primaryId, final IConfigurationElement[] elements,
+	private void readActions(final String primaryId, final IConfigurationElement[] elements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final List<IStatus> warningsToLog, final Expression visibleWhenExpression, final String viewId) {
-		for (final IConfigurationElement configElement : elements) {
+		for (final IConfigurationElement configElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			/*
 			 * We might need the identifier to generate the command, so we'll read it out
 			 * now.
@@ -511,7 +511,7 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * @param configurationElementCount The number of configuration elements that
 	 *                                  are really in the array.
 	 */
-	private void readActionSets(final IConfigurationElement[] configurationElements,
+	private void readActionSets(final IConfigurationElement[] configurationElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int configurationElementCount) {
 		//
 		// this was an even dumber fix than modifying the path
@@ -523,9 +523,9 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 		// }
 		// stupid navigate group
 
-		final List<IStatus> warningsToLog = new ArrayList<>(1);
+		final List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < configurationElementCount; i++) {
+		for (int i = 0; i < configurationElementCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement element = configurationElements[i];
 
 			// Read the action set identifier.
@@ -563,11 +563,11 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * @param configurationElementCount The number of configuration elements that
 	 *                                  are really in the array.
 	 */
-	private void readEditorContributions(final IConfigurationElement[] configurationElements,
+	private void readEditorContributions(final IConfigurationElement[] configurationElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int configurationElementCount) {
-		final List<IStatus> warningsToLog = new ArrayList<>(1);
+		final List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < configurationElementCount; i++) {
+		for (int i = 0; i < configurationElementCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement element = configurationElements[i];
 
 			// Read the editor contribution identifier.
@@ -605,11 +605,11 @@ public final class LegacyActionPersistence extends RegistryPersistence {
 	 * @param configurationElementCount The number of configuration elements that
 	 *                                  are really in the array.
 	 */
-	private void readViewContributions(final IConfigurationElement[] configurationElements,
+	private void readViewContributions(final IConfigurationElement[] configurationElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int configurationElementCount) {
-		final List<IStatus> warningsToLog = new ArrayList<>(1);
+		final List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < configurationElementCount; i++) {
+		for (int i = 0; i < configurationElementCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement element = configurationElements[i];
 
 			// Read the view contribution identifier.

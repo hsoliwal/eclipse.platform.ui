@@ -60,9 +60,9 @@ public final class M3ViewerMap {
 		this(table.size() * 2, comparer);
 		table.depth++;
 		try {
-			for (int i = table.buckets.length; --i >= 0;) {
+			for (int i = table.buckets.length; --i >= 0;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int entry = table.buckets[i];
-				while (entry != 0) {
+				while (entry != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					put(table.keys[entry], table.values[entry]);
 					entry = table.next[entry];
 				}
@@ -102,7 +102,7 @@ public final class M3ViewerMap {
 	private int entry(Object key) {
 		int hash = hashCode(key);
 		int entry = buckets[indexFor(hash)];
-		while (entry != 0) {
+		while (entry != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hashes[entry] == hash && keyEquals(key, keys[entry])) {
 				return entry;
 			}
@@ -123,7 +123,7 @@ public final class M3ViewerMap {
 		return comparer == null ? a.equals(b) : comparer.equals(a, b);
 	}
 
-	public Object put(Object key, Object value) {
+	public Object put(Object key, Object value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (key == null || value == null) {
 			throw new NullPointerException();
 		}
@@ -132,7 +132,7 @@ public final class M3ViewerMap {
 			int hash = hashCode(key);
 			int index = indexFor(hash);
 			int entry = buckets[index];
-			while (entry != 0 && !(hashes[entry] == hash && keyEquals(key, keys[entry]))) {
+			while (entry != 0 && !(hashes[entry] == hash && keyEquals(key, keys[entry]))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				entry = next[entry];
 			}
 			if (entry == 0) {
@@ -157,7 +157,7 @@ public final class M3ViewerMap {
 		}
 	}
 
-	private int allocate() {
+	private int allocate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (free != 0) {
 			int entry = free;
 			free = next[entry];
@@ -180,15 +180,15 @@ public final class M3ViewerMap {
 		return entry;
 	}
 
-	private void rehash() {
+	private void rehash() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length = buckets.length << 1;
 		if (length == 0) {
 			length = 1;
 		}
 		int[] newBuckets = new int[length];
-		for (int i = buckets.length; --i >= 0;) {
+		for (int i = buckets.length; --i >= 0;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int entry = buckets[i];
-			while (entry != 0) {
+			while (entry != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int index = (hashes[entry] & 0x7FFFFFFF) % length;
 				int following = next[entry];
 				next[entry] = newBuckets[index];
@@ -212,7 +212,7 @@ public final class M3ViewerMap {
 		}
 	}
 
-	public Object remove(Object key, int hash) {
+	public Object remove(Object key, int hash) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (count == 0) {
 			return null;
 		}
@@ -221,7 +221,7 @@ public final class M3ViewerMap {
 			int last = 0;
 			int index = indexFor(hash);
 			int entry = buckets[index];
-			while (entry != 0 && !(hashes[entry] == hash && keyEquals(key, keys[entry]))) {
+			while (entry != 0 && !(hashes[entry] == hash && keyEquals(key, keys[entry]))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				last = entry;
 				entry = next[entry];
 			}
@@ -244,11 +244,11 @@ public final class M3ViewerMap {
 		}
 	}
 
-	private void leave() {
+	private void leave() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (--depth != 0) {
 			return;
 		}
-		for (int i = 0; i < retiredCount; i++) {
+		for (int i = 0; i < retiredCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int entry = retired[i];
 			// Reentrant removal may retire the same old entry more than once.
 			if (keys[entry] != null) {
@@ -272,18 +272,18 @@ public final class M3ViewerMap {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
 		if (size() == 0) {
 			return "{}"; //$NON-NLS-1$
 		}
 		depth++;
 		try {
-			StringBuilder buffer = new StringBuilder();
+			StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			buffer.append('{');
-			for (int i = buckets.length; --i >= 0;) {
+			for (int i = buckets.length; --i >= 0;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int entry = buckets[i];
-				while (entry != 0) {
+				while (entry != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					buffer.append(keys[entry]);
 					buffer.append('=');
 					buffer.append(values[entry]);

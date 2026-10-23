@@ -29,7 +29,7 @@ import org.eclipse.ui.services.IServiceLocator;
 /**
  * Listens to command executions and shows the keys UI if enabled
  */
-public class ShowKeysListener implements IExecutionListener, IPropertyChangeListener, IDisposable {
+public class ShowKeysListener implements IExecutionListener, IPropertyChangeListener, IDisposable { //FLLDCIM: MARK — T26  IMPLEMENTS
 
 	private final IPreferenceStore preferenceStore;
 	private final IServiceLocator serviceLocator;

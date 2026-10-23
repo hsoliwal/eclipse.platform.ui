@@ -68,7 +68,7 @@ public class FileSystemExporter {
 	protected void writeChildren(IContainer folder, IPath destinationPath)
 			throws CoreException, IOException {
 		if (folder.isAccessible()) {
-			for (IResource child : folder.members()) {
+			for (IResource child : folder.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				writeResource(child, destinationPath.append(child.getName()));
 			}
 		}

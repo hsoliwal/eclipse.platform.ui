@@ -50,7 +50,7 @@ public class ObjectFilterTest {
 			return false;
 		}
 		if (filterElements == null) {
-			filterElements = new HashMap();
+			filterElements = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		filterElements.put(name, value);
 		return true;
@@ -92,7 +92,7 @@ public class ObjectFilterTest {
 		}
 
 		// Run the action filter.
-		for (Entry<String, String> entry : filterElements.entrySet()) {
+		for (Entry<String, String> entry : filterElements.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = entry.getKey();
 			String value = entry.getValue();
 			if (!filter.testAttribute(object, name, value)) {

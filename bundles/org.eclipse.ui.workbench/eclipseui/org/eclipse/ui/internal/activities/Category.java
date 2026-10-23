@@ -31,7 +31,7 @@ final class Category implements ICategory {
 
 	private static final int HASH_INITIAL = Category.class.getName().hashCode();
 
-	private static final Set<Category> strongReferences = new HashSet<>();
+	private static final Set<Category> strongReferences = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private Set<ICategoryActivityBinding> categoryActivityBindings;
 
@@ -66,7 +66,7 @@ final class Category implements ICategory {
 		}
 
 		if (categoryListeners == null) {
-			categoryListeners = new ArrayList<>();
+			categoryListeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		if (!categoryListeners.contains(categoryListener)) {
@@ -76,7 +76,7 @@ final class Category implements ICategory {
 		strongReferences.add(this);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compareTo(ICategory object) {
 		Category castedObject = (Category) object;
 		int compareTo = Util.compare(categoryActivityBindingsAsArray, castedObject.categoryActivityBindingsAsArray);
@@ -113,7 +113,7 @@ final class Category implements ICategory {
 		}
 
 		if (categoryListeners != null) {
-			for (ICategoryListener categoryListener : categoryListeners) {
+			for (ICategoryListener categoryListener : categoryListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				categoryListener.categoryChanged(categoryEvent);
 			}
 		}
@@ -213,7 +213,7 @@ final class Category implements ICategory {
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(categoryActivityBindings);
 			stringBuffer.append(',');

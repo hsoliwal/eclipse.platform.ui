@@ -54,7 +54,7 @@ public final class PendingSyncExec {
 		return operation;
 	}
 
-	public void run() {
+	public void run() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Clear the interrupted flag. The blocked thread may have been
 		// periodically interrupting the UI thread in
 		// order to interrupt other tasks in the queue and cause this job to
@@ -85,7 +85,7 @@ public final class PendingSyncExec {
 	public void waitUntilExecuted(UILockListener lockListener) throws InterruptedException {
 		// even if the UI was not blocked earlier, it might become blocked
 		// before it can serve the asyncExec to do the pending work
-		while (!acquire(1000)) {
+		while (!acquire(1000)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lockListener.isUIWaiting()) {
 				synchronized (this) {
 					if (!hasFinishedRunning) {
@@ -108,6 +108,6 @@ public final class PendingSyncExec {
 	// for debug only
 	@Override
 	public String toString() {
-		return "PendingSyncExec(" + runnable + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "PendingSyncExec(" + runnable + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

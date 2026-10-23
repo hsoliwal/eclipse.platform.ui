@@ -91,7 +91,7 @@ public abstract class ImageDescriptor extends DeviceResourceDescriptor<Image> {
 	 * @param filename the file name
 	 * @return a new image descriptor
 	 */
-	public static ImageDescriptor createFromFile(Class<?> location, String filename) {
+	public static ImageDescriptor createFromFile(Class<?> location, String filename) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		URL url;
 		if (location == null) {
 			try {
@@ -387,7 +387,7 @@ public abstract class ImageDescriptor extends DeviceResourceDescriptor<Image> {
 	 *         created
 	 * @since 2.0
 	 */
-	public Image createImage(boolean returnMissingImageOnError, Device device) {
+	public Image createImage(boolean returnMissingImageOnError, Device device) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Try to create the supplied image. If there is an SWT Exception try
 		 * and create the default image if that was requested. Return null if

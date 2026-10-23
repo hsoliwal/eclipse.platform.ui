@@ -62,7 +62,7 @@ public class LazyResourceManager extends ResourceManager {
 	public LazyResourceManager(int cacheSize, ResourceManager parent) {
 		this.parent = parent;
 		this.unreferenced = new LruMap(cacheSize);
-		this.refCount = new HashMap<>();
+		this.refCount = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	@Override

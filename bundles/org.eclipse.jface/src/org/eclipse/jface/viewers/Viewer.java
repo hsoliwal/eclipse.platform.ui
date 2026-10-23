@@ -110,7 +110,7 @@ public abstract class Viewer implements IInputSelectionProvider {
 				if (this.helpListener == null) {
 					this.helpListener = this::handleHelpRequest;
 				}
-				control.addHelpListener(this.helpListener);
+				control.addHelpListener(this.helpListener); //FLLDCIM: MARK — T14 HELP CALL
 				helpHooked = true;
 			}
 		}
@@ -130,7 +130,7 @@ public abstract class Viewer implements IInputSelectionProvider {
 	 * @see HelpListener#helpRequested(org.eclipse.swt.events.HelpEvent)
 	 */
 	protected void fireHelpRequested(HelpEvent event) {
-		for (HelpListener listener : helpListeners) {
+		for (HelpListener listener : helpListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.helpRequested(event);
 		}
 	}
@@ -144,7 +144,7 @@ public abstract class Viewer implements IInputSelectionProvider {
 	 * @see ISelectionChangedListener#selectionChanged
 	 */
 	protected void fireSelectionChanged(final SelectionChangedEvent event) {
-		for (ISelectionChangedListener l : selectionChangedListeners) {
+		for (ISelectionChangedListener l : selectionChangedListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -181,7 +181,7 @@ public abstract class Viewer implements IInputSelectionProvider {
 		if (keys == null) {
 			return null;
 		}
-		for (int i = 0; i < keys.length; i++) {
+		for (int i = 0; i < keys.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[i].equals(key)) {
 				return values[i];
 			}
@@ -298,7 +298,7 @@ public abstract class Viewer implements IInputSelectionProvider {
 	 * @param value the property value, or <code>null</code> if
 	 *    the property is not found
 	 */
-	public void setData(String key, Object value) {
+	public void setData(String key, Object value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(key);
 		/* Remove the key/value pair */
 		if (value == null) {
@@ -306,7 +306,7 @@ public abstract class Viewer implements IInputSelectionProvider {
 				return;
 			}
 			int index = 0;
-			while (index < keys.length && !keys[index].equals(key)) {
+			while (index < keys.length && !keys[index].equals(key)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				index++;
 			}
 			if (index == keys.length) {
@@ -336,7 +336,7 @@ public abstract class Viewer implements IInputSelectionProvider {
 			values = new Object[] { value };
 			return;
 		}
-		for (int i = 0; i < keys.length; i++) {
+		for (int i = 0; i < keys.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[i].equals(key)) {
 				values[i] = value;
 				return;

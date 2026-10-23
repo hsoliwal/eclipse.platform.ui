@@ -51,7 +51,7 @@ public class PlatformUIPreferenceListener implements IEclipsePreferences.IPrefer
 		return singleton;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void preferenceChange(PreferenceChangeEvent event) {
 
 		String propertyName = event.getKey();
@@ -87,23 +87,23 @@ public class PlatformUIPreferenceListener implements IEclipsePreferences.IPrefer
 				if (xmlString != null && xmlString.length() > 0) {
 					try (Reader reader = new StringReader(xmlString)) {
 						// Build the editor map.
-						HashMap<String, IEditorDescriptor> editorMap = new HashMap<>();
+						HashMap<String, IEditorDescriptor> editorMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 						int i = 0;
 						IEditorDescriptor[] descriptors = editorRegistry.getSortedEditorsFromPlugins();
 						// Get the internal editors
-						for (i = 0; i < descriptors.length; i++) {
+						for (i = 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IEditorDescriptor descriptor = descriptors[i];
 							editorMap.put(descriptor.getId(), descriptor);
 						}
 						// Get the external (OS) editors
 						descriptors = editorRegistry.getSortedEditorsFromOS();
-						for (i = 0; i < descriptors.length; i++) {
+						for (i = 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IEditorDescriptor descriptor = descriptors[i];
 							editorMap.put(descriptor.getId(), descriptor);
 						}
 						// Get default editors which are not OS or internal
 						// editors
-						for (IFileEditorMapping fileEditorMapping : editorRegistry.getFileEditorMappings()) {
+						for (IFileEditorMapping fileEditorMapping : editorRegistry.getFileEditorMappings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IEditorDescriptor descriptor = fileEditorMapping.getDefaultEditor();
 							if (descriptor != null && !editorMap.containsKey(descriptor.getId())) {
 								editorMap.put(descriptor.getId(), descriptor);

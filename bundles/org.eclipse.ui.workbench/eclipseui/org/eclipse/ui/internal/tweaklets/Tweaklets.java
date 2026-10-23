@@ -58,8 +58,8 @@ public class Tweaklets {
 		}
 	}
 
-	private static Map<TweakKey, Object> defaults = new HashMap<>();
-	private static Map<TweakKey, Object> tweaklets = new HashMap<>();
+	private static Map<TweakKey, Object> defaults = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private static Map<TweakKey, Object> tweaklets = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public static void setDefault(TweakKey definition, Object implementation) {
 		defaults.put(definition, implementation);
@@ -82,10 +82,10 @@ public class Tweaklets {
 		return defaults.get(definition);
 	}
 
-	private static Object createTweaklet(TweakKey definition) {
+	private static Object createTweaklet(TweakKey definition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor("org.eclipse.ui.internalTweaklets"); //$NON-NLS-1$
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (definition.tweakClass.getName().equals(element.getAttribute("definition"))) { //$NON-NLS-1$
 				try {
 					Object tweaklet = element.createExecutableExtension("implementation"); //$NON-NLS-1$
@@ -93,7 +93,7 @@ public class Tweaklets {
 					return tweaklet;
 				} catch (CoreException e) {
 					StatusManager.getManager().handle(
-							StatusUtil.newStatus(IStatus.ERROR, "Error with extension " + element, e), //$NON-NLS-1$
+							StatusUtil.newStatus(IStatus.ERROR, "Error with extension " + element, e), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							StatusManager.LOG);
 				}
 			}

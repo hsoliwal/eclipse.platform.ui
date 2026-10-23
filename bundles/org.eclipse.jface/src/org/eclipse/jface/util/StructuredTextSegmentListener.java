@@ -65,7 +65,7 @@ public class StructuredTextSegmentListener implements SegmentListener {
 		expert = StructuredTextExpertFactory.getStatefulExpert(textTypeHandler, StructuredTextEnvironment.DEFAULT);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getSegments(SegmentEvent event) {
 		int length = event.lineText.length();
 		if (length > 0) {
@@ -77,7 +77,7 @@ public class StructuredTextSegmentListener implements SegmentListener {
 				event.segments[segments.length + 1] = length;
 				event.segmentsChars = new char[event.segments.length];
 				event.segmentsChars[0] = BidiUtils.LRE;
-				for (int i = 1; i < event.segments.length - 1; i++) {
+				for (int i = 1; i < event.segments.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					event.segmentsChars[i] = BidiUtils.LRM;
 				}
 				event.segmentsChars[event.segments.length - 1] = BidiUtils.PDF;
@@ -85,7 +85,7 @@ public class StructuredTextSegmentListener implements SegmentListener {
 				// Only log the first exception. Logging every exception would make the system unusable.
 				if (logExceptions) {
 					Policy.getLog().log(Status
-							.error("An error occurred while processing \"" + event.lineText + "\" with " + expert, ex)); //$NON-NLS-1$//$NON-NLS-2$
+							.error("An error occurred while processing \"" + event.lineText + "\" with " + expert, ex)); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					logExceptions = false;
 				}
 			}

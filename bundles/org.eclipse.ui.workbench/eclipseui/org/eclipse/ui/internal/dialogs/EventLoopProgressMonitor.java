@@ -102,7 +102,7 @@ public class EventLoopProgressMonitor extends ProgressMonitorWrapper implements 
 	/**
 	 * Runs an event loop.
 	 */
-	private void runEventLoop() {
+	private void runEventLoop() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Only run the event loop so often, as it is expensive on some platforms
 		// (namely Motif).
 		long t = System.currentTimeMillis();
@@ -119,7 +119,7 @@ public class EventLoopProgressMonitor extends ProgressMonitorWrapper implements 
 		// Initialize an exception handler from the window class.
 		ExceptionHandler handler = ExceptionHandler.getInstance();
 
-		for (;;) {
+		for (;;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				if (!disp.readAndDispatch()) {
 					break;

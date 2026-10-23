@@ -28,7 +28,7 @@ import org.eclipse.ui.WorkbenchException;
 /**
  * A workbench window pulldown action.
  */
-public class WWinPluginPulldown extends WWinPluginAction {
+public class WWinPluginPulldown extends WWinPluginAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The proxy for creating the menu. There is always a menu proxy. This value

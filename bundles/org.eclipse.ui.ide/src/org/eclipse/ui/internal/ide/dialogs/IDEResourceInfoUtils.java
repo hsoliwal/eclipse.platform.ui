@@ -112,7 +112,7 @@ public class IDEResourceInfoUtils {
 	 *            The resource to query
 	 * @return String
 	 */
-	public static String getDateStringValue(IResource resource) {
+	public static String getDateStringValue(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!resource.isLocal(IResource.DEPTH_ZERO)) {
 			return NOT_LOCAL_TEXT;
 		}
@@ -224,7 +224,7 @@ public class IDEResourceInfoUtils {
 	 *
 	 * @return String the text to display the location
 	 */
-	public static String getLocationText(IResource resource) {
+	public static String getLocationText(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource.isVirtual()) {
 			return VIRTUAL_FOLDER_TEXT;
 		}
@@ -276,7 +276,7 @@ public class IDEResourceInfoUtils {
 	 *
 	 * @return String
 	 */
-	public static String getResolvedLocationText(IResource resource) {
+	public static String getResolvedLocationText(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!resource.isLocal(IResource.DEPTH_ZERO)) {
 			return NOT_LOCAL_TEXT;
 		}
@@ -312,7 +312,7 @@ public class IDEResourceInfoUtils {
 	 *
 	 * @return String
 	 */
-	public static String getSizeString(IResource resource) {
+	public static String getSizeString(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource.getType() != IResource.FILE) {
 			return ""; //$NON-NLS-1$
 		}
@@ -348,7 +348,7 @@ public class IDEResourceInfoUtils {
 	 *
 	 * @return String
 	 */
-	public static String getTypeString(IResource resource,
+	public static String getTypeString(IResource resource, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContentDescription description) {
 
 		if (resource.getType() == IResource.FILE) {
@@ -426,9 +426,9 @@ public class IDEResourceInfoUtils {
 	 *
 	 * @return IFileStore[]
 	 */
-	public static IFileStore[] listFileStores(IFileStore store,
+	public static IFileStore[] listFileStores(IFileStore store, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IFileStoreFilter fileFilter, IProgressMonitor monitor) {
-		ArrayList<IFileStore> result = new ArrayList<>();
+		ArrayList<IFileStore> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IFileStore[] children;
 		try {
 			children = store.childStores(EFS.NONE, monitor);
@@ -436,7 +436,7 @@ public class IDEResourceInfoUtils {
 			log(e);
 			return new IFileStore[0];
 		}
-		for (IFileStore fileStore : children) {
+		for (IFileStore fileStore : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fileFilter.accept(fileStore)) {
 				result.add(fileStore);
 			}

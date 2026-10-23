@@ -204,7 +204,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	private static final int WINDOW_SCOPE = EModelService.OUTSIDE_PERSPECTIVE | EModelService.IN_ANY_PERSPECTIVE
 			| EModelService.IN_SHARED_AREA;
 
-	class E4PartListener implements org.eclipse.e4.ui.workbench.modeling.IPartListener {
+	class E4PartListener implements org.eclipse.e4.ui.workbench.modeling.IPartListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 		@Override
 		public void partActivated(MPart part) {
@@ -224,7 +224,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			firePartBroughtToTop(part);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void partDeactivated(MPart part) {
 			firePartDeactivated(part);
 
@@ -256,7 +256,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	ArrayList<MPart> activationList = new ArrayList<>();
+	ArrayList<MPart> activationList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Cached perspective stack for this workbench page.
@@ -264,7 +264,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	private MPerspectiveStack _perspectiveStack;
 
 	/** Ids of parts used as Show In targets, maintained in MRU order */
-	private final List<String> mruShowInPartIds = new ArrayList<>();
+	private final List<String> mruShowInPartIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Deactivate the last editor's action bars if another type of editor has // *
@@ -272,7 +272,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *
 	 * @param part the part that is being activated
 	 */
-	private void deactivateLastEditor(MPart part) {
+	private void deactivateLastEditor(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object client = part.getObject();
 		// we only care if the currently activated part is an editor
 		if (client instanceof CompatibilityEditor) {
@@ -283,7 +283,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			String activeId = activePart.getSite().getId();
 
 			// find another editor that was last activated
-			for (MPart previouslyActive : activationList) {
+			for (MPart previouslyActive : activationList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (previouslyActive != part) {
 					Object object = previouslyActive.getObject();
 					if (object instanceof CompatibilityEditor) {
@@ -305,7 +305,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private void updateActivations(MPart part) {
+	private void updateActivations(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (activationList.size() > 1) {
 			deactivateLastEditor(part);
 		}
@@ -335,7 +335,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		actionSwitcher.updateActivePart(workbenchPart);
 	}
 
-	private void updateActivePartSources(MPart part) {
+	private void updateActivePartSources(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPart workbenchPart = getWorkbenchPart(part);
 		IContextService cs = legacyWindow.getService(IContextService.class);
 		try {
@@ -354,28 +354,28 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private void updateActionSets(Perspective oldPersp, Perspective newPersp) {
+	private void updateActionSets(Perspective oldPersp, Perspective newPersp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Update action sets
 
 		IContextService service = legacyWindow.getService(IContextService.class);
 		try {
 			service.deferUpdates(true);
 			if (newPersp != null) {
-				for (IActionSetDescriptor descriptor : newPersp.getAlwaysOnActionSets()) {
+				for (IActionSetDescriptor descriptor : newPersp.getAlwaysOnActionSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionSets.showAction(descriptor);
 				}
 
-				for (IActionSetDescriptor descriptor : newPersp.getAlwaysOffActionSets()) {
+				for (IActionSetDescriptor descriptor : newPersp.getAlwaysOffActionSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionSets.maskAction(descriptor);
 				}
 			}
 
 			if (oldPersp != null) {
-				for (IActionSetDescriptor descriptor : oldPersp.getAlwaysOnActionSets()) {
+				for (IActionSetDescriptor descriptor : oldPersp.getAlwaysOnActionSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionSets.hideAction(descriptor);
 				}
 
-				for (IActionSetDescriptor descriptor : oldPersp.getAlwaysOffActionSets()) {
+				for (IActionSetDescriptor descriptor : oldPersp.getAlwaysOffActionSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionSets.unmaskAction(descriptor);
 				}
 			}
@@ -384,7 +384,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private IWorkbenchPart getWorkbenchPart(MPart part) {
+	private IWorkbenchPart getWorkbenchPart(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (part != null) {
 			Object clientObject = part.getObject();
 			if (clientObject instanceof CompatibilityPart) {
@@ -462,7 +462,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return getActiveEditor();
 	}
 
-	private void updateBroughtToTop(MPart part) {
+	private void updateBroughtToTop(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		updateActiveEditorSources(part);
 		IWorkbenchPart workbenchPart = getWorkbenchPart(part);
 		if (workbenchPart instanceof IEditorPart) {
@@ -495,7 +495,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	private int lastIndexOfContainer(MElementContainer<?> parent) {
-		for (int i = 0; i < activationList.size(); i++) {
+		for (int i = 0; i < activationList.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MPart mPart = activationList.get(i);
 			MElementContainer<MUIElement> container = mPart.getParent();
 			if (container == parent) {
@@ -510,10 +510,10 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return -1;
 	}
 
-	private final List<ViewReference> viewReferences = new ArrayList<>();
-	private final List<EditorReference> editorReferences = new ArrayList<>();
+	private final List<ViewReference> viewReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final List<EditorReference> editorReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final List<IPerspectiveDescriptor> sortedPerspectives = new ArrayList<>();
+	private final List<IPerspectiveDescriptor> sortedPerspectives = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final ListenerList<IPartListener> partListenerList = new ListenerList<>();
 	private final ListenerList<IPartListener2> partListener2List = new ListenerList<>();
@@ -521,8 +521,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * A listener that forwards page change events to our part listeners.
 	 */
-	private IPageChangedListener pageChangedListener = event -> {
-		for (final IPartListener2 listener : partListener2List) {
+	private IPageChangedListener pageChangedListener = event -> { //FLLDCIM: MARK — T32  LAMBDA
+		for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof IPageChangedListener) {
 				SafeRunner.run(new SafeRunnable() {
 					@Override
@@ -562,7 +562,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 	private IWorkingSet[] workingSets = new IWorkingSet[0];
 
-	private IPropertyChangeListener workingSetPropertyChangeListener = event -> {
+	private IPropertyChangeListener workingSetPropertyChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		String property = event.getProperty();
 		if (IWorkingSetManager.CHANGE_WORKING_SET_REMOVE.equals(property)) {
 			if (event.getOldValue().equals(workingSet)) {
@@ -570,7 +570,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 
 			// room for optimization here
-			List<IWorkingSet> newList = new ArrayList<>(Arrays.asList(workingSets));
+			List<IWorkingSet> newList = new ArrayList<>(Arrays.asList(workingSets)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (newList.remove(event.getOldValue())) {
 				setWorkingSets(newList.toArray(new IWorkingSet[newList.size()]));
 			}
@@ -597,14 +597,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 		private IEditorPart topEditor;
 
-		private List<IActionSetDescriptor> oldActionSets = new ArrayList<>();
+		private List<IActionSetDescriptor> oldActionSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		/**
 		 * Updates the contributions given the new part as the active part.
 		 *
 		 * @param newPart the new active part, may be <code>null</code>
 		 */
-		public void updateActivePart(IWorkbenchPart newPart) {
+		public void updateActivePart(IWorkbenchPart newPart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (activePart == newPart) {
 				return;
 			}
@@ -688,7 +688,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		 *
 		 * @param newEditor the new top editor, may be <code>null</code>
 		 */
-		public void updateTopEditor(IEditorPart newEditor) {
+		public void updateTopEditor(IEditorPart newEditor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (topEditor == newEditor) {
 				return;
 			}
@@ -768,7 +768,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		 * @return the new action sets
 		 */
 		private List<IActionSetDescriptor> calculateActionSets(IWorkbenchPart part, IEditorPart editor) {
-			List<IActionSetDescriptor> newActionSets = new ArrayList<>();
+			List<IActionSetDescriptor> newActionSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (part != null) {
 				IActionSetDescriptor[] partActionSets = WorkbenchPlugin.getDefault().getActionSetRegistry()
 						.getActionSetsFor(part.getSite().getId());
@@ -788,7 +788,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		 * @param newActionSets the action sets to show
 		 * @return <code>true</code> if the action sets changed
 		 */
-		private boolean updateActionSets(List<IActionSetDescriptor> newActionSets) {
+		private boolean updateActionSets(List<IActionSetDescriptor> newActionSets) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (oldActionSets.equals(newActionSets)) {
 				return false;
 			}
@@ -798,12 +798,12 @@ public class WorkbenchPage implements IWorkbenchPage {
 				service.deferUpdates(true);
 
 				// show the new
-				for (IActionSetDescriptor newActionSet : newActionSets) {
+				for (IActionSetDescriptor newActionSet : newActionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionSets.showAction(newActionSet);
 				}
 
 				// hide the old
-				for (IActionSetDescriptor oldActionSet : oldActionSets) {
+				for (IActionSetDescriptor oldActionSet : oldActionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					actionSets.hideAction(oldActionSet);
 				}
 
@@ -867,7 +867,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	};
 
-	@Inject
+	@Inject //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Optional
 	private void handleMinimizedStacks(@UIEventTopic(UIEvents.ApplicationElement.TOPIC_TAGS) Event event) {
 		Object changedObj = event.getProperty(EventTags.ELEMENT);
@@ -1027,18 +1027,18 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	public MPart findPart(IWorkbenchPart part) {
+	public MPart findPart(IWorkbenchPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (part == null) {
 			return null;
 		}
 
-		for (ViewReference reference : viewReferences) {
+		for (ViewReference reference : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (part == reference.getPart(false)) {
 				return reference.getModel();
 			}
 		}
 
-		for (EditorReference reference : editorReferences) {
+		for (EditorReference reference : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (part == reference.getPart(false)) {
 				return reference.getModel();
 			}
@@ -1059,14 +1059,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return ref;
 	}
 
-	private List<EditorReference> getOrderedEditorReferences() {
+	private List<EditorReference> getOrderedEditorReferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		List<EditorReference> editorRefs = new ArrayList<>();
-		Set<EditorReference> seen = new HashSet<>();
+		List<EditorReference> editorRefs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<EditorReference> seen = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Map<MPart, EditorReference> referencesByModel = getEditorReferencesByModel();
 		List<MPart> visibleEditors = modelService.findElements(window, CompatibilityEditor.MODEL_ELEMENT_ID,
 				MPart.class);
-		for (MPart editor : visibleEditors) {
+		for (MPart editor : visibleEditors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (editor.isToBeRendered()) {
 				EditorReference ref = referencesByModel.get(editor);
 				if (ref != null && seen.add(ref)) {
@@ -1084,8 +1084,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * reference list for each one.
 	 */
 	private Map<MPart, EditorReference> getEditorReferencesByModel() {
-		Map<MPart, EditorReference> referencesByModel = new IdentityHashMap<>(editorReferences.size());
-		for (EditorReference ref : editorReferences) {
+		Map<MPart, EditorReference> referencesByModel = new IdentityHashMap<>(editorReferences.size()); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
+		for (EditorReference ref : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			referencesByModel.putIfAbsent(ref.getModel(), ref);
 		}
 		return referencesByModel;
@@ -1095,18 +1095,18 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return getSortedEditorReferences(false);
 	}
 
-	private List<EditorReference> getSortedEditorReferences(boolean allPerspectives) {
+	private List<EditorReference> getSortedEditorReferences(boolean allPerspectives) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<MPart, EditorReference> referencesByModel = getEditorReferencesByModel();
-		List<EditorReference> sortedReferences = new ArrayList<>();
-		Set<EditorReference> seen = new HashSet<>();
-		for (MPart part : activationList) {
+		List<EditorReference> sortedReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<EditorReference> seen = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (MPart part : activationList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EditorReference ref = referencesByModel.get(part);
 			if (ref != null && seen.add(ref)) {
 				sortedReferences.add(ref);
 			}
 		}
 
-		for (EditorReference ref : editorReferences) {
+		for (EditorReference ref : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (seen.add(ref)) {
 				sortedReferences.add(ref);
 			}
@@ -1118,14 +1118,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 			List<MPart> placeholders = modelService.findElements(window, CompatibilityEditor.MODEL_ELEMENT_ID,
 					MPart.class, null, scope);
 			// only rendered placeholders are valid references
-			Set<MPart> rendered = Collections.newSetFromMap(new IdentityHashMap<>(placeholders.size()));
-			for (MPart placeholder : placeholders) {
+			Set<MPart> rendered = Collections.newSetFromMap(new IdentityHashMap<>(placeholders.size())); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
+			for (MPart placeholder : placeholders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (placeholder.isToBeRendered()) {
 					rendered.add(placeholder);
 				}
 			}
-			List<EditorReference> visibleReferences = new ArrayList<>();
-			for (EditorReference reference : sortedReferences) {
+			List<EditorReference> visibleReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (EditorReference reference : sortedReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (rendered.contains(reference.getModel())) {
 					visibleReferences.add(reference);
 				}
@@ -1142,7 +1142,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	public EditorReference getEditorReference(MPart part) {
-		for (EditorReference ref : editorReferences) {
+		for (EditorReference ref : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ref.getModel() == part) {
 				return ref;
 			}
@@ -1151,7 +1151,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	public ViewReference getViewReference(MPart part) {
-		for (ViewReference ref : viewReferences) {
+		for (ViewReference ref : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ref.getModel() == part) {
 				return ref;
 			}
@@ -1160,7 +1160,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	private boolean contains(ViewReference reference) {
-		for (ViewReference viewReference : viewReferences) {
+		for (ViewReference viewReference : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (reference.getModel().getElementId().equals(viewReference.getModel().getElementId())) {
 				return true;
 			}
@@ -1233,7 +1233,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *
 	 * Assumes that a busy cursor is active.
 	 */
-	protected IViewPart busyShowView(String viewId, int mode) throws PartInitException {
+	protected IViewPart busyShowView(String viewId, int mode) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (mode) {
 		case VIEW_ACTIVATE:
 		case VIEW_VISIBLE:
@@ -1263,7 +1263,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return (IViewPart) ref.getPart(true);
 	}
 
-	private MPart showPart(int mode, MPart part) {
+	private MPart showPart(int mode, MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (mode) {
 		case VIEW_ACTIVATE:
 			partService.showPart(part, PartState.ACTIVATE);
@@ -1336,12 +1336,12 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return ret[0];
 	}
 
-	public boolean closeAllSavedEditors() {
+	public boolean closeAllSavedEditors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// get the Saved editors
 		IEditorReference[] editors = getEditorReferences();
 		IEditorReference[] savedEditors = new IEditorReference[editors.length];
 		int j = 0;
-		for (IEditorReference editor : editors) {
+		for (IEditorReference editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!editor.isDirty()) {
 				savedEditors[j++] = editor;
 			}
@@ -1366,7 +1366,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * See IWorkbenchPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean closeEditors(IEditorReference[] refArray, boolean save) {
 		if (refArray.length == 0) {
 			return true;
@@ -1375,8 +1375,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 		// Check if we're being asked to close any parts that are already closed
 		// or cannot
 		// be closed at this time
-		ArrayList<IEditorReference> editorRefs = new ArrayList<>();
-		for (IEditorReference reference : refArray) {
+		ArrayList<IEditorReference> editorRefs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IEditorReference reference : refArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// If we're in the middle of creating this part, this is a
 			// programming error. Abort the entire
 			// close operation. This usually occurs if someone tries to open a
@@ -1387,7 +1387,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			// opened the dialog is usually
 			// at fault.
 			if (reference == partBeingActivated) {
-				WorkbenchPlugin.log(new RuntimeException("WARNING: Blocked recursive attempt to close part " //$NON-NLS-1$
+				WorkbenchPlugin.log(new RuntimeException("WARNING: Blocked recursive attempt to close part " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ partBeingActivated.getId() + " while still in the middle of activating it")); //$NON-NLS-1$
 				return false;
 			}
@@ -1410,7 +1410,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		// 1
 		// was activated. As a result, all but the last editor have up-to-date
 		// navigation positions.)
-		for (IEditorReference ref : editorRefs) {
+		for (IEditorReference ref : editorRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart oldPart = ref.getEditor(false);
 			if (oldPart == null) {
 				continue;
@@ -1421,8 +1421,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		// notify the model manager before the close
-		List<IWorkbenchPart> partsToClose = new ArrayList<>();
-		for (IEditorReference ref : editorRefs) {
+		List<IWorkbenchPart> partsToClose = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IEditorReference ref : editorRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart refPart = ref.getEditor(false);
 			if (refPart != null) {
 				partsToClose.add(refPart);
@@ -1443,7 +1443,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		// Fire pre-removal changes
-		for (IEditorReference ref : editorRefs) {
+		for (IEditorReference ref : editorRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Notify interested listeners before the close
 			legacyWindow.firePerspectiveChanged(this, getPerspective(), ref, CHANGE_EDITOR_CLOSE);
 
@@ -1456,7 +1456,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 
 			// Close all editors.
-			for (Iterator<IEditorReference> it = editorRefs.iterator(); it.hasNext();) {
+			for (Iterator<IEditorReference> it = editorRefs.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IEditorReference ref = it.next();
 				// hide editors that haven't been instantiated first
 				if (ref.getPart(false) == null) {
@@ -1471,7 +1471,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			MPart activePart = findPart(getActiveEditor());
 			boolean closeActivePart = false;
 			// now hide all instantiated editors
-			for (IEditorReference editorRef : editorRefs) {
+			for (IEditorReference editorRef : editorRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MPart model = ((EditorReference) editorRef).getModel();
 				if (activePart == model) {
 					closeActivePart = true;
@@ -1516,7 +1516,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return hidePart(part, save, confirm, force, true);
 	}
 
-	private boolean hidePart(MPart part, boolean save, boolean confirm, boolean force, boolean local) {
+	private boolean hidePart(MPart part, boolean save, boolean confirm, boolean force, boolean local) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!partService.getParts().contains(part)) {
 			if (local) {
 				return false;
@@ -1552,14 +1552,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 		}
 
-		for (IViewReference viewRef : viewReferences) {
+		for (IViewReference viewRef : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workbenchPart == viewRef.getPart(false)) {
 				partService.hidePart(part, force);
 				return true;
 			}
 		}
 
-		for (IEditorReference viewRef : editorReferences) {
+		for (IEditorReference viewRef : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workbenchPart == viewRef.getPart(false)) {
 				partService.hidePart(part, force);
 				return true;
@@ -1618,25 +1618,25 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * @param saveParts     <code>true</code> if dirty parts should be prompted for
 	 *                      its contents to be saved, <code>false</code> otherwise
 	 */
-	private void closePerspective(IPerspectiveDescriptor desc, String perspectiveId, boolean saveParts) {
+	private void closePerspective(IPerspectiveDescriptor desc, String perspectiveId, boolean saveParts) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MPerspective persp = (MPerspective) modelService.find(perspectiveId, window);
 		// check to ensure this perspective actually exists in this window
 		if (persp != null) {
 			if (saveParts) {
-				List<IWorkbenchPart> partsToSave = new ArrayList<>();
+				List<IWorkbenchPart> partsToSave = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				// retrieve all parts under the specified perspective
 				List<MPart> parts = modelService.findElements(persp, null, MPart.class);
 				if (!parts.isEmpty()) {
 					// filter out any parts that are visible in any other
 					// perspectives
-					for (MPerspective perspective : getPerspectiveStack().getChildren()) {
+					for (MPerspective perspective : getPerspectiveStack().getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (perspective != persp) {
 							parts.removeAll(modelService.findElements(perspective, null, MPart.class));
 						}
 					}
 
 					if (!parts.isEmpty()) {
-						for (Iterator<MPart> it = parts.iterator(); it.hasNext();) {
+						for (Iterator<MPart> it = parts.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							MPart part = it.next();
 							if (part.isDirty()) {
 								Object object = part.getObject();
@@ -1692,7 +1692,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		closePerspective(desc, desc.getId(), saveParts, closePage);
 	}
 
-	public void closePerspective(IPerspectiveDescriptor desc, String perspectiveId, boolean saveParts,
+	public void closePerspective(IPerspectiveDescriptor desc, String perspectiveId, boolean saveParts, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean closePage) {
 		MPerspective persp = (MPerspective) modelService.find(perspectiveId, window);
 		// check to ensure this perspective actually exists in this window
@@ -1712,13 +1712,13 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void closeAllPerspectives(boolean saveEditors, boolean closePage) {
 		boolean okToProceed = closeAllEditors(true);
 		if (okToProceed) {
-			List<MPerspective> kids = new ArrayList<>(_perspectiveStack.getChildren());
+			List<MPerspective> kids = new ArrayList<>(_perspectiveStack.getChildren()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			MPerspective curPersp = _perspectiveStack.getSelectedElement();
-			for (MPerspective persp : kids) {
+			for (MPerspective persp : kids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (persp != curPersp) {
 					closePerspective(getPerspectiveDesc(persp.getElementId()), persp.getElementId(), false);
 				}
@@ -1732,7 +1732,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private boolean close(boolean save, boolean unsetPage) {
+	private boolean close(boolean save, boolean unsetPage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (save && !saveAllEditors(true, true, true)) {
 			return false;
 		}
@@ -1744,14 +1744,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 					EModelService.OUTSIDE_PERSPECTIVE);
 			partsToHide.removeAll(partsOutsidePersp);
 
-			for (MPart part : partsToHide) {
+			for (MPart part : partsToHide) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// no save, no confirm, force
 				hidePart(part, false, true, true);
 			}
 			MPerspectiveStack perspectiveStack = modelService.findElements(window, null, MPerspectiveStack.class)
 					.get(0);
 			MPerspective current = perspectiveStack.getSelectedElement();
-			for (Object perspective : perspectiveStack.getChildren().toArray()) {
+			for (Object perspective : perspectiveStack.getChildren().toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (perspective != current) {
 					modelService.removePerspectiveModel((MPerspective) perspective, window);
 				}
@@ -1762,11 +1762,11 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 		}
 
-		for (ViewReference vr : viewReferences) {
+		for (ViewReference vr : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			vr.setPage(null);
 		}
 		viewReferences.clear();
-		for (EditorReference er : editorReferences) {
+		for (EditorReference er : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			er.setPage(null);
 		}
 		editorReferences.clear();
@@ -1836,7 +1836,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * Cleanup.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		legacyWindow = null;
 		largeFileLimitsPreferenceHandler.dispose();
 		//
@@ -1963,7 +1963,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 	@Override
 	public IViewReference findViewReference(String viewId) {
-		for (IViewReference reference : getViewReferences()) {
+		for (IViewReference reference : getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ViewReference ref = (ViewReference) reference;
 			if (viewId.equals(ref.getModel().getElementId())) {
 				return reference;
@@ -1976,12 +1976,12 @@ public class WorkbenchPage implements IWorkbenchPage {
 	public IViewReference findViewReference(String viewId, String secondaryId) {
 		String compoundId = viewId;
 		if (secondaryId != null && secondaryId.length() > 0) {
-			compoundId += ":" + secondaryId; //$NON-NLS-1$
+			compoundId += ":" + secondaryId; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return findViewReference(compoundId);
 	}
 
-	public void createViewReferenceForPart(final MPart part, String viewId) {
+	public void createViewReferenceForPart(final MPart part, String viewId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// If the id contains a ':' use the part before it as the descriptor id
 		int colonIndex = viewId.indexOf(':');
 		String descId = colonIndex == -1 ? viewId : viewId.substring(0, colonIndex);
@@ -2014,7 +2014,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 		PropertyChangeEvent event = new PropertyChangeEvent(this, changeId, oldValue, newValue);
 
-		for (IPropertyChangeListener listener : propertyChangeListeners) {
+		for (IPropertyChangeListener listener : propertyChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.propertyChange(event);
 		}
 	}
@@ -2042,7 +2042,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * @see IWorkbenchPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IEditorPart getActiveEditor() {
 		IWorkbenchPart activePart = getActivePart();
 		if (activePart instanceof IEditorPart) {
@@ -2064,7 +2064,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		if (area != null && area.isVisible() && area.isToBeRendered()) {
 			// we have a shared area, try iterating over its editors first
 			List<MPart> editors = modelService.findElements(area, CompatibilityEditor.MODEL_ELEMENT_ID, MPart.class);
-			for (MPart model : editors) {
+			for (MPart model : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object object = model.getObject();
 				if (object instanceof CompatibilityEditor editor) {
 					// see bug 308492
@@ -2082,7 +2082,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 		List<MPart> parts = modelService.findElements(perspective, CompatibilityEditor.MODEL_ELEMENT_ID, MPart.class,
 				null);
-		for (MPart part : parts) {
+		for (MPart part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object = part.getObject();
 			if (object instanceof CompatibilityEditor editor) {
 				// see bug 308492
@@ -2105,8 +2105,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *         previously activated, editors that are behind another part in a stack
 	 *         will not be returned
 	 */
-	private IEditorPart findActiveEditor() {
-		List<MPart> candidates = new ArrayList<>(activationList);
+	private IEditorPart findActiveEditor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<MPart> candidates = new ArrayList<>(activationList); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		MUIElement area = findSharedArea();
 		if (area instanceof MPlaceholder) {
 			area = ((MPlaceholder) area).getRef();
@@ -2114,7 +2114,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		if (area != null && area.isVisible() && area.isToBeRendered()) {
 			// we have a shared area, try iterating over its editors first
 			List<MPart> editors = modelService.findElements(area, CompatibilityEditor.MODEL_ELEMENT_ID, MPart.class);
-			for (Iterator<MPart> it = candidates.iterator(); it.hasNext();) {
+			for (Iterator<MPart> it = candidates.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MPart model = it.next();
 				if (!editors.contains(model)) {
 					continue;
@@ -2132,7 +2132,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		MPerspective perspective = getPerspectiveStack().getSelectedElement();
-		for (MPart model : activationList) {
+		for (MPart model : activationList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object = model.getObject();
 			if (object instanceof CompatibilityEditor editor) {
 				// see bug 308492
@@ -2146,7 +2146,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return null;
 	}
 
-	private boolean isInArea(MUIElement area, MUIElement element) {
+	private boolean isInArea(MUIElement area, MUIElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!element.isToBeRendered() || !element.isVisible()) {
 			return false;
 		}
@@ -2165,7 +2165,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return isValid(area, parent);
 	}
 
-	private boolean isValid(MUIElement ancestor, MUIElement element) {
+	private boolean isValid(MUIElement ancestor, MUIElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!element.isToBeRendered() || !element.isVisible()) {
 			return false;
 		}
@@ -2214,8 +2214,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 	@Override
 	public IEditorPart[] getDirtyEditors() {
-		List<IEditorPart> dirtyEditors = new ArrayList<>();
-		for (IEditorReference editorRef : editorReferences) {
+		List<IEditorPart> dirtyEditors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IEditorReference editorRef : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart editor = editorRef.getEditor(false);
 			if (editor != null && editor.isDirty()) {
 				dirtyEditors.add(editor);
@@ -2230,20 +2230,20 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return references.length == 0 ? null : references[0].getEditor(true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IEditorReference[] findEditors(IEditorInput input, String editorId, int matchFlags) {
 		List<EditorReference> filteredReferences = getSortedEditorReferences();
 
 		switch (matchFlags) {
 		case MATCH_INPUT:
-			List<IEditorReference> editorRefs = new ArrayList<>();
-			for (EditorReference editorRef : filteredReferences) {
+			List<IEditorReference> editorRefs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (EditorReference editorRef : filteredReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkEditor(input, editorRefs, editorRef);
 			}
 			return editorRefs.toArray(new IEditorReference[editorRefs.size()]);
 		case MATCH_ID:
-			editorRefs = new ArrayList<>();
-			for (IEditorReference editorRef : filteredReferences) {
+			editorRefs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IEditorReference editorRef : filteredReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (editorId.equals(editorRef.getId())) {
 					editorRefs.add(editorRef);
 				}
@@ -2251,8 +2251,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 			return editorRefs.toArray(new IEditorReference[editorRefs.size()]);
 		default:
 			if ((matchFlags & IWorkbenchPage.MATCH_ID) != 0 && (matchFlags & IWorkbenchPage.MATCH_INPUT) != 0) {
-				editorRefs = new ArrayList<>();
-				for (EditorReference editorRef : filteredReferences) {
+				editorRefs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (EditorReference editorRef : filteredReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (editorRef.getId().equals(editorId)) {
 						checkEditor(input, editorRefs, editorRef);
 					}
@@ -2263,7 +2263,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private void checkEditor(IEditorInput input, List<IEditorReference> editorRefs, EditorReference editorRef) {
+	private void checkEditor(IEditorInput input, List<IEditorReference> editorRefs, EditorReference editorRef) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		EditorDescriptor descriptor = editorRef.getDescriptor();
 		if (descriptor != null) {
 			IEditorMatchingStrategy strategy = descriptor.getEditorMatchingStrategy();
@@ -2300,7 +2300,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		final IEditorReference[] editorReferences = getEditorReferences();
 		int length = editorReferences.length;
 		IEditorPart[] editors = new IEditorPart[length];
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editors[i] = editorReferences[i].getEditor(true);
 		}
 		return editors;
@@ -2332,30 +2332,30 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *                        perspectives
 	 * @return a sorted array of references to editors and/or views
 	 */
-	private IWorkbenchPartReference[] getSortedParts(boolean editors, boolean views, boolean allPerspectives) {
+	private IWorkbenchPartReference[] getSortedParts(boolean editors, boolean views, boolean allPerspectives) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!editors && !views) {
 			return new IWorkbenchPartReference[0];
 		}
 
-		List<IWorkbenchPartReference> sortedReferences = new ArrayList<>();
-		Set<IWorkbenchPartReference> seen = new HashSet<>();
+		List<IWorkbenchPartReference> sortedReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<IWorkbenchPartReference> seen = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IViewReference[] viewReferences = getViewReferences(allPerspectives);
 		List<EditorReference> editorReferences = getSortedEditorReferences(allPerspectives);
 
-		Map<MPart, IWorkbenchPartReference> viewsByModel = new IdentityHashMap<>(viewReferences.length);
+		Map<MPart, IWorkbenchPartReference> viewsByModel = new IdentityHashMap<>(viewReferences.length); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
 		if (views) {
-			for (IViewReference ref : viewReferences) {
+			for (IViewReference ref : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				viewsByModel.putIfAbsent(((ViewReference) ref).getModel(), ref);
 			}
 		}
-		Map<MPart, IWorkbenchPartReference> editorsByModel = new IdentityHashMap<>(editorReferences.size());
+		Map<MPart, IWorkbenchPartReference> editorsByModel = new IdentityHashMap<>(editorReferences.size()); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
 		if (editors) {
-			for (EditorReference ref : editorReferences) {
+			for (EditorReference ref : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				editorsByModel.putIfAbsent(ref.getModel(), ref);
 			}
 		}
 
-		for (MPart part : activationList) {
+		for (MPart part : activationList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPartReference ref = viewsByModel.get(part);
 			if (ref == null) {
 				ref = editorsByModel.get(part);
@@ -2366,7 +2366,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		if (views) {
-			for (IViewReference ref : viewReferences) {
+			for (IViewReference ref : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (seen.add(ref)) {
 					sortedReferences.add(ref);
 				}
@@ -2374,7 +2374,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		if (editors) {
-			for (EditorReference ref : editorReferences) {
+			for (EditorReference ref : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (seen.add(ref)) {
 					sortedReferences.add(ref);
 				}
@@ -2459,7 +2459,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		List<String> ids = ModeledPageLayout.getIds(mPerspective, ModeledPageLayout.SHOW_IN_PART_TAG);
 		IPerspectiveDescriptor perspective = getPerspective();
 		if (perspective != null && perspective.getDefaultShowIn() != null) {
-			ids = new ArrayList<>(ids);
+			ids = new ArrayList<>(ids); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (ids.remove(perspective.getDefaultShowIn())) {
 				ids.add(0, perspective.getDefaultShowIn());
 			}
@@ -2505,16 +2505,16 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return getViewReferences(false);
 	}
 
-	private IViewReference[] getViewReferences(boolean allPerspectives) {
+	private IViewReference[] getViewReferences(boolean allPerspectives) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MPerspective perspective = getCurrentPerspective();
 		if (perspective != null) {
 			int scope = allPerspectives ? WINDOW_SCOPE : EModelService.PRESENTATION;
-			Set<MUIElement> parts = new HashSet<>();
+			Set<MUIElement> parts = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			List<MPlaceholder> placeholders = modelService.findElements(window, null, MPlaceholder.class, null, scope);
 			parts.addAll(placeholders);
 			parts.addAll(modelService.findElements(window, null, MPart.class, null, scope));
-			List<IViewReference> visibleReferences = new ArrayList<>();
-			for (ViewReference reference : viewReferences) {
+			List<IViewReference> visibleReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ViewReference reference : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MPart model = reference.getModel();
 				// The part may be linked in either directly or via a
 				// placeholder. In the latter case we can look
@@ -2560,7 +2560,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		IViewReference[] viewReferences = getViewReferences();
 		int length = viewReferences.length;
 		IViewPart[] views = new IViewPart[length];
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			views[i] = viewReferences[i].getView(true);
 		}
 		return views;
@@ -2590,7 +2590,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * @see IWorkbenchPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hideActionSet(String actionSetID) {
 		MPerspective mpersp = getCurrentPerspective();
 		if (mpersp == null) {
@@ -2608,14 +2608,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 			legacyWindow.updateActionSets();
 			legacyWindow.firePerspectiveChanged(this, getPerspective(), CHANGE_ACTION_SET_HIDE);
 		}
-		String tag = ModeledPageLayout.ACTION_SET_TAG + actionSetID;
+		String tag = ModeledPageLayout.ACTION_SET_TAG + actionSetID; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		addHiddenItems(tag);
 	}
 
 	@Override
 	public void hideView(IViewReference view) {
 		if (view != null) {
-			for (IViewReference reference : getViewReferences()) {
+			for (IViewReference reference : getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (reference == view) {
 					hidePart(((ViewReference) view).getModel(), true, true, false);
 					break;
@@ -2649,7 +2649,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		largeFileLimitsPreferenceHandler = new LargeFileLimitsPreferenceHandler();
 	}
 
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setup(MApplication application, EModelService modelService, IEventBroker broker, MWindow window,
 			EPartService partService) {
 		this.application = application;
@@ -2664,14 +2664,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 		// create editor references for all editors
 		List<MPart> editors = modelService.findElements(window, CompatibilityEditor.MODEL_ELEMENT_ID, MPart.class, null,
 				EModelService.IN_ANY_PERSPECTIVE | EModelService.OUTSIDE_PERSPECTIVE | EModelService.IN_SHARED_AREA);
-		for (MPart editor : editors) {
+		for (MPart editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createEditorReferenceForPart(editor, null, editor.getElementId(), null);
 		}
 
 		// create view references for rendered view placeholders
 		List<MPlaceholder> placeholders = modelService.findElements(window, null, MPlaceholder.class, null,
 				EModelService.IN_ANY_PERSPECTIVE | EModelService.OUTSIDE_PERSPECTIVE);
-		for (MPlaceholder placeholder : placeholders) {
+		for (MPlaceholder placeholder : placeholders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (placeholder.isToBeRendered()) {
 				MUIElement ref = placeholder.getRef();
 				if (ref instanceof MPart part) {
@@ -2698,7 +2698,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		IPerspectiveRegistry registry = getWorkbenchWindow().getWorkbench().getPerspectiveRegistry();
-		for (MPerspective perspective : perspectiveStack.getChildren()) {
+		for (MPerspective perspective : perspectiveStack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPerspectiveDescriptor desc = registry.findPerspectiveWithId(perspective.getElementId());
 			if (desc != null) {
 				sortedPerspectives.add(desc);
@@ -2725,7 +2725,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 */
 	private void configureExistingWindows() {
 		List<MArea> elements = modelService.findElements(window, null, MArea.class);
-		for (MArea area : elements) {
+		for (MArea area : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object widget = area.getWidget();
 			if (widget instanceof Control) {
 				installAreaDropSupport((Control) widget);
@@ -2733,7 +2733,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	public void restoreWorkingSets() {
+	public void restoreWorkingSets() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String workingSetName = getWindowModel().getPersistedState().get(IWorkbenchConstants.TAG_WORKING_SET);
 		if (workingSetName != null) {
 			AbstractWorkingSetManager workingSetManager = (AbstractWorkingSetManager) getWorkbenchWindow()
@@ -2747,8 +2747,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 			try {
 				workingSetMem = XMLMemento.createReadRoot(new StringReader(workingSetMemString));
 				IMemento[] workingSetChildren = workingSetMem.getChildren(IWorkbenchConstants.TAG_WORKING_SET);
-				List<IWorkingSet> workingSetList = new ArrayList<>(workingSetChildren.length);
-				for (IMemento memento : workingSetChildren) {
+				List<IWorkingSet> workingSetList = new ArrayList<>(workingSetChildren.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IMemento memento : workingSetChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IWorkingSet set = getWorkbenchWindow().getWorkbench().getWorkingSetManager()
 							.getWorkingSet(memento.getID());
 					if (set != null) {
@@ -2772,7 +2772,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			try {
 				IMemento memento = XMLMemento.createReadRoot(new StringReader(mruList));
 				IMemento[] mementoChildren = memento.getChildren();
-				for (IMemento child : mementoChildren) {
+				for (IMemento child : mementoChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					mruShowInPartIds.add(child.getID());
 				}
 			} catch (WorkbenchException e) {
@@ -2791,8 +2791,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 			getWindowModel().getPersistedState().remove(IWorkbenchConstants.TAG_WORKING_SET);
 		}
 
-		List<String> workingSetNames = new ArrayList<>(workingSets.length);
-		for (IWorkingSet workingSet : workingSets) {
+		List<String> workingSetNames = new ArrayList<>(workingSets.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			workingSetNames.add(workingSet.getName());
 		}
 		saveMemento(IWorkbenchConstants.TAG_WORKING_SETS, IWorkbenchConstants.TAG_WORKING_SET, workingSetNames);
@@ -2807,7 +2807,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 	private void saveMemento(String rootType, String childType, Collection<String> ids) {
 		XMLMemento memento = XMLMemento.createWriteRoot(rootType);
-		for (String id : ids) {
+		for (String id : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			memento.createChild(childType, id);
 		}
 		StringWriter writer = new StringWriter();
@@ -2829,8 +2829,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * @param perspectiveStack the stack that contain the perspectives to be
 	 *                         extended
 	 */
-	private void extendPerspectives(MPerspectiveStack perspectiveStack) {
-		for (MPerspective perspective : perspectiveStack.getChildren()) {
+	private void extendPerspectives(MPerspectiveStack perspectiveStack) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (MPerspective perspective : perspectiveStack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = perspective.getElementId();
 			IPerspectiveDescriptor desc = getWorkbenchWindow().getWorkbench().getPerspectiveRegistry()
 					.findPerspectiveWithId(id);
@@ -2868,7 +2868,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			PerspectiveExtensionReader reader = new PerspectiveExtensionReader();
 			reader.setIncludeOnlyTags(new String[] { IWorkbenchRegistryConstants.TAG_ACTION_SET });
 			reader.extendLayout(null, id, modelLayout);
-			return new ArrayList<>(ModeledPageLayout.getIds(temporary, ModeledPageLayout.ACTION_SET_TAG));
+			return new ArrayList<>(ModeledPageLayout.getIds(temporary, ModeledPageLayout.ACTION_SET_TAG)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		return null;
 	}
@@ -2898,7 +2898,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	private void addActionSet(MPerspective perspective, MPerspective temporary) {
 		List<String> tags = perspective.getTags();
 		List<String> extendedTags = temporary.getTags();
-		for (String extendedTag : extendedTags) {
+		for (String extendedTag : extendedTags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (extendedTag.startsWith(ModeledPageLayout.ACTION_SET_TAG) && !tags.contains(extendedTag)) {
 				tags.add(extendedTag);
 			}
@@ -2918,7 +2918,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			if (dropTargetListener != null) {
 				DropTarget dropTarget = new DropTarget(control, DND.DROP_DEFAULT | DND.DROP_COPY | DND.DROP_LINK);
 				dropTarget.setTransfer(configurer.getTransfers());
-				dropTarget.addDropListener(dropTargetListener);
+				dropTarget.addDropListener(dropTargetListener); //FLLDCIM: MARK — T25 DND CALL
 			}
 			dndSupportInstalled = true;
 		}
@@ -2953,13 +2953,13 @@ public class WorkbenchPage implements IWorkbenchPage {
 		// legacyWindow.getCoolBarManager2()).updateAll(true);
 		// legacyWindow.menuManager.updateAll(true);
 
-		List<MPart> hiddenParts = new ArrayList<>();
-		List<MPart> visibleParts = new ArrayList<>();
+		List<MPart> hiddenParts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<MPart> visibleParts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		List<MPartStack> oldStacks = getPartStacks(oldPersp);
 		List<MPartStack> newStacks = getPartStacks(newPersp);
 
-		for (MPartStack oldStack : oldStacks) {
+		for (MPartStack oldStack : oldStacks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MStackElement element1 = oldStack.getSelectedElement();
 			if (element1 instanceof MPlaceholder) {
 				hiddenParts.add((MPart) ((MPlaceholder) element1).getRef());
@@ -2968,7 +2968,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 		}
 
-		for (MPartStack newStack : newStacks) {
+		for (MPartStack newStack : newStacks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MStackElement element2 = newStack.getSelectedElement();
 			if (element2 instanceof MPlaceholder) {
 				visibleParts.add((MPart) ((MPlaceholder) element2).getRef());
@@ -2977,8 +2977,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 		}
 
-		List<MPart> ignoredParts = new ArrayList<>();
-		for (MPart hiddenPart1 : hiddenParts) {
+		List<MPart> ignoredParts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MPart hiddenPart1 : hiddenParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (visibleParts.contains(hiddenPart1)) {
 				ignoredParts.add(hiddenPart1);
 			}
@@ -2987,11 +2987,11 @@ public class WorkbenchPage implements IWorkbenchPage {
 		hiddenParts.removeAll(ignoredParts);
 		visibleParts.removeAll(ignoredParts);
 
-		for (MPart hiddenPart2 : hiddenParts) {
+		for (MPart hiddenPart2 : hiddenParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			firePartHidden(hiddenPart2);
 		}
 
-		for (MPart visiblePart : visibleParts) {
+		for (MPart visiblePart : visibleParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			firePartVisible(visiblePart);
 		}
 
@@ -3126,7 +3126,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * @exception PartInitException if the editor could not be created or
 	 *                              initialized
 	 */
-	public IEditorPart openEditor(final IEditorInput input, final String editorID, final boolean activate,
+	public IEditorPart openEditor(final IEditorInput input, final String editorID, final boolean activate, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int matchFlags, final IMemento editorState, final boolean notify) throws PartInitException {
 		if (input == null || editorID == null) {
 			throw new IllegalArgumentException();
@@ -3150,7 +3150,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * @see #openEditor(IEditorInput, String, boolean, int)
 	 */
-	private IEditorPart busyOpenEditor(IEditorInput input, String editorId, boolean activate, int matchFlags,
+	private IEditorPart busyOpenEditor(IEditorInput input, String editorId, boolean activate, int matchFlags, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMemento editorState, boolean notify) throws PartInitException {
 
 		if (input == null || editorId == null) {
@@ -3340,7 +3340,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * Resets the layout for the perspective. The active part in the old layout is
 	 * activated in the new layout for consistent user context.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resetPerspective() {
 		MPerspectiveStack perspStack = getPerspectiveStack();
 		MPerspective persp = perspStack.getSelectedElement();
@@ -3368,10 +3368,10 @@ public class WorkbenchPage implements IWorkbenchPage {
 					modelService.findElements(area, CompatibilityEditor.MODEL_ELEMENT_ID, MPart.class, null));
 		}
 
-		List<MPart> dirtyParts = new ArrayList<>();
-		List<IWorkbenchPart> partsToSave = new ArrayList<>();
+		List<MPart> dirtyParts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IWorkbenchPart> partsToSave = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// iterate over the list of parts to find dirty parts
-		for (MPart currentPart : perspectiveParts) {
+		for (MPart currentPart : perspectiveParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (currentPart.isDirty()) {
 				Object object = currentPart.getObject();
 				if (object == null) {
@@ -3454,29 +3454,29 @@ public class WorkbenchPage implements IWorkbenchPage {
 		List<MPartSashContainerElement> dummyChildren = dummyPerspective.getChildren();
 		List<MPartSashContainerElement> perspChildren = persp.getChildren();
 		int dCount = dummyChildren.size();
-		while (!dummyChildren.isEmpty()) {
+		while (!dummyChildren.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MPartSashContainerElement dChild = dummyChildren.remove(0);
 			perspChildren.add(dChild);
 		}
 
-		while (perspChildren.size() > dCount) {
+		while (perspChildren.size() > dCount) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MUIElement child = perspChildren.get(0);
 			child.setToBeRendered(false);
 			perspChildren.remove(0);
 		}
 
-		List<MWindow> existingDetachedWindows = new ArrayList<>();
+		List<MWindow> existingDetachedWindows = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		existingDetachedWindows.addAll(persp.getWindows());
 
 		// Move any detached windows from template to perspective
-		while (!dummyPerspective.getWindows().isEmpty()) {
+		while (!dummyPerspective.getWindows().isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MWindow detachedWindow = dummyPerspective.getWindows().remove(0);
 			persp.getWindows().add(detachedWindow);
 		}
 
 		// Remove original windows. Can't remove them first or the MParts will be
 		// disposed
-		for (MWindow detachedWindow : existingDetachedWindows) {
+		for (MWindow detachedWindow : existingDetachedWindows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			detachedWindow.setToBeRendered(false);
 			persp.getWindows().remove(detachedWindow);
 		}
@@ -3502,7 +3502,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 		// remove HIDDEN_EXPLICITLY tag from trim elements
 		List<MTrimElement> trimElements = modelService.findElements(window, null, MTrimElement.class, null);
-		for (MTrimElement mTrimElement : trimElements) {
+		for (MTrimElement mTrimElement : trimElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			mTrimElement.getTags().remove(IPresentationEngine.HIDDEN_EXPLICITLY);
 		}
 
@@ -3513,7 +3513,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		UIEvents.publishEvent(UIEvents.UILifeCycle.PERSPECTIVE_RESET, persp);
 	}
 
-	private void initActionSetListener() {
+	private void initActionSetListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// actionSets.addListener(new IPropertyListener() {
 		// public void propertyChanged(Object source, int propId) {
 		// if (source instanceof IActionSetDescriptor) {
@@ -3549,9 +3549,9 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *         on this page
 	 */
 	public ISaveablePart[] getDirtyParts() {
-		List<ISaveablePart> result = new ArrayList<>(3);
+		List<ISaveablePart> result = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkbenchPartReference[] allParts = getSortedParts(true, true, true);
-		for (IWorkbenchPartReference reference : allParts) {
+		for (IWorkbenchPartReference reference : allParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part = reference.getPart(false);
 			ISaveablePart saveable = SaveableHelper.getSaveable(part);
 			if (saveable != null && !result.contains(saveable)) {
@@ -3568,11 +3568,11 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *         {@link ISaveablePart}). Only parts matching different saveables are
 	 *         returned.
 	 */
-	public IWorkbenchPart[] getDirtyWorkbenchParts() {
-		List<IWorkbenchPart> result = new ArrayList<>(3);
-		Map<ISaveablePart, IWorkbenchPart> saveables = new LinkedHashMap<>(3);
+	public IWorkbenchPart[] getDirtyWorkbenchParts() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IWorkbenchPart> result = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Map<ISaveablePart, IWorkbenchPart> saveables = new LinkedHashMap<>(3); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		IWorkbenchPartReference[] allParts = getSortedParts(true, true, true);
-		for (IWorkbenchPartReference reference : allParts) {
+		for (IWorkbenchPartReference reference : allParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part = reference.getPart(false);
 			ISaveablePart saveable = SaveableHelper.getSaveable(part);
 			if (saveable == null || !saveable.isDirty()) {
@@ -3610,17 +3610,17 @@ public class WorkbenchPage implements IWorkbenchPage {
 			return true;
 		}
 		// saveAll below expects a mutable list
-		List<IWorkbenchPart> dirtyParts = new ArrayList<>(parts.length);
+		List<IWorkbenchPart> dirtyParts = new ArrayList<>(parts.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		dirtyParts.addAll(Arrays.asList(parts));
 
 		// If confirmation is required ..
 		return saveAll(dirtyParts, confirm, closing, addNonPartSources, legacyWindow, legacyWindow);
 	}
 
-	public static boolean saveAll(List<IWorkbenchPart> dirtyParts, final boolean confirm, final boolean closing,
+	public static boolean saveAll(List<IWorkbenchPart> dirtyParts, final boolean confirm, final boolean closing, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addNonPartSources, final IRunnableContext runnableContext, final IWorkbenchWindow workbenchWindow) {
 		// clone the input list
-		dirtyParts = new ArrayList<>(dirtyParts);
+		dirtyParts = new ArrayList<>(dirtyParts); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (closing) {
 			// if the parts are going to be closed, then we only save those that
@@ -3646,7 +3646,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * @param parts the list of the parts (ISaveablePart)
 	 */
 	private static void removeSaveOnCloseNotNeededParts(List<IWorkbenchPart> parts) {
-		for (Iterator<IWorkbenchPart> it = parts.iterator(); it.hasNext();) {
+		for (Iterator<IWorkbenchPart> it = parts.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part = it.next();
 			ISaveablePart saveable = SaveableHelper.getSaveable(part);
 			if (saveable == null || !saveable.isSaveOnCloseNeeded()) {
@@ -3662,7 +3662,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * @param dirtyParts the list of the parts
 	 * @return true if cancelled
 	 */
-	private static boolean processSaveable2(List<IWorkbenchPart> dirtyParts) {
+	private static boolean processSaveable2(List<IWorkbenchPart> dirtyParts) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean saveable2Processed = false;
 		// Process all parts that implement ISaveablePart2.
 		// These parts are removed from the list after saving
@@ -3675,7 +3675,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 		WorkbenchPage currentPage = null;
 		Perspective currentPageOriginalPerspective = null;
-		while (listIterator.hasNext()) {
+		while (listIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part = listIterator.next();
 			ISaveablePart2 saveable2 = SaveableHelper.getSaveable2(part);
 			if (saveable2 != null) {
@@ -3723,7 +3723,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	private static void removeNonDirtyParts(List<IWorkbenchPart> parts) {
 		ListIterator<IWorkbenchPart> listIterator;
 		listIterator = parts.listIterator();
-		while (listIterator.hasNext()) {
+		while (listIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ISaveablePart part = SaveableHelper.getSaveable(listIterator.next());
 			if (part == null || !part.isDirty()) {
 				listIterator.remove();
@@ -3743,12 +3743,12 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *                          the Save All action, see bug 139004)
 	 * @return the dirty models
 	 */
-	private static List<Saveable> convertToSaveables(List<IWorkbenchPart> parts, boolean closing,
+	private static List<Saveable> convertToSaveables(List<IWorkbenchPart> parts, boolean closing, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addNonPartSources) {
-		ArrayList<Saveable> result = new ArrayList<>();
-		HashSet<Saveable> seen = new HashSet<>();
-		for (IWorkbenchPart part : parts) {
-			for (Saveable saveable : getSaveables(part)) {
+		ArrayList<Saveable> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		HashSet<Saveable> seen = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkbenchPart part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Saveable saveable : getSaveables(part)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (saveable.isDirty() && !seen.contains(saveable)) {
 					seen.add(saveable);
 					if (!closing || closingLastPartShowingModel(saveable, parts, part.getSite().getPage())) {
@@ -3761,8 +3761,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 			SaveablesList saveablesList = (SaveablesList) PlatformUI.getWorkbench()
 					.getService(ISaveablesLifecycleListener.class);
 			ISaveablesSource[] nonPartSources = saveablesList.getNonPartSources();
-			for (ISaveablesSource nonPartSource : nonPartSources) {
-				for (Saveable saveable : nonPartSource.getSaveables()) {
+			for (ISaveablesSource nonPartSource : nonPartSources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (Saveable saveable : nonPartSource.getSaveables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (saveable.isDirty() && !seen.contains(saveable)) {
 						seen.add(saveable);
 						result.add(saveable);
@@ -3797,18 +3797,18 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * @return <code>true</code> if no more parts in the page will reference the
 	 *         given model, <code>false</code> otherwise
 	 */
-	private static boolean closingLastPartShowingModel(Saveable model, List<IWorkbenchPart> closingParts,
+	private static boolean closingLastPartShowingModel(Saveable model, List<IWorkbenchPart> closingParts, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IWorkbenchPage page) {
-		HashSet<IWorkbenchPart> closingPartsWithSameModel = new HashSet<>();
-		for (IWorkbenchPart part : closingParts) {
+		HashSet<IWorkbenchPart> closingPartsWithSameModel = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkbenchPart part : closingParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Saveable[] models = getSaveables(part);
 			if (Arrays.asList(models).contains(model)) {
 				closingPartsWithSameModel.add(part);
 			}
 		}
 		IWorkbenchPartReference[] pagePartRefs = ((WorkbenchPage) page).getSortedParts();
-		HashSet<IWorkbenchPart> pagePartsWithSameModels = new HashSet<>();
-		for (IWorkbenchPartReference partRef : pagePartRefs) {
+		HashSet<IWorkbenchPart> pagePartsWithSameModels = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkbenchPartReference partRef : pagePartRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part = partRef.getPart(false);
 			if (part != null) {
 				Saveable[] models = getSaveables(part);
@@ -3860,7 +3860,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void savePerspectiveAs(IPerspectiveDescriptor perspective) {
 		MPerspective visiblePerspective = getPerspectiveStack().getSelectedElement();
 		// get the original perspective
@@ -3879,7 +3879,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		MPerspective copy = (MPerspective) EcoreUtil.copy((EObject) visiblePerspective);
 
 		List<MPlaceholder> elementsToHide = modelService.findElements(copy, null, MPlaceholder.class, null);
-		for (MPlaceholder elementToHide : elementsToHide) {
+		for (MPlaceholder elementToHide : elementsToHide) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elementToHide.isToBeRendered()
 					&& elementToHide.getRef().getTags().contains(IPresentationEngine.NO_RESTORE)) {
 				elementToHide.setToBeRendered(false);
@@ -3925,9 +3925,9 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private final HashMap<MPerspective, Perspective> modelToPerspectiveMapping = new HashMap<>();
+	private final HashMap<MPerspective, Perspective> modelToPerspectiveMapping = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private Perspective getPerspective(MPerspective mperspective) {
+	private Perspective getPerspective(MPerspective mperspective) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (mperspective == null) {
 			return null;
 		}
@@ -3966,16 +3966,16 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 * to allow it to behave correctly within the environment (for Close, Reset...)
 	 * we turn it into a 'custom' perspective on its first activation.
 	 */
-	private PerspectiveDescriptor fixOrphanPerspective(MPerspective mperspective) {
+	private PerspectiveDescriptor fixOrphanPerspective(MPerspective mperspective) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PerspectiveRegistry reg = (PerspectiveRegistry) PlatformUI.getWorkbench().getPerspectiveRegistry();
 		String perspId = mperspective.getElementId();
 		String label = mperspective.getLabel();
-		String msg = "Perspective with name '" + label + "' and id '" + perspId + "' has been made into a local copy"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		String msg = "Perspective with name '" + label + "' and id '" + perspId + "' has been made into a local copy"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IStatus status = StatusUtil.newStatus(IStatus.INFO, msg, null);
 		StatusManager.getManager().handle(status, StatusManager.LOG);
 
 		String newDescId = NLS.bind(WorkbenchMessages.Perspective_localCopyLabel, label);
-		while (reg.findPerspectiveWithId(newDescId) != null) {
+		while (reg.findPerspectiveWithId(newDescId) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newDescId = NLS.bind(WorkbenchMessages.Perspective_localCopyLabel, newDescId);
 		}
 		PerspectiveDescriptor pd = new PerspectiveDescriptor(perspId, label, null);
@@ -4003,7 +4003,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		BusyIndicator.showWhile(null, () -> busySetPerspective(perspective));
 	}
 
-	private void busySetPerspective(IPerspectiveDescriptor perspective) {
+	private void busySetPerspective(IPerspectiveDescriptor perspective) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (perspective == null) {
 			return;
 		}
@@ -4012,7 +4012,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		if (lastPerspective != null && lastPerspective.getId().equals(perspective.getId())) {
 			// no change
 			MPerspectiveStack perspectives = getPerspectiveStack();
-			for (MPerspective mperspective : perspectives.getChildren()) {
+			for (MPerspective mperspective : perspectives.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (mperspective.getElementId().equals(perspective.getId())) {
 					handleNullRefPlaceHolders(mperspective, window);
 				}
@@ -4021,7 +4021,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		MPerspectiveStack perspectives = getPerspectiveStack();
-		for (MPerspective mperspective : perspectives.getChildren()) {
+		for (MPerspective mperspective : perspectives.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mperspective.getElementId().equals(perspective.getId())) {
 				if (lastPerspective != null) {
 					legacyWindow.firePerspectiveDeactivated(this, lastPerspective);
@@ -4072,11 +4072,11 @@ public class WorkbenchPage implements IWorkbenchPage {
 		UIEvents.publishEvent(UIEvents.UILifeCycle.PERSPECTIVE_OPENED, modelPerspective);
 	}
 
-	private void handleNullRefPlaceHolders(MUIElement element, MWindow refWin) {
+	private void handleNullRefPlaceHolders(MUIElement element, MWindow refWin) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<MPlaceholder> nullRefList = ((ModelServiceImpl) modelService).getNullRefPlaceHolders(element, refWin);
 
 		List<MPart> partList = modelService.findElements(element, null, MPart.class);
-		for (MPart part : partList) {
+		for (MPart part : partList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (CompatibilityPart.COMPATIBILITY_VIEW_URI.equals(part.getContributionURI())
 					&& part.getIconURI() == null) {
 				part.getTransientData().put(IPresentationEngine.OVERRIDE_ICON_IMAGE_KEY,
@@ -4085,7 +4085,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		if (nullRefList != null && !nullRefList.isEmpty()) {
-			for (MPlaceholder ph : nullRefList) {
+			for (MPlaceholder ph : nullRefList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ph.isToBeRendered()) {
 					replacePlaceholder(ph);
 				}
@@ -4093,7 +4093,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private void replacePlaceholder(MPlaceholder ph) {
+	private void replacePlaceholder(MPlaceholder ph) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MPart part = modelService.createModelElement(MPart.class);
 		part.setElementId(ph.getElementId());
 		part.getTransientData().put(IPresentationEngine.OVERRIDE_ICON_IMAGE_KEY,
@@ -4155,7 +4155,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *
 	 * @return the stack of perspectives of this page's containing window
 	 */
-	private MPerspectiveStack getPerspectiveStack() {
+	private MPerspectiveStack getPerspectiveStack() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (_perspectiveStack != null) {
 			return _perspectiveStack;
 		}
@@ -4165,7 +4165,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			return _perspectiveStack;
 		}
 
-		for (MWindowElement child : window.getChildren()) {
+		for (MWindowElement child : window.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof MPerspectiveStack) {
 				_perspectiveStack = (MPerspectiveStack) child;
 				return _perspectiveStack;
@@ -4185,7 +4185,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		stickyFolder.setToBeRendered(false);
 
 		IStickyViewDescriptor[] stickyViews = getWorkbenchWindow().getWorkbench().getViewRegistry().getStickyViews();
-		for (IStickyViewDescriptor stickyView : stickyViews) {
+		for (IStickyViewDescriptor stickyView : stickyViews) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (stickyView.getLocation() == IPageLayout.RIGHT) {
 				MStackElement viewModel = ModeledPageLayout.createViewModel(application, stickyView.getId(), false,
 						this, partService, true);
@@ -4231,7 +4231,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * @see IWorkbenchPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void showActionSet(String actionSetID) {
 		Perspective persp = getActivePerspective();
 		if (persp != null) {
@@ -4240,7 +4240,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			IActionSetDescriptor desc = reg.findActionSet(actionSetID);
 			if (desc != null) {
 				List<IActionSetDescriptor> offActionSets = persp.getAlwaysOffActionSets();
-				for (IActionSetDescriptor off : offActionSets) {
+				for (IActionSetDescriptor off : offActionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (off.getId().equals(desc.getId())) {
 						return;
 					}
@@ -4260,7 +4260,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return showView(viewID, null, VIEW_ACTIVATE);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IViewPart showView(final String viewID, final String secondaryID, final int mode) throws PartInitException {
 
 		if (secondaryID != null && (secondaryID.isEmpty() || secondaryID.indexOf(':') != -1)) {
@@ -4271,7 +4271,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		// Run op in busy cursor.
-		final String compoundId = secondaryID != null ? viewID + ':' + secondaryID : viewID;
+		final String compoundId = secondaryID != null ? viewID + ':' + secondaryID : viewID; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final Object[] result = new Object[1];
 		BusyIndicator.showWhile(null, () -> {
 			try {
@@ -4305,7 +4305,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	public MUIElement getActiveElement(IWorkbenchPartReference ref) {
+	public MUIElement getActiveElement(IWorkbenchPartReference ref) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MUIElement element = null;
 
 		MPerspective curPersp = modelService.getActivePerspective(window);
@@ -4406,8 +4406,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 		MPerspectiveStack perspectiveStack = modelService.findElements(window, null, MPerspectiveStack.class).get(0);
 		IPerspectiveRegistry registry = PlatformUI.getWorkbench().getPerspectiveRegistry();
 
-		ArrayList<IPerspectiveDescriptor> tmp = new ArrayList<>(perspectiveStack.getChildren().size());
-		for (MPerspective persp : perspectiveStack.getChildren()) {
+		ArrayList<IPerspectiveDescriptor> tmp = new ArrayList<>(perspectiveStack.getChildren().size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MPerspective persp : perspectiveStack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String perspectiveId = persp.getElementId();
 			IPerspectiveDescriptor desc = registry.findPerspectiveWithId(perspectiveId);
 			if (desc != null) {
@@ -4453,7 +4453,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return getPerspective(getCurrentPerspective());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IViewPart[] getViewStack(IViewPart part) {
 		String compoundId = PagePartSelectionTracker.getPartId(part);
 		MPart mpart = partService.findPart(compoundId);
@@ -4473,8 +4473,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 						? m.getRef()
 						: null;
 
-				List<CompatibilityView> stack = new ArrayList<>();
-				for (Object child : parent.getChildren()) {
+				List<CompatibilityView> stack = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Object child : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MPart siblingPart = child instanceof MPart m ? m
 							: (MPart) ((MPlaceholder) child).getRef();
 					// Bug 398433 - guard against NPE
@@ -4514,7 +4514,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				});
 
 				IViewPart[] result = new IViewPart[stack.size()];
-				for (int i = 0; i < result.length; i++) {
+				for (int i = 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result[i] = stack.get(i).getView();
 				}
 				return result;
@@ -4583,7 +4583,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return workingSets;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setWorkingSets(IWorkingSet[] newWorkingSets) {
 		if (newWorkingSets != null) {
 			WorkbenchPlugin.getDefault().getWorkingSetManager()
@@ -4601,8 +4601,8 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 		// filter out any duplicates if necessary
 		if (newWorkingSets.length > 1) {
-			Set<IWorkingSet> setOfSets = new HashSet<>();
-			for (IWorkingSet workingSet : newWorkingSets) {
+			Set<IWorkingSet> setOfSets = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IWorkingSet workingSet : newWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (workingSet == null) {
 					throw new IllegalArgumentException();
 				}
@@ -4620,7 +4620,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IWorkingSet getAggregateWorkingSet() {
 		if (aggregateWorkingSet == null) {
 			IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
@@ -4641,7 +4641,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	private String generateAggregateWorkingSetId() {
-		return "Aggregate for window " + System.currentTimeMillis(); //$NON-NLS-1$
+		return "Aggregate for window " + System.currentTimeMillis(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -4680,7 +4680,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	@Override
 	public IMemento[] getEditorState(IEditorReference[] editorRefs, boolean includeInputState) {
 		IMemento[] m = new IMemento[editorRefs.length];
-		for (int i = 0; i < editorRefs.length; i++) {
+		for (int i = 0; i < editorRefs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			m[i] = ((EditorReference) editorRefs[i]).getEditorState();
 			if (!includeInputState && m[i] != null) {
 				m[i] = m[i].getChild(IWorkbenchConstants.TAG_EDITOR_STATE);
@@ -4695,7 +4695,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return openEditors(inputs, editorIDs, null, matchFlags, 0);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IEditorReference[] openEditors(IEditorInput[] inputs, String[] editorIDs, IMemento[] mementos,
 			int matchFlags, int activationIndex) throws MultiPartInitException {
 		// If we are only working with mementos create a placeholder array of
@@ -4722,7 +4722,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 
 		IEditorRegistry reg = getWorkbenchWindow().getWorkbench().getEditorRegistry();
 		MPart editorToActivate = null;
-		for (int i = 0; i < inputs.length; i++) {
+		for (int i = 0; i < inputs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String curEditorID = editorIDs[i];
 			IEditorInput curInput = inputs[i];
 			IMemento curMemento = mementos == null ? null : mementos[i];
@@ -4846,7 +4846,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		boolean hasSuccesses = false;
-		for (IEditorReference reference : references) {
+		for (IEditorReference reference : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (reference != null) {
 				hasSuccesses = true;
 				legacyWindow.firePerspectiveChanged(this, getPerspective(), reference, CHANGE_EDITOR_OPEN);
@@ -4874,20 +4874,20 @@ public class WorkbenchPage implements IWorkbenchPage {
 		// technically shouldn't be null here
 		if (selectedElement != null) {
 			Collection<MPart> parts = modelService.findElements(selectedElement, null, MPart.class);
-			List<MPart> visibleParts = new ArrayList<>(parts.size());
-			for (MPart part : parts) {
+			List<MPart> visibleParts = new ArrayList<>(parts.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (MPart part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isVisible(selectedElement, part)) {
 					visibleParts.add(part);
 				}
 			}
 
-			for (MPart part : visibleParts) {
+			for (MPart part : visibleParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				firePartVisible(part);
 			}
 		}
 	}
 
-	private boolean isVisible(MPerspective perspective, MUIElement element) {
+	private boolean isVisible(MPerspective perspective, MUIElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == perspective) {
 			return true;
 		} else if (element.isVisible() && element.isToBeRendered()) {
@@ -4909,7 +4909,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		return false;
 	}
 
-	private void firePartActivated(MPart part) {
+	private void firePartActivated(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Object client = part.getObject();
 		if (client instanceof CompatibilityPart) {
@@ -4919,11 +4919,11 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 			final IWorkbenchPartReference partReference = getReference(workbenchPart);
 			if (partReference == null) {
-				WorkbenchPlugin.log(new RuntimeException("Reference is null in firePartActivated: " + part)); //$NON-NLS-1$
+				WorkbenchPlugin.log(new RuntimeException("Reference is null in firePartActivated: " + part)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return;
 			}
 
-			for (final IPartListener listener : partListenerList) {
+			for (final IPartListener listener : partListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -4932,7 +4932,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				});
 			}
 
-			for (final IPartListener2 listener : partListener2List) {
+			for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -4947,7 +4947,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				final IWorkbenchPartReference partReference = getReference(workbenchPart);
 
 				if (partReference != null) {
-					for (final IPartListener listener : partListenerList) {
+					for (final IPartListener listener : partListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SafeRunner.run(new SafeRunnable() {
 							@Override
 							public void run() throws Exception {
@@ -4956,7 +4956,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 						});
 					}
 
-					for (final IPartListener2 listener : partListener2List) {
+					for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SafeRunner.run(new SafeRunnable() {
 							@Override
 							public void run() throws Exception {
@@ -4969,7 +4969,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private void firePartDeactivated(MPart part) {
+	private void firePartDeactivated(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object client = part.getObject();
 		if (client instanceof CompatibilityPart) {
 			final IWorkbenchPart workbenchPart = getWrappedPart((CompatibilityPart) client);
@@ -4978,7 +4978,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 			final IWorkbenchPartReference partReference = getReference(workbenchPart);
 
-			for (final IPartListener listener : partListenerList) {
+			for (final IPartListener listener : partListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -4987,7 +4987,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				});
 			}
 
-			for (final IPartListener2 listener : partListener2List) {
+			for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -5002,7 +5002,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				final IWorkbenchPartReference partReference = getReference(workbenchPart);
 
 				if (partReference != null) {
-					for (final IPartListener listener : partListenerList) {
+					for (final IPartListener listener : partListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SafeRunner.run(new SafeRunnable() {
 							@Override
 							public void run() throws Exception {
@@ -5011,7 +5011,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 						});
 					}
 
-					for (final IPartListener2 listener : partListener2List) {
+					for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SafeRunner.run(new SafeRunnable() {
 							@Override
 							public void run() throws Exception {
@@ -5032,13 +5032,13 @@ public class WorkbenchPage implements IWorkbenchPage {
 	private IWorkbenchPart getWrappedPart(CompatibilityPart comPart) {
 		IWorkbenchPart part = comPart.getPart();
 		if (part == null) {
-			WorkbenchPlugin.log(new RuntimeException("Trying to access already disposed part: " //$NON-NLS-1$
+			WorkbenchPlugin.log(new RuntimeException("Trying to access already disposed part: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ comPart));
 		}
 		return part;
 	}
 
-	public void firePartOpened(CompatibilityPart compatibilityPart) {
+	public void firePartOpened(CompatibilityPart compatibilityPart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IWorkbenchPart part = getWrappedPart(compatibilityPart);
 		final IWorkbenchPartReference partReference = compatibilityPart.getReference();
 
@@ -5046,7 +5046,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			SaveablesList saveablesList = (SaveablesList) getWorkbenchWindow()
 					.getService(ISaveablesLifecycleListener.class);
 			saveablesList.postOpen(part);
-			for (final IPartListener listener : partListenerList) {
+			for (final IPartListener listener : partListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -5056,7 +5056,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 		}
 
-		for (final IPartListener2 listener : partListener2List) {
+		for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -5075,7 +5075,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	public void firePartClosed(CompatibilityPart compatibilityPart) {
+	public void firePartClosed(CompatibilityPart compatibilityPart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IWorkbenchPart part = getWrappedPart(compatibilityPart);
 		final WorkbenchPartReference partReference = compatibilityPart.getReference();
 		MPart model = partReference.getModel();
@@ -5089,7 +5089,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				modelManager.postClose(postCloseInfo);
 			}
 
-			for (final IPartListener listener : partListenerList) {
+			for (final IPartListener listener : partListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -5099,7 +5099,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 		}
 
-		for (final IPartListener2 listener : partListener2List) {
+		for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -5118,7 +5118,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			editorReferences.remove(partReference);
 		}
 
-		for (int i = 0; i < activationList.size(); i++) {
+		for (int i = 0; i < activationList.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (model == activationList.get(i)) {
 				activationList.remove(i);
 				break;
@@ -5150,7 +5150,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 	}
 
-	private void firePartBroughtToTop(MPart part) {
+	private void firePartBroughtToTop(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object client = part.getObject();
 		if (client instanceof CompatibilityPart) {
 			final IWorkbenchPart workbenchPart = getWrappedPart((CompatibilityPart) client);
@@ -5159,7 +5159,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 			final IWorkbenchPartReference partReference = getReference(workbenchPart);
 
-			for (final IPartListener listener : partListenerList) {
+			for (final IPartListener listener : partListenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -5168,7 +5168,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				});
 			}
 
-			for (final IPartListener2 listener : partListener2List) {
+			for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
@@ -5217,7 +5217,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 		}
 
 		if (UIEvents.isADD(event)) {
-			for (Object o : UIEvents.asIterable(event, UIEvents.EventTags.NEW_VALUE)) {
+			for (Object o : UIEvents.asIterable(event, UIEvents.EventTags.NEW_VALUE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(o instanceof MUIElement element)) {
 					continue;
 				}
@@ -5226,7 +5226,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				// contain (or are) MParts (e.g. we may have dragged a split
 				// editor which contains two editors, both with EditorRefs)
 				List<MPart> addedParts = modelService.findElements(element, null, MPart.class, null);
-				for (MPart part : addedParts) {
+				for (MPart part : addedParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IWorkbenchPartReference ref = (IWorkbenchPartReference) part.getTransientData()
 							.get(IWorkbenchPartReference.class.getName());
 
@@ -5240,7 +5240,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	};
 
 	// FIXME: convert me to e4 events!
-	private void firePartVisible(MPart part) {
+	private void firePartVisible(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object client = part.getObject();
 		if (client instanceof CompatibilityPart) {
 			IWorkbenchPart workbenchPart = getWrappedPart((CompatibilityPart) client);
@@ -5249,11 +5249,11 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 			final IWorkbenchPartReference partReference = getReference(workbenchPart);
 
-			for (final IPartListener2 listener : partListener2List) {
+			for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
-						listener.partVisible(partReference);
+						listener.partVisible(partReference); //FLLDCIM: MARK — T20 PART_VISIBILITY CALL
 					}
 				});
 			}
@@ -5268,7 +5268,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	// FIXME: convert me to e4 events!
-	public void firePartHidden(MPart part) {
+	public void firePartHidden(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object client = part.getObject();
 		if (client instanceof CompatibilityPart) {
 			IWorkbenchPart workbenchPart = getWrappedPart((CompatibilityPart) client);
@@ -5277,11 +5277,11 @@ public class WorkbenchPage implements IWorkbenchPage {
 			}
 			final IWorkbenchPartReference partReference = getReference(workbenchPart);
 
-			for (final IPartListener2 listener : partListener2List) {
+			for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunner.run(new SafeRunnable() {
 					@Override
 					public void run() throws Exception {
-						listener.partHidden(partReference);
+						listener.partHidden(partReference); //FLLDCIM: MARK — T20 PART_VISIBILITY CALL
 					}
 				});
 			}
@@ -5289,7 +5289,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	public void firePartInputChanged(final IWorkbenchPartReference partReference) {
-		for (final IPartListener2 listener : partListener2List) {
+		for (final IPartListener2 listener : partListener2List) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -5336,7 +5336,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * Open a specific external editor on an file based on the descriptor.
 	 */
-	private IEditorReference openExternalEditor(final EditorDescriptor desc, IEditorInput input)
+	private IEditorReference openExternalEditor(final EditorDescriptor desc, IEditorInput input) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws PartInitException {
 		final CoreException[] ex = new CoreException[1];
 
@@ -5386,14 +5386,14 @@ public class WorkbenchPage implements IWorkbenchPage {
 	 *
 	 * @see #unzoomSharedArea(MUIElement)
 	 */
-	private void unzoomSharedArea() {
+	private void unzoomSharedArea() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MPerspective curPersp = getPerspectiveStack().getSelectedElement();
 		if (curPersp == null) {
 			return;
 		}
 
 		MPlaceholder eaPH = (MPlaceholder) modelService.find(IPageLayout.ID_EDITOR_AREA, curPersp);
-		for (MPart part : modelService.findElements(eaPH, null, MPart.class, null)) {
+		for (MPart part : modelService.findElements(eaPH, null, MPart.class, null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (part.isToBeRendered()) {
 				MPlaceholder placeholder = part.getCurSharedRef();
 				if (placeholder == null || placeholder.isToBeRendered()) {
@@ -5437,7 +5437,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 				List<MPlaceholder> placeholders = modelService.findElements(window, ref.getElementId(),
 						MPlaceholder.class, null, EModelService.IN_ANY_PERSPECTIVE | EModelService.IN_SHARED_AREA
 								| EModelService.OUTSIDE_PERSPECTIVE);
-				for (MPlaceholder placeholder : placeholders) {
+				for (MPlaceholder placeholder : placeholders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (placeholder.getRef() == ref && placeholder.isToBeRendered()) {
 						// if there's a rendered placeholder, return
 						return;
@@ -5484,9 +5484,9 @@ public class WorkbenchPage implements IWorkbenchPage {
 			hiddenIDs = ""; //$NON-NLS-1$
 		}
 
-		String persistedID = id + ","; //$NON-NLS-1$
+		String persistedID = id + ","; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (!hiddenIDs.contains(persistedID)) {
-			hiddenIDs = hiddenIDs + persistedID;
+			hiddenIDs = hiddenIDs + persistedID; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			perspective.getPersistedState().put(ModeledPageLayout.HIDDEN_ITEMS_KEY, hiddenIDs);
 		}
 	}
@@ -5500,7 +5500,7 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	public void removeHiddenItems(MPerspective perspective, String id) {
-		String persistedID = id + ","; //$NON-NLS-1$
+		String persistedID = id + ","; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String hiddenIDs = perspective.getPersistedState().get(ModeledPageLayout.HIDDEN_ITEMS_KEY);
 		if (hiddenIDs == null) {
@@ -5525,22 +5525,22 @@ public class WorkbenchPage implements IWorkbenchPage {
 		removeHiddenItems(perspective, id);
 	}
 
-	public void setNewShortcuts(List<String> wizards, String tagPrefix) {
+	public void setNewShortcuts(List<String> wizards, String tagPrefix) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MPerspective persp = getCurrentPerspective();
 		if (persp == null) {
 			return;
 		}
 
-		List<String> existingNewWizards = new ArrayList<>();
-		for (String tag : persp.getTags()) {
+		List<String> existingNewWizards = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String tag : persp.getTags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tag.contains(tagPrefix)) {
 				existingNewWizards.add(tag);
 			}
 		}
 
-		List<String> newWizards = new ArrayList<>(wizards.size());
-		for (String wizardName : wizards) {
-			newWizards.add(tagPrefix + wizardName);
+		List<String> newWizards = new ArrayList<>(wizards.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String wizardName : wizards) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			newWizards.add(tagPrefix + wizardName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		persp.getTags().removeAll(existingNewWizards);
@@ -5570,20 +5570,20 @@ public class WorkbenchPage implements IWorkbenchPage {
 	/**
 	 * Add ToolItems for perspectives specified in "PERSPECTIVE_BAR_EXTRAS"
 	 */
-	private void createPerspectiveBarExtras() {
+	private void createPerspectiveBarExtras() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String persps = PrefUtil.getAPIPreferenceStore()
 				.getString(IWorkbenchPreferenceConstants.PERSPECTIVE_BAR_EXTRAS);
 		// e3 allowed spaces and commas as separator
 		String[] parts = persps.split("[, ]"); //$NON-NLS-1$
 		Set<String> perspSet = new LinkedHashSet<>();
-		for (String part : parts) {
+		for (String part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			part = part.trim();
 			if (!part.isEmpty()) {
 				perspSet.add(part);
 			}
 		}
 
-		for (String perspId : perspSet) {
+		for (String perspId : perspSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MPerspective persp = (MPerspective) modelService.find(perspId, window);
 			if (persp != null) {
 				continue; // already in stack, i.e. has already been added above

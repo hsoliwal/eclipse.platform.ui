@@ -67,7 +67,7 @@ public class CustomizeActionBars implements IActionBarConfigurer2, IActionBars2 
 	 * @param configurer non null
 	 * @param context    non null
 	 */
-	public CustomizeActionBars(IWorkbenchWindowConfigurer configurer, IEclipseContext context) {
+	public CustomizeActionBars(IWorkbenchWindowConfigurer configurer, IEclipseContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.configurer = configurer;
 		statusLineManager = new StatusLineManager();
 		menuManager = new MenuManager("MenuBar", IWorkbenchConstants.MAIN_MENU_ID); //$NON-NLS-1$
@@ -95,7 +95,7 @@ public class CustomizeActionBars implements IActionBarConfigurer2, IActionBars2 
 		menuRenderer.linkModelToManager(mainMenu, menuManager);
 		windowModel.setMainMenu(mainMenu);
 
-		coolBarManager = new CoolBarToTrimManager(app, windowModel, new ArrayList<>(), rendererFactory);
+		coolBarManager = new CoolBarToTrimManager(app, windowModel, new ArrayList<>(), rendererFactory); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override

@@ -294,7 +294,7 @@ public abstract class WorkbenchAdvisor {
 	 * @param exception the uncaught exception that was thrown inside the UI event
 	 *                  loop
 	 */
-	public void eventLoopException(Throwable exception) {
+	public void eventLoopException(Throwable exception) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Protection from client doing super(null) call
 		if (exception == null) {
 			return;
@@ -475,7 +475,7 @@ public abstract class WorkbenchAdvisor {
 	 *             instead
 	 * @see #createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer)
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void openIntro(IWorkbenchWindowConfigurer configurer) {
 		if (introOpened) {
 			return;
@@ -709,14 +709,14 @@ public abstract class WorkbenchAdvisor {
 	 * @return <code>true</code> to proceed with workbench startup, or
 	 *         <code>false</code> to exit
 	 */
-	public boolean openWindows() {
+	public boolean openWindows() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Display display = PlatformUI.getWorkbench().getDisplay();
 		final boolean result[] = new boolean[1];
 
 		// Restore off the UI thread and spin the event loop here, it can take a while.
 		final Throwable[] error = new Throwable[1];
 		Thread initThread = new Thread() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				try {
 					// declare us to be a startup thread so that our syncs will be executed
@@ -748,7 +748,7 @@ public abstract class WorkbenchAdvisor {
 					initDone = true;
 					// A wake() before the UI thread reaches Display.sleep() is lost, queued
 					// work is not. Plain runnables would be deferred until the workbench is up.
-					display.asyncExec(new StartupRunnable() {
+					display.asyncExec(new StartupRunnable() { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						@Override
 						public void runWithException() {
 							// nothing to do
@@ -759,7 +759,7 @@ public abstract class WorkbenchAdvisor {
 		};
 		initThread.start();
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!display.readAndDispatch()) {
 				if (initDone) {
 					break;

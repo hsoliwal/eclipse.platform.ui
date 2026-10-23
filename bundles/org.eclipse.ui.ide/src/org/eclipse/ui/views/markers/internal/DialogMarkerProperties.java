@@ -269,7 +269,7 @@ public class DialogMarkerProperties extends TrayDialog {
 	 */
 	protected Map<String, Object> getInitialAttributes() {
 		if (initialAttributes == null) {
-			initialAttributes = new HashMap<>();
+			initialAttributes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		return initialAttributes;
 	}
@@ -290,7 +290,7 @@ public class DialogMarkerProperties extends TrayDialog {
 	/**
 	 * Method declared on Dialog.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// initialize resources/properties
 		if (marker != null) {
@@ -371,7 +371,7 @@ public class DialogMarkerProperties extends TrayDialog {
 		gridData.widthHint = convertHorizontalDLUsToPixels(400);
 		descriptionText.setLayoutData(gridData);
 
-		descriptionText.addModifyListener(_ -> markDirty());
+		descriptionText.addModifyListener(_ -> markDirty()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 	}
 
 	/**
@@ -387,7 +387,7 @@ public class DialogMarkerProperties extends TrayDialog {
 	/**
 	 * Creates the area for the Resource field.
 	 */
-	private void createResourceArea(Composite parent) {
+	private void createResourceArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label resourceLabel = new Label(parent, SWT.NONE);
 		resourceLabel.setText(MarkerMessages.propertiesDialog_resource_text);
 		resourceText = new Text(parent, SWT.SINGLE | SWT.WRAP | SWT.READ_ONLY | SWT.BORDER);
@@ -410,7 +410,7 @@ public class DialogMarkerProperties extends TrayDialog {
 	/**
 	 * Updates the dialog from the marker state.
 	 */
-	protected void updateDialogFromMarker() {
+	protected void updateDialogFromMarker() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (marker == null) {
 			updateDialogForNewMarker();
 			return;
@@ -440,7 +440,7 @@ public class DialogMarkerProperties extends TrayDialog {
 	/**
 	 * Updates the dialog from the predefined attributes.
 	 */
-	protected void updateDialogForNewMarker() {
+	protected void updateDialogForNewMarker() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource != null && resourceText != null && folderText != null) {
 			resourceText.setText(resource.getName());
 
@@ -448,15 +448,15 @@ public class DialogMarkerProperties extends TrayDialog {
 			int n = path.segmentCount() - 1; // n is the number of segments in container, not path
 			if (n > 0) {
 				int len = 0;
-				for (int i = 0; i < n; ++i) {
+				for (int i = 0; i < n; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					len += path.segment(i).length();
 				}
 				// account for /'s
 				if (n > 1) {
 					len += n - 1;
 				}
-				StringBuilder sb = new StringBuilder(len);
-				for (int i = 0; i < n; ++i) {
+				StringBuilder sb = new StringBuilder(len); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				for (int i = 0; i < n; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (i != 0) {
 						sb.append('/');
 					}
@@ -513,7 +513,7 @@ public class DialogMarkerProperties extends TrayDialog {
 	 * Saves the changes made in the dialog if needed. Creates a new marker if
 	 * needed. Updates the existing marker only if there have been changes.
 	 */
-	private void saveChanges() {
+	private void saveChanges() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, Object> attrs = getMarkerAttributes();
 		IUndoableOperation op = null;
 		if (marker == null) {

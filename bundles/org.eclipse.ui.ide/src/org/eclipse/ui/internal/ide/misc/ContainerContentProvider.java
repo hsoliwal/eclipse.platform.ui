@@ -27,7 +27,7 @@ import org.eclipse.jface.viewers.Viewer;
 /**
  * Provides content for a tree viewer that shows only containers.
  */
-public class ContainerContentProvider implements ITreeContentProvider {
+public class ContainerContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 	private boolean showClosedProjects = true;
 
 	/**
@@ -44,7 +44,7 @@ public class ContainerContentProvider implements ITreeContentProvider {
 	public void dispose() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object element) {
 		if (element instanceof IWorkspace) {
 			// check if closed projects should be shown
@@ -53,8 +53,8 @@ public class ContainerContentProvider implements ITreeContentProvider {
 				return allProjects;
 			}
 
-			ArrayList<IProject> accessibleProjects = new ArrayList<>();
-			for (IProject project : allProjects) {
+			ArrayList<IProject> accessibleProjects = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IProject project : allProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (project.isOpen()) {
 					accessibleProjects.add(project);
 				}
@@ -63,8 +63,8 @@ public class ContainerContentProvider implements ITreeContentProvider {
 		} else if (element instanceof IContainer container) {
 			if (container.isAccessible()) {
 				try {
-					List<IResource> children = new ArrayList<>();
-					for (IResource member : container.members()) {
+					List<IResource> children = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (IResource member : container.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (member.getType() != IResource.FILE) {
 							children.add(member);
 						}

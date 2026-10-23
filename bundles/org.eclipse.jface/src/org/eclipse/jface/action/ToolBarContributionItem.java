@@ -152,7 +152,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		// Dispose of the ToolBar and all its contributions
 		if (toolBarManager != null) {
@@ -176,7 +176,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 		disposed = true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(CoolBar coolBar, int index) {
 		if (checkDisposed()) {
 			return;
@@ -209,7 +209,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 			// ToolBarManager.createControl can actually return a pre-existing control.
 			// Only add the listener if the toolbar was newly created (bug 62097).
 			if (oldToolBar != toolBar) {
-				toolBar.addListener(SWT.MenuDetect, event -> {
+				toolBar.addListener(SWT.MenuDetect, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 					// if the toolbar does not have its own context menu then
 					// handle the event
 					if (toolBarManager.getContextMenuManager() == null) {
@@ -221,7 +221,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 			// Handle for chevron clicking
 			if (getUseChevron()) {
 				// Chevron Support
-				coolItem.addSelectionListener(widgetSelectedAdapter(event -> {
+				coolItem.addSelectionListener(widgetSelectedAdapter(event -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					if (event.detail == SWT.ARROW) {
 						handleChevron(event);
 					}
@@ -229,7 +229,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 			}
 
 			// Handle for disposal
-			coolItem.addDisposeListener(this::handleWidgetDispose);
+			coolItem.addDisposeListener(this::handleWidgetDispose); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
 			// Sets the size of the coolItem
 			updateSize(true);
@@ -328,7 +328,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 	/**
 	 * Create and display the chevron menu.
 	 */
-	private void handleChevron(SelectionEvent event) {
+	private void handleChevron(SelectionEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CoolItem item = (CoolItem) event.widget;
 		Control control = item.getControl();
 		if (!(control instanceof ToolBar)) {
@@ -338,8 +338,8 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 		ToolBar toolBar = (ToolBar) control;
 		Rectangle toolBarBounds = toolBar.getBounds();
 		ToolItem[] items = toolBar.getItems();
-		ArrayList<ToolItem> hidden = new ArrayList<>();
-		for (ToolItem toolItem : items) {
+		ArrayList<ToolItem> hidden = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ToolItem toolItem : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Rectangle itemBounds = toolItem.getBounds();
 			if (!((itemBounds.x + itemBounds.width <= toolBarBounds.width)
 					&& (itemBounds.y + itemBounds.height <= toolBarBounds.height))) {
@@ -352,7 +352,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 			chevronMenuManager.dispose();
 		}
 		chevronMenuManager = new MenuManager();
-		for (ToolItem toolItem : hidden) {
+		for (ToolItem toolItem : hidden) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem data = (IContributionItem) toolItem.getData();
 			if (data instanceof ActionContributionItem) {
 				ActionContributionItem contribution = new ActionContributionItem(
@@ -380,14 +380,14 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 	 *
 	 * @param event the event object
 	 */
-	private void handleContextMenu(Event event) {
+	private void handleContextMenu(Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ToolBar toolBar = toolBarManager.getControl();
 		// If parent has a menu then use that one
 		Menu parentMenu = toolBar.getParent().getMenu();
 		if ((parentMenu != null) && (!parentMenu.isDisposed())) {
 			toolBar.setMenu(parentMenu);
 			// Hook listener to remove menu once it has disapeared
-			parentMenu.addListener(SWT.Hide, new Listener() {
+			parentMenu.addListener(SWT.Hide, new Listener() { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 				@Override
 				public void handleEvent(Event innerEvent) {
@@ -422,7 +422,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 	 *         than group marks and separators, and the internal state is set to be
 	 *         visible.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isVisible() {
 		if (checkDisposed()) {
 			return false;
@@ -431,7 +431,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 		boolean visibleItem = false;
 		if (toolBarManager != null) {
 			IContributionItem[] contributionItems = toolBarManager.getItems();
-			for (IContributionItem item : contributionItems) {
+			for (IContributionItem item : contributionItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IContributionItem contributionItem = item;
 				if ((!contributionItem.isGroupMarker()) && (!contributionItem.isSeparator())) {
 					visibleItem = true;
@@ -443,7 +443,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 		return (visibleItem || super.isVisible());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveWidgetState() {
 		if (checkDisposed()) {
 			return;
@@ -459,7 +459,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 		int coolItemIndex = coolBar.indexOf(coolItem);
 		int[] wrapIndicies = getAdjustedWrapIndices(coolBar.getWrapIndices());
 		// Traverse through all wrap indicies backwards
-		for (int row = wrapIndicies.length - 1; row >= 0; row--) {
+		for (int row = wrapIndicies.length - 1; row >= 0; row--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (wrapIndicies[row] <= coolItemIndex) {
 
 				int nextRow = row + 1;
@@ -575,7 +575,7 @@ public class ToolBarContributionItem extends ContributionItem implements IToolBa
 	 *                          changed to the preferred size, <code>false</code> to
 	 *                          not change the current size
 	 */
-	private void updateSize(boolean changeCurrentSize) {
+	private void updateSize(boolean changeCurrentSize) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (checkDisposed()) {
 			return;
 		}

@@ -123,7 +123,7 @@ public final class LegacyHandlerSubmissionExpression extends Expression {
 	 * @return <code>EvaluationResult.TRUE</code> if the conditions all matches;
 	 *         <code>EvaluationResult.FALSE</code> otherwise.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public EvaluationResult evaluate(final IEvaluationContext context) {
 		if (activePartId != null) {
 			final Object value = context.getVariable(ISources.ACTIVE_PART_ID_NAME);
@@ -154,7 +154,7 @@ public final class LegacyHandlerSubmissionExpression extends Expression {
 
 	@Override
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("LegacyHandlerSubmission("); //$NON-NLS-1$
 		buffer.append(activeShell);
 		buffer.append(',');

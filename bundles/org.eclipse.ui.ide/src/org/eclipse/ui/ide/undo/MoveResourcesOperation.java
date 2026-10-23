@@ -122,16 +122,16 @@ public class MoveResourcesOperation extends
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	protected void move(IProgressMonitor monitor, IAdaptable uiInfo)
+	protected void move(IProgressMonitor monitor, IAdaptable uiInfo) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException {
 		SubMonitor subMonitor = SubMonitor.convert(monitor,
 				resources.length + (resourceDescriptions != null ? resourceDescriptions.length : 0));
 		subMonitor.setTaskName(UndoMessages.AbstractResourcesOperation_MovingResources);
-		List<IResource> resourcesAtDestination = new ArrayList<>();
-		List<IPath> undoDestinationPaths = new ArrayList<>();
-		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>();
+		List<IResource> resourcesAtDestination = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IPath> undoDestinationPaths = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < resources.length; i++) {
+		for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Move the resources and record the overwrites that would
 			// be restored if this operation were reversed
 			IResourceSnapshot<? extends IResource>[] overwrites;
@@ -144,7 +144,7 @@ public class MoveResourcesOperation extends
 
 		// Are there any previously overwritten resources to restore now?
 		if (resourceDescriptions != null) {
-			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) {
+			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resourceDescription != null) {
 					resourceDescription.createResource(subMonitor.split(1));
 				}
@@ -188,7 +188,7 @@ public class MoveResourcesOperation extends
 	@Override
 	protected boolean updateResourceChangeDescriptionFactory(
 			IResourceChangeDescriptionFactory factory, int operation) {
-		for (int i = 0; i < resources.length; i++) {
+		for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = resources[i];
 			factory.move(resource, getDestinationPath(resource, i));
 		}

@@ -172,7 +172,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	 *
 	 * @param newExtension the new extension
 	 */
-	public void addResourceType(String newExtension) {
+	public void addResourceType(String newExtension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(newExtension != null && newExtension.length() != 0);
 
 		// Find the index at which to insert the new entry.
@@ -181,7 +181,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		boolean found = false;
 		int i = 0;
 
-		while (i < items.length && !found) {
+		while (i < items.length && !found) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			association = (LargeFileAssociation) items[i].getData();
 			int result = newExtension.compareToIgnoreCase(association.extension);
 			if (result == 0) {
@@ -238,9 +238,9 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		legacyPreferenceSetLabel.setText(disabledPageText);
 	}
 
-	private void createPreferencePageContents(Composite pageComponent) {
-		imagesToDispose = new ArrayList<>();
-		editorsToImages = new HashMap<>(50);
+	private void createPreferencePageContents(Composite pageComponent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		imagesToDispose = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		editorsToImages = new HashMap<>(50); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -273,7 +273,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		data.minimumWidth = 6;
 		defaultPreferenceFileSize.setLayoutData(data);
 		defaultPreferenceUnit = createSizeUnitCombo(defaultLimitGroup);
-		enableDefaultPreference.addSelectionListener(new SelectionListener() {
+		enableDefaultPreference.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateDefaultPreferenceWidgetsEnabledState();
@@ -295,8 +295,8 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		label.setLayoutData(data);
 
 		resourceTypeTable = new Table(pageComponent, SWT.CHECK | SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-		resourceTypeTable.addListener(SWT.Selection, this);
-		resourceTypeTable.addListener(SWT.DefaultSelection, this);
+		resourceTypeTable.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		resourceTypeTable.addListener(SWT.DefaultSelection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data = new GridData(GridData.FILL_HORIZONTAL);
 
 		int availableRows = DialogUtil.availableRows(pageComponent);
@@ -304,7 +304,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		data.heightHint = resourceTypeTable.getItemHeight() * (availableRows / 16);
 		resourceTypeTable.setLayoutData(data);
 
-		resourceTypeTable.addListener(SWT.Selection, event -> {
+		resourceTypeTable.addListener(SWT.Selection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (event.detail == SWT.CHECK) {
 				TableItem item = (TableItem) event.item;
 				LargeFileAssociation association = (LargeFileAssociation) item.getData();
@@ -331,12 +331,12 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 
 		addResourceTypeButton = new Button(groupComponent, SWT.PUSH);
 		addResourceTypeButton.setText(WorkbenchMessages.FileEditorPreference_add);
-		addResourceTypeButton.addListener(SWT.Selection, this);
+		addResourceTypeButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(addResourceTypeButton);
 
 		removeResourceTypeButton = new Button(groupComponent, SWT.PUSH);
 		removeResourceTypeButton.setText(WorkbenchMessages.FileEditorPreference_remove);
-		removeResourceTypeButton.addListener(SWT.Selection, this);
+		removeResourceTypeButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(removeResourceTypeButton);
 
 		// Spacer
@@ -361,8 +361,8 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		TableColumn sizeColumn = new TableColumn(editorTable, SWT.NONE);
 		sizeColumn.setText(LargeFileAssociationsPreferencePage_ColumnHeader_Size);
 		sizeColumn.setWidth(100);
-		editorTable.addListener(SWT.Selection, this);
-		editorTable.addListener(SWT.DefaultSelection, this);
+		editorTable.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		editorTable.addListener(SWT.DefaultSelection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = editorTable.getItemHeight() * 7;
 		editorTable.setLayoutData(data);
@@ -380,19 +380,19 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 
 		addEditorButton = new Button(groupComponent, SWT.PUSH);
 		addEditorButton.setText(WorkbenchMessages.FileEditorPreference_addEditor);
-		addEditorButton.addListener(SWT.Selection, this);
+		addEditorButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		addEditorButton.setLayoutData(data);
 		setButtonLayoutData(addEditorButton);
 
 		editEditorButton = new Button(groupComponent, SWT.PUSH);
 		editEditorButton.setText(LargeFileAssociationsPreferencePage_EditEditorButton_Label);
-		editEditorButton.addListener(SWT.Selection, this);
+		editEditorButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		editEditorButton.setLayoutData(data);
 		setButtonLayoutData(editEditorButton);
 
 		removeEditorButton = new Button(groupComponent, SWT.PUSH);
 		removeEditorButton.setText(WorkbenchMessages.FileEditorPreference_removeEditor);
-		removeEditorButton.addListener(SWT.Selection, this);
+		removeEditorButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(removeEditorButton);
 
 		fillResourceTypeTable();
@@ -429,13 +429,13 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	public void dispose() {
 		super.dispose();
 		if (imagesToDispose != null) {
-			for (Image image : imagesToDispose) {
+			for (Image image : imagesToDispose) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			imagesToDispose = null;
 		}
 		if (editorsToImages != null) {
-			for (Image image : editorsToImages.values()) {
+			for (Image image : editorsToImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			editorsToImages = null;
@@ -454,13 +454,13 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	/**
 	 * Populate the large file editors for the selected file type.
 	 */
-	protected void fillEditorTable() {
+	protected void fillEditorTable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		editorTable.removeAll();
 		LargeFileAssociation association = getSelectedLargeFileAssociation();
 		if (association != null) {
 			editorTable.setEnabled(association.enabled);
 			if (association.enabled) {
-				for (EditorForSize editorForSize : association.editors) {
+				for (EditorForSize editorForSize : association.editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TableItem item = new TableItem(editorTable, SWT.NONE);
 					String label;
 					if (editorForSize.isPrompt) {
@@ -482,26 +482,26 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	/**
 	 * Populate the table with file types that have configured large file editors.
 	 */
-	protected void fillResourceTypeTable() {
+	protected void fillResourceTypeTable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		resourceTypeTable.removeAll();
 		String[] configured = getConfiguredExtensionTypes();
 		String[] disabled = getDisabledExtensionTypes();
 
-		List<String> extensions = new ArrayList<>();
+		List<String> extensions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		extensions.addAll(Arrays.asList(configured));
 		extensions.addAll(Arrays.asList(disabled));
-		Set<String> disabledSet = new HashSet<>(Arrays.asList(disabled));
+		Set<String> disabledSet = new HashSet<>(Arrays.asList(disabled)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		List<LargeFileAssociation> associations = new ArrayList<>();
+		List<LargeFileAssociation> associations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String extension : extensions) {
+		for (String extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<FileLimit> fileLimits = getFileLimitsForExtension(extension);
 			LargeFileAssociation association = new LargeFileAssociation(extension);
 
 			association.enabled = !disabledSet.contains(extension);
 			long lowestPromptSize = Long.MAX_VALUE;
 
-			for (FileLimit fileLimit : fileLimits) {
+			for (FileLimit fileLimit : fileLimits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				long size = fileLimit.fileSize;
 				String editorIdString = fileLimit.editorId;
 
@@ -531,7 +531,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		}
 
 		int index = 0;
-		for (LargeFileAssociation association : associations) {
+		for (LargeFileAssociation association : associations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newResourceTableItem(association, index, false);
 			++index;
 		}
@@ -562,8 +562,8 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 			return null;
 		}
 		if (editorTable.getItemCount() > 0) {
-			List<IEditorDescriptor> editorList = new ArrayList<>();
-			for (int i = 0; i < editorTable.getItemCount(); i++) {
+			List<IEditorDescriptor> editorList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i = 0; i < editorTable.getItemCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IEditorDescriptor editorDescriptor = (IEditorDescriptor) editorTable.getItem(i).getData(DATA_EDITOR);
 				if (editorDescriptor != null) {
 					editorList.add(editorDescriptor);
@@ -575,7 +575,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void handleEvent(Event event) {
 		if (event.widget == addResourceTypeButton) {
 			promptForResourceType();
@@ -607,9 +607,9 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	 * Create a new <code>TableItem</code> to represent the resource type editor
 	 * description supplied.
 	 */
-	protected TableItem newResourceTableItem(LargeFileAssociation association, int index, boolean selected) {
+	protected TableItem newResourceTableItem(LargeFileAssociation association, int index, boolean selected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorRegistry editorRegistry = workbench.getEditorRegistry();
-		ImageDescriptor imageDescriptor = editorRegistry.getImageDescriptor("tmp." + association.extension); //$NON-NLS-1$
+		ImageDescriptor imageDescriptor = editorRegistry.getImageDescriptor("tmp." + association.extension); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (imageDescriptor == null) {
 			imageDescriptor = getImageDescriptor();
 		}
@@ -660,22 +660,22 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		}
 	}
 
-	private void updateExtensionPreferences() {
+	private void updateExtensionPreferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] previousConfiguredExtensions = getConfiguredExtensionTypes();
 		String[] previousDisabledExtensions = getDisabledExtensionTypes();
-		List<String> configuredExtensions = new ArrayList<>();
-		List<String> disabledExtensions = new ArrayList<>();
-		List<String> newExtensions = new ArrayList<>();
+		List<String> configuredExtensions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> disabledExtensions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> newExtensions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		TableItem[] items = resourceTypeTable.getItems();
-		for (TableItem item : items) {
+		for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			LargeFileAssociation association = (LargeFileAssociation) (item.getData());
 			String extension = association.extension;
 			if (!association.enabled) {
 				disabledExtensions.add(extension);
 			}
-			List<FileLimit> fileLimits = new ArrayList<>();
-			for (EditorForSize editorForSize : association.editors) {
+			List<FileLimit> fileLimits = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (EditorForSize editorForSize : association.editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String editorId;
 				if (editorForSize.isPrompt) {
 					editorId = PROMPT_EDITOR_PREFERENCE_VALUE;
@@ -698,11 +698,11 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		setConfiguredExtensionTypes(configuredExtensions.toArray(String[]::new));
 		setDisabledExtensionTypes(disabledExtensions.toArray(String[]::new));
 
-		Set<String> removedExtensions = new HashSet<>();
+		Set<String> removedExtensions = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		removedExtensions.addAll(Arrays.asList(previousConfiguredExtensions));
 		removedExtensions.addAll(Arrays.asList(previousDisabledExtensions));
 		removedExtensions.removeAll(newExtensions);
-		for (String removedExtension : removedExtensions) {
+		for (String removedExtension : removedExtensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			removeFileLimitsForExtension(removedExtension);
 		}
 	}
@@ -725,7 +725,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		}
 	}
 
-	void editSelectedEditor() {
+	void editSelectedEditor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LargeFileAssociation association = getSelectedLargeFileAssociation();
 		int selectionIndex = editorTable.getSelectionIndex();
 		TableItem item = editorTable.getItem(selectionIndex);
@@ -766,7 +766,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		}
 	}
 
-	private void addEditor(EditorForSize editorForSize) {
+	private void addEditor(EditorForSize editorForSize) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		LargeFileAssociation association = getSelectedLargeFileAssociation();
 		if (!editorForSize.isPrompt) {
 			association.addEditor(editorForSize);
@@ -821,7 +821,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	private int getIndexOfPromptItem() {
 		int promptIndex = -1;
 		TableItem[] editorTableItems = editorTable.getItems();
-		for (int j = 0; j < editorTableItems.length; ++j) {
+		for (int j = 0; j < editorTableItems.length; ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TableItem editorTableItem = editorTableItems[j];
 			if (editorTableItem.getData(DATA_PROMPT) != null) {
 				promptIndex = j;
@@ -836,7 +836,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		int numberOfSizes = association.editors.size();
 		long[] configuredFileSizes = new long[numberOfSizes];
 		int index = 0;
-		for (EditorForSize editor : association.editors) {
+		for (EditorForSize editor : association.editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			configuredFileSizes[index] = editor.size.bytes;
 			++index;
 		}
@@ -860,7 +860,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	public void removeSelectedEditor() {
 		TableItem[] items = editorTable.getSelection();
 		if (items.length > 0) {
-			for (TableItem item : items) {
+			for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				LargeFileAssociation association = getSelectedLargeFileAssociation();
 				IEditorDescriptor editorDescriptor = (IEditorDescriptor) item.getData(DATA_EDITOR);
 				if (editorDescriptor != null) {
@@ -878,7 +878,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	 * Remove the type from the table
 	 */
 	public void removeSelectedResourceType() {
-		for (TableItem item : resourceTypeTable.getSelection()) {
+		for (TableItem item : resourceTypeTable.getSelection()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.dispose();
 		}
 		// Clear out the editors too
@@ -910,28 +910,28 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	private static String getExtensionText(LargeFileAssociation association) {
 		String text = association.extension;
 		if (!association.enabled) {
-			text += " " + LargeFileAssociationsPreferencePage_ExtensionsTable_DisabledClarification; //$NON-NLS-1$
+			text += " " + LargeFileAssociationsPreferencePage_ExtensionsTable_DisabledClarification; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return text;
 	}
 
 	private static String getSizeText(SizeAndUnit size) {
-		String sizeText = SIZE_TEXT_PREFIX + size.sizeString;
+		String sizeText = SIZE_TEXT_PREFIX + size.sizeString; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		sizeText += getSizeSuffix(size.unitIndex);
 		return sizeText;
 	}
 
 	private static Text createFileSizeText(Composite parent) {
 		Text text = new Text(parent, SWT.BORDER);
-		text.addVerifyListener(new NumberVerifyListener());
-		text.addModifyListener(new NumberModifyListener());
+		text.addVerifyListener(new NumberVerifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+		text.addModifyListener(new NumberModifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		text.setText(defaultLimit().sizeString);
 		return text;
 	}
 
 	private static Combo createSizeUnitCombo(Composite parent) {
 		Combo sizeUnitCombo = new Combo(parent, SWT.READ_ONLY);
-		for (String unit : SIZE_UNITS) {
+		for (String unit : SIZE_UNITS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sizeUnitCombo.add(unit);
 		}
 		sizeUnitCombo.select(DEFAULT_SIZE_UNIT);
@@ -948,7 +948,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	private static SizeAndUnit getSizeAndUnit(long bytes) {
 		long largestSizeMultiplier = 1L;
 		int sizeUnitIndex = 0;
-		for (int i = 0; i < SIZE_UNITS.length; ++i) {
+		for (int i = 0; i < SIZE_UNITS.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			long sizeMultiplier = SIZE_MULTIPLIERS[i];
 			if (bytes % sizeMultiplier == 0) {
 				if (largestSizeMultiplier < sizeMultiplier) {
@@ -970,7 +970,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		return size;
 	}
 
-	private static SizeAndUnit parseSizeString(String sizeString) {
+	private static SizeAndUnit parseSizeString(String sizeString) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (sizeString.startsWith(SIZE_TEXT_PREFIX)) {
 			sizeString = sizeString.substring(SIZE_TEXT_PREFIX.length());
 		}
@@ -978,7 +978,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		sizeString = sizeString.strip();
 		int unitIndex = 0;
 		// handle 'KB', 'MB', etc. in the size string
-		for (int i = 0; i < SIZE_UNITS.length; ++i) {
+		for (int i = 0; i < SIZE_UNITS.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String sizeSuffix = getSizeSuffix(i);
 			if (sizeString.endsWith(sizeSuffix)) {
 				int newLength = sizeString.length() - sizeSuffix.length();
@@ -996,7 +996,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 	}
 
 	private static String getSizeSuffix(int unitIndex) {
-		return " " + SIZE_UNITS[unitIndex]; //$NON-NLS-1$
+		return " " + SIZE_UNITS[unitIndex]; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static int compareEditors(EditorForSize e1, EditorForSize e2) {
@@ -1013,15 +1013,15 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		return getSizeAndUnit(getDefaultLimit());
 	}
 
-	private static class NumberVerifyListener implements VerifyListener {
-		@Override
+	private static class NumberVerifyListener implements VerifyListener { //FLLDCIM: MARK — T02  IMPLEMENTS
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void verifyText(VerifyEvent e) {
 			Text text = (Text) e.getSource();
 
 			String oldText = text.getText();
 			String prefix = oldText.substring(0, e.start);
 			String suffix = oldText.substring(e.end);
-			String newText = prefix + e.text + suffix;
+			String newText = prefix + e.text + suffix; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			// only allow non-negative integers or empty string
 			if (newText.startsWith("0") && newText.length() > 1) { //$NON-NLS-1$
@@ -1041,7 +1041,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 		}
 	}
 
-	private static class NumberModifyListener implements ModifyListener {
+	private static class NumberModifyListener implements ModifyListener { //FLLDCIM: MARK — T02  IMPLEMENTS
 		@Override
 		public void modifyText(ModifyEvent e) {
 			Text text = (Text) e.widget;
@@ -1074,7 +1074,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 			shell.setText(WorkbenchMessages.FileExtension_shellTitle);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite parentComposite = (Composite) super.createDialogArea(parent);
 
@@ -1088,7 +1088,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 
 			extensionText = new Text(contents, SWT.SINGLE | SWT.BORDER);
 
-			extensionText.addModifyListener(event -> {
+			extensionText.addModifyListener(event -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				if (event.widget == extensionText) {
 					extension = extensionText.getText().trim();
 					okButton.setEnabled(validateExtension());
@@ -1112,7 +1112,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 			createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 		}
 
-		private boolean validateExtension() {
+		private boolean validateExtension() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (extension.isEmpty()) {
 				setErrorMessage(WorkbenchMessages.FileExtension_extensionEmptyMessage);
 				return false;
@@ -1178,7 +1178,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 			newShell.setText(LargeFileAssociationsPreferencePage_EditorDialog_ShellTitle);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite parentComposite = (Composite) super.createDialogArea(parent);
 
@@ -1217,7 +1217,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 			data.grabExcessHorizontalSpace = true;
 			chooseEditorLink.setLayoutData(data);
 
-			chooseEditorWithDialog.addSelectionListener(new SelectionAdapter() {
+			chooseEditorWithDialog.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean selectEditorWithDialog = chooseEditorWithDialog.getSelection();
@@ -1248,12 +1248,12 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 			sizeUnitCombo.select(initialValues.size.unitIndex);
 			sizeText.setFocus();
 
-			sizeText.addModifyListener(event -> {
+			sizeText.addModifyListener(event -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				if (event.widget == sizeText) {
 					okButton.setEnabled(validateValues());
 				}
 			});
-			sizeUnitCombo.addModifyListener(event -> {
+			sizeUnitCombo.addModifyListener(event -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				if (event.widget == sizeUnitCombo) {
 					okButton.setEnabled(validateValues());
 				}
@@ -1311,7 +1311,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 			SizeAndUnit currentSize = getSizeAndUnit(sizeText, sizeUnitCombo);
 			long currentFileSize = currentSize.bytes;
 			boolean editorConfiguredForBytes = false;
-			for (long configuredFileSize : filteredFileSizes) {
+			for (long configuredFileSize : filteredFileSizes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (currentFileSize == configuredFileSize) {
 					editorConfiguredForBytes = true;
 					break;
@@ -1333,7 +1333,7 @@ public class LargeFileAssociationsPreferencePage extends PreferencePage implemen
 
 		LargeFileAssociation(String extension) {
 			this.extension = extension;
-			editors = new ArrayList<>();
+			editors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			enabled = true;
 		}
 

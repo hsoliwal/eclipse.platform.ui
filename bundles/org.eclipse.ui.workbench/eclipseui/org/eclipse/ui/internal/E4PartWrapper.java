@@ -61,11 +61,11 @@ public class E4PartWrapper extends ViewPart {
 		if (object != null && context != null) {
 			ContextInjectionFactory.invoke(object, Focus.class, context);
 			if (Policy.DEBUG_FOCUS) {
-				Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Focused: " + object, null); //$NON-NLS-1$
+				Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Focused: " + object, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else if (Policy.DEBUG_FOCUS) {
 			Activator.trace(Policy.DEBUG_FOCUS_FLAG,
-					"Focus not set, object or context missing: " + object + ", " + context, //$NON-NLS-1$ //$NON-NLS-2$
+					"Focus not set, object or context missing: " + object + ", " + context, //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					new IllegalStateException());
 		}
 	}

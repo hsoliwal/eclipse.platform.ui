@@ -131,7 +131,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 		PartSite site = (PartSite) getNestedEditorSite();
 
 		IServiceLocatorCreator slc = site.getService(IServiceLocatorCreator.class);
-		String name = "MultiPageEditorSite (" + editor.getClass().getName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		String name = "MultiPageEditorSite (" + editor.getClass().getName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		context = site.getModel().getContext().createChild(name);
 		serviceLocator = (ServiceLocator) slc.createServiceLocator(getNestedEditorSite(), null,
 				() -> getMultiPageEditor().close(), context);
@@ -142,7 +142,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	/**
 	 * Initialize the slave services for this site.
 	 */
-	private void initializeDefaultServices() {
+	private void initializeDefaultServices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		serviceLocator.registerService(IWorkbenchLocationService.class,
 				new WorkbenchLocationService(IServiceScopes.MPESITE_SCOPE, getWorkbenchWindow().getWorkbench(),
 						getWorkbenchWindow(), getNestedEditorSite(), this, null, 3));
@@ -177,7 +177,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	public final void activate() {
 		active = true;
 		if (Policy.DEBUG_CONTEXTS) {
-			Activator.trace(Policy.DEBUG_CONTEXTS_FLAG, "Activating " + this, null);//$NON-NLS-1$
+			Activator.trace(Policy.DEBUG_CONTEXTS_FLAG, "Activating " + this, null);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		context.activate();
 		serviceLocator.activate();
@@ -197,7 +197,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	public final void deactivate() {
 		active = false;
 		if (Policy.DEBUG_CONTEXTS) {
-			Activator.trace(Policy.DEBUG_CONTEXTS_FLAG, "Deactivating " + this, null);//$NON-NLS-1$
+			Activator.trace(Policy.DEBUG_CONTEXTS_FLAG, "Deactivating " + this, null);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (contextService != null) {
 			contextService.deactivate();
@@ -210,12 +210,12 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	/**
 	 * Dispose the contributions.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Policy.DEBUG_CONTEXTS) {
-			Activator.trace(Policy.DEBUG_CONTEXTS_FLAG, "Disposing " + this, null);//$NON-NLS-1$
+			Activator.trace(Policy.DEBUG_CONTEXTS_FLAG, "Disposing " + this, null);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (menuExtenders != null) {
-			for (Object menuExtender : menuExtenders) {
+			for (Object menuExtender : menuExtenders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((PopupMenuExtender) menuExtender).dispose();
 			}
 			menuExtenders = null;
@@ -306,7 +306,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 		return ""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IKeyBindingService getKeyBindingService() {
 		if (service == null) {
 			service = getMultiPageEditor().getEditorSite().getKeyBindingService();
@@ -319,7 +319,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 				 * you are thinking of copying this, DON'T DO IT.
 				 */
 				WorkbenchPlugin.log(
-						"MultiPageEditorSite.getKeyBindingService()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$
+						"MultiPageEditorSite.getKeyBindingService()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ service.getClass().getName() + " instead."); //$NON-NLS-1$
 			}
 		}
@@ -528,7 +528,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	@Override
 	public void registerContextMenu(String menuID, MenuManager menuMgr, ISelectionProvider selProvider) {
 		if (menuExtenders == null) {
-			menuExtenders = new ArrayList(1);
+			menuExtenders = new ArrayList(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		PartSite.registerContextMenu(menuID, menuMgr, selProvider, true, editor, context, menuExtenders);
 	}
@@ -537,7 +537,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	public final void registerContextMenu(final String menuId, final MenuManager menuManager,
 			final ISelectionProvider selectionProvider, final boolean includeEditorInput) {
 		if (menuExtenders == null) {
-			menuExtenders = new ArrayList(1);
+			menuExtenders = new ArrayList(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		PartSite.registerContextMenu(menuId, menuManager, selectionProvider, includeEditorInput, editor, context,
 				menuExtenders);
@@ -552,7 +552,7 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 	 * @param provider The selection provider.
 	 * @see MultiPageEditorSite#handleSelectionChanged(SelectionChangedEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setSelectionProvider(ISelectionProvider provider) {
 		ISelectionProvider oldSelectionProvider = selectionProvider;
 		selectionProvider = provider;
@@ -566,19 +566,19 @@ public class MultiPageEditorSite implements IEditorSite, INestable {
 			}
 		}
 		if (selectionProvider != null) {
-			selectionProvider.addSelectionChangedListener(getSelectionChangedListener());
+			selectionProvider.addSelectionChangedListener(getSelectionChangedListener()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			if (selectionProvider instanceof IPostSelectionProvider) {
-				((IPostSelectionProvider) selectionProvider)
+				((IPostSelectionProvider) selectionProvider) //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 						.addPostSelectionChangedListener(getPostSelectionChangedListener());
 			} else {
-				selectionProvider.addSelectionChangedListener(getPostSelectionChangedListener());
+				selectionProvider.addSelectionChangedListener(getPostSelectionChangedListener()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			}
 		}
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append(context);
 		builder.append(", active="); //$NON-NLS-1$
 		builder.append(active);

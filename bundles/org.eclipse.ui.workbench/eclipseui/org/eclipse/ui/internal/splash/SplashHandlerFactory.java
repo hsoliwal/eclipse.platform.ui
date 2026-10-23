@@ -42,7 +42,7 @@ public final class SplashHandlerFactory {
 	 * @param product the product
 	 * @return the splash or <code>null</code>
 	 */
-	public static AbstractSplashHandler findSplashHandlerFor(IProduct product) {
+	public static AbstractSplashHandler findSplashHandlerFor(IProduct product) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (product == null) {
 			return null;
 		}
@@ -55,11 +55,11 @@ public final class SplashHandlerFactory {
 		}
 
 		IExtension[] extensions = point.getExtensions();
-		Map idToSplash = new HashMap(); // String->ConfigurationElement
+		Map idToSplash = new HashMap(); // String->ConfigurationElement //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String[] targetId = new String[1];
-		for (IExtension extension : extensions) {
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement[] children = extension.getConfigurationElements();
-			for (IConfigurationElement element : children) {
+			for (IConfigurationElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				AbstractSplashHandler handler = processElement(element, idToSplash, targetId, product);
 				if (handler != null) {
 					return handler;
@@ -80,7 +80,7 @@ public final class SplashHandlerFactory {
 	 * @return a splash matching the target id from this element or
 	 *         <code>null</code>
 	 */
-	private static AbstractSplashHandler processElement(IConfigurationElement configurationElement, Map idToSplash,
+	private static AbstractSplashHandler processElement(IConfigurationElement configurationElement, Map idToSplash, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] targetId, IProduct product) {
 		String type = configurationElement.getName();
 		if (IWorkbenchRegistryConstants.TAG_SPLASH_HANDLER.equals(type)) {
@@ -118,7 +118,7 @@ public final class SplashHandlerFactory {
 	 * @param splashElement the element to create from
 	 * @return the element or <code>null</code> if it couldn't be created
 	 */
-	private static AbstractSplashHandler create(final IConfigurationElement splashElement) {
+	private static AbstractSplashHandler create(final IConfigurationElement splashElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final AbstractSplashHandler[] handler = new AbstractSplashHandler[1];
 		SafeRunner.run(new SafeRunnable() {
 

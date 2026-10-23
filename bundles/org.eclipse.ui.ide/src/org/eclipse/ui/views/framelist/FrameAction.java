@@ -35,7 +35,7 @@ public abstract class FrameAction extends Action {
 	 */
 	protected FrameAction(FrameList frameList) {
 		this.frameList = frameList;
-		frameList.addPropertyChangeListener(propertyChangeListener);
+		frameList.addPropertyChangeListener(propertyChangeListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 	}
 
 	/**

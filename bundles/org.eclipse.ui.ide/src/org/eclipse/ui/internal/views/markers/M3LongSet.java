@@ -37,14 +37,14 @@ final class M3LongSet {
 		shift = 64 - Integer.numberOfTrailingZeros(capacity);
 	}
 
-	void add(long id) {
+	void add(long id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (id == 0) {
 			zero = true;
 			return;
 		}
 		int mask = keys.length - 1;
 		int i = slot(id);
-		while (keys[i] != 0) {
+		while (keys[i] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[i] == id) {
 				return;
 			}
@@ -61,7 +61,7 @@ final class M3LongSet {
 			return zero;
 		}
 		int mask = keys.length - 1;
-		for (int i = slot(id); keys[i] != 0; i = (i + 1) & mask) {
+		for (int i = slot(id); keys[i] != 0; i = (i + 1) & mask) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[i] == id) {
 				return true;
 			}
@@ -76,7 +76,7 @@ final class M3LongSet {
 		if (zero) {
 			action.accept(0);
 		}
-		for (long id : keys) {
+		for (long id : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id != 0) {
 				action.accept(id);
 			}
@@ -94,10 +94,10 @@ final class M3LongSet {
 		keys = new long[old.length << 1];
 		shift--;
 		int mask = keys.length - 1;
-		for (long id : old) {
+		for (long id : old) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id != 0) {
 				int i = slot(id);
-				while (keys[i] != 0) {
+				while (keys[i] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					i = (i + 1) & mask;
 				}
 				keys[i] = id;

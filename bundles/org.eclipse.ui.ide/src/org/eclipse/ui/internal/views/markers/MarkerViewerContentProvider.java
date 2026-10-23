@@ -26,7 +26,7 @@ import org.eclipse.jface.viewers.Viewer;
  *
  * @since 3.6
  */
-class MarkerViewerContentProvider implements ITreeContentProvider {
+class MarkerViewerContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	// private MarkersTreeViewer viewer;
 	private Object input;
@@ -82,7 +82,7 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 	 *
 	 * @return Object[]
 	 */
-	private Object[] getLimitedChildren(Object[] children) {
+	private Object[] getLimitedChildren(Object[] children) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		boolean limitsEnabled = markersView.getGenerator().isMarkerLimitsEnabled();
 		int limits = markersView.getGenerator().getMarkerLimits();
@@ -93,8 +93,8 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 			// Filter all concrete children first (across the full set), then
 			// apply the limit to the matching subset so the limit is still
 			// respected while every marker is eligible for the search.
-			List<Object> matching = new ArrayList<>();
-			for (Object child : children) {
+			List<Object> matching = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof MarkerSupportItem item && searchFilter.matches(item)) {
 					matching.add(child);
 					if (limitsEnabled && limits > 0 && matching.size() == limits) {

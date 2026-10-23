@@ -87,7 +87,7 @@ public class WorkbenchContextSupport implements IWorkbenchContextSupport {
 				new LegacyHandlerSubmissionExpression(enabledSubmission.getActivePartId(),
 						enabledSubmission.getActiveShell(), enabledSubmission.getActiveWorkbenchPartSite()));
 		if (activationsBySubmission == null) {
-			activationsBySubmission = new HashMap<>();
+			activationsBySubmission = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		activationsBySubmission.put(enabledSubmission, activation);
 	}
@@ -95,7 +95,7 @@ public class WorkbenchContextSupport implements IWorkbenchContextSupport {
 	@Override
 	public final void addEnabledSubmissions(final Collection enabledSubmissions) {
 		final Iterator<EnabledSubmission> submissionItr = enabledSubmissions.iterator();
-		while (submissionItr.hasNext()) {
+		while (submissionItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addEnabledSubmission(submissionItr.next());
 		}
 	}
@@ -140,7 +140,7 @@ public class WorkbenchContextSupport implements IWorkbenchContextSupport {
 	@Override
 	public final void removeEnabledSubmissions(final Collection enabledSubmissions) {
 		final Iterator<EnabledSubmission> submissionItr = enabledSubmissions.iterator();
-		while (submissionItr.hasNext()) {
+		while (submissionItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			removeEnabledSubmission(submissionItr.next());
 		}
 	}

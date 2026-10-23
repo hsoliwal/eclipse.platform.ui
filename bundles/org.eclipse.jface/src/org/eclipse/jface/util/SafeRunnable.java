@@ -120,7 +120,7 @@ public abstract class SafeRunnable implements ISafeRunnable {
 	 * @return the default safe runnable runner
 	 * @since 3.1
 	 */
-	private static ISafeRunnableRunner createDefaultRunner() {
+	private static ISafeRunnableRunner createDefaultRunner() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new ISafeRunnableRunner() {
 			@Override
 			public void run(ISafeRunnable code) {

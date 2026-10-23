@@ -196,7 +196,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 	public IStatus execute(IProgressMonitor monitor, final IAdaptable uiInfo)
 			throws ExecutionException {
 		try {
-			getWorkspace().run(monitor1 -> doExecute(monitor1, uiInfo), getExecuteSchedulingRule(), IWorkspace.AVOID_UPDATE, monitor);
+			getWorkspace().run(monitor1 -> doExecute(monitor1, uiInfo), getExecuteSchedulingRule(), IWorkspace.AVOID_UPDATE, monitor); //FLLDCIM: MARK — T09  LAMBDA
 		} catch (final CoreException e) {
 			throw new ExecutionException(NLS.bind(
 					UndoMessages.AbstractWorkspaceOperation_ExecuteErrorTitle,
@@ -233,7 +233,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 	public IStatus redo(IProgressMonitor monitor, final IAdaptable uiInfo)
 			throws ExecutionException {
 		try {
-			getWorkspace().run(monitor1 -> doExecute(monitor1, uiInfo), getRedoSchedulingRule(), IWorkspace.AVOID_UPDATE, monitor);
+			getWorkspace().run(monitor1 -> doExecute(monitor1, uiInfo), getRedoSchedulingRule(), IWorkspace.AVOID_UPDATE, monitor); //FLLDCIM: MARK — T09  LAMBDA
 		} catch (final CoreException e) {
 			throw new ExecutionException(NLS.bind(
 					UndoMessages.AbstractWorkspaceOperation_RedoErrorTitle,
@@ -271,7 +271,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 	public IStatus undo(IProgressMonitor monitor, final IAdaptable uiInfo)
 			throws ExecutionException {
 		try {
-			getWorkspace().run(monitor1 -> doUndo(monitor1, uiInfo), getUndoSchedulingRule(), IWorkspace.AVOID_UPDATE, monitor);
+			getWorkspace().run(monitor1 -> doUndo(monitor1, uiInfo), getUndoSchedulingRule(), IWorkspace.AVOID_UPDATE, monitor); //FLLDCIM: MARK — T09  LAMBDA
 		} catch (final CoreException e) {
 			throw new ExecutionException(NLS.bind(
 					UndoMessages.AbstractWorkspaceOperation_UndoErrorTitle,
@@ -372,7 +372,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 	 * @see org.eclipse.core.commands.operations.IAdvancedUndoableOperation#computeUndoableStatus(org.eclipse.core.runtime.IProgressMonitor)
 	 * @see #setQuietCompute(boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus computeExecutionStatus(IProgressMonitor monitor) {
 		IStatus status = Status.OK_STATUS;
 
@@ -436,7 +436,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 	 * @see org.eclipse.core.commands.operations.IAdvancedUndoableOperation#computeUndoableStatus(org.eclipse.core.runtime.IProgressMonitor)
 	 * @see #setQuietCompute(boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus computeUndoableStatus(IProgressMonitor monitor) {
 		IStatus status = Status.OK_STATUS;
 		// If we are not to prompt the user, nothing to do.
@@ -499,7 +499,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 	 * @see org.eclipse.core.commands.operations.IAdvancedUndoableOperation#computeUndoableStatus(org.eclipse.core.runtime.IProgressMonitor)
 	 * @see #setQuietCompute(boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus computeRedoableStatus(IProgressMonitor monitor) {
 		IStatus status = Status.OK_STATUS;
 		// If we are not to prompt the user, nothing to do.
@@ -601,7 +601,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 		if (resources == null || resources.length == 0) {
 			return false;
 		}
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource == null || !resource.exists()) {
 				return false;
 			}
@@ -620,7 +620,7 @@ public abstract class AbstractWorkspaceOperation extends AbstractOperation
 		if (resources == null || resources.length == 0) {
 			return false;
 		}
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.getType() == IResource.PROJECT) {
 				return true;
 			}

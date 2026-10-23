@@ -100,7 +100,7 @@ public class ProgressMonitorJobsDialog extends ProgressMonitorDialog {
 	 * The details button has been selected. Open or close the progress viewer as
 	 * appropriate.
 	 */
-	void handleDetailsButtonSelect() {
+	void handleDetailsButtonSelect() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell = getShell();
 		Point shellSize = shell.getSize();
 		Composite composite = (Composite) getDialogArea();
@@ -127,8 +127,8 @@ public class ProgressMonitorJobsDialog extends ProgressMonitorDialog {
 				}
 			});
 
-			viewer.setLabelProvider(new ProgressLabelProvider());
-			viewer.setInput(this);
+			viewer.setLabelProvider(new ProgressLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+			viewer.setInput(this); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			GridData viewerData = new GridData(GridData.FILL_BOTH);
 			viewer.getControl().setLayoutData(viewerData);
 			GridData viewerCompositeData = (GridData) viewerComposite.getLayoutData();
@@ -166,12 +166,12 @@ public class ProgressMonitorJobsDialog extends ProgressMonitorDialog {
 	protected void createDetailsButton(Composite parent) {
 		detailsButton = createButton(parent, IDialogConstants.DETAILS_ID,
 				ProgressMessages.ProgressMonitorJobsDialog_DetailsTitle, false);
-		detailsButton.addSelectionListener(widgetSelectedAdapter(e -> handleDetailsButtonSelect()));
+		detailsButton.addSelectionListener(widgetSelectedAdapter(e -> handleDetailsButtonSelect())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		detailsButton.setCursor(arrowCursor);
 		detailsButton.setEnabled(enableDetailsButton);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createButtonBar(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		// create a layout with spacing and margins appropriate for the font
@@ -194,7 +194,7 @@ public class ProgressMonitorJobsDialog extends ProgressMonitorDialog {
 		if (arrowCursor == null) {
 			Cursor cursor = new Cursor(parent.getDisplay(), SWT.CURSOR_ARROW);
 			arrowCursor = cursor;
-			composite.addDisposeListener(e -> cursor.dispose());
+			composite.addDisposeListener(e -> cursor.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 		createButtonsForButtonBar(composite);
 		return composite;
@@ -255,7 +255,7 @@ public class ProgressMonitorJobsDialog extends ProgressMonitorDialog {
 	/**
 	 * Create a monitor for the receiver that wrappers the superclasses monitor.
 	 */
-	public void createWrapperedMonitor() {
+	public void createWrapperedMonitor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		wrapperedMonitor = new IProgressMonitor() {
 
 			IProgressMonitor superMonitor = ProgressMonitorJobsDialog.super.getProgressMonitor();
@@ -287,7 +287,7 @@ public class ProgressMonitorJobsDialog extends ProgressMonitorDialog {
 					return;
 				}
 
-				PlatformUI.getWorkbench().getDisplay().syncExec(() -> {
+				PlatformUI.getWorkbench().getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					// Reset the watch if it is not safe to open
 					if (!ProgressManagerUtil.safeToOpen(ProgressMonitorJobsDialog.this, null)) {
 						watchTicks();

@@ -88,7 +88,7 @@ public class MenuUtil {
 	 * @return The locator URI for a menu with the given id
 	 */
 	public static String menuUri(String id) {
-		return "menu:" + id; //$NON-NLS-1$
+		return "menu:" + id; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class MenuUtil {
 	 * @return A location URI formatted with the given parameters
 	 */
 	public static String menuAddition(String id, String location, String refId) {
-		return menuUri(id) + '?' + location + '=' + refId;
+		return menuUri(id) + '?' + location + '=' + refId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class MenuUtil {
 	 * @return The lcoation URI for a toolbar with the given id
 	 */
 	public static String toolbarUri(String id) {
-		return "toolbar:" + id; //$NON-NLS-1$
+		return "toolbar:" + id; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class MenuUtil {
 	 * @return A location URI formatted with the given parameters
 	 */
 	public static String toolbarAddition(String id, String location, String refId) {
-		return toolbarUri(id) + '?' + location + '=' + refId;
+		return toolbarUri(id) + '?' + location + '=' + refId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

@@ -81,7 +81,7 @@ class MarkersFilteredTree extends FilteredTree {
 		}
 		Display display = getDisplay();
 		if (Display.getCurrent() == null) {
-			display.asyncExec(() -> updateViewTitleAndDescription());
+			display.asyncExec(() -> updateViewTitleAndDescription()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return;
 		}
 		view.updateTitle();

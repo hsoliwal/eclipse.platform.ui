@@ -148,7 +148,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	private BundleContext bundleContext;
 
 	// The set of currently starting bundles
-	private final Collection<Bundle> startingBundles = new HashSet<>();
+	private final Collection<Bundle> startingBundles = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Global workbench ui plugin flag. Only workbench implementation is allowed to
@@ -217,7 +217,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 *
 	 * @since 3.0
 	 */
-	void reset() {
+	void reset() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		editorRegistry = null;
 
 		if (decoratorManager != null) {
@@ -270,7 +270,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @return the extension object
 	 * @throws CoreException if the extension cannot be created
 	 */
-	public static Object createExtension(final IConfigurationElement element, final String classAttribute)
+	public static Object createExtension(final IConfigurationElement element, final String classAttribute) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException {
 		try {
 			// If plugin has been loaded create extension.
@@ -371,7 +371,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 *         that this may be <code>null</code>.
 	 * @since 3.3
 	 */
-	public static Bundle getBundleForExecutableExtension(IConfigurationElement element, String extensionName) {
+	public static Bundle getBundleForExecutableExtension(IConfigurationElement element, String extensionName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// this code is derived heavily from
 		// ConfigurationElement.createExecutableExtension.
 		String prop = null;
@@ -476,7 +476,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 *
 	 * @return IElementFactory
 	 */
-	public IElementFactory getElementFactory(String targetID) {
+	public IElementFactory getElementFactory(String targetID) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Get the extension point registry.
 		IExtensionPoint extensionPoint;
@@ -484,7 +484,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 				IWorkbenchRegistryConstants.PL_ELEMENT_FACTORY);
 
 		if (extensionPoint == null) {
-			WorkbenchPlugin.log("Unable to find element factory. Extension point: " //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to find element factory. Extension point: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ IWorkbenchRegistryConstants.PL_ELEMENT_FACTORY + " not found"); //$NON-NLS-1$
 			return null;
 		}
@@ -492,7 +492,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 		// Loop through the config elements.
 		IConfigurationElement targetElement = null;
 		IConfigurationElement[] configElements = extensionPoint.getConfigurationElements();
-		for (IConfigurationElement configElement : configElements) {
+		for (IConfigurationElement configElement : configElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String strID = configElement.getAttribute("id"); //$NON-NLS-1$
 			if (targetID.equals(strID)) {
 				targetElement = configElement;
@@ -501,7 +501,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 		}
 		if (targetElement == null) {
 			// log it since we cannot safely display a dialog.
-			WorkbenchPlugin.log("Unable to find element factory: " + targetID); //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to find element factory: " + targetID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 
@@ -751,7 +751,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 		return (DecoratorManager) e4Context.get(IDecoratorManager.class);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void start(BundleContext context) throws Exception {
 		context.addBundleListener(getBundleListener());
 		super.start(context);
@@ -811,18 +811,18 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * occurs.</li>
 	 * </ul>
 	 */
-	private void parseBidiArguments() {
+	private void parseBidiArguments() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] commandLineArgs = Platform.getCommandLineArgs();
 		String bidiParams = null;
 		// Do not process the last one as it will never have a parameter
-		for (int i = 0; i < commandLineArgs.length - 1; i++) {
+		for (int i = 0; i < commandLineArgs.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commandLineArgs[i].equals(BIDI_COMMAND_LINE)) {
 				bidiParams = commandLineArgs[i + 1];
 			}
 		}
 		if (bidiParams != null) {
 			String[] bidiProps = bidiParams.split(";"); //$NON-NLS-1$
-			for (String bidiProp : bidiProps) {
+			for (String bidiProp : bidiProps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int eqPos = bidiProp.indexOf('=');
 				if ((eqPos > 0) && (eqPos < bidiProp.length() - 1)) {
 					String nameProp = bidiProp.substring(0, eqPos);
@@ -831,7 +831,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 						BidiUtils.setBidiSupport("y".equals(valProp)); //$NON-NLS-1$
 					} else if (nameProp.equalsIgnoreCase(BIDI_TEXTDIR_OPTION)) {
 						try {
-							BidiUtils.setTextDirection(valProp.intern());
+							BidiUtils.setTextDirection(valProp.intern()); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
 						} catch (IllegalArgumentException e) {
 							WorkbenchPlugin.log(e);
 						}
@@ -850,7 +850,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @see SWT#RIGHT_TO_LEFT
 	 * @see SWT#LEFT_TO_RIGHT
 	 */
-	private int getDefaultOrientation() {
+	private int getDefaultOrientation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String[] commandLineArgs = Platform.getCommandLineArgs();
 
@@ -905,7 +905,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @see SWT#NONE
 	 * @see SWT#RIGHT_TO_LEFT
 	 */
-	private int checkCommandLineLocale() {
+	private int checkCommandLineLocale() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check if the user property is set. If not, do not rely on the VM.
 		if (System.getProperty(NL_USER_PROPERTY) == null) {
 			Boolean needRTL = isBidiMessageText();
@@ -958,9 +958,9 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @see SWT#RIGHT_TO_LEFT
 	 * @see SWT#LEFT_TO_RIGHT
 	 */
-	private int getCommandLineOrientation(String[] commandLineArgs) {
+	private int getCommandLineOrientation(String[] commandLineArgs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Do not process the last one as it will never have a parameter
-		for (int i = 0; i < commandLineArgs.length - 1; i++) {
+		for (int i = 0; i < commandLineArgs.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commandLineArgs[i].equalsIgnoreCase(ORIENTATION_COMMAND_LINE)) {
 				String orientation = commandLineArgs[i + 1];
 				if (orientation.equals(RIGHT_TO_LEFT)) {
@@ -1138,7 +1138,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 		return bundleListener;
 	}
 
-	private void bundleChanged(BundleEvent event) {
+	private void bundleChanged(BundleEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int eventType = event.getType();
 		// a bundle in the STARTING state generates 2 events, LAZY_ACTIVATION
 		// when it enters STARTING and STARTING when it exists STARTING :-)
@@ -1186,7 +1186,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 * @see Display#setData(String, Object)
 	 * @since 3.4
 	 */
-	public static Shell getSplashShell(Display display)
+	public static Shell getSplashShell(Display display) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws NumberFormatException, IllegalArgumentException {
 		if (display == null || display.isDisposed()) {
 			return null;
@@ -1236,7 +1236,7 @@ public class WorkbenchPlugin extends AbstractUIPlugin {
 	 *
 	 * @param context the e4 context
 	 */
-	public void initializeContext(IEclipseContext context) {
+	public void initializeContext(IEclipseContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		e4Context = context;
 		e4Context.set(IPerspectiveRegistry.class.getName(), new ContextFunction() {
 

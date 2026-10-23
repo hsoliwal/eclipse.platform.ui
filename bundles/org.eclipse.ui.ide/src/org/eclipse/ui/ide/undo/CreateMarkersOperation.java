@@ -81,7 +81,7 @@ public class CreateMarkersOperation extends AbstractMarkersOperation {
 			IResource[] resources, String name) {
 		super(null, null, null, name);
 		IMarkerSnapshot[] markersToCreate = new IMarkerSnapshot[attributes.length];
-		for (int i = 0; i < markersToCreate.length; i++) {
+		for (int i = 0; i < markersToCreate.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			markersToCreate[i] = ResourceSnapshotFactory.fromMarkerDetails(types[i], attributes[i], resources[i]);
 		}
 		setMarkerDescriptions(markersToCreate);
@@ -107,7 +107,7 @@ public class CreateMarkersOperation extends AbstractMarkersOperation {
 			IResource[] resources, String name) {
 		super(null, null, null, name);
 		IMarkerSnapshot[] markersToCreate = new IMarkerSnapshot[attributes.length];
-		for (int i = 0; i < markersToCreate.length; i++) {
+		for (int i = 0; i < markersToCreate.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			markersToCreate[i] = ResourceSnapshotFactory.fromMarkerDetails(type, attributes[i], resources[i]);
 		}
 		setMarkerDescriptions(markersToCreate);

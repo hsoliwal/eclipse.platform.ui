@@ -103,7 +103,7 @@ public class SaveableHelper {
 	 * @return <code>true</code> for continue, <code>false</code> if the operation
 	 *         was canceled.
 	 */
-	public static boolean savePart(final ISaveablePart saveable, IWorkbenchPart part, IWorkbenchWindow window,
+	public static boolean savePart(final ISaveablePart saveable, IWorkbenchPart part, IWorkbenchWindow window, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean confirm) {
 		// Short circuit.
 		if (!saveable.isDirty()) {
@@ -151,7 +151,7 @@ public class SaveableHelper {
 		}
 
 		// Create save block.
-		IRunnableWithProgress progressOp = monitor -> {
+		IRunnableWithProgress progressOp = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			IProgressMonitor monitorWrap = new EventLoopProgressMonitor(monitor);
 			saveable.doSave(monitorWrap);
 		};
@@ -168,10 +168,10 @@ public class SaveableHelper {
 	 * @return <code>true</code> for continue, <code>false</code> if the operation
 	 *         was canceled or an error occurred while saving.
 	 */
-	private static boolean saveModels(ISaveablesSource modelSource, final IWorkbenchWindow window,
+	private static boolean saveModels(ISaveablesSource modelSource, final IWorkbenchWindow window, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final boolean confirm) {
-		final ArrayList<Saveable> dirtyModels = new ArrayList<>();
-		for (Saveable model : modelSource.getActiveSaveables()) {
+		final ArrayList<Saveable> dirtyModels = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Saveable model : modelSource.getActiveSaveables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (model.isDirty()) {
 				dirtyModels.add(model);
 			}
@@ -181,11 +181,11 @@ public class SaveableHelper {
 		}
 
 		// Create save block.
-		IRunnableWithProgress progressOp = monitor -> {
+		IRunnableWithProgress progressOp = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			IProgressMonitor monitorWrap = new EventLoopProgressMonitor(monitor);
 			SubMonitor subMonitor = SubMonitor.convert(monitorWrap, WorkbenchMessages.Save, dirtyModels.size());
 			try {
-				for (Saveable model : dirtyModels) {
+				for (Saveable model : dirtyModels) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// handle case where this model got saved as a result of
 					// saving another
 					if (!model.isDirty()) {
@@ -214,7 +214,7 @@ public class SaveableHelper {
 	 * @param confirm  request confirmation
 	 * @return the ISaveablePart2 constant
 	 */
-	static int savePart(final ISaveablePart2 saveable, IWorkbenchWindow window, boolean confirm) {
+	static int savePart(final ISaveablePart2 saveable, IWorkbenchWindow window, boolean confirm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Short circuit.
 		if (!saveable.isDirty()) {
 			return ISaveablePart2.YES;
@@ -235,7 +235,7 @@ public class SaveableHelper {
 		}
 
 		// Create save block.
-		IRunnableWithProgress progressOp = monitor -> {
+		IRunnableWithProgress progressOp = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			IProgressMonitor monitorWrap = new EventLoopProgressMonitor(monitor);
 			saveable.doSave(monitorWrap);
 		};
@@ -251,10 +251,10 @@ public class SaveableHelper {
 	 * Runs a progress monitor operation. Returns true if success, false if canceled
 	 * or an error occurred.
 	 */
-	static boolean runProgressMonitorOperation(String opName, final IRunnableWithProgress progressOp,
+	static boolean runProgressMonitorOperation(String opName, final IRunnableWithProgress progressOp, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IRunnableContext runnableContext) {
 		final boolean[] success = new boolean[] { false };
-		IRunnableWithProgress runnable = monitor -> {
+		IRunnableWithProgress runnable = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			progressOp.run(monitor);
 			// Only indicate success if the monitor wasn't canceled
 			if (!monitor.isCanceled()) {
@@ -286,7 +286,7 @@ public class SaveableHelper {
 	 * @since 3.2
 	 */
 	public static boolean needsSave(ISaveablesSource modelSource) {
-		for (Saveable model : modelSource.getActiveSaveables()) {
+		for (Saveable model : modelSource.getActiveSaveables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (model.isDirty() && !((InternalSaveable) model).isSavingInBackground()) {
 				return true;
 			}
@@ -294,7 +294,7 @@ public class SaveableHelper {
 		return false;
 	}
 
-	public static void doSaveModel(final Saveable model, IProgressMonitor progressMonitor,
+	public static void doSaveModel(final Saveable model, IProgressMonitor progressMonitor, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IShellProvider shellProvider, boolean blockUntilSaved) {
 		try {
 			Job backgroundSaveJob = ((InternalSaveable) model).getBackgroundSaveJob();
@@ -352,7 +352,7 @@ public class SaveableHelper {
 				final IWorkbenchPart[] parts = saveablesList.getPartsForSaveable(model);
 
 				// this will cause the parts tabs to show the ongoing background operation
-				for (IWorkbenchPart workbenchPart : parts) {
+				for (IWorkbenchPart workbenchPart : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IWorkbenchSiteProgressService progressService = Adapters.adapt(workbenchPart.getSite(),
 							IWorkbenchSiteProgressService.class);
 					progressService.showBusyForFamily(model);
@@ -365,7 +365,7 @@ public class SaveableHelper {
 					@Override
 					public void done(final IJobChangeEvent event) {
 						((InternalSaveable) model).setBackgroundSaveJob(null);
-						shellProvider.getShell().getDisplay().asyncExec(() -> {
+						shellProvider.getShell().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							notifySaveAction(parts);
 							model.enableUI(parts);
 						});
@@ -387,11 +387,11 @@ public class SaveableHelper {
 	}
 
 	private static void notifySaveAction(final IWorkbenchPart[] parts) {
-		Set<IWorkbenchWindow> wwindows = new HashSet<>();
-		for (IWorkbenchPart part : parts) {
+		Set<IWorkbenchWindow> wwindows = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkbenchPart part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			wwindows.add(part.getSite().getWorkbenchWindow());
 		}
-		for (IWorkbenchWindow iWorkbenchWindow : wwindows) {
+		for (IWorkbenchWindow iWorkbenchWindow : wwindows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchWindow wwin = (WorkbenchWindow) iWorkbenchWindow;
 			wwin.fireBackgroundSaveStarted();
 		}
@@ -404,7 +404,7 @@ public class SaveableHelper {
 	 * @return true if the user canceled.
 	 */
 	private static boolean waitForBackgroundSaveJob(final Saveable model) {
-		List<Saveable> models = new ArrayList<>();
+		List<Saveable> models = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		models.add(model);
 		return waitForBackgroundSaveJobs(models);
 	}
@@ -415,18 +415,18 @@ public class SaveableHelper {
 	 *
 	 * @return true if the user canceled.
 	 */
-	public static boolean waitForBackgroundSaveJobs(final List modelsToSave) {
+	public static boolean waitForBackgroundSaveJobs(final List modelsToSave) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// block if any of the saveables is still saving in the background
 		try {
 			PlatformUI.getWorkbench().getProgressService()
-					.busyCursorWhile(monitor -> Job.getJobManager().join(new DynamicFamily(modelsToSave), monitor));
+					.busyCursorWhile(monitor -> Job.getJobManager().join(new DynamicFamily(modelsToSave), monitor)); //FLLDCIM: MARK — T09  LAMBDA
 		} catch (InvocationTargetException e) {
 			StatusUtil.handleStatus(e, StatusManager.SHOW | StatusManager.LOG);
 		} catch (InterruptedException e) {
 			return true;
 		}
 		// remove saveables that are no longer dirty from the list
-		for (Iterator<?> it = modelsToSave.iterator(); it.hasNext();) {
+		for (Iterator<?> it = modelsToSave.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Saveable model = (Saveable) it.next();
 			if (!model.isDirty()) {
 				it.remove();

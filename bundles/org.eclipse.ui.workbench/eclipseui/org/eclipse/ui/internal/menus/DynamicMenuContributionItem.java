@@ -282,7 +282,7 @@ public class DynamicMenuContributionItem extends ContributionItem {
 	}
 
 	private static void reportErrorForContribution(IContributionItem contributionItem, RuntimeException e) {
-		String message = String.format("Dynamic menu contribution '%s' threw an unexpected exception", //$NON-NLS-1$
+		String message = String.format("Dynamic menu contribution '%s' threw an unexpected exception", //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 				contributionItem);
 		ILog.get().error(message, e);
 	}

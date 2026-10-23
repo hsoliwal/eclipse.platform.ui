@@ -68,7 +68,7 @@ public abstract class WizardDataTransferPage extends WizardPage implements Liste
 	 * @param newEntry the entry to add to the history
 	 */
 	protected String[] addToHistory(String[] history, String newEntry) {
-		java.util.ArrayList<String> l = new java.util.ArrayList<>(Arrays.asList(history));
+		java.util.ArrayList<String> l = new java.util.ArrayList<>(Arrays.asList(history)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addToHistory(l, newEntry);
 		String[] r = new String[l.size()];
 		l.toArray(r);
@@ -246,7 +246,7 @@ public abstract class WizardDataTransferPage extends WizardPage implements Liste
 	 * @return the user's reply: one of <code>"YES"</code>, <code>"NO"</code>,
 	 *         <code>"ALL"</code>, or <code>"CANCEL"</code>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String queryOverwrite(String pathString) {
 
 		IPath path = IPath.fromOSString(pathString);
@@ -272,7 +272,7 @@ public abstract class WizardDataTransferPage extends WizardPage implements Liste
 		String[] response = new String[] { YES, ALL, NO, NO_ALL, CANCEL };
 		// run in syncExec because callback is from an operation,
 		// which is probably not running in the UI thread.
-		getControl().getDisplay().syncExec(dialog::open);
+		getControl().getDisplay().syncExec(dialog::open); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		return dialog.getReturnCode() < 0 ? CANCEL : response[dialog.getReturnCode()];
 	}
 

@@ -415,7 +415,7 @@ public abstract class AbstractUIPlugin extends Plugin {
 		// startup() is not guaranteed to be called in the UI thread,
 		// but refreshPluginActions must run in the UI thread,
 		// so use asyncExec. See bug 6623 for more details.
-		Display.getDefault().asyncExec(WWinPluginAction::refreshActionList);
+		Display.getDefault().asyncExec(WWinPluginAction::refreshActionList); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**
@@ -494,7 +494,7 @@ public abstract class AbstractUIPlugin extends Plugin {
 	 *
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		final BundleContext fc = context;
@@ -589,7 +589,7 @@ public abstract class AbstractUIPlugin extends Plugin {
 	 * @return an image descriptor, or <code>null</code> if no image could be found
 	 * @since 3.0
 	 */
-	public static ImageDescriptor imageDescriptorFromPlugin(String pluginId, String imageFilePath) {
+	public static ImageDescriptor imageDescriptorFromPlugin(String pluginId, String imageFilePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pluginId == null || imageFilePath == null) {
 			throw new IllegalArgumentException();
 		}

@@ -41,7 +41,7 @@ public class DialogUtil {
 	 * Open an error style dialog for PartInitException by including any extra
 	 * information from the nested CoreException if present.
 	 */
-	public static void openError(String message, PartInitException exception) {
+	public static void openError(String message, PartInitException exception) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check for a nested CoreException
 		CoreException nestedException = null;
 		IStatus status = exception.getStatus();

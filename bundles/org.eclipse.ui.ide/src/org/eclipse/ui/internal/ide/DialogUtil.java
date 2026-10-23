@@ -41,7 +41,7 @@ public class DialogUtil {
 	 * including any extra information from the nested
 	 * CoreException if present.
 	 */
-	public static void openError(Shell parent, String title, String message,
+	public static void openError(Shell parent, String title, String message, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			PartInitException exception) {
 		// Check for a nested CoreException
 		CoreException nestedException = null;

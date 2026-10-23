@@ -31,7 +31,7 @@ import org.eclipse.core.runtime.IPath;
 public class RecursiveFileFinder implements IResourceVisitor {
 
 	private IFile firstFoundFile = null;
-	private final Set<IFile> foundFiles = new HashSet<>();
+	private final Set<IFile> foundFiles = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private final String fileName;
 	private final Set<IPath> ignoredDirectories;
 
@@ -48,14 +48,14 @@ public class RecursiveFileFinder implements IResourceVisitor {
 		this.ignoredDirectories = ignoredDirectories;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(IResource res) {
 		if (ignoredDirectories != null) {
 			IPath location = res.getLocation();
 			if (location == null) {
 				return false;
 			}
-			for (IPath ignoedDirectory : this.ignoredDirectories) {
+			for (IPath ignoedDirectory : this.ignoredDirectories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ignoedDirectory.isPrefixOf(location)) {
 					return false;
 				}

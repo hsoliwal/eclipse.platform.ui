@@ -58,8 +58,8 @@ public class WorkingSetResourceMapping extends ResourceMapping {
 
 	@Override
 	public IProject[] getProjects() {
-		Set<IProject> result = new HashSet<>();
-		for (ResourceMapping mapping : getMappings()) {
+		Set<IProject> result = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ResourceMapping mapping : getMappings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			java.util.Collections.addAll(result, mapping.getProjects());
 		}
 		return result.toArray(new IProject[result.size()]);
@@ -71,8 +71,8 @@ public class WorkingSetResourceMapping extends ResourceMapping {
 		ResourceMapping[] mappings = getMappings();
 		SubMonitor subMonitor = SubMonitor.convert(mon, mappings.length);
 
-		List<ResourceTraversal> result = new ArrayList<>();
-		for (ResourceMapping mapping : mappings) {
+		List<ResourceTraversal> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ResourceMapping mapping : mappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(mapping.getTraversals(context, subMonitor.split(1))));
 		}
 		return result.toArray(new ResourceTraversal[result.size()]);
@@ -83,8 +83,8 @@ public class WorkingSetResourceMapping extends ResourceMapping {
 	 * @return the mappings contained in the set
 	 */
 	private ResourceMapping[] getMappings() {
-		List<ResourceMapping> result = new ArrayList<>();
-		for (IAdaptable adaptable : set.getElements()) {
+		List<ResourceMapping> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IAdaptable adaptable : set.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ResourceMapping mapping = WorkingSetAdapterFactory.getContributedResourceMapping(adaptable);
 			if (mapping == null) {
 				mapping = WorkingSetAdapterFactory.getResourceMapping(adaptable);
@@ -98,7 +98,7 @@ public class WorkingSetResourceMapping extends ResourceMapping {
 
 	@Override
 	public boolean contains(ResourceMapping mapping) {
-		for (ResourceMapping childMapping : getMappings()) {
+		for (ResourceMapping childMapping : getMappings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (childMapping.contains(mapping)) {
 				return true;
 			}

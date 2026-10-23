@@ -115,7 +115,7 @@ public final class KeyStroke extends Trigger {
 	 *             if the given formal string representation could not be parsed
 	 *             to a valid key stroke.
 	 */
-	public static final KeyStroke getInstance(final String string)
+	public static final KeyStroke getInstance(final String string) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws ParseException {
 		if (string == null) {
 			throw new NullPointerException("Cannot parse a null string"); //$NON-NLS-1$
@@ -128,7 +128,7 @@ public final class KeyStroke extends Trigger {
 				KEY_DELIMITERS, true);
 		int i = 0;
 
-		while (stringTokenizer.hasMoreTokens()) {
+		while (stringTokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token = stringTokenizer.nextToken();
 
 			if (i % 2 == 0) {
@@ -137,7 +137,7 @@ public final class KeyStroke extends Trigger {
 					final int modifierKey = lookup.formalModifierLookup(token);
 					if (modifierKey == NO_KEY) {
 						throw new ParseException(
-								"Cannot create key stroke with duplicate or non-existent modifier key: " //$NON-NLS-1$
+								"Cannot create key stroke with duplicate or non-existent modifier key: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										+ token);
 					}
 

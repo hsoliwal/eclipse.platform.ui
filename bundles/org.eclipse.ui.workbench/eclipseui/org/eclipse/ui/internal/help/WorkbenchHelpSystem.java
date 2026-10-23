@@ -63,7 +63,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 	/**
 	 * Id of extension point where the help UI is contributed.
 	 */
-	private static final String HELP_SYSTEM_EXTENSION_ID = PlatformUI.PLUGIN_ID + '.'
+	private static final String HELP_SYSTEM_EXTENSION_ID = PlatformUI.PLUGIN_ID + '.' //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ IWorkbenchRegistryConstants.PL_HELPSUPPORT;
 
 	/**
@@ -79,8 +79,8 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 	/**
 	 * The help listener.
 	 */
-	private static class WorkbenchHelpListener implements HelpListener {
-		@Override
+	private static class WorkbenchHelpListener implements HelpListener { //FLLDCIM: MARK — T14  IMPLEMENTS
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void helpRequested(HelpEvent event) {
 
 			if (getInstance().getHelpUI() == null) {
@@ -167,7 +167,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 
 		@Override
 		public void removeExtension(IExtension source, Object[] objects) {
-			for (Object object : objects) {
+			for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (object == pluggableHelpUI) {
 					isInitialized = false;
 					pluggableHelpUI = null;
@@ -311,12 +311,12 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 	 * Initializes the pluggable help UI by getting an instance via the extension
 	 * point.
 	 */
-	private boolean initializePluggableHelpUI() {
+	private boolean initializePluggableHelpUI() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final boolean[] ret = new boolean[] { false };
 
 		BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				// get the help UI extension from the registry
 				IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(HELP_SYSTEM_EXTENSION_ID);
@@ -344,7 +344,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 			}
 
 			private IConfigurationElement findElement(String desiredHelpSystemId, IExtension[] extensions) {
-				for (IExtension extension : extensions) {
+				for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (desiredHelpSystemId.equals(extension.getUniqueIdentifier())) {
 						IConfigurationElement[] elements = extension.getConfigurationElements();
 						if (elements.length == 0) {
@@ -384,7 +384,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 							pluggableHelpUI, IExtensionTracker.REF_WEAK);
 					return true;
 				} catch (CoreException e) {
-					WorkbenchPlugin.log("Unable to instantiate help UI" + e.getStatus(), e);//$NON-NLS-1$
+					WorkbenchPlugin.log("Unable to instantiate help UI" + e.getStatus(), e);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				return false;
 			}
@@ -430,12 +430,12 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 	 *                 contexts (type <code>IContext</code>)
 	 * @deprecated use setHelp with a single context id parameter
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setHelp(IAction action, final Object[] contexts) {
-		for (Object context : contexts) {
+		for (Object context : contexts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isTrue(context instanceof String || context instanceof IContext);
 		}
-		action.setHelpListener(event -> {
+		action.setHelpListener(event -> { //FLLDCIM: MARK — T14  LAMBDA
 			if (contexts != null && contexts.length > 0 && getHelpUI() != null) {
 				// determine the context
 				IContext context = null;
@@ -468,14 +468,14 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 	 */
 	@Deprecated
 	public void setHelp(Control control, Object[] contexts) {
-		for (Object context : contexts) {
+		for (Object context : contexts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isTrue(context instanceof String || context instanceof IContext);
 		}
 
 		control.setData(HELP_KEY, contexts);
 		// ensure that the listener is only registered once
 		control.removeHelpListener(getHelpListener());
-		control.addHelpListener(getHelpListener());
+		control.addHelpListener(getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	/**
@@ -494,13 +494,13 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 	 */
 	@Deprecated
 	public void setHelp(Menu menu, Object[] contexts) {
-		for (Object context : contexts) {
+		for (Object context : contexts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isTrue(context instanceof String || context instanceof IContext);
 		}
 		menu.setData(HELP_KEY, contexts);
 		// ensure that the listener is only registered once
 		menu.removeHelpListener(getHelpListener());
-		menu.addHelpListener(getHelpListener());
+		menu.addHelpListener(getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	/**
@@ -519,13 +519,13 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 	 */
 	@Deprecated
 	public void setHelp(MenuItem item, Object[] contexts) {
-		for (Object context : contexts) {
+		for (Object context : contexts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isTrue(context instanceof String || context instanceof IContext);
 		}
 		item.setData(HELP_KEY, contexts);
 		// ensure that the listener is only registered once
 		item.removeHelpListener(getHelpListener());
-		item.addHelpListener(getHelpListener());
+		item.addHelpListener(getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	@Override
@@ -623,7 +623,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 		if (WorkbenchPlugin.DEBUG) {
 			setHelpTrace(contextId);
 		}
-		action.setHelpListener(event -> {
+		action.setHelpListener(event -> { //FLLDCIM: MARK — T14  LAMBDA
 			if (getHelpUI() != null) {
 				IContext context = HelpSystem.getContext(contextId);
 				if (context != null) {
@@ -643,7 +643,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 		control.setData(HELP_KEY, contextId);
 		// ensure that the listener is only registered once
 		control.removeHelpListener(getHelpListener());
-		control.addHelpListener(getHelpListener());
+		control.addHelpListener(getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	@Override
@@ -654,7 +654,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 		menu.setData(HELP_KEY, contextId);
 		// ensure that the listener is only registered once
 		menu.removeHelpListener(getHelpListener());
-		menu.addHelpListener(getHelpListener());
+		menu.addHelpListener(getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	@Override
@@ -667,19 +667,19 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 		item.setData(HELP_KEY, contextId);
 		// ensure that the listener is only registered once
 		item.removeHelpListener(getHelpListener());
-		item.addHelpListener(getHelpListener());
+		item.addHelpListener(getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 	}
 
 	/*
 	 * Traces all calls to the setHelp method in an attempt to find and report
 	 * duplicated context IDs.
 	 */
-	private void setHelpTrace(String contextId) {
+	private void setHelpTrace(String contextId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create an unthrown exception to capture the stack trace
 		RuntimeException e = new RuntimeException();
 		StackTraceElement[] stackTrace = e.getStackTrace();
 		StackTraceElement currentElement = null;
-		for (int s = 0; s < stackTrace.length; s++) {
+		for (int s = 0; s < stackTrace.length; s++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (stackTrace[s].getMethodName().equals("setHelp") && s + 1 < stackTrace.length) //$NON-NLS-1$
 			{
 				currentElement = stackTrace[s + 1];
@@ -695,7 +695,7 @@ public final class WorkbenchHelpSystem implements IWorkbenchHelpSystem {
 			registeredIDTable.put(contextId, currentElement);
 		} else if (!registeredIDTable.get(contextId).equals(currentElement)) {
 			StackTraceElement initialElement = registeredIDTable.get(contextId);
-			String error = "UI Duplicate Context ID found: '" + contextId + "'\n" + //$NON-NLS-1$ //$NON-NLS-2$
+			String error = "UI Duplicate Context ID found: '" + contextId + "'\n" + //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					" 1 at " + initialElement + '\n' + //$NON-NLS-1$
 					" 2 at " + currentElement; //$NON-NLS-1$
 

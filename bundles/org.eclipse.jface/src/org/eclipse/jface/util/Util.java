@@ -155,7 +155,7 @@ public final class Util {
 	 *         to be the least possible value. A shorter array is considered
 	 *         less than a longer array.
 	 */
-	public static <T extends Comparable<? super T>> int compare(final T[] left,
+	public static <T extends Comparable<? super T>> int compare(final T[] left, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final T[] right) {
 		if (left == null && right == null) {
 			return 0;
@@ -171,7 +171,7 @@ public final class Util {
 				return l - r;
 			}
 
-			for (int i = 0; i < l; i++) {
+			for (int i = 0; i < l; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int compareTo = compare(left[i], right[i]);
 
 				if (compareTo != 0) {
@@ -197,7 +197,7 @@ public final class Util {
 	 *         to be the least possible value. A shorter list is considered less
 	 *         than a longer list.
 	 */
-	public static <T extends Comparable<? super T>> int compare(final List<T> left, final List<T> right) {
+	public static <T extends Comparable<? super T>> int compare(final List<T> left, final List<T> right) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (left == null && right == null) {
 			return 0;
 		} else if (left == null) {
@@ -212,7 +212,7 @@ public final class Util {
 				return l - r;
 			}
 
-			for (int i = 0; i < l; i++) {
+			for (int i = 0; i < l; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int compareTo = compare(left.get(i), right.get(i));
 
 				if (compareTo != 0) {
@@ -237,7 +237,7 @@ public final class Util {
 	 * @return <code>true</code> if the second array is a subsequence of the
 	 *         array list, and they share end elements.
 	 */
-	public static boolean endsWith(final Object[] left,
+	public static boolean endsWith(final Object[] left, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Object[] right, final boolean equals) {
 		if (left == null || right == null) {
 			return false;
@@ -250,7 +250,7 @@ public final class Util {
 			return false;
 		}
 
-		for (int i = 0; i < r; i++) {
+		for (int i = 0; i < r; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Objects.equals(left[l - i - 1], right[r - i - 1])) {
 				return false;
 			}
@@ -338,7 +338,7 @@ public final class Util {
 		}
 
 		int hashCode = 89;
-		for (final Object object : objects) {
+		for (final Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object != null) {
 				hashCode = hashCode * 31 + object.hashCode();
 			}
@@ -360,7 +360,7 @@ public final class Util {
 	 * @return <code>true</code> if the first arrays starts with the second
 	 *         list; <code>false</code> otherwise.
 	 */
-	public static boolean startsWith(final Object[] left,
+	public static boolean startsWith(final Object[] left, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Object[] right, final boolean equals) {
 		if (left == null || right == null) {
 			return false;
@@ -373,7 +373,7 @@ public final class Util {
 			return false;
 		}
 
-		for (int i = 0; i < r; i++) {
+		for (int i = 0; i < r; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Objects.equals(left[i], right[i])) {
 				return false;
 			}
@@ -390,16 +390,16 @@ public final class Util {
 	 *            The array to convert; may be <code>null</code>.
 	 * @return The string representation of the array; never <code>null</code>.
 	 */
-	public static String toString(final Object[] array) {
+	public static String toString(final Object[] array) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (array == null) {
 			return "null"; //$NON-NLS-1$
 		}
 
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append('[');
 
 		final int length = array.length;
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != 0) {
 				buffer.append(',');
 			}
@@ -459,7 +459,7 @@ public final class Util {
 	 *         expressions)
 	 * @since 3.4
 	 */
-	public static String replaceAll(String src, String find, String replacement) {
+	public static String replaceAll(String src, String find, String replacement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int len = src.length();
 		final int findLen = find.length();
 
@@ -468,9 +468,9 @@ public final class Util {
 			return src;
 		}
 
-		StringBuilder buf = new StringBuilder();
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int beginIndex = 0;
-		while (idx != -1 && idx < len) {
+		while (idx != -1 && idx < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buf.append(src.substring(beginIndex, idx));
 			buf.append(replacement);
 
@@ -674,13 +674,13 @@ public final class Util {
 	 * @return the monitor closest to the given point
 	 * @since 3.15
 	 */
-	public static Monitor getClosestMonitor(Display toSearch, Point toFind) {
+	public static Monitor getClosestMonitor(Display toSearch, Point toFind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int closest = Integer.MAX_VALUE;
 
 		Monitor[] monitors = toSearch.getMonitors();
 		Monitor result = monitors[0];
 
-		for (Monitor current : monitors) {
+		for (Monitor current : monitors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Rectangle clientArea = current.getClientArea();
 
 			if (clientArea.contains(toFind)) {

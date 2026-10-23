@@ -30,7 +30,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  *
  * @see IRunnableContext
  */
-public interface IRunnableWithProgress {
+public interface IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 	/**
 	 * Runs this operation.  Progress should be reported to the given progress monitor.
 	 * This method is usually invoked by an <code>IRunnableContext</code>'s <code>run</code> method,

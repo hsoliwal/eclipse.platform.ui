@@ -68,7 +68,7 @@ public class JFaceResources {
 	 * Map of Display onto DeviceResourceManager. Holds all the resources for
 	 * the associated display.
 	 */
-	private static final Map<Display, ResourceManager> registries = new HashMap<>();
+	private static final Map<Display, ResourceManager> registries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The symbolic font name for the banner font (value
@@ -210,7 +210,7 @@ public class JFaceResources {
 	 * @param toQuery display to query
 	 * @return the global resource manager for the given display
 	 */
-	public static ResourceManager getResources(final Display toQuery) {
+	public static ResourceManager getResources(final Display toQuery) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Objects.requireNonNull(toQuery, "toQuery"); //$NON-NLS-1$
 		ResourceManager reg = registries.get(toQuery);
 
@@ -420,7 +420,7 @@ public class JFaceResources {
 	/**
 	 * Initialize default images in JFace's image registry.
 	 */
-	private static void initializeDefaultImages() {
+	private static void initializeDefaultImages() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Object bundle = null;
 		try {
@@ -428,33 +428,33 @@ public class JFaceResources {
 		} catch (Throwable exception) {
 			// Test to see if OSGI is present
 		}
-		declareImage(bundle, Wizard.DEFAULT_IMAGE, ICONS_PATH + "page.svg", //$NON-NLS-1$
+		declareImage(bundle, Wizard.DEFAULT_IMAGE, ICONS_PATH + "page.svg", //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				Wizard.class, "images/page.svg"); //$NON-NLS-1$
 
 		// register default images for dialogs
-		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_INFO, ICONS_PATH
+		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_INFO, ICONS_PATH //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "message_info.svg", Dialog.class, "images/message_info.svg"); //$NON-NLS-1$ //$NON-NLS-2$
-		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_WARNING, ICONS_PATH
+		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_WARNING, ICONS_PATH //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "message_warning.svg", Dialog.class, //$NON-NLS-1$
 				"images/message_warning.svg"); //$NON-NLS-1$
-		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_ERROR, ICONS_PATH
+		declareImage(bundle, Dialog.DLG_IMG_MESSAGE_ERROR, ICONS_PATH //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "message_error.svg", Dialog.class, "images/message_error.svg");//$NON-NLS-1$ //$NON-NLS-2$
 		declareImage(bundle, Dialog.DLG_IMG_HELP,
-				ICONS_PATH + "help.svg", Dialog.class, "images/help.svg");//$NON-NLS-1$ //$NON-NLS-2$
+				ICONS_PATH + "help.svg", Dialog.class, "images/help.svg");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		declareImage(
 				bundle,
 				TitleAreaDialog.DLG_IMG_TITLE_BANNER,
-				ICONS_PATH + "title_banner.svg", TitleAreaDialog.class, "images/title_banner.svg");//$NON-NLS-1$ //$NON-NLS-2$
+				ICONS_PATH + "title_banner.svg", TitleAreaDialog.class, "images/title_banner.svg");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		declareImage(
 				bundle,
 				PreferenceDialog.PREF_DLG_TITLE_IMG,
-				ICONS_PATH + "pref_dialog_title.svg", PreferenceDialog.class, "images/pref_dialog_title.svg");//$NON-NLS-1$ //$NON-NLS-2$
-		declareImage(bundle, PopupDialog.POPUP_IMG_MENU, ICONS_PATH
+				ICONS_PATH + "pref_dialog_title.svg", PreferenceDialog.class, "images/pref_dialog_title.svg");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(bundle, PopupDialog.POPUP_IMG_MENU, ICONS_PATH //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "popup_menu.svg", PopupDialog.class, "images/popup_menu.svg");//$NON-NLS-1$ //$NON-NLS-2$
 		declareImage(
 				bundle,
 				PopupDialog.POPUP_IMG_MENU_DISABLED,
-				ICONS_PATH + "popup_menu_disabled.svg", PopupDialog.class, "images/popup_menu_disabled.svg");//$NON-NLS-1$ //$NON-NLS-2$
+				ICONS_PATH + "popup_menu_disabled.svg", PopupDialog.class, "images/popup_menu_disabled.svg");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -520,7 +520,7 @@ public class JFaceResources {
 		Assert.isNotNull(keys);
 		int length = keys.length;
 		String[] result = new String[length];
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i] = getString(keys[i]);
 		}
 		return result;

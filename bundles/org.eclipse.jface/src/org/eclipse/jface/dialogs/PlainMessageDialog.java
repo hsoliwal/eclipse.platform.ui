@@ -204,7 +204,7 @@ public class PlainMessageDialog extends IconAndMessageDialog {
 
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		for (int id = 0; id < buttonLabels.size(); id++) {
+		for (int id = 0; id < buttonLabels.size(); id++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createButton(parent, id, buttonLabels.get(id), defaultButtonIndex == id);
 		}
 	}

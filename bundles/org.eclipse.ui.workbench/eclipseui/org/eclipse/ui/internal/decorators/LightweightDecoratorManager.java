@@ -71,7 +71,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 		/*
 		 * @see ISafeRunnable.handleException(Throwable).
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void handleException(Throwable exception) {
 			IStatus status = StatusUtil.newStatus(IStatus.ERROR, exception.getMessage(), exception);
 			LightweightDecoratorDefinition decorator = data.decorator;
@@ -144,8 +144,8 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	 * occur.
 	 */
 	private void buildContributors() {
-		for (LightweightDecoratorDefinition decorator : lightweightDefinitions) {
-			for (String type : getTargetTypes(decorator)) {
+		for (LightweightDecoratorDefinition decorator : lightweightDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String type : getTargetTypes(decorator)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				registerContributor(decorator, type);
 			}
 		}
@@ -166,7 +166,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 			lightweightDefinitions[oldDefs.length] = decorator;
 			// no reset - handled in the DecoratorManager
 			String[] types = getTargetTypes(decorator);
-			for (String type : types) {
+			for (String type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				registerContributor(decorator, type);
 			}
 			return true;
@@ -198,7 +198,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 					lightweightDefinitions = new LightweightDecoratorDefinition[lightweightDefinitions.length - 1],
 					idx);
 			// no reset - handled in the DecoratorManager
-			for (String type : getTargetTypes(decorator)) {
+			for (String type : getTargetTypes(decorator)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				unregisterContributor(decorator, type);
 
 			}
@@ -231,7 +231,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	 * @since 3.1
 	 */
 	private int getLightweightDecoratorDefinitionIdx(String decoratorId) {
-		for (int i = 0; i < lightweightDefinitions.length; i++) {
+		for (int i = 0; i < lightweightDefinitions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lightweightDefinitions[i].getId().equals(decoratorId)) {
 				return i;
 			}
@@ -245,8 +245,8 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	 * @return LightweightDecoratorDefinition[]
 	 */
 	LightweightDecoratorDefinition[] enabledDefinitions() {
-		ArrayList<LightweightDecoratorDefinition> result = new ArrayList<>();
-		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) {
+		ArrayList<LightweightDecoratorDefinition> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lightweightDefinition.isEnabled()) {
 				result.add(lightweightDefinition);
 			}
@@ -262,7 +262,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	 * @return boolean
 	 */
 	boolean hasEnabledDefinitions() {
-		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) {
+		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lightweightDefinition.isEnabled()) {
 				return true;
 			}
@@ -284,7 +284,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	void shutdown() {
 		// Disable all fo the enabled decorators
 		// so as to force a dispose of thier decorators
-		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) {
+		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lightweightDefinition.isEnabled()) {
 				lightweightDefinition.setEnabled(false);
 			}
@@ -299,7 +299,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	 * @param decoratorId String
 	 */
 	LightweightDecoratorDefinition getDecoratorDefinition(String decoratorId) {
-		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) {
+		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lightweightDefinition.getId().equals(decoratorId)) {
 				return lightweightDefinition;
 			}
@@ -310,13 +310,13 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	/**
 	 * Get the lightweight registered for elements of this type.
 	 */
-	LightweightDecoratorDefinition[] getDecoratorsFor(Object element) {
+	LightweightDecoratorDefinition[] getDecoratorsFor(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (element == null) {
 			return EMPTY_LIGHTWEIGHT_DEF;
 		}
 
-		List elements = new ArrayList(1);
+		List elements = new ArrayList(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		elements.add(element);
 		LightweightDecoratorDefinition[] decoratorArray = EMPTY_LIGHTWEIGHT_DEF;
 		List contributors = getContributors(elements);
@@ -340,7 +340,7 @@ public class LightweightDecoratorManager extends ObjectContributorManager {
 	 *                   true.
 	 */
 	public void getDecorations(Object element, DecorationBuilder decoration) {
-		for (LightweightDecoratorDefinition decorator : getDecoratorsFor(element)) {
+		for (LightweightDecoratorDefinition decorator : getDecoratorsFor(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			decoration.setCurrentDefinition(decorator);
 			decorate(element, decoration, decorator);
 		}

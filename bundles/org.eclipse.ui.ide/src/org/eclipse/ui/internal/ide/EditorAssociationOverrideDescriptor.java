@@ -77,7 +77,7 @@ public final class EditorAssociationOverrideDescriptor {
 	 * @return the editor association override or <code>null</code> if the plug-in isn't loaded yet
 	 * @throws CoreException if a failure occurred during creation
 	 */
-	public IEditorAssociationOverride createOverride() throws CoreException {
+	public IEditorAssociationOverride createOverride() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Throwable[] exception= new Throwable[1];
 		final IEditorAssociationOverride[] result= new IEditorAssociationOverride[1];
 		String message= MessageFormat.format(IDEWorkbenchMessages.editorAssociationOverride_error_couldNotCreate_message, getId(), fElement.getContributor().getName());
@@ -153,8 +153,8 @@ public final class EditorAssociationOverrideDescriptor {
 	}
 
 	private static EditorAssociationOverrideDescriptor[] createDescriptors(IConfigurationElement[] elements) {
-		List<EditorAssociationOverrideDescriptor> result = new ArrayList<>(elements.length);
-		for (IConfigurationElement configElement : elements) {
+		List<EditorAssociationOverrideDescriptor> result = new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement configElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (EDITOR_ASSOCIATION_OVERRIDE_ELEMENT.equals(configElement.getName())) {
 				EditorAssociationOverrideDescriptor desc= new EditorAssociationOverrideDescriptor(configElement);
 				result.add(desc);

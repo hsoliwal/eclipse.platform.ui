@@ -44,7 +44,7 @@ public abstract class UIResourceFilterDescription {
 	 * @param iResourceFilterDescription description to wrap; not <code>null</code>
 	 * @return a UIResourceFilterDescription
 	 */
-	public static UIResourceFilterDescription wrap(
+	public static UIResourceFilterDescription wrap( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IResourceFilterDescription iResourceFilterDescription) {
 		return new UIResourceFilterDescription() {
 			@Override

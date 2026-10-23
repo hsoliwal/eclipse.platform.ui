@@ -64,7 +64,7 @@ public class FileStatesPage extends PreferencePage implements
 
 	private Button keepDerivedStateButton;
 
-	private final ArrayList<Control> dependentControls = new ArrayList<>();
+	private final ArrayList<Control> dependentControls = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	//Choose a maximum to prevent OutOfMemoryErrors
 	private final int FILE_STATES_MAXIMUM = 10000;
@@ -81,7 +81,7 @@ public class FileStatesPage extends PreferencePage implements
 	 * @param textValue java.lang.String
 	 * @param parent Composite
 	 */
-	private Text addDependentLabelAndText(String labelString, String textValue,
+	private Text addDependentLabelAndText(String labelString, String textValue, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite parent) {
 		Label label = new Label(parent, SWT.LEFT);
 		label.setText(labelString);
@@ -89,7 +89,7 @@ public class FileStatesPage extends PreferencePage implements
 
 		Text text = new Text(parent, SWT.LEFT | SWT.BORDER);
 		GridData data = new GridData();
-		text.addListener(SWT.Modify, this);
+		text.addListener(SWT.Modify, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data.horizontalAlignment = GridData.FILL;
 		data.grabExcessHorizontalSpace = true;
 		data.verticalAlignment = GridData.CENTER;
@@ -103,7 +103,7 @@ public class FileStatesPage extends PreferencePage implements
 
 	private Button addCheckBox(String label, boolean selected, Composite parent) {
 		Button button = new Button(parent, SWT.CHECK | SWT.LEFT);
-		button.addListener(SWT.Selection, this);
+		button.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data = new GridData();
 		data.horizontalSpan = 2;
 		data.horizontalIndent= -INDENT;
@@ -117,7 +117,7 @@ public class FileStatesPage extends PreferencePage implements
 	 * Recomputes the page's error state by validating all
 	 * the fields.
 	 */
-	private void checkState() {
+	private void checkState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Assume invalid if the controls not created yet
 		if (longevityText == null || maxStatesText == null || maxStateSizeText == null || applyPolicyButton == null
 				|| keepDerivedStateButton == null) {
@@ -127,7 +127,7 @@ public class FileStatesPage extends PreferencePage implements
 
 		boolean newState= applyPolicyButton.getSelection();
 		Iterator<Control> iter = dependentControls.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			iter.next().setEnabled(newState);
 		}
 
@@ -155,7 +155,7 @@ public class FileStatesPage extends PreferencePage implements
 	 * @returns Control
 	 * @param parent Composite
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
@@ -250,7 +250,7 @@ public class FileStatesPage extends PreferencePage implements
 	 * Performs special processing when this page's Defaults button has been pressed.
 	 * Reset the entries to their default values.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performDefaults() {
 		super.performDefaults();
 
@@ -275,7 +275,7 @@ public class FileStatesPage extends PreferencePage implements
 	/**
 	 * Perform the result of the OK from the receiver.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 
 		long longevityValue = validateLongTextEntry(longevityText, DAY_LENGTH);
@@ -313,7 +313,7 @@ public class FileStatesPage extends PreferencePage implements
 	 * no errors, otherwise return -1 and set the entry field error.
 	 * @return int
 	 */
-	private int validateIntegerTextEntry(Text text) {
+	private int validateIntegerTextEntry(Text text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int value;
 
@@ -341,7 +341,7 @@ public class FileStatesPage extends PreferencePage implements
 	 * @param scale the scale (factor by which the value is multiplied when it is persisted)
 	 * @return long
 	 */
-	private long validateLongTextEntry(Text text, long scale) {
+	private long validateLongTextEntry(Text text, long scale) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		long value;
 

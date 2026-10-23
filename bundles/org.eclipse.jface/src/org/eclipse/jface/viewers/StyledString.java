@@ -104,7 +104,7 @@ public class StyledString implements CharSequence {
 	 * Creates an empty {@link StyledString}.
 	 */
 	public StyledString() {
-		fBuffer = new StringBuilder();
+		fBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		fStyleRuns = null;
 	}
 
@@ -224,7 +224,7 @@ public class StyledString implements CharSequence {
 	 *            the string to append
 	 * @return returns a reference to this object
 	 */
-	public StyledString append(StyledString string) {
+	public StyledString append(StyledString string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (string.length() == 0) {
 			return this;
 		}
@@ -234,7 +234,7 @@ public class StyledString implements CharSequence {
 
 		List<StyleRun> otherRuns = string.fStyleRuns;
 		if (otherRuns != null && !otherRuns.isEmpty()) {
-			for (int i = 0; i < otherRuns.size(); i++) {
+			for (int i = 0; i < otherRuns.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				StyleRun curr = otherRuns.get(i);
 				if (i == 0 && curr.offset != 0) {
 					appendStyleRun(null, offset); // appended string will
@@ -328,10 +328,10 @@ public class StyledString implements CharSequence {
 	 *             is greater than the length of this object
 	 * @since 3.5
 	 */
-	public StyledString insert(char ch, int offset) throws StringIndexOutOfBoundsException {
+	public StyledString insert(char ch, int offset) throws StringIndexOutOfBoundsException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (offset < 0 || offset > fBuffer.length()) {
 			throw new StringIndexOutOfBoundsException(
-					"Invalid offset (" + offset + ")"); //$NON-NLS-1$//$NON-NLS-2$
+					"Invalid offset (" + offset + ")"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (hasRuns()) {
 			int runIndex = findRun(offset);
@@ -342,7 +342,7 @@ public class StyledString implements CharSequence {
 			}
 			List<StyleRun> styleRuns = getStyleRuns();
 			final int size = styleRuns.size();
-			for (int i = runIndex; i < size; i++) {
+			for (int i = runIndex; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				StyleRun run = styleRuns.get(i);
 				run.offset++;
 			}
@@ -367,10 +367,10 @@ public class StyledString implements CharSequence {
 	 *             if <code>start</code> is less than zero, or if offset plus
 	 *             length is greater than the length of this object.
 	 */
-	public void setStyle(int offset, int length, Styler styler) throws StringIndexOutOfBoundsException {
+	public void setStyle(int offset, int length, Styler styler) throws StringIndexOutOfBoundsException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (offset < 0 || offset + length > fBuffer.length()) {
 			throw new StringIndexOutOfBoundsException(
-					"Invalid offset (" + offset + ") or length (" + length + ")"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+					"Invalid offset (" + offset + ") or length (" + length + ")"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (length == 0) {
 			return;
@@ -428,13 +428,13 @@ public class StyledString implements CharSequence {
 	 * @return an array of all {@link StyleRange} resulting from applying the
 	 *         stored stylers to this string.
 	 */
-	public StyleRange[] getStyleRanges() {
+	public StyleRange[] getStyleRanges() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hasRuns()) {
-			ArrayList<StyleRange> res = new ArrayList<>();
+			ArrayList<StyleRange> res = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			int offset = 0;
 			Styler style = null;
-			for (StyleRun curr : getStyleRuns()) {
+			for (StyleRun curr : getStyleRuns()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isDifferentStyle(curr.style, style)) {
 					if (curr.offset > offset && style != null) {
 						res.add(createStyleRange(offset, curr.offset, style));
@@ -455,7 +455,7 @@ public class StyledString implements CharSequence {
 		// method assumes that fStyleRuns is not null
 		int low = 0;
 		int high = fStyleRuns.size() - 1;
-		while (low <= high) {
+		while (low <= high) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (low + high) / 2;
 			StyleRun styleRun = fStyleRuns.get(mid);
 			if (styleRun.offset < offset) {
@@ -526,7 +526,7 @@ public class StyledString implements CharSequence {
 
 		@Override
 		public String toString() {
-			return "Offset " + offset + ", style: " + style; //$NON-NLS-1$//$NON-NLS-2$
+			return "Offset " + offset + ", style: " + style; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

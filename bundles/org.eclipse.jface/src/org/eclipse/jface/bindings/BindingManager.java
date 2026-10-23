@@ -119,7 +119,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 			final Collection values = (Collection) currentValue;
 			values.add(value);
 		} else { // currentValue == null
-			final Collection values = new ArrayList(1);
+			final Collection values = new ArrayList(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			values.add(value);
 			map.put(key, values);
 		}
@@ -145,19 +145,19 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *         <code>string</code>) to the least specific (i.e.,
 	 *         <code>null</code>).
 	 */
-	private static String[] expand(String string, final String separator) {
+	private static String[] expand(String string, final String separator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Test for boundary conditions.
 		if (string == null || separator == null) {
 			return new String[0];
 		}
 
-		final List<String> strings = new ArrayList<>();
-		final StringBuilder stringBuffer = new StringBuilder();
+		final List<String> strings = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		string = string.trim(); // remove whitespace
 		if (string.length() > 0) {
 			final StringTokenizer stringTokenizer = new StringTokenizer(string,
 					separator);
-			while (stringTokenizer.hasMoreElements()) {
+			while (stringTokenizer.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (stringBuffer.length() > 0) {
 					stringBuffer.append(separator);
 				}
@@ -189,7 +189,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 */
 	private Map activeBindingsByParameterizedCommand = null;
 
-	private final Set triggerConflicts = new HashSet();
+	private final Set triggerConflicts = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * The scheme that is currently active. An active scheme is the one that is
@@ -215,7 +215,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	/**
 	 * A cache of context IDs that weren't defined.
 	 */
-	private final Set bindingErrors = new HashSet();
+	private final Set bindingErrors = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * The array of all bindings currently handled by this manager. This array
@@ -230,7 +230,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * may be empty, but it is never <code>null</code>. This is a map of
 	 * <code>CachedBindingSet</code> to <code>CachedBindingSet</code>.
 	 */
-	private final Map cachedBindings = new HashMap();
+	private final Map cachedBindings = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The command manager for this binding manager. This manager is only needed
@@ -382,11 +382,11 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *         trigger (<code>TriggerSequence</code>) to command identifier (<code>String</code>).
 	 *         This value will never be <code>null</code>, but may be empty.
 	 */
-	private final Map buildPrefixTable(final Map activeBindings) {
-		final Map prefixTable = new HashMap();
+	private final Map buildPrefixTable(final Map activeBindings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map prefixTable = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		final Iterator bindingItr = activeBindings.entrySet().iterator();
-		while (bindingItr.hasNext()) {
+		while (bindingItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map.Entry entry = (Map.Entry) bindingItr.next();
 			final TriggerSequence triggerSequence = (TriggerSequence) entry
 					.getKey();
@@ -404,13 +404,13 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 
 			// Break apart the trigger sequence.
 			final Binding binding = (Binding) entry.getValue();
-			for (int i = 0; i < prefixesLength; i++) {
+			for (int i = 0; i < prefixesLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final TriggerSequence prefix = prefixes[i];
 				final Object value = prefixTable.get(prefix);
 				if ((prefixTable.containsKey(prefix)) && (value instanceof Map)) {
 					((Map) value).put(triggerSequence, binding);
 				} else {
-					final Map map = new HashMap();
+					final Map map = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					prefixTable.put(prefix, map);
 					map.put(triggerSequence, binding);
 				}
@@ -468,7 +468,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	private final int compareSchemes(final String schemeId1,
 			final String schemeId2) {
 		if (!schemeId2.equals(schemeId1)) {
-			for (final String schemePointer : activeSchemeIds) {
+			for (final String schemePointer : activeSchemeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (schemeId2.equals(schemePointer)) {
 					return 1;
 
@@ -516,7 +516,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *            needed), or empty (indicating that this map should be
 	 *            computed).
 	 */
-	private final void computeBindings(final Map activeContextTree,
+	private final void computeBindings(final Map activeContextTree, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Map bindingsByTrigger, final Map triggersByCommandId,
 			final Map conflictsByTrigger) {
 		/*
@@ -528,9 +528,9 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		 * SECOND PASS: Just throw in bindings that match the current state. If
 		 * there is more than one match for a binding, then create a list.
 		 */
-		final Map possibleBindings = new HashMap();
+		final Map possibleBindings = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final int length = trimmedBindings.length;
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding binding = trimmedBindings[i];
 			boolean found;
 
@@ -555,7 +555,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 			final String schemeId = binding.getSchemeId();
 			found = false;
 			if (activeSchemeIds != null) {
-				for (String activeSchemeId : activeSchemeIds) {
+				for (String activeSchemeId : activeSchemeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (Objects.equals(schemeId, activeSchemeId)) {
 						found = true;
 						break;
@@ -571,7 +571,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 			final Object existingMatch = possibleBindings.get(trigger);
 			if (existingMatch instanceof Binding) {
 				possibleBindings.remove(trigger);
-				final Collection matches = new ArrayList();
+				final Collection matches = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				matches.add(existingMatch);
 				matches.add(binding);
 				possibleBindings.put(trigger, matches);
@@ -595,7 +595,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		 */
 		final Iterator possibleBindingItr = possibleBindings.entrySet()
 				.iterator();
-		while (possibleBindingItr.hasNext()) {
+		while (possibleBindingItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map.Entry entry = (Map.Entry) possibleBindingItr.next();
 			final TriggerSequence trigger = (TriggerSequence) entry.getKey();
 			final Object match = entry.getValue();
@@ -606,7 +606,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 			 */
 			if (activeContextTree == null) {
 				// We are building the list of all possible bindings.
-				final Collection bindings = new ArrayList();
+				final Collection bindings = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				if (match instanceof Binding) {
 					bindings.add(match);
 					bindingsByTrigger.put(trigger, bindings);
@@ -618,7 +618,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 					bindingsByTrigger.put(trigger, bindings);
 
 					final Iterator matchItr = bindings.iterator();
-					while (matchItr.hasNext()) {
+					while (matchItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						addReverseLookup(triggersByCommandId,
 								((Binding) matchItr.next())
 										.getParameterizedCommand(), trigger);
@@ -645,7 +645,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 							buffer.write(trigger.toString());
 							buffer.write(':');
 							Iterator i = ((Collection) match).iterator();
-							while (i.hasNext()) {
+							while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								buffer.newLine();
 								buffer.write(i.next().toString());
 							}
@@ -657,8 +657,8 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 					}
 					if (DEBUG) {
 						Tracing.printTrace("BINDINGS", //$NON-NLS-1$
-								"A conflict occurred for " + trigger); //$NON-NLS-1$
-						Tracing.printTrace("BINDINGS", "    " + match); //$NON-NLS-1$ //$NON-NLS-2$
+								"A conflict occurred for " + trigger); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+						Tracing.printTrace("BINDINGS", "    " + match); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				} else {
 					bindingsByTrigger.put(trigger, winner);
@@ -702,9 +702,9 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * @return The value of the strokes in the triggers.
 	 * @since 3.2
 	 */
-	private final int countStrokes(final Trigger[] triggers) {
+	private final int countStrokes(final Trigger[] triggers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int strokeCount = triggers.length;
-		for (final Trigger trigger : triggers) {
+		for (final Trigger trigger : triggers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (trigger instanceof final KeyStroke keyStroke) {
 				final int modifierKeys = keyStroke.getModifierKeys();
 				final IKeyLookup lookup = KeyLookupFactory.getDefault();
@@ -745,13 +745,13 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * @return The tree of contexts to use; may be empty, but never
 	 *         <code>null</code>. The keys and values are both strings.
 	 */
-	private final Map createContextTreeFor(final Set contextIds) {
-		final Map contextTree = new HashMap();
+	private final Map createContextTreeFor(final Set contextIds) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map contextTree = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		final Iterator contextIdItr = contextIds.iterator();
-		while (contextIdItr.hasNext()) {
+		while (contextIdItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String childContextId = (String) contextIdItr.next();
-			while (childContextId != null) {
+			while (childContextId != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// Check if we've already got the part of the tree from here up.
 				if (contextTree.containsKey(childContextId)) {
 					break;
@@ -793,12 +793,12 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * @return The tree of contexts to use; may be empty, but never
 	 *         <code>null</code>. The keys and values are both strings.
 	 */
-	private final Map createFilteredContextTreeFor(final Set contextIds) {
+	private final Map createFilteredContextTreeFor(final Set contextIds) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check to see whether a dialog or window is active.
 		boolean dialog = false;
 		boolean window = false;
 		Iterator contextIdItr = contextIds.iterator();
-		while (contextIdItr.hasNext()) {
+		while (contextIdItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String contextId = (String) contextIdItr.next();
 			if (IContextIds.CONTEXT_ID_DIALOG.equals(contextId)) {
 				dialog = true;
@@ -816,13 +816,13 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		 * active.
 		 */
 		contextIdItr = contextIds.iterator();
-		while (contextIdItr.hasNext()) {
+		while (contextIdItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String contextId = (String) contextIdItr.next();
 			Context context = contextManager.getContext(contextId);
 			Objects.requireNonNull(context);
 			try {
 				String parentId = context.getParentId();
-				while (parentId != null) {
+				while (parentId != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (IContextIds.CONTEXT_ID_DIALOG.equals(parentId)) {
 						if (!dialog) {
 							contextIdItr.remove();
@@ -884,7 +884,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		}
 
 		final Object[] listeners = getListeners();
-		for (Object l : listeners) {
+		for (Object l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IBindingManagerListener listener = (IBindingManagerListener) l;
 			listener.bindingManagerChanged(event);
 		}
@@ -952,7 +952,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *         <code>Collection</code> containing <code>Binding</code>).
 	 *         This map may be empty, but it is never <code>null</code>.
 	 */
-	public Map getActiveBindingsDisregardingContext() {
+	public Map getActiveBindingsDisregardingContext() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (bindings == null) {
 			// Not yet initialized. This is happening too early. Do nothing.
 			return Collections.EMPTY_MAP;
@@ -987,9 +987,9 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		}
 
 		// Compute the active bindings.
-		commandIdsByTrigger = new HashMap();
-		final Map triggersByParameterizedCommand = new HashMap();
-		final Map conflictsByTrigger = new HashMap();
+		commandIdsByTrigger = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final Map triggersByParameterizedCommand = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final Map conflictsByTrigger = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		computeBindings(null, commandIdsByTrigger,
 				triggersByParameterizedCommand, conflictsByTrigger);
 		existingCache.setBindingsByTrigger(commandIdsByTrigger);
@@ -1014,7 +1014,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *         This map may be empty, but it is never <code>null</code>.
 	 * @since 3.2
 	 */
-	private final Map getActiveBindingsDisregardingContextByParameterizedCommand() {
+	private final Map getActiveBindingsDisregardingContextByParameterizedCommand() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (bindings == null) {
 			// Not yet initialized. This is happening too early. Do nothing.
 			return Collections.EMPTY_MAP;
@@ -1050,9 +1050,9 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		}
 
 		// Compute the active bindings.
-		final Map commandIdsByTrigger = new HashMap();
-		final Map conflictsByTrigger = new HashMap();
-		triggersByParameterizedCommand = new HashMap();
+		final Map commandIdsByTrigger = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final Map conflictsByTrigger = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		triggersByParameterizedCommand = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		computeBindings(null, commandIdsByTrigger,
 				triggersByParameterizedCommand, conflictsByTrigger);
 		existingCache.setBindingsByTrigger(commandIdsByTrigger);
@@ -1080,9 +1080,9 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	public Collection getActiveBindingsDisregardingContextFlat() {
 		final Collection bindingCollections = getActiveBindingsDisregardingContext()
 				.values();
-		final Collection mergedBindings = new ArrayList();
+		final Collection mergedBindings = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final Iterator bindingCollectionItr = bindingCollections.iterator();
-		while (bindingCollectionItr.hasNext()) {
+		while (bindingCollectionItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Collection bindingCollection = (Collection) bindingCollectionItr
 					.next();
 			if ((bindingCollection != null) && (!bindingCollection.isEmpty())) {
@@ -1191,7 +1191,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *         <code>null</code> if there are no active bindings.
 	 * @since 3.2
 	 */
-	private final Binding[] getActiveBindingsFor1(final ParameterizedCommand command) {
+	private final Binding[] getActiveBindingsFor1(final ParameterizedCommand command) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final TriggerSequence[] triggers = getActiveBindingsFor(command);
 		if (triggers.length == 0) {
 			return null;
@@ -1200,7 +1200,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		final Map activeBindings = getActiveBindings();
 		if (activeBindings != null) {
 			final Binding[] bindings = new Binding[triggers.length];
-			for (int i = 0; i < triggers.length; i++) {
+			for (int i = 0; i < triggers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final TriggerSequence triggerSequence = triggers[i];
 				final Object object = activeBindings.get(triggerSequence);
 				final Binding binding = (Binding) object;
@@ -1256,7 +1256,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * 		a trigger sequence, or <code>null</code>
 	 * @since 3.4
 	 */
-	public TriggerSequence getBestActiveBindingFor(final ParameterizedCommand command) {
+	public TriggerSequence getBestActiveBindingFor(final ParameterizedCommand command) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Binding[] bindings = getActiveBindingsFor1(command);
 		if ((bindings == null) || (bindings.length == 0)) {
 			return null;
@@ -1264,7 +1264,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 
 		Binding bestBinding = bindings[0];
 		int compareTo;
-		for (int i = 1; i < bindings.length; i++) {
+		for (int i = 1; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding currentBinding = bindings[i];
 
 			// Bindings in a child scheme are always given preference.
@@ -1552,8 +1552,8 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *         <code>schemeId</code> and then ascending through its ancestors.
 	 */
 	private final String[] getSchemeIds(String schemeId) {
-		final List strings = new ArrayList();
-		while (schemeId != null) {
+		final List strings = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (schemeId != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			strings.add(schemeId);
 			try {
 				schemeId = getScheme(schemeId).getParentId();
@@ -1631,7 +1631,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 			return true; // shortcut a common case
 		}
 
-		for (String localString : locales) {
+		for (String localString : locales) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Objects.equals(localString, locale)) {
 				matches = true;
 				break;
@@ -1664,7 +1664,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 			return true; // shortcut a common case
 		}
 
-		for (String platformString : platforms) {
+		for (String platformString : platforms) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Objects.equals(platformString, platform)) {
 				matches = true;
 				break;
@@ -1690,7 +1690,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * triggers in a trigger sequence.
 	 * </p>
 	 */
-	private final void recomputeBindings() {
+	private final void recomputeBindings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (bindings == null) {
 			// Not yet initialized. This is happening too early. Do nothing.
 			setActiveBindings(Collections.EMPTY_MAP, Collections.EMPTY_MAP,
@@ -1699,7 +1699,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		}
 
 		// Figure out the current state.
-		final Set activeContextIds = new HashSet(contextManager
+		final Set activeContextIds = new HashSet(contextManager //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				.getActiveContextIds());
 		final Map activeContextTree = createFilteredContextTreeFor(activeContextIds);
 
@@ -1733,9 +1733,9 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		}
 
 		// Compute the active bindings.
-		final Map commandIdsByTrigger = new HashMap();
-		final Map triggersByParameterizedCommand = new HashMap();
-		final Map conflictsByTrigger = new HashMap();
+		final Map commandIdsByTrigger = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final Map triggersByParameterizedCommand = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		final Map conflictsByTrigger = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		computeBindings(activeContextTree, commandIdsByTrigger,
 				triggersByParameterizedCommand, conflictsByTrigger);
 		final Map newPrefixTable = buildPrefixTable(commandIdsByTrigger);
@@ -1765,7 +1765,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *            The binding to be removed; must not be <code>null</code>.
 	 * @since 3.2
 	 */
-	public void removeBinding(final Binding binding) {
+	public void removeBinding(final Binding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (bindings == null || bindings.length < 1) {
 			return;
 		}
@@ -1773,7 +1773,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		final Binding[] newBindings = new Binding[bindings.length];
 		boolean bindingsChanged = false;
 		int index = 0;
-		for (int i = 0; i < bindingCount; i++) {
+		for (int i = 0; i < bindingCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding b = bindings[i];
 			if (b == binding) {
 				bindingsChanged = true;
@@ -1831,7 +1831,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * @param type
 	 *            The type to look for.
 	 */
-	public void removeBindings(final TriggerSequence sequence,
+	public void removeBindings(final TriggerSequence sequence, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String schemeId, final String contextId, final String locale,
 			final String platform, final String windowManager, final int type) {
 		if ((bindings == null) || (bindingCount < 1)) {
@@ -1841,7 +1841,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		final Binding[] newBindings = new Binding[bindings.length];
 		boolean bindingsChanged = false;
 		int index = 0;
-		for (int i = 0; i < bindingCount; i++) {
+		for (int i = 0; i < bindingCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding binding = bindings[i];
 			boolean equals = true;
 			equals &= Objects.equals(sequence, binding.getTriggerSequence());
@@ -1881,21 +1881,21 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *         <code>null</code>, but may be empty. Contains only instances
 	 *         of <code>Binding</code>.
 	 */
-	private final Binding[] removeDeletions(final Binding[] bindings) {
-		final Map deletions = new HashMap();
+	private final Binding[] removeDeletions(final Binding[] bindings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map deletions = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final Binding[] bindingsCopy = new Binding[bindingCount];
 		System.arraycopy(bindings, 0, bindingsCopy, 0, bindingCount);
 		int deletedCount = 0;
 
 		// Extract the deletions.
-		for (int i = 0; i < bindingCount; i++) {
+		for (int i = 0; i < bindingCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding binding = bindingsCopy[i];
 			if ((binding.getParameterizedCommand() == null)
 					&& (localeMatches(binding)) && (platformMatches(binding))) {
 				final TriggerSequence sequence = binding.getTriggerSequence();
 				final Object currentValue = deletions.get(sequence);
 				if (currentValue instanceof Binding) {
-					final Collection collection = new ArrayList(2);
+					final Collection collection = new ArrayList(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					collection.add(currentValue);
 					collection.add(binding);
 					deletions.put(sequence, collection);
@@ -1910,12 +1910,12 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		}
 
 		if (DEBUG) {
-			Tracing.printTrace("BINDINGS", "There are " + deletions.size() //$NON-NLS-1$ //$NON-NLS-2$
+			Tracing.printTrace("BINDINGS", "There are " + deletions.size() //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " deletion markers"); //$NON-NLS-1$
 		}
 
 		// Remove the deleted items.
-		for (int i = 0; i < bindingCount; i++) {
+		for (int i = 0; i < bindingCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding binding = bindingsCopy[i];
 			if (binding != null) {
 				final Object deletion = deletions.get(binding
@@ -1928,7 +1928,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 
 				} else if (deletion instanceof final Collection collection) {
 					final Iterator iterator = collection.iterator();
-					while (iterator.hasNext()) {
+					while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						final Object deletionBinding = iterator.next();
 						if (deletionBinding instanceof Binding) {
 							if (((Binding) deletionBinding).deletes(binding)) {
@@ -1946,7 +1946,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		// Compact the array.
 		final Binding[] returnValue = new Binding[bindingCount - deletedCount];
 		int index = 0;
-		for (int i = 0; i < bindingCount; i++) {
+		for (int i = 0; i < bindingCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding binding = bindingsCopy[i];
 			if (binding != null) {
 				returnValue[index++] = binding;
@@ -1980,7 +1980,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * @return The binding which best matches the current state. If there is a
 	 *         tie, then return <code>null</code>.
 	 */
-	private final Binding resolveConflicts(final Collection bindings,
+	private final Binding resolveConflicts(final Collection bindings, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Map activeContextTree) {
 		/*
 		 * This flag is used to indicate when the bestMatch binding conflicts
@@ -1999,7 +1999,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 		 * conflict flag to false. If a conflict is found, then leave the best
 		 * match and set the conflict flag. Otherwise, just continue.
 		 */
-		while (bindingItr.hasNext()) {
+		while (bindingItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Binding current = (Binding) bindingItr.next();
 
 			/*
@@ -2030,7 +2030,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 
 				// Ascend the current's context tree.
 				String contextPointer = currentContext;
-				while (contextPointer != null) {
+				while (contextPointer != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (contextPointer.equals(bestContext)) {
 						// the current wins
 						bestMatch = current;
@@ -2044,7 +2044,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 
 				// Ascend the best match's context tree.
 				contextPointer = bestContext;
-				while (contextPointer != null) {
+				while (contextPointer != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (contextPointer.equals(currentContext)) {
 						// the best wins
 						goToNextBinding = true;
@@ -2099,7 +2099,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * @param schemeEvent
 	 *            An event describing the change in the scheme.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void schemeChanged(final SchemeEvent schemeEvent) {
 		if (schemeEvent.isDefinedChanged()) {
 			final Scheme scheme = schemeEvent.getScheme();
@@ -2211,7 +2211,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 * @throws NotDefinedException
 	 *             If the given scheme is currently undefined.
 	 */
-	public void setActiveScheme(final Scheme scheme)
+	public void setActiveScheme(final Scheme scheme) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws NotDefinedException {
 		if (scheme == null) {
 			throw new NullPointerException("Cannot activate a null scheme"); //$NON-NLS-1$
@@ -2219,7 +2219,7 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 
 		if (!scheme.isDefined()) {
 			throw new NotDefinedException(
-					"Cannot activate an undefined scheme. " //$NON-NLS-1$
+					"Cannot activate an undefined scheme. " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ scheme.getId());
 		}
 
@@ -2251,11 +2251,11 @@ public final class BindingManager extends HandleObjectManager<Scheme>
 	 *            The new array of bindings; may be <code>null</code>. This
 	 *            set is copied into a local data structure.
 	 */
-	public void setBindings(Binding[] bindings) {
+	public void setBindings(Binding[] bindings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (bindings != null) {
 			// discard bindings not applicable for this platform
-			List newList = new ArrayList();
-			for (Binding binding : bindings) {
+			List newList = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Binding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String p = binding.getPlatform();
 				if (p == null) {
 					newList.add(binding);

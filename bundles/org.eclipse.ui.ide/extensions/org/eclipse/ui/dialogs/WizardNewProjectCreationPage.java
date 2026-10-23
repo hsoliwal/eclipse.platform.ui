@@ -111,7 +111,7 @@ public class WizardNewProjectCreationPage extends WizardPage {
 		this(pageName);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
 
@@ -188,7 +188,7 @@ public class WizardNewProjectCreationPage extends WizardPage {
 	 *
 	 * @param parent the parent composite
 	 */
-	private final void createProjectNameGroup(Composite parent) {
+	private final void createProjectNameGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// project specification group
 		Composite projectGroup = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -213,7 +213,7 @@ public class WizardNewProjectCreationPage extends WizardPage {
 		if (initialProjectFieldValue != null) {
 			projectNameField.setText(initialProjectFieldValue);
 		}
-		projectNameField.addListener(SWT.Modify, nameModifyListener);
+		projectNameField.addListener(SWT.Modify, nameModifyListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		BidiUtils.applyBidiProcessing(projectNameField, BidiUtils.BTD_DEFAULT);
 	}
 
@@ -318,7 +318,7 @@ public class WizardNewProjectCreationPage extends WizardPage {
 	 * @return <code>true</code> if all controls are valid, and <code>false</code>
 	 *         if at least one is invalid
 	 */
-	protected boolean validatePage() {
+	protected boolean validatePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspace workspace = IDEWorkbenchPlugin.getPluginWorkspace();
 
 		String projectFieldContents = getProjectNameFieldValue();

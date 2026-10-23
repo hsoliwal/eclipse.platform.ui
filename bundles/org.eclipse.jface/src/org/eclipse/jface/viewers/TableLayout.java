@@ -61,7 +61,7 @@ public class TableLayout extends Layout {
 	 * The list of column layout data (element type:
 	 * <code>ColumnLayoutData</code>).
 	 */
-	private final List<ColumnLayoutData> columns = new ArrayList<>();
+	private final List<ColumnLayoutData> columns = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Indicates whether <code>layout</code> has yet to be called.
@@ -97,7 +97,7 @@ public class TableLayout extends Layout {
 		columns.add(data);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Point computeSize(Composite c, int wHint, int hHint, boolean flush) {
 		if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
 			return new Point(wHint, hHint);
@@ -112,7 +112,7 @@ public class TableLayout extends Layout {
 
 		int width = 0;
 		int size = columns.size();
-		for (int i = 0; i < size; ++i) {
+		for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ColumnLayoutData layoutData = columns.get(i);
 			if (layoutData instanceof ColumnPixelData col) {
 				width += col.width;
@@ -131,7 +131,7 @@ public class TableLayout extends Layout {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void layout(Composite c, boolean flush) {
 		// Only do initial layout. Trying to maintain proportions when resizing
 		// is too hard,
@@ -161,7 +161,7 @@ public class TableLayout extends Layout {
 		int totalWeight = 0;
 
 		// First calc space occupied by fixed columns
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ColumnLayoutData col = columns.get(i);
 			if (col instanceof ColumnPixelData cpd) {
 				int pixels = cpd.width;
@@ -193,7 +193,7 @@ public class TableLayout extends Layout {
 			// Now distribute the rest to the columns with weight.
 			int rest = width - fixedWidth;
 			int totalDistributed = 0;
-			for (int i = 0; i < size; ++i) {
+			for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ColumnLayoutData col = columns.get(i);
 				if (col instanceof ColumnWeightData cw) {
 					// calculate weight as above
@@ -212,7 +212,7 @@ public class TableLayout extends Layout {
 
 			// Distribute any remaining pixels to columns with weight.
 			int diff = rest - totalDistributed;
-			for (int i = 0; diff > 0; ++i) {
+			for (int i = 0; diff > 0; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i == size) {
 					i = 0;
 				}
@@ -226,7 +226,7 @@ public class TableLayout extends Layout {
 
 		firstTime = false;
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setWidth(tableColumns[i], widths[i]);
 		}
 	}

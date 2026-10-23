@@ -105,7 +105,7 @@ public class CommandAction extends Action {
 	private void createCommand(ICommandService commandService, String commandId, Map parameterMap) {
 		Command cmd = commandService.getCommand(commandId);
 		if (!cmd.isDefined()) {
-			WorkbenchPlugin.log("Command " + commandId + " is undefined"); //$NON-NLS-1$//$NON-NLS-2$
+			WorkbenchPlugin.log("Command " + commandId + " is undefined"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 
@@ -132,7 +132,7 @@ public class CommandAction extends Action {
 		if (handlerService == null) {
 			String commandId = (parameterizedCommand == null ? "unknownCommand" //$NON-NLS-1$
 					: parameterizedCommand.getId());
-			WorkbenchPlugin.log("Cannot run " + commandId //$NON-NLS-1$
+			WorkbenchPlugin.log("Cannot run " + commandId //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " before command action has been initialized"); //$NON-NLS-1$
 			return;
 		}
@@ -151,7 +151,7 @@ public class CommandAction extends Action {
 		runWithEvent(null);
 	}
 
-	protected void init(IServiceLocator serviceLocator, String commandIdIn, Map parameterMap) {
+	protected void init(IServiceLocator serviceLocator, String commandIdIn, Map parameterMap) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (handlerService != null) {
 			// already initialized
 			return;
@@ -169,7 +169,7 @@ public class CommandAction extends Action {
 			} catch (NotDefinedException e) {
 				// if we get this far it shouldn't be a problem
 			}
-			parameterizedCommand.getCommand().addCommandListener(getCommandListener());
+			parameterizedCommand.getCommand().addCommandListener(getCommandListener()); //FLLDCIM: MARK — T26 COMMAND_STATE CALL
 			parameterizedCommand.getCommand().setEnabled(handlerService.getCurrentState());
 			setEnabled(parameterizedCommand.getCommand().isEnabled());
 			setImageDescriptor(commandImageService.getImageDescriptor(commandIdIn, ICommandImageService.TYPE_DEFAULT));

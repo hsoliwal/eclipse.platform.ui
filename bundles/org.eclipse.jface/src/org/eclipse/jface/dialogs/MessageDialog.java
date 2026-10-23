@@ -239,7 +239,7 @@ public class MessageDialog extends IconAndMessageDialog {
 		init(dialogTitle, dialogTitleImage, dialogMessage, dialogImageType, defaultIndex, dialogButtonLabels);
 	}
 
-	private void init(String dialogTitle, Image dialogTitleImage, String dialogMessage, int dialogImageType,
+	private void init(String dialogTitle, Image dialogTitleImage, String dialogMessage, int dialogImageType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int defaultIndex, String... dialogButtonLabels) {
 		this.title = dialogTitle;
 		this.titleImage = dialogTitleImage;
@@ -288,7 +288,7 @@ public class MessageDialog extends IconAndMessageDialog {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		buttons = new Button[buttonLabels.length];
-		for (int i = 0; i < buttonLabels.length; i++) {
+		for (int i = 0; i < buttonLabels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String label = buttonLabels[i];
 			Button button = createButton(parent, i, label, defaultButtonIndex == i);
 			buttons[i] = button;
@@ -317,7 +317,7 @@ public class MessageDialog extends IconAndMessageDialog {
 	 * override <code>createCustomArea</code> to add contents below the
 	 * message.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// create message area
 		createMessageArea(parent);
@@ -434,7 +434,7 @@ public class MessageDialog extends IconAndMessageDialog {
 		return dialog.open();
 	}
 
-	static String[] getButtonLabels(int kind) {
+	static String[] getButtonLabels(int kind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] dialogButtonLabels;
 		switch (kind) {
 		case ERROR:
@@ -608,7 +608,7 @@ public class MessageDialog extends IconAndMessageDialog {
 			return super.open();
 		}
 		IllegalStateException e = new IllegalStateException("Message dialog is supposed to be shown now"); //$NON-NLS-1$
-		IStatus ms = Status.warning(title + " : " + message, e); //$NON-NLS-1$
+		IStatus ms = Status.warning(title + " : " + message, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		Policy.getLog().log(ms);
 		setReturnCode(OK);
 		return OK;

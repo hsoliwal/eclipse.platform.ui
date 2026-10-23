@@ -40,7 +40,7 @@ public abstract class ResourceDescription {
 	 * @param resource the resource from which a description should be created
 	 * @return the resource description
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static ResourceDescription fromResource(IResource resource) {
 		IResourceSnapshot<IResource> delegate = ResourceSnapshotFactory.fromResource(resource);
 		return new ResourceDescription() {

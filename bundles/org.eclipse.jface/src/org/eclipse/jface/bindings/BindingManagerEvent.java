@@ -106,7 +106,7 @@ public final class BindingManagerEvent extends AbstractBitSetEvent {
 	 * @param platformChanged
 	 *            <code>true</code> iff the active platform changed
 	 */
-	public BindingManagerEvent(final BindingManager manager,
+	public BindingManagerEvent(final BindingManager manager, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final boolean activeBindingsChanged,
 			final Map previousTriggersByParameterizedCommand,
 			final boolean activeSchemeChanged, final Scheme scheme,
@@ -182,7 +182,7 @@ public final class BindingManagerEvent extends AbstractBitSetEvent {
 	 * @return <code>true</code> if the active bindings have changed for the
 	 *         given command identifier; <code>false</code> otherwise.
 	 */
-	public final boolean isActiveBindingsChangedFor(
+	public final boolean isActiveBindingsChangedFor( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ParameterizedCommand parameterizedCommand) {
 		final TriggerSequence[] currentBindings = manager
 				.getActiveBindingsFor(parameterizedCommand);

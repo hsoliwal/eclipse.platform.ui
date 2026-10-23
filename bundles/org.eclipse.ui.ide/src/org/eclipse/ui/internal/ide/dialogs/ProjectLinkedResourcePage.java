@@ -56,7 +56,7 @@ public class ProjectLinkedResourcePage extends PropertyPage implements
 		this.noDefaultAndApplyButton();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
@@ -87,7 +87,7 @@ public class ProjectLinkedResourcePage extends PropertyPage implements
 		// createSpace(pageComponent);
 
 		CTabFolder tabFolder = new CTabFolder(pageComponent, SWT.TOP);
-		tabFolder.addSelectionListener(new SelectionAdapter() {
+		tabFolder.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				CTabFolder source = (CTabFolder) e.getSource();

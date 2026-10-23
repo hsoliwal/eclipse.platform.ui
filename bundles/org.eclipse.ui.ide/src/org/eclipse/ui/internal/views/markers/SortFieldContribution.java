@@ -43,7 +43,7 @@ public class SortFieldContribution extends MarkersContribution {
 		super(id);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IContributionItem[] getContributionItems() {
 		ExtendedMarkersView view = getView();
 		if (view == null) {
@@ -58,7 +58,7 @@ public class SortFieldContribution extends MarkersContribution {
 
 		IContributionItem[] items = new IContributionItem[fields.length + 2];
 
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			items[i] = getContributionItem(fields[i]);
 		}
 
@@ -73,7 +73,7 @@ public class SortFieldContribution extends MarkersContribution {
 	 * Return the ascending/descending contriution.
 	 * @return IContributionItem
 	 */
-	private IContributionItem getDirectionContribution() {
+	private IContributionItem getDirectionContribution() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new ContributionItem() {
 
 			@Override
@@ -81,7 +81,7 @@ public class SortFieldContribution extends MarkersContribution {
 				MenuItem item = new MenuItem(menu, SWT.CHECK);
 				item.setText(MarkerMessages.sortDirectionAscending_text);
 				final ExtendedMarkersView view = getView();
-				item.addListener(SWT.Selection, _ -> {
+				item.addListener(SWT.Selection, _ -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 					if (view != null) {
 						view.toggleSortDirection();
@@ -102,7 +102,7 @@ public class SortFieldContribution extends MarkersContribution {
 	 *
 	 * @return IContributionItem
 	 */
-	private IContributionItem getContributionItem(final MarkerField field) {
+	private IContributionItem getContributionItem(final MarkerField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new ContributionItem() {
 
 			@Override
@@ -111,7 +111,7 @@ public class SortFieldContribution extends MarkersContribution {
 				String title = field.getName();
 				item.setText(title);
 				ExtendedMarkersView view = getView();
-				item.addListener(SWT.Selection,
+				item.addListener(SWT.Selection, //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 						getMenuItemListener(field, view));
 
 				if (view != null) {

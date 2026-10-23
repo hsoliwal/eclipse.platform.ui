@@ -152,7 +152,7 @@ public class EditorHistoryItem {
 	/**
 	 * Restores the object state from the memento.
 	 */
-	public IStatus restoreState() {
+	public IStatus restoreState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(!isRestored());
 
 		IStatus result = Status.OK_STATUS;
@@ -170,7 +170,7 @@ public class EditorHistoryItem {
 		}
 		IMemento persistableMemento = memento.getChild(IWorkbenchConstants.TAG_PERSISTABLE);
 		if (persistableMemento == null) {
-			WorkbenchPlugin.log("Unable to restore mru list - no input element state: " + factoryId);//$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to restore mru list - no input element state: " + factoryId);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return result;
 		}
 		IAdaptable adaptable = factory.createElement(persistableMemento);
@@ -199,7 +199,7 @@ public class EditorHistoryItem {
 	 *
 	 * @param memento the memento to save the object state in
 	 */
-	public IStatus saveState(IMemento memento) {
+	public IStatus saveState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isRestored()) {
 			memento.putMemento(this.memento);
 		} else if (input != null) {

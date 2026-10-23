@@ -134,7 +134,7 @@ public final class TreeFactory extends AbstractControlFactory<TreeFactory, Tree>
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public TreeFactory onSelect(Consumer<SelectionEvent> consumer) {
-		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer)));
+		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return this;
 	}
 
@@ -150,7 +150,7 @@ public final class TreeFactory extends AbstractControlFactory<TreeFactory, Tree>
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public TreeFactory onCollapse(Consumer<TreeEvent> consumer) {
-		addProperty(c -> c.addTreeListener(TreeListener.treeCollapsedAdapter(consumer)));
+		addProperty(c -> c.addTreeListener(TreeListener.treeCollapsedAdapter(consumer))); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 		return this;
 	}
 
@@ -166,7 +166,7 @@ public final class TreeFactory extends AbstractControlFactory<TreeFactory, Tree>
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public TreeFactory onExpand(Consumer<TreeEvent> consumer) {
-		addProperty(c -> c.addTreeListener(TreeListener.treeExpandedAdapter(consumer)));
+		addProperty(c -> c.addTreeListener(TreeListener.treeExpandedAdapter(consumer))); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 		return this;
 	}
 }

@@ -32,7 +32,7 @@ import org.eclipse.core.runtime.jobs.Job;
  *
  * @since 3.6
  */
-class MarkersChangeListener implements IResourceChangeListener {
+class MarkersChangeListener implements IResourceChangeListener { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 	private final ExtendedMarkersView view;
 	private final CachedMarkerBuilder builder;
@@ -97,13 +97,13 @@ class MarkersChangeListener implements IResourceChangeListener {
 			if (includeSubTypes) {
 				typeIds = MarkerResourceUtil.getAllSubTypesIds(typeIds);
 			}
-			listeningTypes = new HashSet<>(Arrays.asList(typeIds));
+			listeningTypes = new HashSet<>(Arrays.asList(typeIds)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		} catch (Exception e) {
 			MarkerSupportInternalUtilities.logViewError(e);
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized void resourceChanged(IResourceChangeEvent event) {
 		/* We can now consider removing synchronized for
 		 * this method.Only the start and stop need to be
@@ -159,7 +159,7 @@ class MarkersChangeListener implements IResourceChangeListener {
 		if (types.isEmpty()) {
 			return false;
 		}
-		for (IMarkerDelta markerDelta : markerDeltas) {
+		for (IMarkerDelta markerDelta : markerDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (types.contains(markerDelta.getType())) {
 				return true;
 			}
@@ -309,7 +309,7 @@ class MarkerUpdateScheduler {
 	/**
 	 * Returns true if updates have been scheduled and not finished,else false.
 	 */
-	boolean updatesPending() {
+	boolean updatesPending() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		synchronized (updateTimer) {
 			if (builder.isBuilding()) {
 				return true;
@@ -388,7 +388,7 @@ class MarkerUpdateScheduler {
 
 		private long timerValidStart;
 
-		void update() {
+		void update() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			long startTime = view.getLastUIRefreshTime();
 			long currentTime = System.currentTimeMillis();
 			long updateTimeGap = currentTime - startTime;
@@ -473,7 +473,7 @@ class MarkerUpdateScheduler {
 		 * inactivity. NOTE:This is PURELY an optimization and can be
 		 * omitted.
 		 */
-		private boolean isValidTimeOut(long startTime, long currentTime, long timeOut) {
+		private boolean isValidTimeOut(long startTime, long currentTime, long timeOut) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// long updateTimeGap = currentTime - startTime;
 			if (timeB4Update != -1 && startTime > timeB4Update) {
 				/*

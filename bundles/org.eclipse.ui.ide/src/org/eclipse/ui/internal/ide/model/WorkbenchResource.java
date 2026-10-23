@@ -82,7 +82,7 @@ public abstract class WorkbenchResource extends WorkbenchAdapter implements
 	 * @param value the attribute value
 	 * @return <code>true</code> if the attribute matches; <code>false</code> otherwise
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean testAttribute(Object target, String name, String value) {
 		if (!(target instanceof IResource res)) {
 			return false;
@@ -137,7 +137,7 @@ public abstract class WorkbenchResource extends WorkbenchAdapter implements
 	 *         identifier that matches <code>contentTypeId</code>;
 	 *         <code>false</code> otherwise.
 	 */
-	private final boolean testContentTypeProperty(final IResource resource,
+	private final boolean testContentTypeProperty(final IResource resource, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String contentTypeId) {
 		final String expectedValue = contentTypeId.trim();
 
@@ -180,7 +180,7 @@ public abstract class WorkbenchResource extends WorkbenchAdapter implements
 	 *            "propertyName=propertyValue"
 	 * @return whether there is a match
 	 */
-	private boolean testProperty(IResource resource, boolean persistentFlag,
+	private boolean testProperty(IResource resource, boolean persistentFlag, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean projectFlag, String value) {
 		String propertyName;
 		String expectedVal;

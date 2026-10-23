@@ -112,8 +112,8 @@ public class SmartImportJob extends Job {
 		setWorkingSets(workingSets);
 		this.configureProjects = configureProjects;
 		this.deepChildrenDetection = recuriveChildrenDetection;
-		this.report = Collections.synchronizedMap(new HashMap<>());
-		this.errors = Collections.synchronizedMap(new HashMap<>());
+		this.report = Collections.synchronizedMap(new HashMap<>()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		this.errors = Collections.synchronizedMap(new HashMap<>()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		this.crawlerJobGroup = new JobGroup(DataTransferMessages.SmartImportJob_detectAndConfigureProjects, 0, 1);
 	}
 
@@ -166,7 +166,7 @@ public class SmartImportJob extends Job {
 		this.listener = listener;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus run(IProgressMonitor monitor) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		boolean isAutoBuilding = workspace.isAutoBuilding();
@@ -189,14 +189,14 @@ public class SmartImportJob extends Job {
 				};
 				SortedSet<File> directories = new TreeSet<>(rootToLeafComparator);
 				directories.addAll(this.directoriesToImport);
-				SortedMap<File, IProject> leafToRootProjects = new TreeMap<>(Collections.reverseOrder(rootToLeafComparator));
-				final Set<IProject> alreadyConfiguredProjects = new HashSet<>();
+				SortedMap<File, IProject> leafToRootProjects = new TreeMap<>(Collections.reverseOrder(rootToLeafComparator)); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+				final Set<IProject> alreadyConfiguredProjects = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				loopMonitor.worked(1);
 				// Create all projects in one workspace operation, so listeners see a single
 				// resource delta instead of one per project. No configurator runs here.
 				// AVOID_UPDATE would defer that delta to the workspace notification job.
-				workspace.run(_ -> {
-					for (final File directoryToImport : directories) {
+				workspace.run(_ -> { //FLLDCIM: MARK — T09  LAMBDA
+					for (final File directoryToImport : directories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						final boolean alreadyAnEclipseProject = new File(directoryToImport,
 								IProjectDescription.DESCRIPTION_FILE_NAME).isFile();
 						try {
@@ -219,7 +219,7 @@ public class SmartImportJob extends Job {
 				if (configureProjects) {
 					JobGroup multiDirectoriesJobGroup = new JobGroup(
 							DataTransferMessages.SmartImportJob_configuringSelectedDirectories, 20, 1);
-					for (final IProject newProject : leafToRootProjects.values()) {
+					for (final IProject newProject : leafToRootProjects.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Job directoryJob = new Job(
 								NLS.bind(DataTransferMessages.SmartImportJob_configuring, newProject.getName())) {
 							@Override
@@ -254,7 +254,7 @@ public class SmartImportJob extends Job {
 					importProjectAndChildrenRecursively(this.rootProject, isRootANewProject, subMonitor);
 
 					if (isRootANewProject && rootProjectWorthBeingRemoved()) {
-						Display.getDefault()
+						Display.getDefault() //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 								.syncExec(() -> discardRootProject = MessageDialog.openQuestion(
 										PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 										DataTransferMessages.SmartImportJob_discardRootProject_title,
@@ -309,7 +309,7 @@ public class SmartImportJob extends Job {
 			return true;
 		}
 		boolean areOnlyDummyConfigurators = true;
-		for (ProjectConfigurator configurator : rootProjectConfigurators) {
+		for (ProjectConfigurator configurator : rootProjectConfigurators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// TODO: semantics whether configurator is "strong enough" for a root project should be put inside configurator
 			areOnlyDummyConfigurators &= (configurator instanceof EclipseProjectConfigurator || configurator instanceof EclipseWorkspaceConfigurator);
 		}
@@ -346,22 +346,22 @@ public class SmartImportJob extends Job {
 		}
 	}
 
-	private Set<IProject> searchAndImportChildrenProjectsRecursively(final IContainer parentContainer,
+	private Set<IProject> searchAndImportChildrenProjectsRecursively(final IContainer parentContainer, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Set<IPath> directoriesToExclude, final IProgressMonitor progressMonitor) throws Exception {
 		SubMonitor subMonitor = SubMonitor.convert(progressMonitor, parentContainer.members().length);
 		IPath parentLocation = parentContainer.getLocation();
 		if (parentLocation == null) {
 			return Collections.emptySet();
 		}
-		for (IProject processedProjects : Collections.synchronizedSet(this.report.keySet())) {
+		for (IProject processedProjects : Collections.synchronizedSet(this.report.keySet())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parentLocation.equals(processedProjects.getLocation())) {
 				return Collections.emptySet();
 			}
 		}
 		parentContainer.refreshLocal(IResource.DEPTH_ONE, progressMonitor); // make sure we know all children
-		Set<IFolder> childrenToProcess = new HashSet<>();
-		final Set<IProject> res = Collections.synchronizedSet(new HashSet<>());
-		for (IResource childResource : parentContainer.members()) {
+		Set<IFolder> childrenToProcess = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		final Set<IProject> res = Collections.synchronizedSet(new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IResource childResource : parentContainer.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (childResource.getType() == IResource.FOLDER && !childResource.isDerived()) {
 				if (skipDotFolders && childResource.getName().startsWith(".")) { //$NON-NLS-1$
 					continue;
@@ -372,7 +372,7 @@ public class SmartImportJob extends Job {
 				}
 				boolean excluded = false;
 				if (directoriesToExclude != null) {
-					for (IPath excludedPath : directoriesToExclude) {
+					for (IPath excludedPath : directoriesToExclude) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!excludedPath.isPrefixOf(parentLocation) && excludedPath.isPrefixOf(location)) {
 							excluded = true;
 						}
@@ -384,8 +384,8 @@ public class SmartImportJob extends Job {
 			}
 		}
 
-		Set<CrawlFolderJob> jobs = new HashSet<>();
-		for (final IFolder childFolder : childrenToProcess) {
+		Set<CrawlFolderJob> jobs = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (final IFolder childFolder : childrenToProcess) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CrawlFolderJob crawlerJob = new CrawlFolderJob(
 					NLS.bind(DataTransferMessages.SmartImportJob_crawling,
 							SmartImportWizard.toAbsolutePath(childFolder)),
@@ -399,16 +399,16 @@ public class SmartImportJob extends Job {
 				subMonitor.worked(1);
 			}
 		}
-		for (CrawlFolderJob job : jobs) {
+		for (CrawlFolderJob job : jobs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			job.join(0, subMonitor.split(1));
 		}
 		subMonitor.done();
 		return res;
 	}
 
-	private Set<IProject> importProjectAndChildrenRecursively(final IContainer container, boolean forceFullProjectCheck,
+	private Set<IProject> importProjectAndChildrenRecursively(final IContainer container, boolean forceFullProjectCheck, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProgressMonitor progressMonitor) throws Exception {
-		Set<IProject> projectFromCurrentContainer = new HashSet<>();
+		Set<IProject> projectFromCurrentContainer = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		final IPath containerLocation = container.getLocation();
 		if (containerLocation == null) {
 			return projectFromCurrentContainer;
@@ -419,10 +419,10 @@ public class SmartImportJob extends Job {
 						SmartImportWizard.toAbsolutePath(container)),
 				allWork);
 		boolean isAlreadyAnEclipseProject = false;
-		Set<ProjectConfigurator> mainProjectConfigurators = new HashSet<>();
-		Set<IPath> excludedPaths = new HashSet<>();
+		Set<ProjectConfigurator> mainProjectConfigurators = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<IPath> excludedPaths = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (this.excludedDirectories != null) {
-			for (File excludedDirectory : this.excludedDirectories) {
+			for (File excludedDirectory : this.excludedDirectories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				excludedPaths.add(IPath.fromOSString(excludedDirectory.getAbsolutePath()));
 			}
 		}
@@ -438,9 +438,9 @@ public class SmartImportJob extends Job {
 			this.configurationManager = new ProjectConfiguratorExtensionManager();
 		}
 		Collection<ProjectConfigurator> activeConfigurators = this.configurationManager.getAllActiveProjectConfigurators(container);
-		Set<ProjectConfigurator> potentialSecondaryConfigurators = new HashSet<>();
+		Set<ProjectConfigurator> potentialSecondaryConfigurators = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IProject project = null;
-		for (ProjectConfigurator configurator : activeConfigurators) {
+		for (ProjectConfigurator configurator : activeConfigurators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// exclude Eclipse project configurator for root project if is new
 			if (configurator instanceof EclipseProjectConfigurator && forceFullProjectCheck) {
 				continue;
@@ -471,7 +471,7 @@ public class SmartImportJob extends Job {
 		if (!mainProjectConfigurators.isEmpty() && !project.equals(container)) {
 			project.refreshLocal(IResource.DEPTH_INFINITE, subMonitor.split(1));
 		}
-		for (ProjectConfigurator configurator : mainProjectConfigurators) {
+		for (ProjectConfigurator configurator : mainProjectConfigurators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProgressMonitor childMonitor = subMonitor.split(1);
 			if (configurator instanceof EclipseProjectConfigurator || !isAlreadyAnEclipseProject || this.reconfigureEclipseProjects) {
 				configurator.configure(project, excludedPaths, childMonitor);
@@ -489,7 +489,7 @@ public class SmartImportJob extends Job {
 			projectFromCurrentContainer.addAll(allNestedProjects);
 		}
 		// exclude all known children projects
-		for (IProject other : container.getWorkspace().getRoot().getProjects()) {
+		for (IProject other : container.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath otherLocation = other.getLocation();
 			if (otherLocation != null && !containerLocation.equals(otherLocation)
 					&& containerLocation.isPrefixOf(otherLocation)) {
@@ -517,7 +517,7 @@ public class SmartImportJob extends Job {
 			// At least depth one, maybe INFINITE is necessary
 			progressMonitor.setTaskName(
 					NLS.bind(DataTransferMessages.SmartImportJob_continuingConfiguration, project.getName()));
-			for (ProjectConfigurator additionalConfigurator : potentialSecondaryConfigurators) {
+			for (ProjectConfigurator additionalConfigurator : potentialSecondaryConfigurators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (additionalConfigurator.canConfigure(project, excludedPaths, subMonitor.split(1))) {
 					additionalConfigurator.configure(project, excludedPaths, subMonitor.split(1));
 					this.report.get(project).add(additionalConfigurator);
@@ -541,8 +541,8 @@ public class SmartImportJob extends Job {
 		if (resources == null || resources.isEmpty()) {
 			return Collections.emptySet();
 		}
-		Set<IPath> res = new HashSet<>();
-		for (IContainer container : resources) {
+		Set<IPath> res = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IContainer container : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath location = container.getLocation();
 			if (location != null) {
 				res.add(location);
@@ -553,7 +553,7 @@ public class SmartImportJob extends Job {
 
 	private static boolean isInsideDotFolder(File file) {
 		File current = file;
-		while (current != null) {
+		while (current != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = current.getName();
 			if (!name.isEmpty() && name.startsWith(".")) { //$NON-NLS-1$
 				return true;
@@ -566,7 +566,7 @@ public class SmartImportJob extends Job {
 	/**
 	 * @param refreshMode One {@link IResource#BACKGROUND_REFRESH} for background refresh, or {@link IResource#NONE} for immediate refresh
 	 */
-	private IProject toExistingOrNewProject(File directory, IProgressMonitor progressMonitor, int refreshMode) throws CouldNotImportProjectException {
+	private IProject toExistingOrNewProject(File directory, IProgressMonitor progressMonitor, int refreshMode) throws CouldNotImportProjectException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			SubMonitor subMonitor = SubMonitor.convert(progressMonitor, NLS.bind(
 					DataTransferMessages.SmartImportJob_importingProjectIntoWorkspace, directory.getAbsolutePath()), 2);
@@ -578,7 +578,7 @@ public class SmartImportJob extends Job {
 
 			project.open(refreshMode, subMonitor.split(1));
 			if (!this.report.containsKey(project)) {
-				this.report.put(project, new ArrayList<>());
+				this.report.put(project, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			if (this.listener != null) {
 				this.listener.projectCreated(project);
@@ -591,7 +591,7 @@ public class SmartImportJob extends Job {
 
 
 	private IProject projectAlreadyExistsInWorkspace(File directory) {
-		for (IProject project : workspaceRoot.getProjects()) {
+		for (IProject project : workspaceRoot.getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			File file = SmartImportWizard.toFile(project);
 			if (file == null) {
 				continue;
@@ -603,7 +603,7 @@ public class SmartImportJob extends Job {
 		return null;
 	}
 
-	private IProject createOrImportProject(File directory, IProgressMonitor progressMonitor) throws Exception {
+	private IProject createOrImportProject(File directory, IProgressMonitor progressMonitor) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProjectDescription desc = null;
 		File expectedProjectDescriptionFile = new File(directory, IProjectDescription.DESCRIPTION_FILE_NAME);
 		if (expectedProjectDescriptionFile.exists()) {
@@ -633,12 +633,12 @@ public class SmartImportJob extends Job {
 		return res;
 	}
 
-	private static String generateNewProjectName(File directory, IWorkspaceRoot root) {
+	private static String generateNewProjectName(File directory, IWorkspaceRoot root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String projectName = directory.getName();
 		if (root.getProject(projectName).exists()) {
-			StringBuilder projectNameBuilder = new StringBuilder(projectName);
+			StringBuilder projectNameBuilder = new StringBuilder(projectName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			File currentDirectory = directory;
-			while (currentDirectory.canRead() && directory.getParentFile() != null
+			while (currentDirectory.canRead() && directory.getParentFile() != null //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					&& root.getProject(projectNameBuilder.toString()).exists()) {
 				projectNameBuilder.insert(0, "_"); //$NON-NLS-1$
 				projectNameBuilder.insert(0, currentDirectory.getParentFile().getName());
@@ -648,8 +648,8 @@ public class SmartImportJob extends Job {
 				projectName = projectNameBuilder.toString();
 			} else {
 				int i = 1;
-				do {
-					projectName = directory.getName() + '(' + i + ')';
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					projectName = directory.getName() + '(' + i + ')'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					i++;
 				} while (root.getProject(projectName).exists());
 			}
@@ -685,40 +685,40 @@ public class SmartImportJob extends Job {
 	 *
 	 * @return the proposals for the import operation.
 	 */
-	public Map<File, List<ProjectConfigurator>> getImportProposals(IProgressMonitor monitor) {
+	public Map<File, List<ProjectConfigurator>> getImportProposals(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!this.deepChildrenDetection) {
-			Map<File, List<ProjectConfigurator>> res = new HashMap<>();
+			Map<File, List<ProjectConfigurator>> res = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			res.put(rootDirectory, Collections.emptyList());
 			return res;
 		}
 		if (this.importProposals == null) {
-			Map<File, List<ProjectConfigurator>> res = new HashMap<>();
+			Map<File, List<ProjectConfigurator>> res = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			if (this.configurationManager == null) {
 				this.configurationManager = new ProjectConfiguratorExtensionManager();
 			}
 			List<ProjectConfigurator> activeConfigurators = configurationManager
 					.getAllActiveProjectConfigurators(this.rootDirectory);
 			SubMonitor loopMonitor = SubMonitor.convert(monitor, activeConfigurators.size());
-			for (ProjectConfigurator configurator : activeConfigurators) {
+			for (ProjectConfigurator configurator : activeConfigurators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Set<File> supportedDirectories = configurator.findConfigurableLocations(
 						SmartImportJob.this.rootDirectory, this.skipDotFolders,
 						loopMonitor.split(1));
 				if (supportedDirectories != null) {
-					for (File supportedDirectory : supportedDirectories) {
+					for (File supportedDirectory : supportedDirectories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (supportedDirectory.isDirectory()) {
 							if (!res.containsKey(supportedDirectory)) {
-								res.put(supportedDirectory, new ArrayList<>());
+								res.put(supportedDirectory, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							}
 							res.get(supportedDirectory).add(configurator);
 						} else {
-							IDEWorkbenchPlugin.log("Project detection must return only directories.\n" //$NON-NLS-1$
+							IDEWorkbenchPlugin.log("Project detection must return only directories.\n" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									+ supportedDirectory + " is not a directory.\nContributed by " //$NON-NLS-1$
 									+ configurator.getClass().getName());
 						}
 					}
 				}
 			}
-			for (ProjectConfigurator configurator : activeConfigurators) {
+			for (ProjectConfigurator configurator : activeConfigurators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				configurator.removeDirtyDirectories(res);
 			}
 			if (this.skipDotFolders) {

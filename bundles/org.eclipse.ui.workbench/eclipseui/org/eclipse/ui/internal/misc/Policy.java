@@ -188,7 +188,7 @@ public class Policy {
 			DEBUG_SHOW_ALL_JOBS = getDebugOption("/debug/showAllJobs"); //$NON-NLS-1$
 			DEBUG_STALE_JOBS = getDebugOption("/debug/job.stale"); //$NON-NLS-1$
 			DEBUG_HANDLERS_VERBOSE_COMMAND_ID = Platform
-					.getDebugOption(PlatformUI.PLUGIN_ID + "/trace/handlers.verbose.commandId"); //$NON-NLS-1$
+					.getDebugOption(PlatformUI.PLUGIN_ID + "/trace/handlers.verbose.commandId"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if ("".equals(DEBUG_HANDLERS_VERBOSE_COMMAND_ID)) { //$NON-NLS-1$
 				DEBUG_HANDLERS_VERBOSE_COMMAND_ID = null;
 			}
@@ -205,6 +205,6 @@ public class Policy {
 	}
 
 	private static boolean getDebugOption(String option) {
-		return "true".equalsIgnoreCase(Platform.getDebugOption(PlatformUI.PLUGIN_ID + option)); //$NON-NLS-1$
+		return "true".equalsIgnoreCase(Platform.getDebugOption(PlatformUI.PLUGIN_ID + option)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

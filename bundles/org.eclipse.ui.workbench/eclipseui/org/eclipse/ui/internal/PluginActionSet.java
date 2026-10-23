@@ -30,7 +30,7 @@ import org.eclipse.ui.services.IDisposable;
 public class PluginActionSet implements IActionSet {
 	private final ActionSetDescriptor desc;
 
-	private final ArrayList<IAction> pluginActions = new ArrayList<>(4);
+	private final ArrayList<IAction> pluginActions = new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private ActionSetActionBars bars;
 
@@ -72,7 +72,7 @@ public class PluginActionSet implements IActionSet {
 	@Override
 	public void dispose() {
 		Iterator<IAction> iter = pluginActions.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WWinPluginAction action = (WWinPluginAction) iter.next();
 			action.dispose();
 		}
@@ -127,8 +127,8 @@ public class PluginActionSet implements IActionSet {
 
 	@Override
 	public String toString() {
-		return "PluginActionSet [desc=" + desc + ", " //$NON-NLS-1$ //$NON-NLS-2$
-				+ (pluginActions != null ? "actions=" + pluginActions : "") + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "PluginActionSet [desc=" + desc + ", " //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				+ (pluginActions != null ? "actions=" + pluginActions : "") + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

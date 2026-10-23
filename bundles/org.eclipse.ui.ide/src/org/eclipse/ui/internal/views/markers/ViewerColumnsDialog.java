@@ -92,7 +92,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	/**
 	 * Initialize visible /non-visible columns.
 	 */
-	void setColumnsObjs(T[] columnObjs) {
+	void setColumnsObjs(T[] columnObjs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IColumnInfoProvider<T> columnInfo = doGetColumnInfoProvider();
 		IColumnUpdater<T> updater = doGetColumnUpdater();
 		List<T> visibleLocalVar = getVisible();
@@ -100,7 +100,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		visibleLocalVar.clear();
 		nonVisibleLocalVar.clear();
 		T data = null;
-		for (T columnObj : columnObjs) {
+		for (T columnObj : columnObjs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			data = columnObj;
 			if (columnInfo.isColumnVisible(data)) {
 				updater.setColumnVisible(data, true);
@@ -114,7 +114,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogContentArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout gridLayout = new GridLayout(4, false);
@@ -138,7 +138,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	/**
 	 * The Up and Down button to change column ordering.
 	 */
-	Control createUpDownBtt(Composite parent) {
+	Control createUpDownBtt(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout compositeLayout = new GridLayout();
 		compositeLayout.marginHeight = 0;
@@ -153,14 +153,14 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		bttArea.setLayoutData(new GridData(SWT.NONE, SWT.CENTER, false, true));
 		upButton = new Button(bttArea, SWT.PUSH);
 		upButton.setText(JFaceResources.getString("ConfigureColumnsDialog_up")); //$NON-NLS-1$
-		upButton.addListener(SWT.Selection, event -> handleUpButton(event));
+		upButton.addListener(SWT.Selection, event -> handleUpButton(event)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(upButton);
 		((GridData)upButton.getLayoutData()).verticalIndent = tableLabelSize.y;
 		upButton.setEnabled(false);
 
 		downButton = new Button(bttArea, SWT.PUSH);
 		downButton.setText(JFaceResources.getString("ConfigureColumnsDialog_down")); //$NON-NLS-1$
-		downButton.addListener(SWT.Selection, event -> handleDownButton(event));
+		downButton.addListener(SWT.Selection, event -> handleDownButton(event)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(downButton);
 		downButton.setEnabled(false);
 		return bttArea;
@@ -171,7 +171,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 *
 	 * @return {@link Control}
 	 */
-	Control createWidthArea(Composite parent) {
+	Control createWidthArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label dummy = new Label(parent, SWT.NONE);
 		dummy.setLayoutData(new GridData(SWT.NONE, SWT.NONE, false, false, 2, 1));
 
@@ -187,7 +187,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		widthLabel.setLayoutData(gridData);
 
 		widthText = new Text(widthComposite, SWT.BORDER);
-		widthText.addVerifyListener(e -> {
+		widthText.addVerifyListener(e -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			if (e.character != 0 && e.keyCode != SWT.BS
 					&& e.keyCode != SWT.DEL
 					&& !Character.isDigit(e.character)) {
@@ -198,7 +198,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		gridData = new GridData();
 		gridData.widthHint = convertWidthInCharsToPixels(5);
 		widthText.setLayoutData(gridData);
-		widthText.addModifyListener(_ -> updateWidth());
+		widthText.addModifyListener(_ -> updateWidth()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		setWidthEnabled(false);
 		return widthText;
 	}
@@ -213,7 +213,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 *
 	 * @return {@link Control}
 	 */
-	Control createVisibleTable(Composite parent) {
+	Control createVisibleTable(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout gridLayout = new GridLayout(1, false);
 		gridLayout.marginHeight =0;
@@ -232,14 +232,14 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		final TableColumn column = new TableColumn(table, SWT.NONE);
 		column.setText(MarkerMessages.MarkerPreferences_VisibleColumnsTitle);
 		Listener columnResize = _ -> column.setWidth(table.getClientArea().width);
-		table.addListener(SWT.Resize, columnResize);
+		table.addListener(SWT.Resize, columnResize); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		visibleViewer = new TableViewer(table);
-		visibleViewer.setLabelProvider(doGetLabelProvider());
+		visibleViewer.setLabelProvider(doGetLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		visibleViewer.setContentProvider(ArrayContentProvider.getInstance());
-		visibleViewer.addSelectionChangedListener(event -> handleVisibleSelection(event.getSelection()));
-		table.addListener(SWT.MouseDoubleClick, event -> handleToNonVisibleButton(event));
-		visibleViewer.setInput(getVisible());
+		visibleViewer.addSelectionChangedListener(event -> handleVisibleSelection(event.getSelection())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		table.addListener(SWT.MouseDoubleClick, event -> handleToNonVisibleButton(event)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		visibleViewer.setInput(getVisible()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		return table;
 	}
 
@@ -248,7 +248,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 *
 	 * @return {@link Control}
 	 */
-	Control createInvisibleTable(Composite parent) {
+	Control createInvisibleTable(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout gridLayout = new GridLayout(1, false);
 		gridLayout.marginHeight = 0;
@@ -270,14 +270,14 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		final TableColumn column = new TableColumn(table, SWT.NONE);
 		column.setText(MarkerMessages.MarkerPreferences_HiddenColumnsTitle);
 		Listener columnResize = _ -> column.setWidth(table.getClientArea().width);
-		table.addListener(SWT.Resize, columnResize);
+		table.addListener(SWT.Resize, columnResize); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		nonVisibleViewer = new TableViewer(table);
-		nonVisibleViewer.setLabelProvider(doGetLabelProvider());
+		nonVisibleViewer.setLabelProvider(doGetLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		nonVisibleViewer.setContentProvider(ArrayContentProvider.getInstance());
-		nonVisibleViewer.addSelectionChangedListener(event -> handleNonVisibleSelection(event.getSelection()));
-		table.addListener(SWT.MouseDoubleClick, event -> handleToVisibleButton(event));
-		nonVisibleViewer.setInput(getNonVisible());
+		nonVisibleViewer.addSelectionChangedListener(event -> handleNonVisibleSelection(event.getSelection())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		table.addListener(SWT.MouseDoubleClick, event -> handleToVisibleButton(event)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		nonVisibleViewer.setInput(getNonVisible()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		return table;
 	}
 
@@ -287,7 +287,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 *
 	 * @return {@link Control}
 	 */
-	Control createMoveButtons(Composite parent) {
+	Control createMoveButtons(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout compositeLayout = new GridLayout();
 		compositeLayout.marginHeight = 0;
@@ -305,14 +305,14 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		toVisibleBtt.setText(MarkerMessages.MarkerPreferences_MoveRight);
 		setButtonLayoutData(toVisibleBtt);
 		((GridData)toVisibleBtt.getLayoutData()).verticalIndent = tableLabelSize.y;
-		toVisibleBtt.addListener(SWT.Selection, event -> handleToVisibleButton(event));
+		toVisibleBtt.addListener(SWT.Selection, event -> handleToVisibleButton(event)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		toVisibleBtt.setEnabled(false);
 
 		toNonVisibleBtt = new Button(bttArea, SWT.PUSH);
 		toNonVisibleBtt.setText(MarkerMessages.MarkerPreferences_MoveLeft);
 		setButtonLayoutData(toNonVisibleBtt);
 
-		toNonVisibleBtt.addListener(SWT.Selection, event -> handleToNonVisibleButton(event));
+		toNonVisibleBtt.addListener(SWT.Selection, event -> handleToNonVisibleButton(event)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		toNonVisibleBtt.setEnabled(false);
 
 		return bttArea;
@@ -336,7 +336,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 * Handles a selection change in the viewer that lists out the visible
 	 * columns. Takes care of various enablements.
 	 */
-	void handleVisibleSelection(ISelection selection) {
+	void handleVisibleSelection(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<T> selVCols = ((IStructuredSelection) selection).toList();
 		List<T> allVCols = getVisible();
 		toNonVisibleBtt.setEnabled(selVCols.size() > 0 && allVCols.size() > selVCols.size());
@@ -344,7 +344,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		IColumnInfoProvider<T> infoProvider = doGetColumnInfoProvider();
 		boolean moveDown = !selVCols.isEmpty(), moveUp = !selVCols.isEmpty();
 		Iterator<T> iterator = selVCols.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			T columnObj = iterator.next();
 			if (!infoProvider.isColumnMovable(columnObj)) {
 				moveUp = false;
@@ -390,14 +390,14 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		List<T> selVCols = selection.toList();
 		List<T> allVCols = getVisible();
 		IColumnUpdater<T> updater = doGetColumnUpdater();
-		for (int i = selVCols.size() - 1; i >= 0; i--) {
+		for (int i = selVCols.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			T colObj = selVCols.get(i);
 			int index = allVCols.indexOf(colObj);
 			updater.setColumnIndex(colObj, index + 1);
 			allVCols.remove(index);
 			allVCols.add(index + 1, colObj);
 		}
-		visibleViewer.refresh();
+		visibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		handleVisibleSelection(selection);
 	}
 
@@ -413,14 +413,14 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		List<T> selVCols = selection.toList();
 		List<T> allVCols = getVisible();
 		IColumnUpdater<T> updater = doGetColumnUpdater();
-		for (int i = 0; i < selVCols.size(); i++) {
+		for (int i = 0; i < selVCols.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			T colObj = selVCols.get(i);
 			int index = allVCols.indexOf(colObj);
 			updater.setColumnIndex(colObj, index - 1);
 			allVCols.remove(index);
 			allVCols.add(index - 1, colObj);
 		}
-		visibleViewer.refresh();
+		visibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		handleVisibleSelection(selection);
 	}
 
@@ -430,7 +430,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 * @param e
 	 *            event from the button click
 	 */
-	void handleToVisibleButton(Event e) {
+	void handleToVisibleButton(Event e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStructuredSelection selection = nonVisibleViewer.getStructuredSelection();
 		List<T> selVCols = selection.toList();
 		getNonVisible().removeAll(selVCols);
@@ -442,9 +442,9 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		updateIndices(getVisible());
 		updateIndices(getNonVisible());
 
-		visibleViewer.refresh();
+		visibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		visibleViewer.setSelection(selection);
-		nonVisibleViewer.refresh();
+		nonVisibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		handleVisibleSelection(selection);
 		handleNonVisibleSelection(nonVisibleViewer.getStructuredSelection());
 	}
@@ -455,7 +455,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 * @param e
 	 *            event from the button click
 	 */
-	protected void handleToNonVisibleButton(Event e) {
+	protected void handleToNonVisibleButton(Event e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (visibleViewer.getControl().isFocusControl() && getVisible().size() <= 1) {
 			handleStatusUdpate(IStatus.INFO, MarkerMessages.MarkerPreferences_AtLeastOneVisibleColumn);
 			return;
@@ -469,9 +469,9 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 		updateIndices(getVisible());
 		updateIndices(getNonVisible());
 
-		nonVisibleViewer.refresh();
+		nonVisibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		nonVisibleViewer.setSelection(structuredSelection);
-		visibleViewer.refresh();
+		visibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		handleVisibleSelection(structuredSelection);
 		handleNonVisibleSelection(structuredSelection);
 	}
@@ -479,7 +479,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	void updateIndices(List<T> list) {
 		ListIterator<T> iterator = list.listIterator();
 		IColumnUpdater<T> updater = doGetColumnUpdater();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updater.setColumnIndex(iterator.next(), iterator.previousIndex());
 		}
 	}
@@ -487,7 +487,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	void updateVisibility(List<T> list, boolean visibility) {
 		IColumnUpdater<T> updater = doGetColumnUpdater();
 		Iterator<T> iterator = list.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updater.setColumnVisible(iterator.next(), visibility);
 		}
 	}
@@ -503,10 +503,10 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 */
 	void refreshViewers() {
 		if (nonVisibleViewer != null) {
-			nonVisibleViewer.refresh();
+			nonVisibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 		if (visibleViewer != null) {
-			visibleViewer.refresh();
+			visibleViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -515,7 +515,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 */
 	public List<T> getVisible() {
 		if (visible == null) {
-			visible = new ArrayList<>();
+			visible = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		return visible;
 	}
@@ -525,7 +525,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 	 */
 	public List<T> getNonVisible() {
 		if (nonVisible == null) {
-			nonVisible = new ArrayList<>();
+			nonVisible = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		return nonVisible;
 	}
@@ -718,7 +718,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 			return key.toString();
 		}
 
-		private static ViewerColumnsDialog<TestData> getColumnsDialog(Shell shell, final TestData[] colums) {
+		private static ViewerColumnsDialog<TestData> getColumnsDialog(Shell shell, final TestData[] colums) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ViewerColumnsDialog<TestData> dialog = new ViewerColumnsDialog<>(shell) {
 
 				@Override
@@ -740,7 +740,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 			return dialog;
 		}
 
-		private static IColumnUpdater<TestData> getUpdater() {
+		private static IColumnUpdater<TestData> getUpdater() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new IColumnUpdater<>() {
 
 				@Override
@@ -772,7 +772,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 			};
 		}
 
-		private static IColumnInfoProvider<TestData> getInfoProvider() {
+		private static IColumnInfoProvider<TestData> getInfoProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			return new IColumnInfoProvider<>() {
 
 				@Override
@@ -802,31 +802,31 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 			};
 		}
 
-		private static TestData[] genData(int count) {
+		private static TestData[] genData(int count) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] cols = new String[count];
-			for (int i = 0; i < cols.length; i++) {
-				cols[i] = "Column-" + (i + 1); //$NON-NLS-1$
+			for (int i = 0; i < cols.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				cols[i] = "Column-" + (i + 1); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			Random random = new Random();
 
 			boolean[] visibility = new boolean[cols.length];
 			Arrays.fill(visibility, true);
 			int ranInt = random.nextInt() % cols.length;
-			for (int i = 0; i < ranInt; i++) {
+			for (int i = 0; i < ranInt; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				visibility[random.nextInt(ranInt)] = false;
 			}
 
 			boolean[] resizable = new boolean[cols.length];
 			Arrays.fill(resizable, true);
 			ranInt = random.nextInt() % cols.length;
-			for (int i = 0; i < ranInt; i++) {
+			for (int i = 0; i < ranInt; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				resizable[random.nextInt(ranInt)] = false;
 			}
 
 			boolean[] movable = new boolean[cols.length];
 			Arrays.fill(movable, true);
 			ranInt = random.nextInt() % cols.length;
-			for (int i = 0; i < ranInt; i++) {
+			for (int i = 0; i < ranInt; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				movable[random.nextInt(ranInt)] = false;
 			}
 
@@ -835,11 +835,11 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 			return TestData.generateColumnsData(cols, visibility, resizable, movable, widths);
 		}
 
-		public static TestData[] generateColumnsData(Object[] keys, boolean[] visibility, boolean[] resizable,
+		public static TestData[] generateColumnsData(Object[] keys, boolean[] visibility, boolean[] resizable, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				boolean[] movable, int[] widths) {
 			TestData[] colData = new TestData[keys.length];
 			int m = 0, n = 0;
-			for (int i = 0; i < colData.length; i++) {
+			for (int i = 0; i < colData.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TestData data = new TestData(keys[i], i);
 				data.visibility = visibility[i];
 				data.resizable = resizable[i];
@@ -865,7 +865,7 @@ abstract class ViewerColumnsDialog<T> extends ViewerSettingsAndStatusDialog {
 			ViewerColumnsDialog<TestData> dialog = getColumnsDialog(shell, genData(100));
 			dialog.open();
 			shell.dispose();
-			while (!shell.isDisposed()) {
+			while (!shell.isDisposed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!display.readAndDispatch()) {
 					display.sleep();
 				}

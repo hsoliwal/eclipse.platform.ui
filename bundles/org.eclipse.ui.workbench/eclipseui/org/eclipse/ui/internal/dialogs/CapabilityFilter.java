@@ -21,7 +21,7 @@ import org.eclipse.ui.activities.WorkbenchActivityHelper;
  * The CapabilityFilter is a filter that uses the capabilities support as filter
  * for items.
  */
-public class CapabilityFilter extends ViewerFilter {
+public class CapabilityFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/**
 	 * Create a new instance of a capability filter.

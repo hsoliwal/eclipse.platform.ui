@@ -283,7 +283,7 @@ public final class PlatformUI {
 	 *         empty optional if currently no Workbench is available.
 	 * @since 3.126
 	 */
-	public static Optional<MApplication> getApplication() {
+	public static Optional<MApplication> getApplication() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Workbench instance = Workbench.getInstance();
 		if (instance != null && instance.isRunning()) {
 			return Optional.of((instance.getApplication()));

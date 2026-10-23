@@ -176,7 +176,7 @@ public class ContainerSelectionGroup extends Composite {
 	 * @param container
 	 *            The container that changed
 	 */
-	public void containerSelectionChanged(IContainer container) {
+	public void containerSelectionChanged(IContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		selectedContainer = container;
 
 		if (allowNewContainerName) {
@@ -210,7 +210,7 @@ public class ContainerSelectionGroup extends Composite {
 	/**
 	 * Creates the contents of the composite.
 	 */
-	public void createContents(String message, int heightHint, int widthHint) {
+	public void createContents(String message, int heightHint, int widthHint) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
 		setLayout(layout);
@@ -225,7 +225,7 @@ public class ContainerSelectionGroup extends Composite {
 			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.widthHint = widthHint;
 			containerNameField.setLayoutData(gd);
-			containerNameField.addListener(SWT.Modify, listener);
+			containerNameField.addListener(SWT.Modify, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			containerNameField.setFont(this.getFont());
 			BidiUtils.applyBidiProcessing(containerNameField, StructuredTextTypeHandlerFactory.FILE);
 		} else {
@@ -243,7 +243,7 @@ public class ContainerSelectionGroup extends Composite {
 	 * @param heightHint
 	 *            height hint for the drill down composite
 	 */
-	protected void createTreeViewer(int heightHint) {
+	protected void createTreeViewer(int heightHint) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create drill down.
 		DrillDownComposite drillDown = new DrillDownComposite(this, SWT.BORDER);
 		GridData spec = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -257,16 +257,16 @@ public class ContainerSelectionGroup extends Composite {
 		ContainerContentProvider cp = new ContainerContentProvider();
 		cp.showClosedProjects(showClosedProjects);
 		treeViewer.setContentProvider(cp);
-		treeViewer.setLabelProvider(WorkbenchLabelProvider
+		treeViewer.setLabelProvider(WorkbenchLabelProvider //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				.getDecoratingWorkbenchLabelProvider());
 		treeViewer.setComparator(new ViewerComparator());
 		treeViewer.setUseHashlookup(true);
-		treeViewer.addSelectionChangedListener(event -> {
+		treeViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			IStructuredSelection selection = event.getStructuredSelection();
 			containerSelectionChanged((IContainer) selection
 					.getFirstElement()); // allow null
 		});
-		treeViewer.addDoubleClickListener(event -> {
+		treeViewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			ISelection selection = event.getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Object item = ((IStructuredSelection) selection)
@@ -283,7 +283,7 @@ public class ContainerSelectionGroup extends Composite {
 		});
 
 		// This has to be done after the viewer has been laid out
-		treeViewer.setInput(ResourcesPlugin.getWorkspace());
+		treeViewer.setInput(ResourcesPlugin.getWorkspace()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -329,9 +329,9 @@ public class ContainerSelectionGroup extends Composite {
 		selectedContainer = container;
 
 		// expand to and select the specified container
-		List<IContainer> itemsToExpand = new ArrayList<>();
+		List<IContainer> itemsToExpand = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IContainer parent = container.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			itemsToExpand.add(0, parent);
 			parent = parent.getParent();
 		}

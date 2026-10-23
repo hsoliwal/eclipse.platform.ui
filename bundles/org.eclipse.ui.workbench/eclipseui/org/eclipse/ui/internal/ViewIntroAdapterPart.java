@@ -182,7 +182,7 @@ public final class ViewIntroAdapterPart extends ViewPart {
 			introPart = workbench.getWorkbenchIntroManager().createNewIntroPart();
 			// reset the part name of this view to be that of the intro title
 			setPartName(introPart.getTitle());
-			introPart.addPropertyListener((source, propId) -> firePropertyChange(propId));
+			introPart.addPropertyListener((source, propId) -> firePropertyChange(propId)); //FLLDCIM: MARK — T06  LAMBDA
 			introSite = new ViewIntroAdapterSite(site, workbench.getIntroDescriptor());
 			introPart.init(introSite, memento);
 

@@ -61,12 +61,12 @@ public class RegistryTriggerPoint extends AbstractTriggerPoint {
 	 *
 	 * @return the hint map
 	 */
-	private Map<String, String> getHints() {
+	private Map<String, String> getHints() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hints == null) {
-			hints = new HashMap<>();
+			hints = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 			IConfigurationElement[] hintElements = element.getChildren(IWorkbenchRegistryConstants.TAG_HINT);
-			for (IConfigurationElement hintElement : hintElements) {
+			for (IConfigurationElement hintElement : hintElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = hintElement.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 				String value = hintElement.getAttribute(IWorkbenchRegistryConstants.ATT_VALUE);
 

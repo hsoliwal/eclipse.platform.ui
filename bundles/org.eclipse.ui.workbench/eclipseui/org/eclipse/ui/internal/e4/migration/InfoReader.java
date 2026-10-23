@@ -54,7 +54,7 @@ public class InfoReader extends MementoReader {
 		return memFolder;
 	}
 
-	int[] getPartOrder() {
+	int[] getPartOrder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMemento folder = getFolder();
 		if (folder == null) {
 			return null;
@@ -67,7 +67,7 @@ public class InfoReader extends MementoReader {
 
 		IMemento[] partPositions = presentation.getChildren(IWorkbenchConstants.TAG_PART);
 		int[] partOrder = new int[partPositions.length];
-		for (int i = 0; i < partPositions.length; i++) {
+		for (int i = 0; i < partPositions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			partOrder[i] = partPositions[i].getInteger(IWorkbenchConstants.TAG_ID);
 		}
 		return partOrder;
@@ -81,8 +81,8 @@ public class InfoReader extends MementoReader {
 		IMemento folder = getFolder();
 		if (folder != null) {
 			IMemento[] pageMems = folder.getChildren(IWorkbenchConstants.TAG_PAGE);
-			pages = new ArrayList<>(pageMems.length);
-			for (IMemento pageMem : pageMems) {
+			pages = new ArrayList<>(pageMems.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IMemento pageMem : pageMems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pages.add(new PageReader(pageMem));
 			}
 		}

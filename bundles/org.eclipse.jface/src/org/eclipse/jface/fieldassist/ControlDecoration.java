@@ -266,7 +266,7 @@ public class ControlDecoration {
 		/*
 		 * Create a hover parented by the specified shell.
 		 */
-		Hover(Shell parent) {
+		Hover(Shell parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Display display = parent.getDisplay();
 			hoverShell = new Shell(parent, SWT.NO_TRIM | SWT.ON_TOP
 					| SWT.NO_FOCUS | SWT.TOOL);
@@ -274,13 +274,13 @@ public class ControlDecoration {
 					.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 			hoverShell.setForeground(display
 					.getSystemColor(SWT.COLOR_INFO_FOREGROUND));
-			hoverShell.addPaintListener(pe -> {
+			hoverShell.addPaintListener(pe -> { //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 				pe.gc.drawText(text, hm, hm);
 				if (!MAC) {
 					pe.gc.drawPolygon(getPolygon(true));
 				}
 			});
-			hoverShell.addMouseListener(new MouseAdapter() {
+			hoverShell.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void mouseDown(MouseEvent e) {
 					hideHover();
@@ -337,7 +337,7 @@ public class ControlDecoration {
 		 * and location of the hover to hover near the decoration rectangle,
 		 * pointing the arrow toward the target control.
 		 */
-		void setText(String t, Rectangle decorationRectangle,
+		void setText(String t, Rectangle decorationRectangle, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Control targetControl) {
 			if (t == null) {
 				t = EMPTY;
@@ -593,10 +593,10 @@ public class ControlDecoration {
 	 * Add any listeners needed on the target control and on the composite where
 	 * the decoration is to be rendered.
 	 */
-	private void addControlListeners() {
-		disposeListener = event -> dispose();
+	private void addControlListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		disposeListener = event -> dispose(); //FLLDCIM: MARK — T01  LAMBDA
 		printAddListener(control, "DISPOSE"); //$NON-NLS-1$
-		control.addDisposeListener(disposeListener);
+		control.addDisposeListener(disposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
 		focusListener = new FocusListener() {
 			@Override
@@ -616,10 +616,10 @@ public class ControlDecoration {
 			}
 		};
 		printAddListener(control, "FOCUS"); //$NON-NLS-1$
-		control.addFocusListener(focusListener);
+		control.addFocusListener(focusListener); //FLLDCIM: MARK — T15 FOCUS CALL
 
 		// Listener for painting the decoration
-		paintListener = event -> {
+		paintListener = event -> { //FLLDCIM: MARK — T10  LAMBDA
 			if (shouldShowDecoration()) {
 				Control control = (Control) event.widget;
 				Rectangle rect = getDecorationRectangle(control);
@@ -656,7 +656,7 @@ public class ControlDecoration {
 				hideHover();
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void mouseHover(MouseEvent event) {
 				if (showHover) {
 					decorationRectangle = getDecorationRectangle((Control) event.widget);
@@ -665,7 +665,7 @@ public class ControlDecoration {
 						Control target = (Control) event.widget;
 						if (moveListeningTarget == null) {
 							printAddListener(target, "MOUSEMOVE"); //$NON-NLS-1$
-							target.addMouseMoveListener(mouseMoveListener);
+							target.addMouseMoveListener(mouseMoveListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 							moveListeningTarget = target;
 						} else if (target != moveListeningTarget) {
 							printRemoveListener(moveListeningTarget,
@@ -673,7 +673,7 @@ public class ControlDecoration {
 							moveListeningTarget
 									.removeMouseMoveListener(mouseMoveListener);
 							printAddListener(target, "MOUSEMOVE"); //$NON-NLS-1$
-							target.addMouseMoveListener(mouseMoveListener);
+							target.addMouseMoveListener(mouseMoveListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 							moveListeningTarget = target;
 						} else {
 							// It is already installed on this control.
@@ -717,7 +717,7 @@ public class ControlDecoration {
 		// is providing the decoration space, so hook all the way up, until
 		// the shell or the specified parent composite is reached.
 		Composite c = control.getParent();
-		while (c != null) {
+		while (c != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			installCompositeListeners(c);
 			if (composite != null && composite == c) {
 				// We just installed on the specified composite, so stop.
@@ -744,15 +744,15 @@ public class ControlDecoration {
 	private void installCompositeListeners(Composite c) {
 		if (!c.isDisposed()) {
 			printAddListener(c, "PAINT"); //$NON-NLS-1$
-			c.addPaintListener(paintListener);
+			c.addPaintListener(paintListener); //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 			printAddListener(c, "MOUSETRACK"); //$NON-NLS-1$
-			c.addMouseTrackListener(mouseTrackListener);
+			c.addMouseTrackListener(mouseTrackListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			printAddListener(c, "SWT.MenuDetect"); //$NON-NLS-1$
-			c.addListener(SWT.MenuDetect, compositeListener);
+			c.addListener(SWT.MenuDetect, compositeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			printAddListener(c, "SWT.MouseDown"); //$NON-NLS-1$
-			c.addListener(SWT.MouseDown, compositeListener);
+			c.addListener(SWT.MouseDown, compositeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			printAddListener(c, "SWT.MouseDoubleClick"); //$NON-NLS-1$
-			c.addListener(SWT.MouseDoubleClick, compositeListener);
+			c.addListener(SWT.MouseDoubleClick, compositeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 	}
 
@@ -775,7 +775,7 @@ public class ControlDecoration {
 		}
 	}
 
-	private void notifySelectionListeners(Event event) {
+	private void notifySelectionListeners(Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(event.widget instanceof Control)) {
 			return;
 		}
@@ -790,14 +790,14 @@ public class ControlDecoration {
 			switch (event.type) {
 			case SWT.MouseDoubleClick:
 				if (event.button == 1) {
-					for (SelectionListener l : selectionListeners) {
+					for (SelectionListener l : selectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						l.widgetDefaultSelected(clientEvent);
 					}
 				}
 				break;
 			case SWT.MouseDown:
 				if (event.button == 1) {
-					for (SelectionListener l : selectionListeners) {
+					for (SelectionListener l : selectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						l.widgetSelected(clientEvent);
 					}
 				}
@@ -810,7 +810,7 @@ public class ControlDecoration {
 		if (getDecorationRectangle(null).contains(event.x, event.y)) {
 			MenuDetectEvent clientEvent = new MenuDetectEvent(event);
 			clientEvent.data = this;
-			for (MenuDetectListener l : menuDetectListeners) {
+			for (MenuDetectListener l : menuDetectListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				l.menuDetected(clientEvent);
 
 			}
@@ -1025,7 +1025,7 @@ public class ControlDecoration {
 	 * Something has changed, requiring redraw. Redraw the decoration and update
 	 * the hover text if appropriate.
 	 */
-	protected void update() {
+	protected void update() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (control == null || control.isDisposed()) {
 			return;
 		}
@@ -1054,7 +1054,7 @@ public class ControlDecoration {
 	 *
 	 * The caller has already established that the control is not null.
 	 */
-	private void showHoverText(String text, Control hoverNear) {
+	private void showHoverText(String text, Control hoverNear) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// We do not show the hover if the control is disposed or
 		// invisible.
 		if (control.isDisposed() || !control.isVisible()) {
@@ -1096,7 +1096,7 @@ public class ControlDecoration {
 	/*
 	 * Remove any listeners installed on the controls.
 	 */
-	private void removeControlListeners() {
+	private void removeControlListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (control == null) {
 			return;
 		}
@@ -1109,7 +1109,7 @@ public class ControlDecoration {
 		disposeListener = null;
 
 		Composite c = control.getParent();
-		while (c != null) {
+		while (c != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			removeCompositeListeners(c);
 			if (composite != null && composite == c) {
 				// We previously installed listeners only to the specified
@@ -1155,7 +1155,7 @@ public class ControlDecoration {
 	 *            the control whose coordinates should be used
 	 * @return the rectangle in which the decoration should be rendered
 	 */
-	protected Rectangle getDecorationRectangle(Control targetControl) {
+	protected Rectangle getDecorationRectangle(Control targetControl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getImage() == null || control == null) {
 			return new Rectangle(0, 0, 0, 0);
 		}
@@ -1221,7 +1221,7 @@ public class ControlDecoration {
 		listenerInstalls++;
 		if (DEBUG) {
 			System.out
-					.println("Added listener>>>" + listenerType + " to>>>" + widget); //$NON-NLS-1$//$NON-NLS-2$
+					.println("Added listener>>>" + listenerType + " to>>>" + widget); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -1232,7 +1232,7 @@ public class ControlDecoration {
 		listenerInstalls--;
 		if (DEBUG) {
 			System.out
-					.println("Removed listener>>>" + listenerType + " from>>>" + widget); //$NON-NLS-1$//$NON-NLS-2$
+					.println("Removed listener>>>" + listenerType + " from>>>" + widget); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

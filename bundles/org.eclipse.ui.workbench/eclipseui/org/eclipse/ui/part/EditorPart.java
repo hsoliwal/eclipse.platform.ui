@@ -88,7 +88,7 @@ public abstract class EditorPart extends WorkbenchPart implements IEditorPart {
 	 * setContentDescription. Used for compatibility with old parts that call
 	 * setTitle or overload getTitle instead of using setContentDescription.
 	 */
-	private IPropertyListener compatibilityTitleListener = (source, propId) -> {
+	private IPropertyListener compatibilityTitleListener = (source, propId) -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (propId == IWorkbenchPartConstants.PROP_TITLE) {
 			setDefaultPartName();
 		}
@@ -100,7 +100,7 @@ public abstract class EditorPart extends WorkbenchPart implements IEditorPart {
 	protected EditorPart() {
 		super();
 
-		addPropertyListener(compatibilityTitleListener);
+		addPropertyListener(compatibilityTitleListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 	}
 
 	/*

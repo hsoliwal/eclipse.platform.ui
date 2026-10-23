@@ -57,7 +57,7 @@ public class TreeColumnLayout extends AbstractColumnLayout {
 		}
 
 		private void update(final Tree tree) {
-			tree.getDisplay().asyncExec(() -> {
+			tree.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (!tree.isDisposed()) {
 					tree.update();
 					tree.getParent().layout();
@@ -92,7 +92,7 @@ public class TreeColumnLayout extends AbstractColumnLayout {
 		super.layout(composite, flushCache);
 		if( addListener ) {
 			addListener=false;
-			((Tree)getControl(composite)).addTreeListener(listener);
+			((Tree)getControl(composite)).addTreeListener(listener); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 		}
 	}
 
@@ -114,7 +114,7 @@ public class TreeColumnLayout extends AbstractColumnLayout {
 	@Override
 	protected void setColumnWidths(Scrollable tree, int[] widths) {
 		TreeColumn[] columns = ((Tree) tree).getColumns();
-		for (int i = 0; i < widths.length; i++) {
+		for (int i = 0; i < widths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			columns[i].setWidth(widths[i]);
 		}
 	}

@@ -72,7 +72,7 @@ public class IDEWorkbenchActivityHelper {
 	/**
 	 * The collection of natures to process.
 	 */
-	private final HashSet<String> fPendingNatureUpdates = new HashSet<>();
+	private final HashSet<String> fPendingNatureUpdates = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Singleton instance.
@@ -95,9 +95,9 @@ public class IDEWorkbenchActivityHelper {
 	 * Create a new <code>IDEWorkbenchActivityHelper</code> which will listen
 	 * for workspace changes and promote activities accordingly.
 	 */
-	private IDEWorkbenchActivityHelper() {
+	private IDEWorkbenchActivityHelper() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		lock = this;
-		natureMap = new HashMap<>();
+		natureMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		// for dynamic UI
 		Platform.getExtensionRegistry().addRegistryChangeListener(
 				event -> {
@@ -112,17 +112,17 @@ public class IDEWorkbenchActivityHelper {
 		// crawl the initial projects to set up nature bindings
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
 				.getProjects();
-		processProjects(new HashSet<>(Arrays.asList(projects)));
+		processProjects(new HashSet<>(Arrays.asList(projects))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
 	 * For dynamic UI.  Clears the cache of known natures and recreates it.
 	 */
-	public void loadNatures() {
+	public void loadNatures() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		natureMap.clear();
 		IExtensionPoint point = Platform.getExtensionRegistry()
 				.getExtensionPoint("org.eclipse.core.resources.natures"); //$NON-NLS-1$
-		for (IExtension extension : point.getExtensions()) {
+		for (IExtension extension : point.getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String localId = extension.getSimpleIdentifier();
 			final String pluginId = extension.getContributor().getName();
 			String natureId = extension.getUniqueIdentifier();
@@ -145,8 +145,8 @@ public class IDEWorkbenchActivityHelper {
 	 *
 	 * @return the resource change listeners
 	 */
-	private IResourceChangeListener getChangeListener() {
-		return event -> {
+	private IResourceChangeListener getChangeListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return event -> { //FLLDCIM: MARK — T07  LAMBDA
 			if (!WorkbenchActivityHelper.isFiltering()) {
 				return;
 			}
@@ -159,8 +159,8 @@ public class IDEWorkbenchActivityHelper {
 			if (mainDelta.getKind() == IResourceDelta.CHANGED
 					&& mainDelta.getResource().getType() == IResource.ROOT) {
 
-				Set<IProject> projectsToUpdate = new HashSet<>();
-				for (IResourceDelta delta : mainDelta.getAffectedChildren()) {
+				Set<IProject> projectsToUpdate = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (IResourceDelta delta : mainDelta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (delta.getResource().getType() == IResource.PROJECT) {
 						IProject project = (IProject) delta.getResource();
 
@@ -179,7 +179,7 @@ public class IDEWorkbenchActivityHelper {
 	/**
 	 * Drain the queue and consult the helper.
 	 */
-	protected void runPendingUpdates() {
+	protected void runPendingUpdates() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] ids = null;
 		synchronized (lock) {
 			ids = fPendingNatureUpdates
@@ -188,7 +188,7 @@ public class IDEWorkbenchActivityHelper {
 		}
 		IWorkbenchActivitySupport workbenchActivitySupport = PlatformUI
 				.getWorkbench().getActivitySupport();
-		for (String id : ids) {
+		for (String id : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPluginContribution contribution = natureMap.get(id);
 			if (contribution == null) {
 				continue; // bad nature ID.
@@ -213,9 +213,9 @@ public class IDEWorkbenchActivityHelper {
 		}
 	}
 
-	private void processProjects(Set<IProject> projectsToUpdate) {
+	private void processProjects(Set<IProject> projectsToUpdate) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean needsUpdate = false;
-		for (IProject project : projectsToUpdate) {
+		for (IProject project : projectsToUpdate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				String[] ids = project.getDescription().getNatureIds();
 				if (ids.length == 0) {
@@ -232,7 +232,7 @@ public class IDEWorkbenchActivityHelper {
 		}
 		if (needsUpdate) {
 			if (fUpdateJob == null) {
-				fUpdateJob = new WorkbenchJob(IDEWorkbenchMessages.IDEWorkbenchActivityHelper_jobName) {
+				fUpdateJob = new WorkbenchJob(IDEWorkbenchMessages.IDEWorkbenchActivityHelper_jobName) { //FLLDCIM: MARK — T09  ANONYMOUS
 					@Override
 					public IStatus runInUIThread(
 							IProgressMonitor monitor) {

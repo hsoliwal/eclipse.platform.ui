@@ -81,7 +81,7 @@ public class TarOutputStream extends FilterOutputStream {
 	 */
 	private long headerChecksum(byte[] header) {
 		long sum = 0;
-		for(int i = 0; i < 512; i++) {
+		for(int i = 0; i < 512; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sum += header[i] & 0xff;
 		}
 		return sum;
@@ -92,7 +92,7 @@ public class TarOutputStream extends FilterOutputStream {
 	 *
 	 * @param e TarEntry describing the file
 	 */
-	public void putNextEntry(TarEntry e) throws IOException {
+	public void putNextEntry(TarEntry e) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		byte[] header = new byte[512];
 		String filename = e.getName();
 		String prefix = null;
@@ -119,11 +119,11 @@ public class TarOutputStream extends FilterOutputStream {
 		pos += 100;
 
 		/* File mode. */
-		StringBuilder mode = new StringBuilder(Long.toOctalString(e.getMode()));
-		while(mode.length() < 7) {
+		StringBuilder mode = new StringBuilder(Long.toOctalString(e.getMode())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		while(mode.length() < 7) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			mode.insert(0,'0');
 		}
-		for(i = 0; i < 7; i++) {
+		for(i = 0; i < 7; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = (byte) mode.charAt(i);
 		}
 		pos += 8;
@@ -138,20 +138,20 @@ public class TarOutputStream extends FilterOutputStream {
 
 		/* Length of the file. */
 		String length = Long.toOctalString(e.getSize());
-		for(i = 0; i < length.length(); i++) {
+		for(i = 0; i < length.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = (byte) length.charAt(i);
 		}
 		pos += 12;
 
 		/* mtime */
 		String mtime = Long.toOctalString(e.getTime());
-		for(i = 0; i < mtime.length(); i++) {
+		for(i = 0; i < mtime.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = (byte) mtime.charAt(i);
 		}
 		pos += 12;
 
 		/* "Blank" out the checksum. */
-		for(i = 0; i < 8; i++) {
+		for(i = 0; i < 8; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = ' ';
 		}
 		pos += 8;
@@ -165,7 +165,7 @@ public class TarOutputStream extends FilterOutputStream {
 
 		/* Add ustar header. */
 		String ustar = "ustar 00"; //$NON-NLS-1$
-		for(i = 0; i < ustar.length(); i++) {
+		for(i = 0; i < ustar.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = (byte) ustar.charAt(i);
 		}
 		header[pos + 5] = 0;
@@ -173,7 +173,7 @@ public class TarOutputStream extends FilterOutputStream {
 
 		/* Username. */
 		String uname = "nobody"; //$NON-NLS-1$
-		for(i = 0; i < uname.length(); i++) {
+		for(i = 0; i < uname.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = (byte) uname.charAt(i);
 		}
 		pos += 32;
@@ -181,7 +181,7 @@ public class TarOutputStream extends FilterOutputStream {
 
 		/* Group name. */
 		String gname = "nobody"; //$NON-NLS-1$
-		for(i = 0; i < gname.length(); i++) {
+		for(i = 0; i < gname.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = (byte) gname.charAt(i);
 		}
 		pos += 32;
@@ -204,7 +204,7 @@ public class TarOutputStream extends FilterOutputStream {
 		long sum = headerChecksum(header);
 		pos = 100 + 8 + 8 + 8 + 12 + 12;
 		String sumval = Long.toOctalString(sum);
-		for(i = 0; i < sumval.length(); i++) {
+		for(i = 0; i < sumval.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = (byte) sumval.charAt(i);
 		}
 

@@ -79,7 +79,7 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 		int[] widths = new int[visible.size()];
 		int i = 0;
 		Iterator<FieldEntry> iterator = visible.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			widths[i] = iterator.next().width;
 			i++;
 		}
@@ -88,9 +88,9 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 
 	private Collection<MarkerField> getVisibleFields() {
 		List<FieldEntry> visible = getVisible();
-		ArrayList<MarkerField> list = new ArrayList<>(visible.size());
+		ArrayList<MarkerField> list = new ArrayList<>(visible.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<FieldEntry> iterator = visible.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(iterator.next().field);
 		}
 		return list;
@@ -102,7 +102,7 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 		super.performDefaults();
 	}
 
-	void initialize(boolean defaultWidths) {
+	void initialize(boolean defaultWidths) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MarkerField[] allFields = extendedView.getBuilder().getGenerator().getAllFields();
 		MarkerField[] visibleFields = null;
 		if (defaultWidths) {
@@ -115,7 +115,7 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 		visible.clear();
 		nonVisible.clear();
 		FieldEntry entry = null;
-		for (MarkerField allField : allFields) {
+		for (MarkerField allField : allFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!contains(visibleFields, allField)) {
 				entry = new FieldEntry(allField, -1);
 				entry.width = extendedView.getFieldWidth(entry.field, defaultWidths ? 0 : -1, !defaultWidths);
@@ -123,7 +123,7 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 				nonVisible.add(entry);
 			}
 		}
-		for (MarkerField visibleField : visibleFields) {
+		for (MarkerField visibleField : visibleFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			entry = new FieldEntry(visibleField, -1);
 			entry.width = extendedView.getFieldWidth(entry.field, defaultWidths ? 0 : -1, !defaultWidths);
 			entry.visible = true;
@@ -132,7 +132,7 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 	}
 
 	private boolean contains(MarkerField[] visibleFields, MarkerField field) {
-		for (MarkerField visibleField : visibleFields) {
+		for (MarkerField visibleField : visibleFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (visibleField.equals(field)) {
 				return true;
 			}
@@ -150,7 +150,7 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 		};
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IColumnInfoProvider<FieldEntry> getColumnInfoProvider() {
 
 		return new IColumnInfoProvider<>() {
@@ -185,7 +185,7 @@ public class MarkersViewColumnsDialog extends ViewerColumnsDialog<FieldEntry> {
 		};
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IColumnUpdater<FieldEntry> getColumnUpdater() {
 
 		return new IColumnUpdater<>() {

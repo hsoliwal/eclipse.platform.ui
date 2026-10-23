@@ -79,7 +79,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	private final IStructuredSelection initialResourceSelection;
 
-	private List<Object> selectedTypes = new ArrayList<>();
+	private List<Object> selectedTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	// widgets
 	private ResourceTreeAndListGroup resourceGroup;
@@ -135,7 +135,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 * @param defaultButton <code>true</code> if the button is to be the default
 	 *                      button, and <code>false</code> otherwise
 	 */
-	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
+	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// increment the number of columns in the button bar
 		((GridLayout) parent.getLayout()).numColumns++;
 
@@ -166,7 +166,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 *
 	 * @param parent the parent control
 	 */
-	protected final void createButtonsGroup(Composite parent) {
+	protected final void createButtonsGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font font = parent.getFont();
 
@@ -190,7 +190,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 				handleTypesEditButtonPressed();
 			}
 		};
-		selectTypesButton.addSelectionListener(listener);
+		selectTypesButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		selectTypesButton.setFont(font);
 		setButtonLayoutData(selectTypesButton);
 
@@ -203,7 +203,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 				updateWidgetEnablements();
 			}
 		};
-		selectButton.addSelectionListener(listener);
+		selectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		selectButton.setFont(font);
 		setButtonLayoutData(selectButton);
 
@@ -217,13 +217,13 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 				updateWidgetEnablements();
 			}
 		};
-		deselectButton.addSelectionListener(listener);
+		deselectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		deselectButton.setFont(font);
 		setButtonLayoutData(deselectButton);
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -268,13 +268,13 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 *
 	 * @param parent the parent control
 	 */
-	protected final void createResourcesGroup(Composite parent) {
+	protected final void createResourcesGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// create the input element, which has the root resource
 		// as its only child
-		List<IProject> input = new ArrayList<>();
+		List<IProject> input = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (IProject project : projects) {
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (project.isOpen()) {
 				input.add(project);
 			}
@@ -288,9 +288,9 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 				WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(), SWT.NONE,
 				DialogUtil.inRegularFontMode(parent));
 
-		ICheckStateListener listener = _ -> updateWidgetEnablements();
+		ICheckStateListener listener = _ -> updateWidgetEnablements(); //FLLDCIM: MARK — T21  LAMBDA
 
-		this.resourceGroup.addCheckStateListener(listener);
+		this.resourceGroup.addCheckStateListener(listener); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 	}
 
 	/*
@@ -322,10 +322,10 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 *         <code>IResource</code>)
 	 */
 	protected List extractNonLocalResources(List originalList) {
-		ArrayList<IResource> result = new ArrayList<>(originalList.size());
+		ArrayList<IResource> result = new ArrayList<>(originalList.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<IResource> resourcesEnum = originalList.iterator();
 
-		while (resourcesEnum.hasNext()) {
+		while (resourcesEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource currentResource = resourcesEnum.next();
 			if (!currentResource.isLocal(IResource.DEPTH_ZERO)) {
 				result.add(currentResource);
@@ -335,7 +335,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 		return result;
 	}
 
-	private static class ResourceProvider extends WorkbenchContentProvider {
+	private static class ResourceProvider extends WorkbenchContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		private static final Object[] EMPTY = new Object[0];
 		private final int resourceType;
 		private final boolean showLinkedResources;
@@ -346,7 +346,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 			this.showLinkedResources = showLinkedResources;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object[] getChildren(Object o) {
 			if (o instanceof IContainer container) {
 				if (!showLinkedResources && container.isLinked(IResource.CHECK_ANCESTORS)) {
@@ -362,8 +362,8 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 				}
 
 				// filter out the desired resource types
-				List<IResource> results = new ArrayList<>();
-				for (IResource resource : members) {
+				List<IResource> results = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IResource resource : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!showLinkedResources && resource.isLinked()) {
 						continue;
 					}
@@ -424,8 +424,8 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 */
 	protected List getSelectedResources() {
 		Iterator<?> resourcesToExportIterator = this.getSelectedResourcesIterator();
-		List<Object> resourcesToExport = new ArrayList<>();
-		while (resourcesToExportIterator.hasNext()) {
+		List<Object> resourcesToExport = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (resourcesToExportIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resourcesToExport.add(resourcesToExportIterator.next());
 		}
 		return resourcesToExport;
@@ -476,7 +476,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 		Object[] newSelectedTypes = queryResourceTypesToExport();
 
 		if (newSelectedTypes != null) { // ie.- did not press Cancel
-			this.selectedTypes = new ArrayList<>(newSelectedTypes.length);
+			this.selectedTypes = new ArrayList<>(newSelectedTypes.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			this.selectedTypes.addAll(Arrays.asList(newSelectedTypes));
 			setupSelectionsBasedOnSelectedTypes();
 		}
@@ -491,7 +491,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 * @return <code>true</code> if the resource name is suitable for export based
 	 *         upon its extension
 	 */
-	protected boolean hasExportableExtension(String resourceName) {
+	protected boolean hasExportableExtension(String resourceName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedTypes == null) {
 			return true;
 		}
@@ -504,7 +504,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 		String extension = resourceName.substring(separatorIndex + 1);
 
 		Iterator<Object> it = selectedTypes.iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (extension.equalsIgnoreCase((String) it.next())) {
 				return true;
 			}
@@ -568,7 +568,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 */
 	protected void setupBasedOnInitialSelections() {
 
-		for (IResource currentResource : IDE.computeSelectedResources(this.initialResourceSelection)) {
+		for (IResource currentResource : IDE.computeSelectedResources(this.initialResourceSelection)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (currentResource.getType() == IResource.FILE) {
 				this.resourceGroup.initialCheckListItem(currentResource);
 			} else {
@@ -580,18 +580,18 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	/**
 	 * Update the tree to only select those elements that match the selected types
 	 */
-	private void setupSelectionsBasedOnSelectedTypes() {
+	private void setupSelectionsBasedOnSelectedTypes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Runnable runnable = () -> {
 			Map<IContainer, List<IResource>> selectionMap = new Hashtable<>();
 			// Only get the white selected ones
 			Iterator<?> resourceIterator = resourceGroup.getAllWhiteCheckedItems().iterator();
-			while (resourceIterator.hasNext()) {
+			while (resourceIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// handle the files here - white checked containers require recursion
 				IResource resource = (IResource) resourceIterator.next();
 				if (resource.getType() == IResource.FILE) {
 					if (hasExportableExtension(resource.getName())) {
-						List<IResource> resourceList = new ArrayList<>();
+						List<IResource> resourceList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						IContainer parent = resource.getParent();
 						if (selectionMap.containsKey(parent)) {
 							resourceList = selectionMap.get(parent);
@@ -615,9 +615,9 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 	 * selectionMap. If a resource is a file see if it matches one of the selected
 	 * extensions. If not then check the children.
 	 */
-	private void setupSelectionsBasedOnSelectedTypes(Map<IContainer, List<IResource>> selectionMap, IContainer parent) {
+	private void setupSelectionsBasedOnSelectedTypes(Map<IContainer, List<IResource>> selectionMap, IContainer parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		List<IResource> selections = new ArrayList<>();
+		List<IResource> selections = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IResource[] resources;
 		boolean hasFiles = false;
 
@@ -628,7 +628,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 			return;
 		}
 
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.getType() == IResource.FILE) {
 				if (hasExportableExtension(resource.getName())) {
 					hasFiles = true;

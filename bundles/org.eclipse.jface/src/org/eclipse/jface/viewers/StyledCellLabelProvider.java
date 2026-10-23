@@ -82,7 +82,7 @@ public abstract class StyledCellLabelProvider extends OwnerDrawLabelProvider {
 
 	private int deltaOfLastMeasure;
 
-	private final HashMap<Font, Map<Integer /* style */, Font>> styledFonts = new HashMap<>();
+	private final HashMap<Font, Map<Integer /* style */, Font>> styledFonts = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Creates a new StyledCellLabelProvider. By default, owner draw is enabled, focus is drawn and no
@@ -174,7 +174,7 @@ public abstract class StyledCellLabelProvider extends OwnerDrawLabelProvider {
 		super.initialize(viewer, column, isOwnerDrawEnabled());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (this.cachedTextLayout != null) {
 			cachedTextLayout.dispose();
@@ -284,7 +284,7 @@ public abstract class StyledCellLabelProvider extends OwnerDrawLabelProvider {
 	/**
 	 * @return the text width delta (0 if the text layout contains no other font)
 	 */
-	private int updateTextLayout(TextLayout layout, ViewerCell cell,
+	private int updateTextLayout(TextLayout layout, ViewerCell cell, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean applyColors) {
 		layout.setStyle(null, 0, Integer.MAX_VALUE); // clear old styles
 
@@ -296,7 +296,7 @@ public abstract class StyledCellLabelProvider extends OwnerDrawLabelProvider {
 
 		StyleRange[] styleRanges = cell.getStyleRanges();
 		if (styleRanges != null) { // user didn't fill styled ranges
-			for (StyleRange styleRange : styleRanges) {
+			for (StyleRange styleRange : styleRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				StyleRange curr = prepareStyleRange(styleRange, applyColors);
 				curr = transformFontStyleToFont(layout.getDevice(), cell.getFont(), curr);
 				layout.setStyle(curr, curr.start, curr.start + curr.length - 1);
@@ -312,16 +312,16 @@ public abstract class StyledCellLabelProvider extends OwnerDrawLabelProvider {
 		return textWidthDelta;
 	}
 
-	private StyleRange transformFontStyleToFont(Device layoutDevice, Font cellFont, StyleRange styleRange) {
+	private StyleRange transformFontStyleToFont(Device layoutDevice, Font cellFont, StyleRange styleRange) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// as per the StyleRange contract, only consider fontStyle if font is not
 		// already set
 		if (styleRange.font == null && styleRange.fontStyle > 0) {
 			Font baseFont = cellFont != null ? cellFont : layoutDevice.getSystemFont();
 			StyleRange newRange = (StyleRange) styleRange.clone();
-			newRange.font = styledFonts.computeIfAbsent(baseFont, f -> new HashMap<>())
+			newRange.font = styledFonts.computeIfAbsent(baseFont, f -> new HashMap<>()) //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					.computeIfAbsent(Integer.valueOf(styleRange.fontStyle), s -> {
 						FontData[] fontDatas = baseFont.getFontData();
-						for (FontData fontData : fontDatas) {
+						for (FontData fontData : fontDatas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fontData.setStyle(styleRange.fontStyle);
 						}
 						return new Font(baseFont.getDevice(), fontDatas);
@@ -331,7 +331,7 @@ public abstract class StyledCellLabelProvider extends OwnerDrawLabelProvider {
 		return styleRange;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void paint(Event event, Object element) {
 		if (!isOwnerDrawEnabled()) {
 			return;
@@ -434,7 +434,7 @@ public abstract class StyledCellLabelProvider extends OwnerDrawLabelProvider {
 	 * @return the styled decorated string (can be the given <code>styledString</code>)
 	 * @since 3.5
 	 */
-	public static StyledString styleDecoratedString(String decoratedString, Styler decorationStyler, StyledString styledString) {
+	public static StyledString styleDecoratedString(String decoratedString, Styler decorationStyler, StyledString styledString) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String label= styledString.getString();
 		int originalStart= decoratedString.indexOf(label);
 		if (originalStart == -1) {

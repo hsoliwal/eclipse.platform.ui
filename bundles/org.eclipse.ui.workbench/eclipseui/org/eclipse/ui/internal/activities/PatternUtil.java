@@ -38,18 +38,18 @@ public class PatternUtil {
 	 * @param pattern pattern to quote
 	 * @return the quoted pattern
 	 */
-	public static String quotePattern(String pattern) {
+	public static String quotePattern(String pattern) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String START = "\\Q"; //$NON-NLS-1$
 		final String STOP = "\\E"; //$NON-NLS-1$
 		final int STOP_LENGTH = 2; // STOP.length()
 
-		StringBuilder result = new StringBuilder(START);
+		StringBuilder result = new StringBuilder(START); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int stopIndex = pattern.indexOf(STOP);
 		if (stopIndex < 0) {
 			return result.append(pattern).append(STOP).toString();
 		}
 
-		for (int position = 0;;) {
+		for (int position = 0;;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			stopIndex = pattern.indexOf(STOP, position);
 			if (stopIndex >= 0) {
 				result.append(pattern.substring(position, stopIndex + 2)).append("\\").append(STOP).append(START); //$NON-NLS-1$

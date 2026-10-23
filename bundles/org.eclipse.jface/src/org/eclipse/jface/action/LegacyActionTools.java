@@ -99,7 +99,7 @@ public final class LegacyActionTools {
 		if (modifier.isEmpty()) {
 			fullKey = findKeyString(keyCode);
 		} else {
-			fullKey = modifier + "+" + findKeyString(keyCode); //$NON-NLS-1$
+			fullKey = modifier + "+" + findKeyString(keyCode); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return fullKey;
 	}
@@ -112,14 +112,14 @@ public final class LegacyActionTools {
 	 *            the accelerator text
 	 * @return the SWT key code, or 0 if there is no accelerator
 	 */
-	public static int convertAccelerator(final String acceleratorText) {
+	public static int convertAccelerator(final String acceleratorText) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int accelerator = 0;
 		StringTokenizer stok = new StringTokenizer(acceleratorText, "+"); //$NON-NLS-1$
 
 		int keyCode = -1;
 
 		boolean hasMoreTokens = stok.hasMoreTokens();
-		while (hasMoreTokens) {
+		while (hasMoreTokens) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token = stok.nextToken();
 			hasMoreTokens = stok.hasMoreTokens();
 			// Every token except the last must be one of the modifiers
@@ -153,14 +153,14 @@ public final class LegacyActionTools {
 	 *            the accelerator text localized to the current locale
 	 * @return the SWT key code, or 0 if there is no accelerator
 	 */
-	static int convertLocalizedAccelerator(final String acceleratorText) {
+	static int convertLocalizedAccelerator(final String acceleratorText) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int accelerator = 0;
 		StringTokenizer stok = new StringTokenizer(acceleratorText, "+"); //$NON-NLS-1$
 
 		int keyCode = -1;
 
 		boolean hasMoreTokens = stok.hasMoreTokens();
-		while (hasMoreTokens) {
+		while (hasMoreTokens) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token = stok.nextToken();
 			hasMoreTokens = stok.hasMoreTokens();
 			// Every token except the last must be one of the modifiers
@@ -216,7 +216,7 @@ public final class LegacyActionTools {
 	 * @return The text of the mnemonic; will be {@link #MNEMONIC_NONE} if there
 	 *         is no mnemonic;
 	 */
-	public static char extractMnemonic(final String text) {
+	public static char extractMnemonic(final String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (text == null) {
 			return MNEMONIC_NONE;
 		}
@@ -234,7 +234,7 @@ public final class LegacyActionTools {
 		}
 
 		// Ignore two consecutive ampersands.
-		while (text.charAt(index + 1) == '&') {
+		while (text.charAt(index + 1) == '&') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			index = text.indexOf('&', ++index);
 			if (index == textLength - 1) {
 				return MNEMONIC_NONE;
@@ -352,7 +352,7 @@ public final class LegacyActionTools {
 	 *
 	 * @see #findModifier
 	 */
-	private static int findLocalizedModifier(String token) {
+	private static int findLocalizedModifier(String token) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (localizedCtrl == null) {
 			initLocalizedModifiers();
 		}
@@ -438,7 +438,7 @@ public final class LegacyActionTools {
 	 * @return The string representation of the key code; never
 	 *         <code>null</code>.
 	 */
-	private static String getModifierString(int keyCode) {
+	private static String getModifierString(int keyCode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String modString = ""; //$NON-NLS-1$
 
 		if ((keyCode & SWT.CTRL) != 0) {
@@ -449,7 +449,7 @@ public final class LegacyActionTools {
 			if (modString.isEmpty()) {
 				modString = findModifierString(keyCode & SWT.ALT);
 			} else {
-				modString = modString
+				modString = modString //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "+" + findModifierString(keyCode & SWT.ALT); //$NON-NLS-1$
 			}
 		}
@@ -458,7 +458,7 @@ public final class LegacyActionTools {
 			if (modString.isEmpty()) {
 				modString = findModifierString(keyCode & SWT.SHIFT);
 			} else {
-				modString = modString
+				modString = modString //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "+" + findModifierString(keyCode & SWT.SHIFT); //$NON-NLS-1$
 			}
 		}
@@ -467,7 +467,7 @@ public final class LegacyActionTools {
 			if (modString.isEmpty()) {
 				modString = findModifierString(keyCode & SWT.COMMAND);
 			} else {
-				modString = modString
+				modString = modString //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "+" + findModifierString(keyCode & SWT.COMMAND); //$NON-NLS-1$
 			}
 		}
@@ -478,8 +478,8 @@ public final class LegacyActionTools {
 	/**
 	 * Initializes the internal key code table.
 	 */
-	private static void initKeyCodes() {
-		keyCodes = new HashMap<>(40);
+	private static void initKeyCodes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		keyCodes = new HashMap<>(40); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		keyCodes.put("BACKSPACE", Integer.valueOf(8)); //$NON-NLS-1$
 		keyCodes.put("TAB", Integer.valueOf(9)); //$NON-NLS-1$
@@ -524,8 +524,8 @@ public final class LegacyActionTools {
 	/**
 	 * Initializes the internal key string table.
 	 */
-	private static void initKeyStrings() {
-		keyStrings = new HashMap<>(40);
+	private static void initKeyStrings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		keyStrings = new HashMap<>(40); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		keyStrings.put(Integer.valueOf(8), JFaceResources.getString("Backspace")); //$NON-NLS-1$
 		keyStrings.put(Integer.valueOf(9), JFaceResources.getString("Tab")); //$NON-NLS-1$
@@ -578,8 +578,8 @@ public final class LegacyActionTools {
 	/**
 	 * Initializes the localized internal key code table.
 	 */
-	private static void initLocalizedKeyCodes() {
-		localizedKeyCodes = new HashMap<>(40);
+	private static void initLocalizedKeyCodes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		localizedKeyCodes = new HashMap<>(40); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		localizedKeyCodes.put(JFaceResources
 				.getString("Backspace").toUpperCase(), Integer.valueOf(8)); //$NON-NLS-1$
@@ -732,7 +732,7 @@ public final class LegacyActionTools {
 	 * @param text the text
 	 * @return the text sans mnemonics, or empty string
 	 */
-	public static String removeMnemonics(final String text) {
+	public static String removeMnemonics(final String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (text == null || text.isEmpty()) {
 			return ""; //$NON-NLS-1$
 		}
@@ -741,9 +741,9 @@ public final class LegacyActionTools {
 			return text;
 		}
 		int len = text.length();
-		StringBuilder sb = new StringBuilder(len);
+		StringBuilder sb = new StringBuilder(len); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int lastIndex = 0;
-		while (index != -1) {
+		while (index != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// ignore & at the end
 			if (index == len - 1) {
 				break;

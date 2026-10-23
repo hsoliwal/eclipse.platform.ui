@@ -107,7 +107,7 @@ public final class M3ViewerDelta {
 	 * @param other the later delta
 	 * @return this delta
 	 */
-	public M3ViewerDelta append(M3ViewerDelta other) {
+	public M3ViewerDelta append(M3ViewerDelta other) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Capture the source size once: self-append must copy exactly one
 		// original run rather than extending the loop while it is traversed.
 		int count = other.size;
@@ -197,7 +197,7 @@ public final class M3ViewerDelta {
 		}
 	}
 
-	private M3ViewerDelta push(byte kind, Object element, Object parent, int index, String[] props) {
+	private M3ViewerDelta push(byte kind, Object element, Object parent, int index, String[] props) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null && kind != REFRESH) {
 			throw new IllegalArgumentException("element must not be null"); //$NON-NLS-1$
 		}
@@ -220,8 +220,8 @@ public final class M3ViewerDelta {
 
 	@Override
 	public String toString() {
-		StringBuilder b = new StringBuilder("M3ViewerDelta["); //$NON-NLS-1$
-		for (int i = 0; i < size; i++) {
+		StringBuilder b = new StringBuilder("M3ViewerDelta["); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			b.append(i == 0 ? "" : ", ").append(switch (kinds[i]) { //$NON-NLS-1$ //$NON-NLS-2$
 			case ADD -> "add"; //$NON-NLS-1$
 			case REMOVE -> "remove"; //$NON-NLS-1$

@@ -123,7 +123,7 @@ public class ProjectReferenceGraph {
 	 * one rebuild old.
 	 */
 	public boolean refresh(IProgressMonitor monitor) throws InterruptedException {
-		for (int attempt = 0; attempt < MAX_REFRESH_ATTEMPTS; attempt++) {
+		for (int attempt = 0; attempt < MAX_REFRESH_ATTEMPTS; attempt++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			synchronized (lock) {
 				if (requestedGeneration == builtGeneration) {
 					return true;
@@ -137,7 +137,7 @@ public class ProjectReferenceGraph {
 		}
 	}
 
-	private void rebuild() {
+	private void rebuild() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int generation;
 		synchronized (lock) {
 			generation = requestedGeneration;
@@ -158,7 +158,7 @@ public class ProjectReferenceGraph {
 				callbacks = List.of();
 			} else {
 				retry = false;
-				callbacks = new ArrayList<>(rebuildCallbacks);
+				callbacks = new ArrayList<>(rebuildCallbacks); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				rebuildCallbacks.clear();
 			}
 		}
@@ -169,7 +169,7 @@ public class ProjectReferenceGraph {
 			rebuildJob.schedule(RETRY_DELAY);
 			return;
 		}
-		for (Runnable callback : callbacks) {
+		for (Runnable callback : callbacks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(callback::run);
 		}
 	}
@@ -190,15 +190,15 @@ public class ProjectReferenceGraph {
 
 	private static List<List<IProject>> buildComponents(IProject[] projects) {
 		DisjointSet<IProject> set = buildDisjointSet(projects);
-		Map<IProject, List<IProject>> componentsByRepresentative = new LinkedHashMap<>();
-		for (IProject project : projects) {
+		Map<IProject, List<IProject>> componentsByRepresentative = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject representative = set.findSet(project);
 			if (representative != null) {
-				componentsByRepresentative.computeIfAbsent(representative, _ -> new ArrayList<>()).add(project);
+				componentsByRepresentative.computeIfAbsent(representative, _ -> new ArrayList<>()).add(project); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 		}
-		List<List<IProject>> result = new ArrayList<>(componentsByRepresentative.size());
-		for (List<IProject> component : componentsByRepresentative.values()) {
+		List<List<IProject>> result = new ArrayList<>(componentsByRepresentative.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (List<IProject> component : componentsByRepresentative.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(List.copyOf(component));
 		}
 		return List.copyOf(result);
@@ -208,18 +208,18 @@ public class ProjectReferenceGraph {
 	 * Builds the connected component set for the input projects. The result is a
 	 * DisjointSet where all related projects belong to the same set.
 	 */
-	private static DisjointSet<IProject> buildDisjointSet(IProject[] projects) {
+	private static DisjointSet<IProject> buildDisjointSet(IProject[] projects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// initially each vertex is in a set by itself
 		DisjointSet<IProject> set = new DisjointSet<>();
-		for (IProject project : projects) {
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			set.makeSet(project);
 		}
-		for (IProject project : projects) {
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				IProject[] references = project.getReferencedProjects();
 				// each reference represents an edge in the project reference
 				// digraph from projects[i] -> references[j]
-				for (IProject reference : references) {
+				for (IProject reference : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IProject setOne = set.findSet(project);
 					// note that referenced projects may not exist in the workspace
 					IProject setTwo = set.findSet(reference);

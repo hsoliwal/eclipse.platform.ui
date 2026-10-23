@@ -49,7 +49,7 @@ final class M3ViewerPaths {
 		@Override
 		protected Boolean computeValue(Class<?> type) {
 			Class<?> named = type;
-			while (named.getSuperclass() != null && !named.getName().startsWith("org.eclipse.jface.viewers.")) { //$NON-NLS-1$
+			while (named.getSuperclass() != null && !named.getName().startsWith("org.eclipse.jface.viewers.")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				named = named.getSuperclass();
 			}
 			return Boolean.valueOf(M3ViewerMode.enabled(named.getSimpleName()));
@@ -81,7 +81,7 @@ final class M3ViewerPaths {
 	 * @param notVirtual whether the viewer has no virtual manager
 	 * @return {@code true} when handled
 	 */
-	static boolean selectRows(AbstractTableViewer viewer, List<?> list, boolean reveal, boolean notVirtual) {
+	static boolean selectRows(AbstractTableViewer viewer, List<?> list, boolean reveal, boolean notVirtual) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!on(viewer) || reveal || !notVirtual || list == null || list.size() < MIN_BATCH
 				|| viewer.getItemsLimit() > 0 || list.contains(null)) {
 			return false;
@@ -89,12 +89,12 @@ final class M3ViewerPaths {
 		viewer.doDeselectAll();
 		Item[] items = viewer.doGetItems();
 		M3FirstIndex rows = new M3FirstIndex(items.length, viewer.getComparer());
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rows.add(items[i].getData(), i);
 		}
 		int[] indices = new int[list.size()];
 		int count = 0;
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int row = rows.first(element);
 			if (row >= 0) {
 				indices[count++] = row;
@@ -115,12 +115,12 @@ final class M3ViewerPaths {
 	 * @param notVirtual whether the viewer has no virtual manager
 	 * @return {@code true} when handled
 	 */
-	static boolean removeRows(AbstractTableViewer viewer, Object[] elements, boolean notVirtual) {
+	static boolean removeRows(AbstractTableViewer viewer, Object[] elements, boolean notVirtual) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!on(viewer) || !notVirtual || elements.length < MIN_BATCH) {
 			return false;
 		}
 		Object input = viewer.getInput();
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (viewer.equals(element, input)) {
 				return false;
 			}
@@ -131,7 +131,7 @@ final class M3ViewerPaths {
 		M3IdentityIndex rows = new M3IdentityIndex(viewer.doGetItems());
 		int[] indices = new int[elements.length];
 		int count = 0;
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Widget w = viewer.findItem(element);
 			if (w instanceof Item item) {
 				viewer.disassociate(item);
@@ -159,13 +159,13 @@ final class M3ViewerPaths {
 	 * @param count    how many items to dispose
 	 * @return the count the original loop still has to dispose: 0 when handled
 	 */
-	static int disposeStale(AbstractTreeViewer viewer, Item[] items, CustomHashtable children, int count) {
+	static int disposeStale(AbstractTreeViewer viewer, Item[] items, CustomHashtable children, int count) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (count <= 0 || !on(viewer)) {
 			return count;
 		}
 		int write = 0;
 		int read = 0;
-		for (; read < items.length && count > 0; read++) {
+		for (; read < items.length && count > 0; read++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Item item = items[read];
 			Object data = item.getData();
 			if (data == null || !children.containsKey(data)) {
@@ -196,7 +196,7 @@ final class M3ViewerPaths {
 	 * @param element sought element
 	 * @return the first matching widget, or null
 	 */
-	static Widget findTreeItem(AbstractTreeViewer viewer, Item parent, Object element) {
+	static Widget findTreeItem(AbstractTreeViewer viewer, Item parent, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object data = parent.getData();
 		if (data != null && viewer.equals(data, element)) {
 			return parent;
@@ -205,7 +205,7 @@ final class M3ViewerPaths {
 		int[] offsets = new int[8];
 		levels[0] = viewer.getChildren(parent);
 		int depth = 0;
-		while (depth >= 0) {
+		while (depth >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (offsets[depth] == levels[depth].length) {
 				levels[depth--] = null;
 				continue;
@@ -240,19 +240,19 @@ final class M3ViewerPaths {
 	 * @param listMap the viewer's list of elements, in list order
 	 * @return {@code true} when handled
 	 */
-	static boolean selectListRows(AbstractListViewer viewer, List<?> in, boolean reveal, List<Object> listMap) {
+	static boolean selectListRows(AbstractListViewer viewer, List<?> in, boolean reveal, List<Object> listMap) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!on(viewer) || in == null || in.size() < MIN_BATCH || in.contains(null)
 				|| !(listMap instanceof RandomAccess)) {
 			return false;
 		}
 		int size = listMap.size();
 		M3FirstIndex rows = new M3FirstIndex(size, viewer.getComparer());
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rows.add(listMap.get(i), i);
 		}
 		int[] ixs = new int[in.size()];
 		int count = 0;
-		for (Object element : in) {
+		for (Object element : in) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int ix = rows.first(element);
 			if (ix >= 0) {
 				ixs[count++] = ix;

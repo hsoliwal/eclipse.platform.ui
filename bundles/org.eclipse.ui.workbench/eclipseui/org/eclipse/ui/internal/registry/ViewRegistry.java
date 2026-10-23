@@ -78,20 +78,20 @@ public class ViewRegistry implements IViewRegistry {
 	@Inject
 	Logger logger;
 
-	private final Map<String, IViewDescriptor> descriptors = new HashMap<>();
+	private final Map<String, IViewDescriptor> descriptors = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final List<IStickyViewDescriptor> stickyDescriptors = new ArrayList<>();
+	private final List<IStickyViewDescriptor> stickyDescriptors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final HashMap<String, ViewCategory> categories = new HashMap<>();
+	private final HashMap<String, ViewCategory> categories = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final Category miscCategory = new Category();
 
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void postConstruct() {
 		IExtensionPoint point = extensionRegistry.getExtensionPoint("org.eclipse.ui.views"); //$NON-NLS-1$
-		for (IExtension extension : point.getExtensions()) {
+		for (IExtension extension : point.getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// find the category first
-			for (IConfigurationElement element : extension.getConfigurationElements()) {
+			for (IConfigurationElement element : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getName().equals(IWorkbenchRegistryConstants.TAG_CATEGORY)) {
 					ViewCategory category = new ViewCategory(element.getAttribute(IWorkbenchRegistryConstants.ATT_ID),
 							element.getAttribute(IWorkbenchRegistryConstants.ATT_NAME));
@@ -110,8 +110,8 @@ public class ViewRegistry implements IViewRegistry {
 			categories.put(miscCategory.getId(), new ViewCategory(miscCategory.getId(), miscCategory.getLabel()));
 		}
 
-		for (IExtension extension : point.getExtensions()) {
-			for (IConfigurationElement element : extension.getConfigurationElements()) {
+		for (IExtension extension : point.getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IConfigurationElement element : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getName().equals(IWorkbenchRegistryConstants.TAG_VIEW)) {
 					createDescriptor(element, false);
 				}
@@ -122,11 +122,11 @@ public class ViewRegistry implements IViewRegistry {
 		}
 	}
 
-	private void createDescriptor(IConfigurationElement element, boolean e4View) {
+	private void createDescriptor(IConfigurationElement element, boolean e4View) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 		MPartDescriptor descriptor = null;
 		List<MPartDescriptor> currentDescriptors = application.getDescriptors();
-		for (MPartDescriptor desc : currentDescriptors) {
+		for (MPartDescriptor desc : currentDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// do we have a matching descriptor?
 			if (desc.getElementId().equals(id)) {
 				descriptor = desc;
@@ -156,7 +156,7 @@ public class ViewRegistry implements IViewRegistry {
 		String clsSpec = element.getAttribute(IWorkbenchConstants.TAG_CLASS);
 		String implementationURI = CompatibilityPart.COMPATIBILITY_VIEW_URI;
 		if (e4View) {
-			implementationURI = "bundleclass://" + element.getContributor().getName() + "/" + clsSpec; //$NON-NLS-1$//$NON-NLS-2$
+			implementationURI = "bundleclass://" + element.getContributor().getName() + "/" + clsSpec; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			IExtension declaringExtension = element.getDeclaringExtension();
 			String name = declaringExtension.getContributor().getName();
@@ -191,7 +191,7 @@ public class ViewRegistry implements IViewRegistry {
 			category = findCategory(miscCategory.getId());
 		}
 		if (category != null) {
-			tags.add("categoryTag:" + category.getLabel()); //$NON-NLS-1$
+			tags.add("categoryTag:" + category.getLabel()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			descriptor.setCategory(category.getLabel());
 		}
 		String restorable = element.getAttribute(IWorkbenchRegistryConstants.ATT_RESTORABLE);
@@ -223,13 +223,13 @@ public class ViewRegistry implements IViewRegistry {
 	@Override
 	public IViewDescriptor[] getViews() {
 		Collection<?> allowedViews = WorkbenchActivityHelper.restrictCollection(descriptors.values(),
-				new ArrayList<>());
+				new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return allowedViews.toArray(new IViewDescriptor[allowedViews.size()]);
 	}
 
 	@Override
 	public IStickyViewDescriptor[] getStickyViews() {
-		Collection<?> allowedViews = WorkbenchActivityHelper.restrictCollection(stickyDescriptors, new ArrayList<>());
+		Collection<?> allowedViews = WorkbenchActivityHelper.restrictCollection(stickyDescriptors, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return allowedViews.toArray(new IStickyViewDescriptor[allowedViews.size()]);
 	}
 

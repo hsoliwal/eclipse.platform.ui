@@ -102,13 +102,13 @@ public class OpenWorkspaceAction extends Action implements ActionFactory.IWorkbe
 
 
 	private IContributionItem[] getContributionItems() {
-		ArrayList<IContributionItem> list = new ArrayList<>();
+		ArrayList<IContributionItem> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final ChooseWorkspaceData data = new ChooseWorkspaceData(Platform
 				.getInstanceLocation().getURL());
 		data.readPersistedData();
 		String current = data.getInitialDefault();
 		String[] workspaces = data.getRecentWorkspaces();
-		for (String workspace : workspaces) {
+		for (String workspace : workspaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workspace != null && !workspace.equals(current)) {
 				list.add(new ActionContributionItem(new WorkspaceMRUAction(workspace, data)));
 			}
@@ -120,7 +120,7 @@ public class OpenWorkspaceAction extends Action implements ActionFactory.IWorkbe
 	}
 
 	class MenuCreator implements IMenuCreator {
-		ArrayList<Menu> menus = new ArrayList<>();
+		ArrayList<Menu> menus = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		private MenuManager dropDownMenuMgr;
 
@@ -137,8 +137,8 @@ public class OpenWorkspaceAction extends Action implements ActionFactory.IWorkbe
 		@Override
 		public Menu getMenu(Control parent) {
 			createDropDownMenuMgr();
-			dropDownMenuMgr.addMenuListener(manager -> {
-				for (IContributionItem contributionItem : getContributionItems()) {
+			dropDownMenuMgr.addMenuListener(manager -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
+				for (IContributionItem contributionItem : getContributionItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					manager.add(contributionItem);
 				}
 				manager.add(new OpenDialogAction());
@@ -146,18 +146,18 @@ public class OpenWorkspaceAction extends Action implements ActionFactory.IWorkbe
 			return dropDownMenuMgr.createContextMenu(parent);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Menu getMenu(Menu parent) {
 			createDropDownMenuMgr();
 			final Menu menu = new Menu(parent);
-			menu.addListener(SWT.Show, _ -> {
+			menu.addListener(SWT.Show, _ -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				if (menu.isDisposed()) {
 					return;
 				}
-				for (MenuItem item : menu.getItems()) {
+				for (MenuItem item : menu.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					item.dispose();
 				}
-				for (IContributionItem contribution : getContributionItems()) {
+				for (IContributionItem contribution : getContributionItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					contribution.fill(menu, -1);
 				}
 				new ActionContributionItem(new OpenDialogAction()).fill(
@@ -173,7 +173,7 @@ public class OpenWorkspaceAction extends Action implements ActionFactory.IWorkbe
 				dropDownMenuMgr = null;
 			}
 			if (menus.size()>0) {
-				for (Menu m : menus) {
+				for (Menu m : menus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!m.isDisposed()) {
 						m.dispose();
 					}
@@ -238,7 +238,7 @@ public class OpenWorkspaceAction extends Action implements ActionFactory.IWorkbe
 	 *         <code>false</code> if the workspace is locked or on any error
 	 *
 	 */
-	private boolean canRestartWithWorkspace(String workspacePath) throws IllegalStateException {
+	private boolean canRestartWithWorkspace(String workspacePath) throws IllegalStateException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Path selectedWorkspace = Path.of(workspacePath);
 		try {
 			URL url = selectedWorkspace.toUri().toURL();

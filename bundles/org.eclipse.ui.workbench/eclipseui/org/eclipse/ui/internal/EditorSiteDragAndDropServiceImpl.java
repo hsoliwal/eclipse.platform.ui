@@ -76,7 +76,7 @@ public class EditorSiteDragAndDropServiceImpl implements IDragAndDropService, ID
 		private final DropTargetListener primaryListener;
 		private final int primaryOps;
 
-		public MergedDropTarget(Control control, int priOps, Transfer[] priTransfers, DropTargetListener priListener,
+		public MergedDropTarget(Control control, int priOps, Transfer[] priTransfers, DropTargetListener priListener, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				int secOps, Transfer[] secTransfers, DropTargetListener secListener) {
 			realDropTarget = new DropTarget(control, priOps | secOps);
 			realDropTarget.setData(MDT_KEY, this);
@@ -94,17 +94,17 @@ public class EditorSiteDragAndDropServiceImpl implements IDragAndDropService, ID
 			// Combine the two sets of transfers into one array
 			Transfer[] allTransfers = new Transfer[secondaryTransfers.length + primaryTransfers.length];
 			int curTransfer = 0;
-			for (Transfer primaryTransfer : primaryTransfers) {
+			for (Transfer primaryTransfer : primaryTransfers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allTransfers[curTransfer++] = primaryTransfer;
 			}
-			for (Transfer secondaryTransfer : secondaryTransfers) {
+			for (Transfer secondaryTransfer : secondaryTransfers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allTransfers[curTransfer++] = secondaryTransfer;
 			}
 			realDropTarget.setTransfer(allTransfers);
 
 			// Create a listener that will delegate to the appropriate listener
 			// NOTE: the -editor- wins (i.e. it can over-ride WB behaviour if it wants
-			realDropTarget.addDropListener(new DropTargetListener() {
+			realDropTarget.addDropListener(new DropTargetListener() { //FLLDCIM: MARK — T25 DND CALL
 				@Override
 				public void dragEnter(DropTargetEvent event) {
 					getAppropriateListener(event, true).dragEnter(event);
@@ -151,7 +151,7 @@ public class EditorSiteDragAndDropServiceImpl implements IDragAndDropService, ID
 		}
 
 		private boolean isSupportedType(Transfer[] transfers, TransferData transferType) {
-			for (Transfer transfer : transfers) {
+			for (Transfer transfer : transfers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (transfer.isSupportedType(transferType)) {
 					return true;
 				}
@@ -165,9 +165,9 @@ public class EditorSiteDragAndDropServiceImpl implements IDragAndDropService, ID
 	}
 
 	// Cache any listeners for cleanup
-	List<Object> addedListeners = new ArrayList<>();
+	List<Object> addedListeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addMergedDropTarget(Control control, int ops, Transfer[] transfers, DropTargetListener listener) {
 		// First we have to remove any existing drop target from the control
 		removeMergedDropTarget(control);
@@ -186,7 +186,7 @@ public class EditorSiteDragAndDropServiceImpl implements IDragAndDropService, ID
 				editorSiteTransfers, editorSiteListener);
 		addedListeners.add(newTarget);
 
-		newTarget.realDropTarget.addDisposeListener(e -> {
+		newTarget.realDropTarget.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			Object mdt = e.widget.getData(MDT_KEY);
 			addedListeners.remove(mdt);
 		});

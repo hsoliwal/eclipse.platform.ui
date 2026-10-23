@@ -60,10 +60,10 @@ public class DecoratingLabelProvider extends LabelProvider implements IViewerLab
 	 */
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		super.addListener(listener);
-		provider.addListener(listener);
+		super.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		provider.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		if (decorator != null) {
-			decorator.addListener(listener);
+			decorator.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 		listeners.add(listener);
 	}
@@ -196,21 +196,21 @@ public class DecoratingLabelProvider extends LabelProvider implements IViewerLab
 		ILabelDecorator oldDecorator = this.decorator;
 		if (oldDecorator != decorator) {
 			if (oldDecorator != null) {
-				for (ILabelProviderListener l : listeners) {
+				for (ILabelProviderListener l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					oldDecorator.removeListener(l);
 				}
 			}
 			this.decorator = decorator;
 			if (decorator != null) {
-				for (ILabelProviderListener l : listeners) {
-					decorator.addListener(l);
+				for (ILabelProviderListener l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					decorator.addListener(l); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				}
 			}
 			fireLabelProviderChanged(new LabelProviderChangedEvent(this));
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void updateLabel(ViewerLabel settings, Object element) {
 
 		ILabelDecorator currentDecorator = getLabelDecorator();
@@ -307,7 +307,7 @@ public class DecoratingLabelProvider extends LabelProvider implements IViewerLab
 		this.decorationContext = decorationContext;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void updateLabel(ViewerLabel settings, TreePath elementPath) {
 		ILabelDecorator currentDecorator = getLabelDecorator();
 		String oldText = settings.getText();
@@ -356,7 +356,7 @@ public class DecoratingLabelProvider extends LabelProvider implements IViewerLab
 	 * @param settings the settings obtained from the label provider
 	 * @param elementPath the element path being decorated
 	 */
-	private void decorateSettings(ViewerLabel settings, TreePath elementPath) {
+	private void decorateSettings(ViewerLabel settings, TreePath elementPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object element = elementPath.getLastSegment();
 		if (decorator != null) {
 			if (decorator instanceof LabelDecorator labelDecorator) {

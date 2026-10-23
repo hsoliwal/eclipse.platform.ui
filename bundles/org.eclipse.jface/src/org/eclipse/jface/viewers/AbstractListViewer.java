@@ -41,7 +41,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 	/**
 	 * A list of viewer elements (element type: <code>Object</code>).
 	 */
-	private final List<Object> listMap = new ArrayList<>();
+	private final List<Object> listMap = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Adds the given string to the underlying widget at the given index
@@ -138,7 +138,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 		assertElementsNotNull(elements);
 		Object[] filtered = filter(elements);
 		ILabelProvider labelProvider = (ILabelProvider) getLabelProvider();
-		for (Object element : filtered) {
+		for (Object element : filtered) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int ix = indexForElement(element);
 			insertItem(labelProvider, element, ix);
 		}
@@ -270,8 +270,8 @@ public abstract class AbstractListViewer extends StructuredViewer {
 	@Override
 	protected List getSelectionFromWidget() {
 		int[] ixs = listGetSelectionIndices();
-		List<Object> list = new ArrayList<>(ixs.length);
-		for (int ix : ixs) {
+		List<Object> list = new ArrayList<>(ixs.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int ix : ixs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object e = getElementAt(ix);
 			if (e != null) {
 				list.add(e);
@@ -284,20 +284,20 @@ public abstract class AbstractListViewer extends StructuredViewer {
 	 * @param element the element to insert
 	 * @return the index where the item should be inserted.
 	 */
-	protected int indexForElement(Object element) {
+	protected int indexForElement(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerComparator comparator = getComparator();
 		if (comparator == null) {
 			return listGetItemCount();
 		}
 		int count = listGetItemCount();
 		int min = 0, max = count - 1;
-		while (min <= max) {
+		while (min <= max) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (min + max) / 2;
 			Object data = listMap.get(mid);
 			int compare = comparator.compare(this, data, element);
 			if (compare == 0) {
 				// find first item > element
-				while (compare == 0) {
+				while (compare == 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					++mid;
 					if (mid >= count) {
 						break;
@@ -324,7 +324,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 
 		listRemoveAll();
 		String[] labels = new String[size];
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object el = children[i];
 			labels[i] = getLabelProviderText((ILabelProvider) getLabelProvider(),el);
 			listMap.add(el);
@@ -333,7 +333,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 		listSetItems(labels);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void internalRefresh(Object element) {
 		Control list = getControl();
 		if (element == null || equals(element, getRoot())) {
@@ -359,7 +359,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 
 				ILabelProvider labelProvider = (ILabelProvider) getLabelProvider();
 
-				for (int i = 0; i < items.length; i++) {
+				for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object el = children[i];
 					items[i] = getLabelProviderText(labelProvider, el);
 					listMap.add(el);
@@ -411,9 +411,9 @@ public abstract class AbstractListViewer extends StructuredViewer {
 	 */
 	private void internalRemove(final Object[] elements) {
 		Object input = getInput();
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (equals(element, input)) {
-				setInput(null);
+				setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				return;
 			}
 			int ix = getElementIndex(element);
@@ -472,10 +472,10 @@ public abstract class AbstractListViewer extends StructuredViewer {
 	@Override
 	public void setLabelProvider(IBaseLabelProvider labelProvider) {
 		Assert.isTrue(labelProvider instanceof ILabelProvider);
-		super.setLabelProvider(labelProvider);
+		super.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List in, boolean reveal) {
 		if (M3ViewerPaths.selectListRows(this, in, reveal, listMap)) {
 			return;
@@ -486,7 +486,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 			int n = in.size();
 			int[] ixs = new int[n];
 			int count = 0;
-			for (int i = 0; i < n; ++i) {
+			for (int i = 0; i < n; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object el = in.get(i);
 				int ix = getElementIndex(el);
 				if (ix >= 0) {
@@ -515,7 +515,7 @@ public abstract class AbstractListViewer extends StructuredViewer {
 			return listMap.indexOf(element);
 		}
 		int size = listMap.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (comparer.equals(element, listMap.get(i))) {
 				return i;
 			}

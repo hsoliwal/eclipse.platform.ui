@@ -28,7 +28,7 @@ import org.eclipse.ui.internal.dialogs.cpd.TreeManager.TreeItem;
  * @since 3.5
  */
 class CategoryCheckProvider implements ICheckStateProvider {
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isChecked(Object element) {
 		Category category = (Category) element;
 
@@ -37,7 +37,7 @@ class CategoryCheckProvider implements ICheckStateProvider {
 		}
 
 		// To be checked, any sub-Category can be checked.
-		for (TreeItem treeItem : category.getChildren()) {
+		for (TreeItem treeItem : category.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Category child = (Category) treeItem;
 			if (isChecked(child)) {
 				return true;
@@ -45,7 +45,7 @@ class CategoryCheckProvider implements ICheckStateProvider {
 		}
 
 		// To be checked, any ShortcutItem can be checked.
-		for (ShortcutItem shortcutItem : category.getContributionItems()) {
+		for (ShortcutItem shortcutItem : category.getContributionItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem item = shortcutItem;
 			if (item.getState()) {
 				return true;
@@ -55,7 +55,7 @@ class CategoryCheckProvider implements ICheckStateProvider {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isGrayed(Object element) {
 		boolean hasChecked = false;
 		boolean hasUnchecked = false;
@@ -64,7 +64,7 @@ class CategoryCheckProvider implements ICheckStateProvider {
 		// Search in sub-Categories and ShortcutItems for one that is
 		// checked and one that is unchecked.
 
-		for (TreeItem treeItem : category.getChildren()) {
+		for (TreeItem treeItem : category.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Category child = (Category) treeItem;
 			if (isGrayed(child)) {
 				return true;
@@ -79,7 +79,7 @@ class CategoryCheckProvider implements ICheckStateProvider {
 			}
 		}
 
-		for (ShortcutItem shortcutItem : category.getContributionItems()) {
+		for (ShortcutItem shortcutItem : category.getContributionItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem item = shortcutItem;
 			if (item.getState()) {
 				hasChecked = true;

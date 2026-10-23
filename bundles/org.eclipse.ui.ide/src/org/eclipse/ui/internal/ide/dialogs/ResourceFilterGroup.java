@@ -200,9 +200,9 @@ public class ResourceFilterGroup {
 		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				projectName);
 		int iteration = 0;
-		while (p.exists()) {
+		while (p.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			p = ResourcesPlugin.getWorkspace().getRoot().getProject(
-					projectName + iteration);
+					projectName + iteration); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			iteration++;
 		}
 		return p;
@@ -212,7 +212,7 @@ public class ResourceFilterGroup {
 		public Filters(IContainer resource) {
 			try {
 				children = new LinkedList<>();
-				for (IResourceFilterDescription filter : resource.getFilters()) {
+				for (IResourceFilterDescription filter : resource.getFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					FilterCopy copy = new FilterCopy(UIResourceFilterDescription.wrap(filter));
 					copy = convertLegacyMatchers(copy);
 					addChild(copy);
@@ -227,7 +227,7 @@ public class ResourceFilterGroup {
 		public Filters(IResourceFilterDescription filters[]) {
 			children = new LinkedList<>();
 			if (filters != null) {
-				for (IResourceFilterDescription filter : filters) {
+				for (IResourceFilterDescription filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addChild(new FilterCopy(UIResourceFilterDescription.wrap(filter)));
 				}
 			}
@@ -236,7 +236,7 @@ public class ResourceFilterGroup {
 		public Filters(UIResourceFilterDescription filters[]) {
 			children = new LinkedList<>();
 			if (filters != null) {
-				for (UIResourceFilterDescription filter : filters) {
+				for (UIResourceFilterDescription filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addChild(new FilterCopy(filter));
 				}
 			}
@@ -260,7 +260,7 @@ public class ResourceFilterGroup {
 
 		public void moveUp(UIResourceFilterDescription filter) {
 			FilterCopy[] content = getChildren();
-			for (int i = 1; i < content.length; i++) {
+			for (int i = 1; i < content.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (content[i] == filter) {
 					FilterCopy tmp = content[i - 1];
 					content[i - 1] = content[i];
@@ -273,7 +273,7 @@ public class ResourceFilterGroup {
 
 		public void moveDown(UIResourceFilterDescription filter) {
 			FilterCopy[] content = getChildren();
-			for (int i = 0; i < (content.length - 1); i++) {
+			for (int i = 0; i < (content.length - 1); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (content[i] == filter) {
 					FilterCopy tmp = content[i + 1];
 					content[i + 1] = content[i];
@@ -300,7 +300,7 @@ public class ResourceFilterGroup {
 				return true;
 			}
 			Iterator<FilterCopy> it = children.iterator();
-			while (it.hasNext()) {
+			while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				FilterCopy filter = it.next();
 				if (filter.hasChanged()) {
 					return true;
@@ -336,9 +336,9 @@ public class ResourceFilterGroup {
 
 	static String excludeAllGroup = "EXCLUDE_ALL_GROUP";  //$NON-NLS-1$
 
-	class TreeContentProvider implements ITreeContentProvider {
+	class TreeContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement == filters) {
 				if (filters.getChildren().length > 0) {
@@ -347,10 +347,10 @@ public class ResourceFilterGroup {
 				return new Object[0];
 			}
 			if (parentElement instanceof String) {
-				ArrayList<FilterCopy> list = new ArrayList<>();
+				ArrayList<FilterCopy> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				int mask = parentElement.equals(includeOnlyGroup) ? IResourceFilterDescription.INCLUDE_ONLY:
 								IResourceFilterDescription.EXCLUDE_ALL;
-				for (FilterCopy filterCopy : filters.getChildren()) {
+				for (FilterCopy filterCopy : filters.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((filterCopy.getType() & mask) != 0) {
 						list.add(filterCopy);
 					}
@@ -404,9 +404,9 @@ public class ResourceFilterGroup {
 		private final Styler fBoldStyler;
 		private final Styler fPlainStyler;
 		FilterTypeUtil util;
-		TreeMap<Object, ICustomFilterArgumentUI> customfilterArgumentMap = new TreeMap<>();
+		TreeMap<Object, ICustomFilterArgumentUI> customfilterArgumentMap = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 
-		public LabelProvider() {
+		public LabelProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			util = new FilterTypeUtil();
 			fBoldStyler= new Styler() {
 				@Override
@@ -443,7 +443,7 @@ public class ResourceFilterGroup {
 			return copy.isUnderAGroupFilter();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void update(ViewerCell cell) {
 			int columnIndex = cell.getColumnIndex();
 			String column = getColumnID(columnIndex);
@@ -470,7 +470,7 @@ public class ResourceFilterGroup {
 					if (!isPartialFilter(filter)) {
 						Object isInheritable = FilterTypeUtil.getValue(filter, FilterTypeUtil.INHERITABLE);
 						if (((Boolean)isInheritable).booleanValue()) {
-							styledString.append("   " + IDEWorkbenchMessages.ResourceFilterPage_recursive); //$NON-NLS-1$
+							styledString.append("   " + IDEWorkbenchMessages.ResourceFilterPage_recursive); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 
 					}
@@ -489,7 +489,7 @@ public class ResourceFilterGroup {
 			super.update(cell);
 		}
 
-		private StyledString getStyleColumnText(FilterCopy filter) {
+		private StyledString getStyleColumnText(FilterCopy filter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if ((filter.getChildrenLimit() > 0)) {
 				String whiteSpace = " "; //$NON-NLS-1$;
 				String expression = getFilterTypeName(filter);
@@ -501,7 +501,7 @@ public class ResourceFilterGroup {
 				}
 				buffer.append("(", fBoldStyler); //$NON-NLS-1$
 				Object [] children = filterViewContentProvider.getChildren(filter);
-				for (int i = 0; i < children.length; i++) {
+				for (int i = 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					buffer.append(getStyleColumnText((FilterCopy) children[i]));
 					if ((i + 1) < children.length) {
 						buffer.append(whiteSpace, fPlainStyler);
@@ -558,7 +558,7 @@ public class ResourceFilterGroup {
 		public void modify(Object element, String property, Object value) {
 			FilterCopy filter = (FilterCopy) ((TableItem) element).getData();
 			FilterTypeUtil.setValue(filter, property, value);
-			filterView.refresh(filter);
+			filterView.refresh(filter); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -570,7 +570,7 @@ public class ResourceFilterGroup {
 	 *            the widget parent
 	 * @return container of the widgets
 	 */
-	public Control createContents(Composite parent) {
+	public Control createContents(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font font = parent.getFont();
 		shell = parent.getShell();
@@ -614,7 +614,7 @@ public class ResourceFilterGroup {
 		return composite;
 	}
 
-	private void createViewerGroup(Composite parent) {
+	private void createViewerGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite tableComposite = new Composite(parent, SWT.NONE);
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.grabExcessHorizontalSpace = true;
@@ -636,10 +636,10 @@ public class ResourceFilterGroup {
 		filterView.setAutoExpandLevel(2);
 		filterViewContentProvider = new TreeContentProvider();
 		filterView.setContentProvider(filterViewContentProvider);
-		filterView.setInput(filters);
+		filterView.setInput(filters); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		filterView.getTree().setFont(parent.getFont());
 
-		filterView.addSelectionChangedListener(_ -> refreshEnablement());
+		filterView.addSelectionChangedListener(_ -> refreshEnablement()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		TreeColumn modeColumn = new TreeColumn(filterView.getTree(), 0);
 		modeColumn.setText(IDEWorkbenchMessages.ResourceFilterPage_columnFilterDescription);
@@ -650,7 +650,7 @@ public class ResourceFilterGroup {
 		filterView.getTree().setHeaderVisible(false);
 		filterView.getTree().showColumn(filterView.getTree().getColumn(0));
 		labelProvider = new LabelProvider();
-		filterView.setLabelProvider(labelProvider);
+		filterView.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		CellEditor[] editors = new CellEditor[5];
 		editors[0] = new ComboBoxCellEditor(filterView.getTree(),
@@ -667,7 +667,7 @@ public class ResourceFilterGroup {
 			filterView.setCellModifier(new CellModifier());
 		}
 
-		filterView.getTree().addMouseListener(new MouseListener() {
+		filterView.getTree().addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (!handleEdit()) {
@@ -696,7 +696,7 @@ public class ResourceFilterGroup {
 		filterView.addDropSupport(ops, transfers,
 				new FilterCopyDrop(filterView));
 
-		filterView.getTree().addMenuDetectListener(_ -> {
+		filterView.getTree().addMenuDetectListener(_ -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			MenuManager mgr = new MenuManager();
 			mgr.add(addSubFilterAction);
 			mgr.add(addSubGroupFilterAction);
@@ -715,7 +715,7 @@ public class ResourceFilterGroup {
 
 	private static FontData[] getModifiedFontData(FontData[] originalData, int additionalStyle) {
 		FontData[] styleData = new FontData[originalData.length];
-		for (int i = 0; i < styleData.length; i++) {
+		for (int i = 0; i < styleData.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FontData base = originalData[i];
 			styleData[i] = new FontData(base.getName(), base.getHeight(), base.getStyle() | additionalStyle);
 		}
@@ -808,7 +808,7 @@ public class ResourceFilterGroup {
 		handleAdd(selectedObject, createGroupOnly);
 	}
 
-	private void handleAdd(Object selection, boolean createGroupOnly) {
+	private void handleAdd(Object selection, boolean createGroupOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection == null) {
 			FilterCopy newFilter = new FilterCopy();
 			FilterEditDialog dialog = new FilterEditDialog(resource, ResourceFilterGroup.this, shell,
@@ -853,7 +853,7 @@ public class ResourceFilterGroup {
 	}
 
 	private void refreshAndSelect(FilterCopy newFilter) {
-		filterView.refresh();
+		filterView.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		filterView.reveal(newFilter);
 	}
 
@@ -874,7 +874,7 @@ public class ResourceFilterGroup {
 		int value = ((Integer) FilterTypeUtil.getValue(newFilter, FilterTypeUtil.MODE)).intValue();
 		Object[] existingChildren = filterViewContentProvider.getChildren(value == 0? includeOnlyGroup:excludeAllGroup);
 		filters.add(newFilter);
-		filterView.refresh();
+		filterView.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		if (existingChildren.length == 0) {
 			filterView.setExpandedState(newFilter, true);
 		}
@@ -887,7 +887,7 @@ public class ResourceFilterGroup {
 			super(viewer);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean performDrop(Object data) {
 			Object target = getCurrentTarget();
 			if (target == null) {
@@ -896,7 +896,7 @@ public class ResourceFilterGroup {
 			FilterCopy[] toDrop = (FilterCopy[]) data;
 
 			if (target instanceof FilterCopy) {
-				for (FilterCopy filterToDrop : toDrop) {
+				for (FilterCopy filterToDrop : toDrop) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (filterToDrop.equals(target)
 							|| ((FilterCopy) target).hasParent(filterToDrop)) {
 						return false;
@@ -904,7 +904,7 @@ public class ResourceFilterGroup {
 				}
 			}
 
-			for (FilterCopy filterToDrop : toDrop) {
+			for (FilterCopy filterToDrop : toDrop) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (target instanceof Filters) {
 					filters.add(filterToDrop);
 				}
@@ -915,7 +915,7 @@ public class ResourceFilterGroup {
 				if (target instanceof FilterCopy) {
 					((FilterCopy) target).addChild(filterToDrop);
 				}
-				filterView.refresh();
+				filterView.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				filterView.reveal(filterToDrop);
 			}
 			return true;
@@ -958,7 +958,7 @@ public class ResourceFilterGroup {
 		}
 	}
 
-	private void createButtonGroup(Composite parent) {
+	private void createButtonGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
@@ -974,7 +974,7 @@ public class ResourceFilterGroup {
 		data = new GridData(SWT.FILL, SWT.FILL, false, false);
 		addButton.setLayoutData(data);
 		setButtonDimensionHint(addButton);
-		addButton.addSelectionListener(new SelectionAdapter() {
+		addButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAdd(false);
@@ -986,7 +986,7 @@ public class ResourceFilterGroup {
 		data = new GridData(SWT.FILL, SWT.FILL, false, false);
 		addGroupButton.setLayoutData(data);
 		setButtonDimensionHint(addGroupButton);
-		addGroupButton.addSelectionListener(new SelectionAdapter() {
+		addGroupButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAdd(true);
@@ -999,7 +999,7 @@ public class ResourceFilterGroup {
 		data = new GridData(SWT.FILL, SWT.FILL, false, false);
 		editButton.setLayoutData(data);
 		setButtonDimensionHint(editButton);
-		editButton.addSelectionListener(new SelectionAdapter() {
+		editButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleEdit();
@@ -1011,7 +1011,7 @@ public class ResourceFilterGroup {
 		data = new GridData(SWT.FILL, SWT.FILL, false, false);
 		removeButton.setLayoutData(data);
 		setButtonDimensionHint(removeButton);
-		removeButton.addSelectionListener(new SelectionAdapter() {
+		removeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleRemove();
@@ -1019,7 +1019,7 @@ public class ResourceFilterGroup {
 		});
 	}
 
-	private void refreshEnablement() {
+	private void refreshEnablement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (addButton != null) {
 			ISelection selection = filterView.getSelection();
 			IStructuredSelection structuredSelection = null;
@@ -1052,7 +1052,7 @@ public class ResourceFilterGroup {
 		return filters.isLast((FilterCopy) o);
 	}
 
-	private boolean handleEdit() {
+	private boolean handleEdit() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection selection = filterView.getSelection();
 		if (selection instanceof IStructuredSelection) {
 			Object firstElement = ((IStructuredSelection) selection)
@@ -1069,7 +1069,7 @@ public class ResourceFilterGroup {
 				if (dialog.open() == Window.OK) {
 					if (copy.hasChanged()) {
 						filter.copy(copy);
-						filterView.refresh();
+						filterView.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					}
 				}
 				return true;
@@ -1091,24 +1091,24 @@ public class ResourceFilterGroup {
 		return new FilterCopy[0];
 	}
 
-	private void handleRemove() {
+	private void handleRemove() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection selection = filterView.getSelection();
 		if (selection instanceof IStructuredSelection) {
-			for (Object element : (IStructuredSelection) selection) {
+			for (Object element : (IStructuredSelection) selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof FilterCopy filter) {
 					filter.getParent().removeChild(filter);
 				}
 				else {
 					int mask = element.equals(includeOnlyGroup) ? IResourceFilterDescription.INCLUDE_ONLY:
 						IResourceFilterDescription.EXCLUDE_ALL;
-					for (FilterCopy filterCopy : filters.getChildren()) {
+					for (FilterCopy filterCopy : filters.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ((filterCopy.getType() & mask) != 0) {
 							filters.removeChild(filterCopy);
 						}
 					}
 				}
 			}
-			filterView.refresh();
+			filterView.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -1146,8 +1146,8 @@ public class ResourceFilterGroup {
 		}
 		filters = new Filters(resource);
 		filters.removeAll();
-		filterView.setInput(filters);
-		filterView.refresh();
+		filterView.setInput(filters); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		filterView.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -1162,7 +1162,7 @@ public class ResourceFilterGroup {
 
 	public void setFilters(IResourceFilterDescription[] filters) {
 		initialFilters = new UIResourceFilterDescription[filters.length];
-		for (int i = 0; i < filters.length; i++) {
+		for (int i = 0; i < filters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			initialFilters[i] = UIResourceFilterDescription.wrap(filters[i]);
 		}
 	}
@@ -1176,7 +1176,7 @@ public class ResourceFilterGroup {
 	 *
 	 * @return true if the filters changed
 	 */
-	public boolean performOk() {
+	public boolean performOk() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource == null || filters == null) {
 			return true;
 		}
@@ -1184,12 +1184,12 @@ public class ResourceFilterGroup {
 			try {
 				if (resource != nonExistantResource) {
 					IResourceFilterDescription[] oldFilters = resource.getFilters();
-					for (IResourceFilterDescription oldFilter : oldFilters) {
+					for (IResourceFilterDescription oldFilter : oldFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						oldFilter.delete(IResource.BACKGROUND_REFRESH,
 								new NullProgressMonitor());
 					}
 					FilterCopy[] newFilters = filters.getChildren();
-					for (FilterCopy newFilter : newFilters) {
+					for (FilterCopy newFilter : newFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						resource.createFilter(newFilter.getType(),
 								newFilter.getFileInfoMatcherDescription(),
 								IResource.BACKGROUND_REFRESH,
@@ -1214,9 +1214,9 @@ public class ResourceFilterGroup {
 		}
 	}
 
-	private void disposeIcons() {
+	private void disposeIcons() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Field[] fields = getClass().getDeclaredFields();
-		for (Field field : fields) {
+		for (Field field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class<?> cls = field.getType();
 			if (cls.equals(Image.class)) {
 				Image img;
@@ -1240,7 +1240,7 @@ public class ResourceFilterGroup {
 		private FilterCopyTransfer() {
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void javaToNative(Object object, TransferData transferData) {
 			if (object == null || !(object instanceof FilterCopy[] myTypes)) {
 				return;
@@ -1251,7 +1251,7 @@ public class ResourceFilterGroup {
 					byte[] buffer;
 					try (DataOutputStream writeOut = new DataOutputStream(out)) {
 						writeOut.writeInt(myTypes.length);
-						for (FilterCopy myType : myTypes) {
+						for (FilterCopy myType : myTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							writeOut.writeInt(myType.getSerialNumber());
 						}
 						buffer = out.toByteArray();
@@ -1262,7 +1262,7 @@ public class ResourceFilterGroup {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object nativeToJava(TransferData transferData) {
 			if (isSupportedType(transferData)) {
 				byte[] buffer = (byte[]) super.nativeToJava(transferData);
@@ -1276,7 +1276,7 @@ public class ResourceFilterGroup {
 					int size = readIn.readInt();
 
 					LinkedList<FilterCopy> droppedFilters = new LinkedList<>();
-					for (int i = 0; i < size; i++) {
+					for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int serialNumber = readIn.readInt();
 						FilterCopy tmp = filters
 							.findBySerialNumber(serialNumber);
@@ -1326,7 +1326,7 @@ class FilterTypeUtil {
 				IDEWorkbenchMessages.ResourceFilterPage_excludeAll };
 	}
 
-	public static void setValue(FilterCopy filter, String property, Object value) {
+	public static void setValue(FilterCopy filter, String property, Object value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (property.equals(FilterTypeUtil.ID)) {
 			IFilterMatcherDescriptor descriptor;
 			if (value instanceof Integer) {
@@ -1380,7 +1380,7 @@ class FilterTypeUtil {
 	static IFilterMatcherDescriptor getDescriptor(String id) {
 		IFilterMatcherDescriptor[] descriptors = ResourcesPlugin.getWorkspace()
 				.getFilterMatcherDescriptors();
-		for (IFilterMatcherDescriptor descriptor : descriptors) {
+		for (IFilterMatcherDescriptor descriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getId().equals(id)) {
 				return descriptor;
 			}
@@ -1391,7 +1391,7 @@ class FilterTypeUtil {
 	static int getDescriptorIndex(String id) {
 		IFilterMatcherDescriptor descriptors[] = ResourcesPlugin.getWorkspace()
 				.getFilterMatcherDescriptors();
-		for (int i = 0; i < descriptors.length; i++) {
+		for (int i = 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptors[i].getId().equals(id)) {
 				return i;
 			}
@@ -1399,7 +1399,7 @@ class FilterTypeUtil {
 		return -1;
 	}
 
-	static Object getValue(UIResourceFilterDescription filter, String property) {
+	static Object getValue(UIResourceFilterDescription filter, String property) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (property.equals(ID)) {
 			String id = filter.getFileInfoMatcherDescription().getId();
 			return getDescriptorIndex(id);
@@ -1440,12 +1440,12 @@ class FilterTypeUtil {
 				IDEWorkbenchMessages.ResourceFilterPage_filesAndFolders };
 	}
 
-	static String[] getFilterNames(boolean groupOnly) {
+	static String[] getFilterNames(boolean groupOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFilterMatcherDescriptor[] descriptors = ResourcesPlugin.getWorkspace()
 				.getFilterMatcherDescriptors();
 		sortDescriptors(descriptors);
 		LinkedList<String> names = new LinkedList<>();
-		for (IFilterMatcherDescriptor descriptor : descriptors) {
+		for (IFilterMatcherDescriptor descriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// remove legacy filters
 			if (descriptor.getId().equals(DefaultCustomFilterArgumentUI.REGEX_FILTER_ID)) {
 				continue;
@@ -1480,7 +1480,7 @@ class FilterTypeUtil {
 		IFilterMatcherDescriptor descriptors[] = ResourcesPlugin.getWorkspace()
 				.getFilterMatcherDescriptors();
 		sortDescriptors(descriptors);
-		for (IFilterMatcherDescriptor descriptor : descriptors) {
+		for (IFilterMatcherDescriptor descriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getArgumentType().equals(
 					IFilterMatcherDescriptor.ARGUMENT_TYPE_STRING)) {
 				return descriptor.getId();
@@ -1498,7 +1498,7 @@ class FilterTypeUtil {
 	static IFilterMatcherDescriptor getDescriptorByName(String name) {
 		IFilterMatcherDescriptor[] descriptors = ResourcesPlugin.getWorkspace()
 				.getFilterMatcherDescriptors();
-		for (IFilterMatcherDescriptor descriptor : descriptors) {
+		for (IFilterMatcherDescriptor descriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getName().equals(name)) {
 				return descriptor;
 			}
@@ -1544,7 +1544,7 @@ class FilterCopy extends UIResourceFilterDescription {
 	public void removeAll() {
 		initializeChildren();
 		Iterator<FilterCopy> it = children.iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilterCopy child = it.next();
 			if (child.parent == this) {
 				child.parent = null;
@@ -1569,7 +1569,7 @@ class FilterCopy extends UIResourceFilterDescription {
 
 	public boolean hasParent(FilterCopy filterCopy) {
 		FilterCopy filter = this;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filter.equals(filterCopy)) {
 				return true;
 			}
@@ -1596,7 +1596,7 @@ class FilterCopy extends UIResourceFilterDescription {
 		arguments = filter.getFileInfoMatcherDescription().getArguments();
 		if (arguments instanceof FileInfoMatcherDescription[] descs) {
 			FilterCopy [] tmp = new FilterCopy[descs.length];
-			for (int i = 0; i < tmp.length; i++) {
+			for (int i = 0; i < tmp.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tmp[i] = new FilterCopy(this, descs[i]);
 			}
 			arguments = tmp;
@@ -1629,7 +1629,7 @@ class FilterCopy extends UIResourceFilterDescription {
 		arguments = description.getArguments();
 		if (arguments instanceof FileInfoMatcherDescription[] descs) {
 			FilterCopy [] tmp = new FilterCopy[descs.length];
-			for (int i = 0; i < tmp.length; i++) {
+			for (int i = 0; i < tmp.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tmp[i] = new FilterCopy(parent, descs[i]);
 			}
 			arguments = tmp;
@@ -1724,7 +1724,7 @@ class FilterCopy extends UIResourceFilterDescription {
 	public FilterCopy findBySerialNumber(int number) {
 		LinkedList<FilterCopy> pending = new LinkedList<>();
 		pending.add(this);
-		while (!pending.isEmpty()) {
+		while (!pending.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilterCopy filter = pending.getFirst();
 			pending.removeFirst();
 			if (filter.serialNumber == number) {
@@ -1746,12 +1746,12 @@ class FilterCopy extends UIResourceFilterDescription {
 		return null;
 	}
 
-	protected void initializeChildren() {
+	protected void initializeChildren() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (children == null) {
 			if (getChildrenLimit() > 0) {
 				children = new LinkedList<>();
 				if (getArguments() instanceof IResourceFilterDescription[] filters) {
-					for (IResourceFilterDescription filter : filters) {
+					for (IResourceFilterDescription filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						FilterCopy child = new FilterCopy(UIResourceFilterDescription.wrap(filter));
 						child.parent = this;
 						children.add(child);
@@ -1759,7 +1759,7 @@ class FilterCopy extends UIResourceFilterDescription {
 				}
 				if (getArguments() instanceof FilterCopy[] filters) {
 					if (filters != null) {
-						for (FilterCopy filter : filters) {
+						for (FilterCopy filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							FilterCopy child = filter;
 							child.parent = this;
 							children.add(child);
@@ -1800,7 +1800,7 @@ class FilterCopy extends UIResourceFilterDescription {
 			arguments = children.toArray(new FilterCopy[0]);
 		}
 		FilterCopy up = parent;
-		while (up != null) {
+		while (up != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			up.serializeChildren();
 			up = up.parent;
 		}
@@ -1824,7 +1824,7 @@ class FilterCopy extends UIResourceFilterDescription {
 		Object arg = FilterCopy.this.getArguments();
 		if (arg instanceof FilterCopy [] filterCopies) {
 			FileInfoMatcherDescription[] descriptions = new FileInfoMatcherDescription[filterCopies.length];
-			for (int i = 0; i < descriptions.length; i++) {
+			for (int i = 0; i < descriptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				descriptions[i] = filterCopies[i].getFileInfoMatcherDescription();
 			}
 			arg = descriptions;
@@ -1853,7 +1853,7 @@ class FilterEditDialog extends TrayDialog {
 	protected ResourceFilterGroup filterGroup;
 	protected IResource resource;
 
-	TreeMap<Object, ICustomFilterArgumentUI> customfilterArgumentMap = new TreeMap<>();
+	TreeMap<Object, ICustomFilterArgumentUI> customfilterArgumentMap = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 	ICustomFilterArgumentUI currentCustomFilterArgumentUI = new ICustomFilterArgumentUI() {
 		@Override
 		public Object getID() {return "dummy";} //$NON-NLS-1$
@@ -1887,7 +1887,7 @@ class FilterEditDialog extends TrayDialog {
 		customfilterArgumentMap.put(ui.getID(), ui);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		parent.setLayoutData(data);
@@ -1936,7 +1936,7 @@ class FilterEditDialog extends TrayDialog {
 		return composite;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createButtonBar(Composite parent) {
 		Label label = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -1961,7 +1961,7 @@ class FilterEditDialog extends TrayDialog {
 		return composite;
 	}
 
-	private Control dialogCreateButtonBar(Composite parent) {
+	private Control dialogCreateButtonBar(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		// create a layout with spacing and margins appropriate for the font
 		// size.
@@ -1983,7 +1983,7 @@ class FilterEditDialog extends TrayDialog {
 		return composite;
 	}
 
-	private void createInheritableArea(Font font, Composite composite) {
+	private void createInheritableArea(Font font, Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite inheritableComposite = createGroup(font, composite,
 				IDEWorkbenchMessages.ResourceFilterPage_columnFilterMode, false, false, 1);
 		GridLayout layout = (GridLayout) inheritableComposite.getLayout();
@@ -2005,7 +2005,7 @@ class FilterEditDialog extends TrayDialog {
 		data.horizontalSpan = 1;
 		inherited.setLayoutData(data);
 		inherited.setFont(font);
-		inherited.addSelectionListener(new SelectionAdapter() {
+		inherited.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FilterTypeUtil.setValue(filter, FilterTypeUtil.INHERITABLE,
@@ -2016,7 +2016,7 @@ class FilterEditDialog extends TrayDialog {
 				FilterTypeUtil.INHERITABLE)).booleanValue()));
 	}
 
-	private void createModeArea(Font font, Composite composite) {
+	private void createModeArea(Font font, Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 		Composite modeComposite = createGroup(font, composite, IDEWorkbenchMessages.ResourceFilterPage_columnFilterMode,
 				true, true, 1);
@@ -2026,7 +2026,7 @@ class FilterEditDialog extends TrayDialog {
 		data = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		includeButton.setLayoutData(data);
 		includeButton.setFont(font);
-		includeButton.addSelectionListener(new SelectionAdapter() {
+		includeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FilterTypeUtil.setValue(filter, FilterTypeUtil.MODE, 0);
@@ -2039,7 +2039,7 @@ class FilterEditDialog extends TrayDialog {
 		data = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		excludeButton.setLayoutData(data);
 		excludeButton.setFont(font);
-		excludeButton.addSelectionListener(new SelectionAdapter() {
+		excludeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FilterTypeUtil.setValue(filter, FilterTypeUtil.MODE, 1);
@@ -2049,7 +2049,7 @@ class FilterEditDialog extends TrayDialog {
 				filter, FilterTypeUtil.MODE)).intValue() == 1);
 	}
 
-	private void createIdArea(Font font, Composite composite) {
+	private void createIdArea(Font font, Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (createGroupOnly) {
 			idComposite = createGroup(font, composite, "", //$NON-NLS-1$
 					true, true, 1);
@@ -2083,14 +2083,14 @@ class FilterEditDialog extends TrayDialog {
 		setupPatternLine();
 	}
 
-	private void createMatcherCombo(Composite composite, Font font) {
+	private void createMatcherCombo(Composite composite, Font font) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 		idCombo = new Combo(composite, SWT.READ_ONLY);
 		idCombo.setItems(FilterTypeUtil.getFilterNames(createGroupOnly));
 		data = new GridData(SWT.LEFT, SWT.CENTER, true, false);
 		idCombo.setLayoutData(data);
 		idCombo.setFont(font);
-		idCombo.addSelectionListener(new SelectionAdapter() {
+		idCombo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FilterTypeUtil.setValue(filter, FilterTypeUtil.ID, idCombo
@@ -2146,7 +2146,7 @@ class FilterEditDialog extends TrayDialog {
 		.getFilterMatcherDescriptor(filterID);
 		if (descriptor != null) {
 			String [] items = idCombo.getItems();
-			for (int i = 0; i < items.length; i++) {
+			for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (items[i].equals(descriptor.getName())) {
 					idCombo.select(i);
 					break;
@@ -2158,7 +2158,7 @@ class FilterEditDialog extends TrayDialog {
 	/**
 	 * @return the group
 	 */
-	private Composite createGroup(Font font, Composite composite, String text,
+	private Composite createGroup(Font font, Composite composite, String text, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean grabExcessVerticalSpace, boolean group, int columnCounts) {
 		GridLayout layout;
 		GridData data;
@@ -2182,7 +2182,7 @@ class FilterEditDialog extends TrayDialog {
 		return modeComposite;
 	}
 
-	private void createTargetArea(Font font, Composite composite) {
+	private void createTargetArea(Font font, Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 		Composite targetComposite = createGroup(font, composite,
 				IDEWorkbenchMessages.ResourceFilterPage_columnFilterTarget, false, true, 1);
@@ -2206,19 +2206,19 @@ class FilterEditDialog extends TrayDialog {
 		filesAndFoldersButton.setLayoutData(data);
 		filesAndFoldersButton.setFont(font);
 
-		filesButton.addSelectionListener(new SelectionAdapter() {
+		filesButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FilterTypeUtil.setValue(filter, FilterTypeUtil.TARGET, 0);
 			}
 		});
-		foldersButton.addSelectionListener(new SelectionAdapter() {
+		foldersButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FilterTypeUtil.setValue(filter, FilterTypeUtil.TARGET, 1);
 			}
 		});
-		filesAndFoldersButton.addSelectionListener(new SelectionAdapter() {
+		filesAndFoldersButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FilterTypeUtil.setValue(filter, FilterTypeUtil.TARGET, 2);
@@ -2277,7 +2277,7 @@ class FilterEditDialog extends TrayDialog {
 	protected void update() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 		// see if the initialize causes an exception
 		if (filter.hasStringArguments()) {
@@ -2367,7 +2367,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 	protected Composite stringTextArgumentComposite;
 	protected Composite attributeStringArgumentComposite;
 	protected Class<?> intiantiatedKeyOperatorType = null;
-	protected TreeMap<String, String> valueCache = new TreeMap<>();
+	protected TreeMap<String, String> valueCache = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 	protected boolean initializationComplete = false;
 	protected FilterEditDialog dialog;
 	protected Label dummyLabel1;
@@ -2386,10 +2386,10 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		return FileInfoAttributesMatcher.ID;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		Widget list[] = new Widget[] {multiKey, multiOperator, multiArgumentComposite, stringArgumentComposite, stringTextArgumentComposite, arguments, argumentsLabel, argumentsCaseSensitive, argumentsRegularExpresion, attributeStringArgumentComposite, description, conditionComposite, descriptionComposite, dummyLabel1, dummyLabel2};
-		for (Widget widget : list) {
+		for (Widget widget : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (widget != null) {
 				widget.dispose();
 			}
@@ -2414,7 +2414,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		initializationComplete = false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void create(Composite argumentComposite, Font font) {
 		shell = argumentComposite.getShell();
 		GridLayout layout = new GridLayout();
@@ -2466,7 +2466,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		setupDescriptionText(null);
 	}
 
-	private void setupDescriptionText(String errorString) {
+	private void setupDescriptionText(String errorString) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (description != null) {
 			if (errorString != null) {
 				// take only the first line of the error string
@@ -2505,7 +2505,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		}
 	}
 
-	private void createCustomArgumentsArea(Font font, Composite composite) {
+	private void createCustomArgumentsArea(Font font, Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 
 		multiArgumentComposite = new Composite(composite, SWT.NONE);
@@ -2525,7 +2525,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		data = new GridData(SWT.LEFT, SWT.TOP, false, false);
 		multiKey.setLayoutData(data);
 		multiKey.setFont(font);
-		multiKey.addSelectionListener(new SelectionAdapter() {
+		multiKey.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setupMultiOperatorAndField(true);
@@ -2534,9 +2534,9 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		});
 
 		// calculate max combo width
-		ArrayList<String> allOperators = new ArrayList<>();
+		ArrayList<String> allOperators = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String[] keys = getMultiMatcherKeys();
-		for (String key : keys) {
+		for (String key : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			allOperators.addAll(Arrays.asList(getLocalOperatorsForKey(MultiMatcherLocalization.getMultiMatcherKey(key))));
 		}
 		Combo tmp = new Combo(multiArgumentComposite, SWT.READ_ONLY);
@@ -2549,7 +2549,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		data.widthHint = maxWidth;
 		multiOperator.setLayoutData(data);
 		multiOperator.setFont(font);
-		multiOperator.addSelectionListener(new SelectionAdapter() {
+		multiOperator.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setupMultiOperatorAndField(false);
@@ -2569,7 +2569,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		setupMultiOperatorAndField(true);
 	}
 
-	private void setupMultiOperatorAndField(boolean updateOperator) {
+	private void setupMultiOperatorAndField(boolean updateOperator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isUsingRegularExpression = false;
 		String selectedKey = MultiMatcherLocalization.getMultiMatcherKey(multiKey.getText());
 		if (updateOperator) {
@@ -2642,7 +2642,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 			data.widthHint = 150;
 			arguments.setLayoutData(data);
 			arguments.setFont(multiArgumentComposite.getFont());
-			arguments.addModifyListener(_ -> validateInputText());
+			arguments.addModifyListener(_ -> validateInputText()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 			dummyLabel1 = new Label(multiArgumentComposite, SWT.NONE);
 			data = new GridData(SWT.LEFT, SWT.CENTER, false, true);
@@ -2691,8 +2691,8 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 				argumentsRegularExpresion.setSelection(argument.regularExpression);
 			}
 
-			arguments.addModifyListener(_ -> storeMultiSelection());
-			argumentsRegularExpresion.addSelectionListener(new SelectionAdapter() {
+			arguments.addModifyListener(_ -> storeMultiSelection()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+			argumentsRegularExpresion.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					setupDescriptionText(null);
@@ -2702,7 +2702,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 					}
 				}
 			});
-			argumentsCaseSensitive.addSelectionListener(new SelectionAdapter() {
+			argumentsCaseSensitive.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					storeMultiSelection();
@@ -2726,7 +2726,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 			data.widthHint = 150;
 			arguments.setLayoutData(data);
 			arguments.setFont(multiArgumentComposite.getFont());
-			arguments.addModifyListener(_ -> validateInputText());
+			arguments.addModifyListener(_ -> validateInputText()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 			if (filter.hasStringArguments()) {
 				FileInfoAttributesMatcher.Argument argument = FileInfoAttributesMatcher.decodeArguments((String) filter.getArguments());
@@ -2737,7 +2737,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 				}
 			}
 
-			arguments.addModifyListener(_ -> storeMultiSelection());
+			arguments.addModifyListener(_ -> storeMultiSelection()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		}
 		if (selectedKeyOperatorType.equals(Date.class)) {
 			GridData data;
@@ -2745,7 +2745,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 			data= new GridData(SWT.FILL, SWT.FILL, true, false);
 			argumentsDate.setLayoutData(data);
 			argumentsDate.setFont(multiArgumentComposite.getFont());
-			argumentsDate.addSelectionListener(new SelectionAdapter() {
+			argumentsDate.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					storeMultiSelection();
@@ -2776,7 +2776,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 			argumentsBoolean.setFont(multiArgumentComposite.getFont());
 			argumentsBoolean.setItems(MultiMatcherLocalization.getLocalMultiMatcherKey(Boolean.TRUE.toString()),
 					MultiMatcherLocalization.getLocalMultiMatcherKey(Boolean.FALSE.toString()));
-			argumentsBoolean.addSelectionListener(new SelectionAdapter() {
+			argumentsBoolean.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					storeMultiSelection();
@@ -2814,7 +2814,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 	private static final String[] TIME_INTERVAL_PREFIXES = { "s", "m", "h", "d" }; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 	private static final long[] TIME_INTERVAL_SCALE = { 60, 60, 24 };
 
-	private String convertToEditableTimeInterval(String string) {
+	private String convertToEditableTimeInterval(String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (string.isEmpty()) {
 			return string;
 		}
@@ -2827,23 +2827,23 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		if (value == 0) {
 			return Long.toString(0);
 		}
-		for (int i = 0; i < TIME_INTERVAL_PREFIXES.length - 1; i++) {
+		for (int i = 0; i < TIME_INTERVAL_PREFIXES.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (value % TIME_INTERVAL_SCALE[i] != 0) {
-				return Long.toString(value) + TIME_INTERVAL_PREFIXES[i];
+				return Long.toString(value) + TIME_INTERVAL_PREFIXES[i]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			value /= TIME_INTERVAL_SCALE[i];
 		}
-		return Long.toString(value) + TIME_INTERVAL_PREFIXES[TIME_INTERVAL_PREFIXES.length - 1];
+		return Long.toString(value) + TIME_INTERVAL_PREFIXES[TIME_INTERVAL_PREFIXES.length - 1]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String convertFromEditableTimeInterval(String string) {
 		if (string.isEmpty()) {
 			return string;
 		}
-		for (int i = 1; i < TIME_INTERVAL_PREFIXES.length; i++) {
+		for (int i = 1; i < TIME_INTERVAL_PREFIXES.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (string.endsWith(TIME_INTERVAL_PREFIXES[i])) {
 				long value = Long.parseLong(string.substring(0, string.length() - 1));
-				for (int j = 0; j < i; j++) {
+				for (int j = 0; j < i; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					value *= TIME_INTERVAL_SCALE[j];
 				}
 				return Long.toString(value);
@@ -2857,7 +2857,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 	private static final String[] METRIC_PREFIXES = { "", "k", "m", "g" }; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
 
 	// converts "32768" to "32k"
-	private String convertToEditableLength(String string) {
+	private String convertToEditableLength(String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (string.isEmpty()) {
 			return string;
 		}
@@ -2870,15 +2870,15 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		if (value == 0) {
 			return Long.toString(0);
 		}
-		for (int i = 0; i < METRIC_PREFIXES.length; i++) {
+		for (int i = 0; i < METRIC_PREFIXES.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (value % 1024 != 0) {
-				return Long.toString(value) + METRIC_PREFIXES[i];
+				return Long.toString(value) + METRIC_PREFIXES[i]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if ((i + 1) < METRIC_PREFIXES.length) {
 				value /= 1024;
 			}
 		}
-		return Long.toString(value) + METRIC_PREFIXES[METRIC_PREFIXES.length - 1];
+		return Long.toString(value) + METRIC_PREFIXES[METRIC_PREFIXES.length - 1]; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	// converts "32k" to "32768"
@@ -2886,7 +2886,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		if (string.isEmpty()) {
 			return string;
 		}
-		for (int i = 1; i < METRIC_PREFIXES.length; i++) {
+		for (int i = 1; i < METRIC_PREFIXES.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (string.endsWith(METRIC_PREFIXES[i])) {
 				long value = Long.parseLong(string.substring(0, string.length() - 1));
 				value *= 2 << (10 * i - 1);
@@ -2920,7 +2920,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		return dateYear = calendarYear + (dateYear - currentYear);
 	}
 
-	private void storeMultiSelection() {
+	private void storeMultiSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (intiantiatedKeyOperatorType != null) {
 			String selectedKey = MultiMatcherLocalization.getMultiMatcherKey(multiKey.getText());
 			String selectedOperator = MultiMatcherLocalization.getMultiMatcherKey(multiOperator.getText());
@@ -2965,14 +2965,14 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 	private String[] getLocalOperatorsForKey(String key) {
 		String [] operators = FileInfoAttributesMatcher.getOperatorsForKey(key);
 		String[] result = new String[operators.length];
-		for (int i = 0; i < operators.length; i++) {
+		for (int i = 0; i < operators.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i] = MultiMatcherLocalization.getLocalMultiMatcherKey(operators[i]);
 		}
 		return result;
 	}
 
 	private String[] getMultiMatcherKeys() {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add(MultiMatcherLocalization.getLocalMultiMatcherKey(FileInfoAttributesMatcher.KEY_NAME));
 		list.add(MultiMatcherLocalization.getLocalMultiMatcherKey(FileInfoAttributesMatcher.KEY_PROPJECT_RELATIVE_PATH));
 		list.add(MultiMatcherLocalization.getLocalMultiMatcherKey(FileInfoAttributesMatcher.KEY_LOCATION));
@@ -2997,7 +2997,7 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		dialog.updateFinishControls();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String validate() {
 		String message = null;
 		if (intiantiatedKeyOperatorType != null) {
@@ -3061,11 +3061,11 @@ class MultiMatcherCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		return new StyledString(formatMultiMatcherArgument(filterCopy), fPlainStyler);
 	}
 
-	private String formatMultiMatcherArgument(FilterCopy filterCopy) {
+	private String formatMultiMatcherArgument(FilterCopy filterCopy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String argumentString = (String) filterCopy.getArguments();
 		FileInfoAttributesMatcher.Argument argument = FileInfoAttributesMatcher.decodeArguments(argumentString);
 
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append(MultiMatcherLocalization.getLocalMultiMatcherKey(argument.key));
 		builder.append(' ');
 		builder.append(MultiMatcherLocalization.getLocalMultiMatcherKey(argument.operator));
@@ -3118,7 +3118,7 @@ class DefaultCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 	@Override
 	public void dispose() {
 		Widget list[] = new Widget[] {arguments, argumentsLabel, description};
-		for (Widget widget : list) {
+		for (Widget widget : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (widget != null) {
 				widget.dispose();
 			}
@@ -3129,7 +3129,7 @@ class DefaultCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		description = null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void create(Composite argumentComposite, Font font) {
 		shell = argumentComposite.getShell();
 		GridLayout layout = new GridLayout();
@@ -3151,14 +3151,14 @@ class DefaultCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 		argumentComposite.layout(true);
 	}
 
-	private void createArgumentsArea(Font font, Composite composite) {
+	private void createArgumentsArea(Font font, Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 		argumentsLabel = addLabel(composite, IDEWorkbenchMessages.ResourceFilterPage_columnFilterPattern);
 		arguments = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		data = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		arguments.setLayoutData(data);
 		arguments.setFont(font);
-		arguments.addModifyListener(_ -> FilterTypeUtil.setValue(filter, FilterTypeUtil.ARGUMENTS,
+		arguments.addModifyListener(_ -> FilterTypeUtil.setValue(filter, FilterTypeUtil.ARGUMENTS, //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 				arguments.getText()));
 		if (filter.hasStringArguments()) {
 			arguments.setText((String) FilterTypeUtil.getValue(filter,
@@ -3191,7 +3191,7 @@ class DefaultCustomFilterArgumentUI implements ICustomFilterArgumentUI {
 
 		Font font = composite.getFont();
 		Label label = new Label(composite, SWT.LEFT);
-		label.setText(text + delimiter);
+		label.setText(text + delimiter); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 		label.setLayoutData(data);
 		label.setFont(font);
@@ -3261,7 +3261,7 @@ class MultiMatcherLocalization {
 	};
 
 	static public String getLocalMultiMatcherKey(String key) {
-		for (String[] matcherKey : multiMatcherKey) {
+		for (String[] matcherKey : multiMatcherKey) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (matcherKey[0].equals(key)) {
 				return matcherKey[1];
 			}
@@ -3270,7 +3270,7 @@ class MultiMatcherLocalization {
 	}
 
 	static public String getMultiMatcherKey(String local) {
-		for (String[] matcherKey : multiMatcherKey) {
+		for (String[] matcherKey : multiMatcherKey) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (matcherKey[1].equals(local)) {
 				return matcherKey[0];
 			}

@@ -55,7 +55,7 @@ public final class KeywordRegistry implements IExtensionChangeHandler {
 	/**
 	 * Map of id-&gt;labels.
 	 */
-	private final Map internalKeywordMap = new HashMap();
+	private final Map internalKeywordMap = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Private constructor.
@@ -63,14 +63,14 @@ public final class KeywordRegistry implements IExtensionChangeHandler {
 	private KeywordRegistry() {
 		IExtensionTracker tracker = PlatformUI.getWorkbench().getExtensionTracker();
 		tracker.registerHandler(this, ExtensionTracker.createExtensionPointFilter(getExtensionPointFilter()));
-		for (IExtension extension : getExtensionPointFilter().getExtensions()) {
+		for (IExtension extension : getExtensionPointFilter().getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addExtension(PlatformUI.getWorkbench().getExtensionTracker(), extension);
 		}
 	}
 
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
-		for (IConfigurationElement element : extension.getConfigurationElements()) {
+		for (IConfigurationElement element : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getName().equals(TAG_KEYWORD)) {
 				String name = element.getAttribute(ATT_LABEL);
 				String id = element.getAttribute(ATT_ID);
@@ -98,7 +98,7 @@ public final class KeywordRegistry implements IExtensionChangeHandler {
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof String) {
 				internalKeywordMap.remove(object);
 			}

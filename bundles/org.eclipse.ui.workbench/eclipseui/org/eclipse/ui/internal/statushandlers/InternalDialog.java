@@ -144,7 +144,7 @@ public class InternalDialog extends TrayDialog {
 
 	private final Map<Object, Object> dialogState;
 
-	public InternalDialog(final Map<Object, Object> dialogState, boolean modal) {
+	public InternalDialog(final Map<Object, Object> dialogState, boolean modal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(ProgressManagerUtil.getDefaultParent());
 		this.dialogState = dialogState;
 		supportTray = new SupportTray(dialogState, event -> {
@@ -219,7 +219,7 @@ public class InternalDialog extends TrayDialog {
 	 *
 	 * @param parent A composite on which the title area should be created.
 	 */
-	private void createTitleArea(Composite parent) {
+	private void createTitleArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		titleArea = new Composite(parent, SWT.NONE);
 		titleArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
@@ -374,7 +374,7 @@ public class InternalDialog extends TrayDialog {
 	 * Toggles the unfolding of the details area. This is triggered by the user
 	 * pressing the details button.
 	 */
-	private boolean toggleDetailsArea() {
+	private boolean toggleDetailsArea() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean opened = false;
 		Point windowSize = getShell().getSize();
 		if (detailsManager.isOpen()) {
@@ -452,7 +452,7 @@ public class InternalDialog extends TrayDialog {
 	 *
 	 * @param parent A parent composite on which all components should be placed.
 	 */
-	private void fillListArea(Composite parent) {
+	private void fillListArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// it is necessary to make list parent composite taller
 		GridData listAreaGD = (GridData) parent.getLayoutData();
 		listAreaGD.grabExcessHorizontalSpace = true;
@@ -470,7 +470,7 @@ public class InternalDialog extends TrayDialog {
 		control.setLayoutData(data);
 		initContentProvider();
 		initLabelProvider();
-		statusListViewer.addPostSelectionChangedListener(event -> {
+		statusListViewer.addPostSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			handleSelectionChange();
 			if ((getTray() == null) && getBooleanValue(IStatusDialogConstants.TRAY_OPENED) && providesSupport()) {
 				silentTrayOpen();
@@ -591,7 +591,7 @@ public class InternalDialog extends TrayDialog {
 	 * @return composite the composite on which are all components for displaying
 	 *         status when only one is available.
 	 */
-	private Composite createSingleStatusDisplayArea(Composite parent) {
+	private Composite createSingleStatusDisplayArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// secondary message is displayed on separate composite with no
 		// margins
 		Composite singleStatusParent = new Composite(parent, SWT.NONE);
@@ -609,7 +609,7 @@ public class InternalDialog extends TrayDialog {
 		// main message set up early, to address bug 222391
 		singleStatusLabel.setText(getLabelProviderWrapper().getColumnText(getCurrentStatusAdapter(), 0));
 
-		singleStatusLabel.addMouseListener(new MouseListener() {
+		singleStatusLabel.addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 			}
@@ -660,7 +660,7 @@ public class InternalDialog extends TrayDialog {
 	/**
 	 * Update the button enablements
 	 */
-	private void updateEnablements() {
+	private void updateEnablements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Button details = getButton(IDialogConstants.DETAILS_ID);
 		if (details != null) {
 			details.setEnabled(true);
@@ -700,7 +700,7 @@ public class InternalDialog extends TrayDialog {
 		linkComposite.getParent().layout();
 	}
 
-	private IViewDescriptor shouldDisplayLinkToErrorLog() {
+	private IViewDescriptor shouldDisplayLinkToErrorLog() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/* no support for error log */
 		if (!getBooleanValue(IStatusDialogConstants.ERRORLOG_LINK)) {
 			return null;
@@ -708,7 +708,7 @@ public class InternalDialog extends TrayDialog {
 		/* check handling hint and display link if it is expected */
 		boolean shouldDisplay = false;
 		Iterator<?> it = ((Collection<?>) dialogState.get(IStatusDialogConstants.STATUS_ADAPTERS)).iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StatusAdapter adapter = (StatusAdapter) it.next();
 			Integer hint = (Integer) adapter.getProperty(WorkbenchStatusDialogManagerImpl.HINT);
 			if (hint != null && ((hint.intValue() & StatusManager.LOG) != 0)) {
@@ -756,7 +756,7 @@ public class InternalDialog extends TrayDialog {
 	 */
 	private void refreshStatusListArea() {
 		if (statusListViewer != null && !statusListViewer.getControl().isDisposed()) {
-			statusListViewer.refresh();
+			statusListViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (statusListViewer.getTable().getItemCount() > 1) {
 				getShell().setText(WorkbenchMessages.WorkbenchStatusDialog_MultipleProblemsHaveOccured);
 			} else {
@@ -768,7 +768,7 @@ public class InternalDialog extends TrayDialog {
 	/**
 	 * Sets the content provider for the viewer.
 	 */
-	private void initContentProvider() {
+	private void initContentProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContentProvider provider = new IStructuredContentProvider() {
 			@Override
 			public void dispose() {
@@ -788,7 +788,7 @@ public class InternalDialog extends TrayDialog {
 			}
 		};
 		statusListViewer.setContentProvider(provider);
-		statusListViewer.setInput(this);
+		statusListViewer.setInput(this); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		statusListViewer.setSelection(new StructuredSelection(getCurrentStatusAdapter()));
 	}
 
@@ -804,7 +804,7 @@ public class InternalDialog extends TrayDialog {
 	 * @param parent A parent composite on which all components should be placed.
 	 * @return the report control
 	 */
-	private Composite createLinkComposite(Composite parent) {
+	private Composite createLinkComposite(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite linkArea = new Composite(parent, SWT.NONE) {
 
 			// the composite should be as small as possible when there is no
@@ -846,14 +846,14 @@ public class InternalDialog extends TrayDialog {
 		Link link = new Link(linkComposite, SWT.NONE);
 		link.setText(WorkbenchMessages.WorkbenchStatusDialog_SupportHyperlink);
 		link.setToolTipText(WorkbenchMessages.WorkbenchStatusDialog_SupportTooltip);
-		link.addSelectionListener(widgetSelectedAdapter(e -> openTray()));
+		link.addSelectionListener(widgetSelectedAdapter(e -> openTray())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		Dialog.applyDialogFont(link);
 		return link;
 	}
 
 	private Link createShowErrorLogLink() {
 		Link link = new Link(linkComposite, SWT.NONE);
-		link.addSelectionListener(widgetSelectedAdapter(e -> {
+		link.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			try {
 				Workbench.getInstance().getActiveWorkbenchWindow().getActivePage().showView(LOG_VIEW_ID);
 			} catch (CoreException ce) {
@@ -870,7 +870,7 @@ public class InternalDialog extends TrayDialog {
 	 * Sets initial label provider.
 	 */
 	private void initLabelProvider() {
-		statusListViewer.setLabelProvider(getLabelProviderWrapper());
+		statusListViewer.setLabelProvider(getLabelProviderWrapper()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/**

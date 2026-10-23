@@ -58,9 +58,9 @@ public class ProductProperties extends BrandingProperties implements IProductCon
 
 	private static final String ABOUT_MAPPINGS = "$nl$/about.mappings"; //$NON-NLS-1$
 
-	private static HashMap mappingsMap = new HashMap(4);
+	private static HashMap mappingsMap = new HashMap(4); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private static String[] loadMappings(Bundle definingBundle) {
+	private static String[] loadMappings(Bundle definingBundle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		URL location = FileLocator.find(definingBundle, IPath.fromOSString(ABOUT_MAPPINGS));
 		PropertyResourceBundle bundle = null;
 		InputStream is;
@@ -82,11 +82,11 @@ public class ProductProperties extends BrandingProperties implements IProductCon
 			}
 		}
 
-		ArrayList mappingsList = new ArrayList();
+		ArrayList mappingsList = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (bundle != null) {
 			boolean found = true;
 			int i = 0;
-			while (found) {
+			while (found) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					mappingsList.add(bundle.getString(Integer.toString(i)));
 				} catch (MissingResourceException e) {
@@ -250,7 +250,7 @@ public class ProductProperties extends BrandingProperties implements IProductCon
 	 * product's mappings regardless of the given product argument.
 	 * </p>
 	 */
-	public static String getAboutText(IProduct product) {
+	public static String getAboutText(IProduct product) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String property = product.getProperty(ABOUT_TEXT);
 		if (property == null) {
 			return ""; //$NON-NLS-1$
@@ -264,7 +264,7 @@ public class ProductProperties extends BrandingProperties implements IProductCon
 		 * beginning and end of the string. If so, update the mappings array with the
 		 * system property value.
 		 */
-		for (int i = 0; i < tempMappings.length; i++) {
+		for (int i = 0; i < tempMappings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String nextString = tempMappings[i];
 			int length = nextString.length();
 

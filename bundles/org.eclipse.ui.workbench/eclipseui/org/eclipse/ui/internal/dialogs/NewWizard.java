@@ -50,19 +50,19 @@ public class NewWizard extends Wizard {
 	/**
 	 * Create the wizard pages
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addPages() {
 		IWizardCategory root = WorkbenchPlugin.getDefault().getNewWizardRegistry().getRootCategory();
 		IWizardDescriptor[] primary = WorkbenchPlugin.getDefault().getNewWizardRegistry().getPrimaryWizards();
 
 		// Filter the wizards that are disabled by activity support. Issue 2809
 		Collection<IWizardDescriptor> filteredWizards = WorkbenchActivityHelper.filterCollection(List.of(primary),
-				new HashSet<>());
+				new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		if (categoryId != null) {
 			IWizardCategory categories = root;
 			StringTokenizer familyTokenizer = new StringTokenizer(categoryId, CATEGORY_SEPARATOR);
-			while (familyTokenizer.hasMoreElements()) {
+			while (familyTokenizer.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				categories = getChildWithID(categories, familyTokenizer.nextToken());
 				if (categories == null) {
 					break;
@@ -93,7 +93,7 @@ public class NewWizard extends Wizard {
 	 * Returns the child collection element for the given id
 	 */
 	private IWizardCategory getChildWithID(IWizardCategory parent, String id) {
-		for (IWizardCategory wizardCategory : parent.getCategories()) {
+		for (IWizardCategory wizardCategory : parent.getCategories()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (wizardCategory.getId().equals(id)) {
 				return wizardCategory;
 			}

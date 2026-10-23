@@ -27,16 +27,16 @@ public final class ActivityRequirementBindingDefinition {
 
 	private static final int HASH_INITIAL = ActivityRequirementBindingDefinition.class.getName().hashCode();
 
-	static Map<String, Collection<ActivityRequirementBindingDefinition>> activityRequirementBindingDefinitionsByActivityId(
+	static Map<String, Collection<ActivityRequirementBindingDefinition>> activityRequirementBindingDefinitionsByActivityId( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<ActivityRequirementBindingDefinition> activityRequirementBindingDefinitions) {
 		if (activityRequirementBindingDefinitions == null) {
 			throw new NullPointerException();
 		}
 
-		Map<String, Collection<ActivityRequirementBindingDefinition>> map = new HashMap<>();
+		Map<String, Collection<ActivityRequirementBindingDefinition>> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<ActivityRequirementBindingDefinition> iterator = activityRequirementBindingDefinitions.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object = iterator.next();
 			Util.assertInstance(object, ActivityRequirementBindingDefinition.class);
 			ActivityRequirementBindingDefinition activityRequirementBindingDefinition = (ActivityRequirementBindingDefinition) object;
@@ -47,7 +47,7 @@ public final class ActivityRequirementBindingDefinition {
 						.get(parentActivityId);
 
 				if (activityRequirementBindingDefinitions2 == null) {
-					activityRequirementBindingDefinitions2 = new HashSet<>();
+					activityRequirementBindingDefinitions2 = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					map.put(parentActivityId, activityRequirementBindingDefinitions2);
 				}
 
@@ -129,7 +129,7 @@ public final class ActivityRequirementBindingDefinition {
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(requiredActivityId);
 			stringBuffer.append(',');

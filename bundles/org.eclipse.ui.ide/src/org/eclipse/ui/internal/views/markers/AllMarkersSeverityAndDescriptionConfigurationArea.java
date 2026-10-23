@@ -36,7 +36,7 @@ public class AllMarkersSeverityAndDescriptionConfigurationArea extends
 	boolean filterOnSeverity;
 	private Button enablementButton;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createContents(Composite parent) {
 
 		super.createContents(parent);
@@ -59,7 +59,7 @@ public class AllMarkersSeverityAndDescriptionConfigurationArea extends
 		buttonData.horizontalIndent = 20;
 		buttons.setLayoutData(buttonData);
 
-		enablementButton.addSelectionListener(new SelectionAdapter() {
+		enablementButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setFilterOnSeverity(enablementButton.getSelection());

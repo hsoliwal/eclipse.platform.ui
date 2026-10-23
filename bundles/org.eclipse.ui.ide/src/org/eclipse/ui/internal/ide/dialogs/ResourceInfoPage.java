@@ -186,7 +186,7 @@ public class ResourceInfoPage extends PropertyPage {
 	 *            the resource the information is being taken from.
 	 * @return the composite for the group
 	 */
-	private Composite createBasicInfoGroup(Composite parent, IResource resource) {
+	private Composite createBasicInfoGroup(Composite parent, IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		initializeDialogUnits(parent);
 
 		Composite basicInfoComposite = new Composite(parent, SWT.NULL);
@@ -279,7 +279,7 @@ public class ResourceInfoPage extends PropertyPage {
 			int verticalIndent = (editButtonHeight - locationValueHeight) / 2;
 			((GridData) locationTitle.getLayoutData()).verticalIndent = verticalIndent;
 			((GridData) locationValue.getLayoutData()).verticalIndent = verticalIndent;
-			editButton.addSelectionListener(new SelectionListener() {
+			editButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					editLinkLocation();
@@ -343,7 +343,7 @@ public class ResourceInfoPage extends PropertyPage {
 					null);
 			goToLocationButton.setImage(resourceManager.create(ImageDescriptor.createFromURL(goToFolderUrl)));
 			goToLocationButton.setToolTipText(LOCATION_BUTTON_TOOLTIP);
-			goToLocationButton.addSelectionListener(new SelectionAdapter() {
+			goToLocationButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -366,7 +366,7 @@ public class ResourceInfoPage extends PropertyPage {
 			pathCopy.setLayoutData(gd);
 			pathCopy.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_COPY));
 			pathCopy.setToolTipText(PATH_BUTTON_TOOLTIP);
-			pathCopy.addSelectionListener(new SelectionAdapter() {
+			pathCopy.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					StringSelection strSelection = new StringSelection(locationStr);
@@ -409,7 +409,7 @@ public class ResourceInfoPage extends PropertyPage {
 		return basicInfoComposite;
 	}
 
-	protected void editLinkLocation() {
+	protected void editLinkLocation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource = Adapters.adapt(getElement(), IResource.class);
 		String locationFormat = resource.getPathVariableManager().convertFromUserEditableFormat(locationValue.getText(), true);
 		IPath location = IPath.fromOSString(locationFormat);
@@ -428,7 +428,7 @@ public class ResourceInfoPage extends PropertyPage {
 		refreshLinkLocation();
 	}
 
-	private void refreshLinkLocation() {
+	private void refreshLinkLocation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource = Adapters.adapt(getElement(), IResource.class);
 
 		String userEditableFormat = resource.getPathVariableManager().convertToUserEditableFormat(newResourceLocation.toOSString(), true);
@@ -460,7 +460,7 @@ public class ResourceInfoPage extends PropertyPage {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(),
@@ -519,7 +519,7 @@ public class ResourceInfoPage extends PropertyPage {
 			encodingEditor.setPage(this);
 			encodingEditor.load();
 
-			encodingEditor.setPropertyChangeListener(event -> {
+			encodingEditor.setPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 				if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 					setValid(encodingEditor.isValid());
 				}
@@ -537,7 +537,7 @@ public class ResourceInfoPage extends PropertyPage {
 		return composite;
 	}
 
-	private int fetchPermissions(IResource resource) {
+	private int fetchPermissions(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFileStore store = null;
 		try {
 			store = EFS.getStore(resource.getLocationURI());
@@ -614,7 +614,7 @@ public class ResourceInfoPage extends PropertyPage {
 		return permissions;
 	}
 
-	private boolean putPermissions(IResource resource, int permissions) {
+	private boolean putPermissions(IResource resource, int permissions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFileStore store = null;
 		try {
 			store = EFS.getStore(resource.getLocationURI());
@@ -765,7 +765,7 @@ public class ResourceInfoPage extends PropertyPage {
 	 * @param resource
 	 *            the resource the information is being taken from.
 	 */
-	private void createStateGroup(Composite parent, IResource resource, int fsAttributes) {
+	private void createStateGroup(Composite parent, IResource resource, int fsAttributes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 
 		Composite composite = new Composite(parent, SWT.NULL);
@@ -804,7 +804,7 @@ public class ResourceInfoPage extends PropertyPage {
 		}
 	}
 
-	private void createPermissionsGroup(Composite parent) {
+	private void createPermissionsGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 
 		permissionBoxes = new Button[9];
@@ -825,7 +825,7 @@ public class ResourceInfoPage extends PropertyPage {
 		Table table = new Table(composite, SWT.BORDER);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			new TableColumn(table, SWT.NONE).setResizable(false);
 		}
 		table.getColumn(1).setText(IDEWorkbenchMessages.ResourceInfo_read);
@@ -931,7 +931,7 @@ public class ResourceInfoPage extends PropertyPage {
 	/*
 	 * @see PreferencePage#performDefaults()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performDefaults() {
 
 		IResource resource = Adapters.adapt(getElement(), IResource.class);
@@ -999,11 +999,11 @@ public class ResourceInfoPage extends PropertyPage {
 		String message = "\t"; //$NON-NLS-1$
 		message += isSet ? IDEWorkbenchMessages.ResourceInfo_recursiveChangesSet
 				: IDEWorkbenchMessages.ResourceInfo_recursiveChangesUnset;
-		message += " " + name + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		message += " " + name + "\n"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return message;
 	}
 
-	private IResourceChange getAttributesChange(final boolean changedAttrs[],
+	private IResourceChange getAttributesChange(final boolean changedAttrs[], //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final boolean finalAttrs[]) {
 		return new IResourceChange() {
 			@Override
@@ -1043,10 +1043,10 @@ public class ResourceInfoPage extends PropertyPage {
 		};
 	}
 
-	private IResourceChange getPermissionsChange(final int changedPermissions,
+	private IResourceChange getPermissionsChange(final int changedPermissions, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int finalPermissions) {
 		return new IResourceChange() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public String getMessage() {
 				// iterated with [j][i]
 				int permissionMasks[][] = new int[][] {
@@ -1067,19 +1067,19 @@ public class ResourceInfoPage extends PropertyPage {
 						IDEWorkbenchMessages.ResourceInfo_write,
 						IDEWorkbenchMessages.ResourceInfo_execute };
 
-				StringBuilder message = new StringBuilder(""); //$NON-NLS-1$
+				StringBuilder message = new StringBuilder(""); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if ((changedPermissions & EFS.ATTRIBUTE_IMMUTABLE) != 0) {
 					message.append(getSimpleChangeName(
 							(finalPermissions & EFS.ATTRIBUTE_IMMUTABLE) != 0,
 							IDEWorkbenchMessages.ResourceInfo_locked));
 				}
 
-				for (int j = 0; j < 3; j++) {
-					for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					for (int i = 0; i < 3; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ((changedPermissions & permissionMasks[j][i]) != 0) {
 							message.append(getSimpleChangeName(
 									(finalPermissions & permissionMasks[j][i]) != 0,
-									groupNames[j] + " " + permissionNames[i])); //$NON-NLS-1$
+									groupNames[j] + " " + permissionNames[i])); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					}
 				}
@@ -1100,11 +1100,11 @@ public class ResourceInfoPage extends PropertyPage {
 
 	private List<IResource> getResourcesToVisit(IResource resource) throws CoreException {
 		// use set for fast lookup
-		final Set<URI> visited = new HashSet<>();
+		final Set<URI> visited = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		// use list to preserve the order of visited resources
-		final List<IResource> toVisit = new ArrayList<>();
+		final List<IResource> toVisit = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		visited.add(resource.getLocationURI());
-		resource.accept(proxy -> {
+		resource.accept(proxy -> { //FLLDCIM: MARK — T07  LAMBDA
 			IResource childResource = proxy.requestResource();
 			URI uri = childResource.getLocationURI();
 			if (!visited.contains(uri)) {
@@ -1116,11 +1116,11 @@ public class ResourceInfoPage extends PropertyPage {
 		return toVisit;
 	}
 
-	private boolean shouldPerformRecursiveChanges(List<IResourceChange> changes) {
+	private boolean shouldPerformRecursiveChanges(List<IResourceChange> changes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!changes.isEmpty()) {
-			StringBuilder message = new StringBuilder(IDEWorkbenchMessages.ResourceInfo_recursiveChangesSummary)
+			StringBuilder message = new StringBuilder(IDEWorkbenchMessages.ResourceInfo_recursiveChangesSummary) //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					.append('\n');
-			for (Object change : changes) {
+			for (Object change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				message.append(((IResourceChange) change).getMessage());
 			}
 			message.append(IDEWorkbenchMessages.ResourceInfo_recursiveChangesQuestion);
@@ -1136,8 +1136,8 @@ public class ResourceInfoPage extends PropertyPage {
 		return false;
 	}
 
-	private void scheduleRecursiveChangesJob(final IResource resource, final List<IResourceChange> changes) {
-		Job.create(IDEWorkbenchMessages.ResourceInfo_recursiveChangesJobName, monitor -> {
+	private void scheduleRecursiveChangesJob(final IResource resource, final List<IResourceChange> changes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Job.create(IDEWorkbenchMessages.ResourceInfo_recursiveChangesJobName, monitor -> { //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 			try {
 				List<IResource> toVisit = getResourcesToVisit(resource);
 
@@ -1147,13 +1147,13 @@ public class ResourceInfoPage extends PropertyPage {
 						toVisit.size());
 
 				// Apply changes recursively
-				for (Iterator<IResource> it = toVisit.iterator(); it.hasNext();) {
+				for (Iterator<IResource> it = toVisit.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SubMonitor iterationMonitor = subMonitor.split(1).setWorkRemaining(changes.size());
 					IResource childResource = it.next();
 					iterationMonitor.subTask(NLS
 							.bind(IDEWorkbenchMessages.ResourceInfo_recursiveChangesSubTaskName,
 							childResource.getFullPath()));
-					for (Object change : changes) {
+					for (Object change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						iterationMonitor.split(1);
 						((IResourceChange) change)
 								.performChange(childResource);
@@ -1174,7 +1174,7 @@ public class ResourceInfoPage extends PropertyPage {
 	/**
 	 * Apply the read only state and the encoding to the resource.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 
 		IResource resource = Adapters.adapt(getElement(), IResource.class);
@@ -1199,7 +1199,7 @@ public class ResourceInfoPage extends PropertyPage {
 				}
 			}
 
-			List<IResourceChange> changes = new ArrayList<>();
+			List<IResourceChange> changes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			ResourceAttributes attrs = resource.getResourceAttributes();
 			if (attrs != null) {

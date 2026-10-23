@@ -39,7 +39,7 @@ public class MarkersViewPropertyTester extends PropertyTester {
 	public MarkersViewPropertyTester() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean test(Object receiver, String property, Object[] args,
 			Object expectedValue) {
 
@@ -68,7 +68,7 @@ public class MarkersViewPropertyTester extends PropertyTester {
 	private boolean testContentGenerator(ExtendedMarkersView view, Object[] args) {
 
 		String currentGenerator = view.getBuilder().getGenerator().getId();
-		for (Object arg : args) {
+		for (Object arg : args) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (arg.equals(currentGenerator)) {
 				return true;
 			}

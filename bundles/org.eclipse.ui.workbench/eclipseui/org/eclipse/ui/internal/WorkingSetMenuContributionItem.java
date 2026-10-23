@@ -49,7 +49,7 @@ public class WorkingSetMenuContributionItem extends ContributionItem {
 	 * @return String string id
 	 */
 	public static String getId(int id) {
-		return WorkingSetMenuContributionItem.class.getName() + "." + id; //$NON-NLS-1$
+		return WorkingSetMenuContributionItem.class.getName() + "." + id; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -72,12 +72,12 @@ public class WorkingSetMenuContributionItem extends ContributionItem {
 	 *
 	 * @see org.eclipse.jface.action.ContributionItem#fill(Menu,int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 		MenuItem mi = new MenuItem(menu, SWT.RADIO, index);
-		mi.setText("&" + id + " " + workingSet.getLabel()); //$NON-NLS-1$ //$NON-NLS-2$
+		mi.setText("&" + id + " " + workingSet.getLabel()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		mi.setSelection(workingSet.equals(actionGroup.getWorkingSet()));
-		mi.addSelectionListener(widgetSelectedAdapter(e -> {
+		mi.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			IWorkingSetManager manager = PlatformUI.getWorkbench().getWorkingSetManager();
 			actionGroup.setWorkingSet(workingSet);
 			manager.addRecentWorkingSet(workingSet);
@@ -86,7 +86,7 @@ public class WorkingSetMenuContributionItem extends ContributionItem {
 			ImageDescriptor imageDescriptor = workingSet.getImageDescriptor();
 			if (imageDescriptor != null) {
 				image = imageDescriptor.createImage();
-				mi.addDisposeListener(e -> {
+				mi.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 					if (image != null && !image.isDisposed()) {
 						image.dispose();
 					}

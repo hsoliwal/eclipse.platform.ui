@@ -30,7 +30,7 @@ public class SelectedWarningsParameters extends FiltersContributionParameters {
 
 	private static Map<String, Integer> warningsMap;
 	static {
-		warningsMap = new HashMap<>();
+		warningsMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		warningsMap.put(IMarker.SEVERITY, SeverityAndDescriptionFieldFilter.SEVERITY_WARNING);
 	}
 

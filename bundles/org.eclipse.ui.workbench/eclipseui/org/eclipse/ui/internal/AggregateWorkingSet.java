@@ -33,7 +33,7 @@ import org.eclipse.ui.internal.util.Util;
  *
  * @since 3.2
  */
-public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregateWorkingSet, IPropertyChangeListener {
+public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregateWorkingSet, IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private IWorkingSet[] components;
 
@@ -77,7 +77,7 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 	 *
 	 * @param fireEvent whether a working set change event should be fired
 	 */
-	private void constructElements(boolean fireEvent) {
+	private void constructElements(boolean fireEvent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (inElementConstruction) {
 			String msg = NLS.bind(WorkbenchMessages.ProblemCyclicDependency, getName());
 			WorkbenchPlugin.log(msg);
@@ -88,7 +88,7 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 			// use *linked* set to maintain predictable elements order
 			Set<IAdaptable> elements = new LinkedHashSet<>();
 			IWorkingSet[] localComponents = getComponentsInternal();
-			for (int i = 0; i < localComponents.length; i++) {
+			for (int i = 0; i < localComponents.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet workingSet = localComponents[i];
 				try {
 					IAdaptable[] componentElements = workingSet.getElements();
@@ -166,7 +166,7 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 			memento.putString(IWorkbenchConstants.TAG_ID, getUniqueId());
 			memento.putString(AbstractWorkingSet.TAG_AGGREGATE, Boolean.TRUE.toString());
 
-			for (IWorkingSet workingSet : getComponentsInternal()) {
+			for (IWorkingSet workingSet : getComponentsInternal()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				memento.createChild(IWorkbenchConstants.TAG_WORKING_SET, workingSet.getName());
 			}
 		}
@@ -208,12 +208,12 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 		return components;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void propertyChange(PropertyChangeEvent event) {
 		String property = event.getProperty();
 		if (property.equals(IWorkingSetManager.CHANGE_WORKING_SET_REMOVE)) {
 			IWorkingSet[] localComponents = getComponentsInternal();
-			for (int i = 0; i < localComponents.length; i++) {
+			for (int i = 0; i < localComponents.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet set = localComponents[i];
 				if (set.equals(event.getOldValue())) {
 					IWorkingSet[] newComponents = new IWorkingSet[localComponents.length - 1];
@@ -223,7 +223,7 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 			}
 		} else if (property.equals(IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE)) {
 			IWorkingSet[] localComponents = getComponentsInternal();
-			for (IWorkingSet set : localComponents) {
+			for (IWorkingSet set : localComponents) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (set.equals(event.getNewValue())) {
 					constructElements(true);
 					break;
@@ -232,16 +232,16 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void restoreWorkingSet() {
 		IWorkingSetManager manager = getManager();
 		if (manager == null) {
 			throw new IllegalStateException();
 		}
 		IMemento[] workingSetReferences = workingSetMemento.getChildren(IWorkbenchConstants.TAG_WORKING_SET);
-		ArrayList<IWorkingSet> list = new ArrayList<>(workingSetReferences.length);
+		ArrayList<IWorkingSet> list = new ArrayList<>(workingSetReferences.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IMemento memento : workingSetReferences) {
+		for (IMemento memento : workingSetReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String setId = memento.getID();
 			IWorkingSet set = manager.getWorkingSet(setId);
 			if (set != null) {
@@ -275,7 +275,7 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 		if (localComponents == null || localComponents.length == 0) {
 			return false;
 		}
-		for (IWorkingSet localComponent : localComponents) {
+		for (IWorkingSet localComponent : localComponents) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!localComponent.isSelfUpdating()) {
 				return false;
 			}
@@ -295,7 +295,7 @@ public class AggregateWorkingSet extends AbstractWorkingSet implements IAggregat
 
 	@Override
 	public String toString() {
-		return "AWS [name=" + getName() + ", components=" + Arrays.toString(getComponentsInternal()) + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "AWS [name=" + getName() + ", components=" + Arrays.toString(getComponentsInternal()) + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

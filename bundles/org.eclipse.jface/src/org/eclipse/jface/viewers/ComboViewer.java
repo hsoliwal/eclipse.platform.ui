@@ -215,11 +215,11 @@ public class ComboViewer extends AbstractListViewer {
 			return;
 		}
 		if (combo == null) {
-			for (int ix : ixs) {
+			for (int ix : ixs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ccombo.select(ix);
 			}
 		} else {
-			for (int ix : ixs) {
+			for (int ix : ixs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				combo.select(ix);
 			}
 		}

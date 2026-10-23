@@ -59,12 +59,12 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenResourceAction extends WorkspaceAction implements IResourceChangeListener {
+public class OpenResourceAction extends WorkspaceAction implements IResourceChangeListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID + ".OpenResourceAction"; //$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".OpenResourceAction"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Creates a new action.
@@ -107,7 +107,7 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 	private int countClosedProjects() {
 		int count = 0;
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (IProject project : projects) {
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.isOpen()) {
 				count++;
 			}
@@ -140,7 +140,7 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 	private boolean hasOtherClosedProjects() {
 		//count the closed projects in the selection
 		int closedInSelection = 0;
-		for (IResource project : getSelectedResources()) {
+		for (IResource project : getSelectedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!((IProject) project).isOpen()) {
 				closedInSelection++;
 			}
@@ -162,7 +162,7 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 	 * @return <code>true</code> if referenced projects should be opened, and
 	 *         <code>false</code> otherwise.
 	 */
-	private boolean promptToOpenWithReferences() {
+	private boolean promptToOpenWithReferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
 		String key = IDEInternalPreferences.OPEN_REQUIRED_PROJECTS;
 		String value = store.getString(key);
@@ -186,7 +186,7 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 	 * Handles a resource changed event by updating the enablement if one of the
 	 * selected projects is opened or closed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resourceChanged(IResourceChangeEvent event) {
 		// Warning: code duplicated in CloseResourceAction
 		List<? extends IResource> sel = getSelectedResources();
@@ -195,7 +195,7 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 			IResourceDelta delta = event.getDelta();
 			if (delta != null) {
 				IResourceDelta[] projDeltas = delta.getAffectedChildren(IResourceDelta.CHANGED);
-				for (IResourceDelta projDelta : projDeltas) {
+				for (IResourceDelta projDelta : projDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((projDelta.getFlags() & IResourceDelta.OPEN) != 0) {
 						if (sel.contains(projDelta.getResource())) {
 							selectionChanged(getStructuredSelection());
@@ -221,22 +221,22 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 	 * missing, so that the remaining projects can still be opened.
 	 */
 	private static void logOpenFailure(IProject project, CoreException e) {
-		ILog.of(OpenResourceAction.class).warn("Failed to open project " + project.getName(), e); //$NON-NLS-1$
+		ILog.of(OpenResourceAction.class).warn("Failed to open project " + project.getName(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
 	 * Opens the selected projects, and all related projects, in the background.
 	 */
-	private void runOpenWithReferences() {
-		final List<IResource> resources = new ArrayList<>(getActionResources());
-		Job job = new WorkspaceJob(removeMnemonics(getText())) {
+	private void runOpenWithReferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<IResource> resources = new ArrayList<>(getActionResources()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Job job = new WorkspaceJob(removeMnemonics(getText())) { //FLLDCIM: MARK — T09  ANONYMOUS
 			private boolean openProjectReferences = true;
 			private boolean hasPrompted = false;
 			private boolean canceled = false;
 			/**
 			 * Opens a project along with all projects it references
 			 */
-			private void doOpenWithReferences(IProject project, IProgressMonitor mon) throws CoreException {
+			private void doOpenWithReferences(IProject project, IProgressMonitor mon) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (!project.exists() || project.isOpen()) {
 					return;
 				}
@@ -250,14 +250,14 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 				final IProject[] references = project.getReferencedProjects();
 				if (!hasPrompted) {
 					openProjectReferences = false;
-					for (IProject reference : references) {
+					for (IProject reference : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (reference.exists() && !reference.isOpen()) {
 							openProjectReferences = true;
 							break;
 						}
 					}
 					if (openProjectReferences && hasOtherClosedProjects()) {
-						Display.getDefault().syncExec(() -> {
+						Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							try {
 							openProjectReferences = promptToOpenWithReferences();
 							} catch (OperationCanceledException e) {
@@ -273,18 +273,18 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 				}
 				if (openProjectReferences) {
 					SubMonitor loopMonitor = subMonitor.split(1).setWorkRemaining(references.length);
-					for (IProject reference : references) {
+					for (IProject reference : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						doOpenWithReferences(reference, loopMonitor.split(1));
 					}
 				}
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus runInWorkspace(IProgressMonitor monitor) {
 				SubMonitor subMonitor = SubMonitor.convert(monitor, countClosedProjects());
 				// at most we can only open all projects currently closed
 				subMonitor.setTaskName(getOperationMessage());
-				for (IResource resource : resources) {
+				for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!(resource instanceof IProject project)) {
 						continue;
 					}
@@ -316,7 +316,7 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 	 * <code>SelectionListenerAction</code> method ensures that this action is
 	 * enabled only if one of the selections is a closed project.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateSelection(IStructuredSelection s) {
 		// don't call super since we want to enable if closed project is
 		// selected.
@@ -327,7 +327,7 @@ public class OpenResourceAction extends WorkspaceAction implements IResourceChan
 		}
 
 		boolean hasClosedProjects = false;
-		for (IResource currentResource : getSelectedResources()) {
+		for (IResource currentResource : getSelectedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!((IProject) currentResource).isOpen()) {
 				if (hasClosedProjects) {
 					setText(IDEWorkbenchMessages.OpenResourceAction_text_plural);

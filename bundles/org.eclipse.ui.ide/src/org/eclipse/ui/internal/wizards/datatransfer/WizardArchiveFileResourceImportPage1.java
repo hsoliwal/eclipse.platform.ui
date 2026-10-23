@@ -118,7 +118,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 		overwriteExistingResourcesCheckbox.setFont(parent.getFont());
 	}
 
-	private boolean validateSourceFile(String fileName) {
+	private boolean validateSourceFile(String fileName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(ArchiveFileManipulations.isTarFile(fileName)) {
 			try (TarFile tarFile = getSpecifiedTarSourceFile(fileName)) {
 				if (tarFile != null) {
@@ -214,7 +214,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 	 */
 	@Override
 	protected ITreeContentProvider getFileProvider() {
-		return new WorkbenchContentProvider() {
+		return new WorkbenchContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getChildren(Object o) {
 				if (o instanceof MinimizedFileSystemElement element) {
@@ -231,7 +231,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 	 *	currently-specified .zip file.  If this FileSystemElement is not
 	 *	currently defined then create and return it.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected MinimizedFileSystemElement getFileSystemTree() {
 		disposeStructureProvider();
 
@@ -269,9 +269,9 @@ public class WizardArchiveFileResourceImportPage1 extends
 	 * Returns a content provider for <code>FileSystemElement</code>s that returns
 	 * only folders as children.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ITreeContentProvider getFolderProvider() {
-		return new WorkbenchContentProvider() {
+		return new WorkbenchContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getChildren(Object o) {
 				if (o instanceof MinimizedFileSystemElement element) {
@@ -322,7 +322,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 		}
 
 		try {
-			return new ZipFile(fileName);
+			return new ZipFile(fileName); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 		} catch (IOException e) {
 			// ignore
 		}
@@ -379,7 +379,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 	/**
 	 *  Import the resources with extensions as specified by the user
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean importResources(List fileSystemObjects) {
 		try (ILeveledImportStructureProvider importStructureProvider = extracted()) {
 			if (importStructureProvider == null) {
@@ -454,7 +454,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 	 *	Use the dialog store to restore widget values to the values that they held
 	 *	last time this wizard was used to completion
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void restoreWidgetValues() {
 		IDialogSettings settings = getDialogSettings();
 		if (settings != null) {
@@ -464,7 +464,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 			}
 
 			// set filenames history
-			for (String sourceName : sourceNames) {
+			for (String sourceName : sourceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				sourceNameField.add(sourceName);
 			}
 
@@ -502,7 +502,7 @@ public class WizardArchiveFileResourceImportPage1 extends
 	 *	Answer a boolean indicating whether self's source specification
 	 *	widgets currently all contain valid values.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean validateSourceGroup() {
 
 		//If there is nothing being provided to the input then there is a problem

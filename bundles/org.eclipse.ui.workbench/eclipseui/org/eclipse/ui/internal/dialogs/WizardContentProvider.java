@@ -23,7 +23,7 @@ import org.eclipse.ui.model.AdaptableList;
  *
  * @since 3.0
  */
-public class WizardContentProvider implements ITreeContentProvider {
+public class WizardContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private AdaptableList input;
 
@@ -32,23 +32,23 @@ public class WizardContentProvider implements ITreeContentProvider {
 		input = null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof WizardCollectionElement element) {
-			ArrayList list = new ArrayList();
-			for (Object childCollection : element.getChildren()) {
+			ArrayList list = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object childCollection : element.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				handleChild(childCollection, list);
 			}
 
-			for (Object childWizard : element.getWizards()) {
+			for (Object childWizard : element.getWizards()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				handleChild(childWizard, list);
 			}
 
 			return list.toArray();
 		} else if (parentElement instanceof AdaptableList aList) {
 			Object[] children = aList.getChildren();
-			ArrayList list = new ArrayList(children.length);
-			for (Object element : children) {
+			ArrayList list = new ArrayList(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				handleChild(element, list);
 			}
 
@@ -66,7 +66,7 @@ public class WizardContentProvider implements ITreeContentProvider {
 	@Override
 	public Object getParent(Object element) {
 		if (element instanceof WizardCollectionElement) {
-			for (Object child : input.getChildren()) {
+			for (Object child : input.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child.equals(element)) {
 					return input;
 				}

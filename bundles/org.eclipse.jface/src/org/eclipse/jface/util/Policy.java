@@ -141,18 +141,18 @@ public class Policy {
 		return statusHandler;
 	}
 
-	private static StatusHandler getDummyStatusHandler() {
+	private static StatusHandler getDummyStatusHandler() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new StatusHandler() {
 			private SafeRunnableDialog dialog;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void show(final IStatus status, String title) {
 				Runnable runnable = () -> {
 					if (dialog == null || dialog.getShell().isDisposed()) {
 						dialog = new SafeRunnableDialog(status);
 						dialog.create();
-						dialog.getShell().addDisposeListener(
-								e -> dialog = null);
+						dialog.getShell().addDisposeListener( //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
+								e -> dialog = null); //FLLDCIM: MARK — T01  LAMBDA
 						dialog.open();
 					} else {
 						dialog.addStatus(status);
@@ -162,7 +162,7 @@ public class Policy {
 				if (Display.getCurrent() != null) {
 					runnable.run();
 				} else {
-					Display.getDefault().asyncExec(runnable);
+					Display.getDefault().asyncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				}
 			}
 		};
