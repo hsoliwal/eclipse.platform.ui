@@ -16,16 +16,21 @@ package org.eclipse.ui.internal.views.markers;
 
 import java.util.Arrays;
 
+import com.m3.collections.M3SparseExtents;
+
 /**
  * The rows of one category in sort order: an order-statistic list of
  * {@code int} slots kept as sorted blocks of at most {@link #BLOCK} slots.
  * <p>
- * Insert and remove cost a binary search over the blocks, a binary search in
- * one block and one {@code arraycopy} of at most {@link #BLOCK} ints, whatever
- * the size of the category: a marker change never moves the other rows of a
- * category of 10^6 markers. {@link #get(int)} and {@link #indexOf(int)} walk
- * the block lengths (n / {@link #BLOCK} additions). Catalogue: order-statistic
- * list over blocked sorted arrays (rule 21).
+ * Slots remain in the existing primitive blocks. Above 128 blocks,
+ * M3JDK21's {@link M3SparseExtents} indexes block lengths; half-full blocks
+ * are implicit and only differing lengths need measured entries. With m
+ * measured blocks, {@link #get(int)} costs O(log squared (m + 1)); the
+ * prefix-rank step and repeat length updates cost O(log(m + 1)). Existing
+ * block/slot binary searches remain. First measurements in the middle and
+ * block insertion/deletion cost O(m). Small categories retain direct scans.
+ * Slot movement is bounded by {@link #BLOCK}, apart from directory shifts
+ * on splits. Catalogue: order-statistic list over blocked sorted arrays (rule 21).
  * </p>
  * <p>
  * The comparator must be a total order on the slots it is given: it returns 0
@@ -48,9 +53,13 @@ public final class M3SlotOrder {
 	/** The longest block; a full block splits in two halves. */
 	static final int BLOCK = 1024;
 
+	/* Measured crossover: avoid index preparation and lookup cost for short directories. */
+	private static final int INDEX_THRESHOLD = 128;
+
 	private final SlotComparator order;
 	private int[][] blocks = new int[4][];
 	private int[] lengths = new int[4];
+	private M3SparseExtents blockIndex;
 	private int blockCount;
 	private int size;
 
@@ -73,6 +82,10 @@ public final class M3SlotOrder {
 	public int get(int index) {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException(index);
+		}
+		if (blockIndex != null) {
+			int b = blockIndex.rowAt(index);
+			return blocks[b][index - (int) blockIndex.offsetOf(b)];
 		}
 		int b = 0;
 		while (index >= lengths[b]) {
@@ -112,11 +125,7 @@ public final class M3SlotOrder {
 		if (i < 0) {
 			return -1;
 		}
-		int index = i;
-		for (int k = 0; k < b; k++) {
-			index += lengths[k];
-		}
-		return index;
+		return i + offsetBefore(b);
 	}
 
 	/**
@@ -155,12 +164,11 @@ public final class M3SlotOrder {
 		System.arraycopy(block, i, block, i + 1, lengths[b] - i);
 		block[i] = slot;
 		lengths[b]++;
-		size++;
-		int index = i;
-		for (int k = 0; k < b; k++) {
-			index += lengths[k];
+		if (blockIndex != null) {
+			blockIndex.setExtent(b, lengths[b]);
 		}
-		return index;
+		size++;
+		return i + offsetBefore(b);
 	}
 
 	/**
@@ -180,15 +188,14 @@ public final class M3SlotOrder {
 		if (i < 0) {
 			return -1;
 		}
-		int index = i;
-		for (int k = 0; k < b; k++) {
-			index += lengths[k];
-		}
+		int index = i + offsetBefore(b);
 		System.arraycopy(block, i + 1, block, i, lengths[b] - i - 1);
 		lengths[b]--;
 		size--;
 		if (lengths[b] == 0) {
 			dropBlock(b);
+		} else if (blockIndex != null) {
+			blockIndex.setExtent(b, lengths[b]);
 		}
 		return index;
 	}
@@ -204,6 +211,7 @@ public final class M3SlotOrder {
 		blocks = new int[Math.max(4, count)][];
 		lengths = new int[blocks.length];
 		blockCount = 0;
+		blockIndex = null;
 		for (int from = 0; from < n; from += BLOCK / 2) {
 			int len = Math.min(BLOCK / 2, n - from);
 			int[] block = new int[BLOCK];
@@ -212,6 +220,7 @@ public final class M3SlotOrder {
 			lengths[blockCount++] = len;
 		}
 		size = n;
+		resetBlockIndex();
 	}
 
 	/**
@@ -300,6 +309,32 @@ public final class M3SlotOrder {
 		return -lo - 1;
 	}
 
+	private int offsetBefore(int b) {
+		if (blockIndex != null) {
+			return (int) blockIndex.offsetOf(b);
+		}
+		int offset = 0;
+		for (int k = 0; k < b; k++) {
+			offset += lengths[k];
+		}
+		return offset;
+	}
+
+	private void resetBlockIndex() {
+		blockIndex = null;
+		if (blockCount <= INDEX_THRESHOLD) {
+			return;
+		}
+		M3SparseExtents next = new M3SparseExtents(BLOCK / 2);
+		next.reset(blockCount);
+		for (int b = 0; b < blockCount; b++) {
+			if (lengths[b] != BLOCK / 2) {
+				next.setExtent(b, lengths[b]);
+			}
+		}
+		blockIndex = next;
+	}
+
 	private void split(int b) {
 		if (blockCount == blocks.length) {
 			blocks = Arrays.copyOf(blocks, blockCount << 1);
@@ -314,6 +349,13 @@ public final class M3SlotOrder {
 		lengths[b + 1] = lengths[b] - half;
 		lengths[b] = half;
 		blockCount++;
+		if (blockIndex != null) {
+			blockIndex.insert(b + 1, 1);
+			blockIndex.setExtent(b, lengths[b]);
+			blockIndex.setExtent(b + 1, lengths[b + 1]);
+		} else if (blockCount > INDEX_THRESHOLD) {
+			resetBlockIndex();
+		}
 	}
 
 	private void dropBlock(int b) {
@@ -322,5 +364,10 @@ public final class M3SlotOrder {
 		blockCount--;
 		blocks[blockCount] = null;
 		lengths[blockCount] = 0;
+		if (blockCount <= INDEX_THRESHOLD) {
+			blockIndex = null;
+		} else if (blockIndex != null) {
+			blockIndex.remove(b, 1);
+		}
 	}
 }

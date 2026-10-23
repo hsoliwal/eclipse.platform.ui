@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -72,4 +73,37 @@ public class M3ViewerDeltaTest {
 		assertThrows(IndexOutOfBoundsException.class, () -> d.kind(0));
 		assertThrows(IndexOutOfBoundsException.class, () -> d.element(-1));
 	}
+	@Test
+	public void emptySelfAppendIsAnIdentity() {
+		M3ViewerDelta delta = new M3ViewerDelta();
+		assertSame(delta, delta.append(delta));
+		assertTrue(delta.isEmpty());
+	}
+
+	@Test
+	public void selfAppendDuplicatesOriginalLanesExactlyOnce() {
+		for (int count : new int[] { 1, 6, 8, 9, 17, 128 }) {
+			M3ViewerDelta delta = new M3ViewerDelta();
+			Object parent = new Object();
+			String[] properties = { "label" };
+			for (int i = 0; i < count; i++) {
+				switch (i % 4) {
+				case 0 -> delta.add(parent, new Object(), i);
+				case 1 -> delta.remove(new Object());
+				case 2 -> delta.update(new Object(), properties);
+				default -> delta.refresh(null);
+				}
+			}
+			assertSame(delta, delta.append(delta));
+			assertEquals(2 * count, delta.size());
+			for (int i = 0; i < count; i++) {
+				assertEquals(delta.kind(i), delta.kind(count + i));
+				assertSame(delta.element(i), delta.element(count + i));
+				assertSame(delta.parent(i), delta.parent(count + i));
+				assertEquals(delta.index(i), delta.index(count + i));
+				assertSame(delta.properties(i), delta.properties(count + i));
+			}
+		}
+	}
+
 }
