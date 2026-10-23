@@ -101,11 +101,11 @@ public class SlaveContextService implements IContextService {
 		}
 		fParentService = parentService;
 		fDefaultExpression = defaultExpression;
-		fParentActivations = new HashSet<>();
-		fLocalActivations = new HashMap<>();
-		fContextManagerListeners = new ArrayList<>();
-		fSourceProviders = new ArrayList<>();
-		fRegisteredShells = new ArrayList<>();
+		fParentActivations = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		fLocalActivations = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fContextManagerListeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fSourceProviders = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fRegisteredShells = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class SlaveContextService implements IContextService {
 		return activateContext(contextId, expression, false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContextActivation activateContext(String contextId, Expression expression, boolean global) {
 		if (global) {
 			IContextActivation activation = fParentService.activateContext(contextId, expression, global);
@@ -185,13 +185,13 @@ public class SlaveContextService implements IContextService {
 	@Override
 	public void deactivateContexts(Collection activations) {
 		Object[] array = activations.toArray();
-		for (int i = 0; i < array.length; i++) {
+		for (int i = 0; i < array.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			deactivateContext((IContextActivation) array[i]);
 			array[i] = null;
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		fParentService.deactivateContexts(fParentActivations);
 		fParentActivations.clear();
@@ -200,19 +200,19 @@ public class SlaveContextService implements IContextService {
 		// Remove any "resource", like listeners, that were associated
 		// with this service.
 		if (!fContextManagerListeners.isEmpty()) {
-			for (IContextManagerListener element : fContextManagerListeners.toArray(new IContextManagerListener[0])) {
+			for (IContextManagerListener element : fContextManagerListeners.toArray(new IContextManagerListener[0])) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removeContextManagerListener(element);
 			}
 			fContextManagerListeners.clear();
 		}
 		if (!fSourceProviders.isEmpty()) {
-			for (Object element : fSourceProviders.toArray()) {
+			for (Object element : fSourceProviders.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removeSourceProvider((ISourceProvider) element);
 			}
 			fSourceProviders.clear();
 		}
 		if (!fRegisteredShells.isEmpty()) {
-			for (Object element : fRegisteredShells.toArray()) {
+			for (Object element : fRegisteredShells.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				unregisterShell((Shell) element);
 			}
 			fRegisteredShells.clear();

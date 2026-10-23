@@ -25,7 +25,7 @@ package org.eclipse.ui.activities;
  * @see IActivity#addActivityListener(IActivityListener)
  * @see IActivity#removeActivityListener(IActivityListener)
  */
-public interface IActivityListener {
+public interface IActivityListener { //FLLDCIM: MARK — T36  IMPLEMENTS
 
 	/**
 	 * Notifies that one or more properties of an instance of <code>IActivity</code>

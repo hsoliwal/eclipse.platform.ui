@@ -61,7 +61,7 @@ public class ContributionFactoryGenerator extends ContextFunction {
 		return factoryImpl;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object compute(IEclipseContext context, String contextKey) {
 		AbstractContributionFactory factory = getFactory();
 		final ContributionRoot root = new ContributionRoot(factory);
@@ -74,15 +74,15 @@ public class ContributionFactoryGenerator extends ContextFunction {
 		}
 		final List contributionItems = root.getItems();
 		final Map<IContributionItem, Expression> itemsToExpression = root.getVisibleWhen();
-		List<MUIElement> menuElements = new ArrayList<>();
-		for (Object obj : contributionItems) {
+		List<MUIElement> menuElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object obj : contributionItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (obj instanceof IContributionItem ici) {
 				MUIElement opaqueItem = createUIElement(ici);
 				if (opaqueItem != null) {
 					if (itemsToExpression.containsKey(ici)) {
 						final Expression ex = itemsToExpression.get(ici);
 						MCoreExpression exp = UiFactoryImpl.eINSTANCE.createCoreExpression();
-						exp.setCoreExpressionId("programmatic." + ici.getId()); //$NON-NLS-1$
+						exp.setCoreExpressionId("programmatic." + ici.getId()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						exp.setCoreExpression(ex);
 						opaqueItem.setVisibleWhen(exp);
 					}

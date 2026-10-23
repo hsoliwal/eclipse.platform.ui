@@ -170,7 +170,7 @@ public interface ISources {
 	 *
 	 * @since 3.3
 	 */
-	String ACTIVE_WORKBENCH_WINDOW_IS_COOLBAR_VISIBLE_NAME = ACTIVE_WORKBENCH_WINDOW_NAME + ".isCoolbarVisible"; //$NON-NLS-1$
+	String ACTIVE_WORKBENCH_WINDOW_IS_COOLBAR_VISIBLE_NAME = ACTIVE_WORKBENCH_WINDOW_NAME + ".isCoolbarVisible"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The variable name for the perspective bar visibility state of the active
@@ -179,7 +179,7 @@ public interface ISources {
 	 *
 	 * @since 3.3
 	 */
-	String ACTIVE_WORKBENCH_WINDOW_IS_PERSPECTIVEBAR_VISIBLE_NAME = ACTIVE_WORKBENCH_WINDOW_NAME
+	String ACTIVE_WORKBENCH_WINDOW_IS_PERSPECTIVEBAR_VISIBLE_NAME = ACTIVE_WORKBENCH_WINDOW_NAME //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ ".isPerspectiveBarVisible"; //$NON-NLS-1$
 
 	/**
@@ -189,7 +189,7 @@ public interface ISources {
 	 *
 	 * @since 3.4
 	 */
-	String ACTIVE_WORKBENCH_WINDOW_ACTIVE_PERSPECTIVE_NAME = ACTIVE_WORKBENCH_WINDOW_NAME + ".activePerspective"; //$NON-NLS-1$
+	String ACTIVE_WORKBENCH_WINDOW_ACTIVE_PERSPECTIVE_NAME = ACTIVE_WORKBENCH_WINDOW_NAME + ".activePerspective"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The priority given when the source includes the active editor part.

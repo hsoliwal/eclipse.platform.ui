@@ -72,7 +72,7 @@ public final class M3FirstIndex {
 		}
 		int hash = hash(element);
 		int slot = (hash * 0x9E3779B9) >>> shift;
-		while (keys[slot] != null) {
+		while (keys[slot] != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hashes[slot] == hash && same(element, keys[slot])) {
 				return;
 			}
@@ -92,7 +92,7 @@ public final class M3FirstIndex {
 	public int first(Object key) {
 		int hash = hash(key);
 		int slot = (hash * 0x9E3779B9) >>> shift;
-		while (keys[slot] != null) {
+		while (keys[slot] != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hashes[slot] == hash && same(key, keys[slot])) {
 				return firsts[slot];
 			}

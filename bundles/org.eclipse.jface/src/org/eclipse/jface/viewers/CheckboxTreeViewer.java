@@ -113,7 +113,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 */
 	public void setCheckStateProvider(ICheckStateProvider checkStateProvider) {
 		this.checkStateProvider = checkStateProvider;
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/*
@@ -139,7 +139,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	private void applyState(CustomHashtable checked, CustomHashtable grayed,
 			Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof TreeItem ti) {
 				Object data = item.getData();
 				if (data != null) {
@@ -160,7 +160,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 * @see ICheckStateListener#checkStateChanged
 	 */
 	protected void fireCheckStateChanged(final CheckStateChangedEvent event) {
-		for (ICheckStateListener l : checkStateListeners) {
+		for (ICheckStateListener l : checkStateListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -182,7 +182,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	private void gatherState(CustomHashtable checked, CustomHashtable grayed,
 			Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof TreeItem ti) {
 				Object data = item.getData();
 				if (data != null) {
@@ -221,7 +221,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 * @see #setCheckedElements
 	 */
 	public Object[] getCheckedElements() {
-		List<Object> v = new ArrayList<>();
+		List<Object> v = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Control tree = getControl();
 		internalCollectChecked(v, tree);
 		return v.toArray();
@@ -256,7 +256,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 * @see #setGrayedElements
 	 */
 	public Object[] getGrayedElements() {
-		List<Object> result = new ArrayList<>();
+		List<Object> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		internalCollectGrayed(result, getControl());
 		return result.toArray();
 	}
@@ -307,7 +307,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 */
 	private void internalCollectChecked(List<Object> result, Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof TreeItem && ((TreeItem) item).getChecked()) {
 				Object data = item.getData();
 				if (data != null) {
@@ -327,7 +327,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 */
 	private void internalCollectGrayed(List<Object> result, Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof TreeItem && ((TreeItem) item).getGrayed()) {
 				Object data = item.getData();
 				if (data != null) {
@@ -347,7 +347,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	private void internalSetChecked(CustomHashtable checkedElements,
 			Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item child : items) {
+		for (Item child : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TreeItem item = (TreeItem) child;
 			Object data = item.getData();
 			if (data != null) {
@@ -368,7 +368,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 */
 	private void internalSetGrayed(CustomHashtable grayedElements, Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item child : items) {
+		for (Item child : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TreeItem item = (TreeItem) child;
 			Object data = item.getData();
 			if (data != null) {
@@ -381,7 +381,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void preservingSelection(Runnable updateCode) {
 		if (!getPreserveSelection()) {
 			return;
@@ -437,7 +437,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 		createChildren(item);
 		Item[] items = getChildren(item);
 		if (items != null) {
-			for (Item child : items) {
+			for (Item child : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child.getData() != null && (child instanceof TreeItem treeItem)) {
 					treeItem.setChecked(state);
 					setCheckedChildren(treeItem, state);
@@ -462,7 +462,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	public void setCheckedElements(Object[] elements) {
 		assertElementsNotNull(elements);
 		CustomHashtable checkedElements = newHashtable(elements.length * 2 + 1);
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Ensure item exists for element
 			internalExpand(element, false);
 			checkedElements.put(element, element);
@@ -527,7 +527,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	public void setGrayedElements(Object... elements) {
 		assertElementsNotNull(elements);
 		CustomHashtable grayedElements = newHashtable(elements.length * 2 + 1);
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Ensure item exists for element
 			internalExpand(element, false);
 			grayedElements.put(element, element);
@@ -555,7 +555,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 		if (widget instanceof TreeItem item) {
 			item.setGrayed(state);
 			item = item.getParentItem();
-			while (item != null) {
+			while (item != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.setGrayed(state);
 				item = item.getParentItem();
 			}
@@ -617,7 +617,7 @@ public class CheckboxTreeViewer extends TreeViewer implements ICheckable {
 	 */
 	@Deprecated
 	private void setAllChecked(boolean state, TreeItem[] items) {
-		for (TreeItem item : items) {
+		for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.setChecked(state);
 			TreeItem[] children = item.getItems();
 			setAllChecked(state, children);

@@ -63,7 +63,7 @@ abstract class AbstractCopyOrMoveResourcesOperation extends
 	 * @param label
 	 *            the label of the operation
 	 */
-	AbstractCopyOrMoveResourcesOperation(IResource[] resources,
+	AbstractCopyOrMoveResourcesOperation(IResource[] resources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPath[] destinationPaths, String label) {
 		super(resources, label);
 		// Check for null arguments
@@ -80,7 +80,7 @@ abstract class AbstractCopyOrMoveResourcesOperation extends
 		if (this.resources.length != destinationPaths.length) {
 			throw new IllegalArgumentException("The resource and destination paths must be the same length"); //$NON-NLS-1$
 		}
-		for (int i=0; i<this.resources.length; i++) {
+		for (int i=0; i<this.resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (this.resources[i] == null) {
 				throw new IllegalArgumentException("The resources array may not contain null resources"); //$NON-NLS-1$
 			}
@@ -143,14 +143,14 @@ abstract class AbstractCopyOrMoveResourcesOperation extends
 	 * @return the status indicating the projected outcome of moving or copying
 	 *         the resources.
 	 */
-	protected IStatus computeMoveOrCopyStatus() {
+	protected IStatus computeMoveOrCopyStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check for error conditions first so that we do not prompt the user
 		// on warnings that eventually will not matter anyway.
 		if (resources == null) {
 			markInvalid();
 			return getErrorStatus(UndoMessages.AbstractResourcesOperation_NotEnoughInfo);
 		}
-		for (int i = 0; i < resources.length; i++) {
+		for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = resources[i];
 			// Does the resource still exist?
 			if (!resource.exists()) {

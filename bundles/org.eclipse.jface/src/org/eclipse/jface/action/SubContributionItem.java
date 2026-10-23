@@ -155,7 +155,7 @@ public class SubContributionItem implements IContributionItem {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append("SubContributionItem [visible="); //$NON-NLS-1$
 		builder.append(visible);
 		builder.append(", "); //$NON-NLS-1$

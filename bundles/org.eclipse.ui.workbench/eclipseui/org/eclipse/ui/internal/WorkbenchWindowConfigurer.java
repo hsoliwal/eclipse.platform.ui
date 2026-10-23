@@ -103,12 +103,12 @@ public final class WorkbenchWindowConfigurer implements IWorkbenchWindowConfigur
 	 *
 	 * @see #setData
 	 */
-	private final Map extraData = new HashMap(1);
+	private final Map extraData = new HashMap(1); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Holds the list drag and drop <code>Transfer</code> for the editor area
 	 */
-	private final ArrayList transferTypes = new ArrayList(3);
+	private final ArrayList transferTypes = new ArrayList(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * The <code>DropTargetListener</code> implementation for handling a drop into

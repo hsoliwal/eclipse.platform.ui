@@ -59,7 +59,7 @@ public class OpenFilesystemQuickAccessComputer implements IQuickAccessComputerEx
 
 		@Override
 		public void execute() {
-			UIJob.create(getLabel(),
+			UIJob.create(getLabel(), //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 					(ICoreRunnable) _ -> IDE.openEditorOnFileStore(
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
 							EFS.getStore(file.toURI())))
@@ -85,7 +85,7 @@ public class OpenFilesystemQuickAccessComputer implements IQuickAccessComputerEx
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public QuickAccessElement[] computeElements(String query, IProgressMonitor monitor) {
 		URI uri = null;
 		try {

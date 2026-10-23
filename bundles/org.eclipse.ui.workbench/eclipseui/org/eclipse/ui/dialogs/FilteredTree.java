@@ -322,11 +322,11 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 		treeViewer = doCreateTreeViewer(parent, style);
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		treeViewer.getControl().setLayoutData(data);
-		treeViewer.getControl().addDisposeListener(e -> refreshJob.cancel());
+		treeViewer.getControl().addDisposeListener(e -> refreshJob.cancel()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		if (treeViewer instanceof NotifyingTreeViewer) {
 			getPatternFilter().setUseCache(true);
 		}
-		treeViewer.addFilter(getPatternFilter());
+		treeViewer.addFilter(getPatternFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		return treeViewer.getControl();
 	}
 
@@ -349,7 +349,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 	 * @return the first matching TreeItem
 	 */
 	private TreeItem getFirstMatchingItem(TreeItem[] items) {
-		for (TreeItem item : items) {
+		for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getPatternFilter().isLeafMatch(treeViewer, item.getData())
 					&& getPatternFilter().isElementSelectable(item.getData())) {
 				return item;
@@ -378,9 +378,9 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 	 *
 	 * @since 3.4
 	 */
-	protected WorkbenchJob doCreateRefreshJob() {
-		return new WorkbenchJob("Refresh Filter") {//$NON-NLS-1$
-			@Override
+	protected WorkbenchJob doCreateRefreshJob() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return new WorkbenchJob("Refresh Filter") {//$NON-NLS-1$ //FLLDCIM: MARK — T09  ANONYMOUS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				if (treeViewer.getControl().isDisposed()) {
 					return Status.CANCEL_STATUS;
@@ -408,13 +408,13 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 					if (!narrowingDown) {
 						// collapse all
 						TreeItem[] is = treeViewer.getTree().getItems();
-						for (TreeItem item : is) {
+						for (TreeItem item : is) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (item.getExpanded()) {
 								treeViewer.setExpandedState(item.getData(), false);
 							}
 						}
 					}
-					treeViewer.refresh(true);
+					treeViewer.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 					if (text.length() > 0 && !initial) {
 						/*
@@ -456,10 +456,10 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 			 *
 			 * @return true if canceled
 			 */
-			private boolean recursiveExpand(TreeItem[] items, IProgressMonitor monitor, long cancelTime,
+			private boolean recursiveExpand(TreeItem[] items, IProgressMonitor monitor, long cancelTime, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					int[] numItemsLeft) {
 				boolean canceled = false;
-				for (int i = 0; !canceled && i < items.length; i++) {
+				for (int i = 0; !canceled && i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TreeItem item = items[i];
 					boolean visible = numItemsLeft[0]-- >= 0;
 					if (monitor.isCanceled() || (!visible && System.currentTimeMillis() > cancelTime)) {
@@ -503,7 +503,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 	 *
 	 * @param parent <code>Composite</code> of the filter text
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createFilterText(Composite parent) {
 		super.createFilterText(parent);
 		filterText.getAccessible().addAccessibleListener(new AccessibleAdapter() {
@@ -526,7 +526,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 			private int getFilteredItemsCount() {
 				int total = 0;
 				TreeItem[] items = getViewer().getTree().getItems();
-				for (TreeItem item : items) {
+				for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					total += itemCount(item);
 
 				}
@@ -541,7 +541,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 			private int itemCount(TreeItem treeItem) {
 				int count = 1;
 				TreeItem[] children = treeItem.getItems();
-				for (TreeItem element : children) {
+				for (TreeItem element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					count += itemCount(element);
 
 				}
@@ -549,7 +549,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 			}
 		});
 
-		filterText.addKeyListener(new KeyAdapter() {
+		filterText.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// on a CR we want to transfer focus to the list
@@ -562,7 +562,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 		});
 
 		// enter key set focus to tree
-		filterText.addTraverseListener(e -> {
+		filterText.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (quickSelectionMode) {
 				return;
 			}
@@ -580,7 +580,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 	 *                 <code>false</code> otherwise
 	 * @since 3.105
 	 */
-	protected void updateTreeSelection(boolean setFocus) {
+	protected void updateTreeSelection(boolean setFocus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Tree tree = getViewer().getTree();
 		if (tree.getItemCount() == 0) {
 			return;
@@ -659,7 +659,7 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 	 *
 	 * @return bold font
 	 */
-	public static Font getBoldFont(Object element, FilteredTree tree, PatternFilter filter) {
+	public static Font getBoldFont(Object element, FilteredTree tree, PatternFilter filter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String filterText = tree.getFilterString();
 
 		if (filterText == null) {
@@ -723,25 +723,25 @@ public class FilteredTree extends AbstractFilteredViewerComposite<PatternFilter>
 		@Override
 		public void refresh() {
 			getPatternFilter().clearCaches();
-			super.refresh();
+			super.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		@Override
 		public void refresh(boolean updateLabels) {
 			getPatternFilter().clearCaches();
-			super.refresh(updateLabels);
+			super.refresh(updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		@Override
 		public void refresh(Object element) {
 			getPatternFilter().clearCaches();
-			super.refresh(element);
+			super.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		@Override
 		public void refresh(Object element, boolean updateLabels) {
 			getPatternFilter().clearCaches();
-			super.refresh(element, updateLabels);
+			super.refresh(element, updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		@Override

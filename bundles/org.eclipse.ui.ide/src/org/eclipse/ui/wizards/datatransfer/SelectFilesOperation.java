@@ -32,7 +32,7 @@ import org.eclipse.ui.internal.wizards.datatransfer.DataTransferMessages;
  *	This is implemented as an Operation in order to provide an escape to the user
  *	(the Cancel button) if the operation drags on for too long
  */
-public class SelectFilesOperation implements IRunnableWithProgress {
+public class SelectFilesOperation implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 	IProgressMonitor currentMonitor;
 
 	Object root;
@@ -61,7 +61,7 @@ public class SelectFilesOperation implements IRunnableWithProgress {
 	 * - if the file system object is a file then it must have an extension
 	 *   suitable for selection
 	 */
-	protected FileSystemElement createElement(FileSystemElement parent,
+	protected FileSystemElement createElement(FileSystemElement parent, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object fileSystemObject) throws InterruptedException {
 		ModalContext.checkCanceled(currentMonitor);
 		boolean isContainer = provider.isFolder(fileSystemObject);
@@ -81,10 +81,10 @@ public class SelectFilesOperation implements IRunnableWithProgress {
 			boolean haveChildOrFile = false;
 			List<?> children = provider.getChildren(fileSystemObject);
 			if (children == null) {
-				children = new ArrayList<>(1);
+				children = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			Iterator<?> childrenEnum = children.iterator();
-			while (childrenEnum.hasNext()) {
+			while (childrenEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (createElement(createdElement, childrenEnum.next()) != null) {
 					haveChildOrFile = true;
 				}
@@ -130,7 +130,7 @@ public class SelectFilesOperation implements IRunnableWithProgress {
 		}
 
 		int extensionsSize = desiredExtensions.length;
-		for (int i = 0; i < extensionsSize; i++) {
+		for (int i = 0; i < extensionsSize; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getExtensionFor(filename)
 					.equalsIgnoreCase(desiredExtensions[i])) {
 				return true;

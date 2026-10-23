@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Event;
 public class ColumnViewerToolTipSupport extends DefaultToolTip {
 	private final ColumnViewer viewer;
 
-	private static final String VIEWER_CELL_KEY = Policy.JFACE
+	private static final String VIEWER_CELL_KEY = Policy.JFACE //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "_VIEWER_CELL_KEY"; //$NON-NLS-1$
 
 	private static final int DEFAULT_SHIFT_X = 10;
@@ -133,7 +133,7 @@ public class ColumnViewerToolTipSupport extends DefaultToolTip {
 		return super.createToolTipContentArea(event, parent);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean shouldCreateToolTip(Event event) {
 		if (!super.shouldCreateToolTip(event)) {
 			return false;

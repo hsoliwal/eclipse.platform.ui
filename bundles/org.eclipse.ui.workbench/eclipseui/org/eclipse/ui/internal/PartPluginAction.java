@@ -23,7 +23,7 @@ import org.eclipse.ui.IWorkbenchPartSite;
  * within a WorkbenchPart. The main difference is that it is capable of
  * processing local selection changes within a part.
  */
-public class PartPluginAction extends PluginAction {
+public class PartPluginAction extends PluginAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * PartPluginAction constructor.
 	 */
@@ -37,7 +37,7 @@ public class PartPluginAction extends PluginAction {
 	protected void registerSelectionListener(IWorkbenchPart aPart) {
 		ISelectionProvider selectionProvider = aPart.getSite().getSelectionProvider();
 		if (selectionProvider != null) {
-			selectionProvider.addSelectionChangedListener(this);
+			selectionProvider.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			selectionChanged(selectionProvider.getSelection());
 		}
 	}

@@ -140,7 +140,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 	 *
 	 * @param parent the parent composite
 	 */
-	protected void createAdvancedControls(Composite parent) {
+	protected void createAdvancedControls(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Preferences preferences = ResourcesPlugin.getPlugin().getPluginPreferences();
 
 		if (!preferences.getBoolean(ResourcesPlugin.PREF_DISABLE_LINKING) && isValidContainer()) {
@@ -159,7 +159,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 			GridData data = (GridData) advancedButton.getLayoutData();
 			data.horizontalAlignment = GridData.BEGINNING;
 			advancedButton.setLayoutData(data);
-			advancedButton.addSelectionListener(new SelectionAdapter() {
+			advancedButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleAdvancedButtonSelect();
@@ -203,7 +203,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 	 *
 	 * @param parent the parent composite
 	 */
-	private void createFolderNameGroup(Composite parent) {
+	private void createFolderNameGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 		// project specification group
 		Composite folderGroup = new Composite(parent, SWT.NONE);
@@ -223,7 +223,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 		data.widthHint = IDialogConstants.ENTRY_FIELD_WIDTH;
 		folderNameField.setLayoutData(data);
 		folderNameField.setFont(font);
-		folderNameField.addListener(SWT.Modify, _ -> validateLinkedResource());
+		folderNameField.addListener(SWT.Modify, _ -> validateLinkedResource()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -248,10 +248,10 @@ public class NewFolderDialog extends SelectionStatusDialog {
 	 * @param linkTarget name of the link target folder. may be null.
 	 * @return IFolder the new folder
 	 */
-	private IFolder createNewFolder(String folderName, final URI linkTarget) {
+	private IFolder createNewFolder(String folderName, final URI linkTarget) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IFolder folderHandle = createFolderHandle(folderName);
 
-		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public void execute(IProgressMonitor monitor) throws CoreException {
 				SubMonitor subMonitor = SubMonitor.convert(monitor, IDEWorkbenchMessages.NewFolderDialog_progress, 1);
@@ -287,7 +287,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 	/**
 	 * Shows/hides the advanced option widgets.
 	 */
-	protected void handleAdvancedButtonSelect() {
+	protected void handleAdvancedButtonSelect() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell = getShell();
 		Point shellSize = shell.getSize();
 		Composite composite = (Composite) getDialogArea();
@@ -319,7 +319,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 	 *         <code>false</code> if no linked resources may be created with the
 	 *         specified container as a parent.
 	 */
-	private boolean isValidContainer() {
+	private boolean isValidContainer() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (container.getType() != IResource.PROJECT && container.getType() != IResource.FOLDER) {
 			return false;
 		}
@@ -329,7 +329,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 			IProject project = container.getProject();
 			String[] natureIds = project.getDescription().getNatureIds();
 
-			for (String natureId : natureIds) {
+			for (String natureId : natureIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IProjectNatureDescriptor descriptor = workspace.getNatureDescriptor(natureId);
 				if (descriptor != null && !descriptor.isLinkingAllowed()) {
 					return false;
@@ -372,7 +372,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 	 * button if the folder name and link location are valid. a message that
 	 * indicates the problem otherwise.
 	 */
-	private void validateLinkedResource() {
+	private void validateLinkedResource() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean valid = validateFolderName();
 
 		if (valid) {
@@ -399,7 +399,7 @@ public class NewFolderDialog extends SelectionStatusDialog {
 	 * @return null if the new folder name is valid. a message that indicates the
 	 *         problem otherwise.
 	 */
-	private boolean validateFolderName() {
+	private boolean validateFolderName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name = folderNameField.getText();
 		IWorkspace workspace = container.getWorkspace();
 		IStatus nameStatus = workspace.validateName(name, IResource.FOLDER);

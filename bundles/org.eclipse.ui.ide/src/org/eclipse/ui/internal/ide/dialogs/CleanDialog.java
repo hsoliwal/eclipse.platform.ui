@@ -73,7 +73,7 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class CleanDialog extends MessageDialog {
 
-	private static class ProjectSubsetBuildAction extends BuildAction {
+	private static class ProjectSubsetBuildAction extends BuildAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		private IProject[] projectsToBuild = new IProject[0];
 
@@ -135,7 +135,7 @@ public class CleanDialog extends MessageDialog {
 		searchPattern.setPattern(""); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buttonPressed(int buttonId) {
 		final boolean cleanAll = alwaysCleanButton.getSelection();
 		final boolean buildAll = buildNowButton != null && buildNowButton.getSelection();
@@ -147,14 +147,14 @@ public class CleanDialog extends MessageDialog {
 		//save all dirty editors
 		BuildUtilities.saveEditors(null);
 		//batching changes ensures that autobuild runs after cleaning
-		WorkspaceJob cleanJob = new WorkspaceJob(
+		WorkspaceJob cleanJob = new WorkspaceJob( //FLLDCIM: MARK — T09  ANONYMOUS
 				cleanAll ? IDEWorkbenchMessages.CleanDialog_cleanAllTaskName
-						: IDEWorkbenchMessages.CleanDialog_cleanSelectedTaskName) {
+						: IDEWorkbenchMessages.CleanDialog_cleanSelectedTaskName) { //FLLDCIM: MARK — T09  IMPLEMENTS
 			@Override
 			public boolean belongsTo(Object family) {
 				return ResourcesPlugin.FAMILY_MANUAL_BUILD.equals(family);
 			}
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
 				doClean(cleanAll, monitor);
 				//see if a build was requested
@@ -168,7 +168,7 @@ public class CleanDialog extends MessageDialog {
 					} else {
 						// Only build what was cleaned
 						IProject[] projects = new IProject[selection.length];
-						for (int i = 0; i < selection.length; i++) {
+						for (int i = 0; i < selection.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							projects[i] = (IProject) selection[i];
 						}
 
@@ -189,7 +189,7 @@ public class CleanDialog extends MessageDialog {
 		cleanJob.schedule();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createCustomArea(Composite parent) {
 		Composite area = new Composite(parent, SWT.NONE);
 		GridLayout areaLayout = new GridLayout();
@@ -204,7 +204,7 @@ public class CleanDialog extends MessageDialog {
 		alwaysCleanButton = new Button(area, SWT.CHECK);
 		alwaysCleanButton.setText(IDEWorkbenchMessages.CleanDialog_alwaysCleanAllButton);
 		alwaysCleanButton.setSelection(!settings.getBoolean(TOGGLE_SELECTED));
-		alwaysCleanButton.addSelectionListener(widgetSelectedAdapter(_ -> {
+		alwaysCleanButton.addSelectionListener(widgetSelectedAdapter(_ -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			updateEnablement();
 			if (!alwaysCleanButton.getSelection()) {
 				setInitialFilterText();
@@ -218,22 +218,22 @@ public class CleanDialog extends MessageDialog {
 		filterText.setMessage(IDEWorkbenchMessages.CleanDialog_typeFilterText);
 		GridData gd = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		filterText.setLayoutData(gd);
-		filterText.addModifyListener(_ -> {
+		filterText.addModifyListener(_ -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			String filter = filterText.getText();
 			if (filter.startsWith("*") || filter.startsWith("?")) { //$NON-NLS-1$ //$NON-NLS-2$
 				searchPattern.setPattern(filter);
 			} else {
-				searchPattern.setPattern("*" + filter); //$NON-NLS-1$
+				searchPattern.setPattern("*" + filter); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			if (filter.isEmpty()) {
 				filterText.setMessage(IDEWorkbenchMessages.CleanDialog_typeFilterText);
 			}
 
-			projectNames.refresh();
+			projectNames.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		});
 
-		filterText.addFocusListener(FocusListener.focusLostAdapter(_ -> {
+		filterText.addFocusListener(FocusListener.focusLostAdapter(_ -> { //FLLDCIM: MARK — T15 FOCUS CALL
 			if (filterText.getText().equals(IDEWorkbenchMessages.CleanDialog_typeFilterText)) {
 				filterText.setText(""); //$NON-NLS-1$
 			}
@@ -246,14 +246,14 @@ public class CleanDialog extends MessageDialog {
 
 		//only prompt for immediate build if autobuild is off
 		if (!ResourcesPlugin.getWorkspace().isAutoBuilding()) {
-			SelectionListener updateEnablement = widgetSelectedAdapter(_ -> updateEnablement());
+			SelectionListener updateEnablement = widgetSelectedAdapter(_ -> updateEnablement()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			buildNowButton = new Button(parent, SWT.CHECK);
 			buildNowButton.setText(IDEWorkbenchMessages.CleanDialog_buildNowButton);
 			String buildNow = settings.get(BUILD_NOW);
 			buildNowButton.setSelection(buildNow == null || Boolean.parseBoolean(buildNow));
 			buildNowButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-			buildNowButton.addSelectionListener(updateEnablement);
+			buildNowButton.addSelectionListener(updateEnablement); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			globalBuildButton = new Button(parent, SWT.RADIO);
 			globalBuildButton.setText(IDEWorkbenchMessages.CleanDialog_globalBuildButton);
@@ -272,10 +272,10 @@ public class CleanDialog extends MessageDialog {
 			projectBuildButton.setLayoutData(data);
 			projectBuildButton.setEnabled(buildNowButton.getSelection());
 
-			SelectionListener buildRadioSelected = widgetSelectedAdapter(_ -> updateBuildRadioEnablement());
+			SelectionListener buildRadioSelected = widgetSelectedAdapter(_ -> updateBuildRadioEnablement()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
-			globalBuildButton.addSelectionListener(buildRadioSelected);
-			projectBuildButton.addSelectionListener(buildRadioSelected);
+			globalBuildButton.addSelectionListener(buildRadioSelected); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			projectBuildButton.addSelectionListener(buildRadioSelected); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 		return area;
 	}
@@ -300,13 +300,13 @@ public class CleanDialog extends MessageDialog {
 		}
 	}
 
-	private void createProjectSelectionTable(Composite parent) {
+	private void createProjectSelectionTable(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		projectNames = CheckboxTableViewer.newCheckList(parent, SWT.BORDER);
-		projectNames.getTable().addSelectionListener(SelectionListener.widgetSelectedAdapter(this::checkAllItemsIfSelectAllEventIsFired));
+		projectNames.getTable().addSelectionListener(SelectionListener.widgetSelectedAdapter(this::checkAllItemsIfSelectAllEventIsFired)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		projectNames.setContentProvider(new WorkbenchContentProvider());
-		projectNames.setLabelProvider(new WorkbenchLabelProvider());
+		projectNames.setLabelProvider(new WorkbenchLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		projectNames.setComparator(new ResourceComparator(ResourceComparator.NAME));
-		projectNames.addFilter(new ViewerFilter() {
+		projectNames.addFilter(new ViewerFilter() { //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			private final IProject[] projectHolder = new IProject[1];
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -323,7 +323,7 @@ public class CleanDialog extends MessageDialog {
 				return BuildUtilities.isEnabled(projectHolder, IncrementalProjectBuilder.CLEAN_BUILD);
 			}
 		});
-		projectNames.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		projectNames.setInput(ResourcesPlugin.getWorkspace().getRoot()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.heightHint = IDialogConstants.ENTRY_FIELD_WIDTH;
 		projectNames.getTable().setLayoutData(data);
@@ -333,7 +333,7 @@ public class CleanDialog extends MessageDialog {
 		if (checked.length > 0) {
 			projectNames.reveal(checked[0]);
 		}
-		projectNames.addCheckStateListener(_ -> checkStateChanged());
+		projectNames.addCheckStateListener(_ -> checkStateChanged()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 	}
 
 	private void checkStateChanged() {
@@ -355,7 +355,7 @@ public class CleanDialog extends MessageDialog {
 		} else {
 			SubMonitor subMonitor = SubMonitor.convert(monitor, IDEWorkbenchMessages.CleanDialog_cleanSelectedTaskName,
 					selection.length);
-			for (Object currentSelection : selection) {
+			for (Object currentSelection : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((IProject) currentSelection).build(IncrementalProjectBuilder.CLEAN_BUILD, subMonitor.split(1));
 			}
 		}

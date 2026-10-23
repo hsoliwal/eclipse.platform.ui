@@ -90,7 +90,7 @@ public class ControlEnableState {
 	 */
 	protected ControlEnableState(Control w, List<Control> exceptions) {
 		super();
-		states = new ArrayList<>();
+		states = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		this.exceptions = exceptions;
 		readStateForAndDisable(w);
 	}
@@ -134,7 +134,7 @@ public class ControlEnableState {
 		}
 		if (control instanceof Composite c) {
 			Control[] children = c.getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				readStateForAndDisable(element);
 			}
 		}
@@ -149,7 +149,7 @@ public class ControlEnableState {
 	 */
 	public void restore() {
 		int size = states.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			states.get(i).restore();
 		}
 	}

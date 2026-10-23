@@ -42,12 +42,12 @@ public abstract class AbstractExtensionWizardRegistry extends AbstractWizardRegi
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
 		WizardsRegistryReader reader = new WizardsRegistryReader(getPlugin(), getExtensionPoint());
 		reader.setInitialCollection(getWizardElements());
 		IConfigurationElement[] configurationElements = extension.getConfigurationElements();
-		for (IConfigurationElement configurationElement : configurationElements) {
+		for (IConfigurationElement configurationElement : configurationElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reader.readElement(configurationElement);
 		}
 		// no need to reset the wizard elements - getWizardElements will parse
@@ -126,7 +126,7 @@ public abstract class AbstractExtensionWizardRegistry extends AbstractWizardRegi
 	private void registerWizards(WizardCollectionElement collection) {
 		registerWizards(collection.getWorkbenchWizardElements());
 
-		for (WizardCollectionElement wizardCollectionElement : collection.getCollectionElements()) {
+		for (WizardCollectionElement wizardCollectionElement : collection.getCollectionElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement configurationElement = wizardCollectionElement.getConfigurationElement();
 			if (configurationElement != null) {
 				register(configurationElement.getDeclaringExtension(), wizardCollectionElement);
@@ -141,17 +141,17 @@ public abstract class AbstractExtensionWizardRegistry extends AbstractWizardRegi
 	 * @param wizards the wizards to register
 	 */
 	private void registerWizards(WorkbenchWizardElement[] wizards) {
-		for (WorkbenchWizardElement wizard : wizards) {
+		for (WorkbenchWizardElement wizard : wizards) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			register(wizard.getConfigurationElement().getDeclaringExtension(), wizard);
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void removeExtension(IExtension extension, Object[] objects) {
 		if (!extension.getExtensionPointUniqueIdentifier().equals(getExtensionPointFilter().getUniqueIdentifier())) {
 			return;
 		}
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof WizardCollectionElement collection) {
 				// TODO: should we move child wizards to the "other" node?
 				collection.getParentCollection().remove(collection);
@@ -161,7 +161,7 @@ public abstract class AbstractExtensionWizardRegistry extends AbstractWizardRegi
 					parent.remove(wizard);
 				}
 				IWizardDescriptor[] primaryWizards = getPrimaryWizards();
-				for (int j = 0; j < primaryWizards.length; j++) {
+				for (int j = 0; j < primaryWizards.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (primaryWizards[j] == wizard) {
 						WorkbenchWizardElement[] newPrimary = new WorkbenchWizardElement[primaryWizards.length - 1];
 						Util.arrayCopyWithRemoval(primaryWizards, newPrimary, j);

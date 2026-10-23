@@ -125,7 +125,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout());
@@ -173,8 +173,8 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		return new ScopeArea();
 	}
 
-	private void initUI() {
-		configsTable.setInput(filterGroups);
+	private void initUI() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		configsTable.setInput(filterGroups); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		IStructuredSelection selection = getInitialSelection();
 		configsTable.setSelection(selection);
 		if (selection.isEmpty()) {
@@ -182,7 +182,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		}
 
 		Iterator<MarkerFieldFilterGroup> iterator = filterGroups.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup group = iterator.next();
 			boolean enabled = group.isEnabled();
 			configsTable.setChecked(group, enabled);
@@ -216,7 +216,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		limitText.setEnabled(useLimits);
 	}
 
-	private void updateShowAll(boolean showAll) {
+	private void updateShowAll(boolean showAll) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		allButton.setSelection(showAll);
 		updateConfigComposite(!showAll);
 		updateLimitTextEnablement();
@@ -242,14 +242,14 @@ public class FiltersConfigurationDialog extends TrayDialog {
 	/**
 	 * Create the area of the dialog that apply's to all configurations.
 	 */
-	private void createAllConfigArea(Composite parent) {
+	private void createAllConfigArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		compositeLimits = new Composite(parent, SWT.NONE);
 		GridLayout glCompositeLimits = new GridLayout(3, false);
 		compositeLimits.setLayout(glCompositeLimits);
 
 		limitButton = new Button(compositeLimits, SWT.CHECK);
 		limitButton.setText(MarkerMessages.MarkerPreferences_MarkerLimits);
-		limitButton.addSelectionListener(new SelectionAdapter() {
+		limitButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -277,7 +277,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		GridData textData = new GridData();
 		textData.widthHint = convertWidthInCharsToPixels(10);
 		limitText.setLayoutData(textData);
-		limitText.addVerifyListener(e -> {
+		limitText.addVerifyListener(e -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			if (e.character != 0 && e.keyCode != SWT.BS
 					&& e.keyCode != SWT.DEL
 					&& !Character.isDigit(e.character)) {
@@ -285,7 +285,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 			}
 		});
 
-		limitText.addModifyListener(_ -> {
+		limitText.addModifyListener(_ -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			boolean isInvalid = false;
 			try {
 				int value = Integer.parseInt(limitText.getText());
@@ -309,7 +309,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		createButton(defaultButtonComposite, DEFAULTS_BUTTON_ID, JFaceResources.getString("defaults"), false); //$NON-NLS-1$
 	}
 
-	private void createConfigs(Composite parent) {
+	private void createConfigs(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -321,19 +321,19 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		configsTable.getControl().setLayoutData(tableData);
 
 		configsTable.setContentProvider(ArrayContentProvider.getInstance());
-		configsTable.setLabelProvider(new LabelProvider() {
+		configsTable.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object element) {
 				return ((MarkerFieldFilterGroup) element).getName();
 			}
 		});
 
-		configsTable.addCheckStateListener(event -> {
+		configsTable.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			configsTable.setSelection(new StructuredSelection(event.getElement()));
 			updateRadioButtonsFromTable();
 		});
 
-		configsTable.addSelectionChangedListener(_ -> {
+		configsTable.addSelectionChangedListener(_ -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			storeConfiguration();
 			MarkerFieldFilterGroup group = getSelectionFromTable();
 			if (group == null) {
@@ -349,14 +349,14 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		createButtons(composite);
 	}
 
-	private void storeConfiguration() {
+	private void storeConfiguration() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedFilterGroup == null) {
 			return;
 		}
 
 		scopeArea.applyToGroup(selectedFilterGroup);
 		Iterator<FilterConfigurationArea> areas = configAreas.iterator();
-		while (areas.hasNext()) {
+		while (areas.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilterConfigurationArea area = areas.next();
 
 			// Handle the internal special cases
@@ -365,7 +365,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 			}
 			area.apply(selectedFilterGroup.getFilter(area.getField()));
 		}
-		configsTable.refresh(selectedFilterGroup);
+		configsTable.refresh(selectedFilterGroup); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	private void updateConfigDesc(MarkerFieldFilterGroup configuration) {
@@ -375,7 +375,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 
 		scopeArea.initializeFromGroup(configuration);
 		Iterator<FilterConfigurationArea> areas = configAreas.iterator();
-		while (areas.hasNext()) {
+		while (areas.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilterConfigurationArea area = areas.next();
 			if (area instanceof GroupFilterConfigurationArea) {
 				((GroupFilterConfigurationArea) area).initializeFromGroup(configuration);
@@ -384,7 +384,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		}
 	}
 
-	private void createConfigDesc(Composite parent) {
+	private void createConfigDesc(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label separator = new Label(parent, SWT.SEPARATOR | SWT.VERTICAL);
 		separator.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 
@@ -394,7 +394,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		descComposite.setBackground(parent.getBackground());
 
 		final FormToolkit toolkit = new FormToolkit(parent.getDisplay());
-		parent.addDisposeListener(_ -> toolkit.dispose());
+		parent.addDisposeListener(_ -> toolkit.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
 		form = toolkit.createScrolledForm(descComposite);
 		form.setBackground(parent.getBackground());
@@ -404,7 +404,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 
 		createFieldArea(toolkit, form, scopeArea, true);
 		Iterator<FilterConfigurationArea> areas = configAreas.iterator();
-		while (areas.hasNext()) {
+		while (areas.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createFieldArea(toolkit, form, areas.next(), true);
 		}
 	}
@@ -415,7 +415,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 	 * @param expand
 	 *            <code>true</code> if the area should be expanded by default
 	 */
-	private void createFieldArea(final FormToolkit toolkit, final ScrolledForm scrolledForm,
+	private void createFieldArea(final FormToolkit toolkit, final ScrolledForm scrolledForm, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final FilterConfigurationArea area, boolean expand) {
 		final ExpandableComposite expandable = toolkit.createExpandableComposite(scrolledForm.getBody(),
 				ExpandableComposite.TWISTIE);
@@ -442,7 +442,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		expandable.setExpanded(expand);
 	}
 
-	private void createButtons(Composite composite) {
+	private void createButtons(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttons = new Composite(composite, SWT.NONE);
 		GridLayout buttonLayout = new GridLayout();
 		buttonLayout.marginWidth = 0;
@@ -454,7 +454,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 
 		Button addNew = new Button(buttons, SWT.PUSH);
 		addNew.setText(MarkerMessages.MarkerFilter_addFilterName);
-		addNew.addSelectionListener(new SelectionAdapter() {
+		addNew.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addConfiguration();
@@ -464,7 +464,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 
 		removeButton = new Button(buttons, SWT.PUSH);
 		removeButton.setText(MarkerMessages.MarkerFilter_deleteSelectedName);
-		removeButton.addSelectionListener(new SelectionAdapter() {
+		removeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeFilters(configsTable.getStructuredSelection());
@@ -475,7 +475,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 
 		renameButton = new Button(buttons, SWT.PUSH);
 		renameButton.setText(MarkerMessages.MarkerFilter_renameName);
-		renameButton.addSelectionListener(new SelectionAdapter() {
+		renameButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				renameFilter();
@@ -495,7 +495,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 
 		if(inputDialog.open() == Window.OK) {
 			filterGroup.setName(inputDialog.getValue());
-			configsTable.refresh(filterGroup);
+			configsTable.refresh(filterGroup); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -515,7 +515,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 	private void createSelectAllButton(Composite parent) {
 		allButton = new Button(parent, SWT.CHECK);
 		allButton.setText(MarkerMessages.ALL_Title);
-		allButton.addSelectionListener(new SelectionAdapter() {
+		allButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateShowAll(allButton.getSelection());
@@ -530,9 +530,9 @@ public class FiltersConfigurationDialog extends TrayDialog {
 	 * @return Collection
 	 */
 	private Collection<String> getCurrentConfigurationNames() {
-		Collection<String> names = new ArrayList<>();
+		Collection<String> names = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<MarkerFieldFilterGroup> filterIterator = filterGroups.iterator();
-		while (filterIterator.hasNext()) {
+		while (filterIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			names.add(filterIterator.next().getName());
 		}
 		return names;
@@ -543,7 +543,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 				MarkerMessages.MarkerFilter_newFilterName);
 		MarkerFieldFilterGroup configuration = createConfiguration(newName);
 		filterGroups.add(configuration);
-		configsTable.refresh();
+		configsTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		configsTable.setSelection(new StructuredSelection(configuration));
 		configsTable.setChecked(configuration, true);
 		updateRadioButtonsFromTable();
@@ -551,8 +551,8 @@ public class FiltersConfigurationDialog extends TrayDialog {
 
 	private String getNewConfigurationName(final Collection<String> avoidNames, String initialName) {
 		String configName = initialName;
-		for (int i = 1; avoidNames.contains(configName); i++) {
-			configName = initialName + ' ' + i;
+		for (int i = 1; avoidNames.contains(configName); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			configName = initialName + ' ' + i; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return configName;
 	}
@@ -597,7 +597,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		return filterGroups;
 	}
 
-	private IStructuredSelection getInitialSelection() {
+	private IStructuredSelection getInitialSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings settings = getDialogSettings();
 		String selectedGroupName = settings.get(SELECTED_FILTER_GROUP);
 
@@ -606,7 +606,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 			selectedGroup = filterGroups.iterator().next();
 		} else {
 			Iterator<MarkerFieldFilterGroup> groups = filterGroups.iterator();
-			while (groups.hasNext()) {
+			while (groups.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MarkerFieldFilterGroup group = groups.next();
 				if (group.getName().equals(selectedGroupName)) {
 					selectedGroup = group;
@@ -616,12 +616,12 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		}
 
 		String[] selectedElementNames = settings.getArray(PREV_SELECTED_ELEMENTS);
-		List<MarkerFieldFilterGroup> selectedElements = new ArrayList<>();
+		List<MarkerFieldFilterGroup> selectedElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (selectedElementNames != null) {
-			for (String selectedElementName : selectedElementNames) {
+			for (String selectedElementName : selectedElementNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Iterator<MarkerFieldFilterGroup> filterGroupIterator = filterGroups.iterator();
-				while (filterGroupIterator.hasNext()) {
+				while (filterGroupIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MarkerFieldFilterGroup group = filterGroupIterator.next();
 					if (Objects.equals(group.getName(), selectedElementName)) {
 						selectedElements.add(group);
@@ -645,8 +645,8 @@ public class FiltersConfigurationDialog extends TrayDialog {
 	 */
 	private Collection<MarkerFieldFilterGroup> makeWorkingCopy(Collection<MarkerFieldFilterGroup> groups) {
 		Iterator<MarkerFieldFilterGroup> initialFiltersIterator = groups.iterator();
-		Collection<MarkerFieldFilterGroup> returnFilters = new ArrayList<>(groups.size());
-		while (initialFiltersIterator.hasNext()) {
+		Collection<MarkerFieldFilterGroup> returnFilters = new ArrayList<>(groups.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (initialFiltersIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup group = initialFiltersIterator.next();
 			MarkerFieldFilterGroup copy = group.makeWorkingCopy();
 			if (copy != null) {
@@ -662,7 +662,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		generator.setMarkerLimits(Integer.parseInt(limitText.getText().trim()));
 
 		Iterator<MarkerFieldFilterGroup> filterGroupIterator = filterGroups.iterator();
-		while (filterGroupIterator.hasNext()) {
+		while (filterGroupIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup group = filterGroupIterator.next();
 			group.setEnabled(configsTable.getChecked(group));
 		}
@@ -680,13 +680,13 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		super.buttonPressed(buttonId);
 	}
 
-	protected void performDefaults() {
+	protected void performDefaults() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		filterGroups.clear();
-		List<MarkerFieldFilterGroup> declaredFilters = new ArrayList<>(generator.getDeclaredFilters());
+		List<MarkerFieldFilterGroup> declaredFilters = new ArrayList<>(generator.getDeclaredFilters()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		filterGroups.addAll(declaredFilters);
-		configsTable.refresh();
+		configsTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
-		for (MarkerFieldFilterGroup marker : declaredFilters) {
+		for (MarkerFieldFilterGroup marker : declaredFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (marker.isEnabled()) {
 				configsTable.setChecked(marker, true);
 			}
@@ -707,7 +707,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 	 */
 	private void removeFilters(ISelection selection) {
 		filterGroups.remove(((IStructuredSelection) selection).getFirstElement());
-		configsTable.refresh();
+		configsTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		updateRadioButtonsFromTable();
 	}
 
@@ -721,7 +721,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 		}
 
 		String[] selectedNames = new String[previouslyChecked.length];
-		for (int i = 0; i < selectedNames.length; i++) {
+		for (int i = 0; i < selectedNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNames[i] = ((MarkerFieldFilterGroup)previouslyChecked[i]).getName();
 		}
 		settings.put(PREV_SELECTED_ELEMENTS, selectedNames);
@@ -744,7 +744,7 @@ public class FiltersConfigurationDialog extends TrayDialog {
 	private void setEnabled(boolean enabled, Control control) {
 		control.setEnabled(enabled);
 		if (control instanceof Composite) {
-			for (Control child : ((Composite) control).getChildren()) {
+			for (Control child : ((Composite) control).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				setEnabled(enabled, child);
 			}
 		}

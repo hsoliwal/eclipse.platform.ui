@@ -23,7 +23,7 @@ public class PerspectiveTagger {
 	/**
 	 * Alters known 3.x perspective part folders into their e4 counterparts.
 	 */
-	public static void tagPerspective(MPerspective perspective, EModelService modelService) {
+	public static void tagPerspective(MPerspective perspective, EModelService modelService) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id = perspective.getElementId();
 		if (id == null) {
 			return;

@@ -34,7 +34,7 @@ public class PagePartSelectionTracker {
 		if (part instanceof IViewPart) {
 			String secondaryId = ((IViewPart) part).getViewSite().getSecondaryId();
 			if (secondaryId != null) {
-				id = id + ':' + secondaryId;
+				id = id + ':' + secondaryId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		return id;

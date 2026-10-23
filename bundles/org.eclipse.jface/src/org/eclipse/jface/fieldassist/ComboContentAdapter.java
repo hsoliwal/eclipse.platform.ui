@@ -48,7 +48,7 @@ public class ComboContentAdapter implements IControlContentAdapter,
 		Combo combo = (Combo) control;
 		String contents = combo.getText();
 		Point selection = combo.getSelection();
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		sb.append(contents.substring(0, selection.x));
 		sb.append(text);
 		if (selection.y < contents.length()) {

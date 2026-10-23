@@ -28,16 +28,16 @@ public final class ActivityDefinition implements Comparable<ActivityDefinition> 
 
 	private static final int HASH_INITIAL = ActivityDefinition.class.getName().hashCode();
 
-	static Map<String, ActivityDefinition> activityDefinitionsById(Collection<ActivityDefinition> activityDefinitions,
+	static Map<String, ActivityDefinition> activityDefinitionsById(Collection<ActivityDefinition> activityDefinitions, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean allowNullIds) {
 		if (activityDefinitions == null) {
 			throw new NullPointerException();
 		}
 
-		Map<String, ActivityDefinition> map = new HashMap<>();
+		Map<String, ActivityDefinition> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<ActivityDefinition> iterator = activityDefinitions.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActivityDefinition activityDefinition = iterator.next();
 			String id = activityDefinition.getId();
 
@@ -49,16 +49,16 @@ public final class ActivityDefinition implements Comparable<ActivityDefinition> 
 		return map;
 	}
 
-	static Map<String, Collection<ActivityDefinition>> activityDefinitionsByName(
+	static Map<String, Collection<ActivityDefinition>> activityDefinitionsByName( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<ActivityDefinition> activityDefinitions, boolean allowNullNames) {
 		if (activityDefinitions == null) {
 			throw new NullPointerException();
 		}
 
-		Map<String, Collection<ActivityDefinition>> map = new HashMap<>();
+		Map<String, Collection<ActivityDefinition>> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<ActivityDefinition> iterator = activityDefinitions.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActivityDefinition activityDefinition = iterator.next();
 			String name = activityDefinition.getName();
 
@@ -66,7 +66,7 @@ public final class ActivityDefinition implements Comparable<ActivityDefinition> 
 				Collection<ActivityDefinition> activityDefinitions2 = map.get(name);
 
 				if (activityDefinitions2 == null) {
-					activityDefinitions2 = new HashSet<>();
+					activityDefinitions2 = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					map.put(name, activityDefinitions2);
 				}
 
@@ -151,7 +151,7 @@ public final class ActivityDefinition implements Comparable<ActivityDefinition> 
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(id);
 			stringBuffer.append(',');

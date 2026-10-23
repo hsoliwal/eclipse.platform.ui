@@ -74,7 +74,7 @@ final class PreferenceHistoryEntry {
 		if (argument == null) {
 			return id;
 		}
-		return id + "(" + argument + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return id + "(" + argument + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

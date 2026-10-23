@@ -92,7 +92,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 * <code>IContextActivation</code>. If there is no activation, the entry should
 	 * be removed entirely.
 	 */
-	private final Map<String, Object> contextActivationsByContextId = new HashMap<>();
+	private final Map<String, Object> contextActivationsByContextId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The context manager that should be updated when the contexts are changing.
@@ -145,7 +145,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 *
 	 * @param activation The activation; must not be <code>null</code>.
 	 */
-	void activateContext(final IContextActivation activation) {
+	void activateContext(final IContextActivation activation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// First we update the contextActivationsByContextId map.
 		final String contextId = activation.getContextId();
 		final Object value = contextActivationsByContextId.get(contextId);
@@ -157,7 +157,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 			}
 		} else if (value instanceof IContextActivation) {
 			if (value != activation) {
-				final Collection<IContextActivation> contextActivations = new ArrayList<>(2);
+				final Collection<IContextActivation> contextActivations = new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				contextActivations.add((IContextActivation) value);
 				contextActivations.add(activation);
 				contextActivationsByContextId.put(contextId, contextActivations);
@@ -170,11 +170,11 @@ public final class ContextAuthority extends ExpressionAuthority {
 
 		// Next we update the source priority bucket sort of activations.
 		final int sourcePriority = activation.getSourcePriority();
-		for (int i = 1; i <= 32; i++) {
+		for (int i = 1; i <= 32; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((sourcePriority & (1 << i)) != 0) {
 				Set<IContextActivation> activations = activationsBySourcePriority[i];
 				if (activations == null) {
-					activations = new HashSet<>(1);
+					activations = new HashSet<>(1); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					activationsBySourcePriority[i] = activations;
 				}
 				activations.add(activation);
@@ -193,7 +193,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 * @param oldShell The previously active shell; may be <code>null</code> or
 	 *                 disposed.
 	 */
-	private void checkWindowType(final Shell newShell, final Shell oldShell) {
+	private void checkWindowType(final Shell newShell, final Shell oldShell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * If the previous active shell was recognized as a dialog by default, then
 		 * remove its submissions.
@@ -207,7 +207,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 			oldActivations = registeredWindows.get(null);
 			if (oldActivations != null) {
 				final Iterator<IContextActivation> oldActivationItr = oldActivations.iterator();
-				while (oldActivationItr.hasNext()) {
+				while (oldActivationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final IContextActivation activation = oldActivationItr.next();
 					deactivateContext(activation);
 				}
@@ -223,7 +223,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 
 			if ((newShell.getParent() != null) && (registeredWindows.get(newShell) == null)) {
 				// This is a dialog by default.
-				newActivations = new ArrayList<>();
+				newActivations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				final Expression expression = new ActiveShellExpression(newShell);
 				final IContextActivation dialogWindowActivation = new ContextActivation(
 						IContextService.CONTEXT_ID_DIALOG_AND_WINDOW, expression, contextService);
@@ -240,7 +240,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 				 * really just a paranoid check. The "oldSubmissions" code above should take
 				 * care of this.
 				 */
-				newShell.addDisposeListener(new DisposeListener() {
+				newShell.addDisposeListener(new DisposeListener() { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
 					@Override
 					public void widgetDisposed(DisposeEvent e) {
@@ -256,7 +256,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 						 * This means that dialogs won't be recognized as dialogs.
 						 */
 						final Iterator<IContextActivation> newActivationItr = newActivations.iterator();
-						while (newActivationItr.hasNext()) {
+						while (newActivationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							deactivateContext(newActivationItr.next());
 						}
 					}
@@ -281,7 +281,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 */
 	private boolean containsActive(final Collection<IContextActivation> activations) {
 		final Iterator<IContextActivation> activationItr = activations.iterator();
-		while (activationItr.hasNext()) {
+		while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IContextActivation activation = activationItr.next();
 			if (evaluate(activation)) {
 				return true;
@@ -297,7 +297,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 *
 	 * @param activation The activation; must not be <code>null</code>.
 	 */
-	void deactivateContext(final IContextActivation activation) {
+	void deactivateContext(final IContextActivation activation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// First we update the handlerActivationsByCommandId map.
 		final String contextId = activation.getContextId();
 		final Object value = contextActivationsByContextId.get(contextId);
@@ -328,7 +328,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 
 		// Next we update the source priority bucket sort of activations.
 		final int sourcePriority = activation.getSourcePriority();
-		for (int i = 1; i <= 32; i++) {
+		for (int i = 1; i <= 32; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((sourcePriority & (1 << i)) != 0) {
 				final Set<IContextActivation> activations = activationsBySourcePriority[i];
 				if (activations == null) {
@@ -361,7 +361,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 *         <code>IWorkbenchContextSupport.TYPE_DIALOG</code>, or
 	 *         <code>IWorkbenchContextSupport.TYPE_NONE</code>.
 	 */
-	public int getShellType(final Shell shell) {
+	public int getShellType(final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// If the shell is null, then return none.
 		if (shell == null) {
 			return IContextService.TYPE_NONE;
@@ -377,7 +377,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 
 			// Look for the right type of context id.
 			final Iterator<IContextActivation> activationItr = activations.iterator();
-			while (activationItr.hasNext()) {
+			while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IContextActivation activation = activationItr.next();
 				final String contextId = activation.getContextId();
 				if (contextId == IContextService.CONTEXT_ID_DIALOG) {
@@ -435,7 +435,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 * @return <code>true</code> if the shell had already been registered (i.e., the
 	 *         registration has changed); <code>false</code> otherwise.
 	 */
-	public boolean registerShell(final Shell shell, final int type) {
+	public boolean registerShell(final Shell shell, final int type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// We do not allow null shell registration. It is reserved.
 		if (shell == null) {
 			throw new NullPointerException("The shell was null"); //$NON-NLS-1$
@@ -443,7 +443,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 
 		// Debugging output
 		if (DEBUG) {
-			final StringBuilder buffer = new StringBuilder("register shell '"); //$NON-NLS-1$
+			final StringBuilder buffer = new StringBuilder("register shell '"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			buffer.append(shell);
 			buffer.append("' as "); //$NON-NLS-1$
 			switch (type) {
@@ -464,7 +464,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 		}
 
 		// Build the list of submissions.
-		final List<IContextActivation> activations = new ArrayList<>();
+		final List<IContextActivation> activations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Expression expression;
 		IContextActivation dialogWindowActivation;
 		switch (type) {
@@ -493,7 +493,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 			activations.add(windowActivation);
 			break;
 		default:
-			throw new IllegalArgumentException("The type is not recognized: " //$NON-NLS-1$
+			throw new IllegalArgumentException("The type is not recognized: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ type);
 		}
 
@@ -503,7 +503,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 		if (previousActivations != null) {
 			returnValue = true;
 			final Iterator<IContextActivation> previousActivationItr = previousActivations.iterator();
-			while (previousActivationItr.hasNext()) {
+			while (previousActivationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IContextActivation activation = previousActivationItr.next();
 				deactivateContext(activation);
 			}
@@ -516,7 +516,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 		 * Remember the dispose listener so that we can remove it later if we unregister
 		 * the shell.
 		 */
-		final DisposeListener shellDisposeListener = new DisposeListener() {
+		final DisposeListener shellDisposeListener = new DisposeListener() { //FLLDCIM: MARK — T01  ANONYMOUS
 
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -532,14 +532,14 @@ public final class ContextAuthority extends ExpressionAuthority {
 				 * This means that dialogs won't be recognized as dialogs.
 				 */
 				final Iterator<IContextActivation> activationItr = activations.iterator();
-				while (activationItr.hasNext()) {
+				while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					deactivateContext(activationItr.next());
 				}
 			}
 		};
 
 		// Make sure the submissions will be removed in event of disposal.
-		shell.addDisposeListener(shellDisposeListener);
+		shell.addDisposeListener(shellDisposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		shell.setData(DISPOSE_LISTENER, shellDisposeListener);
 
 		return returnValue;
@@ -553,7 +553,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 * @param sourcePriority A bit mask of all the source priorities that have
 	 *                       changed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void sourceChanged(final int sourcePriority) {
 		// If tracing, then track how long it takes to process the activations.
 		long startTime = 0L;
@@ -567,13 +567,13 @@ public final class ContextAuthority extends ExpressionAuthority {
 		 * processing. We add it to a set so that we avoid handling any individual
 		 * activation more than once.
 		 */
-		final Set<IContextActivation> activationsToRecompute = new HashSet<>(ACTIVATIONS_TO_RECOMPUTE_SIZE);
-		for (int i = 1; i <= 32; i++) {
+		final Set<IContextActivation> activationsToRecompute = new HashSet<>(ACTIVATIONS_TO_RECOMPUTE_SIZE); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int i = 1; i <= 32; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((sourcePriority & (1 << i)) != 0) {
 				final Collection<IContextActivation> activations = activationsBySourcePriority[i];
 				if (activations != null) {
 					final Iterator<IContextActivation> activationItr = activations.iterator();
-					while (activationItr.hasNext()) {
+					while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						activationsToRecompute.add(activationItr.next());
 					}
 				}
@@ -585,9 +585,9 @@ public final class ContextAuthority extends ExpressionAuthority {
 		 * changed. If it has changed, then we take note of the context identifier so we
 		 * can update the context later.
 		 */
-		final Collection<String> changedContextIds = new ArrayList<>(activationsToRecompute.size());
+		final Collection<String> changedContextIds = new ArrayList<>(activationsToRecompute.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final Iterator<IContextActivation> activationItr = activationsToRecompute.iterator();
-		while (activationItr.hasNext()) {
+		while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IContextActivation activation = activationItr.next();
 			final boolean currentActive = evaluate(activation);
 			activation.clearResult();
@@ -604,7 +604,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 			 * and trigger an update.
 			 */
 			final Iterator<String> changedContextIdItr = changedContextIds.iterator();
-			while (changedContextIdItr.hasNext()) {
+			while (changedContextIdItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final String contextId = changedContextIdItr.next();
 				final Object value = contextActivationsByContextId.get(contextId);
 				if (value instanceof final IContextActivation activation) {
@@ -624,7 +624,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 			final long elapsedTime = System.currentTimeMillis() - startTime;
 			final int size = activationsToRecompute.size();
 			if (size > 0) {
-				Tracing.printTrace(TRACING_COMPONENT, size + " activations recomputed in " + elapsedTime + "ms"); //$NON-NLS-1$ //$NON-NLS-2$
+				Tracing.printTrace(TRACING_COMPONENT, size + " activations recomputed in " + elapsedTime + "ms"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -647,7 +647,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 * @return <code>true</code> if the shell had been registered;
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean unregisterShell(final Shell shell) {
+	public boolean unregisterShell(final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Don't allow this method to play with the special null slot.
 		if (shell == null) {
 			return false;
@@ -669,7 +669,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 			registeredWindows.remove(shell);
 
 			final Iterator<IContextActivation> previousActivationItr = previousActivations.iterator();
-			while (previousActivationItr.hasNext()) {
+			while (previousActivationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IContextActivation activation = previousActivationItr.next();
 				deactivateContext(activation);
 			}
@@ -706,7 +706,7 @@ public final class ContextAuthority extends ExpressionAuthority {
 	 * @param value The new value of the variable. If this value is
 	 *              <code>null</code>, then the variable is removed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateEvaluationContext(final String name, final Object value) {
 		/*
 		 * Bug 84056. If we update the active workbench window, then we risk falling

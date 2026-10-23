@@ -122,7 +122,7 @@ public class StructuredSelection implements IStructuredSelection {
 	 * @param o the other object
 	 * @return <code>true</code> if they are equal, and <code>false</code> otherwise
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;

@@ -84,7 +84,7 @@ public class PropertyPagesRegistryReader extends CategorizedPageRegistryReader {
 
 	private static final String CHILD_ENABLED_WHEN = "enabledWhen"; //$NON-NLS-1$ ;
 
-	private final Collection<RegistryPageContributor> pages = new ArrayList<>();
+	private final Collection<RegistryPageContributor> pages = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final PropertyPageContributorManager manager;
 
@@ -128,7 +128,7 @@ public class PropertyPagesRegistryReader extends CategorizedPageRegistryReader {
 	/**
 	 * Reads static property page specification.
 	 */
-	private void processPageElement(IConfigurationElement element) {
+	private void processPageElement(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pageId = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 
 		if (pageId == null) {
@@ -147,7 +147,7 @@ public class PropertyPagesRegistryReader extends CategorizedPageRegistryReader {
 			pages.add(contributor);
 			manager.registerContributor(contributor, Object.class.getName());
 		} else {
-			List<String> objectClassNames = new ArrayList<>();
+			List<String> objectClassNames = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			objectClassNames.add(element.getAttribute(ATT_OBJECTCLASS));
 			registerContributors(contributor, objectClassNames);
 		}
@@ -159,7 +159,7 @@ public class PropertyPagesRegistryReader extends CategorizedPageRegistryReader {
 	private void registerContributors(RegistryPageContributor contributor, List<String> objectClassNames) {
 
 		pages.add(contributor);
-		for (String className : objectClassNames) {
+		for (String className : objectClassNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.registerContributor(contributor, className);
 		}
 
@@ -170,7 +170,7 @@ public class PropertyPagesRegistryReader extends CategorizedPageRegistryReader {
 	 *
 	 * public for dynamic UI
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean readElement(IConfigurationElement element) {
 		if (element.getName().equals(TAG_PAGE)) {
 			processPageElement(element);
@@ -221,7 +221,7 @@ public class PropertyPagesRegistryReader extends CategorizedPageRegistryReader {
 	@Override
 	Object findNode(String id) {
 		Iterator<RegistryPageContributor> iterator = pages.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RegistryPageContributor next = iterator.next();
 			if (next.getPageId().equals(id)) {
 				return next;
@@ -238,7 +238,7 @@ public class PropertyPagesRegistryReader extends CategorizedPageRegistryReader {
 	@Override
 	protected String invalidCategoryNodeMessage(CategoryNode categoryNode) {
 		RegistryPageContributor rpc = (RegistryPageContributor) categoryNode.getNode();
-		return "Invalid property category path: " + rpc.getCategory() + " (bundle: " + rpc.getPluginId() //$NON-NLS-1$ //$NON-NLS-2$
+		return "Invalid property category path: " + rpc.getCategory() + " (bundle: " + rpc.getPluginId() //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ ", propertyPage: " + rpc.getLocalId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 

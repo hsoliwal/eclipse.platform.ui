@@ -100,7 +100,7 @@ public class FileExtensionDialog extends TitleAreaDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, helpContextId);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite parentComposite = (Composite) super.createDialogArea(parent);
 
@@ -116,7 +116,7 @@ public class FileExtensionDialog extends TitleAreaDialog {
 		if (initialValue != null) {
 			filenameField.setText(initialValue);
 		}
-		filenameField.addModifyListener(event -> {
+		filenameField.addModifyListener(event -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			if (event.widget == filenameField) {
 				filename = filenameField.getText().trim();
 				okButton.setEnabled(validateFileType());
@@ -143,7 +143,7 @@ public class FileExtensionDialog extends TitleAreaDialog {
 	/**
 	 * Validate the user input for a file type
 	 */
-	private boolean validateFileType() {
+	private boolean validateFileType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// We need kernel api to validate the extension or a filename
 
 		// check for empty name and extension

@@ -55,7 +55,7 @@ import org.eclipse.swt.widgets.ToolItem;
  */
 public abstract class TrayDialog extends Dialog {
 
-	private final class ResizeListener extends ControlAdapter {
+	private final class ResizeListener extends ControlAdapter { //FLLDCIM: MARK — T11  IMPLEMENTS
 
 		private final GridData data;
 		private final Shell shell;
@@ -154,7 +154,7 @@ public abstract class TrayDialog extends Dialog {
 	 *
 	 * @throws IllegalStateException if the tray was not open
 	 */
-	public void closeTray() throws IllegalStateException {
+	public void closeTray() throws IllegalStateException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getTray() == null) {
 			throw new IllegalStateException("Tray was not open"); //$NON-NLS-1$
 		}
@@ -197,7 +197,7 @@ public abstract class TrayDialog extends Dialog {
 	 */
 	private boolean isContained(Control container, Control control) {
 		Composite parent;
-		while ((parent = control.getParent()) != null) {
+		while ((parent = control.getParent()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent == container) {
 				return true;
 			}
@@ -219,7 +219,7 @@ public abstract class TrayDialog extends Dialog {
 		super.handleShellCloseEvent();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createButtonBar(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -273,7 +273,7 @@ public abstract class TrayDialog extends Dialog {
 		fHelpButton = new ToolItem(toolBar, SWT.CHECK);
 		fHelpButton.setImage(image);
 		fHelpButton.setToolTipText(JFaceResources.getString("helpToolTip")); //$NON-NLS-1$
-		fHelpButton.addSelectionListener(widgetSelectedAdapter(e -> helpPressed()));
+		fHelpButton.addSelectionListener(widgetSelectedAdapter(e -> helpPressed())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return toolBar;
 	}
 
@@ -285,9 +285,9 @@ public abstract class TrayDialog extends Dialog {
 		Link link = new Link(parent, SWT.WRAP | SWT.NO_FOCUS);
 		((GridLayout) parent.getLayout()).numColumns++;
 		link.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-		link.setText("<a>"+IDialogConstants.HELP_LABEL+"</a>"); //$NON-NLS-1$ //$NON-NLS-2$
+		link.setText("<a>"+IDialogConstants.HELP_LABEL+"</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		link.setToolTipText(IDialogConstants.HELP_LABEL);
-		link.addSelectionListener(widgetSelectedAdapter(e -> helpPressed()));
+		link.addSelectionListener(widgetSelectedAdapter(e -> helpPressed())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return link;
 	}
 
@@ -353,7 +353,7 @@ public abstract class TrayDialog extends Dialog {
 	 * If the help tray is already open, it closes it and doesn't invoke
 	 * any help listener.
 	 */
-	private void helpPressed() {
+	private void helpPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fHelpButton != null && fHelpButton.getSelection()) {
 			DialogTray tray = getTray();
 			if (tray != null) {
@@ -366,7 +366,7 @@ public abstract class TrayDialog extends Dialog {
 				fHelpButton != null && fHelpButton.getSelection()) { // help button was not selected before
 			if (getShell() != null) {
 				Control c = getShell().getDisplay().getFocusControl();
-				while (c != null) {
+				while (c != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (c.isListening(SWT.Help)) {
 						c.notifyListeners(SWT.Help, new Event());
 						break;
@@ -395,7 +395,7 @@ public abstract class TrayDialog extends Dialog {
 	 * @throws UnsupportedOperationException if the dialog does not support trays,
 	 *            for example if it uses a custom layout.
 	 */
-	public void openTray(DialogTray tray) throws IllegalStateException, UnsupportedOperationException {
+	public void openTray(DialogTray tray) throws IllegalStateException, UnsupportedOperationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (tray == null) {
 			throw new NullPointerException("Tray was null"); //$NON-NLS-1$
 		}
@@ -424,7 +424,7 @@ public abstract class TrayDialog extends Dialog {
 		int trayWidth = leftSeparator.computeSize(SWT.DEFAULT, clientArea.height).x + sash.computeSize(SWT.DEFAULT, clientArea.height).x + rightSeparator.computeSize(SWT.DEFAULT, clientArea.height).x + data.widthHint;
 		Rectangle bounds = shell.getBounds();
 		shell.setBounds(bounds.x - ((getDefaultOrientation() == SWT.RIGHT_TO_LEFT) ? trayWidth : 0), bounds.y, bounds.width + trayWidth, bounds.height);
-		sash.addListener(SWT.Selection, event -> {
+		sash.addListener(SWT.Selection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (event.detail != SWT.DRAG) {
 				Rectangle clientArea1 = shell.getClientArea();
 				int newWidth = clientArea1.width - event.x - (sash.getSize().x + rightSeparator.getSize().x);
@@ -437,7 +437,7 @@ public abstract class TrayDialog extends Dialog {
 		shellWidth = shell.getSize().x;
 
 		resizeListener = new ResizeListener(data, shell);
-		shell.addControlListener (resizeListener);
+		shell.addControlListener (resizeListener); //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 
 		this.tray = tray;
 	}

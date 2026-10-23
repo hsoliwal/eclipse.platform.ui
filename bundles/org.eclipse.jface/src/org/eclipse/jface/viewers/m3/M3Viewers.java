@@ -69,14 +69,14 @@ public final class M3Viewers {
 	 * @param viewer the viewer
 	 * @param delta  the delta; it is not changed
 	 */
-	public static void apply(StructuredViewer viewer, M3ViewerDelta delta) {
+	public static void apply(StructuredViewer viewer, M3ViewerDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Control control = viewer.getControl();
 		if (control == null || control.isDisposed() || delta.isEmpty()) {
 			return;
 		}
 		if (!(viewer instanceof AbstractTreeViewer || viewer instanceof AbstractTableViewer
 				|| viewer instanceof AbstractListViewer)) {
-			viewer.refresh();
+			viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			return;
 		}
 		boolean bulk = delta.size() >= REDRAW_BATCH;
@@ -84,7 +84,7 @@ public final class M3Viewers {
 			control.setRedraw(false);
 		}
 		try {
-			for (int i = 0; i < delta.size();) {
+			for (int i = 0; i < delta.size();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i = run(viewer, delta, i);
 			}
 		} finally {
@@ -126,7 +126,7 @@ public final class M3Viewers {
 	}
 
 	/* applies the run of operations starting at i; returns the index after it */
-	private static int run(StructuredViewer viewer, M3ViewerDelta delta, int i) {
+	private static int run(StructuredViewer viewer, M3ViewerDelta delta, int i) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		byte kind = delta.kind(i);
 		int end = i + 1;
 		switch (kind) {
@@ -135,20 +135,20 @@ public final class M3Viewers {
 				insert(viewer, delta.parent(i), delta.element(i), delta.index(i));
 				return end;
 			}
-			while (end < delta.size() && delta.kind(end) == M3ViewerDelta.ADD && delta.index(end) < 0
+			while (end < delta.size() && delta.kind(end) == M3ViewerDelta.ADD && delta.index(end) < 0 //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					&& delta.parent(end) == delta.parent(i)) {
 				end++;
 			}
 			add(viewer, delta.parent(i), elements(delta, i, end));
 		}
 		case M3ViewerDelta.REMOVE -> {
-			while (end < delta.size() && delta.kind(end) == M3ViewerDelta.REMOVE) {
+			while (end < delta.size() && delta.kind(end) == M3ViewerDelta.REMOVE) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				end++;
 			}
 			remove(viewer, elements(delta, i, end));
 		}
 		case M3ViewerDelta.UPDATE -> {
-			while (end < delta.size() && delta.kind(end) == M3ViewerDelta.UPDATE
+			while (end < delta.size() && delta.kind(end) == M3ViewerDelta.UPDATE //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					&& Arrays.equals(delta.properties(end), delta.properties(i))) {
 				end++;
 			}
@@ -162,9 +162,9 @@ public final class M3Viewers {
 		}
 		default -> {
 			if (delta.element(i) == null) {
-				viewer.refresh();
+				viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			} else {
-				viewer.refresh(delta.element(i));
+				viewer.refresh(delta.element(i)); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		}
 		}
@@ -173,7 +173,7 @@ public final class M3Viewers {
 
 	private static Object[] elements(M3ViewerDelta delta, int from, int to) {
 		Object[] result = new Object[to - from];
-		for (int k = from; k < to; k++) {
+		for (int k = from; k < to; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[k - from] = delta.element(k);
 		}
 		return result;
@@ -269,7 +269,7 @@ public final class M3Viewers {
 			return;
 		}
 		posted = true;
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			Control control = viewer.getControl();
 			if (control != null && !control.isDisposed() && control.getDisplay() == display) {
 				enqueue(viewer, delta, Math.max(0, delayMillis), refreshLater);
@@ -278,7 +278,7 @@ public final class M3Viewers {
 	}
 
 	/* UI thread */
-	private static void enqueue(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis,
+	private static void enqueue(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean refreshLater) {
 		Control control = viewer.getControl();
 		if (control == null || control.isDisposed()) {
@@ -305,7 +305,7 @@ public final class M3Viewers {
 		Queue q = queue;
 		long remainingNanos = q.deadlineNanos - now;
 		int wait = (int) Math.min((long) delayMillis, Math.max(0L, remainingNanos / 1_000_000L));
-		control.getDisplay().timerExec(wait, () -> {
+		control.getDisplay().timerExec(wait, () -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (q.batch != batch || q.pending == null) {
 				return; // a timer from a completed batch cannot drain its successor
 			}
@@ -335,7 +335,7 @@ public final class M3Viewers {
 			LOG.log(Level.WARNING, "viewer delta failed; refreshing the viewer", e); //$NON-NLS-1$
 			Control control = queue.viewer.getControl();
 			if (control != null && !control.isDisposed()) {
-				queue.viewer.refresh();
+				queue.viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		}
 	}
@@ -346,7 +346,7 @@ public final class M3Viewers {
 	 *
 	 * @param viewer the viewer
 	 */
-	public static void flush(StructuredViewer viewer) {
+	public static void flush(StructuredViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!posted) {
 			return;
 		}

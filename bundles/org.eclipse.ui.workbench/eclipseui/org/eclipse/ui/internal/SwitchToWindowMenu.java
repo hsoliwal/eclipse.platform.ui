@@ -49,13 +49,13 @@ public class SwitchToWindowMenu extends ContributionItem {
 	 * Returns the text for a window. This may be truncated to fit within the
 	 * MAX_TEXT_LENGTH.
 	 */
-	private String calcText(int number, IWorkbenchWindow window) {
+	private String calcText(int number, IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String suffix = window.getShell().getText();
 		if (suffix == null) {
 			return null;
 		}
 
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (number < 10) {
 			sb.append('&');
 		}
@@ -73,7 +73,7 @@ public class SwitchToWindowMenu extends ContributionItem {
 	/**
 	 * Fills the given menu with menu items for all opened workbench windows.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 
 		// Get workbench windows.
@@ -92,7 +92,7 @@ public class SwitchToWindowMenu extends ContributionItem {
 
 		// Add one item for each window.
 		int count = 1;
-		for (IWorkbenchWindow window : array) {
+		for (IWorkbenchWindow window : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// can encounter disposed shells if this update is in response to a shell
 			// closing
 			if (!window.getShell().isDisposed()) {
@@ -102,7 +102,7 @@ public class SwitchToWindowMenu extends ContributionItem {
 					index++;
 					count++;
 					mi.setText(name);
-					mi.addSelectionListener(widgetSelectedAdapter(e -> {
+					mi.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						Shell windowShell = window.getShell();
 						if (windowShell.getMinimized()) {
 							windowShell.setMinimized(false);

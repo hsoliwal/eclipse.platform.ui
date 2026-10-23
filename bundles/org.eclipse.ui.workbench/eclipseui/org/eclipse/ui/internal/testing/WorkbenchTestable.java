@@ -53,7 +53,7 @@ public class WorkbenchTestable extends TestableObject {
 	 * @param display   the display
 	 * @param workbench the workbench
 	 */
-	public void init(Display display, IWorkbench workbench) {
+	public void init(Display display, IWorkbench workbench) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(display);
 		Assert.isNotNull(workbench);
 		this.display = display;
@@ -64,7 +64,7 @@ public class WorkbenchTestable extends TestableObject {
 			Runnable runnable = () -> {
 				// disable workbench auto-save during tests
 				if ("true".equalsIgnoreCase( //$NON-NLS-1$
-						System.getProperty(PlatformUI.PLUGIN_ID + ".testsDisableWorkbenchAutoSave"))) { //$NON-NLS-1$
+						System.getProperty(PlatformUI.PLUGIN_ID + ".testsDisableWorkbenchAutoSave"))) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					if (WorkbenchTestable.this.workbench instanceof Workbench) {
 						((Workbench) WorkbenchTestable.this.workbench).setEnableAutoSave(false);
 					}
@@ -76,7 +76,7 @@ public class WorkbenchTestable extends TestableObject {
 				// org.eclipse.ui.testsWaitForEarlyStartup=false
 				// For details, see bug 94129 [Workbench] Performance test regression caused by
 				// workbench harness change
-				if (!"false".equalsIgnoreCase(System.getProperty(PlatformUI.PLUGIN_ID + ".testsWaitForEarlyStartup"))) { //$NON-NLS-1$ //$NON-NLS-2$
+				if (!"false".equalsIgnoreCase(System.getProperty(PlatformUI.PLUGIN_ID + ".testsWaitForEarlyStartup"))) { //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					waitForEarlyStartup();
 				}
 				getTestHarness().runTests();
@@ -117,7 +117,7 @@ public class WorkbenchTestable extends TestableObject {
 	@Override
 	public void runTest(Runnable testRunnable) {
 		Assert.isNotNull(workbench);
-		display.syncExec(testRunnable);
+		display.syncExec(testRunnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class WorkbenchTestable extends TestableObject {
 	@Override
 	public void testingFinished() {
 		// force events to be processed, and ensure the close is done in the UI thread
-		display.syncExec(() -> Assert.isTrue(workbench.close()));
+		display.syncExec(() -> Assert.isTrue(workbench.close())); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		ErrorDialog.AUTOMATED_MODE = oldAutomatedMode;
 		SafeRunnable.setIgnoreErrors(oldIgnoreErrors);
 	}

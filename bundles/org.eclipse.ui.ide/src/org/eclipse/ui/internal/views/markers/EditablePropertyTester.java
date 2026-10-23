@@ -38,15 +38,15 @@ public class EditablePropertyTester extends PropertyTester {
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean test(Object receiver, String property, Object[] args,
 			Object expectedValue) {
 		if (property.equals(EDITABLE) && receiver instanceof MarkerSupportItem item) {
-			Set<IMarker> markers = new HashSet<>();
+			Set<IMarker> markers = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (item.isConcrete()) {
 				markers.add(((MarkerEntry) receiver).getMarker());
 			} else {
-				for (MarkerSupportItem child : item.getChildren()) {
+				for (MarkerSupportItem child : item.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (child.isConcrete()) {
 						markers.add(((MarkerEntry) child).getMarker());
 					}
@@ -55,7 +55,7 @@ public class EditablePropertyTester extends PropertyTester {
 
 			if (!markers.isEmpty()) {
 				Iterator<IMarker> elements = markers.iterator();
-				while (elements.hasNext()) {
+				while (elements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IMarker marker = elements.next();
 					if (!marker.getAttribute(IMarker.USER_EDITABLE, true)) {
 						return false;

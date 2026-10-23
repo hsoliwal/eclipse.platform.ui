@@ -123,7 +123,7 @@ public final class WorkbenchActivityHelper {
 	 * @param identifier   the identifier to test.
 	 * @return whether the identifier is enabled.
 	 */
-	private static boolean allow(ITriggerPoint triggerPoint, IIdentifier identifier) {
+	private static boolean allow(ITriggerPoint triggerPoint, IIdentifier identifier) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (identifier.isEnabled()) {
 			return true;
 		}
@@ -168,7 +168,7 @@ public final class WorkbenchActivityHelper {
 	public static String createUnifiedId(IPluginContribution contribution) {
 		final String pluginId = contribution.getPluginId();
 		if (pluginId != null) {
-			return pluginId + '/' + contribution.getLocalId();
+			return pluginId + '/' + contribution.getLocalId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return contribution.getLocalId();
 	}
@@ -180,7 +180,7 @@ public final class WorkbenchActivityHelper {
 	 */
 	private static void enableActivities(Collection<String> activities) {
 		IWorkbenchActivitySupport activitySupport = PlatformUI.getWorkbench().getActivitySupport();
-		Set<String> newSet = new HashSet<>(activitySupport.getActivityManager().getEnabledActivityIds());
+		Set<String> newSet = new HashSet<>(activitySupport.getActivityManager().getEnabledActivityIds()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		newSet.addAll(activities);
 		activitySupport.setEnabledActivityIds(newSet);
 	}
@@ -229,16 +229,16 @@ public final class WorkbenchActivityHelper {
 	 *         given category becomes enabled
 	 * @since 3.1
 	 */
-	public static Set<String> getEnabledCategories(IActivityManager activityManager, String categoryId) {
+	public static Set<String> getEnabledCategories(IActivityManager activityManager, String categoryId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICategory category = activityManager.getCategory(categoryId);
 		if (!category.isDefined()) {
 			return Collections.emptySet();
 		}
 
 		Set<?> activities = expandActivityDependencies(getActivityIdsForCategory(category));
-		Set<String> otherEnabledCategories = new HashSet<>();
+		Set<String> otherEnabledCategories = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Set<?> definedCategoryIds = activityManager.getDefinedCategoryIds();
-		for (Object name : definedCategoryIds) {
+		for (Object name : definedCategoryIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String otherCategoryId = (String) name;
 			if (otherCategoryId.equals(categoryId)) {
 				continue;
@@ -265,8 +265,8 @@ public final class WorkbenchActivityHelper {
 	 * @since 3.1
 	 */
 	public static Set<String> expandActivityDependencies(Set<String> baseActivities) {
-		Set<String> extendedActivities = new HashSet<>();
-		for (String activityId : baseActivities) {
+		Set<String> extendedActivities = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String activityId : baseActivities) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<String> requiredActivities = getRequiredActivityIds(activityId);
 			extendedActivities.addAll(requiredActivities);
 		}
@@ -281,7 +281,7 @@ public final class WorkbenchActivityHelper {
 	 * @return the activities required for this activity
 	 * @since 3.1
 	 */
-	public static Set<String> getRequiredActivityIds(String activityId) {
+	public static Set<String> getRequiredActivityIds(String activityId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IActivityManager manager = PlatformUI.getWorkbench().getActivitySupport().getActivityManager();
 		IActivity activity = manager.getActivity(activityId);
 		if (!activity.isDefined()) {
@@ -292,8 +292,8 @@ public final class WorkbenchActivityHelper {
 			return Collections.emptySet();
 		}
 
-		Set<String> requiredActivities = new HashSet<>(3);
-		for (Object name : requirementBindings) {
+		Set<String> requiredActivities = new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object name : requirementBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IActivityRequirementBinding binding = (IActivityRequirementBinding) name;
 			requiredActivities.add(binding.getRequiredActivityId());
 			requiredActivities.addAll(getRequiredActivityIds(binding.getRequiredActivityId()));
@@ -310,8 +310,8 @@ public final class WorkbenchActivityHelper {
 	 */
 	public static Set<String> getActivityIdsForCategory(ICategory category) {
 		Set<ICategoryActivityBinding> bindings = category.getCategoryActivityBindings();
-		Set<String> activityIds = new HashSet<>();
-		for (ICategoryActivityBinding binding : bindings) {
+		Set<String> activityIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ICategoryActivityBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			activityIds.add(binding.getActivityId());
 		}
 		return activityIds;
@@ -329,16 +329,16 @@ public final class WorkbenchActivityHelper {
 	 *         given category becomes enabled
 	 * @since 3.1
 	 */
-	public static Set<String> getDisabledCategories(IActivityManager activityManager, String categoryId) {
+	public static Set<String> getDisabledCategories(IActivityManager activityManager, String categoryId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICategory category = activityManager.getCategory(categoryId);
 		if (!category.isDefined()) {
 			return Collections.emptySet();
 		}
 
 		Set<?> activities = expandActivityDependencies(getActivityIdsForCategory(category));
-		Set<String> otherDisabledCategories = new HashSet<>();
+		Set<String> otherDisabledCategories = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Set<?> definedCategoryIds = activityManager.getDefinedCategoryIds();
-		for (Object name : definedCategoryIds) {
+		for (Object name : definedCategoryIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String otherCategoryId = (String) name;
 			if (otherCategoryId.equals(categoryId)) {
 				continue;
@@ -372,16 +372,16 @@ public final class WorkbenchActivityHelper {
 	 *         given category becomes enabled
 	 * @since 3.1
 	 */
-	public static Set<String> getContainedCategories(IActivityManager activityManager, String categoryId) {
+	public static Set<String> getContainedCategories(IActivityManager activityManager, String categoryId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICategory category = activityManager.getCategory(categoryId);
 		if (!category.isDefined()) {
 			return Collections.emptySet();
 		}
 
 		Set<?> activities = expandActivityDependencies(getActivityIdsForCategory(category));
-		Set<String> containedCategories = new HashSet<>();
+		Set<String> containedCategories = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Set<?> definedCategoryIds = activityManager.getDefinedCategoryIds();
-		for (Object name : definedCategoryIds) {
+		for (Object name : definedCategoryIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String otherCategoryId = (String) name;
 			if (otherCategoryId.equals(categoryId)) {
 				continue;
@@ -413,8 +413,8 @@ public final class WorkbenchActivityHelper {
 	public static Set<String> getEnabledCategories(IActivityManager activityManager) {
 
 		Set<String> definedCategoryIds = activityManager.getDefinedCategoryIds();
-		Set<String> enabledCategories = new HashSet<>();
-		for (String categoryId : definedCategoryIds) {
+		Set<String> enabledCategories = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String categoryId : definedCategoryIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isEnabled(activityManager, categoryId)) {
 				enabledCategories.add(categoryId);
 			}
@@ -431,8 +431,8 @@ public final class WorkbenchActivityHelper {
 	 */
 	public static Set<String> getPartiallyEnabledCategories(IActivityManager activityManager) {
 		Set<String> definedCategoryIds = activityManager.getDefinedCategoryIds();
-		Set<String> partialCategories = new HashSet<>();
-		for (String categoryId : definedCategoryIds) {
+		Set<String> partialCategories = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String categoryId : definedCategoryIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isPartiallyEnabled(activityManager, categoryId)) {
 				partialCategories.add(categoryId);
 			}
@@ -454,7 +454,7 @@ public final class WorkbenchActivityHelper {
 	public static boolean isPartiallyEnabled(IActivityManager activityManager, String categoryId) {
 		Set<String> activityIds = getActivityIdsForCategory(activityManager.getCategory(categoryId));
 		int foundCount = 0;
-		for (String activityId : activityIds) {
+		for (String activityId : activityIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (activityManager.getEnabledActivityIds().contains(activityId)) {
 				foundCount++;
 			}
@@ -472,9 +472,9 @@ public final class WorkbenchActivityHelper {
 	 * @since 3.1
 	 */
 	public static Set<String> getEnabledCategoriesForActivity(IActivityManager activityManager, String activityId) {
-		Set<String> enabledCategoriesForActivity = new HashSet<>();
+		Set<String> enabledCategoriesForActivity = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Set<String> enabledCategories = getEnabledCategories(activityManager);
-		for (String categoryId : enabledCategories) {
+		for (String categoryId : enabledCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getActivityIdsForCategory(activityManager.getCategory(categoryId)).contains(activityId)) {
 				enabledCategoriesForActivity.add(categoryId);
 			}
@@ -516,7 +516,7 @@ public final class WorkbenchActivityHelper {
 	public static ICategory[] resolveCategories(IMutableActivityManager activityManager, Set<String> categoryIds) {
 		ICategory[] categories = new ICategory[categoryIds.size()];
 		String[] categoryIdArray = categoryIds.toArray(new String[categoryIds.size()]);
-		for (int i = 0; i < categoryIdArray.length; i++) {
+		for (int i = 0; i < categoryIdArray.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			categories[i] = activityManager.getCategory(categoryIdArray[i]);
 		}
 		return categories;
@@ -534,7 +534,7 @@ public final class WorkbenchActivityHelper {
 	 * @since 3.4
 	 */
 	public static <T> Collection<T> restrictCollection(Collection<T> toBeFiltered, Collection<T> result) {
-		for (T item : toBeFiltered) {
+		for (T item : toBeFiltered) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!restrictUseOf(item)) {
 				result.add(item);
 			}
@@ -553,8 +553,8 @@ public final class WorkbenchActivityHelper {
 	 * @since 3.4
 	 */
 	public static Object[] restrictArray(Object[] array) {
-		ArrayList<Object> list = new ArrayList<>(array.length);
-		for (Object e : array) {
+		ArrayList<Object> list = new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object e : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!restrictUseOf(e)) {
 				list.add(e);
 			}
@@ -574,7 +574,7 @@ public final class WorkbenchActivityHelper {
 	 * @since 3.4
 	 */
 	public static <T> Collection<T> filterCollection(Collection<T> toBeFiltered, Collection<T> result) {
-		for (T item : toBeFiltered) {
+		for (T item : toBeFiltered) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!filterItem(item)) {
 				result.add(item);
 			}
@@ -593,8 +593,8 @@ public final class WorkbenchActivityHelper {
 	 * @since 3.4
 	 */
 	public static Object[] filterArray(Object[] array) {
-		ArrayList<Object> list = new ArrayList<>(array.length);
-		for (Object e : array) {
+		ArrayList<Object> list = new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object e : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!filterItem(e)) {
 				list.add(e);
 			}

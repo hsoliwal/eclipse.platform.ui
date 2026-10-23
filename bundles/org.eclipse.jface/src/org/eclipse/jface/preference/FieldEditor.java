@@ -387,7 +387,7 @@ public abstract class FieldEditor {
 			if (text != null) {
 				label.setText(text);
 			}
-			label.addDisposeListener(event -> label = null);
+			label.addDisposeListener(event -> label = null); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		} else {
 			checkParent(label, parent);
 		}

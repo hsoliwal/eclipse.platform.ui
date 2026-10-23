@@ -27,16 +27,16 @@ public final class CategoryDefinition implements Comparable<CategoryDefinition> 
 
 	private static final int HASH_INITIAL = CategoryDefinition.class.getName().hashCode();
 
-	static Map<String, CategoryDefinition> categoryDefinitionsById(Collection<CategoryDefinition> categoryDefinitions,
+	static Map<String, CategoryDefinition> categoryDefinitionsById(Collection<CategoryDefinition> categoryDefinitions, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean allowNullIds) {
 		if (categoryDefinitions == null) {
 			throw new NullPointerException();
 		}
 
-		Map<String, CategoryDefinition> map = new HashMap<>();
+		Map<String, CategoryDefinition> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<CategoryDefinition> iterator = categoryDefinitions.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CategoryDefinition categoryDefinition = iterator.next();
 			String id = categoryDefinition.getId();
 
@@ -48,16 +48,16 @@ public final class CategoryDefinition implements Comparable<CategoryDefinition> 
 		return map;
 	}
 
-	static Map<String, Collection<CategoryDefinition>> categoryDefinitionsByName(
+	static Map<String, Collection<CategoryDefinition>> categoryDefinitionsByName( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<CategoryDefinition> categoryDefinitions, boolean allowNullNames) {
 		if (categoryDefinitions == null) {
 			throw new NullPointerException();
 		}
 
-		Map<String, Collection<CategoryDefinition>> map = new HashMap<>();
+		Map<String, Collection<CategoryDefinition>> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<CategoryDefinition> iterator = categoryDefinitions.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CategoryDefinition categoryDefinition = iterator.next();
 			String name = categoryDefinition.getName();
 
@@ -65,7 +65,7 @@ public final class CategoryDefinition implements Comparable<CategoryDefinition> 
 				Collection<CategoryDefinition> categoryDefinitions2 = map.get(name);
 
 				if (categoryDefinitions2 == null) {
-					categoryDefinitions2 = new HashSet<>();
+					categoryDefinitions2 = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					map.put(name, categoryDefinitions2);
 				}
 
@@ -149,7 +149,7 @@ public final class CategoryDefinition implements Comparable<CategoryDefinition> 
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(id);
 			stringBuffer.append(',');

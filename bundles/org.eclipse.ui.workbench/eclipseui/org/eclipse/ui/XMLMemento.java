@@ -78,7 +78,7 @@ public final class XMLMemento implements IMemento {
 	 * @return a memento on the first <code>Element</code> for reading the document
 	 * @throws WorkbenchException if IO problems, invalid format, or no element.
 	 */
-	public static XMLMemento createReadRoot(Reader reader, String baseDir) throws WorkbenchException {
+	public static XMLMemento createReadRoot(Reader reader, String baseDir) throws WorkbenchException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String errorMessage = null;
 		Exception exception = null;
 		try {
@@ -109,7 +109,7 @@ public final class XMLMemento implements IMemento {
 
 			Document document = parser.parse(source);
 			NodeList list = document.getChildNodes();
-			for (int i = 0; i < list.getLength(); i++) {
+			for (int i = 0; i < list.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node node = list.item(i);
 				if (node instanceof Element) {
 					return new XMLMemento(document, (Element) node);
@@ -229,7 +229,7 @@ public final class XMLMemento implements IMemento {
 		return new XMLMemento(factory, newElement);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IMemento getChild(String type) {
 
 		// Get the nodes.
@@ -240,7 +240,7 @@ public final class XMLMemento implements IMemento {
 		}
 
 		// Find the first node which is a child of this node.
-		for (int nX = 0; nX < size; nX++) {
+		for (int nX = 0; nX < size; nX++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node node = nodes.item(nX);
 			if (node instanceof Element element) {
 				if (element.getNodeName().equals(type)) {
@@ -253,7 +253,7 @@ public final class XMLMemento implements IMemento {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IMemento[] getChildren() {
 
 		// Get the nodes.
@@ -264,8 +264,8 @@ public final class XMLMemento implements IMemento {
 		}
 
 		// Extract each node with given type.
-		ArrayList<Element> list = new ArrayList<>(size);
-		for (int nX = 0; nX < size; nX++) {
+		ArrayList<Element> list = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int nX = 0; nX < size; nX++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Node node = nodes.item(nX);
 			if (node instanceof Element) {
 				list.add((Element) node);
@@ -275,13 +275,13 @@ public final class XMLMemento implements IMemento {
 		// Create a memento for each node.
 		size = list.size();
 		IMemento[] results = new IMemento[size];
-		for (int x = 0; x < size; x++) {
+		for (int x = 0; x < size; x++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			results[x] = new XMLMemento(factory, list.get(x));
 		}
 		return results;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IMemento[] getChildren(String type) {
 
 		// Get the nodes.
@@ -292,8 +292,8 @@ public final class XMLMemento implements IMemento {
 		}
 
 		// Extract each node with given type.
-		ArrayList<Element> list = new ArrayList<>(size);
-		for (int nX = 0; nX < size; nX++) {
+		ArrayList<Element> list = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int nX = 0; nX < size; nX++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node node = nodes.item(nX);
 			if (node instanceof Element element) {
 				if (element.getNodeName().equals(type)) {
@@ -305,7 +305,7 @@ public final class XMLMemento implements IMemento {
 		// Create a memento for each node.
 		size = list.size();
 		IMemento[] results = new IMemento[size];
-		for (int x = 0; x < size; x++) {
+		for (int x = 0; x < size; x++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			results[x] = new XMLMemento(factory, list.get(x));
 		}
 		return results;
@@ -321,7 +321,7 @@ public final class XMLMemento implements IMemento {
 		try {
 			return Float.valueOf(strValue);
 		} catch (NumberFormatException e) {
-			WorkbenchPlugin.log("Memento problem - Invalid float for key: " //$NON-NLS-1$
+			WorkbenchPlugin.log("Memento problem - Invalid float for key: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ key + " value: " + strValue, e); //$NON-NLS-1$
 			return null;
 		}
@@ -350,7 +350,7 @@ public final class XMLMemento implements IMemento {
 		try {
 			return Integer.valueOf(strValue);
 		} catch (NumberFormatException e) {
-			WorkbenchPlugin.log("Memento problem - invalid integer for key: " + key //$NON-NLS-1$
+			WorkbenchPlugin.log("Memento problem - invalid integer for key: " + key //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " value: " + strValue, e); //$NON-NLS-1$
 			return null;
 		}
@@ -403,7 +403,7 @@ public final class XMLMemento implements IMemento {
 		NamedNodeMap map = element.getAttributes();
 		int size = map.getLength();
 		String[] attributes = new String[size];
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node node = map.item(i);
 			attributes[i] = node.getNodeName();
 		}
@@ -424,7 +424,7 @@ public final class XMLMemento implements IMemento {
 		if (size == 0) {
 			return null;
 		}
-		for (int nX = 0; nX < size; nX++) {
+		for (int nX = 0; nX < size; nX++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node node = nodes.item(nX);
 			if (node instanceof Text) {
 				return (Text) node;
@@ -441,10 +441,10 @@ public final class XMLMemento implements IMemento {
 	 * @throws DOMException if the attributes or children cannot be copied to this
 	 *                      node.
 	 */
-	private void putElement(Element element, boolean copyText) throws DOMException {
+	private void putElement(Element element, boolean copyText) throws DOMException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		NamedNodeMap nodeMap = element.getAttributes();
 		int size = nodeMap.getLength();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Attr attr = (Attr) nodeMap.item(i);
 			putString(attr.getName(), attr.getValue());
 		}
@@ -454,7 +454,7 @@ public final class XMLMemento implements IMemento {
 		// Copy first text node (fixes bug 113659).
 		// Note that text data will be added as the first child (see putTextData)
 		boolean needToCopyText = copyText;
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node node = nodes.item(i);
 			if (node instanceof Element) {
 				XMLMemento child = (XMLMemento) createChild(node.getNodeName());
@@ -602,7 +602,7 @@ public final class XMLMemento implements IMemento {
 		 *
 		 * @param element the element to print
 		 */
-		public void print(Element element) {
+		public void print(Element element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Ensure extra whitespace is not emitted next to a Text node,
 			// as that will result in a situation where the restored text data is not the
 			// same as the saved text data.
@@ -611,7 +611,7 @@ public final class XMLMemento implements IMemento {
 			if (hasChildren) {
 				boolean prevWasText = false;
 				NodeList children = element.getChildNodes();
-				for (int i = 0; i < children.getLength(); i++) {
+				for (int i = 0; i < children.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Node node = children.item(i);
 					if (node instanceof Element) {
 						if (!prevWasText) {
@@ -632,11 +632,11 @@ public final class XMLMemento implements IMemento {
 		}
 
 		private void startTag(Element element, boolean hasChildren) {
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			sb.append("<"); //$NON-NLS-1$
 			sb.append(element.getTagName());
 			NamedNodeMap attributes = element.getAttributes();
-			for (int i = 0; i < attributes.getLength(); i++) {
+			for (int i = 0; i < attributes.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Attr attribute = (Attr) attributes.item(i);
 				sb.append(" "); //$NON-NLS-1$
 				sb.append(attribute.getName());
@@ -649,7 +649,7 @@ public final class XMLMemento implements IMemento {
 		}
 
 		private void endTag(Element element) {
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			sb.append("</"); //$NON-NLS-1$
 			sb.append(element.getNodeName());
 			sb.append(">"); //$NON-NLS-1$
@@ -668,14 +668,14 @@ public final class XMLMemento implements IMemento {
 		}
 
 		private static String getEscaped(String s) {
-			StringBuilder result = new StringBuilder(s.length() + 10);
-			for (int i = 0; i < s.length(); ++i) {
+			StringBuilder result = new StringBuilder(s.length() + 10); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i = 0; i < s.length(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				appendEscapedChar(result, s.charAt(i));
 			}
 			return result.toString();
 		}
 
-		private static String getReplacement(char c) {
+		private static String getReplacement(char c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Encode special XML characters into the equivalent character references.
 			// The first five are defined by default for all XML documents.
 			// The next three (#xD, #xA, #x9) are encoded to avoid them

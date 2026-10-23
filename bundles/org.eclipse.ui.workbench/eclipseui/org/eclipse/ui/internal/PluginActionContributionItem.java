@@ -31,7 +31,7 @@ import org.eclipse.ui.activities.WorkbenchActivityHelper;
  * Contribution item for actions provided by plugins via workbench action
  * extension points.
  */
-public class PluginActionContributionItem extends ActionContributionItem
+public class PluginActionContributionItem extends ActionContributionItem //FLLDCIM: MARK — T36  IMPLEMENTS
 		implements IIdentifierListener, IActivityManagerListener {
 
 	private IIdentifier identifier = null;

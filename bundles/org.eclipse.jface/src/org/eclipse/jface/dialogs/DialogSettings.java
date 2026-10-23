@@ -110,9 +110,9 @@ public class DialogSettings implements IDialogSettings {
 	 */
 	public DialogSettings(String sectionName) {
 		name = sectionName;
-		items = new LinkedHashMap<>();
-		arrayItems = new LinkedHashMap<>();
-		sections = new LinkedHashMap<>();
+		items = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		arrayItems = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		sections = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class DialogSettings implements IDialogSettings {
 		String setting = items.get(key);
 		if (setting == null) {
 			throw new NumberFormatException(
-					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$
+					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return Double.parseDouble(setting);
@@ -185,7 +185,7 @@ public class DialogSettings implements IDialogSettings {
 		String setting = items.get(key);
 		if (setting == null) {
 			throw new NumberFormatException(
-					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$
+					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return Float.parseFloat(setting);
@@ -198,7 +198,7 @@ public class DialogSettings implements IDialogSettings {
 			// Integer.valueOf(null) will throw a NumberFormatException and
 			// meet our spec, but this message is clearer.
 			throw new NumberFormatException(
-					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$
+					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return Integer.parseInt(setting);
@@ -211,7 +211,7 @@ public class DialogSettings implements IDialogSettings {
 			//new Long(null) will throw a NumberFormatException and meet our spec, but this message
 			//is clearer.
 			throw new NumberFormatException(
-					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$
+					"There is no setting associated with the key \"" + key + "\"");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return Long.parseLong(setting);
@@ -256,7 +256,7 @@ public class DialogSettings implements IDialogSettings {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void load(Reader r) {
 		Document document = null;
 		try {
@@ -266,7 +266,7 @@ public class DialogSettings implements IDialogSettings {
 
 			//Strip out any comments first
 			Node root = document.getFirstChild();
-			while (root.getNodeType() == Node.COMMENT_NODE) {
+			while (root.getNodeType() == Node.COMMENT_NODE) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				document.removeChild(root);
 				root = document.getFirstChild();
 			}
@@ -285,10 +285,10 @@ public class DialogSettings implements IDialogSettings {
 		}
 	}
 
-	private void load(Document document, Element root) {
+	private void load(Document document, Element root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		name = root.getAttribute(TAG_NAME);
 		NodeList l = root.getElementsByTagName(TAG_ITEM);
-		for (int i = 0; i < l.getLength(); i++) {
+		for (int i = 0; i < l.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node n = l.item(i);
 			if (root == n.getParentNode()) {
 				String key = ((Element) l.item(i)).getAttribute(TAG_KEY);
@@ -297,14 +297,14 @@ public class DialogSettings implements IDialogSettings {
 			}
 		}
 		l = root.getElementsByTagName(TAG_LIST);
-		for (int i = 0; i < l.getLength(); i++) {
+		for (int i = 0; i < l.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node n = l.item(i);
 			if (root == n.getParentNode()) {
 				Element child = (Element) l.item(i);
 				String key = child.getAttribute(TAG_KEY);
 				NodeList list = child.getElementsByTagName(TAG_ITEM);
-				List<String> valueList = new ArrayList<>();
-				for (int j = 0; j < list.getLength(); j++) {
+				List<String> valueList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (int j = 0; j < list.getLength(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Element node = (Element) list.item(j);
 					if (child == node.getParentNode()) {
 						valueList.add(node.getAttribute(TAG_VALUE));
@@ -316,7 +316,7 @@ public class DialogSettings implements IDialogSettings {
 			}
 		}
 		l = root.getElementsByTagName(TAG_SECTION);
-		for (int i = 0; i < l.getLength(); i++) {
+		for (int i = 0; i < l.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node n = l.item(i);
 			if (root == n.getParentNode()) {
 				DialogSettings s = new DialogSettings("NoName");//$NON-NLS-1$
@@ -384,13 +384,13 @@ public class DialogSettings implements IDialogSettings {
 		}
 	}
 
-	private void save(XMLWriter out) throws IOException {
-		Map<String, String> attributes = new LinkedHashMap<>(2);
+	private void save(XMLWriter out) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<String, String> attributes = new LinkedHashMap<>(2); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		attributes.put(TAG_NAME, name == null ? "" : name); //$NON-NLS-1$
 		out.startTag(TAG_SECTION, attributes);
 		attributes.clear();
 
-		for (Entry<String, String> entry : items.entrySet()) {
+		for (Entry<String, String> entry : items.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			attributes.put(TAG_KEY, key == null ? "" : key); //$NON-NLS-1$
 			String string = entry.getValue();
@@ -399,14 +399,14 @@ public class DialogSettings implements IDialogSettings {
 		}
 
 		attributes.clear();
-		for (Entry<String, String[]> entry : arrayItems.entrySet()) {
+		for (Entry<String, String[]> entry : arrayItems.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			attributes.put(TAG_KEY, key == null ? "" : key); //$NON-NLS-1$
 			out.startTag(TAG_LIST, attributes);
 			String[] value = entry.getValue();
 			attributes.clear();
 			if (value != null) {
-				for (String string : value) {
+				for (String string : value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					attributes.put(TAG_VALUE, string == null ? "" : string); //$NON-NLS-1$
 					out.printTag(TAG_ITEM, attributes, true);
 				}
@@ -414,7 +414,7 @@ public class DialogSettings implements IDialogSettings {
 			out.endTag(TAG_LIST);
 			attributes.clear();
 		}
-		for (IDialogSettings iDialogSettings : sections.values()) {
+		for (IDialogSettings iDialogSettings : sections.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((DialogSettings) iDialogSettings).save(out);
 		}
 		out.endTag(TAG_SECTION);
@@ -461,11 +461,11 @@ public class DialogSettings implements IDialogSettings {
 		 */
 		public void endTag(String name) throws IOException {
 			tab--;
-			printTag("/" + name, null, false); //$NON-NLS-1$
+			printTag("/" + name, null, false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		private void printTabulation() throws IOException {
-			for (int i = 0; i < tab; i++) {
+			for (int i = 0; i < tab; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				super.write('\t');
 			}
 		}
@@ -480,12 +480,12 @@ public class DialogSettings implements IDialogSettings {
 			printTag(name, parameters, true, true, close);
 		}
 
-		private void printTag(String name, Map<String, String> parameters, boolean shouldTab, boolean newLine, boolean close) throws IOException {
-			StringBuilder sb = new StringBuilder();
+		private void printTag(String name, Map<String, String> parameters, boolean shouldTab, boolean newLine, boolean close) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			sb.append('<');
 			sb.append(name);
 			if (parameters != null) {
-				for (Entry<String, String> entry : parameters.entrySet()) {
+				for (Entry<String, String> entry : parameters.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					sb.append(" "); //$NON-NLS-1$
 					String key = entry.getKey();
 					sb.append(key);
@@ -534,14 +534,14 @@ public class DialogSettings implements IDialogSettings {
 		}
 
 		private static String getEscaped(String s) {
-			StringBuilder result = new StringBuilder(s.length() + 10);
-			for (int i = 0; i < s.length(); ++i) {
+			StringBuilder result = new StringBuilder(s.length() + 10); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i = 0; i < s.length(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				appendEscapedChar(result, s.charAt(i));
 			}
 			return result.toString();
 		}
 
-		private static String getReplacement(char c) {
+		private static String getReplacement(char c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Encode special XML characters into the equivalent character references.
 			// The first five are defined by default for all XML documents.
 			// The next three (#xD, #xA, #x9) are encoded to avoid them

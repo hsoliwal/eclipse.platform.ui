@@ -66,11 +66,11 @@ class PojoHandlerAdapter extends AbstractHandler {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IEclipseContext executionContext = executionContextOf(event.getApplicationContext());
 		if (executionContext == null) {
-			throw new ExecutionException("No IEclipseContext available to execute " + handler.getClass().getName()); //$NON-NLS-1$
+			throw new ExecutionException("No IEclipseContext available to execute " + handler.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		IEclipseContext staticContext = EclipseContextFactory.create();
 		try {
@@ -83,7 +83,7 @@ class PojoHandlerAdapter extends AbstractHandler {
 			Object result = ContextInjectionFactory.invoke(handler, Execute.class, executionContext, staticContext,
 					MISSING_EXECUTE);
 			if (result == MISSING_EXECUTE) {
-				throw new ExecutionException(handler.getClass().getName() + " handler is missing @Execute", //$NON-NLS-1$
+				throw new ExecutionException(handler.getClass().getName() + " handler is missing @Execute", //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						new NotHandledException(handler.getClass().getName()));
 			}
 			return result;
@@ -91,13 +91,13 @@ class PojoHandlerAdapter extends AbstractHandler {
 			if (e.getCause() instanceof ExecutionException cause) {
 				throw cause;
 			}
-			throw new ExecutionException("Error executing " + handler.getClass().getName(), e); //$NON-NLS-1$
+			throw new ExecutionException("Error executing " + handler.getClass().getName(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} finally {
 			staticContext.dispose();
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setEnabled(Object evaluationContext) {
 		IEclipseContext executionContext = executionContextOf(evaluationContext);
 		if (executionContext == null) {
@@ -112,7 +112,7 @@ class PojoHandlerAdapter extends AbstractHandler {
 				setBaseEnabled(enabled.booleanValue());
 			}
 		} catch (InjectionException e) {
-			WorkbenchPlugin.log("Error while evaluating @CanExecute of " + handler.getClass().getName(), e); //$NON-NLS-1$
+			WorkbenchPlugin.log("Error while evaluating @CanExecute of " + handler.getClass().getName(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			setBaseEnabled(false);
 		} finally {
 			staticContext.dispose();
@@ -125,7 +125,7 @@ class PojoHandlerAdapter extends AbstractHandler {
 		if (command == null || parameters == null) {
 			return;
 		}
-		for (Entry<?, ?> parameter : parameters.entrySet()) {
+		for (Entry<?, ?> parameter : parameters.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parameter.getKey() instanceof String parameterId) {
 				staticContext.set(parameterId, convertParameterValue(command, parameterId, parameter.getValue()));
 			}
@@ -178,7 +178,7 @@ class PojoHandlerAdapter extends AbstractHandler {
 			try {
 				ContextInjectionFactory.uninject(handler, injectionContext);
 			} catch (InjectionException e) {
-				WorkbenchPlugin.log("Error while uninjecting " + handler.getClass().getName(), e); //$NON-NLS-1$
+				WorkbenchPlugin.log("Error while uninjecting " + handler.getClass().getName(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		super.dispose();

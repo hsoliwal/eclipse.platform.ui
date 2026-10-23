@@ -95,7 +95,7 @@ public final class Util {
 		}
 	}
 
-	public static int compare(Comparable[] left, Comparable[] right) {
+	public static int compare(Comparable[] left, Comparable[] right) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (left == null && right == null) {
 			return 0;
 		} else if (left == null) {
@@ -109,7 +109,7 @@ public final class Util {
 			if (l != r) {
 				return l - r;
 			}
-			for (int i = 0; i < l; i++) {
+			for (int i = 0; i < l; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int compareTo = compare(left[i], right[i]);
 
 				if (compareTo != 0) {
@@ -125,7 +125,7 @@ public final class Util {
 		return left - right;
 	}
 
-	public static int compare(List left, List right) {
+	public static int compare(List left, List right) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (left == null && right == null) {
 			return 0;
 		} else if (left == null) {
@@ -139,7 +139,7 @@ public final class Util {
 			if (l != r) {
 				return l - r;
 			}
-			for (int i = 0; i < l; i++) {
+			for (int i = 0; i < l; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int compareTo = compare((Comparable) left.get(i), (Comparable) right.get(i));
 
 				if (compareTo != 0) {
@@ -188,7 +188,7 @@ public final class Util {
 		}
 	}
 
-	public static boolean endsWith(List left, List right, boolean equals) {
+	public static boolean endsWith(List left, List right, boolean equals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (left == null || right == null) {
 			return false;
 		}
@@ -199,7 +199,7 @@ public final class Util {
 			return false;
 		}
 
-		for (int i = 0; i < r; i++) {
+		for (int i = 0; i < r; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Objects.equals(left.get(l - i - 1), right.get(r - i - 1))) {
 				return false;
 			}
@@ -217,10 +217,10 @@ public final class Util {
 			throw new NullPointerException();
 		}
 
-		list = Collections.unmodifiableList(new ArrayList(list));
+		list = Collections.unmodifiableList(new ArrayList(list)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator iterator = list.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertInstance(iterator.next(), c, allowNullElements);
 		}
 
@@ -233,10 +233,10 @@ public final class Util {
 			throw new NullPointerException();
 		}
 
-		map = Collections.unmodifiableMap(new HashMap(map));
+		map = Collections.unmodifiableMap(new HashMap(map)); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator iterator = map.entrySet().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Map.Entry entry = (Map.Entry) iterator.next();
 			assertInstance(entry.getKey(), keyClass, allowNullKeys);
 			assertInstance(entry.getValue(), valueClass, allowNullValues);
@@ -254,10 +254,10 @@ public final class Util {
 			throw new NullPointerException();
 		}
 
-		set = Collections.unmodifiableSet(new HashSet(set));
+		set = Collections.unmodifiableSet(new HashSet(set)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator iterator = set.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertInstance(iterator.next(), c, allowNullElements);
 		}
 
@@ -276,14 +276,14 @@ public final class Util {
 		sortedSet = Collections.unmodifiableSortedSet(new TreeSet(sortedSet));
 		Iterator iterator = sortedSet.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertInstance(iterator.next(), c, allowNullElements);
 		}
 
 		return sortedSet;
 	}
 
-	public static boolean startsWith(List left, List right, boolean equals) {
+	public static boolean startsWith(List left, List right, boolean equals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (left == null || right == null) {
 			return false;
 		}
@@ -294,7 +294,7 @@ public final class Util {
 			return false;
 		}
 
-		for (int i = 0; i < r; i++) {
+		for (int i = 0; i < r; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Objects.equals(left.get(i), right.get(i))) {
 				return false;
 			}
@@ -352,7 +352,7 @@ public final class Util {
 	 * @return The interned string
 	 */
 	public static String intern(String string) {
-		return string == null ? null : string.intern();
+		return string == null ? null : string.intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
 	}
 
 	/**
@@ -380,7 +380,7 @@ public final class Util {
 	 */
 	public static IWorkbenchWindow getWorkbenchWindowForShell(Shell shellToCheck) {
 		IWorkbenchWindow workbenchWindow = null;
-		while (workbenchWindow == null && shellToCheck != null) {
+		while (workbenchWindow == null && shellToCheck != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (shellToCheck.getData() instanceof IWorkbenchWindow) {
 				workbenchWindow = (IWorkbenchWindow) shellToCheck.getData();
 			} else {
@@ -422,7 +422,7 @@ public final class Util {
 	 * @return An array containing the split. Might be empty, but will not be
 	 *         <code>null</code>.
 	 */
-	public static String[] split(String src, char delim) {
+	public static String[] split(String src, char delim) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (src == null) {
 			return EMPTY_STRING_ARRAY;
 		}
@@ -431,10 +431,10 @@ public final class Util {
 			return new String[] { ZERO_LENGTH_STRING };
 		}
 
-		ArrayList result = new ArrayList();
+		ArrayList result = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int idx = src.indexOf(delim);
 		int lastIdx = 0;
-		while (idx != -1) {
+		while (idx != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(src.substring(lastIdx, idx));
 			lastIdx = idx + 1;
 			if (lastIdx == src.length()) {
@@ -448,7 +448,7 @@ public final class Util {
 		}
 		String[] resultArray = (String[]) result.toArray(new String[result.size()]);
 		boolean allEmpty = true;
-		for (int i = 0; i < resultArray.length && allEmpty; i++) {
+		for (int i = 0; i < resultArray.length && allEmpty; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resultArray[i].length() > 0) {
 				allEmpty = false;
 			}
@@ -488,7 +488,7 @@ public final class Util {
 	 * @return The loaded object which is guaranteed to be castable to the given
 	 *         classSpec or null if a failure occurred
 	 */
-	public static Object safeLoadExecutableExtension(IConfigurationElement element, String attName, Class classSpec) {
+	public static Object safeLoadExecutableExtension(IConfigurationElement element, String attName, Class classSpec) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object loadedEE = null;
 
 		// Load the handler.
@@ -499,7 +499,7 @@ public final class Util {
 			// Gather formatting info
 			final String classDef = element.getAttribute(attName);
 
-			final String message = "Class load Failure: '" + classDef + "'"; //$NON-NLS-1$//$NON-NLS-2$
+			final String message = "Class load Failure: '" + classDef + "'"; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			IStatus status = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, 0, message, e);
 			WorkbenchPlugin.log(message, status);
 		}
@@ -507,7 +507,7 @@ public final class Util {
 		// Check the loaded object's type
 		if (classSpec != null && loadedEE != null && !classSpec.isInstance(loadedEE)) {
 			// ooops, the loaded class is not castable to the given type
-			final String message = "Loaded class is of incorrect type: expected(" + //$NON-NLS-1$
+			final String message = "Loaded class is of incorrect type: expected(" + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					classSpec.getName() + ") got (" + loadedEE.getClass().getName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 
 			IllegalArgumentException e = new IllegalArgumentException(message);

@@ -161,7 +161,7 @@ public class RadioGroupFieldEditor extends FieldEditor {
 		if (table == null) {
 			return false;
 		}
-		for (String[] array : table) {
+		for (String[] array : table) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (array == null || array.length < 2) {
 				return false;
 			}
@@ -169,7 +169,7 @@ public class RadioGroupFieldEditor extends FieldEditor {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		if (useGroup) {
 			Control control = getRadioBoxControl(parent);
@@ -229,7 +229,7 @@ public class RadioGroupFieldEditor extends FieldEditor {
 	 * @param parent The parent to create the radioBox in
 	 * @return the radio group control
 	 */
-	public Composite getRadioBoxControl(Composite parent) {
+	public Composite getRadioBoxControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (radioBox == null) {
 
 			Font font = parent.getFont();
@@ -258,21 +258,21 @@ public class RadioGroupFieldEditor extends FieldEditor {
 			}
 
 			radioButtons = new Button[labelsAndValues.length];
-			for (int i = 0; i < labelsAndValues.length; i++) {
+			for (int i = 0; i < labelsAndValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Button radio = new Button(radioBox, SWT.RADIO | SWT.LEFT);
 				radioButtons[i] = radio;
 				String[] labelAndValue = labelsAndValues[i];
 				radio.setText(labelAndValue[0]);
 				radio.setData(labelAndValue[1]);
 				radio.setFont(font);
-				radio.addSelectionListener(widgetSelectedAdapter(event -> {
+				radio.addSelectionListener(widgetSelectedAdapter(event -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					String oldValue = value;
 					value = (String) event.widget.getData();
 					setPresentsDefaultValue(false);
 					fireValueChanged(VALUE, oldValue, value);
 				}));
 			}
-			radioBox.addDisposeListener(event -> {
+			radioBox.addDisposeListener(event -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				radioBox = null;
 				radioButtons = null;
 			});
@@ -300,7 +300,7 @@ public class RadioGroupFieldEditor extends FieldEditor {
 	 *
 	 * @param selectedValue the selected value
 	 */
-	private void updateValue(String selectedValue) {
+	private void updateValue(String selectedValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.value = selectedValue;
 		if (radioButtons == null) {
 			return;
@@ -308,7 +308,7 @@ public class RadioGroupFieldEditor extends FieldEditor {
 
 		if (this.value != null) {
 			boolean found = false;
-			for (Button radio : radioButtons) {
+			for (Button radio : radioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean selection = false;
 				if (((String) radio.getData()).equals(this.value)) {
 					selection = true;
@@ -338,7 +338,7 @@ public class RadioGroupFieldEditor extends FieldEditor {
 		if (!useGroup) {
 			super.setEnabled(enabled, parent);
 		}
-		for (Button radioButton : radioButtons) {
+		for (Button radioButton : radioButtons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			radioButton.setEnabled(enabled);
 		}
 

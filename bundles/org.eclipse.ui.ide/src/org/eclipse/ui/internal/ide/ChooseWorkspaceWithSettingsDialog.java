@@ -82,7 +82,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 	private static final String ATT_ID = "id"; //$NON-NLS-1$
 	private static final String ATT_HELP_CONTEXT = "helpContext"; //$NON-NLS-1$
 
-	private final Collection<IConfigurationElement> selectedSettings = new HashSet<>();
+	private final Collection<IConfigurationElement> selectedSettings = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Open a new instance of the receiver.
@@ -115,7 +115,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 	/**
 	 * Create the controls for selecting the controls we are going to export.
 	 */
-	private void createSettingsControls(Composite workArea) {
+	private void createSettingsControls(Composite workArea) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ScrolledComposite sc = new ScrolledComposite(workArea, SWT.V_SCROLL | SWT.H_SCROLL);
 		sc.setExpandHorizontal(true);
 		sc.setExpandVertical(true);
@@ -158,8 +158,8 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 		// once the widget is realized. Re-apply colors to the check buttons when
 		// the section first becomes visible.
 		if (Util.isMac()) {
-			sectionClient.addListener(SWT.Show, _ -> {
-				for (Control child : sectionClient.getChildren()) {
+			sectionClient.addListener(SWT.Show, _ -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				for (Control child : sectionClient.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (child instanceof Button button && (button.getStyle() & SWT.CHECK) != 0) {
 						button.setBackground(workArea.getBackground());
 						button.setForeground(workArea.getForeground());
@@ -183,8 +183,8 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 					new Rectangle(shell.getLocation().x, shell.getLocation().y, size.x, size.y)));
 		};
 
-		toggle.addListener(SWT.MouseDown, toggleListener);
-		label.addListener(SWT.MouseDown, toggleListener);
+		toggle.addListener(SWT.MouseDown, toggleListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		label.addListener(SWT.MouseDown, toggleListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		body.layout(true);
 		sc.setMinSize(body.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -195,7 +195,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 	 *
 	 * @return boolean <code>true</code> if any were selected
 	 */
-	private boolean createButtons(Composite sectionClient) {
+	private boolean createButtons(Composite sectionClient) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] enabledSettings = getEnabledSettings(
 				PlatformUI.getDialogSettingsProvider(FrameworkUtil.getBundle(ChooseWorkspaceWithSettingsDialog.class))
 						.getDialogSettings()
@@ -206,7 +206,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 		layout.spacing = 6;
 		sectionClient.setLayout(layout);
 
-		for (final IConfigurationElement settingsTransfer : SettingsTransfer.getSettingsTransfers()) {
+		for (final IConfigurationElement settingsTransfer : SettingsTransfer.getSettingsTransfers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Button button = new Button(sectionClient, SWT.CHECK);
 			button.setText(settingsTransfer.getAttribute(ATT_NAME));
 			button.setBackground(sectionClient.getBackground());
@@ -218,7 +218,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 			deco.setImage(image);
 
 			toggleDecoForSettingsImportButtons(button, deco);
-			getCombo().addModifyListener(_ -> toggleDecoForSettingsImportButtons(button, deco));
+			getCombo().addModifyListener(_ -> toggleDecoForSettingsImportButtons(button, deco)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 			String helpId = settingsTransfer.getAttribute(ATT_HELP_CONTEXT);
 
@@ -229,7 +229,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 			if (enabledSettings != null && enabledSettings.length > 0) {
 
 				String id = settingsTransfer.getAttribute(ATT_ID);
-				for (String enabledSetting : enabledSettings) {
+				for (String enabledSetting : enabledSettings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (enabledSetting.equals(id)) {
 						button.setSelection(true);
 						selectedSettings.add(settingsTransfer);
@@ -238,7 +238,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 				}
 			}
 
-			button.addSelectionListener(new SelectionAdapter() {
+			button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -282,7 +282,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 		Iterator<IConfigurationElement> settingsIterator = selectedSettings.iterator();
 		MultiStatus result = new MultiStatus(
@@ -295,7 +295,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 		String[] selectionIDs = new String[selectedSettings.size()];
 		int index = 0;
 
-		while (settingsIterator.hasNext()) {
+		while (settingsIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement elem = settingsIterator
 					.next();
 			result.add(transferSettings(elem, path));
@@ -337,7 +337,7 @@ public class ChooseWorkspaceWithSettingsDialog extends ChooseWorkspaceDialog {
 	 *
 	 * @return IStatus the result of the settings transfer.
 	 */
-	private IStatus transferSettings(final IConfigurationElement element,
+	private IStatus transferSettings(final IConfigurationElement element, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IPath path) {
 
 		final IStatus[] exceptions = new IStatus[1];

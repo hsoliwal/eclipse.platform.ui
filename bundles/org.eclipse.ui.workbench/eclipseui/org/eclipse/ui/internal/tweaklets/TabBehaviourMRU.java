@@ -29,7 +29,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
  */
 public class TabBehaviourMRU extends TabBehaviour {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IEditorReference findReusableEditor(WorkbenchPage page) {
 		boolean reuse = WorkbenchPlugin.getDefault().getPreferenceStore()
 				.getBoolean(IPreferenceConstants.REUSE_EDITORS_BOOLEAN);
@@ -42,11 +42,11 @@ public class TabBehaviourMRU extends TabBehaviour {
 		if (length < page.getEditorReuseThreshold()) {
 			return null;
 		} else if (length > page.getEditorReuseThreshold()) {
-			List<IEditorReference> refs = new ArrayList<>();
-			List<IEditorReference> keep = new ArrayList<>(Arrays.asList(editors));
+			List<IEditorReference> refs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<IEditorReference> keep = new ArrayList<>(Arrays.asList(editors)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			int extra = length - page.getEditorReuseThreshold();
 			// look for extra editors that should be closed
-			for (IEditorReference editor : editors) {
+			for (IEditorReference editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (extra == 0) {
 					break;
 				}
@@ -59,7 +59,7 @@ public class TabBehaviourMRU extends TabBehaviour {
 				extra--;
 			}
 
-			for (IEditorReference ref : refs) {
+			for (IEditorReference ref : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				page.closeEditor(ref, false);
 				keep.remove(ref);
 			}
@@ -70,7 +70,7 @@ public class TabBehaviourMRU extends TabBehaviour {
 		IEditorReference dirtyEditor = null;
 
 		// find an editor to reuse, go in reverse due to activation order
-		for (int i = editors.length - 1; i > -1; i--) {
+		for (int i = editors.length - 1; i > -1; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorReference editor = editors[i];
 			if (editor.isPinned()) {
 				// skip pinned editors

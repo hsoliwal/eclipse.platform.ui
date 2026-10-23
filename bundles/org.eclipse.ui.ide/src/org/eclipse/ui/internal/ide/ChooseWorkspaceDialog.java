@@ -132,7 +132,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	 *            true if the dialog should be opened regardless of the value of
 	 *            the show dialog checkbox
 	 */
-	public void prompt(boolean force) {
+	public void prompt(boolean force) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (force || launchData.getShowDialog()) {
 			open();
 
@@ -171,7 +171,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	 * @param parent the parent composite to contain the dialog area
 	 * @return the dialog area control
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		String productName = getWindowTitle();
 
@@ -232,7 +232,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(NLS.bind(IDEWorkbenchMessages.ChooseWorkspaceDialog_dialogName, getWindowTitle()));
-		shell.addTraverseListener(e -> {
+		shell.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			// Bug 462707: [WorkbenchLauncher] dialog not closed on ESC.
 			// The dialog doesn't always have a parent, so
 			// Shell#traverseEscape() doesn't always close it for free.
@@ -267,9 +267,9 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	/**
 	 * Removes the workspace from RecentWorkspaces
 	 */
-	private void removeWorkspaceFromLauncher(String workspace, Combo combo) {
+	private void removeWorkspaceFromLauncher(String workspace, Combo combo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Remove Workspace from Properties
-		List<String> recentWorkpaces = new ArrayList<>(Arrays.asList(launchData.getRecentWorkspaces()));
+		List<String> recentWorkpaces = new ArrayList<>(Arrays.asList(launchData.getRecentWorkspaces())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		recentWorkpaces.remove(workspace);
 		launchData.setRecentWorkspaces(recentWorkpaces.toArray(new String[0]));
 		launchData.writePersistedData();
@@ -308,7 +308,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	 * Workspaces are defined. It provides a faster way to launch a specific
 	 * Workspace
 	 */
-	private void createRecentWorkspacesComposite(final Composite composite) {
+	private void createRecentWorkspacesComposite(final Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		recentWorkspacesForm = new Composite(composite, SWT.NONE);
 		recentWorkspacesForm.setBackground(composite.getBackground());
 		recentWorkspacesForm.setLayout(new GridLayout());
@@ -361,26 +361,26 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 					new Rectangle(shell.getLocation().x, shell.getLocation().y, size.x, size.y)));
 		};
 
-		toggle.addListener(SWT.MouseDown, toggleListener);
-		label.addListener(SWT.MouseDown, toggleListener);
+		toggle.addListener(SWT.MouseDown, toggleListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		label.addListener(SWT.MouseDown, toggleListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		List<String> recentWorkspaces = getRecentWorkspaces();
-		recentWorkspacesLinks = new HashMap<>(recentWorkspaces.size());
+		recentWorkspacesLinks = new HashMap<>(recentWorkspaces.size()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Map<String, String> uniqueWorkspaceNames = createUniqueWorkspaceNameMap();
 
 		List<Entry<String, String>> sortedList = uniqueWorkspaceNames.entrySet().stream().sorted((e1, e2) -> Integer
 				.compare(recentWorkspaces.indexOf(e1.getValue()), recentWorkspaces.indexOf(e2.getValue())))
 				.collect(Collectors.toList());
 
-		for (Entry<String, String> uniqueWorkspaceEntry : sortedList) {
+		for (Entry<String, String> uniqueWorkspaceEntry : sortedList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String recentWorkspace = uniqueWorkspaceEntry.getValue();
 
 			Link link = new Link(panel, SWT.WRAP);
 			link.setForeground(JFaceColors.getHyperlinkText(composite.getDisplay()));
 			link.setLayoutData(new RowData(SWT.DEFAULT, SWT.DEFAULT));
-			link.setText("<a>" + uniqueWorkspaceEntry.getKey() + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$
+			link.setText("<a>" + uniqueWorkspaceEntry.getKey() + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			link.setToolTipText(recentWorkspace);
-			link.addSelectionListener(new SelectionAdapter() {
+			link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					workspaceSelected(recentWorkspace);
@@ -392,7 +392,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 			Menu menu = new Menu(link);
 			MenuItem forgetItem = new MenuItem(menu, SWT.PUSH);
 			forgetItem.setText(IDEWorkbenchMessages.ChooseWorkspaceDialog_removeWorkspaceSelection);
-			forgetItem.addSelectionListener(new SelectionAdapter() {
+			forgetItem.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					removeWorkspaceFromLauncher(recentWorkspace, getCombo());
@@ -408,9 +408,9 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	 * used workspaces, the keys are unique segments somehow made from the
 	 * values.
 	 */
-	private Map<String, String> createUniqueWorkspaceNameMap() {
+	private Map<String, String> createUniqueWorkspaceNameMap() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String fileSeparator = File.separator;
-		Map<String, String> uniqueWorkspaceNameMap = new HashMap<>();
+		Map<String, String> uniqueWorkspaceNameMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		// Convert workspace paths to arrays of single path segments
 		List<String[]> splittedWorkspaceNames = getRecentWorkspaces().stream()
@@ -419,7 +419,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 
 		// bug 531611: prevent endless loops
 		int maxSegmentsCount = 0;
-		for (String[] strings : splittedWorkspaceNames) {
+		for (String[] strings : splittedWorkspaceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			maxSegmentsCount = Math.max(0, strings.length);
 		}
 
@@ -428,7 +428,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 		// workspace path, increasing number of segments if no unique names
 		// could be generated,
 		// loop until all array values are removed from array list
-		for (int i = 1; !splittedWorkspaceNames.isEmpty() && i <= maxSegmentsCount; i++) {
+		for (int i = 1; !splittedWorkspaceNames.isEmpty() && i <= maxSegmentsCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int c = i;
 
 			// Function which flattens arrays to (hopefully unique) keys
@@ -457,7 +457,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	 * The main area of the dialog is just a row with the current selection
 	 * information and a drop-down of the most recently used workspaces.
 	 */
-	protected Control createWorkspaceBrowseRow(Composite parent) {
+	protected Control createWorkspaceBrowseRow(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite panel = createBrowseComposite(parent);
 
 		pathCombo = createPathCombo(panel);
@@ -467,7 +467,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
 		label.setLayoutData(gd);
-		pathCombo.addModifyListener(_ -> {
+		pathCombo.addModifyListener(_ -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			String hint = getUnexpectedPathHint();
 			label.setText(hint);
 			boolean empty = hint.isEmpty();
@@ -481,13 +481,13 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 		Event event = new Event();
 		event.type = SWT.Modify;
 		event.widget = pathCombo;
-		for (Listener listener : listeners) {
+		for (Listener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.handleEvent(event);
 		}
 		return panel;
 	}
 
-	protected String getUnexpectedPathHint() {
+	protected String getUnexpectedPathHint() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String workspaceLocation = getWorkspaceLocation();
 		if (!workspaceLocation.isBlank()) {
 			File location = new File(workspaceLocation);
@@ -498,7 +498,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 				return NLS.bind(IDEWorkbenchMessages.ChooseWorkspaceDialog_InvalidPathWarning, e.getReason());
 			}
 			String normalisedPath = path.normalize().toString();
-			String normalisedPathWithSeperator = normalisedPath + File.separator;
+			String normalisedPathWithSeperator = normalisedPath + File.separator; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (normalisedPathWithSeperator.contains(TILDE)) {
 				return NLS.bind(IDEWorkbenchMessages.ChooseWorkspaceDialog_TildeNonExpandedWarning, normalisedPath);
 			}
@@ -514,7 +514,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	}
 
 	/** the returned value may be wrong **/
-	private boolean maybeWritable(Path path) {
+	private boolean maybeWritable(Path path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (Files.exists(path)) {
 				// both java.io.File.canWrite() and
@@ -546,18 +546,18 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 		return panel;
 	}
 
-	protected Combo createPathCombo(Composite panel) {
+	protected Combo createPathCombo(Composite panel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Combo combo = new Combo(panel, SWT.BORDER | SWT.LEAD | SWT.DROP_DOWN);
 		new DirectoryProposalContentAssist().apply(combo);
 		combo.setTextDirection(SWT.AUTO_TEXT_DIRECTION);
 		combo.setFocus();
 		combo.setLayoutData(new BorderData(SWT.CENTER));
-		combo.addModifyListener(_ -> {
+		combo.addModifyListener(_ -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			Button okButton = getButton(Window.OK);
 			if(okButton != null && !okButton.isDisposed()) {
 				boolean nonWhitespaceFound = false;
 				String characters = getWorkspaceLocation();
-				for (int i = 0; !nonWhitespaceFound
+				for (int i = 0; !nonWhitespaceFound //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						&& i < characters.length(); i++) {
 					if (!Character.isWhitespace(characters.charAt(i))) {
 						nonWhitespaceFound = true;
@@ -582,13 +582,13 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 		}
 	}
 
-	protected Button createBrowseButton(Composite panel, Combo combo) {
+	protected Button createBrowseButton(Composite panel, Combo combo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Button browseButton = new Button(panel, SWT.PUSH);
 		browseButton.setText(IDEWorkbenchMessages.ChooseWorkspaceDialog_browseLabel);
 		browseButton.setToolTipText(IDEWorkbenchMessages.ChooseWorkspaceDialog_browseTooltip);
 		setButtonLayoutData(browseButton);
 		browseButton.setLayoutData(new BorderData(SWT.RIGHT));
-		browseButton.addSelectionListener(new SelectionAdapter() {
+		browseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog dialog = new DirectoryDialog(getShell(), SWT.SHEET);
@@ -602,7 +602,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 			}
 		});
 		int smallButtonLimit = browseButton.getFont().getFontData()[0].getHeight() * 40;
-		panel.getParent().addControlListener(new ControlListener() {
+		panel.getParent().addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 
 			@Override
 			public void controlResized(ControlEvent e) {
@@ -634,7 +634,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	 */
 	protected String getInitialBrowsePath() {
 		File dir = new File(getWorkspaceLocation());
-		while (dir != null && !dir.exists()) {
+		while (dir != null && !dir.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dir = dir.getParentFile();
 		}
 
@@ -666,7 +666,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	/**
 	 * The show dialog button allows the user to choose to neven be nagged again.
 	 */
-	private void createShowDialogButton(Composite parent) {
+	private void createShowDialogButton(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite panel = new Composite(parent, SWT.NONE);
 		panel.setFont(parent.getFont());
 
@@ -681,7 +681,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 		defaultButton = new Button(panel, SWT.CHECK);
 		defaultButton.setText(IDEWorkbenchMessages.ChooseWorkspaceDialog_useDefaultMessage);
 		defaultButton.setSelection(!launchData.getShowDialog());
-		defaultButton.addSelectionListener(new SelectionAdapter() {
+		defaultButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				launchData.toggleShowDialog();
@@ -690,7 +690,7 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	}
 
 	private void setInitialTextValues(Combo text) {
-		for (String recentWorkspace : getRecentWorkspaces()) {
+		for (String recentWorkspace : getRecentWorkspaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (recentWorkspace != null) {
 				text.add(recentWorkspace);
 			}
@@ -763,15 +763,15 @@ public class ChooseWorkspaceDialog extends TitleAreaDialog {
 	 * @param paths The set of paths to filter.
 	 * @return The set of paths without duplicates.
 	 */
-	public static List<String> filterDuplicatedPaths(String[] paths) {
-		Set<String> normalizedPaths = new HashSet<>();
-		List<String> recentWorkspaces = new ArrayList<>();
-		for (String workspace : paths) {
+	public static List<String> filterDuplicatedPaths(String[] paths) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<String> normalizedPaths = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<String> recentWorkspaces = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String workspace : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workspace != null && !workspace.isEmpty()) {
 				String[] splitPath = workspace.split(Pattern.quote(File.separator));
 				String normalizedPath = Arrays.stream(splitPath).filter(s -> !s.isEmpty()).collect(Collectors.joining(File.separator));
 				if (workspace.startsWith(File.separator)) {
-					normalizedPath = File.separator + normalizedPath;
+					normalizedPath = File.separator + normalizedPath; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				boolean nonDuplicate = normalizedPaths.add(normalizedPath);
 				if (nonDuplicate) {

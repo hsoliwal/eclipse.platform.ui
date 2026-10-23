@@ -101,7 +101,7 @@ public class PerspectiveDescriptor implements IPerspectiveDescriptor, IPluginCon
 		return originalId;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ImageDescriptor getImageDescriptor() {
 		if (image != null) {
 			return image;
@@ -179,7 +179,7 @@ public class PerspectiveDescriptor implements IPerspectiveDescriptor, IPluginCon
 
 	@Override
 	public String toString() {
-		return this.getClass().getName() + " {id=" + getId() + "}"; //$NON-NLS-1$//$NON-NLS-2$
+		return this.getClass().getName() + " {id=" + getId() + "}"; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

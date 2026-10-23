@@ -56,14 +56,14 @@ public class TreeSelection extends StructuredSelection implements ITreeSelection
 		CustomHashtable element2TreePaths;
 		IElementComparer comparer;
 
-		private InitializeData(TreePath[] paths, IElementComparer comparer) {
+		private InitializeData(TreePath[] paths, IElementComparer comparer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			this.paths= new TreePath[paths.length];
 			this.comparer = comparer;
 			System.arraycopy(paths, 0, this.paths, 0, paths.length);
 			element2TreePaths = new CustomHashtable(comparer);
 			int size = paths.length;
-			selection = new ArrayList(size);
-			for (int i = 0; i < size; i++) {
+			selection = new ArrayList(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object lastSegment= paths[i].getLastSegment();
 				// lastSegment is null when TreeSelections are created from TreePath
 				// themself created with an empty "segments" array.
@@ -75,7 +75,7 @@ public class TreeSelection extends StructuredSelection implements ITreeSelection
 					} else if (mapped instanceof List) {
 						((List) mapped).add(paths[i]);
 					} else {
-						List newMapped = new ArrayList(2);
+						List newMapped = new ArrayList(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						newMapped.add(mapped);
 						newMapped.add(paths[i]);
 						element2TreePaths.put(lastSegment, newMapped);
@@ -170,7 +170,7 @@ public class TreeSelection extends StructuredSelection implements ITreeSelection
 		return element2TreePaths.getComparer();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (!(obj instanceof TreeSelection selection)) {
 			// Fall back to super implementation, see bug 135837.
@@ -181,7 +181,7 @@ public class TreeSelection extends StructuredSelection implements ITreeSelection
 			IElementComparer comparerOrNull = (getElementComparer() == selection
 					.getElementComparer()) ? getElementComparer() : null;
 			if (size > 0) {
-				for (int i = 0; i < paths.length; i++) {
+				for (int i = 0; i < paths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!paths[i].equals(selection.paths[i], comparerOrNull)) {
 						return false;
 					}

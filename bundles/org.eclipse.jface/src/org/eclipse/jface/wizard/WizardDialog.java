@@ -96,10 +96,10 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	private IWizard wizard;
 
 	// Wizards to dispose
-	private final ArrayList<IWizard> createdWizards = new ArrayList<>();
+	private final ArrayList<IWizard> createdWizards = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	// Current nested wizards
-	private final ArrayList<IWizard> nestedWizards = new ArrayList<>();
+	private final ArrayList<IWizard> nestedWizards = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	// The currently displayed page.
 	private IWizardPage currentPage = null;
@@ -218,7 +218,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 			minimumHeight = minH;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Point computeSize(Composite composite, int wHint, int hHint,
 				boolean force) {
 			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
@@ -228,7 +228,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 			Control[] children = composite.getChildren();
 			if (children.length > 0) {
 				result = new Point(0, 0);
-				for (Control element : children) {
+				for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Point cp = element.computeSize(wHint, hHint, force);
 					result.x = Math.max(result.x, cp.x);
 					result.y = Math.max(result.y, cp.y);
@@ -271,7 +271,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		public void layout(Composite composite, boolean force) {
 			Rectangle rect = getClientArea(composite);
 			Control[] children = composite.getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				element.setBounds(rect);
 			}
 		}
@@ -314,7 +314,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		setWizard(newWizard);
 		// since VAJava can't initialize an instance var with an anonymous
 		// class outside a constructor we do it here:
-		cancelListener = widgetSelectedAdapter(e -> cancelPressed());
+		cancelListener = widgetSelectedAdapter(e -> cancelPressed()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	/**
@@ -383,7 +383,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 *            and <code>false</code> if it should be disabled
 	 * @return the saved UI state
 	 */
-	private Map<String, Object> aboutToStart(boolean enableCancelButton) {
+	private Map<String, Object> aboutToStart(boolean enableCancelButton) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, Object> savedState = null;
 		if (getShell() != null) {
 			// Save focus control
@@ -419,7 +419,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 			// Install traverse listener once in order to implement 'Enter' and 'Space' key blocking
 			if (timeWhenLastJobFinished == -1) {
 				timeWhenLastJobFinished= 0;
-				getShell().addTraverseListener(e -> {
+				getShell().addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 					if (e.detail == SWT.TRAVERSE_RETURN || (e.detail == SWT.TRAVERSE_MNEMONIC && e.keyCode == 32)) {
 						// We want to ignore the keystroke when we detect that it has been received within the
 						// delay period after the last operation has finished.  This prevents the user from accidentally
@@ -455,7 +455,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		showPage(page);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buttonPressed(int buttonId) {
 		switch (buttonId) {
 		case IDialogConstants.HELP_ID: {
@@ -528,7 +528,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		// Register help listener on the shell
-		newShell.addHelpListener(event -> {
+		newShell.addHelpListener(event -> { //FLLDCIM: MARK — T14 HELP CALL
 			// call perform help on the current page
 			if (currentPage != null) {
 				currentPage.performHelp();
@@ -598,7 +598,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		setButtonLayoutData(button);
 		button.setFont(parent.getFont());
 		button.setData(Integer.valueOf(IDialogConstants.CANCEL_ID));
-		button.addSelectionListener(cancelListener);
+		button.addSelectionListener(cancelListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return button;
 	}
 
@@ -640,7 +640,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		return contents;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		// Build the Page container
@@ -676,7 +676,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 * @param pmlayout the layout
 	 * @return ProgressMonitorPart the progress monitor part
 	 */
-	protected ProgressMonitorPart createProgressMonitorPart(
+	protected ProgressMonitorPart createProgressMonitorPart( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite composite, GridLayout pmlayout) {
 		useCustomProgressMonitorPart= false;
 		return new ProgressMonitorPart(composite, pmlayout, true) {
@@ -744,7 +744,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		wizard.createPageControls(pageContainer);
 		// Ensure that all of the created pages are initially not visible
 		IWizardPage[] pages = wizard.getPages();
-		for (IWizardPage page : pages) {
+		for (IWizardPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (page.getControl() != null) {
 				page.getControl().setVisible(false);
 			}
@@ -766,7 +766,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 *            the parent button bar
 	 * @return a composite containing the new buttons
 	 */
-	private Composite createPreviousAndNextButtons(Composite parent) {
+	private Composite createPreviousAndNextButtons(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// increment the number of columns in the button bar
 		((GridLayout) parent.getLayout()).numColumns++;
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -825,7 +825,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	/**
 	 * The Finish button has been pressed.
 	 */
-	protected void finishPressed() {
+	protected void finishPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Wizards are added to the nested wizards list in setWizard.
 		// This means that the current wizard is always the last wizard in the
 		// list.
@@ -837,7 +837,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		if (wizard.performFinish()) {
 			// Call perform finish on outer wizards in the nested chain
 			// (to allow them to save state for example)
-			for (int i = 0; i < nestedWizards.size() - 1; i++) {
+			for (int i = 0; i < nestedWizards.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nestedWizards.get(i).performFinish();
 			}
 			// Hard close the dialog.
@@ -876,9 +876,9 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 * @return <code>true</code> if the window is (or was already) closed, and
 	 *         <code>false</code> if it is still open
 	 */
-	private boolean hardClose() {
+	private boolean hardClose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// inform wizards
-		for (IWizard createdWizard : createdWizards) {
+		for (IWizard createdWizard : createdWizards) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				createdWizard.dispose();
 			} catch (Exception e) {
@@ -1013,7 +1013,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 * attempt to change the UI state of the wizard in the long-running
 	 * operation will be nullified when original UI state is restored.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable)
 			throws InvocationTargetException,
 			InterruptedException {
@@ -1099,7 +1099,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 * @see #restoreUIState
 	 */
 	private Map<String, Object> saveUIState(boolean keepCancelEnabled) {
-		Map<String, Object> savedState = new HashMap<>(10);
+		Map<String, Object> savedState = new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		saveEnableStateAndSet(backButton, savedState, "back", false); //$NON-NLS-1$
 		saveEnableStateAndSet(nextButton, savedState, "next", false); //$NON-NLS-1$
 		saveEnableStateAndSet(finishButton, savedState, "finish", false); //$NON-NLS-1$
@@ -1120,7 +1120,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 */
 	private void setDisplayCursor(Cursor c) {
 		Shell[] shells = getShell().getDisplay().getShells();
-		for (Shell shell : shells) {
+		for (Shell shell : shells) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			shell.setCursor(c);
 		}
 	}
@@ -1184,7 +1184,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 * @param newWizard
 	 *            the wizard
 	 */
-	protected void setWizard(IWizard newWizard) {
+	protected void setWizard(IWizard newWizard) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		wizard = newWizard;
 		wizard.setContainer(this);
 		if (!createdWizards.contains(wizard)) {
@@ -1214,7 +1214,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void showPage(IWizardPage page) {
 		if (page == null || page == currentPage) {
 			return;
@@ -1244,7 +1244,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	/**
 	 * Update the receiver for the new page.
 	 */
-	private void updateForPage(IWizardPage page) {
+	private void updateForPage(IWizardPage page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// ensure this page belongs to the current wizard
 		if (wizard != page.getWizard()) {
 			setWizard(page.getWizard());
@@ -1276,7 +1276,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	/**
 	 * Shows the starting page of the wizard.
 	 */
-	private void showStartingPage() {
+	private void showStartingPage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		currentPage = wizard.getStartingPage();
 		if (currentPage == null) {
 			// something must have happened getting the page
@@ -1306,7 +1306,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 *            the saved UI state as returned by <code>aboutToStart</code>
 	 * @see #aboutToStart
 	 */
-	private void stopped(Map<String, Object> savedState) {
+	private void stopped(Map<String, Object> savedState) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getShell() != null && !getShell().isDisposed()) {
 			if (wizard.needsProgressMonitor() && progressMonitorPart != null) {
 				progressMonitorPart.setVisible(false);
@@ -1316,7 +1316,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 			restoreUIState(savedState);
 			setDisplayCursor(null);
 			if (useCustomProgressMonitorPart && cancelButton != null) {
-				cancelButton.addSelectionListener(cancelListener);
+				cancelButton.addSelectionListener(cancelListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				cancelButton.setCursor(null);
 			}
 			Control focusControl = (Control) savedState.get(FOCUS_CONTROL);
@@ -1341,7 +1341,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		firePageChanged(new PageChangedEvent(this, getCurrentPage()));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void updateButtons() {
 		boolean canFlipToNextPage = false;
 		boolean canFinish = wizard.canFinish();
@@ -1373,7 +1373,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 		setMessage(pageDescription);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void updateMessage() {
 
 		if (currentPage == null) {
@@ -1455,7 +1455,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	private void updateSizeForWizard(IWizard sizingWizard) {
 		Point delta = new Point(0, 0);
 		IWizardPage[] pages = sizingWizard.getPages();
-		for (IWizardPage page : pages) {
+		for (IWizardPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// ensure the page container is large enough
 			Point pageDelta = calculatePageSizeDelta(page);
 			delta.x = Math.max(delta.x, pageDelta.x);
@@ -1527,7 +1527,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 * @since 3.1
 	 */
 	protected void firePageChanged(final PageChangedEvent event) {
-		for (IPageChangedListener l : pageChangedListeners) {
+		for (IPageChangedListener l : pageChangedListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -1574,7 +1574,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 	 * @since 3.3
 	 */
 	protected void firePageChanging(final PageChangingEvent event) {
-		for (IPageChangingListener l : pageChangingListeners) {
+		for (IPageChangingListener l : pageChangingListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -1586,7 +1586,7 @@ public class WizardDialog extends TitleAreaDialog implements IWizardContainer2, 
 
 	@Override
 	protected IDialogSettings getDialogBoundsSettings() {
-		String name = getWizard().getClass().getSimpleName() + ".dialogBounds"; //$NON-NLS-1$
+		String name = getWizard().getClass().getSimpleName() + ".dialogBounds"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IDialogSettings dialogSettings = getWizard().getDialogSettings();
 		if (dialogSettings == null) {
 			return null;

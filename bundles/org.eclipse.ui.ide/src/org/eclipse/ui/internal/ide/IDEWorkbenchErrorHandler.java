@@ -81,7 +81,7 @@ public class IDEWorkbenchErrorHandler extends WorkbenchErrorHandler {
 		workbenchConfigurer = configurer;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void handle(final StatusAdapter statusAdapter, int style) {
 
 		// if fatal error occurs, we will show the blocking error dialog anyway
@@ -107,7 +107,7 @@ public class IDEWorkbenchErrorHandler extends WorkbenchErrorHandler {
 
 		// if fatal error occurs, we will ask to close the workbench
 		if (isFatal(statusAdapter)) {
-			UIJob handlingExceptionJob = UIJob.create("IDE Exception Handler", _ -> { //$NON-NLS-1$
+			UIJob handlingExceptionJob = UIJob.create("IDE Exception Handler", _ -> { //$NON-NLS-1$ //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 				handleException(statusAdapter.getStatus().getException());
 				return new Status(IStatus.OK, IDEWorkbenchPlugin.IDE_WORKBENCH,
 						IDEWorkbenchMessages.IDEExceptionHandler_ExceptionHandledMessage);
@@ -129,7 +129,7 @@ public class IDEWorkbenchErrorHandler extends WorkbenchErrorHandler {
 		return false;
 	}
 
-	private void handleException(Throwable t) {
+	private void handleException(Throwable t) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			exceptionCount++;
 			if (exceptionCount > 1) {
@@ -152,7 +152,7 @@ public class IDEWorkbenchErrorHandler extends WorkbenchErrorHandler {
 	 * Informs the user about a fatal error. Returns true if the user decide to
 	 * exit workbench or if another fatal error happens while reporting it.
 	 */
-	private boolean openQuestionDialog(Throwable t) {
+	private boolean openQuestionDialog(Throwable t) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			String msg = null;
 			if (t instanceof OutOfMemoryError) {
@@ -195,7 +195,7 @@ public class IDEWorkbenchErrorHandler extends WorkbenchErrorHandler {
 		}
 	}
 
-	private FatalErrorDialog openInternalQuestionDialog(Shell parent,
+	private FatalErrorDialog openInternalQuestionDialog(Shell parent, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String title, String message, Throwable detail, int defaultIndex) {
 		String[] labels;
 		if (detail == null) {
@@ -222,7 +222,7 @@ public class IDEWorkbenchErrorHandler extends WorkbenchErrorHandler {
 	/**
 	 * Closes the workbench and make sure all exceptions are handled.
 	 */
-	private void closeWorkbench() {
+	private void closeWorkbench() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (closing) {
 			return;
 		}

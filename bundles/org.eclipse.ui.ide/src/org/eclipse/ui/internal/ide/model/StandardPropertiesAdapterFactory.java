@@ -30,7 +30,7 @@ import org.eclipse.ui.views.properties.ResourcePropertySource;
  */
 public class StandardPropertiesAdapterFactory implements IAdapterFactory {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getAdapter(Object o, Class<T> adapterType) {
 		if (adapterType.isInstance(o)) {
 			return adapterType.cast(o);

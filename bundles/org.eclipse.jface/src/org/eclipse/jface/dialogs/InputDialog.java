@@ -133,7 +133,7 @@ public class InputDialog extends Dialog {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// create composite
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -151,7 +151,7 @@ public class InputDialog extends Dialog {
 		text = new Text(composite, getInputTextStyle());
 		text.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 				| GridData.HORIZONTAL_ALIGN_FILL));
-		text.addModifyListener(e -> validateInput());
+		text.addModifyListener(e -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		errorMessageText = new Text(composite, SWT.READ_ONLY | SWT.WRAP);
 		errorMessageText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 				| GridData.HORIZONTAL_ALIGN_FILL));
@@ -239,7 +239,7 @@ public class InputDialog extends Dialog {
 	 *            the error message, or <code>null</code> to clear
 	 * @since 3.0
 	 */
-	public void setErrorMessage(String errorMessage) {
+	public void setErrorMessage(String errorMessage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.errorMessage = errorMessage;
 		if (errorMessageText != null && !errorMessageText.isDisposed()) {
 			errorMessageText.setText(errorMessage == null ? " \n " : errorMessage); //$NON-NLS-1$

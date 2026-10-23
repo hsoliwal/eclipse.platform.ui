@@ -78,7 +78,7 @@ public class PerspectiveBuilder {
 
 	private List<String> defaultFastViews;
 
-	private final Map<String, MPlaceholder> viewPlaceholders = new HashMap<>();
+	private final Map<String, MPlaceholder> viewPlaceholders = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private Map<String, ViewLayoutReader> viewLayouts;
 
@@ -117,7 +117,7 @@ public class PerspectiveBuilder {
 		}
 	}
 
-	private void populate() {
+	private void populate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addActionSetTags();
 		addPerspectiveShortcutTags();
 		addNewWizardTags();
@@ -125,7 +125,7 @@ public class PerspectiveBuilder {
 		addHiddenItems();
 		addShowInTags();
 
-		for (InfoReader info : perspReader.getInfos()) {
+		for (InfoReader info : perspReader.getInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isEditorArea()) {
 				addEditorArea(info);
 			} else if (info.isFolder()) {
@@ -146,9 +146,9 @@ public class PerspectiveBuilder {
 		PerspectiveTagger.tagPerspective(perspective, modelService);
 	}
 
-	private void processStandaloneViews() {
+	private void processStandaloneViews() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, ViewLayoutReader> viewLayouts = perspReader.getViewLayouts();
-		for (Entry<String, ViewLayoutReader> entry : viewLayouts.entrySet()) {
+		for (Entry<String, ViewLayoutReader> entry : viewLayouts.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String viewId = entry.getKey();
 			MPlaceholder placeholder = viewPlaceholders.get(viewId);
 			if (placeholder == null) {
@@ -167,7 +167,7 @@ public class PerspectiveBuilder {
 	}
 
 	private void addDetachedWindows() {
-		for (DetachedWindowReader detachedWindowReader : perspReader.getDetachedWindows()) {
+		for (DetachedWindowReader detachedWindowReader : perspReader.getDetachedWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MTrimmedWindow detachedWindow = modelService.createModelElement(MTrimmedWindow.class);
 			Rectangle bounds = detachedWindowReader.getBounds();
 			detachedWindow.setX(bounds.x);
@@ -181,7 +181,7 @@ public class PerspectiveBuilder {
 		}
 	}
 
-	private void addTrimBars() {
+	private void addTrimBars() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, Integer> fastViewBars = perspReader.getFastViewBars();
 		if (fastViewBars.isEmpty() && defaultFastViews.isEmpty()) {
 			return;
@@ -191,7 +191,7 @@ public class PerspectiveBuilder {
 		int bottomCounter = 0;
 		int rightCounter = 0;
 		int leftCounter = 0;
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (defaultFastViews.size() > 0) {
 			sb.append(DEFAULT_FASTVIEW_STACK).append(' ');
@@ -217,7 +217,7 @@ public class PerspectiveBuilder {
 		}
 
 		if (fastViewBars.size() > 0) {
-			for (InfoReader folder : perspReader.getInfos()) {
+			for (InfoReader folder : perspReader.getInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String folderId = folder.getId();
 				if (!fastViewBars.containsKey(folderId)) {
 					continue;
@@ -252,7 +252,7 @@ public class PerspectiveBuilder {
 	}
 
 	private void hideEmptyStacks() {
-		for (MPartStack stack : modelService.findElements(perspective, null, MPartStack.class)) {
+		for (MPartStack stack : modelService.findElements(perspective, null, MPartStack.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ID_EDITOR_AREA.equals(stack.getElementId())
 					|| ID_EDITOR_AREA.equals(stack.getParent().getElementId())) {
 				continue;
@@ -268,7 +268,7 @@ public class PerspectiveBuilder {
 		boolean isAnythingMaximized = isMaximized(editorAreaPlaceholder) || isAnyMaximized(stacks);
 		if (isAnythingMaximized) {
 			markMinimizedByZoom(editorAreaPlaceholder);
-			for (MPartStack stack : stacks) {
+			for (MPartStack stack : stacks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				markMinimizedByZoom(stack);
 			}
 		}
@@ -282,7 +282,7 @@ public class PerspectiveBuilder {
 	}
 
 	private boolean isAnyMaximized(List<MPartStack> stacks) {
-		for (MPartStack stack : stacks) {
+		for (MPartStack stack : stacks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isMaximized(stack)) {
 				return true;
 			}
@@ -295,13 +295,13 @@ public class PerspectiveBuilder {
 	}
 
 	private void hideUrenderableSashes() {
-		for (MPartSashContainer sash : modelService.findElements(perspective, null, MPartSashContainer.class)) {
+		for (MPartSashContainer sash : modelService.findElements(perspective, null, MPartSashContainer.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hideUnrenderableSash(sash);
 		}
 	}
 
 	private void hideInvisibleSashes() {
-		for (MPartSashContainer sash : modelService.findElements(perspective, null, MPartSashContainer.class, null)) {
+		for (MPartSashContainer sash : modelService.findElements(perspective, null, MPartSashContainer.class, null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hideInvisibleSash(sash);
 		}
 	}
@@ -316,7 +316,7 @@ public class PerspectiveBuilder {
 	}
 
 	private boolean hasVisibleContent(MPartSashContainer sash) {
-		for (MPartSashContainerElement child : sash.getChildren()) {
+		for (MPartSashContainerElement child : sash.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.isVisible()) {
 				return true;
 			}
@@ -334,7 +334,7 @@ public class PerspectiveBuilder {
 	}
 
 	private boolean hasRenderableContent(MPartStack stack) {
-		for (MStackElement child : stack.getChildren()) {
+		for (MStackElement child : stack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.isVisible() && child.isToBeRendered()) {
 				return true;
 			}
@@ -345,7 +345,7 @@ public class PerspectiveBuilder {
 	private void correctSelectedElements() {
 		List<MPartSashContainerElement> perspChildren = perspective.getChildren();
 		if (perspective.getSelectedElement() == null && !perspChildren.isEmpty()) {
-			for (MPartSashContainerElement child : perspChildren) {
+			for (MPartSashContainerElement child : perspChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child.isToBeRendered()) {
 					perspective.setSelectedElement(child);
 					break;
@@ -353,7 +353,7 @@ public class PerspectiveBuilder {
 			}
 		}
 
-		for (MPartSashContainerElement child : perspChildren) {
+		for (MPartSashContainerElement child : perspChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			correctSelectedElements(child);
 		}
 	}
@@ -370,13 +370,13 @@ public class PerspectiveBuilder {
 				container.setSelectedElement(firstRenderableElement);
 			}
 		}
-		for (MUIElement child : children) {
+		for (MUIElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			correctSelectedElements(child);
 		}
 	}
 
 	private MUIElement getFirstRenderableElement(List<MUIElement> elements) {
-		for (MUIElement element : elements) {
+		for (MUIElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.isToBeRendered()) {
 				return element;
 			}
@@ -400,7 +400,7 @@ public class PerspectiveBuilder {
 		addToPerspective(editorAreaPlaceholder, info);
 	}
 
-	private MPartStack addPartStack(InfoReader info) {
+	private MPartStack addPartStack(InfoReader info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MPartStack stack = createPartStack(info);
 		if (info.isRelativelyPositioned()) {
 			String refElementId = info.getRelative();
@@ -419,7 +419,7 @@ public class PerspectiveBuilder {
 		return stack;
 	}
 
-	private MPartStack addDefaultFastViewStack() {
+	private MPartStack addDefaultFastViewStack() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MPartStack stack = null;
 		List<String> views = perspReader.getDefaultFastViewBarViewIds();
 		if (views.size() > 0) {
@@ -439,7 +439,7 @@ public class PerspectiveBuilder {
 			}
 			setPartState(stack, org.eclipse.ui.internal.e4.migration.InfoReader.PartState.MINIMIZED);
 
-			for (String view : views) {
+			for (String view : views) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addPlaceholderToDefaultFastViewStack(stack, view, null);
 			}
 		}
@@ -479,8 +479,8 @@ public class PerspectiveBuilder {
 		return layoutUtils.createStack(stackId, true);
 	}
 
-	private void populatePartStack(MPartStack stack, InfoReader info) {
-		for (PageReader page : info.getPages()) {
+	private void populatePartStack(MPartStack stack, InfoReader info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (PageReader page : info.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addPlaceholderToStack(stack, page.getId(), page.getLabel());
 		}
 		MStackElement selectedElement = (MStackElement) modelService.find(info.getActivePageId(), stack);
@@ -502,9 +502,9 @@ public class PerspectiveBuilder {
 		if (partOrder == null || partOrder.length != renderedViews.size()) {
 			return;
 		}
-		List<MStackElement> originalOrder = new ArrayList<>(renderedViews);
+		List<MStackElement> originalOrder = new ArrayList<>(renderedViews); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		stackChildren.clear();
-		for (int element : partOrder) {
+		for (int element : partOrder) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			stackChildren.add(originalOrder.get(element));
 		}
 		originalOrder.removeAll(stackChildren);
@@ -512,8 +512,8 @@ public class PerspectiveBuilder {
 	}
 
 	private List<MStackElement> getRenderedViews(MPartStack stack) {
-		List<MStackElement> renderedViews = new ArrayList<>();
-		for (MStackElement element : stack.getChildren()) {
+		List<MStackElement> renderedViews = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MStackElement element : stack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.isToBeRendered()) {
 				renderedViews.add(element);
 			}
@@ -522,7 +522,7 @@ public class PerspectiveBuilder {
 	}
 
 	private void populatePartStack(MPartStack stack, DetachedWindowReader info) {
-		for (PageReader page : info.getPages()) {
+		for (PageReader page : info.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addPlaceholderToStack(stack, page.getId(), page.getLabel());
 		}
 		stack.setSelectedElement((MStackElement) modelService.find(info.getActivePageId(), stack));
@@ -587,14 +587,14 @@ public class PerspectiveBuilder {
 	}
 
 	private void addPerspectiveShortcutTags() {
-		for (String shortcutId : perspReader.getPerspectiveShortcutIds()) {
-			tags.add(ModeledPageLayout.PERSP_SHORTCUT_TAG + shortcutId);
+		for (String shortcutId : perspReader.getPerspectiveShortcutIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			tags.add(ModeledPageLayout.PERSP_SHORTCUT_TAG + shortcutId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private void addActionSetTags() {
-		for (String actionSetId : perspReader.getActionSetIds()) {
-			tags.add(ModeledPageLayout.ACTION_SET_TAG + actionSetId);
+		for (String actionSetId : perspReader.getActionSetIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			tags.add(ModeledPageLayout.ACTION_SET_TAG + actionSetId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -607,18 +607,18 @@ public class PerspectiveBuilder {
 		}
 		ArrayList<String> list = getShowInPartFromRegistry(origId);
 		if (list != null) {
-			for (String showIn : list) {
-				tags.add(ModeledPageLayout.SHOW_IN_PART_TAG + showIn);
+			for (String showIn : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				tags.add(ModeledPageLayout.SHOW_IN_PART_TAG + showIn); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		return;
 	}
 
 	public static ArrayList<String> getShowInPartFromRegistry(String targetId) {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IExtension[] extensions = getPerspectiveExtensions();
 		if (extensions != null) {
-			for (IExtension extension : extensions) {
+			for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				list.addAll(getExtensionShowInPartFromRegistry(extension, targetId));
 			}
 		}
@@ -636,9 +636,9 @@ public class PerspectiveBuilder {
 	}
 
 	private static ArrayList<String> getExtensionShowInPartFromRegistry(IExtension extension, String targetId) {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IConfigurationElement[] configElements = extension.getConfigurationElements();
-		for (IConfigurationElement configElement : configElements) {
+		for (IConfigurationElement configElement : configElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String type = configElement.getName();
 			if (type.equals(IWorkbenchRegistryConstants.TAG_PERSPECTIVE_EXTENSION)) {
 				String id = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_TARGET_ID);
@@ -651,10 +651,10 @@ public class PerspectiveBuilder {
 	}
 
 	private static ArrayList<String> getConfigElementShowInPartsFromRegistry(IConfigurationElement configElement) {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String tag = IWorkbenchRegistryConstants.TAG_SHOW_IN_PART;
 		IConfigurationElement[] children = configElement.getChildren();
-		for (IConfigurationElement child : children) {
+		for (IConfigurationElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String ctype = child.getName();
 			if (tag.equals(ctype)) {
 				String tid = child.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
@@ -667,25 +667,25 @@ public class PerspectiveBuilder {
 	}
 
 	private void addNewWizardTags() {
-		for (String actionId : perspReader.getNewWizardActionIds()) {
-			tags.add(ModeledPageLayout.NEW_WIZARD_TAG + actionId);
+		for (String actionId : perspReader.getNewWizardActionIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			tags.add(ModeledPageLayout.NEW_WIZARD_TAG + actionId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private void addShowViewTags() {
-		for (String actionId : perspReader.getShowViewActionIds()) {
-			tags.add(ModeledPageLayout.SHOW_VIEW_TAG + actionId);
+		for (String actionId : perspReader.getShowViewActionIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			tags.add(ModeledPageLayout.SHOW_VIEW_TAG + actionId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private void addHiddenItems() {
 		String comma = ","; //$NON-NLS-1$
-		StringBuilder persistedValue = new StringBuilder();
-		for (String elementId : perspReader.getHiddenMenuItemIds()) {
+		StringBuilder persistedValue = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String elementId : perspReader.getHiddenMenuItemIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			persistedValue.append(ModeledPageLayout.HIDDEN_MENU_PREFIX);
 			persistedValue.append(elementId).append(comma);
 		}
-		for (String elementId : perspReader.getHiddenToolbarItemIds()) {
+		for (String elementId : perspReader.getHiddenToolbarItemIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			persistedValue.append(ModeledPageLayout.HIDDEN_TOOLBAR_PREFIX);
 			persistedValue.append(elementId).append(comma);
 		}

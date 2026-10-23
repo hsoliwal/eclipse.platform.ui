@@ -245,7 +245,7 @@ public class FileSystemElement implements IAdaptable {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder buf = new StringBuilder();
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isDirectory()) {
 			buf.append("Folder(");//$NON-NLS-1$
 		} else {

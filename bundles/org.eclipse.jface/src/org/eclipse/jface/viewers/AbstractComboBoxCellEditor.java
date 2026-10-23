@@ -67,7 +67,7 @@ abstract class AbstractComboBoxCellEditor extends CellEditor {
 	AbstractComboBoxCellEditor() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void activate(ColumnViewerEditorActivationEvent activationEvent) {
 		super.activate(activationEvent);
 		if (activationStyle != SWT.NONE) {
@@ -87,7 +87,7 @@ abstract class AbstractComboBoxCellEditor extends CellEditor {
 			}
 
 			if (dropDown) {
-				getControl().getDisplay().asyncExec(() -> ((CCombo) getControl()).setListVisible(true));
+				getControl().getDisplay().asyncExec(() -> ((CCombo) getControl()).setListVisible(true)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 			}
 		}

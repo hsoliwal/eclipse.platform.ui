@@ -101,7 +101,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	 * @param menuExtenders      the collection of menu extenders for this site
 	 * @see IWorkbenchPartSite#registerContextMenu(MenuManager, ISelectionProvider)
 	 */
-	public static final void registerContextMenu(final String menuId, final MenuManager menuManager,
+	public static final void registerContextMenu(final String menuId, final MenuManager menuManager, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ISelectionProvider selectionProvider, final boolean includeEditorInput, final IWorkbenchPart part,
 			IEclipseContext context, final Collection<PopupMenuExtender> menuExtenders) {
 		/*
@@ -111,7 +111,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 		 */
 		final Iterator<PopupMenuExtender> extenderItr = menuExtenders.iterator();
 		boolean foundMatch = false;
-		while (extenderItr.hasNext()) {
+		while (extenderItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final PopupMenuExtender existingExtender = extenderItr.next();
 			if (existingExtender.matches(menuManager, selectionProvider, part)) {
 				existingExtender.addMenuId(menuId);
@@ -168,14 +168,14 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	 * @param ref  the part reference
 	 * @param part the part
 	 */
-	public PartSite(MPart model, IWorkbenchPart part, IWorkbenchPartReference ref, IConfigurationElement element) {
+	public PartSite(MPart model, IWorkbenchPart part, IWorkbenchPartReference ref, IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.model = model;
 		this.part = part;
 		this.partReference = ref;
 		this.element = element;
 
 		MElementContainer<?> parent = (MElementContainer<?>) ((EObject) model).eContainer();
-		while (!(parent instanceof MWindow)) {
+		while (!(parent instanceof MWindow)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent = (MElementContainer<?>) ((EObject) parent).eContainer(); // parent.getParent();
 		}
 
@@ -208,7 +208,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	/**
 	 * Initialize the local services.
 	 */
-	private void initializeDefaultServices() {
+	private void initializeDefaultServices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IHandlerService handlerService = new LegacyHandlerService(e4Context, new ActivePartExpression(part));
 		e4Context.set(IHandlerService.class, handlerService);
 
@@ -299,15 +299,15 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	/**
 	 * Dispose the contributions.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (menuExtenders != null) {
-			HashSet<MenuManager> managers = new HashSet<>(menuExtenders.size());
-			for (PopupMenuExtender ext : menuExtenders) {
+			HashSet<MenuManager> managers = new HashSet<>(menuExtenders.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (PopupMenuExtender ext : menuExtenders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				managers.add(ext.getManager());
 				ext.dispose();
 			}
 			if (managers.size() > 0) {
-				for (MenuManager mgr : managers) {
+				for (MenuManager mgr : managers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					mgr.dispose();
 				}
 			}
@@ -422,7 +422,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	 *
 	 * @return the shell containing this part
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Shell getShell() {
 
 		// Compatibility: This method should not be used outside the UI
@@ -449,7 +449,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 		// If someone works with disposed parts, we can't help, it is a bug
 		if (e4Context == null) {
 			WorkbenchPlugin.log(new IllegalStateException(
-					"IWorkbenchSite.getShell() was called after part disposal: " + this)); //$NON-NLS-1$
+					"IWorkbenchSite.getShell() was called after part disposal: " + this)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return PlatformUI.getWorkbench().getDisplay().getActiveShell();
 		}
 
@@ -465,7 +465,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 		EObject parent = previousParent.eContainer();
 		// we can't simply stop at an MWindow because the part may be in a detached
 		// window
-		while (!(parent instanceof MApplication)) {
+		while (!(parent instanceof MApplication)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			previousParent = parent;
 			parent = parent.eContainer();
 		}
@@ -489,7 +489,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	@Override
 	public void registerContextMenu(String menuID, MenuManager menuMgr, ISelectionProvider selProvider) {
 		if (menuExtenders == null) {
-			menuExtenders = new ArrayList<>(1);
+			menuExtenders = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		registerContextMenu(menuID, menuMgr, selProvider, true, getPart(), e4Context, menuExtenders);
@@ -511,8 +511,8 @@ public abstract class PartSite implements IWorkbenchPartSite {
 		if (menuExtenders == null) {
 			return new String[0];
 		}
-		ArrayList<String> menuIds = new ArrayList<>(menuExtenders.size());
-		for (PopupMenuExtender extender : menuExtenders) {
+		ArrayList<String> menuIds = new ArrayList<>(menuExtenders.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (PopupMenuExtender extender : menuExtenders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			menuIds.addAll(extender.getMenuIds());
 		}
 		return menuIds.toArray(new String[menuIds.size()]);
@@ -615,7 +615,7 @@ public abstract class PartSite implements IWorkbenchPartSite {
 	 */
 	@Override
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("PartSite(id="); //$NON-NLS-1$
 		buffer.append(getId());
 		buffer.append(",pluginId="); //$NON-NLS-1$

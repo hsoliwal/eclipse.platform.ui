@@ -85,7 +85,7 @@ public class WizardNewLinkPage extends WizardPage {
 		setPageComplete(true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Font font = parent.getFont();
 		initializeDialogUnits(parent);
@@ -119,7 +119,7 @@ public class WizardNewLinkPage extends WizardPage {
 				setPageComplete(validatePage());
 			}
 		};
-		createLinkButton.addSelectionListener(listener);
+		createLinkButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		createLinkLocationGroup(topLevel, createLink);
 		validatePage();
@@ -135,7 +135,7 @@ public class WizardNewLinkPage extends WizardPage {
 	 * @param locationGroup the parent composite
 	 * @param enabled       sets the initial enabled state of the widgets
 	 */
-	private void createLinkLocationGroup(Composite locationGroup, boolean enabled) {
+	private void createLinkLocationGroup(Composite locationGroup, boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = locationGroup.getFont();
 		Label fill = new Label(locationGroup, SWT.NONE);
 		GridData data = new GridData();
@@ -150,7 +150,7 @@ public class WizardNewLinkPage extends WizardPage {
 		linkTargetField.setLayoutData(data);
 		linkTargetField.setFont(font);
 		linkTargetField.setEnabled(enabled);
-		linkTargetField.addModifyListener(_ -> setPageComplete(validatePage()));
+		linkTargetField.addModifyListener(_ -> setPageComplete(validatePage())); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		if (initialLinkTarget != null) {
 			linkTargetField.setText(initialLinkTarget);
 		}
@@ -160,7 +160,7 @@ public class WizardNewLinkPage extends WizardPage {
 		setButtonLayoutData(browseButton);
 		browseButton.setFont(font);
 		browseButton.setText(IDEWorkbenchMessages.WizardNewLinkPage_browseButton);
-		browseButton.addSelectionListener(new SelectionAdapter() {
+		browseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleLinkTargetBrowseButtonPressed();
@@ -178,7 +178,7 @@ public class WizardNewLinkPage extends WizardPage {
 		setButtonLayoutData(variablesButton);
 		variablesButton.setFont(font);
 		variablesButton.setText(IDEWorkbenchMessages.WizardNewLinkPage_variablesButton);
-		variablesButton.addSelectionListener(new SelectionAdapter() {
+		variablesButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleVariablesButtonPressed();
@@ -203,7 +203,7 @@ public class WizardNewLinkPage extends WizardPage {
 	/**
 	 * Opens a file or directory browser depending on the link type.
 	 */
-	private void handleLinkTargetBrowseButtonPressed() {
+	private void handleLinkTargetBrowseButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String linkTargetName = linkTargetField.getText();
 		String selection = null;
 		IFileStore store = null;
@@ -333,7 +333,7 @@ public class WizardNewLinkPage extends WizardPage {
 	 * @return <code>true</code> if all controls are valid, and <code>false</code>
 	 *         if at least one is invalid
 	 */
-	private boolean validatePage() {
+	private boolean validatePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean valid = true;
 		IWorkspace workspace = IDEWorkbenchPlugin.getPluginWorkspace();
 

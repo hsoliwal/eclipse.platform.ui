@@ -59,13 +59,13 @@ public class BaseNewWizardMenu extends CompoundContributionItem {
 	 * add the ability to update the submenus of a window
 	 */
 
-	private final Map<String, IAction> actions = new HashMap<>(21);
+	private final Map<String, IAction> actions = new HashMap<>(21); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final IExtensionChangeHandler configListener = new IExtensionChangeHandler() {
 
 		@Override
 		public void removeExtension(IExtension source, Object[] objects) {
-			for (Object object : objects) {
+			for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (object instanceof NewWizardShortcutAction) {
 					actions.values().remove(object);
 				}
@@ -139,7 +139,7 @@ public class BaseNewWizardMenu extends CompoundContributionItem {
 		IWorkbenchPage page = workbenchWindow.getActivePage();
 		if (page != null) {
 			String[] wizardIds = page.getNewWizardShortcuts();
-			for (String wizardId : wizardIds) {
+			for (String wizardId : wizardIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IAction action = getAction(wizardId);
 				if (action != null) {
 					if (!WorkbenchActivityHelper.filterItem(action)) {
@@ -166,7 +166,7 @@ public class BaseNewWizardMenu extends CompoundContributionItem {
 	/*
 	 * Returns the action for the given wizard id, or null if not found.
 	 */
-	private IAction getAction(String id) {
+	private IAction getAction(String id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Keep a cache, rather than creating a new action each time,
 		// so that image caching in ActionContributionItem works.
 		IAction action = actions.get(id);
@@ -187,7 +187,7 @@ public class BaseNewWizardMenu extends CompoundContributionItem {
 
 	@Override
 	protected IContributionItem[] getContributionItems() {
-		List<IContributionItem> list = new ArrayList<>();
+		List<IContributionItem> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (workbenchWindow != null && workbenchWindow.getActivePage() != null
 				&& workbenchWindow.getActivePage().getPerspective() != null) {
 			addItems(list);

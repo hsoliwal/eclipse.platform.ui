@@ -120,11 +120,11 @@ class ProgressViewUpdater implements IJobProgressManagerListener {
 		/**
 		 * @return array containing updated, added and deleted items
 		 */
-		synchronized JobTreeElement[][] processForUpdate() {
-			HashSet<JobTreeElement> staleAdditions = new HashSet<>();
+		synchronized JobTreeElement[][] processForUpdate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			HashSet<JobTreeElement> staleAdditions = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			Iterator<JobTreeElement> additionsIterator = additions.iterator();
-			while (additionsIterator.hasNext()) {
+			while (additionsIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				JobTreeElement treeElement = additionsIterator.next();
 				if (!treeElement.isActive()) {
 					if (deletions.contains(treeElement)) {
@@ -135,8 +135,8 @@ class ProgressViewUpdater implements IJobProgressManagerListener {
 
 			additions.removeAll(staleAdditions);
 
-			HashSet<JobTreeElement> obsoleteRefresh = new HashSet<>();
-			for (JobTreeElement treeElement : refreshes) {
+			HashSet<JobTreeElement> obsoleteRefresh = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (JobTreeElement treeElement : refreshes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (deletions.contains(treeElement) || additions.contains(treeElement)) {
 					obsoleteRefresh.add(treeElement);
 				}
@@ -218,7 +218,7 @@ class ProgressViewUpdater implements IJobProgressManagerListener {
 	 * Create a new instance of the receiver.
 	 */
 	private ProgressViewUpdater() {
-		collectors = new LinkedHashMap<>();
+		collectors = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		ProgressManager.getInstance().addListener(this);
 		debug = PrefUtil.getAPIPreferenceStore().getBoolean(IWorkbenchPreferenceConstants.SHOW_SYSTEM_JOBS);
 	}
@@ -260,7 +260,7 @@ class ProgressViewUpdater implements IJobProgressManagerListener {
 	}
 
 	/** Running in UI thread by throttledUpdate */
-	private void update() {
+	private void update() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Abort the update if there isn't anything
 		if (collectors.isEmpty()) {
 			return;
@@ -268,7 +268,7 @@ class ProgressViewUpdater implements IJobProgressManagerListener {
 
 		if (currentInfo.updateAll) {
 			currentInfo.reset();
-			for (IProgressUpdateCollector collector : collectors.keySet()) {
+			for (IProgressUpdateCollector collector : collectors.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collector.refresh();
 			}
 
@@ -285,7 +285,7 @@ class ProgressViewUpdater implements IJobProgressManagerListener {
 			JobTreeElement[] keptFinsihedItems = elements[3];
 			JobTreeElement[] keptRemovedItems = elements[4];
 
-			for (IProgressUpdateCollector collector : collectors.keySet()) {
+			for (IProgressUpdateCollector collector : collectors.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (updateItems.length > 0) {
 					collector.refresh(updateItems);
 				}

@@ -25,7 +25,7 @@ import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-public class PartService implements IPageChangedListener, IPartListener, IPartListener2, IPartService {
+public class PartService implements IPageChangedListener, IPartListener, IPartListener2, IPartService { //FLLDCIM: MARK — T32  IMPLEMENTS
 
 	private final ListenerList<IPartListener> partListeners = new ListenerList<>();
 	private final ListenerList<IPartListener2> partListeners2 = new ListenerList<>();
@@ -78,7 +78,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partActivated(final IWorkbenchPart part) {
-		for (final IPartListener listener : partListeners) {
+		for (final IPartListener listener : partListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -90,7 +90,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partBroughtToTop(final IWorkbenchPart part) {
-		for (final IPartListener listener : partListeners) {
+		for (final IPartListener listener : partListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -102,7 +102,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partClosed(final IWorkbenchPart part) {
-		for (final IPartListener listener : partListeners) {
+		for (final IPartListener listener : partListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -114,7 +114,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partDeactivated(final IWorkbenchPart part) {
-		for (final IPartListener listener : partListeners) {
+		for (final IPartListener listener : partListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -126,7 +126,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partOpened(final IWorkbenchPart part) {
-		for (final IPartListener listener : partListeners) {
+		for (final IPartListener listener : partListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -138,7 +138,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partActivated(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -150,7 +150,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partBroughtToTop(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -162,7 +162,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partClosed(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -174,7 +174,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partDeactivated(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -186,7 +186,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partOpened(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -198,11 +198,11 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partHidden(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
-					listener.partHidden(partRef);
+					listener.partHidden(partRef); //FLLDCIM: MARK — T20 PART_VISIBILITY CALL
 				}
 			});
 		}
@@ -210,11 +210,11 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partVisible(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
-					listener.partVisible(partRef);
+					listener.partVisible(partRef); //FLLDCIM: MARK — T20 PART_VISIBILITY CALL
 				}
 			});
 		}
@@ -222,7 +222,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void partInputChanged(final IWorkbenchPartReference partRef) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -234,7 +234,7 @@ public class PartService implements IPageChangedListener, IPartListener, IPartLi
 
 	@Override
 	public void pageChanged(final PageChangedEvent event) {
-		for (final IPartListener2 listener : partListeners2) {
+		for (final IPartListener2 listener : partListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof IPageChangedListener) {
 				SafeRunner.run(new SafeRunnable() {
 					@Override

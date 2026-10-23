@@ -53,7 +53,7 @@ import org.eclipse.ui.internal.util.Util;
  * loaded then the action extension itself will be instantiated.
  */
 
-public abstract class PluginAction extends Action
+public abstract class PluginAction extends Action //FLLDCIM: MARK — T04  IMPLEMENTS
 		implements ISelectionListener, ISelectionChangedListener, INullSelectionListener, IPluginContribution {
 	private IActionDelegate delegate;
 
@@ -76,7 +76,7 @@ public abstract class PluginAction extends Action
 	 * @param id            the identifier
 	 * @param style         the style bits
 	 */
-	public PluginAction(IConfigurationElement actionElement, String id, int style) {
+	public PluginAction(IConfigurationElement actionElement, String id, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(null, style);
 
 		this.configElement = actionElement;
@@ -85,7 +85,7 @@ public abstract class PluginAction extends Action
 			setId(id);
 		} else {
 			// Create unique action id.
-			setId("PluginAction." + actionCount); //$NON-NLS-1$
+			setId("PluginAction." + actionCount); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			++actionCount;
 		}
 
@@ -119,7 +119,7 @@ public abstract class PluginAction extends Action
 	/**
 	 * Creates the delegate and refreshes its enablement.
 	 */
-	protected final void createDelegate() {
+	protected final void createDelegate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// The runAttribute is null if delegate creation failed previously...
 		if (delegate == null && runAttribute != null) {
 			try {
@@ -137,7 +137,7 @@ public abstract class PluginAction extends Action
 							e);
 				}
 				String id = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
-				WorkbenchPlugin.log("Could not create action delegate for id: " + id, status); //$NON-NLS-1$
+				WorkbenchPlugin.log("Could not create action delegate for id: " + id, status); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return;
 			}
 		}
@@ -207,7 +207,7 @@ public abstract class PluginAction extends Action
 		runWithEvent(null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runWithEvent(Event event) {
 		// this message dialog is problematic.
 		if (delegate == null) {
@@ -245,7 +245,7 @@ public abstract class PluginAction extends Action
 	 *
 	 * @param newSelection the new selection
 	 */
-	public void selectionChanged(ISelection newSelection) {
+	public void selectionChanged(ISelection newSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Update selection.
 		selection = newSelection;
 		if (selection == null) {

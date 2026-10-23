@@ -67,7 +67,7 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 	 * The list of subpages (immediate children) of this node (element type:
 	 * <code>RegistryPageContributor</code>).
 	 */
-	private final Collection<RegistryPageContributor> subPages = new ArrayList<>();
+	private final Collection<RegistryPageContributor> subPages = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private boolean adaptable = false;
 
@@ -113,7 +113,7 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 	 * @return the property page
 	 * @throws CoreException thrown if there is a problem creating the apge
 	 */
-	public IPreferencePage createPage(Object element) throws CoreException {
+	public IPreferencePage createPage(Object element) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferencePage ppage = null;
 		ppage = (IPreferencePage) WorkbenchPlugin.createExtension(pageElement, IWorkbenchRegistryConstants.ATT_CLASS);
 
@@ -122,12 +122,12 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 		Object[] elements = getObjects(element);
 		IAdaptable[] adapt = new IAdaptable[elements.length];
 
-		for (int i = 0; i < elements.length; i++) {
+		for (int i = 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object adapted = elements[i];
 			if (adaptable) {
 				adapted = getAdaptedElement(adapted);
 				if (adapted == null) {
-					String message = "Error adapting selection to Property page " + pageId + " is being ignored"; //$NON-NLS-1$ //$NON-NLS-2$
+					String message = "Error adapting selection to Property page " + pageId + " is being ignored"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					throw new CoreException(
 							new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, IStatus.ERROR, message, null));
 				}
@@ -140,7 +140,7 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 				((IWorkbenchPropertyPageMulti) ppage).setElements(adapt);
 			} else {
 				throw new CoreException(new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, IStatus.ERROR,
-						"Property page must implement IWorkbenchPropertyPageMulti: " + getPageName(), //$NON-NLS-1$
+						"Property page must implement IWorkbenchPropertyPageMulti: " + getPageName(), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						null));
 			}
 		} else {
@@ -219,7 +219,7 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 	 * For multipleSelection pages, considers all elements in the selection for
 	 * enablement.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isApplicableTo(Object object) {
 		Object[] objs = getObjects(object);
 
@@ -235,7 +235,7 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 		// Test name filter
 		String nameFilter = pageElement.getAttribute(PropertyPagesRegistryReader.ATT_NAME_FILTER);
 
-		for (Object obj : objs) {
+		for (Object obj : objs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			object = obj;
 			// Name filter
 			if (nameFilter != null) {
@@ -314,7 +314,7 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 	/**
 	 * Initialize the enablement expression for this decorator
 	 */
-	protected void initializeEnablement(IConfigurationElement definingElement) {
+	protected void initializeEnablement(IConfigurationElement definingElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement[] elements = definingElement.getChildren(CHILD_ENABLED_WHEN);
 
 		if (elements.length == 0) {
@@ -343,7 +343,7 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 		if (filterProperties == null) {
 			return false;
 		}
-		for (Entry<String, String> entry : filterProperties.entrySet()) {
+		for (Entry<String, String> entry : filterProperties.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			String value = entry.getValue();
 			if (!filter.testAttribute(object, key, value)) {
@@ -389,10 +389,10 @@ public class RegistryPageContributor implements IPropertyPageContributor, IAdapt
 
 	private Map<String, String> getFilterProperties() {
 		if (filterProperties == null || filterProperties.get() == null) {
-			Map<String, String> map = new HashMap<>();
+			Map<String, String> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			filterProperties = new SoftReference<>(map);
 			IConfigurationElement[] children = pageElement.getChildren();
-			for (IConfigurationElement element : children) {
+			for (IConfigurationElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processChildElement(map, element);
 			}
 		}

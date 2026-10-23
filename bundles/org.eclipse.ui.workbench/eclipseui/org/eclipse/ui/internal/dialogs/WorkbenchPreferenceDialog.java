@@ -58,7 +58,7 @@ public class WorkbenchPreferenceDialog extends FilteredPreferenceDialog {
 	 * @return The selected preference page.
 	 * @since 3.1
 	 */
-	public static final WorkbenchPreferenceDialog createDialogOn(Shell shell, final String preferencePageId) {
+	public static final WorkbenchPreferenceDialog createDialogOn(Shell shell, final String preferencePageId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final WorkbenchPreferenceDialog dialog;
 
 		if (instance == null) {
@@ -149,7 +149,7 @@ public class WorkbenchPreferenceDialog extends FilteredPreferenceDialog {
 	protected IDialogSettings getDialogBoundsSettings() {
 		Bundle bundle = WorkbenchPlugin.getDefault().getBundle();
 		IDialogSettings settings = PlatformUI.getDialogSettingsProvider(bundle).getDialogSettings();
-		String name = getClass().getSimpleName() + ".dialogBounds"; //$NON-NLS-1$
+		String name = getClass().getSimpleName() + ".dialogBounds"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return DialogSettings.getOrCreateSection(settings, name);
 	}
 

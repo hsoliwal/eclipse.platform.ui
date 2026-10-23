@@ -64,7 +64,7 @@ public class HelpSearchContributionItem extends ControlContribution {
 		this.window = window;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createControl(Composite parent) {
 		combo = new Combo(parent, SWT.NONE);
 		combo.setToolTipText(WorkbenchMessages.WorkbenchWindow_searchCombo_toolTip);
@@ -74,7 +74,7 @@ public class HelpSearchContributionItem extends ControlContribution {
 			combo.setItems(items);
 		}
 		combo.setText(WorkbenchMessages.WorkbenchWindow_searchCombo_text);
-		combo.addKeyListener(new KeyAdapter() {
+		combo.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.character == SWT.CR) {
@@ -82,7 +82,7 @@ public class HelpSearchContributionItem extends ControlContribution {
 				}
 			}
 		});
-		combo.addSelectionListener(widgetSelectedAdapter(e -> {
+		combo.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			int index = combo.getSelectionIndex();
 			if (index != -1) {
 				doSearch(combo.getItem(index), false);
@@ -96,14 +96,14 @@ public class HelpSearchContributionItem extends ControlContribution {
 		return control.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x;
 	}
 
-	private void doSearch(String phrase, boolean updateList) {
+	private void doSearch(String phrase, boolean updateList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (phrase.isEmpty()) {
 			window.getWorkbench().getHelpSystem().displaySearch();
 			return;
 		}
 		if (updateList) {
 			boolean exists = false;
-			for (int i = 0; i < combo.getItemCount(); i++) {
+			for (int i = 0; i < combo.getItemCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String item = combo.getItem(i);
 				if (item.equalsIgnoreCase(phrase)) {
 					exists = true;

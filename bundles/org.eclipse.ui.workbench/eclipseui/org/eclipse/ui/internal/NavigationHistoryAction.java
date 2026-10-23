@@ -35,7 +35,7 @@ import org.eclipse.ui.IWorkbenchWindow;
  * The <code>NavigationHistoryAction</code> moves navigation history back and
  * forward.
  */
-public class NavigationHistoryAction extends PageEventAction {
+public class NavigationHistoryAction extends PageEventAction { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	private boolean recreateMenu;
 
@@ -73,13 +73,13 @@ public class NavigationHistoryAction extends PageEventAction {
 	}
 
 	private void initMenu() {
-		historyMenu.addMenuListener(new MenuAdapter() {
+		historyMenu.addMenuListener(new MenuAdapter() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuShown(MenuEvent e) {
 				if (recreateMenu) {
 					Menu m = (Menu) e.widget;
 					MenuItem[] items = m.getItems();
-					for (MenuItem item : items) {
+					for (MenuItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						item.dispose();
 					}
 					fillMenu(m);
@@ -88,7 +88,7 @@ public class NavigationHistoryAction extends PageEventAction {
 		});
 	}
 
-	private void fillMenu(Menu menu) {
+	private void fillMenu(Menu menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPage page = getWorkbenchWindow().getActivePage();
 		if (page == null) {
 			return;
@@ -105,7 +105,7 @@ public class NavigationHistoryAction extends PageEventAction {
 		int entriesCount[] = new int[entries.length];
 		Arrays.fill(entriesCount, 1);
 		entries = collapseEntries(entries, entriesCount);
-		for (int i = 0; i < entries.length; i++) {
+		for (int i = 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > MAX_HISTORY_LENGTH) {
 				break;
 			}
@@ -118,7 +118,7 @@ public class NavigationHistoryAction extends PageEventAction {
 							Integer.valueOf(entriesCount[i]));
 				}
 				item.setText(text);
-				item.addSelectionListener(widgetSelectedAdapter(
+				item.addSelectionListener(widgetSelectedAdapter( //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 						e -> history.shiftCurrentEntry((NavigationHistoryEntry) e.widget.getData(), forward)));
 			}
 		}
@@ -129,7 +129,7 @@ public class NavigationHistoryAction extends PageEventAction {
 	public void dispose() {
 		super.dispose();
 		if (historyMenu != null) {
-			for (int i = 0; i < historyMenu.getItemCount(); i++) {
+			for (int i = 0; i < historyMenu.getItemCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MenuItem menuItem = historyMenu.getItem(i);
 				menuItem.dispose();
 			}
@@ -144,7 +144,7 @@ public class NavigationHistoryAction extends PageEventAction {
 	 * @param window  the workbench window this action applies to
 	 * @param forward if this action should move history forward of backward
 	 */
-	public NavigationHistoryAction(IWorkbenchWindow window, boolean forward) {
+	public NavigationHistoryAction(IWorkbenchWindow window, boolean forward) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", window); //$NON-NLS-1$
 		ISharedImages sharedImages = window.getWorkbench().getSharedImages();
 		if (forward) {
@@ -173,11 +173,11 @@ public class NavigationHistoryAction extends PageEventAction {
 		setEnabled(false);
 	}
 
-	private NavigationHistoryEntry[] collapseEntries(NavigationHistoryEntry[] entries, int entriesCount[]) {
-		ArrayList<NavigationHistoryEntry> allEntries = new ArrayList<>(Arrays.asList(entries));
+	private NavigationHistoryEntry[] collapseEntries(NavigationHistoryEntry[] entries, int entriesCount[]) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<NavigationHistoryEntry> allEntries = new ArrayList<>(Arrays.asList(entries)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		NavigationHistoryEntry previousEntry = null;
 		int i = -1;
-		for (Iterator<NavigationHistoryEntry> iter = allEntries.iterator(); iter.hasNext();) {
+		for (Iterator<NavigationHistoryEntry> iter = allEntries.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEntry entry = iter.next();
 			if (previousEntry != null) {
 				String text = previousEntry.getHistoryText();
@@ -225,7 +225,7 @@ public class NavigationHistoryAction extends PageEventAction {
 		}
 	}
 
-	public void update() {
+	public void update() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Set the enabled state of the action and set the tool tip text. The tool tip
 		// text is set to reflect the item that one will move back/forward to.
 		WorkbenchPage page = (WorkbenchPage) getActivePage();

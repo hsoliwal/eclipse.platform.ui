@@ -140,11 +140,11 @@ public class TextCellEditor extends CellEditor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createControl(Composite parent) {
 		text = new Text(parent, getStyle());
-		text.addSelectionListener(widgetDefaultSelectedAdapter(this::handleDefaultSelection));
-		text.addKeyListener(new KeyAdapter() {
+		text.addSelectionListener(widgetDefaultSelectedAdapter(this::handleDefaultSelection)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		text.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			// hook key pressed - see PR 14201
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -160,7 +160,7 @@ public class TextCellEditor extends CellEditor {
 				checkSelectable();
 			}
 		});
-		text.addTraverseListener(e -> {
+		text.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_ESCAPE
 					|| e.detail == SWT.TRAVERSE_RETURN) {
 				e.doit = false;
@@ -169,7 +169,7 @@ public class TextCellEditor extends CellEditor {
 		// We really want a selection listener but it is not supported so we
 		// use a key listener and a mouse listener to know when selection changes
 		// may have occurred
-		text.addMouseListener(new MouseAdapter() {
+		text.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseUp(MouseEvent e) {
 				checkSelection();
@@ -177,7 +177,7 @@ public class TextCellEditor extends CellEditor {
 				checkSelectable();
 			}
 		});
-		text.addFocusListener(new FocusAdapter() {
+		text.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(FocusEvent e) {
 				TextCellEditor.this.focusLost();
@@ -186,7 +186,7 @@ public class TextCellEditor extends CellEditor {
 		text.setFont(parent.getFont());
 		text.setBackground(parent.getBackground());
 		text.setText("");//$NON-NLS-1$
-		text.addModifyListener(getModifyListener());
+		text.addModifyListener(getModifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		return text;
 	}
 
@@ -224,10 +224,10 @@ public class TextCellEditor extends CellEditor {
 	protected void doSetValue(Object value) {
 		Assert.isTrue(text != null);
 		String valueType = value == null ? "null" : value.getClass().getName(); //$NON-NLS-1$
-		Assert.isTrue(value instanceof String, "TextCellEditor expects a String value but got " + valueType); //$NON-NLS-1$
+		Assert.isTrue(value instanceof String, "TextCellEditor expects a String value but got " + valueType); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		text.removeModifyListener(getModifyListener());
 		text.setText((String) value);
-		text.addModifyListener(getModifyListener());
+		text.addModifyListener(getModifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 	}
 
 	/**
@@ -386,7 +386,7 @@ public class TextCellEditor extends CellEditor {
 	 *
 	 * @param keyEvent the key event
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
 		if (keyEvent.character == '\r') { // Return key
 			// Enter is handled in handleDefaultSelection.

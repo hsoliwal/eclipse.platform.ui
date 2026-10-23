@@ -44,7 +44,7 @@ public final class NativeKeyFormatter extends AbstractKeyFormatter {
 	/**
 	 * A look-up table for the string representations of various carbon keys.
 	 */
-	private static final HashMap<String, String> CARBON_KEY_LOOK_UP = new HashMap<>();
+	private static final HashMap<String, String> CARBON_KEY_LOOK_UP = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The resource bundle used by <code>format()</code> to translate formal
@@ -135,7 +135,7 @@ public final class NativeKeyFormatter extends AbstractKeyFormatter {
 				KeySequence.KEY_STROKE_DELIMITER);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int[] sortModifierKeys(final int modifierKeys) {
 		final IKeyLookup lookup = KeyLookupFactory.getDefault();
 		final int[] sortedKeys = new int[4];

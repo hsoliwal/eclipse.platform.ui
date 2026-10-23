@@ -83,7 +83,7 @@ public class FileInfoAttributesMatcher extends AbstractFileInfoMatcher {
 		return new String[] {OPERATOR_NONE};
 	}
 
-	public static Class<?> getTypeForKey(String key, String operator) {
+	public static Class<?> getTypeForKey(String key, String operator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (key.equals(KEY_NAME) || key.equals(KEY_PROPJECT_RELATIVE_PATH) || key.equals(KEY_LOCATION)) {
 			return String.class;
 		}
@@ -121,7 +121,7 @@ public class FileInfoAttributesMatcher extends AbstractFileInfoMatcher {
 	}
 
 	public static String encodeArguments(Argument argument)  {
-		return VERSION_IMPLEMENTATION + DELIMITER +
+		return VERSION_IMPLEMENTATION + DELIMITER + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				argument.key + DELIMITER +
 				argument.operator + DELIMITER +
 				argument.caseSensitive + DELIMITER +
@@ -130,7 +130,7 @@ public class FileInfoAttributesMatcher extends AbstractFileInfoMatcher {
 
 	}
 
-	public static Argument decodeArguments(String argument)  {
+	public static Argument decodeArguments(String argument)  { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Argument result = new Argument();
 		if (argument == null) {
 			return result;
@@ -223,7 +223,7 @@ public class FileInfoAttributesMatcher extends AbstractFileInfoMatcher {
 		StringMatcher stringMatcher = null;
 		Pattern regExPattern = null;
 
-		public boolean match(IContainer parent, IFileInfo fileInfo) {
+		public boolean match(IContainer parent, IFileInfo fileInfo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (type.equals(String.class)) {
 				String value = ""; //$NON-NLS-1$
 				if (argument.key.equals(KEY_NAME)) {

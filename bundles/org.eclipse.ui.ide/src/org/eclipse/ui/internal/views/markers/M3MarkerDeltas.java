@@ -112,10 +112,10 @@ final class M3MarkerDeltas {
 	private M3MarkerDeltas(MarkersChangeListener listener, CachedMarkerBuilder builder) {
 		this.listener = listener;
 		this.builder = builder;
-		job = Job.create("M3 marker deltas", this::prepare); //$NON-NLS-1$
+		job = Job.create("M3 marker deltas", this::prepare); //$NON-NLS-1$ //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 		job.setSystem(true);
 		job.setPriority(Job.SHORT);
-		scopeJob = Job.create("M3 marker scope", this::diffScope); //$NON-NLS-1$
+		scopeJob = Job.create("M3 marker scope", this::diffScope); //$NON-NLS-1$ //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 		scopeJob.setSystem(true);
 		scopeJob.setPriority(Job.SHORT);
 	}
@@ -166,7 +166,7 @@ final class M3MarkerDeltas {
 	}
 
 	/* worker thread: gather what the filters select now, diff against the lanes */
-	private IStatus diffScope(IProgressMonitor monitor) {
+	private IStatus diffScope(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long gen;
 		synchronized (this) {
 			gen = generation;
@@ -178,17 +178,17 @@ final class M3MarkerDeltas {
 		}
 		try {
 			long[] shown = lanes.liveIds();
-			List<MarkerEntry> selected = new ArrayList<>();
+			List<MarkerEntry> selected = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (!generator.generateMarkerEntries(selected, monitor) || stale(gen)) {
 				return Status.OK_STATUS;
 			}
 			MarkerEntry[] entries = selected.toArray(new MarkerEntry[0]);
 			Arrays.sort(entries, (a, b) -> Long.compare(a.getMarker().getId(), b.getMarker().getId()));
-			List<M3MarkerLanes.Change> changes = new ArrayList<>();
+			List<M3MarkerLanes.Change> changes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			MarkerGroup group = builder.getCategoryGroup();
 			int i = 0;
 			int j = 0;
-			while (i < shown.length || j < entries.length) {
+			while (i < shown.length || j < entries.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				long left = i < shown.length ? shown[i] : Long.MAX_VALUE;
 				long right = j < entries.length ? entries[j].getMarker().getId() : Long.MAX_VALUE;
 				if (left == right) {
@@ -213,7 +213,7 @@ final class M3MarkerDeltas {
 			if (changes.isEmpty()) {
 				return Status.OK_STATUS; // the shown set did not change: no update at all
 			}
-			Display.getDefault().asyncExec(() -> {
+			Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				try {
 					apply(gen, changes);
 				} catch (RuntimeException e) {
@@ -234,7 +234,7 @@ final class M3MarkerDeltas {
 	 * @return {@code "applied=<n> fallbacks=<n> builds=<n> shown-patches=<n>"}
 	 */
 	static synchronized String counters() {
-		return "applied=" + COUNTERS[APPLIED] + " fallbacks=" + COUNTERS[FALLBACKS] + " builds=" + COUNTERS[BUILDS] //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "applied=" + COUNTERS[APPLIED] + " fallbacks=" + COUNTERS[FALLBACKS] + " builds=" + COUNTERS[BUILDS] //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ " shown-patches=" + COUNTERS[SHOWN]; //$NON-NLS-1$
 	}
 
@@ -312,7 +312,7 @@ final class M3MarkerDeltas {
 	 * @return the lanes, or {@code null} when the view is in a state the lanes
 	 *         do not cover or the rebuild was cancelled
 	 */
-	static M3MarkerLanes build(Markers model, Collection<MarkerEntry> entries, IProgressMonitor monitor) {
+	static M3MarkerLanes build(Markers model, Collection<MarkerEntry> entries, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CachedMarkerBuilder builder = model.getBuilder();
 		M3MarkerLanes lanes = M3MarkerLanes.create(model, builder.getComparator());
 		if (lanes == null) {
@@ -322,7 +322,7 @@ final class M3MarkerDeltas {
 		M3MarkerLanes.Change change = new M3MarkerLanes.Change();
 		M3MarkerKeys keys = null;
 		int i = 0;
-		for (MarkerEntry entry : entries) {
+		for (MarkerEntry entry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((++i & 4095) == 0 && monitor.isCanceled()) {
 				return null;
 			}
@@ -345,12 +345,12 @@ final class M3MarkerDeltas {
 		return lanes;
 	}
 
-	private synchronized boolean accept(IResourceChangeEvent event, Set<String> types) {
+	private synchronized boolean accept(IResourceChangeEvent event, Set<String> types) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!ready()) {
 			clear();
 			return false;
 		}
-		for (IMarkerDelta delta : event.findMarkerDeltas(null, true)) {
+		for (IMarkerDelta delta : event.findMarkerDeltas(null, true)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (types.contains(delta.getType())) {
 				add(delta.getId(), (byte) delta.getKind(), delta.getMarker());
 			}
@@ -380,7 +380,7 @@ final class M3MarkerDeltas {
 		return view != null && !view.isDisposed();
 	}
 
-	private void add(long id, byte kind, IMarker marker) {
+	private void add(long id, byte kind, IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int slot = find(id);
 		if (slot < 0) {
 			grow();
@@ -404,7 +404,7 @@ final class M3MarkerDeltas {
 
 	private int find(long id) {
 		int mask = table.length - 1;
-		for (int i = hash(id) & mask; table[i] != 0; i = (i + 1) & mask) {
+		for (int i = hash(id) & mask; table[i] != 0; i = (i + 1) & mask) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ids[table[i] - 1] == id) {
 				return table[i] - 1;
 			}
@@ -415,7 +415,7 @@ final class M3MarkerDeltas {
 	private void index(long id, int slot) {
 		if ((size << 1) > table.length) {
 			table = new int[table.length << 1];
-			for (int s = 0; s < size; s++) {
+			for (int s = 0; s < size; s++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				put(ids[s], s);
 			}
 			return;
@@ -426,7 +426,7 @@ final class M3MarkerDeltas {
 	private void put(long id, int slot) {
 		int mask = table.length - 1;
 		int i = hash(id) & mask;
-		while (table[i] != 0) {
+		while (table[i] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i = (i + 1) & mask;
 		}
 		table[i] = slot + 1;
@@ -453,7 +453,7 @@ final class M3MarkerDeltas {
 	}
 
 	/* worker thread: keys, filters and categories for the changed markers only */
-	private IStatus prepare(IProgressMonitor monitor) {
+	private IStatus prepare(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long gen;
 		long[] batchIds;
 		byte[] batchKinds;
@@ -469,7 +469,7 @@ final class M3MarkerDeltas {
 			Arrays.fill(table, 0);
 			size = 0;
 		}
-		List<M3MarkerLanes.Change> changes = new ArrayList<>(n);
+		List<M3MarkerLanes.Change> changes = new ArrayList<>(n); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
 			MarkerContentGenerator generator = builder.getGenerator();
 			M3MarkerLanes lanes = builder.getMarkers().m3;
@@ -482,7 +482,7 @@ final class M3MarkerDeltas {
 			ExtendedMarkersView view = listener.getView();
 			MarkerPatternFilter text = view == null || view.isDisposed() ? null : view.getSearchFilter();
 			int textGen = lanes.textGeneration();
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ((i & 4095) == 4095 && stale(gen)) {
 					return Status.OK_STATUS;
 				}
@@ -496,7 +496,7 @@ final class M3MarkerDeltas {
 			return Status.OK_STATUS;
 		}
 		Display display = Display.getDefault();
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			try {
 				apply(gen, changes);
 			} catch (RuntimeException e) {
@@ -539,7 +539,7 @@ final class M3MarkerDeltas {
 	}
 
 	/* UI thread: patch the lanes, then the tree rows inside the shown windows */
-	private void apply(long gen, List<M3MarkerLanes.Change> changes) {
+	private void apply(long gen, List<M3MarkerLanes.Change> changes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (stale(gen)) {
 			return;
 		}
@@ -551,14 +551,14 @@ final class M3MarkerDeltas {
 		// a search text typed after this batch was prepared: re-evaluate its hits here (UI thread, few rows)
 		MarkerPatternFilter text = lanes.textFilter();
 		int textGen = lanes.textGeneration();
-		for (M3MarkerLanes.Change c : changes) {
+		for (M3MarkerLanes.Change c : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (c.keys != null && c.textGeneration != textGen) {
 				c.textHit = text == null || c.item instanceof MarkerSupportItem item && text.matches(item);
 				c.textGeneration = textGen;
 			}
 		}
 		M3LongSet changed = new M3LongSet(changes.size());
-		for (M3MarkerLanes.Change c : changes) {
+		for (M3MarkerLanes.Change c : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			changed.add(c.id);
 		}
 		List<M3MarkerLanes.Category> touched = lanes.apply(changes);
@@ -603,10 +603,10 @@ final class M3MarkerDeltas {
 	private void hide(M3MarkerLanes lanes, List<M3MarkerLanes.Category> touched, M3LongSet changed) {
 		if (hiddenLanes != lanes) {
 			hiddenLanes = lanes;
-			hiddenTouched = new ArrayList<>();
+			hiddenTouched = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			hiddenChanged = new M3LongSet(64);
 		}
-		for (M3MarkerLanes.Category c : touched) {
+		for (M3MarkerLanes.Category c : touched) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!hiddenTouched.contains(c)) {
 				hiddenTouched.add(c);
 			}
@@ -645,7 +645,7 @@ final class M3MarkerDeltas {
 	}
 
 	/* the tree patch: categories removed and added; per touched category its label and the rows of its window */
-	private static void patchTree(ExtendedMarkersView view, M3MarkerLanes lanes,
+	private static void patchTree(ExtendedMarkersView view, M3MarkerLanes lanes, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<M3MarkerLanes.Category> touched, M3LongSet changed) {
 		TreeViewer viewer = view.getViewer();
 		Object input = viewer.getInput();
@@ -660,14 +660,14 @@ final class M3MarkerDeltas {
 			}
 			return;
 		}
-		for (M3MarkerLanes.Category c : touched) {
+		for (M3MarkerLanes.Category c : touched) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lanes.indexOf(c) < 0 && viewer.testFindItem(c.facade) != null) {
 				delta.remove(c.facade);
 			}
 		}
 		M3MarkerCategory[] categories = lanes.categories();
-		List<M3MarkerCategory> expand = new ArrayList<>();
-		for (int i = 0; i < categories.length; i++) {
+		List<M3MarkerCategory> expand = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < categories.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			M3MarkerCategory category = categories[i];
 			if (contains(touched, category) && viewer.testFindItem(category) == null) {
 				delta.add(input, category, i);
@@ -677,7 +677,7 @@ final class M3MarkerDeltas {
 			}
 		}
 		int limit = limit(view);
-		for (M3MarkerLanes.Category c : touched) {
+		for (M3MarkerLanes.Category c : touched) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lanes.indexOf(c) < 0) {
 				continue;
 			}
@@ -691,13 +691,13 @@ final class M3MarkerDeltas {
 			return;
 		}
 		((MarkersTreeViewer) viewer).m3PreservingMarkerSelection(() -> M3Viewers.apply(viewer, delta));
-		for (M3MarkerCategory category : expand) {
+		for (M3MarkerCategory category : expand) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			viewer.setExpandedState(category, true);
 		}
 	}
 
 	private static boolean contains(List<M3MarkerLanes.Category> touched, M3MarkerCategory category) {
-		for (M3MarkerLanes.Category c : touched) {
+		for (M3MarkerLanes.Category c : touched) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (c.facade == category) {
 				return true;
 			}
@@ -735,15 +735,15 @@ final class M3MarkerDeltas {
 	 * The rows under one parent (a category item, or the tree itself in the flat presentation) against the
 	 * category's window: O(window), whatever the size of the category.
 	 */
-	private static void patchRows(M3ViewerDelta delta, M3MarkerLanes lanes, M3MarkerLanes.Category c,
+	private static void patchRows(M3ViewerDelta delta, M3MarkerLanes lanes, M3MarkerLanes.Category c, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object parent, Item[] rows, int limit, M3LongSet changed) {
 		int[] next = lanes.windowSlots(c, limit);
 		M3LongSet nextIds = new M3LongSet(next.length);
-		for (int slot : next) {
+		for (int slot : next) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextIds.add(lanes.id(slot));
 		}
 		M3LongSet kept = new M3LongSet(rows.length);
-		for (Item row : rows) {
+		for (Item row : rows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (row.getData() instanceof MarkerEntry entry && entry.getMarker() != null) {
 				long id = entry.getMarker().getId();
 				if (changed.contains(id) || !nextIds.contains(id)) {
@@ -757,7 +757,7 @@ final class M3MarkerDeltas {
 				}
 			}
 		}
-		for (int j = 0; j < next.length; j++) {
+		for (int j = 0; j < next.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!kept.contains(lanes.id(next[j]))) {
 				delta.add(parent, lanes.facade(next[j]), j);
 			}

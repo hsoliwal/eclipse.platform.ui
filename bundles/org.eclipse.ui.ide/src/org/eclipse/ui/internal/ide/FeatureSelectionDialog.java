@@ -77,7 +77,7 @@ public class FeatureSelectionDialog extends AbstractSelectionDialog<AboutInfo> {
 	 * @param shellMessage  shell message
 	 * @param helpContextId  help context id
 	 */
-	public FeatureSelectionDialog(Shell shell, AboutInfo[] features,
+	public FeatureSelectionDialog(Shell shell, AboutInfo[] features, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String primaryFeatureId, String shellTitle, String shellMessage,
 			String helpContextId) {
 
@@ -110,7 +110,7 @@ public class FeatureSelectionDialog extends AbstractSelectionDialog<AboutInfo> {
 		});
 
 		// Find primary feature
-		for (AboutInfo feature : features) {
+		for (AboutInfo feature : features) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (feature.getFeatureId().equals(primaryFeatureId)) {
 				setInitialSelection(feature);
 				return;
@@ -125,7 +125,7 @@ public class FeatureSelectionDialog extends AbstractSelectionDialog<AboutInfo> {
 				helpContextId);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -140,7 +140,7 @@ public class FeatureSelectionDialog extends AbstractSelectionDialog<AboutInfo> {
 		listViewer.getList().setLayoutData(data);
 		listViewer.getList().setFont(parent.getFont());
 		// Set the label provider
-		listViewer.setLabelProvider(new LabelProvider() {
+		listViewer.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object element) {
 				// Return the features's label.
@@ -150,14 +150,14 @@ public class FeatureSelectionDialog extends AbstractSelectionDialog<AboutInfo> {
 
 		// Set the content provider
 		listViewer.setContentProvider(ArrayContentProvider.getInstance());
-		listViewer.setInput(features);
+		listViewer.setInput(features); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Add a selection change listener
-		listViewer.addSelectionChangedListener(
-				event -> getButton(IDialogConstants.OK_ID).setEnabled(!event.getSelection().isEmpty()));
+		listViewer.addSelectionChangedListener( //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+				event -> getButton(IDialogConstants.OK_ID).setEnabled(!event.getSelection().isEmpty())); //FLLDCIM: MARK — T04  LAMBDA
 
 		// Add double-click listener
-		listViewer.addDoubleClickListener(_ -> okPressed());
+		listViewer.addDoubleClickListener(_ -> okPressed()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		return composite;
 	}
 

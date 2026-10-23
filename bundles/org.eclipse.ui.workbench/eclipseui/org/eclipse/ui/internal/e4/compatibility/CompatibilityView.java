@@ -59,7 +59,7 @@ import org.eclipse.ui.internal.testing.ContributionInfoMessages;
 import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.testing.ContributionInfo;
 
-public class CompatibilityView extends CompatibilityPart {
+public class CompatibilityView extends CompatibilityPart { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final ViewReference reference;
 
@@ -82,7 +82,7 @@ public class CompatibilityView extends CompatibilityPart {
 	}
 
 	private MMenu getViewMenu() {
-		for (MMenu menu : part.getMenus()) {
+		for (MMenu menu : part.getMenus()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (menu.getTags().contains(StackRenderer.TAG_VIEW_MENU)) {
 				return menu;
 			}
@@ -90,7 +90,7 @@ public class CompatibilityView extends CompatibilityPart {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean createPartControl(IWorkbenchPart legacyPart, Composite parent) {
 		clearMenuItems();
 		part.getContext().set(IViewPart.class, (IViewPart) legacyPart);
@@ -177,7 +177,7 @@ public class CompatibilityView extends CompatibilityPart {
 		}
 		final AtomicBoolean toolbarContributed = new AtomicBoolean();
 		final IContextFunction func = new ContextFunction() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Object compute(IEclipseContext context, String contextKey) {
 				if (toolbarContributed.getAndSet(true)) {
 					// fix for bug 448873: don't contribute to the toolbar twice
@@ -188,7 +188,7 @@ public class CompatibilityView extends CompatibilityPart {
 				ActionDescriptor[] actionDescriptors = actionBuilder.getExtendedActions();
 				if (actionDescriptors != null) {
 					IHandlerService hs = partContext.get(IHandlerService.class);
-					for (ActionDescriptor actionDescriptor : actionDescriptors) {
+					for (ActionDescriptor actionDescriptor : actionDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (actionDescriptor != null) {
 							IAction action = actionDescriptor.getAction();
 
@@ -225,8 +225,8 @@ public class CompatibilityView extends CompatibilityPart {
 		}
 	}
 
-	public static void clearOpaqueMenuItems(MenuManagerRenderer renderer, MMenu menu) {
-		for (Iterator<MMenuElement> it = menu.getChildren().iterator(); it.hasNext();) {
+	public static void clearOpaqueMenuItems(MenuManagerRenderer renderer, MMenu menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Iterator<MMenuElement> it = menu.getChildren().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MMenuElement child = it.next();
 			IContributionItem contribution = renderer.getContribution(child);
 			if (contribution != null) {
@@ -253,13 +253,13 @@ public class CompatibilityView extends CompatibilityPart {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void disposeSite(PartSite site) {
 		IEclipseContext context = getModel().getContext();
 		IRendererFactory rendererFactory = context.get(IRendererFactory.class);
 		IActionBars actionBars = site.getActionBars();
 
-		for (MMenu menu : part.getMenus()) {
+		for (MMenu menu : part.getMenus()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (menu.getTags().contains(StackRenderer.TAG_VIEW_MENU)) {
 				AbstractPartRenderer apr = rendererFactory.getRenderer(menu, null);
 				if (apr instanceof MenuManagerRenderer renderer) {
@@ -296,7 +296,7 @@ public class CompatibilityView extends CompatibilityPart {
 
 	public static void clearOpaqueToolBarItems(ToolBarManagerRenderer tbmr, MToolBar toolbar) {
 		// remove opaque mappings
-		for (Iterator<MToolBarElement> it = toolbar.getChildren().iterator(); it.hasNext();) {
+		for (Iterator<MToolBarElement> it = toolbar.getChildren().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MToolBarElement element = it.next();
 			IContributionItem contribution = tbmr.getContribution(element);
 			if (contribution != null) {

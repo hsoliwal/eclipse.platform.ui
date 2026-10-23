@@ -77,14 +77,14 @@ public class ExpandableNode {
 	public ExpandableNode(Object[] children, int startOffSet, int limit, StructuredViewer viewer) {
 		Assert.isNotNull(children, "children of an ExpandableNode cannot be null"); //$NON-NLS-1$
 		Assert.isTrue(startOffSet >= 0 && startOffSet < children.length,
-				"startOffSet must be within the range of children: " + startOffSet); //$NON-NLS-1$
+				"startOffSet must be within the range of children: " + startOffSet); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		this.orginalArray = children;
 		this.startOffSet = startOffSet;
 		this.start = startOffSet;
 		this.limit = limit;
 		this.viewer = viewer;
-		this.addedElements = new ArrayList<>();
-		this.uniqueElementsMap = new IdentityHashMap<>();
+		this.addedElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		this.uniqueElementsMap = new IdentityHashMap<>(); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class ExpandableNode {
 	 * @return Returns the remaining elements from offset. returned array is sorted
 	 *         if viewer has comparator.
 	 */
-	private Object[] updateChildrenWithAddedElements() {
+	private Object[] updateChildrenWithAddedElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// sub array from offset + newly added elements
 		Object[] children = new Object[orginalArray.length - startOffSet + addedElements.size()];
 
@@ -196,7 +196,7 @@ public class ExpandableNode {
 	private void initializeUniqueMap() {
 		if (uniqueElementsMap.isEmpty()) {
 			// add all the existing elements.
-			for (Object element : orginalArray) {
+			for (Object element : orginalArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				uniqueElementsMap.put(element, VALUE);
 			}
 		}

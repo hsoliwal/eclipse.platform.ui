@@ -103,7 +103,7 @@ class MarkerEntry extends MarkerSupportItem implements IAdaptable {
 		stale = false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getAdapter(Class<T> adapter) {
 		if (adapter.equals(IMarker.class)) {
 			return adapter.cast(marker);
@@ -220,7 +220,7 @@ class MarkerEntry extends MarkerSupportItem implements IAdaptable {
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	long getCreationTime() {
 		if (creationTime != 0) {
 			return creationTime;
@@ -274,7 +274,7 @@ class MarkerEntry extends MarkerSupportItem implements IAdaptable {
 		return marker;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	String getMarkerTypeName() {
 		if (markerTypeName != null) {
 			return markerTypeName;
@@ -294,7 +294,7 @@ class MarkerEntry extends MarkerSupportItem implements IAdaptable {
 		}
 	}
 
-	String getMarkerTypeId() {
+	String getMarkerTypeId() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (markerType != null) {
 			return markerType;
 		}
@@ -423,9 +423,9 @@ class MarkerEntry extends MarkerSupportItem implements IAdaptable {
 		return Objects.equals(marker, other.marker);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append("MarkerEntry ["); //$NON-NLS-1$
 		if (category != null) {
 			builder.append("category="); //$NON-NLS-1$

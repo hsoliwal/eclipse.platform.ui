@@ -82,17 +82,17 @@ import org.eclipse.core.runtime.Assert;
 		internalSort(keys, values, 0, keys.length - 1);
 	}
 
-	private void internalSort(Object[] keys, Object[] values, int left, int right) {
+	private void internalSort(Object[] keys, Object[] values, int left, int right) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int original_left = left;
 		int original_right = right;
 
 		Object mid = keys[(left + right) / 2];
-		do {
-			while (fComparator.compare(keys[left], mid) < 0) {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			while (fComparator.compare(keys[left], mid) < 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				left++;
 			}
 
-			while (fComparator.compare(mid, keys[right]) < 0) {
+			while (fComparator.compare(mid, keys[right]) < 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				right--;
 			}
 

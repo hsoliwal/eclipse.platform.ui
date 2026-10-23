@@ -169,7 +169,7 @@ public class MarkerSupportInternalUtilities {
 	 *            the field being generated
 	 * @return MarkerFieldFilter or <code>null</code>.
 	 */
-	static final MarkerFieldFilter generateFilter(MarkerField field) {
+	static final MarkerFieldFilter generateFilter(MarkerField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement configurationElement = field
 				.getConfigurationElement();
 		try {
@@ -197,7 +197,7 @@ public class MarkerSupportInternalUtilities {
 	 *            the field with the specified area
 	 * @return FilterConfigurationArea or <code>null</code>
 	 */
-	static final FilterConfigurationArea generateFilterArea(MarkerField field) {
+	static final FilterConfigurationArea generateFilterArea(MarkerField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement configurationElement = field
 				.getConfigurationElement();
 		try {
@@ -388,7 +388,7 @@ public class MarkerSupportInternalUtilities {
 	 * @param handlingMethod
 	 *            StatusManager.LOG, StatusManager.SHOW,etc, bitwise ORed
 	 */
-	public static void handleViewError(Exception exception, int handlingMethod) {
+	public static void handleViewError(Exception exception, int handlingMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (exception instanceof CoreException) {
 			// Check for a nested CoreException
 			IStatus status = ((CoreException) exception).getStatus();

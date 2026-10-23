@@ -45,12 +45,12 @@ public class EarlyStartupRunnable extends SafeRunnable {
 	public void run() throws Exception {
 		IConfigurationElement[] configElements = extension.getConfigurationElements();
 		if (configElements.length == 0) {
-			missingStartupElementMessage("The org.eclipse.ui.IStartup extension from '" + //$NON-NLS-1$
+			missingStartupElementMessage("The org.eclipse.ui.IStartup extension from '" + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					extension.getContributor().getName() + "' does not provide a valid '" //$NON-NLS-1$
 					+ IWorkbenchConstants.TAG_STARTUP + "' element."); //$NON-NLS-1$
 		}
 		// look for the startup tag in each element and run the extension
-		for (IConfigurationElement element : configElements) {
+		for (IConfigurationElement element : configElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element != null && element.getName().equals(IWorkbenchConstants.TAG_STARTUP)) {
 				runEarlyStartup(WorkbenchPlugin.createExtension(element, IWorkbenchConstants.TAG_CLASS));
 			}
@@ -65,15 +65,15 @@ public class EarlyStartupRunnable extends SafeRunnable {
 	@Override
 	public void handleException(Throwable exception) {
 		IStatus status = new Status(IStatus.ERROR, PlatformUI.PLUGIN_ID, 0,
-				"Unable to execute early startup code for the org.eclipse.ui.IStartup extension contributed by the '" //$NON-NLS-1$
+				"Unable to execute early startup code for the org.eclipse.ui.IStartup extension contributed by the '" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ extension.getContributor().getName() + "' plug-in.", //$NON-NLS-1$
 				exception);
 		WorkbenchPlugin.log(status);
 	}
 
-	private void runEarlyStartup(Object executableExtension) {
+	private void runEarlyStartup(Object executableExtension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (executableExtension instanceof IStartup) {
-			String methodName = executableExtension.getClass().getName() + ".earlyStartup"; //$NON-NLS-1$
+			String methodName = executableExtension.getClass().getName() + ".earlyStartup"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			try {
 				UIStats.start(UIStats.EARLY_STARTUP, methodName);
 				((IStartup) executableExtension).earlyStartup();
@@ -82,7 +82,7 @@ public class EarlyStartupRunnable extends SafeRunnable {
 			}
 		} else {
 			String message = executableExtension == null
-					? "The org.eclipse.ui.IStartup extension from '" + extension.getContributor().getName() //$NON-NLS-1$
+					? "The org.eclipse.ui.IStartup extension from '" + extension.getContributor().getName() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "' does not provide a valid class attribute." //$NON-NLS-1$
 					: MessageFormat.format("Startup class {0} must implement org.eclipse.ui.IStartup", //$NON-NLS-1$
 							executableExtension.getClass().getName());

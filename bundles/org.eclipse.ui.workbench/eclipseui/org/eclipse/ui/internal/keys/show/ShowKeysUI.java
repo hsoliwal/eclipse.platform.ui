@@ -78,7 +78,7 @@ public class ShowKeysUI implements IDisposable {
 		closePopup();
 	}
 
-	private void open(String commandId, String description, Event trigger, boolean force) {
+	private void open(String commandId, String description, Event trigger, boolean force) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String formattedShortcut = getFormattedShortcut(trigger, commandId);
 		// no UI for commands w/o key binding, unless explicitly specified
 		if (formattedShortcut == null && !force) {
@@ -99,7 +99,7 @@ public class ShowKeysUI implements IDisposable {
 		}
 	}
 
-	private String getFormattedShortcut(Event trigger, String commandId) {
+	private String getFormattedShortcut(Event trigger, String commandId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (trigger != null) {
 			int accelerator = SWTKeySupport.convertEventToUnmodifiedAccelerator(trigger);
 			KeyStroke keyStroke = SWTKeySupport.convertAcceleratorToKeyStroke(accelerator);
@@ -131,7 +131,7 @@ public class ShowKeysUI implements IDisposable {
 		// Schedule the UI opening in the event loop. This allows having the popup on
 		// top of whatever UI is opened right now. E.g. we can now draw on top of the
 		// Quick Access UI rather than being hidden underneath it.
-		Display.getDefault().asyncExec(() -> {
+		Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			closePopup();
 			int timeToClose = this.preferenceStore.getInt(IPreferenceConstants.SHOW_KEYS_TIME_TO_CLOSE);
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -153,14 +153,14 @@ public class ShowKeysUI implements IDisposable {
 	 */
 	private static class ShowKeysPopup extends Window {
 
-		private static final String POPUP_COLOR_BG = PlatformUI.PLUGIN_ID + ".showkeys.backgroundColor"; //$NON-NLS-1$
-		private static final String POPUP_COLOR_FG = PlatformUI.PLUGIN_ID + ".showkeys.foregroundColor"; //$NON-NLS-1$
+		private static final String POPUP_COLOR_BG = PlatformUI.PLUGIN_ID + ".showkeys.backgroundColor"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		private static final String POPUP_COLOR_FG = PlatformUI.PLUGIN_ID + ".showkeys.foregroundColor"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		private static final int POPUP_FONT_SIZEFACTOR_KEY_LABEL = 2;
 		private static final int POPUP_FONT_SIZEFACTOR_KEY = POPUP_FONT_SIZEFACTOR_KEY_LABEL + 1;
 		private static final int MARGIN_BOTTOM = 25;
 		private static final String keysPageId = "org.eclipse.ui.preferencePages.Keys"; //$NON-NLS-1$
 
-		private final List<Resource> resources = new ArrayList<>(3);
+		private final List<Resource> resources = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private final int timeToClose;
 		private String shortcut;
 		private String shortcutText;
@@ -179,7 +179,7 @@ public class ShowKeysUI implements IDisposable {
 			this.shortcutDescription = shortcutDescription;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int open() {
 			scheduleClose();
 
@@ -201,7 +201,7 @@ public class ShowKeysUI implements IDisposable {
 
 		private void scheduleClose() {
 			this.readyToClose = true;
-			Display.getDefault().timerExec(this.timeToClose, () -> {
+			Display.getDefault().timerExec(this.timeToClose, () -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (ShowKeysPopup.this.readyToClose && getShell() != null && !getShell().isDisposed()) {
 					close();
 				}
@@ -212,7 +212,7 @@ public class ShowKeysUI implements IDisposable {
 		public boolean close() {
 			boolean closed = super.close();
 
-			for (Resource resource : this.resources) {
+			for (Resource resource : this.resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				resource.dispose();
 			}
 			this.resources.clear();
@@ -229,7 +229,7 @@ public class ShowKeysUI implements IDisposable {
 			newShell.setAlpha(170);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createContents(Composite parent) {
 			Font font = JFaceResources.getDialogFont();
 			FontData[] defaultFontData = font.getFontData();
@@ -242,7 +242,7 @@ public class ShowKeysUI implements IDisposable {
 
 			String primaryText = null;
 			if (shortcut != null && shortcutText != null) {
-				primaryText = shortcut + " – " + shortcutText; //$NON-NLS-1$
+				primaryText = shortcut + " – " + shortcutText; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else if (shortcut != null) {
 				primaryText = shortcut;
 			} else if (shortcutText != null) {
@@ -279,7 +279,7 @@ public class ShowKeysUI implements IDisposable {
 		}
 
 		private void hookDoubleClickListener(Control control) {
-			control.addListener(SWT.MouseDoubleClick, e -> {
+			control.addListener(SWT.MouseDoubleClick, e -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				PreferencesUtil.createPreferenceDialogOn(getParentShell(), keysPageId, null, null).open();
 			});
 		}

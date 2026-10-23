@@ -206,7 +206,7 @@ public class TableViewer extends AbstractTableViewer {
 		if (selection.length == 1) {
 			int columnCount = table.getColumnCount();
 
-			for (int i = 0; i < columnCount; i++) {
+			for (int i = 0; i < columnCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (selection[0].getBounds(i).contains(p)) {
 					return selection[0];
 				}
@@ -272,7 +272,7 @@ public class TableViewer extends AbstractTableViewer {
 	protected void doResetItem(Item item) {
 		TableItem tableItem = (TableItem) item;
 		int columnCount = Math.max(1, table.getColumnCount());
-		for (int i = 0; i < columnCount; i++) {
+		for (int i = 0; i < columnCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tableItem.setText(i, ""); //$NON-NLS-1$
 			if (tableItem.getImage(i) != null) {
 				tableItem.setImage(i, null);
@@ -399,10 +399,10 @@ public class TableViewer extends AbstractTableViewer {
 	 * @since 3.3
 	 */
 	public void refresh(boolean updateLabels, boolean reveal) {
-		refresh(getRoot(), updateLabels, reveal);
+		refresh(getRoot(), updateLabels, reveal); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void remove(Object[] elements) {
 		assertElementsNotNull(elements);
 		if (checkBusy()) {
@@ -420,12 +420,12 @@ public class TableViewer extends AbstractTableViewer {
 			elementToBeRemoved = elements[0];
 		} else {
 			elementsToBeRemoved = new CustomHashtable(getComparer());
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				elementsToBeRemoved.put(element, element);
 			}
 		}
 		int[] selectionIndices = doGetSelectionIndices();
-		for (int index : selectionIndices) {
+		for (int index : selectionIndices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Item item = doGetItem(index);
 			Object data = item.getData();
 			if (data != null) {
@@ -459,7 +459,7 @@ public class TableViewer extends AbstractTableViewer {
 		return super.doFindItem(element);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void handleExpandableNodeClicked(Widget w) {
 		if (!(w instanceof Item item)) {
 			return;
@@ -485,7 +485,7 @@ public class TableViewer extends AbstractTableViewer {
 				// will also call item.dispose()
 				doRemove(new int[] { index });
 
-				for (int i = 0; i < nextChildren.length; i++) {
+				for (int i = 0; i < nextChildren.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					createItem(nextChildren[i], index++);
 				}
 				// If we've expanded but still have not reached the limit

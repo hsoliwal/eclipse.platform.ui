@@ -60,7 +60,7 @@ public class HasFileRecursivelyExpression extends Expression {
 		this(element.getAttribute("filename")); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public EvaluationResult evaluate(IEvaluationContext context) throws CoreException {
 		Object root = context.getDefaultVariable();
 		IContainer container = null;
@@ -76,7 +76,7 @@ public class HasFileRecursivelyExpression extends Expression {
 		} else if (root instanceof File && ((File)root).isDirectory()) {
 			LinkedList<File> directoriesToVisit = new LinkedList<>();
 			directoriesToVisit.add((File)root);
-			while (!directoriesToVisit.isEmpty()) {
+			while (!directoriesToVisit.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				File currentDirectory = directoriesToVisit.pop();
 				if (new File(currentDirectory, this.filename).exists()) {
 					return EvaluationResult.TRUE;

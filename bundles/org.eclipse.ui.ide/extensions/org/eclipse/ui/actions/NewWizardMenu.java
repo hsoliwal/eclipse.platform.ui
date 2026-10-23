@@ -110,7 +110,7 @@ public class NewWizardMenu extends BaseNewWizardMenu {
 		// Remove all.
 		innerMgr.removeAll();
 
-		for (IContributionItem item : getContributionItems()) {
+		for (IContributionItem item : getContributionItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			innerMgr.add(item);
 		}
 	}
@@ -150,13 +150,13 @@ public class NewWizardMenu extends BaseNewWizardMenu {
 	private boolean hasWizards(IWizardCategory category) {
 		IWizardDescriptor[] wizards = category.getWizards();
 		if (wizards.length>0) {
-			for (IWizardDescriptor wizard : wizards) {
+			for (IWizardDescriptor wizard : wizards) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!WorkbenchActivityHelper.filterItem(wizard)) {
 					return true;
 				}
 			}
 		}
-		for (IWizardCategory wizardCategory : category.getCategories()) {
+		for (IWizardCategory wizardCategory : category.getCategories()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasWizards(wizardCategory)) {
 				return true;
 			}
@@ -164,12 +164,12 @@ public class NewWizardMenu extends BaseNewWizardMenu {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addItems(List<IContributionItem> list) {
-		List<IContributionItem> shortCuts = new ArrayList<>();
+		List<IContributionItem> shortCuts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addShortcuts(shortCuts);
 
-		for (Iterator<IContributionItem> iterator = shortCuts.iterator(); iterator.hasNext();) {
+		for (Iterator<IContributionItem> iterator = shortCuts.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem curr = iterator.next();
 			if (curr instanceof ActionContributionItem && isNewProjectWizardAction(((ActionContributionItem) curr).getAction())) {
 				iterator.remove();
@@ -193,7 +193,7 @@ public class NewWizardMenu extends BaseNewWizardMenu {
 		if (action instanceof NewWizardShortcutAction) {
 			IWizardDescriptor wizardDescriptor= ((NewWizardShortcutAction) action).getWizardDescriptor();
 			String [] tags = wizardDescriptor.getTags();
-			for (String tag : tags) {
+			for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (WorkbenchWizardElement.TAG_PROJECT.equals(tag)) {
 					return true;
 				}

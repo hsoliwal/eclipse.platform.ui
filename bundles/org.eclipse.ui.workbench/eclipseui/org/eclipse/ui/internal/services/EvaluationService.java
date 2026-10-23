@@ -60,17 +60,17 @@ public final class EvaluationService implements IEvaluationService {
 	private int notifying = 0;
 
 	private final ListenerList<IPropertyChangeListener> serviceListeners = new ListenerList<>(ListenerList.IDENTITY);
-	ArrayList<ISourceProvider> sourceProviders = new ArrayList<>();
+	ArrayList<ISourceProvider> sourceProviders = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	LinkedList<EvaluationReference> refs = new LinkedList<>();
 	private ISourceProviderListener contextUpdater;
 
-	private final HashSet<String> ratVariables = new HashSet<>();
+	private final HashSet<String> ratVariables = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private final RunAndTrack ratUpdater = new RunAndTrack() {
 		@Override
 		public boolean changed(IEclipseContext context) {
 			context.get(RE_EVAL);
 			String[] vars = ratVariables.toArray(new String[ratVariables.size()]);
-			for (String var : vars) {
+			for (String var : vars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object value = context.getActive(var);
 				if (value == null) {
 					ratContext.remove(var);
@@ -85,10 +85,10 @@ public final class EvaluationService implements IEvaluationService {
 		}
 	};
 
-	private final HashSet<String> variableFilter = new HashSet<>();
+	private final HashSet<String> variableFilter = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private IEventBroker eventBroker;
 
-	public EvaluationService(IEclipseContext c) {
+	public EvaluationService(IEclipseContext c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		context = c;
 		ratContext = context.getParent().createChild(getClass().getName());
 		legacyContext = new ExpressionContext(context);
@@ -118,7 +118,7 @@ public final class EvaluationService implements IEvaluationService {
 			@Override
 			public void sourceChanged(int sourcePriority, Map sourceValuesByName) {
 				Iterator i = sourceValuesByName.entrySet().iterator();
-				while (i.hasNext()) {
+				while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final Map.Entry entry = (Entry) i.next();
 					changeVariable((String) entry.getKey(), entry.getValue());
 				}
@@ -144,13 +144,13 @@ public final class EvaluationService implements IEvaluationService {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addSourceProvider(ISourceProvider provider) {
 		sourceProviders.add(provider);
 		provider.addSourceProviderListener(contextUpdater);
 		final Map currentState = provider.getCurrentState();
 		final Iterator variableItr = currentState.entrySet().iterator();
-		while (variableItr.hasNext()) {
+		while (variableItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map.Entry entry = (Map.Entry) variableItr.next();
 			final String variableName = (String) entry.getKey();
 			final Object variableValue = entry.getValue();
@@ -173,7 +173,7 @@ public final class EvaluationService implements IEvaluationService {
 
 		final Map currentState = provider.getCurrentState();
 		final Iterator variableItr = currentState.entrySet().iterator();
-		while (variableItr.hasNext()) {
+		while (variableItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map.Entry entry = (Map.Entry) variableItr.next();
 			final String variableName = (String) entry.getKey();
 			changeVariable(variableName, null);
@@ -183,7 +183,7 @@ public final class EvaluationService implements IEvaluationService {
 
 	@Override
 	public void dispose() {
-		for (EvaluationReference ref : refs) {
+		for (EvaluationReference ref : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			invalidate(ref, false);
 		}
 		refs.clear();
@@ -208,7 +208,7 @@ public final class EvaluationService implements IEvaluationService {
 		return ref;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addEvaluationReference(IEvaluationReference ref) {
 		EvaluationReference eref = (EvaluationReference) ref;
 		refs.add(eref);
@@ -216,7 +216,7 @@ public final class EvaluationService implements IEvaluationService {
 		if (eref.getExpression() != null) {
 			ExpressionInfo info = new ExpressionInfo();
 			eref.getExpression().collectExpressionInfo(info);
-			for (String varName : info.getAccessedVariableNames()) {
+			for (String varName : info.getAccessedVariableNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ratVariables.add(varName)) {
 					changed = true;
 				}
@@ -254,21 +254,21 @@ public final class EvaluationService implements IEvaluationService {
 		return legacyContext;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void requestEvaluation(String propertyName) {
 		// Trigger evaluation of properties via context
-		String pokeVar = propertyName + ".evaluationServiceLink"; //$NON-NLS-1$
+		String pokeVar = propertyName + ".evaluationServiceLink"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		context.remove(pokeVar);
 		context.set(pokeVar, "link"); //$NON-NLS-1$
 
 		startSourceChange();
-		for (EvaluationReference ref : refs) {
+		for (EvaluationReference ref : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression expr = ref.getExpression();
 			if (expr != null) {
 				boolean evaluated = false;
 				ExpressionInfo info = expr.computeExpressionInfo();
 				String[] names = info.getAccessedPropertyNames();
-				for (String name : names) {
+				for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (propertyName.equals(name)) {
 						evaluated = true;
 						ref.evaluate();
@@ -277,7 +277,7 @@ public final class EvaluationService implements IEvaluationService {
 				}
 				if (!evaluated) {
 					names = info.getAccessedVariableNames();
-					for (String name : names) {
+					for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (propertyName.equals(name)) {
 							evaluated = true;
 							ref.evaluate();
@@ -306,7 +306,7 @@ public final class EvaluationService implements IEvaluationService {
 	}
 
 	private void fireServiceChange(final String property, final Object oldValue, final Object newValue) {
-		for (final IPropertyChangeListener listener : serviceListeners) {
+		for (final IPropertyChangeListener listener : serviceListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ISafeRunnable() {
 				@Override
 				public void handleException(Throwable exception) {

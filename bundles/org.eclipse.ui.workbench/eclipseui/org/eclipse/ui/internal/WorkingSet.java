@@ -101,7 +101,7 @@ public class WorkingSet extends AbstractWorkingSet {
 
 	@Override
 	public String toString() {
-		return "WS [name=" + getName() + ", elements=" + getElementsArray() + ", id=" + getId() + "]"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
+		return "WS [name=" + getName() + ", elements=" + getElementsArray() + ", id=" + getId() + "]"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -157,10 +157,10 @@ public class WorkingSet extends AbstractWorkingSet {
 		internalSetElements(itemsArray);
 	}
 
-	private IAdaptable[] restoreFromMemento() {
+	private IAdaptable[] restoreFromMemento() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMemento[] itemMementos = workingSetMemento.getChildren(IWorkbenchConstants.TAG_ITEM);
 		Set<IAdaptable> items = new LinkedHashSet<>();
-		for (final IMemento itemMemento : itemMementos) {
+		for (final IMemento itemMemento : itemMementos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String factoryID = itemMemento.getString(IWorkbenchConstants.TAG_FACTORY_ID);
 
 			if (factoryID == null) {
@@ -169,11 +169,11 @@ public class WorkingSet extends AbstractWorkingSet {
 			}
 			final IElementFactory factory = PlatformUI.getWorkbench().getElementFactory(factoryID);
 			if (factory == null) {
-				WorkbenchPlugin.log("Unable to restore working set item - cannot instantiate factory: " + factoryID); //$NON-NLS-1$
+				WorkbenchPlugin.log("Unable to restore working set item - cannot instantiate factory: " + factoryID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				continue;
 			}
 			SafeRunner.run(new SafeRunnable(
-					"Unable to restore working set item - exception while invoking factory: " + factoryID) { //$NON-NLS-1$
+					"Unable to restore working set item - exception while invoking factory: " + factoryID) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				@Override
 				public void run() throws Exception {
@@ -181,7 +181,7 @@ public class WorkingSet extends AbstractWorkingSet {
 					if (item == null) {
 						if (Policy.DEBUG_WORKING_SETS) {
 							WorkbenchPlugin
-									.log("Unable to restore working set item - cannot instantiate item: " + factoryID); //$NON-NLS-1$
+									.log("Unable to restore working set item - cannot instantiate item: " + factoryID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					} else {
 						items.add(item);
@@ -199,7 +199,7 @@ public class WorkingSet extends AbstractWorkingSet {
 	 *
 	 * @see org.eclipse.ui.IPersistableElement#saveState(IMemento)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveState(IMemento memento) {
 		if (workingSetMemento != null) {
 			// just re-save the previous memento if the working set has
@@ -214,7 +214,7 @@ public class WorkingSet extends AbstractWorkingSet {
 			if (updater != null && updater.isManagingPersistenceOf(this)) {
 				return;
 			}
-			for (IAdaptable adaptable : elements) {
+			for (IAdaptable adaptable : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IPersistableElement persistable = Adapters.adapt(adaptable, IPersistableElement.class);
 				if (persistable != null) {
 					final IMemento itemMemento = memento.createChild(IWorkbenchConstants.TAG_ITEM);

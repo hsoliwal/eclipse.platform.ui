@@ -33,7 +33,7 @@ public class WorkingCopyManager implements IWorkingCopyManager {
 
 	private static final String EMPTY_STRING = "";//$NON-NLS-1$
 	// all working copies - maps absolute path to PreferencesWorkingCopy instance
-	private final Map<String, IEclipsePreferences> workingCopies = new HashMap<>();
+	private final Map<String, IEclipsePreferences> workingCopies = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	@Override
 	public IEclipsePreferences getWorkingCopy(IEclipsePreferences original) {
@@ -53,7 +53,7 @@ public class WorkingCopyManager implements IWorkingCopyManager {
 	public void applyChanges() throws BackingStoreException {
 		Collection<IEclipsePreferences> values = workingCopies.values();
 		WorkingCopyPreferences[] valuesArray = values.toArray(new WorkingCopyPreferences[values.size()]);
-		for (WorkingCopyPreferences prefs : valuesArray) {
+		for (WorkingCopyPreferences prefs : valuesArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (prefs.nodeExists(EMPTY_STRING)) {
 				prefs.flush();
 			}

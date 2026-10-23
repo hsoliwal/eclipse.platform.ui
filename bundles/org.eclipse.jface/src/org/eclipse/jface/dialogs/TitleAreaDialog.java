@@ -141,7 +141,7 @@ public class TitleAreaDialog extends TrayDialog {
 	/*
 	 * @see Dialog.createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		// create the overall composite
 		Composite contents = new Composite(parent, SWT.NONE);
@@ -172,7 +172,7 @@ public class TitleAreaDialog extends TrayDialog {
 		yTrim = rect.height - 100;
 
 		// need to react to new size of title area
-		getShell().addListener(SWT.Resize, event -> layoutForNewMessage(true));
+		getShell().addListener(SWT.Resize, event -> layoutForNewMessage(true)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		return contents;
 	}
 
@@ -215,7 +215,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 *            the SWT parent for the title area widgets
 	 * @return Control with the highest x axis value.
 	 */
-	private Control createTitleArea(Composite parent) {
+	private Control createTitleArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Determine the background color of the title bar
 		Display display = parent.getDisplay();
@@ -327,7 +327,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * @param horizontalSpacing
 	 *            int The spacing between widgets on the horizontal axis.
 	 */
-	private void setLayoutsForNormalMessage(int verticalSpacing,
+	private void setLayoutsForNormalMessage(int verticalSpacing, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int horizontalSpacing) {
 		FormData messageImageData = new FormData();
 		messageImageData.top = new FormAttachment(titleLabel, verticalSpacing);
@@ -404,7 +404,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * @param newErrorMessage
 	 *            the newErrorMessage to display or <code>null</code>
 	 */
-	public void setErrorMessage(String newErrorMessage) {
+	public void setErrorMessage(String newErrorMessage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Any change?
 		if (errorMessage == null ? newErrorMessage == null : errorMessage
 				.equals(newErrorMessage)) {
@@ -433,7 +433,7 @@ public class TitleAreaDialog extends TrayDialog {
 		} else {
 			// Add in a space for layout purposes but do not
 			// change the instance variable
-			String displayedErrorMessage = " " + errorMessage; //$NON-NLS-1$
+			String displayedErrorMessage = " " + errorMessage; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			updateMessage(displayedErrorMessage);
 			if (!showingError) {
 				// we were not previously showing an error
@@ -452,7 +452,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 * @param forceLayout
 	 *            <code>true</code> to force a layout of the shell
 	 */
-	private void layoutForNewMessage(boolean forceLayout) {
+	private void layoutForNewMessage(boolean forceLayout) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
 		int horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
 		// If there are no images then layout as normal
@@ -582,7 +582,7 @@ public class TitleAreaDialog extends TrayDialog {
 	 *            the message type
 	 * @since 2.0
 	 */
-	public void setMessage(String newMessage, int newType) {
+	public void setMessage(String newMessage, int newType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Image newImage = null;
 		String newImageTooltip = null;
 		if (newMessage != null) {
@@ -609,7 +609,7 @@ public class TitleAreaDialog extends TrayDialog {
 	/**
 	 * Show the new message and image.
 	 */
-	private void showMessage(String newMessage, Image newImage, String newImageTooltip) {
+	private void showMessage(String newMessage, Image newImage, String newImageTooltip) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=249915
 		if (newMessage == null) {
 			newMessage = ""; //$NON-NLS-1$
@@ -623,7 +623,7 @@ public class TitleAreaDialog extends TrayDialog {
 
 		// Message string to be shown - if there is an image then add in
 		// a space to the message for layout purposes
-		String shownMessage = (newImage == null) ? message : " " + message; //$NON-NLS-1$
+		String shownMessage = (newImage == null) ? message : " " + message; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		messageImage = newImage;
 		messageImageTooltip = newImageTooltip;
 		if (!showingError) {

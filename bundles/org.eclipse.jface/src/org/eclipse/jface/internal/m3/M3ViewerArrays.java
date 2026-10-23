@@ -49,7 +49,7 @@ public final class M3ViewerArrays {
 		return new Object[0];
 	}
 
-	public static Object[] filter(ViewerFilter filter, Viewer viewer, Object parent, Object[] elements) {
+	public static Object[] filter(ViewerFilter filter, Viewer viewer, Object parent, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int size = elements.length;
 		if (size == 0) {
 			return elements;
@@ -57,7 +57,7 @@ public final class M3ViewerArrays {
 		int sample = Math.min(16, size);
 		Object[] out = null;
 		int count = 0;
-		for (int i = 0; i < sample; i++) {
+		for (int i = 0; i < sample; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element = elements[i];
 			if (filter.select(viewer, parent, element)) {
 				if (out == null) {
@@ -70,14 +70,14 @@ public final class M3ViewerArrays {
 			// A dense prefix selects the original tight array loop once, so the
 			// remaining elements do not pay a growth check per accepted value.
 			out = Arrays.copyOf(out, size);
-			for (int i = sample; i < size; i++) {
+			for (int i = sample; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element = elements[i];
 				if (filter.select(viewer, parent, element)) {
 					out[count++] = element;
 				}
 			}
 		} else {
-			for (int i = sample; i < size; i++) {
+			for (int i = sample; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element = elements[i];
 				if (filter.select(viewer, parent, element)) {
 					if (out == null) {
@@ -98,7 +98,7 @@ public final class M3ViewerArrays {
 
 	public static Object[] validatedPath(Object[] segments) {
 		Assert.isNotNull(segments);
-		for (Object segment : segments) {
+		for (Object segment : segments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isNotNull(segment);
 		}
 		return segments;
@@ -106,7 +106,7 @@ public final class M3ViewerArrays {
 
 	public static int pathHash(Object[] segments, IElementComparer comparer) {
 		int result = 0;
-		for (Object segment : segments) {
+		for (Object segment : segments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (comparer == null) {
 				result += segment.hashCode();
 			} else {
@@ -116,14 +116,14 @@ public final class M3ViewerArrays {
 		return result;
 	}
 
-	public static boolean pathEquals(Object[] segments, Object[] otherPath, IElementComparer comparer) {
+	public static boolean pathEquals(Object[] segments, Object[] otherPath, IElementComparer comparer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (otherPath == null) {
 			return false;
 		}
 		if (segments.length != otherPath.length) {
 			return false;
 		}
-		for (int i = 0; i < segments.length; i++) {
+		for (int i = 0; i < segments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (comparer == null) {
 				if (!segments[i].equals(otherPath[i])) {
 					return false;
@@ -135,7 +135,7 @@ public final class M3ViewerArrays {
 		return true;
 	}
 
-	public static boolean pathStartsWith(Object[] segments, Object[] treePath, IElementComparer comparer) {
+	public static boolean pathStartsWith(Object[] segments, Object[] treePath, IElementComparer comparer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int thisSegmentCount = segments.length;
 		int otherSegmentCount = treePath.length;
 		if (otherSegmentCount == thisSegmentCount) {
@@ -144,7 +144,7 @@ public final class M3ViewerArrays {
 		if (otherSegmentCount > thisSegmentCount) {
 			return false;
 		}
-		for (int i = 0; i < otherSegmentCount; i++) {
+		for (int i = 0; i < otherSegmentCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object otherSegment = treePath[i];
 			if (comparer == null) {
 				if (!otherSegment.equals(segments[i])) {
@@ -179,7 +179,7 @@ public final class M3ViewerArrays {
 		return new TreePath(childSegments);
 	}
 
-	public static boolean selectionEquals(Object[] elements, Object[] other, IElementComparer comparer) {
+	public static boolean selectionEquals(Object[] elements, Object[] other, IElementComparer comparer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//size
 		int myLen = elements.length;
 		if (myLen != other.length) {
@@ -188,7 +188,7 @@ public final class M3ViewerArrays {
 
 		//element comparison
 		if (comparer != null) {
-			for (int i = 0; i < myLen; i++) {
+			for (int i = 0; i < myLen; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!comparer.equals(elements[i], other[i])) {
 					return false;
 				}
@@ -204,7 +204,7 @@ public final class M3ViewerArrays {
 		int r;
 		if (comparer != null) {
 			r = 31 + comparer.hashCode();
-			for (Object e : elements) {
+			for (Object e : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				r = 31 * r + (e == null ? 0 : comparer.hashCode(e));
 			}
 		} else {

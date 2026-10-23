@@ -88,7 +88,7 @@ public class MarkerResolutionSelectionDialog extends SelectionDialog {
 				IIDEHelpContextIds.MARKER_RESOLUTION_SELECTION_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -102,7 +102,7 @@ public class MarkerResolutionSelectionDialog extends SelectionDialog {
 		listViewer.getList().setLayoutData(data);
 		listViewer.getList().setFont(parent.getFont());
 		// Set the label provider
-		listViewer.setLabelProvider(new LabelProvider() {
+		listViewer.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object element) {
 				// Return the resolution's label.
@@ -112,16 +112,16 @@ public class MarkerResolutionSelectionDialog extends SelectionDialog {
 
 		// Set the content provider
 		listViewer.setContentProvider(ArrayContentProvider.getInstance());
-		listViewer.setInput(resolutions); // it is ignored but must be non-null
+		listViewer.setInput(resolutions); // it is ignored but must be non-null //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Set the initial selection
 		listViewer.setSelection(new StructuredSelection(getInitialElementSelections()), true);
 
 		// Add a selection change listener
-		listViewer.addSelectionChangedListener(event -> getOkButton().setEnabled(!event.getSelection().isEmpty()));
+		listViewer.addSelectionChangedListener(event -> getOkButton().setEnabled(!event.getSelection().isEmpty())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		// Add double-click listener
-		listViewer.addDoubleClickListener(_ -> okPressed());
+		listViewer.addDoubleClickListener(_ -> okPressed()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		return composite;
 	}
 

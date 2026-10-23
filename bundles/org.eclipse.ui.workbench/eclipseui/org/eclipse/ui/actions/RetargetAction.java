@@ -44,7 +44,7 @@ import org.eclipse.ui.internal.PartSite;
  * @since 2.0
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class RetargetAction extends PartEventAction implements ActionFactory.IWorkbenchAction {
+public class RetargetAction extends PartEventAction implements ActionFactory.IWorkbenchAction { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	/**
 	 * The help listener assigned to this action, or <code>null</code> if none.
@@ -77,11 +77,11 @@ public class RetargetAction extends PartEventAction implements ActionFactory.IWo
 	 *                 <code>AS_RADIO_BUTTON</code>, and <code>AS_UNSPECIFIED</code>
 	 * @since 3.0
 	 */
-	public RetargetAction(String actionID, String text, int style) {
+	public RetargetAction(String actionID, String text, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(text, style);
 		setId(actionID);
 		setEnabled(false);
-		super.setHelpListener(e -> {
+		super.setHelpListener(e -> { //FLLDCIM: MARK — T14  LAMBDA
 			HelpListener listener = null;
 			if (handler != null) {
 				// if we have a handler, see if it has a help listener
@@ -142,7 +142,7 @@ public class RetargetAction extends PartEventAction implements ActionFactory.IWo
 		super.partActivated(part);
 		IWorkbenchPartSite site = part.getSite();
 		SubActionBars bars = (SubActionBars) ((PartSite) site).getActionBars();
-		bars.addPropertyChangeListener(propertyChangeListener);
+		bars.addPropertyChangeListener(propertyChangeListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 		setActionHandler(bars.getGlobalActionHandler(getId()));
 	}
 
@@ -244,7 +244,7 @@ public class RetargetAction extends PartEventAction implements ActionFactory.IWo
 	/**
 	 * Sets the action handler.
 	 */
-	protected void setActionHandler(IAction newHandler) {
+	protected void setActionHandler(IAction newHandler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Optimize.
 		if (newHandler == handler) {
 			return;
@@ -306,7 +306,7 @@ public class RetargetAction extends PartEventAction implements ActionFactory.IWo
 	 */
 	@Override
 	public final String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		buffer.append("RetargetAction("); //$NON-NLS-1$
 		buffer.append(getId());

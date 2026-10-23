@@ -61,7 +61,7 @@ public class AutoSavePreferencePage extends PreferencePage implements IWorkbench
 
 	private Label noteMessage;
 
-	private final IPropertyChangeListener validityChangeListener = event -> {
+	private final IPropertyChangeListener validityChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 			updateValidState();
 		}
@@ -147,7 +147,7 @@ public class AutoSavePreferencePage extends PreferencePage implements IWorkbench
 	 */
 	@Override
 	public void dispose() {
-		intervalField.setPropertyChangeListener(null);
+		intervalField.setPropertyChangeListener(null); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 		noteMessage.dispose();
 		noteLabel.dispose();
 		resetMessage.dispose();
@@ -268,7 +268,7 @@ public class AutoSavePreferencePage extends PreferencePage implements IWorkbench
 		autoSaveButton.setText(IDEWorkbenchMessages.AutoSavePreferencPage_autoSaveButton);
 		autoSaveButton.setToolTipText(IDEWorkbenchMessages.AutoSavePreferencPage_autoSaveButton);
 		autoSaveButton.setSelection(getPreferenceStore().getBoolean(IPreferenceConstants.SAVE_AUTOMATICALLY));
-		autoSaveButton.addSelectionListener(new SelectionListener() {
+		autoSaveButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateEnablement();
@@ -281,7 +281,7 @@ public class AutoSavePreferencePage extends PreferencePage implements IWorkbench
 		});
 	}
 
-	private void updateEnablement() {
+	private void updateEnablement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean autoSave = autoSaveButton.getSelection();
 		final Display display = autoSaveButton.getDisplay();
 		noteMessage.setEnabled(autoSave);
@@ -331,7 +331,7 @@ public class AutoSavePreferencePage extends PreferencePage implements IWorkbench
 	 * Creates a widget with a text, a text field (to handle the interval) and a
 	 * text.
 	 */
-	private void createIntervalPart() {
+	private void createIntervalPart() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		intervalComposite = new Composite(autoSaveGroup, SWT.NONE);
 		final GridLayout intervalCompositeLayout = new GridLayout();
 		intervalCompositeLayout.numColumns = 2;
@@ -353,14 +353,14 @@ public class AutoSavePreferencePage extends PreferencePage implements IWorkbench
 		intervalField.load();
 		intervalField.getLabelControl(intervalComposite).setEnabled(autoSaveButton.getSelection());
 		intervalField.getTextControl(intervalComposite).setEnabled(autoSaveButton.getSelection());
-		intervalField.setPropertyChangeListener(validityChangeListener);
+		intervalField.setPropertyChangeListener(validityChangeListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 
 	}
 
 	/**
 	 * Creates information messages.
 	 */
-	private void createMessagesPart() {
+	private void createMessagesPart() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		resetMessage = new Label(autoSaveGroup, SWT.WRAP);
 		resetMessage.setText(IDEWorkbenchMessages.AutoSavePreferencPage_resetMessage);
 		final GridData resetMessageLayoutData = new GridData(SWT.FILL, SWT.FILL, true, false);

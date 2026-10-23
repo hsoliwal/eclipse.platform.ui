@@ -44,7 +44,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 
 	private IWorkbenchWindow window;
 
-	private final ArrayList<ActionSetContribution> adjunctContributions = new ArrayList<>(0);
+	private final ArrayList<ActionSetContribution> adjunctContributions = new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Used by the workbench window extension handler to unhook action sets from
@@ -79,7 +79,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 	 * @param set    the action set
 	 * @param window the window to contribute to
 	 */
-	public void buildMenuAndToolBarStructure(PluginActionSet set, IWorkbenchWindow window) {
+	public void buildMenuAndToolBarStructure(PluginActionSet set, IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.actionSet = set;
 		this.window = window;
 		cache = null;
@@ -90,7 +90,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		readElements(new IConfigurationElement[] { set.getConfigElement() });
 
 		if (cache != null) {
-			for (Object element : cache) {
+			for (Object element : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ActionSetContribution contribution = (ActionSetContribution) element;
 				contribution.contribute(actionSet.getBars(), true, true);
 				if (contribution.isAdjunctContributor()) {
@@ -98,9 +98,9 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 				}
 			}
 		}
-		for (ActionSetContribution contribution : adjunctContributions) {
+		for (ActionSetContribution contribution : adjunctContributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActionSetActionBars bars = actionSet.getBars();
-			for (ActionDescriptor adjunctAction : contribution.adjunctActions) {
+			for (ActionDescriptor adjunctAction : contribution.adjunctActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				contribution.contributeAdjunctCoolbarAction(adjunctAction, bars);
 			}
 		}
@@ -108,7 +108,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		registerBinding(set);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ActionDescriptor createActionDescriptor(IConfigurationElement element) {
 		// As of 2.1, the "pulldown" attribute was deprecated and replaced by
 		// the attribute "style". See doc for more details.
@@ -150,14 +150,14 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 	 *                   action with the same id; else they are added to the end
 	 * @return the insertion point, or null if not found.
 	 */
-	public static IContributionItem findInsertionPoint(String startId, String sortId, IContributionManager mgr,
+	public static IContributionItem findInsertionPoint(String startId, String sortId, IContributionManager mgr, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean startVsEnd) {
 		// Get items.
 		IContributionItem[] items = mgr.getItems();
 
 		// Find the reference item.
 		int insertIndex = 0;
-		while (insertIndex < items.length) {
+		while (insertIndex < items.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (startId.equals(items[insertIndex].getId())) {
 				break;
 			}
@@ -176,7 +176,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		// Find the insertion point for the new item.
 		// We do this by iterating through all of the previous
 		// action set contributions define within the current group.
-		for (int nX = insertIndex + 1; nX < items.length; nX++) {
+		for (int nX = insertIndex + 1; nX < items.length; nX++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = items[nX];
 			if (item.isSeparator() || item.isGroupMarker()) {
 				// Fix for bug report 18357
@@ -205,22 +205,22 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		// second
 		// pass the adjunct contributions will be processed.
 		PluginActionSetBuilder[] builders = new PluginActionSetBuilder[pluginActionSets.size()];
-		for (int i = 0; i < pluginActionSets.size(); i++) {
+		for (int i = 0; i < pluginActionSets.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			PluginActionSet set = pluginActionSets.get(i);
 			PluginActionSetBuilder builder = new PluginActionSetBuilder();
 			builder.readActionExtensions(set, window);
 			builders[i] = builder;
 		}
-		for (PluginActionSetBuilder builder : builders) {
+		for (PluginActionSetBuilder builder : builders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			builder.processAdjunctContributions();
 		}
 	}
 
 	protected void processAdjunctContributions() {
 		// Contribute the adjunct contributions.
-		for (ActionSetContribution contribution : adjunctContributions) {
+		for (ActionSetContribution contribution : adjunctContributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActionSetActionBars bars = actionSet.getBars();
-			for (ActionDescriptor adjunctAction : contribution.adjunctActions) {
+			for (ActionDescriptor adjunctAction : contribution.adjunctActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				contribution.contributeAdjunctCoolbarAction(adjunctAction, bars);
 			}
 		}
@@ -229,7 +229,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 	/**
 	 * Read the actions within a config element.
 	 */
-	protected void readActionExtensions(PluginActionSet set, IWorkbenchWindow window) {
+	protected void readActionExtensions(PluginActionSet set, IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.actionSet = set;
 		this.window = window;
 		cache = null;
@@ -247,7 +247,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 			// See bug 66374 for more details.
 			// WorkbenchPlugin.getDefault().getActionSetRegistry().addCache(set.getDesc().getId(),
 			// cache);
-			for (Object element : cache) {
+			for (Object element : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ActionSetContribution contribution = (ActionSetContribution) element;
 				contribution.contribute(actionSet.getBars(), true, true);
 				if (contribution.isAdjunctContributor()) {
@@ -258,7 +258,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 			registerBinding(set);
 
 		} else {
-			WorkbenchPlugin.log("Action Set is empty: " + set.getDesc().getId()); //$NON-NLS-1$
+			WorkbenchPlugin.log("Action Set is empty: " + set.getDesc().getId()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -284,7 +284,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 
 		private final WorkbenchWindow window;
 
-		protected ArrayList<ActionDescriptor> adjunctActions = new ArrayList<>(0);
+		protected ArrayList<ActionDescriptor> adjunctActions = new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		/**
 		 * Create a new instance of <code>ActionSetContribution</code>.
@@ -322,18 +322,18 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		 * @param menuAppendIfMissing append to the menubar if missing
 		 * @param toolAppendIfMissing append to the toolbar if missing
 		 */
-		public void contribute(IActionBars bars, boolean menuAppendIfMissing, boolean toolAppendIfMissing) {
+		public void contribute(IActionBars bars, boolean menuAppendIfMissing, boolean toolAppendIfMissing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			IMenuManager menuMgr = bars.getMenuManager();
 			IToolBarManager toolBarMgr = bars.getToolBarManager();
 			if (menus != null && menuMgr != null) {
-				for (IConfigurationElement menuElement : menus) {
+				for (IConfigurationElement menuElement : menus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					contributeMenu(menuElement, menuMgr, menuAppendIfMissing);
 				}
 			}
 
 			if (actions != null) {
-				for (ActionDescriptor ad : actions) {
+				for (ActionDescriptor ad : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (menuMgr != null) {
 						contributeMenuAction(ad, menuMgr, menuAppendIfMissing);
 					}
@@ -351,7 +351,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		/**
 		 * Contributes action from the action descriptor into the cool bar manager.
 		 */
-		protected void contributeAdjunctCoolbarAction(ActionDescriptor ad, ActionSetActionBars bars) {
+		protected void contributeAdjunctCoolbarAction(ActionDescriptor ad, ActionSetActionBars bars) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String toolBarId = ad.getToolbarId();
 			String toolGroupId = ad.getToolbarGroupId();
 
@@ -389,7 +389,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		/**
 		 * Contributes action from the action descriptor into the cool bar manager.
 		 */
-		protected void contributeCoolbarAction(ActionDescriptor ad, ActionSetActionBars bars) {
+		protected void contributeCoolbarAction(ActionDescriptor ad, ActionSetActionBars bars) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String toolBarId = ad.getToolbarId();
 			String toolGroupId = ad.getToolbarGroupId();
 			if (toolBarId == null && toolGroupId == null) {
@@ -448,14 +448,14 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void insertMenuGroup(IMenuManager menu, AbstractGroupMarker marker) {
 			if (actionSetId != null) {
 				IContributionItem[] items = menu.getItems();
 				// Loop thru all the current groups looking for the first
 				// group whose id > than the current action set id. Insert
 				// current marker just before this item then.
-				for (IContributionItem item : items) {
+				for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (item.isSeparator() || item.isGroupMarker()) {
 						if (item instanceof IActionSetContributionItem) {
 							String testId = ((IActionSetContributionItem) item).getActionSetId();
@@ -471,12 +471,12 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 			menu.add(marker);
 		}
 
-		private IContributionItem findAlphabeticalOrder(String startId, String itemId, IContributionManager mgr) {
+		private IContributionItem findAlphabeticalOrder(String startId, String itemId, IContributionManager mgr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContributionItem[] items = mgr.getItems();
 			int insertIndex = 0;
 
 			// look for starting point
-			while (insertIndex < items.length) {
+			while (insertIndex < items.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IContributionItem item = items[insertIndex];
 				if (startId != null && startId.equals(item.getId())) {
 					break;
@@ -485,7 +485,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 			}
 
 			// Find the index that this item should be inserted in
-			for (int i = insertIndex + 1; i < items.length; i++) {
+			for (int i = insertIndex + 1; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IContributionItem item = items[i];
 				if (item.isGroupMarker()) {
 					break;
@@ -527,7 +527,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 			if (refItem != null) {
 				mgr.insertAfter(refItem.getId(), item);
 			} else {
-				WorkbenchPlugin.log("Reference item " + refId + " not found for action " + item.getId()); //$NON-NLS-1$ //$NON-NLS-2$
+				WorkbenchPlugin.log("Reference item " + refId + " not found for action " + item.getId()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -538,7 +538,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		}
 
 		// for dynamic UI
-		protected void revokeAdjunctCoolbarAction(ActionDescriptor ad, ActionSetActionBars bars) {
+		protected void revokeAdjunctCoolbarAction(ActionDescriptor ad, ActionSetActionBars bars) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String toolBarId = ad.getToolbarId();
 //            String toolGroupId = ad.getToolbarGroupId();
 //
@@ -573,11 +573,11 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		}
 
 		// for dynamic UI
-		private void revokeActionSetFromMenu(IMenuManager menuMgr, String actionsetId) {
+		private void revokeActionSetFromMenu(IMenuManager menuMgr, String actionsetId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContributionItem[] items = menuMgr.getItems();
-			ArrayList<IContributionItem> itemsToRemove = new ArrayList<>();
+			ArrayList<IContributionItem> itemsToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			String id;
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item instanceof IMenuManager) {
 					revokeActionSetFromMenu((IMenuManager) item, actionsetId);
 				} else if (item instanceof ActionSetContributionItem) {
@@ -598,7 +598,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 				}
 			}
 			Iterator<IContributionItem> iter = itemsToRemove.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IContributionItem item = iter.next();
 				menuMgr.remove(item);
 			}
@@ -606,11 +606,11 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		}
 
 		// for dynamic UI
-		private void revokeActionSetFromCoolbar(ICoolBarManager coolbarMgr, String actionsetId) {
+		private void revokeActionSetFromCoolbar(ICoolBarManager coolbarMgr, String actionsetId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContributionItem[] items = coolbarMgr.getItems();
-			ArrayList<IContributionItem> itemsToRemove = new ArrayList<>();
+			ArrayList<IContributionItem> itemsToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			String id;
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				id = item.getId();
 				if (actionsetId.equals(id)) {
 					itemsToRemove.add(item);
@@ -631,18 +631,18 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 				}
 			}
 			Iterator<IContributionItem> iter = itemsToRemove.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				coolbarMgr.remove(iter.next());
 			}
 			coolbarMgr.update(true);
 		}
 
 		// for dynamic UI
-		private void revokeActionSetFromToolbar(IToolBarManager toolbarMgr, String actionsetId) {
+		private void revokeActionSetFromToolbar(IToolBarManager toolbarMgr, String actionsetId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContributionItem[] items = toolbarMgr.getItems();
-			ArrayList<IContributionItem> itemsToRemove = new ArrayList<>();
+			ArrayList<IContributionItem> itemsToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			String id;
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				id = item.getId();
 				if (id.equals(actionsetId)) {
 					itemsToRemove.add(item);
@@ -666,7 +666,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 				}
 			}
 			Iterator<IContributionItem> iter = itemsToRemove.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toolbarMgr.remove(iter.next());
 			}
 			toolbarMgr.update(true);
@@ -679,7 +679,7 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 	 * @param set    the set to remove
 	 * @param window the window to remove from
 	 */
-	protected void removeActionExtensions(PluginActionSet set, IWorkbenchWindow window) {
+	protected void removeActionExtensions(PluginActionSet set, IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.actionSet = set;
 		this.window = window;
 		currentContribution = null;
@@ -688,11 +688,11 @@ public class PluginActionSetBuilder extends PluginActionBuilder {
 		String id = set.getDesc().getId();
 
 		if (cache != null) {
-			for (Object element : cache) {
+			for (Object element : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ActionSetContribution contribution = (ActionSetContribution) element;
 				contribution.revokeContribution((WorkbenchWindow) window, id);
 				if (contribution.isAdjunctContributor()) {
-					for (ActionDescriptor adjunctAction : contribution.adjunctActions) {
+					for (ActionDescriptor adjunctAction : contribution.adjunctActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						contribution.revokeAdjunctCoolbarAction(adjunctAction, actionSet.getBars());
 					}
 				}

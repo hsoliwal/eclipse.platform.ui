@@ -84,7 +84,7 @@ public final class PathVariableSelectionDialog extends SelectionDialog {
 		setShellStyle(getShellStyle() | SWT.SHEET);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == EXTEND_ID) {
 			PathVariablesGroup.PathVariableElement selection = pathVariablesGroup
@@ -162,7 +162,7 @@ public final class PathVariableSelectionDialog extends SelectionDialog {
 					.getSelection();
 			String[] variableNames = new String[selection.length];
 
-			for (int i = 0; i < selection.length; i++) {
+			for (int i = 0; i < selection.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				variableNames[i] = selection[i].name;
 			}
 			setSelectionResult(variableNames);
@@ -198,7 +198,7 @@ public final class PathVariableSelectionDialog extends SelectionDialog {
 	 * Updates the enabled state of the Extend button based on the
 	 * current variable selection.
 	 */
-	private void updateExtendButtonState() {
+	private void updateExtendButtonState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PathVariablesGroup.PathVariableElement[] selection = pathVariablesGroup
 				.getSelection();
 		Button extendButton = getButton(EXTEND_ID);

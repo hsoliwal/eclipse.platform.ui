@@ -85,7 +85,7 @@ public class WorkbenchAdapterFactory implements IAdapterFactory {
 	 *    does not have an adapter of the given type for the
 	 *    given object
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getAdapter(Object o, Class<T> adapterType) {
 		if (adapterType.isInstance(o)) {
 			return adapterType.cast(o);
@@ -164,7 +164,7 @@ public class WorkbenchAdapterFactory implements IAdapterFactory {
 	 * associated with the given object. Returns <code>null</code> if
 	 * no such object can be found.
 	 */
-	protected IWorkbenchAdapter getWorkbenchElement(Object o) {
+	protected IWorkbenchAdapter getWorkbenchElement(Object o) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (o instanceof IResource) {
 			switch (((IResource) o).getType()) {
 			case IResource.FILE:

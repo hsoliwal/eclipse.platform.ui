@@ -82,7 +82,7 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 		}
 	};
 
-	private final Map<String, ServiceFactoryHandle> factories = new HashMap<>();
+	private final Map<String, ServiceFactoryHandle> factories = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	static class ServiceFactoryHandle {
 		AbstractServiceFactory factory;
@@ -109,16 +109,16 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 		return null;
 	}
 
-	private ServiceFactoryHandle loadFromRegistry(Class<?> key) {
+	private ServiceFactoryHandle loadFromRegistry(Class<?> key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ServiceFactoryHandle result = null;
 		IConfigurationElement[] serviceFactories = getExtensionPoint().getConfigurationElements();
 		try {
 			final String requestedName = key.getName();
 			boolean done = false;
-			for (int i = 0; i < serviceFactories.length && !done; i++) {
+			for (int i = 0; i < serviceFactories.length && !done; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IConfigurationElement[] serviceNameElements = serviceFactories[i]
 						.getChildren(IWorkbenchRegistryConstants.TAG_SERVICE);
-				for (int j = 0; j < serviceNameElements.length && !done; j++) {
+				for (int j = 0; j < serviceNameElements.length && !done; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String serviceName = serviceNameElements[j]
 							.getAttribute(IWorkbenchRegistryConstants.ATTR_SERVICE_CLASS);
 					if (requestedName.equals(serviceName)) {
@@ -132,11 +132,11 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 					PlatformUI.getWorkbench().getExtensionTracker().registerObject(
 							serviceFactories[i].getDeclaringExtension(), handle, IExtensionTracker.REF_WEAK);
 
-					List<String> serviceNames = new ArrayList<>();
-					for (IConfigurationElement configElement : serviceNameElements) {
+					List<String> serviceNames = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (IConfigurationElement configElement : serviceNameElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String serviceName = configElement.getAttribute(IWorkbenchRegistryConstants.ATTR_SERVICE_CLASS);
 						if (factories.containsKey(serviceName)) {
-							WorkbenchPlugin.log("Factory already exists for " //$NON-NLS-1$
+							WorkbenchPlugin.log("Factory already exists for " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									+ serviceName);
 						} else {
 							factories.put(serviceName, handle);
@@ -158,17 +158,17 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 		return reg.getExtensionPoint(EXT_ID_SERVICES);
 	}
 
-	public AbstractSourceProvider[] getSourceProviders() {
-		ArrayList<AbstractSourceProvider> providers = new ArrayList<>();
+	public AbstractSourceProvider[] getSourceProviders() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<AbstractSourceProvider> providers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IExtensionPoint ep = getExtensionPoint();
-		for (IConfigurationElement configElement : ep.getConfigurationElements()) {
+		for (IConfigurationElement configElement : ep.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (configElement.getName().equals(IWorkbenchRegistryConstants.TAG_SOURCE_PROVIDER)) {
 				try {
 					Object sourceProvider = configElement
 							.createExecutableExtension(IWorkbenchRegistryConstants.ATTR_PROVIDER);
 					if (!(sourceProvider instanceof AbstractSourceProvider)) {
 						String attributeName = configElement.getAttribute(IWorkbenchRegistryConstants.ATTR_PROVIDER);
-						final String message = "Source Provider '" + //$NON-NLS-1$
+						final String message = "Source Provider '" + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								attributeName + "' should extend AbstractSourceProvider"; //$NON-NLS-1$
 						final IStatus status = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, message);
 						WorkbenchPlugin.log(status);
@@ -188,8 +188,8 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 			ISources.ACTIVE_WORKBENCH_WINDOW_NAME, ISources.ACTIVE_EDITOR_ID_NAME, ISources.ACTIVE_PART_ID_NAME,
 			ISources.ACTIVE_SITE_NAME };
 
-	private void processVariables(IConfigurationElement[] children) {
-		for (IConfigurationElement configElement : children) {
+	private void processVariables(IConfigurationElement[] children) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IConfigurationElement configElement : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_NAME);
 			if (name == null || name.isEmpty()) {
 				continue;
@@ -199,7 +199,7 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 				level = WORKBENCH_LEVEL;
 			} else {
 				boolean found = false;
-				for (int j = 0; j < supportedLevels.length && !found; j++) {
+				for (int j = 0; j < supportedLevels.length && !found; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (supportedLevels[j].equals(level)) {
 						found = true;
 					}
@@ -222,9 +222,9 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 		// loadFromRegistry
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof ServiceFactoryHandle handle) {
 				ServiceLocator[] locators = handle.serviceLocators.toArray(ServiceLocator[]::new);
 				Arrays.sort(locators, (loc1, loc2) -> {
@@ -232,14 +232,14 @@ public class WorkbenchServiceRegistry implements IExtensionChangeHandler {
 					int l2 = loc2.getService(IWorkbenchLocationService.class).getServiceLevel();
 					return l1 < l2 ? -1 : (l1 > l2 ? 1 : 0);
 				});
-				for (ServiceLocator locator : locators) {
+				for (ServiceLocator locator : locators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ServiceLocator serviceLocator = locator;
 					if (!serviceLocator.isDisposed()) {
 						serviceLocator.unregisterServices();
 					}
 				}
 				handle.factory = null;
-				for (String serviceName : handle.serviceNames) {
+				for (String serviceName : handle.serviceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (factories.get(serviceName) == handle) {
 						factories.remove(serviceName);
 					}

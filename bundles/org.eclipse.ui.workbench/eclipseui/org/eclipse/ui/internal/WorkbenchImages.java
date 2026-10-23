@@ -69,21 +69,21 @@ public/* final */class WorkbenchImages {
 
 	public static final String ICONS_PATH = "$nl$/icons/full/";//$NON-NLS-1$
 
-	private static final String PATH_ETOOL = ICONS_PATH + "etool16/"; // Enabled toolbar icons.//$NON-NLS-1$
+	private static final String PATH_ETOOL = ICONS_PATH + "etool16/"; // Enabled toolbar icons.//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PATH_ELOCALTOOL = ICONS_PATH + "elcl16/"; // Enabled local toolbar icons.//$NON-NLS-1$
+	private static final String PATH_ELOCALTOOL = ICONS_PATH + "elcl16/"; // Enabled local toolbar icons.//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PATH_EVIEW = ICONS_PATH + "eview16/"; // View icons//$NON-NLS-1$
+	private static final String PATH_EVIEW = ICONS_PATH + "eview16/"; // View icons//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PATH_OVERLAY = ICONS_PATH + "ovr16/"; //$NON-NLS-1$
+	private static final String PATH_OVERLAY = ICONS_PATH + "ovr16/"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PATH_OBJECT = ICONS_PATH + "obj16/"; // Model object icons//$NON-NLS-1$
+	private static final String PATH_OBJECT = ICONS_PATH + "obj16/"; // Model object icons//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PATH_POINTER = ICONS_PATH + "pointer/"; // Pointer icons//$NON-NLS-1$
+	private static final String PATH_POINTER = ICONS_PATH + "pointer/"; // Pointer icons//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PATH_WIZBAN = ICONS_PATH + "wizban/"; // Wizard icons//$NON-NLS-1$
+	private static final String PATH_WIZBAN = ICONS_PATH + "wizban/"; // Wizard icons//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PATH_PREF = ICONS_PATH + "pref/"; // Preferences icons//$NON-NLS-1$
+	private static final String PATH_PREF = ICONS_PATH + "pref/"; // Preferences icons//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Declares a workbench image given the path of the image file (relative to the
@@ -114,169 +114,169 @@ public/* final */class WorkbenchImages {
 	 * Declares all the workbench's images, including both "shared" ones and
 	 * internal ones.
 	 */
-	private static final void declareImages() {
+	private static final void declareImages() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		declareImage(ISharedImages.IMG_DEF_MISSING, ImageDescriptor.getMissingImageDescriptor(), true);
 
 		// Overlays
-		declareImage(ISharedImages.IMG_DEC_FIELD_ERROR, PATH_OVERLAY + "error_ovr.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_DEC_FIELD_WARNING, PATH_OVERLAY + "warning_ovr.svg", true); //$NON-NLS-1$
+		declareImage(ISharedImages.IMG_DEC_FIELD_ERROR, PATH_OVERLAY + "error_ovr.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_DEC_FIELD_WARNING, PATH_OVERLAY + "warning_ovr.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		// Pinning
 		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR,
-				IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR_DISABLED, PATH_ETOOL + "pin_editor.svg", false); //$NON-NLS-1$
+				IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR_DISABLED, PATH_ETOOL + "pin_editor.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		// other toolbar buttons
 		declareImage(ISharedImages.IMG_ETOOL_SAVE_EDIT, ISharedImages.IMG_ETOOL_SAVE_EDIT_DISABLED, //
-				PATH_ETOOL + "save_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "save_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ETOOL_SAVEAS_EDIT, ISharedImages.IMG_ETOOL_SAVEAS_EDIT_DISABLED, //
-				PATH_ETOOL + "saveas_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "saveas_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ETOOL_SAVEALL_EDIT, ISharedImages.IMG_ETOOL_SAVEALL_EDIT_DISABLED, //
-				PATH_ETOOL + "saveall_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "saveall_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_UNDO, ISharedImages.IMG_TOOL_UNDO_DISABLED, //
-				PATH_ETOOL + "undo_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "undo_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_REDO, ISharedImages.IMG_TOOL_REDO_DISABLED, //
-				PATH_ETOOL + "redo_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "redo_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_CUT, ISharedImages.IMG_TOOL_CUT_DISABLED, //
-				PATH_ETOOL + "cut_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "cut_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_COPY, ISharedImages.IMG_TOOL_COPY_DISABLED, //
-				PATH_ETOOL + "copy_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "copy_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_PASTE, ISharedImages.IMG_TOOL_PASTE_DISABLED, //
-				PATH_ETOOL + "paste_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "paste_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_DELETE, ISharedImages.IMG_TOOL_DELETE_DISABLED, //
-				PATH_ETOOL + "delete_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "delete_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ETOOL_DELETE, ISharedImages.IMG_ETOOL_DELETE_DISABLED, //
-				PATH_ETOOL + "delete.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "delete.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ETOOL_CLEAR, ISharedImages.IMG_ETOOL_CLEAR_DISABLED, //
-				PATH_ETOOL + "clear.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "clear.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_NEW_WIZARD, ISharedImages.IMG_TOOL_NEW_WIZARD_DISABLED, //
-				PATH_ETOOL + "new_wiz.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "new_wiz.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ETOOL_PRINT_EDIT, ISharedImages.IMG_ETOOL_PRINT_EDIT_DISABLED, //
-				PATH_ETOOL + "print_edit.svg", true); //$NON-NLS-1$
+				PATH_ETOOL + "print_edit.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_HELP_CONTENTS, PATH_ETOOL + "help_contents.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_HELP_SEARCH, PATH_ETOOL + "help_search.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_TIPS_AND_TRICKS, PATH_ETOOL + "tricks.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_HELP_CONTENTS, PATH_ETOOL + "help_contents.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_HELP_SEARCH, PATH_ETOOL + "help_search.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_TIPS_AND_TRICKS, PATH_ETOOL + "tricks.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_NEW_FASTVIEW,
-				IWorkbenchGraphicConstants.IMG_DTOOL_NEW_FASTVIEW, PATH_ETOOL + "new_fastview.svg", true); //$NON-NLS-1$
+				IWorkbenchGraphicConstants.IMG_DTOOL_NEW_FASTVIEW, PATH_ETOOL + "new_fastview.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_RESTORE_TRIMPART, PATH_ETOOL + "fastview_restore.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_EDITOR_TRIMPART, PATH_ETOOL + "editor_area.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_RESTORE_TRIMPART, PATH_ETOOL + "fastview_restore.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_EDITOR_TRIMPART, PATH_ETOOL + "editor_area.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_FORWARD, ISharedImages.IMG_TOOL_FORWARD_DISABLED, //
-				PATH_ELOCALTOOL + "forward_nav.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "forward_nav.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_BACK, ISharedImages.IMG_TOOL_BACK_DISABLED, //
-				PATH_ELOCALTOOL + "backward_nav.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "backward_nav.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_TOOL_UP, ISharedImages.IMG_TOOL_UP_DISABLED, //
-				PATH_ELOCALTOOL + "up_nav.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "up_nav.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ELCL_SYNCED, ISharedImages.IMG_ELCL_SYNCED_DISABLED, //
-				PATH_ELOCALTOOL + "synced.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "synced.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ELCL_EXPANDALL, ISharedImages.IMG_ELCL_EXPANDALL_DISABLED, //
-				PATH_ELOCALTOOL + "expandall.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "expandall.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ELCL_REMOVE, ISharedImages.IMG_ELCL_REMOVE_DISABLED, //
-				PATH_ELOCALTOOL + "remove.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "remove.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ELCL_REMOVEALL, ISharedImages.IMG_ELCL_REMOVEALL_DISABLED, //
-				PATH_ELOCALTOOL + "removeall.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "removeall.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ELCL_COLLAPSEALL, ISharedImages.IMG_ELCL_COLLAPSEALL_DISABLED, //
-				PATH_ELOCALTOOL + "collapseall.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "collapseall.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ELCL_STOP, ISharedImages.IMG_ELCL_STOP_DISABLED, //
-				PATH_ELOCALTOOL + "stop.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "stop.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_NEW_PAGE, PATH_EVIEW + "new_persp.svg", false); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_NEW_PAGE, PATH_EVIEW + "new_persp.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		declareImage(ISharedImages.IMG_ETOOL_HOME_NAV, ISharedImages.IMG_ETOOL_HOME_NAV_DISABLED, //
-				PATH_ELOCALTOOL + "home_nav.svg", true); //$NON-NLS-1$
+				PATH_ELOCALTOOL + "home_nav.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(ISharedImages.IMG_ETOOL_DEF_PERSPECTIVE, PATH_EVIEW + "default_persp.svg", true); //$NON-NLS-1$
+		declareImage(ISharedImages.IMG_ETOOL_DEF_PERSPECTIVE, PATH_EVIEW + "default_persp.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_NEW_WIZ, PATH_WIZBAN + "new_wiz.svg", false); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_NEW_WIZ, PATH_WIZBAN + "new_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_IMPORT_WIZ, PATH_ETOOL + "import_wiz.svg", false); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_EXPORT_WIZ, PATH_ETOOL + "export_wiz.svg", false); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_IMPORT_WIZ, PATH_WIZBAN + "import_wiz.svg", false); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_EXPORT_WIZ, PATH_WIZBAN + "export_wiz.svg", false); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_IMPORT_PREF_WIZ, PATH_WIZBAN + "importpref_wiz.svg", false); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_EXPORT_PREF_WIZ, PATH_WIZBAN + "exportpref_wiz.svg", false); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_IMPORT_WIZ, PATH_ETOOL + "import_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_ETOOL_EXPORT_WIZ, PATH_ETOOL + "export_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_IMPORT_WIZ, PATH_WIZBAN + "import_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_EXPORT_WIZ, PATH_WIZBAN + "export_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_IMPORT_PREF_WIZ, PATH_WIZBAN + "importpref_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_EXPORT_PREF_WIZ, PATH_WIZBAN + "exportpref_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_WORKINGSET_WIZ, PATH_WIZBAN + "workset_wiz.svg", false); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_WIZBAN_WORKINGSET_WIZ, PATH_WIZBAN + "workset_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_VIEW_DEFAULTVIEW_MISC, PATH_EVIEW + "defaultview_misc.svg", false); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_VIEW_DEFAULTVIEW_MISC, PATH_EVIEW + "defaultview_misc.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_FONT, PATH_OBJECT + "font.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_THEME_CATEGORY, PATH_OBJECT + "theme_category.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ACTIVITY, PATH_OBJECT + "activity.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ACTIVITY_CATEGORY, PATH_OBJECT + "activity_category.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_WORKING_SETS, PATH_OBJECT + "workingsets.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_FONT, PATH_OBJECT + "font.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_THEME_CATEGORY, PATH_OBJECT + "theme_category.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ACTIVITY, PATH_OBJECT + "activity.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ACTIVITY_CATEGORY, PATH_OBJECT + "activity_category.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_WORKING_SETS, PATH_OBJECT + "workingsets.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR, PATH_OBJECT + "separator.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SEPARATOR, PATH_OBJECT + "separator.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_NODE, PATH_OBJECT + "generic_elements.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ELEMENT, PATH_OBJECT + "generic_element.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_NODE, PATH_OBJECT + "generic_elements.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_ELEMENT, PATH_OBJECT + "generic_element.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(ISharedImages.IMG_OBJ_ADD, PATH_OBJECT + "add_obj.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJ_FILE, PATH_OBJECT + "file_obj.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJ_FOLDER, PATH_OBJECT + "fldr_obj.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJ_ELEMENT, PATH_OBJECT + "elements_obj.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_DEF_VIEW, PATH_EVIEW + "defaultview_misc.svg", true); //$NON-NLS-1$
+		declareImage(ISharedImages.IMG_OBJ_ADD, PATH_OBJECT + "add_obj.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJ_FILE, PATH_OBJECT + "file_obj.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJ_FOLDER, PATH_OBJECT + "fldr_obj.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJ_ELEMENT, PATH_OBJECT + "elements_obj.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_DEF_VIEW, PATH_EVIEW + "defaultview_misc.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_CLOSE_VIEW, PATH_ELOCALTOOL + "close_view.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_MIN_VIEW, PATH_ELOCALTOOL + "min_view.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_VIEW_MENU, PATH_ELOCALTOOL + "view_menu.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_BUTTON_MENU, PATH_ELOCALTOOL + "button_menu.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_LCL_LINKTO_HELP, PATH_ELOCALTOOL + "linkto_help.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_RENDERED_VIEW_MENU, PATH_ELOCALTOOL + "view_menu.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_CLOSE_VIEW, PATH_ELOCALTOOL + "close_view.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_MIN_VIEW, PATH_ELOCALTOOL + "min_view.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_VIEW_MENU, PATH_ELOCALTOOL + "view_menu.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_BUTTON_MENU, PATH_ELOCALTOOL + "button_menu.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_LCL_LINKTO_HELP, PATH_ELOCALTOOL + "linkto_help.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_RENDERED_VIEW_MENU, PATH_ELOCALTOOL + "view_menu.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_CLOSE_VIEW_THIN, PATH_ELOCALTOOL + "thin_close_view.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_HIDE_TOOLBAR_THIN, PATH_ELOCALTOOL + "thin_hide_toolbar.svg", //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_CLOSE_VIEW_THIN, PATH_ELOCALTOOL + "thin_close_view.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_HIDE_TOOLBAR_THIN, PATH_ELOCALTOOL + "thin_hide_toolbar.svg", //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				true);
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_MAX_VIEW_THIN, PATH_ELOCALTOOL + "thin_max_view.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_MIN_VIEW_THIN, PATH_ELOCALTOOL + "thin_min_view.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_RESTORE_VIEW_THIN, PATH_ELOCALTOOL + "thin_restore_view.svg", //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_MAX_VIEW_THIN, PATH_ELOCALTOOL + "thin_max_view.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_MIN_VIEW_THIN, PATH_ELOCALTOOL + "thin_min_view.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_RESTORE_VIEW_THIN, PATH_ELOCALTOOL + "thin_restore_view.svg", //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				true);
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_SHOW_TOOLBAR_THIN, PATH_ELOCALTOOL + "thin_show_toolbar.svg", //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_SHOW_TOOLBAR_THIN, PATH_ELOCALTOOL + "thin_show_toolbar.svg", //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				true);
-		declareImage(IWorkbenchGraphicConstants.IMG_LCL_VIEW_MENU_THIN, PATH_ELOCALTOOL + "thin_view_menu.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_LCL_VIEW_MENU_THIN, PATH_ELOCALTOOL + "thin_view_menu.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(ISharedImages.IMG_OBJS_ERROR_TSK, PATH_OBJECT + "error_tsk.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_WARN_TSK, PATH_OBJECT + "warn_tsk.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_INFO_TSK, PATH_OBJECT + "info_tsk.svg", true); //$NON-NLS-1$
+		declareImage(ISharedImages.IMG_OBJS_ERROR_TSK, PATH_OBJECT + "error_tsk.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_WARN_TSK, PATH_OBJECT + "warn_tsk.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_INFO_TSK, PATH_OBJECT + "info_tsk.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(ISharedImages.IMG_OBJS_DND_LEFT, PATH_POINTER + "left.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_DND_RIGHT, PATH_POINTER + "right.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_DND_TOP, PATH_POINTER + "top.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_DND_BOTTOM, PATH_POINTER + "bottom.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_DND_INVALID, PATH_POINTER + "invalid.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_DND_STACK, PATH_POINTER + "stack.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_DND_OFFSCREEN, PATH_POINTER + "offscreen.svg", true); //$NON-NLS-1$
-		declareImage(ISharedImages.IMG_OBJS_DND_TOFASTVIEW, PATH_POINTER + "tofastview.svg", true); //$NON-NLS-1$
+		declareImage(ISharedImages.IMG_OBJS_DND_LEFT, PATH_POINTER + "left.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_DND_RIGHT, PATH_POINTER + "right.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_DND_TOP, PATH_POINTER + "top.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_DND_BOTTOM, PATH_POINTER + "bottom.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_DND_INVALID, PATH_POINTER + "invalid.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_DND_STACK, PATH_POINTER + "stack.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_DND_OFFSCREEN, PATH_POINTER + "offscreen.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(ISharedImages.IMG_OBJS_DND_TOFASTVIEW, PATH_POINTER + "tofastview.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		// signed jar images
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_YES, PATH_OBJECT + "signed_yes_tbl.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_NO, PATH_OBJECT + "signed_no_tbl.svg", true); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_UNKNOWN, PATH_OBJECT + "signed_unkn_tbl.svg", true); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_YES, PATH_OBJECT + "signed_yes_tbl.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_NO, PATH_OBJECT + "signed_no_tbl.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_OBJ_SIGNED_UNKNOWN, PATH_OBJECT + "signed_unkn_tbl.svg", true); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		declareImage(IWorkbenchGraphicConstants.IMG_PREF_IMPORT, PATH_PREF + "import_wiz.svg", false); //$NON-NLS-1$
-		declareImage(IWorkbenchGraphicConstants.IMG_PREF_EXPORT, PATH_PREF + "export_wiz.svg", false); //$NON-NLS-1$
+		declareImage(IWorkbenchGraphicConstants.IMG_PREF_IMPORT, PATH_PREF + "import_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareImage(IWorkbenchGraphicConstants.IMG_PREF_EXPORT, PATH_PREF + "export_wiz.svg", false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	}
 
@@ -308,7 +308,7 @@ public/* final */class WorkbenchImages {
 		if (Policy.DEBUG_DECLARED_IMAGES) {
 			Image image = descriptor.createImage(false);
 			if (image == null) {
-				WorkbenchPlugin.log("Image not found in WorkbenchImages.declaredImage().  symbolicName=" + symbolicName //$NON-NLS-1$
+				WorkbenchPlugin.log("Image not found in WorkbenchImages.declaredImage().  symbolicName=" + symbolicName //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ " descriptor=" + descriptor, new Exception("stack dump")); //$NON-NLS-1$//$NON-NLS-2$
 			} else {
 				image.dispose();
@@ -386,7 +386,7 @@ public/* final */class WorkbenchImages {
 
 	public static ImageDescriptor getImageDescriptorFromProgram(String filename, int offset) {
 		Assert.isNotNull(filename);
-		String key = filename + "*" + offset; // use * as it is not a valid filename character//$NON-NLS-1$
+		String key = filename + "*" + offset; // use * as it is not a valid filename character//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ImageDescriptor desc = getImageDescriptor(key);
 		if (desc == null) {
 			desc = new ProgramImageDescriptor(filename, offset);
@@ -427,7 +427,7 @@ public/* final */class WorkbenchImages {
 	 */
 	private static void initializeImageRegistry() {
 		imageRegistry = new ImageRegistry();
-		descriptors = new HashMap<>();
+		descriptors = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		declareImages();
 	}
 
@@ -452,6 +452,6 @@ public/* final */class WorkbenchImages {
 	 */
 	public static ImageDescriptor getWorkbenchImageDescriptor(String relativePath) {
 		return ImageDescriptor
-				.createFromURLSupplier(true, () -> BundleUtility.find(PlatformUI.PLUGIN_ID, ICONS_PATH + relativePath));
+				.createFromURLSupplier(true, () -> BundleUtility.find(PlatformUI.PLUGIN_ID, ICONS_PATH + relativePath)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

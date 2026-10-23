@@ -78,9 +78,9 @@ public class WorkingSetConfigurationBlock {
 		System.arraycopy(workingSetIds, 0, workingSetIdsCopy, 0, workingSetIds.length);
 		Arrays.sort(workingSetIdsCopy);
 
-		List<IWorkingSet> result = new ArrayList<>();
+		List<IWorkingSet> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IWorkingSet workingSet : workingSets) {
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Arrays.binarySearch(workingSetIdsCopy, workingSet.getId()) >= 0) {
 				result.add(workingSet);
 			}
@@ -179,7 +179,7 @@ public class WorkingSetConfigurationBlock {
 	 * @param workingSetIds     working set ids from which the user can choose
 	 * @since 3.108
 	 */
-	public WorkingSetConfigurationBlock(IDialogSettings settings, String enableButtonLabel, String newButtonLabel,
+	public WorkingSetConfigurationBlock(IDialogSettings settings, String enableButtonLabel, String newButtonLabel, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String comboLabel, String selectLabel, String... workingSetIds) {
 		Assert.isNotNull(workingSetIds);
 		Assert.isNotNull(settings);
@@ -254,8 +254,8 @@ public class WorkingSetConfigurationBlock {
 	 * @return the filtered elements
 	 */
 	private IWorkingSet[] filterWorkingSets(Collection<?> elements) {
-		List<IWorkingSet> result = new ArrayList<>();
-		for (Object element : elements) {
+		List<IWorkingSet> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IWorkingSet && verifyWorkingSet((IWorkingSet) element)) {
 				result.add((IWorkingSet) element);
 			}
@@ -293,7 +293,7 @@ public class WorkingSetConfigurationBlock {
 	 *
 	 * @param parent the parent to add the block to
 	 */
-	public void createContent(final Composite parent) {
+	public void createContent(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		composite.setLayout(new GridLayout(3, false));
@@ -308,7 +308,7 @@ public class WorkingSetConfigurationBlock {
 		newButton = new Button(composite, SWT.PUSH);
 		newButton.setText(this.newButtonLabel);
 		setButtonLayoutData(newButton);
-		newButton.addSelectionListener(widgetSelectedAdapter(e -> createNewWorkingSet(newButton.getShell())));
+		newButton.addSelectionListener(widgetSelectedAdapter(e -> createNewWorkingSet(newButton.getShell()))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		workingSetLabel = new Label(composite, SWT.NONE);
 		workingSetLabel.setText(comboLabel);
@@ -321,7 +321,7 @@ public class WorkingSetConfigurationBlock {
 		selectButton = new Button(composite, SWT.PUSH);
 		selectButton.setText(selectLabel);
 		setButtonLayoutData(selectButton);
-		selectButton.addSelectionListener(widgetSelectedAdapter(e -> {
+		selectButton.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			SimpleWorkingSetSelectionDialog dialog = new SimpleWorkingSetSelectionDialog(parent.getShell(),
 					workingSetTypeIds, selectedWorkingSets, false);
 			dialog.setMessage(WorkbenchMessages.WorkingSetGroup_WorkingSetSelection_message);
@@ -338,10 +338,10 @@ public class WorkingSetConfigurationBlock {
 			}
 		}));
 
-		enableButton.addSelectionListener(widgetSelectedAdapter(e -> updateEnableState(enableButton.getSelection())));
+		enableButton.addSelectionListener(widgetSelectedAdapter(e -> updateEnableState(enableButton.getSelection()))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		updateEnableState(enableButton.getSelection());
 
-		workingSetCombo.addSelectionListener(widgetSelectedAdapter(e -> updateSelectedWorkingSets()));
+		workingSetCombo.addSelectionListener(widgetSelectedAdapter(e -> updateSelectedWorkingSets())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		workingSetCombo.setItems(getHistoryEntries());
 		if (selectedWorkingSets.length == 0 && selectionHistory.size() > 0) {
@@ -352,7 +352,7 @@ public class WorkingSetConfigurationBlock {
 		}
 	}
 
-	private void createNewWorkingSet(Shell shell) {
+	private void createNewWorkingSet(Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSetManager manager = WorkbenchPlugin.getDefault().getWorkingSetManager();
 		IWorkingSetNewWizard wizard = manager.createWorkingSetNewWizard(workingSetTypeIds);
 		// the wizard can never be null since we have at least a resource
@@ -381,13 +381,13 @@ public class WorkingSetConfigurationBlock {
 		selectButton.setEnabled(enabled);
 	}
 
-	private void updateWorkingSetSelection() {
+	private void updateWorkingSetSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedWorkingSets.length > 0) {
 			workingSetCombo.setEnabled(true);
-			StringBuilder buf = new StringBuilder();
+			StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 			buf.append(selectedWorkingSets[0].getLabel());
-			for (int i = 1; i < selectedWorkingSets.length; i++) {
+			for (int i = 1; i < selectedWorkingSets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet ws = selectedWorkingSets[i];
 				buf.append(',').append(' ');
 				buf.append(ws.getLabel());
@@ -421,7 +421,7 @@ public class WorkingSetConfigurationBlock {
 	}
 
 	private int historyIndex(String entry) {
-		for (int i = 0; i < workingSetCombo.getItemCount(); i++) {
+		for (int i = 0; i < workingSetCombo.getItemCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workingSetCombo.getItem(i).equals(entry)) {
 				return i;
 			}
@@ -436,7 +436,7 @@ public class WorkingSetConfigurationBlock {
 		int size = tokenizer.countTokens();
 		String[] tokens = new String[size];
 		int i = 0;
-		while (i < size) {
+		while (i < size) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tokens[i++] = tokenizer.nextToken();
 		}
 		return tokens;
@@ -448,7 +448,7 @@ public class WorkingSetConfigurationBlock {
 
 		IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
 		selectedWorkingSets = new IWorkingSet[workingSetNames.length];
-		for (int i = 0; i < workingSetNames.length; i++) {
+		for (int i = 0; i < workingSetNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet set = workingSetManager.getWorkingSet(workingSetNames[i]);
 			Assert.isNotNull(set);
 			selectedWorkingSets[i] = set;
@@ -466,21 +466,21 @@ public class WorkingSetConfigurationBlock {
 		settings.put(WORKINGSET_SELECTION_HISTORY, history);
 	}
 
-	private List<String> loadSelectionHistory(IDialogSettings settings, String... workingSetIds) {
+	private List<String> loadSelectionHistory(IDialogSettings settings, String... workingSetIds) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] strings = settings.getArray(WORKINGSET_SELECTION_HISTORY);
 		if (strings == null || strings.length == 0) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
-		List<String> result = new ArrayList<>();
+		List<String> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		Set<String> workingSetIdsSet = new HashSet<>(Arrays.asList(workingSetIds));
+		Set<String> workingSetIdsSet = new HashSet<>(Arrays.asList(workingSetIds)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
-		for (String string : strings) {
+		for (String string : strings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] workingSetNames = split(string, ", "); //$NON-NLS-1$
 			boolean valid = true;
-			for (int j = 0; j < workingSetNames.length && valid; j++) {
+			for (int j = 0; j < workingSetNames.length && valid; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet workingSet = workingSetManager.getWorkingSet(workingSetNames[j]);
 				if (workingSet == null) {
 					valid = false;

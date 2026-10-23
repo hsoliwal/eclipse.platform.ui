@@ -26,7 +26,7 @@ package org.eclipse.ui.activities;
  * @see ICategory#addCategoryListener(ICategoryListener)
  * @see ICategory#removeCategoryListener(ICategoryListener)
  */
-public interface ICategoryListener {
+public interface ICategoryListener { //FLLDCIM: MARK — T36  IMPLEMENTS
 
 	/**
 	 * Notifies that one or more properties of an instance of <code>ICategory</code>

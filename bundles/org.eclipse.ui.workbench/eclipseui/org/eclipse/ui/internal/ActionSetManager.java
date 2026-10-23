@@ -57,8 +57,8 @@ public class ActionSetManager {
 		}
 	}
 
-	private final HashMap actionSets = new HashMap();
-	private final HashSet visibleItems = new HashSet();
+	private final HashMap actionSets = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final HashSet visibleItems = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	public static final int PROP_VISIBLE = 0;
 	public static final int PROP_HIDDEN = 1;
@@ -69,7 +69,7 @@ public class ActionSetManager {
 
 	private final ListenerList<IPropertyListener> listeners = new ListenerList<>();
 	private IPropertyListener contextListener;
-	private final Map activationsById = new HashMap();
+	private final Map activationsById = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private final IContextService contextService;
 
 	public ActionSetManager(IServiceLocator locator) {
@@ -77,9 +77,9 @@ public class ActionSetManager {
 		addListener(getContextListener());
 	}
 
-	private IPropertyListener getContextListener() {
+	private IPropertyListener getContextListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (contextListener == null) {
-			contextListener = (source, propId) -> {
+			contextListener = (source, propId) -> { //FLLDCIM: MARK — T06  LAMBDA
 				if (source instanceof IActionSetDescriptor desc) {
 					String id = desc.getId();
 					if (propId == PROP_VISIBLE) {
@@ -105,7 +105,7 @@ public class ActionSetManager {
 	}
 
 	private void firePropertyChange(IActionSetDescriptor descriptor, int id) {
-		for (IPropertyListener listener : listeners) {
+		for (IPropertyListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.propertyChanged(descriptor, id);
 		}
 	}

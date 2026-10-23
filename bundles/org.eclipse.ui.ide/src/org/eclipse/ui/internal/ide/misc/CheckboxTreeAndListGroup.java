@@ -51,17 +51,17 @@ import org.eclipse.swt.widgets.Tree;
  *	Workbench-level composite that combines a CheckboxTreeViewer and CheckboxListViewer.
  *	All viewer selection-driven interactions are handled within this object
  */
-public class CheckboxTreeAndListGroup extends EventManager implements
+public class CheckboxTreeAndListGroup extends EventManager implements //FLLDCIM: MARK — T21  IMPLEMENTS
 		ICheckStateListener, ISelectionChangedListener, ITreeViewerListener {
 	private Object root;
 
 	private Object currentTreeSelection;
 
-	private final List<Object> expandedTreeNodes = new ArrayList<>();
+	private final List<Object> expandedTreeNodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final Map<Object, List<Object>> checkedStateStore = new HashMap<>(9);
+	private final Map<Object, List<Object>> checkedStateStore = new HashMap<>(9); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final List<Object> whiteCheckedTreeItems = new ArrayList<>();
+	private final List<Object> whiteCheckedTreeItems = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final ITreeContentProvider treeContentProvider;
 
@@ -155,7 +155,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 
 		// if this tree element is already gray then its ancestors all are as well
 		if (!checkedStateStore.containsKey(treeElement)) {
-			checkedStateStore.put(treeElement, new ArrayList<>());
+			checkedStateStore.put(treeElement, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		Object parent = treeContentProvider.getParent(treeElement);
@@ -172,7 +172,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *	@param treeElement java.lang.Object
 	 */
 	protected boolean areAllChildrenWhiteChecked(Object treeElement) {
-		for (Object element : treeContentProvider.getChildren(treeElement)) {
+		for (Object element : treeContentProvider.getChildren(treeElement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!whiteCheckedTreeItems.contains(element)) {
 				return false;
 			}
@@ -202,7 +202,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *	time and check each one in the tree viewer as appropriate
 	 */
 	protected void checkNewTreeElements(Object[] elements) {
-		for (Object currentElement : elements) {
+		for (Object currentElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean checked = checkedStateStore.containsKey(currentElement);
 			treeViewer.setChecked(currentElement, checked);
 			treeViewer.setGrayed(currentElement, checked
@@ -271,9 +271,9 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 		listViewer.getTable().setLayoutData(data);
 		listViewer.getTable().setFont(parent.getFont());
 		listViewer.setContentProvider(listContentProvider);
-		listViewer.setLabelProvider(listLabelProvider);
+		listViewer.setLabelProvider(listLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		listViewer.setComparator(listComparator);
-		listViewer.addCheckStateListener(this);
+		listViewer.addCheckStateListener(this); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 	}
 
 	/**
@@ -289,11 +289,11 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 
 		treeViewer = new CheckboxTreeViewer(tree);
 		treeViewer.setContentProvider(treeContentProvider);
-		treeViewer.setLabelProvider(treeLabelProvider);
+		treeViewer.setLabelProvider(treeLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		treeViewer.setComparator(treeComparator);
-		treeViewer.addTreeListener(this);
-		treeViewer.addCheckStateListener(this);
-		treeViewer.addSelectionChangedListener(this);
+		treeViewer.addTreeListener(this); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
+		treeViewer.addCheckStateListener(this); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
+		treeViewer.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	/**
@@ -308,7 +308,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 * @return boolean
 	 * @see #determineShouldBeWhiteChecked(java.lang.Object)
 	 */
-	protected boolean determineShouldBeAtLeastGrayChecked(Object treeElement) {
+	protected boolean determineShouldBeAtLeastGrayChecked(Object treeElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// if any list items associated with treeElement are checked then it
 		// retains its gray-checked status regardless of its children
 		List<?> checked = checkedStateStore.get(treeElement);
@@ -318,7 +318,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 
 		// if any children of treeElement are still gray-checked then treeElement
 		// must remain gray-checked as well
-		for (Object child : treeContentProvider.getChildren(treeElement)) {
+		for (Object child : treeContentProvider.getChildren(treeElement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (checkedStateStore.containsKey(child)) {
 				return true;
 			}
@@ -349,7 +349,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 		// always go through all children first since their white-checked
 		// statuses will be needed to determine the white-checked status for
 		// this tree element
-		for (Object child : treeContentProvider.getElements(treeElement)) {
+		for (Object child : treeContentProvider.getElements(treeElement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			determineWhiteCheckedDescendents(child);
 		}
 
@@ -373,12 +373,12 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *	@return java.util.Vector
 	 */
 	public Iterator<?> getAllCheckedListItems() {
-		List<Object> result = new ArrayList<>();
+		List<Object> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<List<Object>> listCollectionsEnum = checkedStateStore.values().iterator();
 
-		while (listCollectionsEnum.hasNext()) {
+		while (listCollectionsEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Iterator<Object> currentCollection = listCollectionsEnum.next().iterator();
-			while (currentCollection.hasNext()) {
+			while (currentCollection.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(currentCollection.next());
 			}
 		}
@@ -437,7 +437,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 			return; // no need to proceed upwards from here
 		}
 
-		checkedStateStore.put(treeElement, new ArrayList<>());
+		checkedStateStore.put(treeElement, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (determineShouldBeWhiteChecked(treeElement)) {
 			setWhiteChecked(treeElement, true);
 		}
@@ -474,7 +474,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *	Initialize this group's viewers after they have been laid out.
 	 */
 	protected void initialize() {
-		treeViewer.setInput(root);
+		treeViewer.setInput(root); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -482,7 +482,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *	is changed by the user. Do not try and update the hierarchy if we are building the
 	 *  initial list.
 	 */
-	protected void listItemChecked(Object listElement, boolean state,
+	protected void listItemChecked(Object listElement, boolean state, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean updatingFromSelection) {
 		List<Object> checkedListItems = checkedStateStore
 				.get(currentTreeSelection);
@@ -516,7 +516,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 */
 	protected void notifyCheckStateChangeListeners(
 			final CheckStateChangedEvent event) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ICheckStateListener checkStateListener = (ICheckStateListener) listener;
 			SafeRunner.run(new SafeRunnable() {
 				@Override
@@ -534,12 +534,12 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *@param treeElement java.lang.Object
 	 */
 	protected void populateListViewer(final Object treeElement) {
-		listViewer.setInput(treeElement);
+		listViewer.setInput(treeElement); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		List<Object> listItemsToCheck = checkedStateStore.get(treeElement);
 
 		if (listItemsToCheck != null) {
 			Iterator<Object> listItemsEnum = listItemsToCheck.iterator();
-			while (listItemsEnum.hasNext()) {
+			while (listItemsEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listViewer.setChecked(listItemsEnum.next(), true);
 			}
 		}
@@ -566,7 +566,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 		Object selectedElement = selection.getFirstElement();
 		if (selectedElement == null) {
 			currentTreeSelection = null;
-			listViewer.setInput(currentTreeSelection);
+			listViewer.setInput(currentTreeSelection); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			return;
 		}
 
@@ -603,7 +603,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	public void setListProviders(IStructuredContentProvider contentProvider,
 			ILabelProvider labelProvider) {
 		listViewer.setContentProvider(contentProvider);
-		listViewer.setLabelProvider(labelProvider);
+		listViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/**
@@ -628,14 +628,14 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *	Set the checked state of the passed tree element appropriately, and
 	 *	do so recursively to all of its child tree elements as well
 	 */
-	protected void setTreeChecked(Object treeElement, boolean state) {
+	protected void setTreeChecked(Object treeElement, boolean state) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (treeElement.equals(currentTreeSelection)) {
 			listViewer.setAllChecked(state);
 		}
 
 		if (state) {
-			List<Object> listItemsChecked = new ArrayList<>(
+			List<Object> listItemsChecked = new ArrayList<>( //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					Arrays.asList(listContentProvider.getElements(treeElement)));
 			checkedStateStore.put(treeElement, listItemsChecked);
 		} else {
@@ -647,7 +647,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 		treeViewer.setGrayed(treeElement, false);
 
 		// now logically check/uncheck all children as well
-		for (Object child : treeContentProvider.getChildren(treeElement)) {
+		for (Object child : treeContentProvider.getChildren(treeElement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setTreeChecked(child, state);
 		}
 	}
@@ -661,7 +661,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	public void setTreeProviders(ITreeContentProvider contentProvider,
 			ILabelProvider labelProvider) {
 		treeViewer.setContentProvider(contentProvider);
-		treeViewer.setLabelProvider(labelProvider);
+		treeViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/**
@@ -717,7 +717,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 *  Callback that's invoked when the checked status of an item in the tree
 	 *  is changed by the user.
 	 */
-	protected void treeItemChecked(Object treeElement, boolean state) {
+	protected void treeItemChecked(Object treeElement, boolean state) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// recursively adjust all child tree elements appropriately
 		setTreeChecked(treeElement, state);
@@ -778,12 +778,12 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 	 * @param items Map with keys of Object (the tree element) and values of List (the selected
 	 * list elements).
 	 */
-	public void updateSelections(final Map<Object, List<Object>> items) {
+	public void updateSelections(final Map<Object, List<Object>> items) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Potentially long operation - show a busy cursor
 		BusyIndicator.showWhile(treeViewer.getControl().getDisplay(),
 				() -> {
 					//Update the store before the hierarchy to prevent updating parents before all of the children are done
-					for (Entry<?, List<Object>> entry : items.entrySet()) {
+					for (Entry<?, List<Object>> entry : items.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Object key1 = entry.getKey();
 						//Replace the items in the checked state store with those from the supplied items
 						List<Object> selections = entry.getValue();
@@ -802,7 +802,7 @@ public class CheckboxTreeAndListGroup extends EventManager implements
 					}
 
 					//Now update hierarchies
-					for (Entry<Object, List<Object>> entry : items.entrySet()) {
+					for (Entry<Object, List<Object>> entry : items.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Object key2 = entry.getKey();
 						updateHierarchy(key2);
 						if (currentTreeSelection != null

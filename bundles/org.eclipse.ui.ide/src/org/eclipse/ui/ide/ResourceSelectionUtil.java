@@ -51,7 +51,7 @@ public class ResourceSelectionUtil {
 	 */
 	public static boolean allResourcesAreOfType(IStructuredSelection selection,
 			int resourceMask) {
-		for (Object next : selection) {
+		for (Object next : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(next instanceof IResource)) {
 				return false;
 			}
@@ -76,8 +76,8 @@ public class ResourceSelectionUtil {
 	 * @see IResource#getType()
 	 */
 	public static IStructuredSelection allResources(IStructuredSelection selection, int resourceMask) {
-		List<IResource> result = new ArrayList<>();
-		for (Object next : selection) {
+		List<IResource> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object next : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = Adapters.adapt(next, IResource.class);
 			if (resource == null) {
 				return null;

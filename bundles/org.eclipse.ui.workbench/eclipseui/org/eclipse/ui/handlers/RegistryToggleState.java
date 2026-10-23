@@ -76,7 +76,7 @@ public final class RegistryToggleState extends ToggleState implements IExecutabl
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInitializationData(final IConfigurationElement configurationElement, final String propertyName,
 			final Object data) {
 		if (data instanceof String) {

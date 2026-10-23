@@ -52,7 +52,7 @@ import org.eclipse.ui.keys.IBindingService;
  *
  * @since 3.2
  */
-public class ContentAssistCommandAdapter extends ContentProposalAdapter {
+public class ContentAssistCommandAdapter extends ContentProposalAdapter { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private static final String CONTENT_ASSIST_DECORATION_ID = "org.eclipse.ui.fieldAssist.ContentAssistField"; //$NON-NLS-1$
 	private String commandId;
@@ -152,7 +152,7 @@ public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 	 *                                 and managing it directly.
 	 * @since 3.3
 	 */
-	public ContentAssistCommandAdapter(Control control, IControlContentAdapter controlContentAdapter,
+	public ContentAssistCommandAdapter(Control control, IControlContentAdapter controlContentAdapter, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContentProposalProvider proposalProvider, String commandId, char[] autoActivationCharacters,
 			boolean installDecoration) {
 		super(control, controlContentAdapter, proposalProvider, null, autoActivationCharacters);
@@ -196,8 +196,8 @@ public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 	 * Add the listeners needed in order to activate the content assist command on
 	 * the control.
 	 */
-	private void addListeners(Control control) {
-		control.addFocusListener(new FocusListener() {
+	private void addListeners(Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		control.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(FocusEvent e) {
 				deactivateHandler();
@@ -212,7 +212,7 @@ public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 				}
 			}
 		});
-		control.addDisposeListener(e -> deactivateHandler());
+		control.addDisposeListener(e -> deactivateHandler()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	/**
@@ -234,10 +234,10 @@ public class ContentAssistCommandAdapter extends ContentProposalAdapter {
 	 *
 	 * @since 3.3
 	 */
-	private FieldDecoration getContentAssistFieldDecoration() {
+	private FieldDecoration getContentAssistFieldDecoration() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FieldDecorationRegistry registry = FieldDecorationRegistry.getDefault();
 		// Look for a decoration installed for this particular command id.
-		String decId = CONTENT_ASSIST_DECORATION_ID + getCommandId();
+		String decId = CONTENT_ASSIST_DECORATION_ID + getCommandId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		FieldDecoration dec = registry.getFieldDecoration(decId);
 
 		// If there is not one, base ours on the standard JFace one.

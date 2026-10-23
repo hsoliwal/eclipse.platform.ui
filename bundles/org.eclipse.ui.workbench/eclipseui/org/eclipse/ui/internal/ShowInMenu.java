@@ -117,10 +117,10 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 		if (getParent() instanceof MenuManager) {
-			((MenuManager) getParent()).addMenuListener(menuListener);
+			((MenuManager) getParent()).addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		}
 
 		if (!dirty) {
@@ -143,7 +143,7 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 			item.setText(NO_TARGETS_MSG);
 			item.setEnabled(false);
 		} else {
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item.isVisible()) {
 					if (index == -1) {
 						item.fill(menu, -1);
@@ -162,7 +162,7 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 	/**
 	 * Fills the menu with Show In actions.
 	 */
-	private void fillMenu(IMenuManager innerMgr) {
+	private void fillMenu(IMenuManager innerMgr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPage page = locator.getService(IWorkbenchPage.class);
 		if (page == null) {
 			return;
@@ -185,7 +185,7 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 		}
 
 		IViewDescriptor[] viewDescs = getViewDescriptors(sourcePart);
-		for (IViewDescriptor viewDesc : viewDescs) {
+		for (IViewDescriptor viewDesc : viewDescs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem cci = getContributionItem(viewDesc);
 			if (cci != null) {
 				innerMgr.add(cci);
@@ -205,8 +205,8 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 			MApplication application = workbenchWindow.getModel().getContext().get(MApplication.class);
 
 			MMenu menuModel = MenuFactoryImpl.eINSTANCE.createMenu();
-			final ArrayList<MMenuContribution> toContribute = new ArrayList<>();
-			final ArrayList<MMenuElement> menuContributionsToRemove = new ArrayList<>();
+			final ArrayList<MMenuContribution> toContribute = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			final ArrayList<MMenuElement> menuContributionsToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ExpressionContext eContext = new ExpressionContext(workbenchWindow.getModel().getContext());
 			ContributionsAnalyzer.gatherMenuContributions(menuModel, application.getMenuContributions(), location,
 					toContribute, eContext, true);
@@ -214,7 +214,7 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 
 			ICommandImageService imgService = workbenchWindow.getService(ICommandImageService.class);
 
-			for (MMenuElement menuElement : menuModel.getChildren()) {
+			for (MMenuElement menuElement : menuModel.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (menuElement instanceof MHandledMenuItem) {
 					MCommand command = ((MHandledMenuItem) menuElement).getCommand();
 					String commandId = command.getElementId();
@@ -242,9 +242,9 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 					}
 					List<MParameter> menuParameters = ((MHandledMenuItem) menuElement).getParameters();
 					if (menuParameters != null && !menuParameters.isEmpty()) {
-						ccip.parameters = new HashMap<>(menuParameters.size());
+						ccip.parameters = new HashMap<>(menuParameters.size()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-						for (MParameter menuParam : menuParameters) {
+						for (MParameter menuParam : menuParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ccip.parameters.put(menuParam.getName(), menuParam.getValue());
 						}
 					}
@@ -267,7 +267,7 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 	protected IContributionItem getContributionItem(IViewDescriptor viewDescriptor) {
 		CommandContributionItemParameter parm = new CommandContributionItemParameter(locator, viewDescriptor.getId(),
 				IWorkbenchCommandConstants.NAVIGATE_SHOW_IN, CommandContributionItem.STYLE_PUSH);
-		HashMap<String, String> targetId = new HashMap<>();
+		HashMap<String, String> targetId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		targetId.put(IWorkbenchCommandConstants.NAVIGATE_SHOW_IN_PARM_TARGET, viewDescriptor.getId());
 		parm.parameters = targetId;
 		parm.label = viewDescriptor.getLabel();
@@ -282,13 +282,13 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 	 * Returns the Show In... target part ids for the given source part. Merges the
 	 * contributions from the current perspective and the source part.
 	 */
-	private ArrayList<Object> getShowInPartIds(IWorkbenchPart sourcePart) {
-		ArrayList<Object> targetIds = new ArrayList<>();
+	private ArrayList<Object> getShowInPartIds(IWorkbenchPart sourcePart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<Object> targetIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		WorkbenchPage page = (WorkbenchPage) getWindow().getActivePage();
 		if (page != null) {
 			String srcId = sourcePart == null ? null : sourcePart.getSite().getId();
 			List<String> pagePartIds = page.getShowInPartIds();
-			for (String pagePartId : pagePartIds) {
+			for (String pagePartId : pagePartIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// Don't add own view, except when explicitly requested with
 				// IShowInTargetList below
 				if (!pagePartId.equals(srcId)) {
@@ -300,7 +300,7 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 		if (targetList != null) {
 			String[] partIds = targetList.getShowInTargetIds();
 			if (partIds != null) {
-				for (String partId : partIds) {
+				for (String partId : partIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!targetIds.contains(partId)) {
 						targetIds.add(partId);
 					}
@@ -366,9 +366,9 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 	 */
 	private IViewDescriptor[] getViewDescriptors(IWorkbenchPart sourcePart) {
 		ArrayList<Object> ids = getShowInPartIds(sourcePart);
-		ArrayList<IViewDescriptor> descs = new ArrayList<>();
+		ArrayList<IViewDescriptor> descs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IViewRegistry reg = WorkbenchPlugin.getDefault().getViewRegistry();
-		for (Object object : ids) {
+		for (Object object : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = (String) object;
 			IViewDescriptor desc = reg.find(id);
 			if (desc != null) {
@@ -383,7 +383,7 @@ public class ShowInMenu extends ContributionItem implements IWorkbenchContributi
 		locator = serviceLocator;
 	}
 
-	protected IWorkbenchWindow getWindow() {
+	protected IWorkbenchWindow getWindow() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (locator == null) {
 			return null;
 		}

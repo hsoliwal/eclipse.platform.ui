@@ -185,7 +185,7 @@ public class CommandContributionItem extends ContributionItem {
 	 *                               contribution item.
 	 * @since 3.4
 	 */
-	public CommandContributionItem(CommandContributionItemParameter contributionParameters) {
+	public CommandContributionItem(CommandContributionItemParameter contributionParameters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(contributionParameters.id);
 
 		contributedLabel = contributionParameters.label;
@@ -272,7 +272,7 @@ public class CommandContributionItem extends ContributionItem {
 				hoverIcon, label, mnemonic, tooltip, style, null, false));
 	}
 
-	private void setImages(IServiceLocator locator, String iconStyle) {
+	private void setImages(IServiceLocator locator, String iconStyle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (icon == null) {
 			ICommandImageService service = locator.getService(ICommandImageService.class);
 			icon = service.getImageDescriptor(command.getId(), ICommandImageService.TYPE_DEFAULT, iconStyle);
@@ -303,7 +303,7 @@ public class CommandContributionItem extends ContributionItem {
 		return commandListener;
 	}
 
-	private void updateCommandProperties(final CommandEvent commandEvent) {
+	private void updateCommandProperties(final CommandEvent commandEvent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (commandEvent.isHandledChanged()) {
 			dropDownMenuOverride = null;
 		}
@@ -331,11 +331,11 @@ public class CommandContributionItem extends ContributionItem {
 		if (display.getThread() == Thread.currentThread()) {
 			update.run();
 		} else {
-			display.asyncExec(update);
+			display.asyncExec(update); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
-	private boolean shouldRestoreAppearance(IHandler handler) {
+	private boolean shouldRestoreAppearance(IHandler handler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// if no handler or handler doesn't implement IElementUpdater,
 		// restore the contributed elements
@@ -373,21 +373,21 @@ public class CommandContributionItem extends ContributionItem {
 	void createCommand(String commandId, Map parameters) {
 		if (commandId == null) {
 			StatusManager.getManager()
-					.handle(StatusUtil.newStatus(IStatus.ERROR, "Unable to create menu item \"" + getId() //$NON-NLS-1$
+					.handle(StatusUtil.newStatus(IStatus.ERROR, "Unable to create menu item \"" + getId() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "\", no command id", null)); //$NON-NLS-1$
 			return;
 		}
 		Command cmd = commandService.getCommand(commandId);
 		if (!cmd.isDefined()) {
 			StatusManager.getManager()
-					.handle(StatusUtil.newStatus(IStatus.ERROR, "Unable to create menu item \"" + getId() //$NON-NLS-1$
+					.handle(StatusUtil.newStatus(IStatus.ERROR, "Unable to create menu item \"" + getId() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "\", command \"" + commandId + "\" not defined", null)); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 		command = ParameterizedCommand.generateCommand(cmd, parameters);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu parent, int index) {
 		if (command == null) {
 			return;
@@ -412,8 +412,8 @@ public class CommandContributionItem extends ContributionItem {
 		if (workbenchHelpSystem != null) {
 			workbenchHelpSystem.setHelp(item, helpContextId);
 		}
-		item.addListener(SWT.Dispose, getItemListener());
-		item.addListener(SWT.Selection, getItemListener());
+		item.addListener(SWT.Dispose, getItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		item.addListener(SWT.Selection, getItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		widget = item;
 
 		update(null);
@@ -422,7 +422,7 @@ public class CommandContributionItem extends ContributionItem {
 		establishReferences();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Composite parent) {
 		if (command == null) {
 			return;
@@ -442,8 +442,8 @@ public class CommandContributionItem extends ContributionItem {
 		if (workbenchHelpSystem != null) {
 			workbenchHelpSystem.setHelp(item, helpContextId);
 		}
-		item.addListener(SWT.Dispose, getItemListener());
-		item.addListener(SWT.Selection, getItemListener());
+		item.addListener(SWT.Dispose, getItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		item.addListener(SWT.Selection, getItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		widget = item;
 
 		update(null);
@@ -452,7 +452,7 @@ public class CommandContributionItem extends ContributionItem {
 		establishReferences();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(ToolBar parent, int index) {
 		if (command == null) {
 			return;
@@ -470,8 +470,8 @@ public class CommandContributionItem extends ContributionItem {
 
 		item.setData(this);
 
-		item.addListener(SWT.Selection, getItemListener());
-		item.addListener(SWT.Dispose, getItemListener());
+		item.addListener(SWT.Selection, getItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		item.addListener(SWT.Dispose, getItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		widget = item;
 
 		update(null);
@@ -498,7 +498,7 @@ public class CommandContributionItem extends ContributionItem {
 		}
 	}
 
-	private void updateMenuItem() {
+	private void updateMenuItem() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuItem item = (MenuItem) widget;
 
 		String text = label;
@@ -510,7 +510,7 @@ public class CommandContributionItem extends ContributionItem {
 				try {
 					text = command.getCommand().getName();
 				} catch (NotDefinedException e) {
-					StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Update item failed " //$NON-NLS-1$
+					StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Update item failed " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ getId(), e));
 				}
 			}
@@ -528,7 +528,7 @@ public class CommandContributionItem extends ContributionItem {
 			if (keyBindingText == null) {
 				item.setText(text);
 			} else {
-				item.setText(text + '\t' + keyBindingText);
+				item.setText(text + '\t' + keyBindingText); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -552,7 +552,7 @@ public class CommandContributionItem extends ContributionItem {
 				.orElse(text);
 	}
 
-	private void updateToolItem() {
+	private void updateToolItem() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ToolItem item = (ToolItem) widget;
 
 		String text = label;
@@ -570,7 +570,7 @@ public class CommandContributionItem extends ContributionItem {
 						tooltip = text;
 					}
 				} catch (NotDefinedException e) {
-					StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Update item failed " //$NON-NLS-1$
+					StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Update item failed " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ getId(), e));
 				}
 			}
@@ -595,7 +595,7 @@ public class CommandContributionItem extends ContributionItem {
 		}
 	}
 
-	private void updateButton() {
+	private void updateButton() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Button item = (Button) widget;
 
 		String text = label;
@@ -606,7 +606,7 @@ public class CommandContributionItem extends ContributionItem {
 				try {
 					text = command.getCommand().getName();
 				} catch (NotDefinedException e) {
-					StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Update item failed " //$NON-NLS-1$
+					StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Update item failed " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ getId(), e));
 				}
 			}
@@ -631,7 +631,7 @@ public class CommandContributionItem extends ContributionItem {
 		}
 	}
 
-	private String getToolTipText(String text) {
+	private String getToolTipText(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String tooltipText = tooltip;
 		if (tooltip == null) {
 			if (text != null) {
@@ -661,7 +661,7 @@ public class CommandContributionItem extends ContributionItem {
 			return s;
 		}
 
-		return s.substring(0, idx) + '&' + s.substring(idx);
+		return s.substring(0, idx) + '&' + s.substring(idx); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void handleWidgetDispose(Event event) {
@@ -682,7 +682,7 @@ public class CommandContributionItem extends ContributionItem {
 		}
 	}
 
-	private void establishReferences() {
+	private void establishReferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (command != null) {
 			UIElement callback = new UIElement(serviceLocator) {
 
@@ -725,11 +725,11 @@ public class CommandContributionItem extends ContributionItem {
 				elementRef = commandService.registerElementForCommand(command, callback);
 			} catch (NotDefinedException e) {
 				StatusManager.getManager()
-						.handle(StatusUtil.newStatus(IStatus.ERROR, "Unable to register menu item \"" + getId() //$NON-NLS-1$
+						.handle(StatusUtil.newStatus(IStatus.ERROR, "Unable to register menu item \"" + getId() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ "\", command \"" + command.getId() + "\" not defined", //$NON-NLS-1$ //$NON-NLS-2$
 								null));
 			}
-			command.getCommand().addCommandListener(getCommandListener());
+			command.getCommand().addCommandListener(getCommandListener()); //FLLDCIM: MARK — T26 COMMAND_STATE CALL
 		}
 		bindingService.addBindingManagerListener(bindingManagerListener);
 	}
@@ -793,7 +793,7 @@ public class CommandContributionItem extends ContributionItem {
 		return menuItemListener;
 	}
 
-	private void handleWidgetSelection(Event event) {
+	private void handleWidgetSelection(Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Special check for ToolBar dropdowns...
 		if (openDropDownMenu(event)) {
 			return;
@@ -810,7 +810,7 @@ public class CommandContributionItem extends ContributionItem {
 		try {
 			handlerService.executeCommand(command, event);
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
-			StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Failed to execute item " //$NON-NLS-1$
+			StatusManager.getManager().handle(StatusUtil.newStatus(IStatus.ERROR, "Failed to execute item " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ getId(), e));
 		}
 	}
@@ -823,7 +823,7 @@ public class CommandContributionItem extends ContributionItem {
 	 *
 	 * @return <code>true</code> iff a drop down menu was opened
 	 */
-	private boolean openDropDownMenu(Event event) {
+	private boolean openDropDownMenu(Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Widget item = event.widget;
 		if (item != null) {
 			int style = item.getStyle();
@@ -836,20 +836,20 @@ public class CommandContributionItem extends ContributionItem {
 					if (workbenchHelpSystem != null) {
 						workbenchHelpSystem.setHelp(menu, helpContextId);
 					}
-					menuManager.addMenuListener(new IMenuListener2() {
+					menuManager.addMenuListener(new IMenuListener2() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 						@Override
 						public void menuAboutToShow(IMenuManager manager) {
 							String id = getId();
 							if (dropDownMenuOverride != null) {
 								id = dropDownMenuOverride;
 							}
-							menuService.populateContributionManager(menuManager, "menu:" + id); //$NON-NLS-1$
+							menuService.populateContributionManager(menuManager, "menu:" + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 
 						@Override
 						public void menuAboutToHide(IMenuManager manager) {
 							IMenuService menuService = CommandContributionItem.this.menuService;
-							display.asyncExec(() -> {
+							display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 								if (menuService != null) {
 									menuService.releaseContributions(menuManager);
 								}
@@ -876,7 +876,7 @@ public class CommandContributionItem extends ContributionItem {
 		updateIcons();
 	}
 
-	private void updateIcons() {
+	private void updateIcons() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (widget instanceof MenuItem item) {
 			LocalResourceManager m = new LocalResourceManager(JFaceResources.getResources());
 			try {

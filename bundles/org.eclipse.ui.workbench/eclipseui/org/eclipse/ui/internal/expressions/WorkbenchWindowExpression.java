@@ -103,7 +103,7 @@ public class WorkbenchWindowExpression extends Expression {
 
 	@Override
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("WorkbenchWindowExpression("); //$NON-NLS-1$
 		buffer.append(window);
 		buffer.append(')');

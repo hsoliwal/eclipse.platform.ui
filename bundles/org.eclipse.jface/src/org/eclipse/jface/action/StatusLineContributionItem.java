@@ -92,7 +92,7 @@ public class StatusLineContributionItem extends ContributionItem {
 		setVisible(false); // no text to start with
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Composite parent) {
 		statusLine = parent;
 
@@ -154,7 +154,7 @@ public class StatusLineContributionItem extends ContributionItem {
 	 * @param text
 	 *            the text to be displayed, must not be <code>null</code>
 	 */
-	public void setText(String text) {
+	public void setText(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(text);
 
 		this.text = LegacyActionTools.escapeMnemonics(text);

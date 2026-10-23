@@ -27,7 +27,7 @@ import org.eclipse.jface.internal.m3.M3ViewerArrays;
  * @see IStructuredContentProvider
  * @see StructuredViewer
  */
-public abstract class ViewerFilter {
+public abstract class ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	/**
 	 * Creates a new viewer filter.
 	 */

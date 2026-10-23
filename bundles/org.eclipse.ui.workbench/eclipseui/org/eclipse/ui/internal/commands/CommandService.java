@@ -73,7 +73,7 @@ public final class CommandService implements ICommandService, IUpdateService {
 	 * @return A suitable preference key; never <code>null</code>.
 	 */
 	static String createPreferenceKey(final Command command, final String stateId) {
-		return PREFERENCE_KEY_PREFIX + '/' + command.getId() + '/' + stateId;
+		return PREFERENCE_KEY_PREFIX + '/' + command.getId() + '/' + stateId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -110,7 +110,7 @@ public final class CommandService implements ICommandService, IUpdateService {
 
 	@Override
 	public void addExecutionListener(final IExecutionListener listener) {
-		commandManager.addExecutionListener(listener);
+		commandManager.addExecutionListener(listener); //FLLDCIM: MARK — T26 COMMAND_STATE CALL
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public final class CommandService implements ICommandService, IUpdateService {
 		return commandManager.deserialize(serializedParameterizedCommand);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		commandPersistence.dispose();
 
@@ -133,9 +133,9 @@ public final class CommandService implements ICommandService, IUpdateService {
 		 * has a chance to persist any changes.
 		 */
 		final Command[] commands = commandManager.getAllCommands();
-		for (final Command command : commands) {
+		for (final Command command : commands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String[] stateIds = command.getStateIds();
-			for (final String stateId : stateIds) {
+			for (final String stateId : stateIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final State state = command.getState(stateId);
 				if (state instanceof final PersistentState persistentState) {
 					if (persistentState.shouldPersist()) {
@@ -226,9 +226,9 @@ public final class CommandService implements ICommandService, IUpdateService {
 	 * This is a map of commandIds to a list containing currently registered
 	 * callbacks, in the form of ICallbackReferences.
 	 */
-	private Map<String, List<IElementReference>> commandCallbacks = new HashMap<>();
+	private Map<String, List<IElementReference>> commandCallbacks = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void refreshElements(String commandId, Map filter) {
 		Command cmd = getCommand(commandId);
 
@@ -246,12 +246,12 @@ public final class CommandService implements ICommandService, IUpdateService {
 			return;
 		}
 
-		for (IElementReference callbackRef : callbackRefs) {
+		for (IElementReference callbackRef : callbackRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map<?, ?> parms = Collections.unmodifiableMap((Map<?, ?>) callbackRef.getParameters());
 			ISafeRunnable run = new ISafeRunnable() {
 				@Override
 				public void handleException(Throwable exception) {
-					WorkbenchPlugin.log("Failed to update callback: " //$NON-NLS-1$
+					WorkbenchPlugin.log("Failed to update callback: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ callbackRef.getCommandId(), exception);
 				}
 
@@ -264,7 +264,7 @@ public final class CommandService implements ICommandService, IUpdateService {
 				SafeRunner.run(run);
 			} else {
 				boolean match = true;
-				for (Iterator<Map.Entry<?, ?>> j = filter.entrySet().iterator(); j.hasNext() && match;) {
+				for (Iterator<Map.Entry<?, ?>> j = filter.entrySet().iterator(); j.hasNext() && match;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Map.Entry<?, ?> parmEntry = j.next();
 					Object value = parms.get(parmEntry.getKey());
 					if (!parmEntry.getValue().equals(value)) {
@@ -282,11 +282,11 @@ public final class CommandService implements ICommandService, IUpdateService {
 	public IElementReference registerElementForCommand(ParameterizedCommand command, UIElement element)
 			throws NotDefinedException {
 		if (!command.getCommand().isDefined()) {
-			throw new NotDefinedException("Cannot define a callback for undefined command " //$NON-NLS-1$
+			throw new NotDefinedException("Cannot define a callback for undefined command " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ command.getCommand().getId());
 		}
 		if (element == null) {
-			throw new NotDefinedException("No callback defined for command " //$NON-NLS-1$
+			throw new NotDefinedException("No callback defined for command " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ command.getCommand().getId());
 		}
 
@@ -295,11 +295,11 @@ public final class CommandService implements ICommandService, IUpdateService {
 		return ref;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void registerElement(IElementReference elementReference) {
 		List<IElementReference> parameterizedCommands = commandCallbacks.get(elementReference.getCommandId());
 		if (parameterizedCommands == null) {
-			parameterizedCommands = new ArrayList<>();
+			parameterizedCommands = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			commandCallbacks.put(elementReference.getCommandId(), parameterizedCommands);
 		}
 		parameterizedCommands.add(elementReference);
@@ -336,7 +336,7 @@ public final class CommandService implements ICommandService, IUpdateService {
 		return commandPersistence;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Runnable registerElementForUpdate(ParameterizedCommand parameterizedCommand, final MItem item) {
 		UIElement element = new UIElement(context.get(IWorkbench.class)) {
 

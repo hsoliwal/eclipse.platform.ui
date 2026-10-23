@@ -77,9 +77,9 @@ public class WizardsRegistryReader extends RegistryReader {
 		CategoryNode(Category cat) {
 			category = cat;
 			String[] categoryPath = category.getParentPath();
-			StringBuilder pathBuilder = new StringBuilder();
+			StringBuilder pathBuilder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (categoryPath != null) {
-				for (String parentPath : categoryPath) {
+				for (String parentPath : categoryPath) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pathBuilder.append(parentPath).append('/');
 				}
 			}
@@ -188,7 +188,7 @@ public class WizardsRegistryReader extends RegistryReader {
 
 		// Defer for later processing.
 		if (deferCategories == null) {
-			deferCategories = new ArrayList<>(20);
+			deferCategories = new ArrayList<>(20); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		deferCategories.add(category);
 	}
@@ -198,7 +198,7 @@ public class WizardsRegistryReader extends RegistryReader {
 	 */
 	private void deferWizard(WorkbenchWizardElement element) {
 		if (deferWizards == null) {
-			deferWizards = new ArrayList<>(50);
+			deferWizards = new ArrayList<>(50); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		deferWizards.add(element);
 	}
@@ -207,7 +207,7 @@ public class WizardsRegistryReader extends RegistryReader {
 	 * Finishes the addition of categories. The categories are sorted and added in a
 	 * root to depth traversal.
 	 */
-	private void finishCategories() {
+	private void finishCategories() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// If no categories just return.
 		if (deferCategories == null) {
 			return;
@@ -215,13 +215,13 @@ public class WizardsRegistryReader extends RegistryReader {
 
 		// Sort categories by flattened name.
 		CategoryNode[] flatArray = new CategoryNode[deferCategories.size()];
-		for (int i = 0; i < deferCategories.size(); i++) {
+		for (int i = 0; i < deferCategories.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			flatArray[i] = new CategoryNode(deferCategories.get(i));
 		}
 		Arrays.asList(flatArray).sort(comparer);
 
 		// Add each category.
-		for (CategoryNode categoryNode : flatArray) {
+		for (CategoryNode categoryNode : flatArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Category cat = categoryNode.getCategory();
 			finishCategory(cat);
 		}
@@ -233,13 +233,13 @@ public class WizardsRegistryReader extends RegistryReader {
 	/**
 	 * Save new category definition.
 	 */
-	private void finishCategory(Category category) {
+	private void finishCategory(Category category) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] categoryPath = category.getParentPath();
 		WizardCollectionElement parent = wizardElements; // ie.- root
 
 		// Traverse down into parent category.
 		if (categoryPath != null) {
-			for (String parentPath : categoryPath) {
+			for (String parentPath : categoryPath) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				WizardCollectionElement tempElement = getChildWithID(parent, parentPath);
 				if (tempElement == null) {
 					// The parent category is invalid. By returning here the
@@ -267,8 +267,8 @@ public class WizardsRegistryReader extends RegistryReader {
 	 */
 	private void finishPrimary() {
 		if (deferPrimary != null) {
-			ArrayList<WorkbenchWizardElement> primary = new ArrayList<>();
-			for (Iterator<String> i = deferPrimary.iterator(); i.hasNext();) {
+			ArrayList<WorkbenchWizardElement> primary = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Iterator<String> i = deferPrimary.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = i.next();
 				WorkbenchWizardElement element = wizardElements == null ? null : wizardElements.findWizard(id, true);
 				if (element != null) {
@@ -289,7 +289,7 @@ public class WizardsRegistryReader extends RegistryReader {
 	 * @param element WorkbenchWizardElement
 	 * @param config  configuration element
 	 */
-	private void finishWizard(WorkbenchWizardElement element, IConfigurationElement config) {
+	private void finishWizard(WorkbenchWizardElement element, IConfigurationElement config) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringTokenizer familyTokenizer = new StringTokenizer(getCategoryStringFor(config), CATEGORY_SEPARATOR);
 
 		// use the period-separated sections of the current Wizard's category
@@ -297,7 +297,7 @@ public class WizardsRegistryReader extends RegistryReader {
 		WizardCollectionElement currentCollectionElement = wizardElements; // ie.- root
 		boolean moveToOther = false;
 
-		while (familyTokenizer.hasMoreElements()) {
+		while (familyTokenizer.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WizardCollectionElement tempCollectionElement = getChildWithID(currentCollectionElement,
 					familyTokenizer.nextToken());
 
@@ -322,7 +322,7 @@ public class WizardsRegistryReader extends RegistryReader {
 	private void finishWizards() {
 		if (deferWizards != null) {
 			Iterator<WorkbenchWizardElement> iter = deferWizards.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				WorkbenchWizardElement wizard = iter.next();
 				IConfigurationElement config = wizard.getConfigurationElement();
 				finishWizard(wizard, config);
@@ -353,7 +353,7 @@ public class WizardsRegistryReader extends RegistryReader {
 	 * @param id     java.lang.String
 	 */
 	protected WizardCollectionElement getChildWithID(WizardCollectionElement parent, String id) {
-		for (Object child : parent.getChildren(null)) {
+		for (Object child : parent.getChildren(null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WizardCollectionElement currentChild = (WizardCollectionElement) child;
 			if (currentChild.getId().equals(id)) {
 				return currentChild;
@@ -382,7 +382,7 @@ public class WizardsRegistryReader extends RegistryReader {
 	 */
 	private void pruneEmptyCategories(WizardCollectionElement parent) {
 		Object[] children = parent.getChildren(null);
-		for (Object element : children) {
+		for (Object element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WizardCollectionElement child = (WizardCollectionElement) element;
 			pruneEmptyCategories(child);
 			boolean shouldPrune = child.getId().equals(FULL_EXAMPLES_WIZARD_CATEGORY);
@@ -395,14 +395,14 @@ public class WizardsRegistryReader extends RegistryReader {
 	/**
 	 * Implement this method to read element attributes.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean readElement(IConfigurationElement element) {
 		if (element.getName().equals(IWorkbenchRegistryConstants.TAG_CATEGORY)) {
 			deferCategory(element);
 			return true;
 		} else if (element.getName().equals(IWorkbenchRegistryConstants.TAG_PRIMARYWIZARD)) {
 			if (deferPrimary == null) {
-				deferPrimary = new HashSet<>();
+				deferPrimary = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			}
 			deferPrimary.add(element.getAttribute(IWorkbenchRegistryConstants.ATT_ID));
 
@@ -518,7 +518,7 @@ public class WizardsRegistryReader extends RegistryReader {
 	 *         otherwise
 	 */
 	public WorkbenchWizardElement findWizard(String id) {
-		for (Object wizard : getWizardCollectionElements()) {
+		for (Object wizard : getWizardCollectionElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WizardCollectionElement collection = (WizardCollectionElement) wizard;
 			WorkbenchWizardElement element = collection.findWizard(id, true);
 			if (element != null && !WorkbenchActivityHelper.restrictUseOf(element)) {

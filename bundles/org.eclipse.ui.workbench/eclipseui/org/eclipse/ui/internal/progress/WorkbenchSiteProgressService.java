@@ -62,7 +62,7 @@ public class WorkbenchSiteProgressService implements IWorkbenchSiteProgressServi
 	 * requested.</li>
 	 * </ul>
 	 */
-	private final Map<Job, Boolean> busyJobs = new HashMap<>();
+	private final Map<Job, Boolean> busyJobs = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final Object busyLock = new Object();
 
@@ -83,7 +83,7 @@ public class WorkbenchSiteProgressService implements IWorkbenchSiteProgressServi
 	/**
 	 * Job to run UI updates.
 	 */
-	public class SiteUpdateJob extends WorkbenchJob {
+	public class SiteUpdateJob extends WorkbenchJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 		private boolean busy;
 
 		Object lock = new Object();
@@ -101,7 +101,7 @@ public class WorkbenchSiteProgressService implements IWorkbenchSiteProgressServi
 			super(ProgressMessages.WorkbenchSiteProgressService_CursorJob);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus runInUIThread(IProgressMonitor monitor) {
 			Control control = (Control) site.getModel().getWidget();
 			if (control == null || control.isDisposed()) {
@@ -198,7 +198,7 @@ public class WorkbenchSiteProgressService implements IWorkbenchSiteProgressServi
 		};
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void decrementBusy(Job job) {
 		Object halfBusyCursorState;
 		synchronized (busyLock) {
@@ -225,7 +225,7 @@ public class WorkbenchSiteProgressService implements IWorkbenchSiteProgressServi
 		incrementBusy(job, false);
 	}
 
-	private void incrementBusy(Job job, boolean useHalfBusyCursor) {
+	private void incrementBusy(Job job, boolean useHalfBusyCursor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object halfBusyCursorState;
 		synchronized (busyLock) {
 			halfBusyCursorState = busyJobs.get(job);

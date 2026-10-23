@@ -186,7 +186,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 	 * @param pathVariableManager a reference to the path variable manager
 	 * @param namesInUse a set of variable names currently in use
 	 */
-	public PathVariableDialog(Shell parentShell, int type, int variableType,
+	public PathVariableDialog(Shell parentShell, int type, int variableType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPathVariableManager pathVariableManager, Set namesInUse) {
 		super(parentShell);
 		this.type = type;
@@ -236,7 +236,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 	 *
 	 * @see org.eclipse.jface.dialogs.TitleAreaDialog#createDialogArea
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// top level composite
 		Composite parentComposite = (Composite) super.createDialogArea(parent);
@@ -266,7 +266,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 	 * @param parentComposite parent's composite
 	 * @return this dialog's main composite
 	 */
-	private Composite createComposite(Composite parentComposite) {
+	private Composite createComposite(Composite parentComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// creates a composite with standard margins and spacing
 		Composite contents = new Composite(parentComposite, SWT.NONE);
 
@@ -293,7 +293,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 	 *
 	 * @param contents the parent composite where to create widgets
 	 */
-	private void createWidgets(Composite contents) {
+	private void createWidgets(Composite contents) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String nameLabelText = IDEWorkbenchMessages.PathVariableDialog_variableName;
 		String valueLabelText = IDEWorkbenchMessages.PathVariableDialog_variableValue;
 		String resolvedValueLabelText = IDEWorkbenchMessages.PathVariableDialog_variableResolvedValue;
@@ -309,7 +309,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 			variableNameField.setText(variableName);
 			variableNameField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 					false, 2, 1));
-			variableNameField.addModifyListener(_ -> variableNameModified());
+			variableNameField.addModifyListener(_ -> variableNameModified()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		}
 
 		// variable value label
@@ -322,7 +322,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 		variableValueField.setText(variableValue);
 		variableValueField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-		variableValueField.addModifyListener(_ -> variableValueModified());
+		variableValueField.addModifyListener(_ -> variableValueModified()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		Composite buttonsComposite = new Composite(contents, SWT.NONE);
 		buttonsComposite.setLayoutData(new GridData(SWT.END, SWT.CENTER, false,
@@ -340,7 +340,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 			fileButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 					false));
 
-			fileButton.addSelectionListener(new SelectionAdapter() {
+			fileButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					selectFile();
@@ -357,7 +357,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 			folderButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 					false));
 
-			folderButton.addSelectionListener(new SelectionAdapter() {
+			folderButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					selectFolder();
@@ -375,7 +375,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 			variableButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false));
 
-			variableButton.addSelectionListener(new SelectionAdapter() {
+			variableButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					selectVariable();
@@ -402,7 +402,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 		return ResourcesPlugin.getWorkspace().getPathVariableManager();
 	}
 
-	private String getVariableResolvedValue() {
+	private String getVariableResolvedValue() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (currentResource != null) {
 			IPathVariableManager pathVariableManager2 = currentResource.getPathVariableManager();
 			String[] variables = pathVariableManager2.getPathVariableNames();
@@ -412,9 +412,9 @@ public class PathVariableDialog extends TitleAreaDialog {
 			String resolveValue = URIUtil.toPath(resolvedURI).toOSString();
 			// Delete intermediate variables that might have been created as
 			// as a side effect of converting arbitrary relative paths to an internal string.
-			for (String newVariable : pathVariableManager2.getPathVariableNames()) {
+			for (String newVariable : pathVariableManager2.getPathVariableNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean found = false;
-				for (String variable : variables) {
+				for (String variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (variable.equals(newVariable)) {
 						found = true;
 						break;
@@ -491,7 +491,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 		}
 	}
 
-	private void selectVariable() {
+	private void selectVariable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PathVariableSelectionDialog dialog = new PathVariableSelectionDialog(
 				getShell(), IResource.FILE | IResource.FOLDER);
 		dialog.setResource(currentResource);
@@ -512,7 +512,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 
 	private IPath buildVariableMacro(IPath relativeSrcValue) {
 		String variable = relativeSrcValue.segment(0);
-		variable = "${" + variable + "}";  //$NON-NLS-1$//$NON-NLS-2$
+		variable = "${" + variable + "}";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return IPath.fromOSString(variable).append(relativeSrcValue.removeFirstSegments(1));
 	}
 
@@ -536,7 +536,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 	 *
 	 * @return true if the name is valid, false otherwise
 	 */
-	private boolean validateVariableName() {
+	private boolean validateVariableName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean allowFinish = false;
 
 		if (operationMode == EDIT_LINK_LOCATION) {
@@ -595,7 +595,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 	 *
 	 * @return true if the value is valid, false otherwise
 	 */
-	private boolean validateVariableValue() {
+	private boolean validateVariableValue() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean allowFinish = false;
 
 		// if the current validationStatus is ERROR, no additional validation applies

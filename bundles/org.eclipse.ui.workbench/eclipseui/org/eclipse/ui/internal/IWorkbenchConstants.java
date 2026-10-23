@@ -49,7 +49,7 @@ public interface IWorkbenchConstants {
 	String RESOURCE_TYPE_FILE_NAME = "resourcetypes.xml"; //$NON-NLS-1$
 
 	// Identifier of workbench info properties page
-	String WORKBENCH_PROPERTIES_PAGE_INFO = PlatformUI.PLUGIN_ID + ".propertypages.info.file"; //$NON-NLS-1$
+	String WORKBENCH_PROPERTIES_PAGE_INFO = PlatformUI.PLUGIN_ID + ".propertypages.info.file"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// Default view category.
 	String DEFAULT_CATEGORY_ID = PlatformUI.PLUGIN_ID;

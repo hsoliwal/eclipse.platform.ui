@@ -67,9 +67,9 @@ import org.eclipse.ui.progress.WorkbenchJob;
  *
  * @since 2.0
  */
-public class DecoratorManager implements ILabelProviderListener, IDecoratorManager, IExtensionChangeHandler {
+public class DecoratorManager implements ILabelProviderListener, IDecoratorManager, IExtensionChangeHandler { //FLLDCIM: MARK — T24  IMPLEMENTS
 
-	private static String EXTENSIONPOINT_UNIQUE_ID = WorkbenchPlugin.PI_WORKBENCH + "." //$NON-NLS-1$
+	private static String EXTENSIONPOINT_UNIQUE_ID = WorkbenchPlugin.PI_WORKBENCH + "." //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ IWorkbenchRegistryConstants.PL_DECORATORS;
 
 	/**
@@ -183,7 +183,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 
 		@Override
 		public void addListener(ILabelProviderListener listener) {
-			decoratorManager.addListener(listener);
+			decoratorManager.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 
 		@Override
@@ -230,15 +230,15 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	/**
 	 * Initialize the decorator definitions.
 	 */
-	private void initializeDecoratorDefinitions() {
+	private void initializeDecoratorDefinitions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DecoratorRegistryReader reader = new DecoratorRegistryReader();
 		Collection<DecoratorDefinition> values = reader.readRegistry(Platform.getExtensionRegistry());
 
-		ArrayList<DecoratorDefinition> full = new ArrayList<>();
-		ArrayList<DecoratorDefinition> lightweight = new ArrayList<>();
+		ArrayList<DecoratorDefinition> full = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<DecoratorDefinition> lightweight = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<DecoratorDefinition> allDefinitions = values.iterator();
 		IExtensionTracker configurationElementTracker = PlatformUI.getWorkbench().getExtensionTracker();
-		while (allDefinitions.hasNext()) {
+		while (allDefinitions.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DecoratorDefinition nextDefinition = allDefinitions.next();
 			if (nextDefinition.isFull()) {
 				full.add(nextDefinition);
@@ -297,9 +297,9 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 */
 	static Collection<DecoratorDefinition> getDecoratorsFor(Object element, DecoratorDefinition[] enabledDefinitions) {
 
-		ArrayList<DecoratorDefinition> decorators = new ArrayList<>();
+		ArrayList<DecoratorDefinition> decorators = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (DecoratorDefinition enabledDefinition : enabledDefinitions) {
+		for (DecoratorDefinition enabledDefinition : enabledDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (enabledDefinition.isEnabledFor(element)) {
 				decorators.add(enabledDefinition);
 			}
@@ -345,7 +345,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 * @param event    the event with the update details
 	 */
 	void fireListener(final LabelProviderChangedEvent event, final ILabelProviderListener listener) {
-		SafeRunner.run(() -> listener.labelProviderChanged(event));
+		SafeRunner.run(() -> listener.labelProviderChanged(event)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/**
@@ -354,8 +354,8 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 * @param event the event with the update details
 	 */
 	void fireListeners(final LabelProviderChangedEvent event) {
-		for (final ILabelProviderListener l : listeners) {
-			SafeRunner.run(() -> l.labelProviderChanged(event));
+		for (final ILabelProviderListener l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			SafeRunner.run(() -> l.labelProviderChanged(event)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		}
 	}
 
@@ -365,7 +365,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 *
 	 * @param event the event with the update details
 	 */
-	void fireListenersInUIThread(final LabelProviderChangedEvent event) {
+	void fireListenersInUIThread(final LabelProviderChangedEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// No updates if there is no UI
 		if (!PlatformUI.isWorkbenchRunning()) {
@@ -378,7 +378,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 			return;
 		}
 
-		WorkbenchJob updateJob = new WorkbenchJob(WorkbenchMessages.DecorationScheduler_UpdateJobName) {
+		WorkbenchJob updateJob = new WorkbenchJob(WorkbenchMessages.DecorationScheduler_UpdateJobName) { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				fireListeners(event);
@@ -401,11 +401,11 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 * @return String
 	 * @see LabelDecorator#decorateText(String, Object, IDecorationContext)
 	 */
-	public String decorateText(String text, Object element, IDecorationContext context) {
+	public String decorateText(String text, Object element, IDecorationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get any adaptations to IResource
 		Object adapted = getResourceAdapter(element);
 		String result = scheduler.decorateWithText(text, element, adapted, context);
-		for (FullDecoratorDefinition decorator : getDecoratorsFor(element)) {
+		for (FullDecoratorDefinition decorator : getDecoratorsFor(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (decorator.isEnabledFor(element)) {
 				String newResult = safeDecorateText(element, result, decorator);
 				if (newResult != null) {
@@ -415,7 +415,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 		}
 
 		if (adapted != null) {
-			for (FullDecoratorDefinition decorator : getDecoratorsFor(adapted)) {
+			for (FullDecoratorDefinition decorator : getDecoratorsFor(adapted)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (decorator.isAdaptable() && decorator.isEnabledFor(adapted)) {
 					String newResult = safeDecorateText(adapted, result, decorator);
 					if (newResult != null) {
@@ -454,12 +454,12 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 * @return Image
 	 * @see LabelDecorator#decorateImage(Image, Object, IDecorationContext)
 	 */
-	public Image decorateImage(Image image, Object element, IDecorationContext context,
+	public Image decorateImage(Image image, Object element, IDecorationContext context, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ResourceManager localResourceManager) {
 		Object adapted = getResourceAdapter(element);
 		Image result = scheduler.decorateWithOverlays(image, element, adapted, context, localResourceManager);
 
-		for (FullDecoratorDefinition decorator : getDecoratorsFor(element)) {
+		for (FullDecoratorDefinition decorator : getDecoratorsFor(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (decorator.isEnabledFor(element)) {
 				Image newResult = safeDecorateImage(element, result, decorator);
 				if (newResult != null) {
@@ -471,7 +471,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 		// Get any adaptations to IResource
 
 		if (adapted != null) {
-			for (FullDecoratorDefinition decorator : getDecoratorsFor(adapted)) {
+			for (FullDecoratorDefinition decorator : getDecoratorsFor(adapted)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (decorator.isAdaptable() && decorator.isEnabledFor(adapted)) {
 					Image newResult = safeDecorateImage(adapted, result, decorator);
 					if (newResult != null) {
@@ -534,7 +534,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 * @return boolean <code>true</code> if there is a label property for element or
 	 *         its adapted value
 	 */
-	public boolean isLabelProperty(Object element, String property, boolean checkAdapted) {
+	public boolean isLabelProperty(Object element, String property, boolean checkAdapted) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean fullCheck = isLabelProperty(element, property, getDecoratorsFor(element));
 
 		if (fullCheck) {
@@ -566,7 +566,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	}
 
 	private boolean isLabelProperty(Object element, String property, DecoratorDefinition[] decorators) {
-		for (DecoratorDefinition decorator : decorators) {
+		for (DecoratorDefinition decorator : decorators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (decorator.isEnabledFor(element) && decorator.isLabelProperty(element, property)) {
 				return true;
 			}
@@ -580,7 +580,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 *
 	 * @return FullDecoratorDefinition[]
 	 */
-	private FullDecoratorDefinition[] enabledFullDefinitions() {
+	private FullDecoratorDefinition[] enabledFullDefinitions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		FullDecoratorDefinition[] fullDefinitions = getFullDefinitions();
 		// As this are a deprecated data type optimize for
@@ -588,8 +588,8 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 		if (fullDefinitions.length == 0) {
 			return fullDefinitions;
 		}
-		ArrayList<FullDecoratorDefinition> result = new ArrayList<>();
-		for (FullDecoratorDefinition element : fullDefinitions) {
+		ArrayList<FullDecoratorDefinition> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (FullDecoratorDefinition element : fullDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.isEnabled()) {
 				result.add(element);
 			}
@@ -654,7 +654,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 		} else {
 			// Assume that someone is going to care about the
 			// decoration result and just start it right away
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object adapted = getResourceAdapter(element);
 				// Force an update in case full decorators are the only ones
 				// enabled
@@ -667,7 +667,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 * Store the currently enabled decorators in preference store.
 	 */
 	private void writeDecoratorsPreference() {
-		StringBuilder enabledIds = new StringBuilder();
+		StringBuilder enabledIds = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		writeDecoratorsPreference(enabledIds, getFullDefinitions());
 		writeDecoratorsPreference(enabledIds, getLightweightManager().getDefinitions());
 
@@ -677,7 +677,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	}
 
 	private void writeDecoratorsPreference(StringBuilder enabledIds, DecoratorDefinition[] definitions) {
-		for (DecoratorDefinition definition : definitions) {
+		for (DecoratorDefinition definition : definitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			enabledIds.append(definition.getId());
 			enabledIds.append(VALUE_SEPARATOR);
 			if (definition.isEnabled()) {
@@ -694,15 +694,15 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 * Get the currently enabled decorators in preference store and set the state of
 	 * the current definitions accordingly.
 	 */
-	public void applyDecoratorsPreference() {
+	public void applyDecoratorsPreference() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String preferenceValue = WorkbenchPlugin.getDefault().getPreferenceStore()
 				.getString(IPreferenceConstants.ENABLED_DECORATORS);
 
 		StringTokenizer tokenizer = new StringTokenizer(preferenceValue, PREFERENCE_SEPARATOR);
-		Set<String> enabledIds = new HashSet<>();
-		Set<String> disabledIds = new HashSet<>();
-		while (tokenizer.hasMoreTokens()) {
+		Set<String> enabledIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<String> disabledIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String nextValuePair = tokenizer.nextToken();
 
 			// Strip out the true or false to get the id
@@ -714,7 +714,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 			}
 		}
 
-		for (FullDecoratorDefinition element : getFullDefinitions()) {
+		for (FullDecoratorDefinition element : getFullDefinitions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = element.getId();
 			if (enabledIds.contains(id)) {
 				element.setEnabled(true);
@@ -724,7 +724,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 		}
 
 		LightweightDecoratorDefinition[] lightweightDefinitions = getLightweightManager().getDefinitions();
-		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) {
+		for (LightweightDecoratorDefinition lightweightDefinition : lightweightDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = lightweightDefinition.getId();
 			if (enabledIds.contains(id)) {
 				lightweightDefinition.setEnabled(true);
@@ -744,7 +744,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 		// Disable all of the enabled decorators
 		// so as to force a dispose of thier decorators
 		FullDecoratorDefinition[] full = getFullDefinitions();
-		for (FullDecoratorDefinition element : full) {
+		for (FullDecoratorDefinition element : full) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.isEnabled()) {
 				element.setEnabled(false);
 			}
@@ -883,7 +883,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 	 */
 	private int getFullDecoratorDefinitionIdx(String decoratorId) {
 		FullDecoratorDefinition[] full = getFullDefinitions();
-		for (int i = 0; i < full.length; i++) {
+		for (int i = 0; i < full.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (full[i].getId().equals(decoratorId)) {
 				return i;
 			}
@@ -940,7 +940,7 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 
 	}
 
-	public boolean prepareDecoration(Object element, String originalText, IDecorationContext context) {
+	public boolean prepareDecoration(Object element, String originalText, IDecorationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check if there is a decoration ready or if there is no lightweight
 		// decorators to be applied
 		if (scheduler.isDecorationReady(element, context) || !getLightweightManager().hasEnabledDefinitions()) {
@@ -996,20 +996,20 @@ public class DecoratorManager implements ILabelProviderListener, IDecoratorManag
 
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension addedExtension) {
-		for (IConfigurationElement addedElement : addedExtension.getConfigurationElements()) {
+		for (IConfigurationElement addedElement : addedExtension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DecoratorRegistryReader reader = new DecoratorRegistryReader();
 			reader.readElement(addedElement);
-			for (DecoratorDefinition decoratorDefinition : reader.getValues()) {
+			for (DecoratorDefinition decoratorDefinition : reader.getValues()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addDecorator(decoratorDefinition);
 			}
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void removeExtension(IExtension source, Object[] objects) {
 
 		boolean shouldClear = false;
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof DecoratorDefinition definition) {
 				if (definition.isFull()) {
 					int idx = getFullDecoratorDefinitionIdx(definition.getId());

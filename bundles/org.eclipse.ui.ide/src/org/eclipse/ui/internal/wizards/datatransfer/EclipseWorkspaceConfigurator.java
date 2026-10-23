@@ -42,7 +42,7 @@ public class EclipseWorkspaceConfigurator implements ProjectConfigurator {
 
 	@Override
 	public Set<IFolder> getFoldersToIgnore(IProject project, IProgressMonitor monitor) {
-		Set<IFolder> res = new HashSet<>();
+		Set<IFolder> res = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		res.add(project.getFolder(IPath.fromOSString(".metadata"))); //$NON-NLS-1$
 		return res;
 	}

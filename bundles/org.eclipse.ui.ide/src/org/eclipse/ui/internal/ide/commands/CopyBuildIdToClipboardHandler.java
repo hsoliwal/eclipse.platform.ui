@@ -60,7 +60,7 @@ public class CopyBuildIdToClipboardHandler extends AbstractHandler {
 	/** WebKitGTK version */
 	static final String SWT_WEBKITGTK_VERSION = "org.eclipse.swt.internal.webkitgtk.version"; //$NON-NLS-1$
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		final IProduct product = Platform.getProduct();
@@ -75,40 +75,40 @@ public class CopyBuildIdToClipboardHandler extends AbstractHandler {
 		}
 
 		Properties sp = System.getProperties();
-		String osInfo = String.format("OS: %s, v.%s, %s / %s", //$NON-NLS-1$
+		String osInfo = String.format("OS: %s, v.%s, %s / %s", //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 				sp.get(OS_NAME), sp.get(OS_VERSION), sp.get(OSGI_ARCH), sp.get(OSGI_WS));
 
 		// defined in gtk systems
 		String gtkVer = sp.getProperty(SWT_GTK_VERSION);
 		if (gtkVer != null) {
-			osInfo += String.format(" %s", gtkVer); //$NON-NLS-1$
+			osInfo += String.format(" %s", gtkVer); //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 		}
 
 		// defined after launching WebKit, e.g. in Welcome Window
 		String webkitGtkVer = sp.getProperty(SWT_WEBKITGTK_VERSION);
 		if (webkitGtkVer != null) {
-			osInfo += String.format(", WebKit %s", webkitGtkVer); //$NON-NLS-1$
+			osInfo += String.format(", WebKit %s", webkitGtkVer); //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 		}
 
 		String javaVendor = System.getProperty(JAVA_VENDOR); // $NON-NLS-1$
 		if (javaVendor != null) {
-			osInfo += String.format("%nJava vendor: %s", javaVendor);//$NON-NLS-1$
+			osInfo += String.format("%nJava vendor: %s", javaVendor);//$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 		}
 
 		String javaVendorVersion = System.getProperty(JAVA_VENDOR_VERSION); // $NON-NLS-1$
 		if (javaVendorVersion != null) {
-			osInfo += String.format("%nJava vendor version: %s", javaVendorVersion);//$NON-NLS-1$
+			osInfo += String.format("%nJava vendor version: %s", javaVendorVersion);//$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 		}
 
 		String javaRuntimeVersion = System.getProperty(JAVA_RUNTIME_VERSION); // $NON-NLS-1$
 		if (javaRuntimeVersion != null) {
-			osInfo += String.format("%nJava runtime version: %s", javaRuntimeVersion);//$NON-NLS-1$
+			osInfo += String.format("%nJava runtime version: %s", javaRuntimeVersion);//$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 		}
 
 		String javaVersion = System.getProperty(JAVA_VERSION); // $NON-NLS-1$
-		osInfo += String.format("%nJava version: %s", javaVersion);//$NON-NLS-1$
+		osInfo += String.format("%nJava version: %s", javaVersion);//$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 
-		String toCopy = String.format("%s%n%s%n%s%n%s%n", lines[0], lines[2], lines[3], osInfo); //$NON-NLS-1$
+		String toCopy = String.format("%s%n%s%n%s%n%s%n", lines[0], lines[2], lines[3], osInfo); //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 
 		Clipboard clipboard = new Clipboard(null);
 		try {

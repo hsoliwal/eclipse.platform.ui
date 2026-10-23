@@ -324,7 +324,7 @@ public abstract class AbstractElementListSelectionDialog extends SelectionStatus
 	 *
 	 * @return boolean <code>true</code> if the current selection is valid.
 	 */
-	protected boolean validateCurrentSelection() {
+	protected boolean validateCurrentSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(fFilteredList);
 
 		IStatus status;
@@ -360,7 +360,7 @@ public abstract class AbstractElementListSelectionDialog extends SelectionStatus
 	 * @param parent the parent composite.
 	 * @return returns the filtered list widget.
 	 */
-	protected FilteredList createFilteredList(Composite parent) {
+	protected FilteredList createFilteredList(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int flags = SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | (fIsMultipleSelection ? SWT.MULTI : SWT.SINGLE);
 
 		FilteredList list = new FilteredList(parent, flags, fRenderer, fIgnoreCase, fAllowDuplicates,
@@ -377,7 +377,7 @@ public abstract class AbstractElementListSelectionDialog extends SelectionStatus
 		list.setFont(parent.getFont());
 		list.setFilter((fFilter == null ? "" : fFilter)); //$NON-NLS-1$
 
-		list.addSelectionListener(new SelectionListener() {
+		list.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleDefaultSelected();
@@ -402,7 +402,7 @@ public abstract class AbstractElementListSelectionDialog extends SelectionStatus
 			fSelection = newSelection;
 			handleSelectionChanged();
 		} else {
-			for (int i = 0; i != newSelection.length; i++) {
+			for (int i = 0; i != newSelection.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!newSelection[i].equals(fSelection[i])) {
 					fSelection = newSelection;
 					handleSelectionChanged();
@@ -419,7 +419,7 @@ public abstract class AbstractElementListSelectionDialog extends SelectionStatus
 	 * @param parent the parent to create the widget on
 	 * @return the created filter text widget.
 	 */
-	protected Text createFilterText(Composite parent) {
+	protected Text createFilterText(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Text text = new Text(parent, SWT.BORDER);
 
 		GridData data = new GridData();
@@ -433,9 +433,9 @@ public abstract class AbstractElementListSelectionDialog extends SelectionStatus
 		text.setText((fFilter == null ? "" : fFilter)); //$NON-NLS-1$
 
 		Listener listener = e -> fFilteredList.setFilter(fFilterText.getText());
-		text.addListener(SWT.Modify, listener);
+		text.addListener(SWT.Modify, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
-		text.addKeyListener(new KeyListener() {
+		text.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_DOWN) {

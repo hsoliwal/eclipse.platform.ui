@@ -125,7 +125,7 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference,
 
 	private final ListenerList<IPropertyChangeListener> partChangeListeners = new ListenerList<>();
 
-	protected Map<String, String> propertyCache = new HashMap<>();
+	protected Map<String, String> propertyCache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final IPropertyListener propertyChangeListener = this::partPropertyChanged;
 
@@ -232,7 +232,7 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference,
 	}
 
 	protected void fireInternalPropertyChange(int id) {
-		for (IPropertyListener listener : internalPropChangeListeners) {
+		for (IPropertyListener listener : internalPropChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.propertyChanged(this, id);
 		}
 	}
@@ -342,7 +342,7 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference,
 
 	private void immediateFirePropertyChange(int id) {
 		UIListenerLogging.logPartReferencePropertyChange(this, id);
-		for (IPropertyListener listener : propChangeListeners) {
+		for (IPropertyListener listener : propChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.propertyChanged(legacyPart, id);
 		}
 
@@ -365,7 +365,7 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference,
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final IWorkbenchPart getPart(boolean restore) {
 		if (isDisposed()) {
 			return null;
@@ -425,7 +425,7 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference,
 		}
 	}
 
-	public void setPinned(boolean newPinned) {
+	public void setPinned(boolean newPinned) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isDisposed()) {
 			return;
 		}
@@ -479,14 +479,14 @@ public abstract class WorkbenchPartReference implements IWorkbenchPartReference,
 	}
 
 	protected void firePartPropertyChange(PropertyChangeEvent event) {
-		for (IPropertyChangeListener l : partChangeListeners) {
+		for (IPropertyChangeListener l : partChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.propertyChange(event);
 		}
 	}
 
 	protected void createPartProperties(IWorkbenchPart3 workbenchPart) {
 		Iterator<Entry<String, String>> i = propertyCache.entrySet().iterator();
-		while (i.hasNext()) {
+		while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<String, String> e = i.next();
 			workbenchPart.setPartProperty(e.getKey(), e.getValue());
 		}

@@ -48,7 +48,7 @@ public class DynamicHelpAction extends Action implements IWorkbenchAction {
 	 *
 	 * @param window the window
 	 */
-	public DynamicHelpAction(IWorkbenchWindow window) {
+	public DynamicHelpAction(IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (window == null) {
 			throw new IllegalArgumentException();
 		}

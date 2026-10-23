@@ -49,7 +49,7 @@ public class Throttler {
 	 * @param runnable
 	 *            The runnable to throttle.
 	 */
-	public Throttler(Display display, Duration minWaitTime, Runnable runnable) {
+	public Throttler(Display display, Duration minWaitTime, Runnable runnable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Objects.requireNonNull(runnable);
 		Objects.requireNonNull(display);
 		this.display = display;
@@ -58,7 +58,7 @@ public class Throttler {
 		}
 		if (minWaitTime.toMillis() >= Integer.MAX_VALUE) {
 			throw new IllegalArgumentException(
-					"Minimum wait time in millis must be smaller than " + Integer.MAX_VALUE); //$NON-NLS-1$
+					"Minimum wait time in millis must be smaller than " + Integer.MAX_VALUE); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		int minWaitBetweenRunMillis = (int) minWaitTime.toMillis();
 		Runnable runner = () -> { // Always runs in Display Thread
@@ -82,7 +82,7 @@ public class Throttler {
 				long millisDifference = minWaitBetweenRunMillis - elapsedMillis;
 				// prevent negative values of millisToWait:
 				int millisToWait = Math.max((int) millisDifference, 0);
-				display.timerExec(millisToWait, runner);
+				display.timerExec(millisToWait, runner); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			} else {
 				// fail - display meanwhile disposed
 				scheduled.set(false);
@@ -110,7 +110,7 @@ public class Throttler {
 		throttledExec(false);
 	}
 
-	private void throttledExec(boolean allowSyncExec) {
+	private void throttledExec(boolean allowSyncExec) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (display.isDisposed()) {
 			return;
 		}
@@ -120,7 +120,7 @@ public class Throttler {
 				if (allowSyncExec && Thread.currentThread() == display.getThread()) {
 					timerExec.run();
 				} else {
-					display.asyncExec(timerExec);
+					display.asyncExec(timerExec); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				}
 				exception = false;
 			} catch (SWTException e) {

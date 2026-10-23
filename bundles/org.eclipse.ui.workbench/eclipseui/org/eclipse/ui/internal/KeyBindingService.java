@@ -51,7 +51,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 	 */
 	private boolean disposed;
 
-	private final Map<IWorkbenchSite, IKeyBindingService> nestedServices = new HashMap<>();
+	private final Map<IWorkbenchSite, IKeyBindingService> nestedServices = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The set of context identifiers enabled in this key binding service (not
@@ -70,14 +70,14 @@ public final class KeyBindingService implements INestableKeyBindingService {
 
 	private IKeyBindingService activeService;
 
-	private final Map<IAction, IHandlerActivation> actionToProxy = new HashMap<>();
+	private final Map<IAction, IHandlerActivation> actionToProxy = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Reverse view of {@link #actionToProxy} keyed by the command id an action was
 	 * registered under, so that registering an action does not have to scan every
 	 * action already registered.
 	 */
-	private final Map<String, IAction> commandIdToAction = new HashMap<>();
+	private final Map<String, IAction> commandIdToAction = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Constructs a new instance of <code>KeyBindingService</code> on a given
@@ -104,7 +104,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 		this.parent = parent;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean activateKeyBindingService(IWorkbenchSite nestedSite) {
 		if (disposed) {
 			return false;
@@ -137,7 +137,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 		return true;
 	}
 
-	private void activateNestedService(IKeyBindingService service) {
+	private void activateNestedService(IKeyBindingService service) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * If I have a parent, and I'm the active service, then deactivate so that I can
 		 * make changes.
@@ -169,7 +169,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 
 			EContextService cs = ((KeyBindingService) activeService).workbenchPartSite
 					.getService(EContextService.class);
-			for (String id : ((KeyBindingService) activeService).enabledContextIds) {
+			for (String id : ((KeyBindingService) activeService).enabledContextIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cs.activateContext(id);
 			}
 			/*
@@ -179,14 +179,14 @@ public final class KeyBindingService implements INestableKeyBindingService {
 					.getService(IHandlerService.class);
 			Iterator<Entry<IAction, IHandlerActivation>> i = ((KeyBindingService) activeService).actionToProxy
 					.entrySet().iterator();
-			while (i.hasNext()) {
+			while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Entry<IAction, IHandlerActivation> entry = i.next();
 				hs.activateHandler(entry.getValue());
 			}
 		}
 	}
 
-	private void deactivateNestedService() {
+	private void deactivateNestedService() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (disposed) {
 			return;
 		}
@@ -211,7 +211,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 
 			EContextService cs = ((KeyBindingService) activeService).workbenchPartSite
 					.getService(EContextService.class);
-			for (String id : ((KeyBindingService) activeService).enabledContextIds) {
+			for (String id : ((KeyBindingService) activeService).enabledContextIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cs.deactivateContext(id);
 			}
 			/*
@@ -237,12 +237,12 @@ public final class KeyBindingService implements INestableKeyBindingService {
 	 * Disposes this key binding service. This clears out all of the submissions
 	 * held by this service, and its nested services.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!disposed) {
 			disposed = true;
 			deactivateNestedService();
 			EContextService cs = workbenchPartSite.getService(EContextService.class);
-			for (String id : enabledContextIds) {
+			for (String id : enabledContextIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				cs.deactivateContext(id);
 			}
 			enabledContextIds.clear();
@@ -259,7 +259,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IKeyBindingService getKeyBindingService(IWorkbenchSite nestedSite) {
 		if (disposed) {
 			return null;
@@ -292,7 +292,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 		}
 
 		// Build the list of active scopes
-		final Set<String> activeScopes = new HashSet<>();
+		final Set<String> activeScopes = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		activeScopes.addAll(enabledContextIds);
 		if (activeService instanceof KeyBindingService) {
 			activeScopes.addAll(((KeyBindingService) activeService).enabledContextIds);
@@ -301,7 +301,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 		return activeScopes.toArray(new String[activeScopes.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void registerAction(IAction action) {
 		if (disposed) {
 			return;
@@ -355,22 +355,22 @@ public final class KeyBindingService implements INestableKeyBindingService {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setScopes(String[] scopes) {
 		if (disposed) {
 			return;
 		}
 		Set<String> oldContextIds = enabledContextIds;
-		enabledContextIds = new HashSet<>(Arrays.asList(scopes));
+		enabledContextIds = new HashSet<>(Arrays.asList(scopes)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		EContextService cs = workbenchPartSite.getService(EContextService.class);
 		addParents(cs, scopes);
 
-		for (String id : oldContextIds) {
+		for (String id : oldContextIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!enabledContextIds.contains(id)) {
 				cs.deactivateContext(id);
 			}
 		}
-		for (String id : enabledContextIds) {
+		for (String id : enabledContextIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!oldContextIds.contains(id)) {
 				cs.activateContext(id);
 			}
@@ -378,11 +378,11 @@ public final class KeyBindingService implements INestableKeyBindingService {
 	}
 
 	private void addParents(EContextService cs, String[] scopes) {
-		for (String id : scopes) {
+		for (String id : scopes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Context current = cs.getContext(id);
 				String parentId = current.getParentId();
-				while (parentId != null && !enabledContextIds.contains(parentId)) {
+				while (parentId != null && !enabledContextIds.contains(parentId)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					enabledContextIds.add(parentId);
 					current = cs.getContext(parentId);
 					parentId = current.getParentId();
@@ -393,7 +393,7 @@ public final class KeyBindingService implements INestableKeyBindingService {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void unregisterAction(IAction action) {
 		if (disposed) {
 			return;

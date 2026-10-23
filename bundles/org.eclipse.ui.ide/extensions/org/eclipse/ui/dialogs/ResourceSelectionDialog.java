@@ -96,7 +96,7 @@ public class ResourceSelectionDialog extends SelectionDialog {
 	private void checkInitialSelections() {
 		Iterator<?> itemsToCheck = getInitialElementSelections().iterator();
 
-		while (itemsToCheck.hasNext()) {
+		while (itemsToCheck.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource currentElement = (IResource) itemsToCheck.next();
 
 			if (currentElement.getType() == IResource.FILE) {
@@ -126,14 +126,14 @@ public class ResourceSelectionDialog extends SelectionDialog {
 		initializeDialog();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// page group
 		Composite composite = (Composite) super.createDialogArea(parent);
 
 		// create the input element, which has the root resource
 		// as its only child
-		List<IAdaptable> input = new ArrayList<>();
+		List<IAdaptable> input = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		input.add(root);
 
 		createMessageArea(composite);
@@ -148,7 +148,7 @@ public class ResourceSelectionDialog extends SelectionDialog {
 				// size, otherwise it will open too small
 				SIZING_SELECTION_WIDGET_WIDTH, SIZING_SELECTION_WIDGET_HEIGHT);
 
-		composite.addControlListener(new ControlListener() {
+		composite.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlMoved(ControlEvent e) {
 			}
@@ -157,7 +157,7 @@ public class ResourceSelectionDialog extends SelectionDialog {
 			public void controlResized(ControlEvent e) {
 				// Also try and reset the size of the columns as appropriate
 				TableColumn[] columns = selectionGroup.getListTable().getColumns();
-				for (TableColumn column : columns) {
+				for (TableColumn column : columns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					column.pack();
 				}
 			}
@@ -170,9 +170,9 @@ public class ResourceSelectionDialog extends SelectionDialog {
 	 * Returns a content provider for <code>IResource</code>s that returns only
 	 * children of the given resource type.
 	 */
-	private ITreeContentProvider getResourceProvider(final int resourceType) {
-		return new WorkbenchContentProvider() {
-			@Override
+	private ITreeContentProvider getResourceProvider(final int resourceType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return new WorkbenchContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Object[] getChildren(Object o) {
 				if (o instanceof IContainer) {
 					IResource[] members = null;
@@ -184,8 +184,8 @@ public class ResourceSelectionDialog extends SelectionDialog {
 					}
 
 					// filter out the desired resource types
-					List<IResource> results = new ArrayList<>();
-					for (IResource member : members) {
+					List<IResource> results = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// And the test bits with the resource types to see if they are what we want
 						if ((member.getType() & resourceType) > 0) {
 							results.add(member);
@@ -207,7 +207,7 @@ public class ResourceSelectionDialog extends SelectionDialog {
 	 */
 	private void initializeDialog() {
 		selectionGroup
-				.addCheckStateListener(_ -> getOkButton().setEnabled(selectionGroup.getCheckedElementCount() > 0));
+				.addCheckStateListener(_ -> getOkButton().setEnabled(selectionGroup.getCheckedElementCount() > 0)); //FLLDCIM: MARK — T21  LAMBDA
 
 		if (getInitialElementSelections().isEmpty()) {
 			getOkButton().setEnabled(false);
@@ -224,8 +224,8 @@ public class ResourceSelectionDialog extends SelectionDialog {
 	@Override
 	protected void okPressed() {
 		Iterator<?> resultEnum = selectionGroup.getAllCheckedListItems();
-		List<Object> list = new ArrayList<>();
-		while (resultEnum.hasNext()) {
+		List<Object> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (resultEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(resultEnum.next());
 		}
 		setResult(list);

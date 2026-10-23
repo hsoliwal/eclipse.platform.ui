@@ -92,7 +92,7 @@ public class WorkingSetManager extends AbstractWorkingSetManager implements IWor
 	/**
 	 * Reads the persistence store and creates the working sets stored in it.
 	 */
-	public void restoreState() {
+	public void restoreState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		File stateFile = getWorkingSetStateFile();
 
 		if (stateFile != null && stateFile.exists()) {
@@ -122,7 +122,7 @@ public class WorkingSetManager extends AbstractWorkingSetManager implements IWor
 	/**
 	 * Saves the working sets in the persistence store
 	 */
-	private void saveState() {
+	private void saveState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (restoreInProgress) {
 			// bug 327396: avoid saving partial state
 			savePending = true;

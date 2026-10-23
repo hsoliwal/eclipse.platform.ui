@@ -30,7 +30,7 @@ import org.eclipse.ui.views.markers.internal.MarkerMessages;
  *
  * @since 3.6
  */
-class UIUpdateJob extends WorkbenchJob {
+class UIUpdateJob extends WorkbenchJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	private final ExtendedMarkersView view;
 
@@ -48,7 +48,7 @@ class UIUpdateJob extends WorkbenchJob {
 		updating = false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus runInUIThread(IProgressMonitor monitor) {
 		if(monitor.isCanceled()){
 			return Status.CANCEL_STATUS;
@@ -101,7 +101,7 @@ class UIUpdateJob extends WorkbenchJob {
 				contentProvider.inputChanged(viewer, view.getViewerInput(), clone);
 
 				viewer.getTree().setRedraw(false);
-				viewer.refresh(true);
+				viewer.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				if (!monitor.isCanceled()) {
 					//do not expand if canceled
 					view.reexpandCategories();

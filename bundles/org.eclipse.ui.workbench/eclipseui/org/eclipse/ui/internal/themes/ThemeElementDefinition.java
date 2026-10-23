@@ -95,7 +95,7 @@ public class ThemeElementDefinition {
 		return formattedDescription;
 	}
 
-	private String formatDescription() {
+	private String formatDescription() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String description = this.description != null && this.description.trim().length() != 0 ? this.description
 				: label;
 		if (isAddedByCss() && isModifiedByUser()) {

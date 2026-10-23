@@ -187,23 +187,23 @@ public class MarkerContentGenerator {
 		MarkerField[] all = getAllFields();
 		MarkerField[] visible = getVisibleFields();
 
-		Collection<MarkerField> hidden = new HashSet<>();
+		Collection<MarkerField> hidden = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		hidden.addAll(Arrays.asList(all));
-		for (MarkerField element : visible) {
+		for (MarkerField element : visible) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hidden.remove(element);
 		}
 		return hidden.toArray();
 	}
 
 	void saveState(IMemento memento, MarkerField[] displayedFields) {
-		for (MarkerField displayedField : displayedFields) {
+		for (MarkerField displayedField : displayedFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			memento.createChild(TAG_COLUMN_VISIBILITY, displayedField
 					.getConfigurationElement().getAttribute(
 							MarkerSupportInternalUtilities.ATTRIBUTE_ID));
 		}
 	}
 
-	void restoreState(IMemento memento) {
+	void restoreState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		initDefaults(memento);
 		if (memento == null) {
 			return;
@@ -221,17 +221,17 @@ public class MarkerContentGenerator {
 
 		if (memento.getChildren(TAG_COLUMN_VISIBILITY).length != 0) {
 			IMemento[] visible = memento.getChildren(TAG_COLUMN_VISIBILITY);
-			Collection<MarkerField> newVisible = new ArrayList<>();
+			Collection<MarkerField> newVisible = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			MarkerField[] all = getAllFields();
 			Hashtable<String, MarkerField> allTable = new Hashtable<>();
 
-			for (MarkerField element : all) {
+			for (MarkerField element : all) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allTable.put(element.getConfigurationElement().getAttribute(
 						MarkerSupportInternalUtilities.ATTRIBUTE_ID), element);
 			}
 
-			for (IMemento element : visible) {
+			for (IMemento element : visible) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String key = element.getID();
 				MarkerField field = allTable.get(key);
 				if (field != null) {
@@ -257,7 +257,7 @@ public class MarkerContentGenerator {
 		// On first startup, check if there is a custom group id set to be default
 		if (memento == null) {
 			initialDefaultCategoryName = store
-					.getString(viewId + "." + IDEInternalPreferences.INITIAL_DEFAULT_MARKER_GROUPING); //$NON-NLS-1$
+					.getString(viewId + "." + IDEInternalPreferences.INITIAL_DEFAULT_MARKER_GROUPING); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -267,8 +267,8 @@ public class MarkerContentGenerator {
 	 * @return Collection of {@link FilterConfigurationArea}
 	 */
 	Collection<FilterConfigurationArea> createFilterConfigurationFields() {
-		Collection<FilterConfigurationArea> result = new ArrayList<>();
-		for (MarkerField visibleField : visibleFields) {
+		Collection<FilterConfigurationArea> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MarkerField visibleField : visibleFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilterConfigurationArea area = MarkerSupportInternalUtilities
 					.generateFilterArea(visibleField);
 			if (area != null) {
@@ -310,9 +310,9 @@ public class MarkerContentGenerator {
 	 */
 	Collection<MarkerFieldFilterGroup> getEnabledFilters() {
 		if (enabledFilters == null || enabledFilters == FILTERS_CHANGED) {
-			Collection<MarkerFieldFilterGroup> enabled = new HashSet<>();
+			Collection<MarkerFieldFilterGroup> enabled = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			Iterator<MarkerFieldFilterGroup> filtersIterator = getAllFilters().iterator();
-			while (filtersIterator.hasNext()) {
+			while (filtersIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MarkerFieldFilterGroup next = filtersIterator.next();
 				if (next.isEnabled()) {
 					enabled.add(next);
@@ -338,7 +338,7 @@ public class MarkerContentGenerator {
 	void disableAllFilters() {
 		Collection<MarkerFieldFilterGroup> allFilters = getEnabledFilters();
 		Iterator<MarkerFieldFilterGroup> enabled = allFilters.iterator();
-		while (enabled.hasNext()) {
+		while (enabled.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup group = enabled.next();
 			group.setEnabled(false);
 		}
@@ -404,9 +404,9 @@ public class MarkerContentGenerator {
 	 * @return Collection of declared MarkerFieldFilterGroup(s)
 	 */
 	Collection<MarkerFieldFilterGroup> getDeclaredFilters() {
-		List<MarkerFieldFilterGroup> filterList = new ArrayList<>();
+		List<MarkerFieldFilterGroup> filterList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IConfigurationElement[] filterReferences = generatorDescriptor.getFilterReferences();
-		for (IConfigurationElement filterReference : filterReferences) {
+		for (IConfigurationElement filterReference : filterReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			filterList.add(new MarkerFieldFilterGroup(filterReference, this));
 		}
 
@@ -414,7 +414,7 @@ public class MarkerContentGenerator {
 		if (viewId != null && viewId.equals(IPageLayout.ID_PROBLEM_VIEW)) {
 			Iterator<ProblemFilter> problemFilters = MarkerSupportRegistry.getInstance()
 					.getRegisteredFilters().iterator();
-			while (problemFilters.hasNext()) {
+			while (problemFilters.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				filterList.add(new CompatibilityMarkerFieldFilterGroup(problemFilters.next(), this));
 			}
 		}
@@ -441,14 +441,14 @@ public class MarkerContentGenerator {
 	/**
 	 * Load the settings from the memento.
 	 */
-	private void loadFilterSettings(IMemento memento) {
+	private void loadFilterSettings(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (memento == null) {
 			return;
 		}
 
 		IMemento children[] = memento.getChildren(TAG_GROUP_ENTRY);
 
-		for (IMemento element : children) {
+		for (IMemento element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento child = element;
 			String id = child.getString(IMemento.TAG_ID);
 			if (id == null) {
@@ -501,7 +501,7 @@ public class MarkerContentGenerator {
 	private boolean loadGroupWithID(IMemento child, String id) {
 		Iterator<MarkerFieldFilterGroup> groups = getAllFilters().iterator();
 
-		while (groups.hasNext()) {
+		while (groups.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup group = groups.next();
 			if (id.equals(group.getID())) {
 				group.loadSettings(child);
@@ -521,7 +521,7 @@ public class MarkerContentGenerator {
 		getAllFilters().add(newGroup);
 	}
 
-	private void writeFiltersPreference() {
+	private void writeFiltersPreference() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		XMLMemento memento = XMLMemento.createWriteRoot(TAG_FILTERS_SECTION);
 
 		writeLimitSettings(memento);
@@ -545,7 +545,7 @@ public class MarkerContentGenerator {
 	 */
 	private void initializePreferenceListener() {
 		if (filterPreferenceListener == null) {
-			filterPreferenceListener = event -> {
+			filterPreferenceListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 				if (event.getProperty().equals(getMementoPreferenceName())) {
 					rebuildFilters();
 				}
@@ -566,7 +566,7 @@ public class MarkerContentGenerator {
 	 */
 	private void writeFiltersSettings(XMLMemento memento) {
 		Iterator<MarkerFieldFilterGroup> groups = getAllFilters().iterator();
-		while (groups.hasNext()) {
+		while (groups.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup group = groups.next();
 			IMemento child = memento.createChild(TAG_GROUP_ENTRY, group.getID());
 			group.saveFilterSettings(child);
@@ -613,7 +613,7 @@ public class MarkerContentGenerator {
 	 */
 	MarkerGroup getMarkerGroup(String groupName) {
 		Iterator<MarkerGroup> groups = getMarkerGroups().iterator();
-		while (groups.hasNext()) {
+		while (groups.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerGroup group = groups.next();
 			if (group.getId().equals(groupName)) {
 				return group;
@@ -650,7 +650,7 @@ public class MarkerContentGenerator {
 		String[] ids = new String[types.size()];
 		Iterator<MarkerType> iterator = types.iterator();
 		int i = 0;
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ids[i++] = iterator.next().getId();
 		}
 		return ids;
@@ -677,7 +677,7 @@ public class MarkerContentGenerator {
 	static boolean select(MarkerEntry entry, IResource[] selResources,
 			Collection<MarkerFieldFilterGroup> enabledFilters) {
 		if (enabledFilters.size() > 0) {
-			for (MarkerFieldFilterGroup group : enabledFilters) {
+			for (MarkerFieldFilterGroup group : enabledFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (group.selectByScope(entry, selResources) && group.selectByFilters(entry)) {
 					return true;
 				}
@@ -693,8 +693,8 @@ public class MarkerContentGenerator {
 	 * resources enabled.
 	 */
 	void internalUpdateSelectedElements(Object[] elements) {
-		Collection<IResource> resourceCollection = new ArrayList<>();
-		for (Object element : elements) {
+		Collection<IResource> resourceCollection = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource) {
 				resourceCollection.add((IResource) element);
 			} else {
@@ -725,10 +725,10 @@ public class MarkerContentGenerator {
 	 *
 	 * @return boolean <code>true</code> if update is required.
 	 */
-	boolean updateNeededForSelection(Object[] newElements) {
+	boolean updateNeededForSelection(Object[] newElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<MarkerFieldFilterGroup> enabled = getEnabledFilters().iterator();
 
-		while (enabled.hasNext()) {
+		while (enabled.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup filter = enabled.next();
 
 			int scope = filter.getScope();
@@ -876,7 +876,7 @@ public class MarkerContentGenerator {
 	/**
 	 * Gather markers into result.
 	 */
-	boolean gatherMarkers(String[] typeIds, boolean includeSubTypes,
+	boolean gatherMarkers(String[] typeIds, boolean includeSubTypes, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<MarkerEntry> result, IProgressMonitor monitor) {
 		try {
 			Collection<IResource> resources = getResourcesForBuild();
@@ -886,14 +886,14 @@ public class MarkerContentGenerator {
 				if (monitor.isCanceled()) {
 					return false;
 				}
-				for (String superType : superTypes) {
+				for (String superType : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					boolean success = internalGatherMarkers(resources, superType, includeSubTypes, result, monitor);
 					if (!success || monitor.isCanceled()) {
 						return false;
 					}
 				}
 			} else {
-				for (String typeId : typeIds) {
+				for (String typeId : typeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					boolean success = internalGatherMarkers(resources, typeId, includeSubTypes, result, monitor);
 					if (!success || monitor.isCanceled()) {
 						return false;
@@ -913,7 +913,7 @@ public class MarkerContentGenerator {
 	 * A helper to the
 	 * {@link #gatherMarkers(String[], boolean, Collection, IProgressMonitor)}
 	 */
-	private boolean internalGatherMarkers(Collection<IResource> resources, String typeId,
+	private boolean internalGatherMarkers(Collection<IResource> resources, String typeId, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean includeSubTypes, Collection<MarkerEntry> result, IProgressMonitor monitor) {
 		if (monitor.isCanceled()) {
 			return false;
@@ -921,7 +921,7 @@ public class MarkerContentGenerator {
 		IResource[] selected = getSelectedResources();
 		Collection<MarkerFieldFilterGroup> enabled = getEnabledFilters();
 		Iterator<IResource> iterator = resources.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMarker[] markers = null;
 			try {
 				IResource resource = iterator.next();
@@ -940,7 +940,7 @@ public class MarkerContentGenerator {
 			}
 			MarkerEntry entry = null;
 			int lenght = markers.length;
-			for (int i = 0; i < lenght; i++) {
+			for (int i = 0; i < lenght; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				entry = new MarkerEntry(markers[i]);
 				if (select(entry, selected, enabled)) {
 					result.add(entry);

@@ -100,14 +100,14 @@ public abstract class ToolTip {
 	 * @see #RECREATE
 	 * @see #NO_RECREATE
 	 */
-	public ToolTip(Control control, int style, boolean manualActivation) {
+	public ToolTip(Control control, int style, boolean manualActivation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.control = control;
 		this.style = style;
 		this.listener = new ToolTipOwnerControlListener();
 		this.shellListener = event -> {
 			if (ToolTip.this.control != null
 					&& !ToolTip.this.control.isDisposed()) {
-				ToolTip.this.control.getDisplay().asyncExec(() -> {
+				ToolTip.this.control.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					// Check if the new active shell is the tooltip
 					// itself
 					if (ToolTip.this.control != null && !ToolTip.this.control.isDisposed()
@@ -133,7 +133,7 @@ public abstract class ToolTip {
 	 */
 	public void setData(String key, Object value) {
 		if (data == null) {
-			data = new HashMap<>();
+			data = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		data.put(key, value);
 	}
@@ -172,12 +172,12 @@ public abstract class ToolTip {
 	 */
 	public void activate() {
 		deactivate();
-		control.addListener(SWT.Dispose, listener);
-		control.addListener(SWT.MouseHover, listener);
-		control.addListener(SWT.MouseMove, listener);
-		control.addListener(SWT.MouseExit, listener);
-		control.addListener(SWT.MouseDown, listener);
-		control.addListener(SWT.MouseWheel, listener);
+		control.addListener(SWT.Dispose, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.MouseHover, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.MouseMove, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.MouseExit, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.MouseDown, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.MouseWheel, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -339,7 +339,7 @@ public abstract class ToolTip {
 		return null;
 	}
 
-	private void toolTipShow(Shell tip, Event event) {
+	private void toolTipShow(Shell tip, Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!tip.isDisposed()) {
 			currentArea = getToolTipArea(event);
 			createToolTipContentArea(event, tip);
@@ -367,7 +367,7 @@ public abstract class ToolTip {
 		}
 	}
 
-	private Point fixupDisplayBounds(Point tipSize, Point location) {
+	private Point fixupDisplayBounds(Point tipSize, Point location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (respectDisplayBounds || respectMonitorBounds) {
 			Rectangle bounds;
 			Point rightBounds = new Point(tipSize.x + location.x, tipSize.y
@@ -382,7 +382,7 @@ public abstract class ToolTip {
 
 				// Search on which monitor the event occurred
 				Rectangle tmp;
-				for (Monitor element : ms) {
+				for (Monitor element : ms) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					tmp = element.getBounds();
 					if (tmp.contains(p)) {
 						bounds = tmp;
@@ -453,7 +453,7 @@ public abstract class ToolTip {
 		}
 	}
 
-	private void toolTipOpen(final Shell shell, final Event event) {
+	private void toolTipOpen(final Shell shell, final Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Ensure that only one Tooltip is shown in time
 		if (CURRENT_TOOLTIP != null) {
 			toolTipHide(CURRENT_TOOLTIP, null);
@@ -461,42 +461,42 @@ public abstract class ToolTip {
 
 		CURRENT_TOOLTIP = shell;
 
-		control.getShell().addListener(SWT.Deactivate, shellListener);
+		control.getShell().addListener(SWT.Deactivate, shellListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		if (popupDelay > 0) {
-			control.getDisplay().timerExec(popupDelay, () -> toolTipShow(shell, event));
+			control.getDisplay().timerExec(popupDelay, () -> toolTipShow(shell, event)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		} else {
 			toolTipShow(CURRENT_TOOLTIP, event);
 		}
 
 		if (hideDelay > 0) {
-			control.getDisplay().timerExec(popupDelay + hideDelay,
+			control.getDisplay().timerExec(popupDelay + hideDelay, //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					() -> toolTipHide(shell, null));
 		}
 	}
 
 	private void toolTipHookByTypeRecursively(Control c, boolean add, int type) {
 		if (add) {
-			c.addListener(type, hideListener);
+			c.addListener(type, hideListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		} else {
 			c.removeListener(type, hideListener);
 		}
 
 		if (c instanceof Composite) {
 			Control[] children = ((Composite) c).getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toolTipHookByTypeRecursively(element, add, type);
 			}
 		}
 	}
 
 	private void toolTipHookBothRecursively(Control c) {
-		c.addListener(SWT.MouseDown, hideListener);
-		c.addListener(SWT.MouseExit, hideListener);
+		c.addListener(SWT.MouseDown, hideListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.MouseExit, hideListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		if (c instanceof Composite) {
 			Control[] children = ((Composite) c).getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toolTipHookBothRecursively(element);
 			}
 		}
@@ -574,7 +574,7 @@ public abstract class ToolTip {
 		if (CURRENT_TOOLTIP != null && !CURRENT_TOOLTIP.isDisposed()) {
 			// Only change if value really changed
 			if (hideOnMouseDown != this.hideOnMouseDown) {
-				control.getDisplay().syncExec(() -> {
+				control.getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					if (CURRENT_TOOLTIP != null
 							&& CURRENT_TOOLTIP.isDisposed()) {
 						toolTipHookByTypeRecursively(CURRENT_TOOLTIP,
@@ -595,7 +595,7 @@ public abstract class ToolTip {
 	}
 
 	private class ToolTipOwnerControlListener implements Listener {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.Dispose:
@@ -627,7 +627,7 @@ public abstract class ToolTip {
 	}
 
 	private class TooltipHideListener implements Listener {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void handleEvent(Event event) {
 			if (event.widget instanceof Control c) {
 

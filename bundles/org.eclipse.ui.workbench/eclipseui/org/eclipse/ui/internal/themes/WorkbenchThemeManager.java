@@ -67,9 +67,9 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 	public interface Events {
 		String TOPIC = "org/eclipse/ui/internal/themes/WorkbenchThemeManager"; //$NON-NLS-1$
 
-		String THEME_REGISTRY_RESTYLED = TOPIC + "/themeRegistryRestyled"; //$NON-NLS-1$
+		String THEME_REGISTRY_RESTYLED = TOPIC + "/themeRegistryRestyled"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		String THEME_REGISTRY_MODIFIED = TOPIC + "/themeRegistryModified"; //$NON-NLS-1$
+		String THEME_REGISTRY_MODIFIED = TOPIC + "/themeRegistryModified"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 
 	private ITheme currentTheme;
 
-	private final IPropertyChangeListener currentThemeListener = event -> {
+	private final IPropertyChangeListener currentThemeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		// JFace first, as the CSS engine resolves definitions from the JFace registries
 		if (event.getSource() instanceof FontRegistry) {
 			JFaceResources.getFontRegistry().put(event.getProperty(), (FontData[]) event.getNewValue());
@@ -111,7 +111,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 
 	private IThemeRegistry themeRegistry;
 
-	private final Map<IThemeDescriptor, ITheme> themes = new HashMap<>(7);
+	private final Map<IThemeDescriptor, ITheme> themes = new HashMap<>(7); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final EventHandler themeChangedHandler = new WorkbenchThemeChangedHandler();
 
@@ -129,7 +129,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 	 * then observe that value 3) Otherwise, use our default Call dispose when we
 	 * close.
 	 */
-	private synchronized void init() {
+	private synchronized void init() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (initialized) {
 			return;
 		}
@@ -140,7 +140,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 
 		// copy the font values from preferences.
 		FontRegistry jfaceFonts = JFaceResources.getFontRegistry();
-		for (String key : jfaceFonts.getKeySet()) {
+		for (String key : jfaceFonts.getKeySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			defaultThemeFontRegistry.put(key, jfaceFonts.getFontData(key));
 		}
 
@@ -155,7 +155,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 
 		final boolean highContrast = Display.getCurrent().getHighContrast();
 
-		Display.getCurrent().addListener(SWT.Settings, event -> updateThemes());
+		Display.getCurrent().addListener(SWT.Settings, event -> updateThemes()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		// If in HC, *always* use the system default.
 		// This ignores any default theme set via plugin_customization.ini
@@ -179,7 +179,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 	 * Update existing theme contents, descriptors, and registries. Reread the
 	 * themes and recompute the registries.
 	 */
-	private void updateThemes() {
+	private void updateThemes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// This code was added to fix a windows specific issue, see Bug 19229
 		// However, it's causing issues on Linux, see Bug 563001
 		if (Util.isLinux()) {
@@ -196,7 +196,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 
 		IThemeDescriptor[] themeDescriptors = getThemeRegistry().getThemes();
 
-		for (IThemeDescriptor themeDescriptor : themeDescriptors) {
+		for (IThemeDescriptor themeDescriptor : themeDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITheme theme = themes.get(themeDescriptor);
 			// If theme is in our themes table then its already been populated
 			if (theme != null) {
@@ -223,7 +223,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 			eventBroker.unsubscribe(themeRegistryModifiedHandler);
 		}
 
-		for (Iterator<ITheme> i = themes.values().iterator(); i.hasNext();) {
+		for (Iterator<ITheme> i = themes.values().iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITheme theme = i.next();
 			theme.removePropertyChangeListener(currentThemeListener);
 			theme.dispose();
@@ -243,7 +243,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 	}
 
 	protected void firePropertyChange(PropertyChangeEvent event) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((IPropertyChangeListener) listener).propertyChange(event);
 		}
 	}
@@ -254,7 +254,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 		firePropertyChange(event);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ITheme getCurrentTheme() {
 		init();
 		if (currentTheme == null) {
@@ -268,7 +268,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 											// didn't resolve to a proper theme
 					setCurrentTheme(IThemeManager.DEFAULT_THEME);
 					StatusManager.getManager().handle(StatusUtil.newStatus(PlatformUI.PLUGIN_ID,
-							"Could not restore current theme: " + themeId, null)); //$NON-NLS-1$
+							"Could not restore current theme: " + themeId, null)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -333,7 +333,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 		removeListenerObject(listener);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setCurrentTheme(String id) {
 		init();
 		ITheme oldTheme = currentTheme;
@@ -353,12 +353,12 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 			// update the jface registries
 			ColorRegistry jfaceColors = JFaceResources.getColorRegistry();
 			ColorRegistry themeColors = currentTheme.getColorRegistry();
-			for (String key : themeColors.getKeySet()) {
+			for (String key : themeColors.getKeySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				jfaceColors.put(key, themeColors.getRGB(key));
 			}
 			FontRegistry jfaceFonts = JFaceResources.getFontRegistry();
 			FontRegistry themeFonts = currentTheme.getFontRegistry();
-			for (String key : themeFonts.getKeySet()) {
+			for (String key : themeFonts.getKeySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				jfaceFonts.put(key, themeFonts.getFontData(key));
 			}
 			firePropertyChange(CHANGE_CURRENT_THEME, oldTheme, getCurrentTheme());
@@ -427,14 +427,14 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 		// don't want to modify the 3.x theme registries api
 		protected void resetThemeRegistries(ThemeRegistry themeRegistry, FontRegistry fontRegistry,
 				ColorRegistry colorRegistry) {
-			for (FontDefinition def : themeRegistry.getFonts()) {
+			for (FontDefinition def : themeRegistry.getFonts()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (def.isOverridden()) {
 					def.resetToDefaultValue();
 					fontRegistry.put(def.getId(), def.getValue() != null ? def.getValue()
 							: PreferenceConverter.getFontDataArrayDefaultDefault());
 				}
 			}
-			for (ColorDefinition def : themeRegistry.getColors()) {
+			for (ColorDefinition def : themeRegistry.getColors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (def.isOverridden()) {
 					def.resetToDefaultValue();
 					colorRegistry.put(def.getId(), def.getValue() != null ? def.getValue() : EMPTY_COLOR_VALUE);
@@ -442,13 +442,13 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 			}
 		}
 
-		protected void overrideAlreadyExistingDefinitions(org.osgi.service.event.Event event, IStylingEngine engine,
+		protected void overrideAlreadyExistingDefinitions(org.osgi.service.event.Event event, IStylingEngine engine, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				ThemeRegistry themeRegistry, FontRegistry fontRegistry, ColorRegistry colorRegistry) {
 			IPreferenceStore store = PrefUtil.getInternalPreferenceStore();
 			org.eclipse.e4.ui.css.swt.theme.ITheme cssTheme = getTheme(event);
 			ITheme theme = getColorsAndFontsTheme();
 
-			for (FontDefinition fontDefinition : themeRegistry.getFonts()) {
+			for (FontDefinition fontDefinition : themeRegistry.getFonts()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				engine.style(fontDefinition);
 				if (fontDefinition.isOverridden()) {
 					populateDefinition(cssTheme, theme, fontRegistry, fontDefinition, store);
@@ -457,7 +457,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 					}
 				}
 			}
-			for (ColorDefinition colorDefinition : themeRegistry.getColors()) {
+			for (ColorDefinition colorDefinition : themeRegistry.getColors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				engine.style(colorDefinition);
 				if (colorDefinition.isOverridden()) {
 					populateDefinition(cssTheme, theme, colorRegistry, colorDefinition, store);
@@ -468,7 +468,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 			}
 		}
 
-		private void addNewDefinitions(org.osgi.service.event.Event event, IStylingEngine engine,
+		private void addNewDefinitions(org.osgi.service.event.Event event, IStylingEngine engine, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				ThemeRegistry themeRegistry, FontRegistry fontRegistry, ColorRegistry colorRegistry) {
 			IPreferenceStore store = PrefUtil.getInternalPreferenceStore();
 			org.eclipse.e4.ui.css.swt.theme.ITheme cssTheme = getTheme(event);
@@ -476,7 +476,7 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 			ThemesExtension themesExtension = createThemesExtension();
 			engine.style(themesExtension);
 
-			for (IThemeElementDefinitionOverridable<?> definition : themesExtension.getDefinitions()) {
+			for (IThemeElementDefinitionOverridable<?> definition : themesExtension.getDefinitions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				engine.style(definition);
 				if (definition.isOverridden() && definition instanceof FontDefinition) {
 					addFontDefinition((FontDefinition) definition, themeRegistry, fontRegistry);
@@ -560,12 +560,12 @@ public class WorkbenchThemeManager extends EventManager implements IThemeManager
 		protected void populateThemeRegistries(ThemeRegistry themeRegistry, FontRegistry fontRegistry,
 				ColorRegistry colorRegistry, org.eclipse.e4.ui.css.swt.theme.ITheme cssTheme, ITheme theme) {
 			IPreferenceStore store = PrefUtil.getInternalPreferenceStore();
-			for (FontDefinition definition : themeRegistry.getFonts()) {
+			for (FontDefinition definition : themeRegistry.getFonts()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (definition.isOverridden() || definition.isAddedByCss()) {
 					populateDefinition(cssTheme, theme, fontRegistry, definition, store);
 				}
 			}
-			for (ColorDefinition definition : themeRegistry.getColors()) {
+			for (ColorDefinition definition : themeRegistry.getColors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (definition.isOverridden() || definition.isAddedByCss()) {
 					populateDefinition(cssTheme, theme, colorRegistry, definition, store);
 				}

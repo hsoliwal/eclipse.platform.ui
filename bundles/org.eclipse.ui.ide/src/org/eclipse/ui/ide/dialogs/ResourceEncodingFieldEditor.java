@@ -151,7 +151,7 @@ public final class ResourceEncodingFieldEditor extends AbstractEncodingFieldEdit
 
 	}
 
-	private boolean getStoredSeparateDerivedEncodingsValue() {
+	private boolean getStoredSeparateDerivedEncodingsValue() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// be careful looking up for our node so not to create any nodes as side effect
 		Preferences node = Platform.getPreferencesService().getRootNode()
 				.node(ProjectScope.SCOPE);
@@ -183,7 +183,7 @@ public final class ResourceEncodingFieldEditor extends AbstractEncodingFieldEdit
 			|| separateDerivedEncodingsButton.getSelection() == getStoredSeparateDerivedEncodingsValue();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doStore() {
 
 		String encoding = getSelectedEncoding();
@@ -230,7 +230,7 @@ public final class ResourceEncodingFieldEditor extends AbstractEncodingFieldEdit
 
 		final String finalEncoding = encoding;
 
-		Job charsetJob = Job.create(IDEWorkbenchMessages.IDEEncoding_EncodingJob, monitor -> {
+		Job charsetJob = Job.create(IDEWorkbenchMessages.IDEEncoding_EncodingJob, monitor -> { //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 			try {
 				if (!hasSameEncoding) {
 					if (resource instanceof IContainer) {
@@ -299,7 +299,7 @@ public final class ResourceEncodingFieldEditor extends AbstractEncodingFieldEdit
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String findDefaultEncoding() {
 
 		if (resource instanceof IWorkspaceRoot) {
@@ -338,7 +338,7 @@ public final class ResourceEncodingFieldEditor extends AbstractEncodingFieldEdit
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String defaultButtonText() {
 
 		if (resource instanceof IWorkspaceRoot) {
@@ -383,7 +383,7 @@ public final class ResourceEncodingFieldEditor extends AbstractEncodingFieldEdit
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createEncodingGroup(Composite parent, int numColumns) {
 		group = super.createEncodingGroup(parent, numColumns);
 		String byteOrderLabel = IDEEncoding
@@ -436,7 +436,7 @@ public final class ResourceEncodingFieldEditor extends AbstractEncodingFieldEdit
 	public void setEnabled(boolean enabled, Composite parent) {
 		super.setEnabled(enabled, parent);
 		group.setEnabled(enabled);
-		for (Control child : group.getChildren()) {
+		for (Control child : group.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			child.setEnabled(enabled);
 
 		}

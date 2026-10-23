@@ -42,7 +42,7 @@ public class WindowManager {
 	 * List of windows managed by this window manager
 	 * (element type: <code>Window</code>).
 	 */
-	private final ArrayList<Window> windows = new ArrayList<>();
+	private final ArrayList<Window> windows = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * List of window managers who have this window manager
@@ -90,7 +90,7 @@ public class WindowManager {
 	 */
 	private void addWindowManager(WindowManager wm) {
 		if (subManagers == null) {
-			subManagers = new ArrayList<>();
+			subManagers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		if (!subManagers.contains(wm)) {
 			subManagers.add(wm);
@@ -104,10 +104,10 @@ public class WindowManager {
 	 * @return <code>true</code> if all windows were successfully closed,
 	 * and <code>false</code> if any window refused to close
 	 */
-	public boolean close() {
-		List<Window> t = new ArrayList<>(windows); // make iteration robust
+	public boolean close() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Window> t = new ArrayList<>(windows); // make iteration robust //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<Window> e = t.iterator();
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Window window = e.next();
 			boolean closed = window.close();
 			if (!closed) {
@@ -116,7 +116,7 @@ public class WindowManager {
 		}
 		if (subManagers != null) {
 			Iterator<WindowManager> i = subManagers.iterator();
-			while (i.hasNext()) {
+			while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				WindowManager wm = i.next();
 				boolean closed = wm.close();
 				if (!closed) {

@@ -23,7 +23,7 @@ import org.eclipse.ui.internal.dialogs.cpd.CustomizePerspectiveDialog.DisplayIte
  *
  * @since 3.5
  */
-class ActionSetFilter extends ViewerFilter {
+class ActionSetFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	private ActionSet actionSet;
 
 	public void setActionSet(ActionSet actionSet) {

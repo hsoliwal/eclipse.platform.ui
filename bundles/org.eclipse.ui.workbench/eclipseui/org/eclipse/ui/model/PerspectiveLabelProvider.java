@@ -41,7 +41,7 @@ public final class PerspectiveLabelProvider extends LabelProvider implements ITa
 	/**
 	 * List of all Image objects this label provider is responsible for.
 	 */
-	private final HashMap<ImageDescriptor, Image> imageCache = new HashMap<>(5);
+	private final HashMap<ImageDescriptor, Image> imageCache = new HashMap<>(5); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Indicates whether the default perspective is visually marked.
@@ -87,7 +87,7 @@ public final class PerspectiveLabelProvider extends LabelProvider implements ITa
 
 	@Override
 	public void dispose() {
-		for (Iterator<Image> i = imageCache.values().iterator(); i.hasNext();) {
+		for (Iterator<Image> i = imageCache.values().iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i.next().dispose();
 		}
 		imageCache.clear();

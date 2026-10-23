@@ -24,7 +24,7 @@ import org.eclipse.ui.internal.dialogs.cpd.CustomizePerspectiveDialog.DisplayIte
  *
  * @since 3.5
  */
-final class ShowUsedActionSetsFilter extends ViewerFilter {
+final class ShowUsedActionSetsFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	private final DisplayItem rootItem;
 
 	public ShowUsedActionSetsFilter(DisplayItem rootItem) {

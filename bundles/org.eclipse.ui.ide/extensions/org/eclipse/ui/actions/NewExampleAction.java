@@ -85,7 +85,7 @@ public class NewExampleAction extends Action {
 				org.eclipse.ui.internal.IWorkbenchHelpContextIds.NEW_ACTION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		// Create wizard selection wizard.
 		IWorkbench workbench = PlatformUI.getWorkbench();

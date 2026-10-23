@@ -61,7 +61,7 @@ abstract class NameAndDescriptionToolTip extends ToolTip {
 		return super.shouldCreateToolTip(event) && getModelElement(event) != null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createToolTipContentArea(Event event, Composite parent) {
 		Object modelElement = getModelElement(event);
 
@@ -115,7 +115,7 @@ abstract class NameAndDescriptionToolTip extends ToolTip {
 	 * @param text   the text to display
 	 * @return the created label
 	 */
-	protected Label createEntry(Composite parent, Image icon, String text) {
+	protected Label createEntry(Composite parent, Image icon, String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Color fg = parent.getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
 		Color bg = parent.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
 		if (icon != null) {
@@ -152,7 +152,7 @@ abstract class NameAndDescriptionToolTip extends ToolTip {
 	 * @param text   the text to display
 	 * @return the created link
 	 */
-	protected Link createEntryWithLink(Composite parent, Image icon, String text) {
+	protected Link createEntryWithLink(Composite parent, Image icon, String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Color fg = parent.getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
 		Color bg = parent.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
 		if (icon != null) {
@@ -192,7 +192,7 @@ abstract class NameAndDescriptionToolTip extends ToolTip {
 		return null;
 	}
 
-	static String getDescription(Object object) {
+	static String getDescription(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (object instanceof DisplayItem item) {
 			if (CustomizePerspectiveDialog.isNewWizard(item)) {
 				ShortcutItem shortcut = (ShortcutItem) item;

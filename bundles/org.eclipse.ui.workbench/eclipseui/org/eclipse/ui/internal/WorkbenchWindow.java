@@ -280,9 +280,9 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 	ProgressRegion progressRegion = null;
 
-	private final List<MTrimElement> workbenchTrimElements = new ArrayList<>();
+	private final List<MTrimElement> workbenchTrimElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final Map<MToolControl, IConfigurationElement> iceMap = new HashMap<>();
+	private final Map<MToolControl, IConfigurationElement> iceMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public IConfigurationElement getICEFor(MToolControl mtc) {
 		return iceMap.get(mtc);
@@ -318,9 +318,9 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 */
 	private final ListenerList<IPropertyChangeListener> genericPropertyListeners = new ListenerList<>();
 
-	private final IPropertyChangeListener switcherSideListener = event -> {
+	private final IPropertyChangeListener switcherSideListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (IPreferenceConstants.PERSPECTIVE_SWITCHER_SIDE.equals(event.getProperty())) {
-			workbench.getDisplay().asyncExec(() -> {
+			workbench.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (!workbench.isClosing() && getShell() != null && !getShell().isDisposed()) {
 					placePerspectiveSwitcher();
 				}
@@ -353,7 +353,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 	};
 
-	static final String TEXT_DELIMITERS = TextProcessor.getDefaultDelimiters() + "-"; //$NON-NLS-1$
+	static final String TEXT_DELIMITERS = TextProcessor.getDefaultDelimiters() + "-"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/** Marks the beginning of a tag which contains positioning information. */
 	static final String MOVE_TAG = "move_"; //$NON-NLS-1$
@@ -471,7 +471,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		perspective = pers;
 	}
 
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setup() {
 		try {
 			// if workbench window is opened as a result of command execution,
@@ -524,7 +524,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					return defaultSaveHandler.promptToSave(dirtyPart);
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public Save[] promptToSave(Collection<MPart> dirtyParts) {
 					LabelProvider labelProvider = new LabelProvider() {
 						@Override
@@ -532,7 +532,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 							return ((MPart) element).getLocalizedLabel();
 						}
 					};
-					List<MPart> parts = new ArrayList<>(dirtyParts);
+					List<MPart> parts = new ArrayList<>(dirtyParts); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					ListSelectionDialog dialog = new ListSelectionDialog(getShell(), parts,
 							ArrayContentProvider.getInstance(), labelProvider,
 							WorkbenchMessages.EditorManager_saveResourcesMessage);
@@ -545,9 +545,9 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					Object[] toSave = dialog.getResult();
 					Save[] retSaves = new Save[parts.size()];
 					Arrays.fill(retSaves, Save.NO);
-					for (int i = 0; i < retSaves.length; i++) {
+					for (int i = 0; i < retSaves.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						MPart part = parts.get(i);
-						for (Object o : toSave) {
+						for (Object o : toSave) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (o == part) {
 								retSaves[i] = Save.YES;
 								break;
@@ -575,25 +575,25 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					return super.save(dirtyPart, confirm);
 				}
 
-				private boolean saveParts(ArrayList<MPart> dirtyParts, Save[] decisions) {
+				private boolean saveParts(ArrayList<MPart> dirtyParts, Save[] decisions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (decisions == null || decisions.length == 0) {
 						super.saveParts(dirtyParts, true);
 					}
 					if (dirtyParts.size() != decisions.length) {
-						for (Save decision : decisions) {
+						for (Save decision : decisions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (decision == Save.CANCEL) {
 								return false;
 							}
 						}
 					}
-					List<MPart> dirtyPartsList = Collections.unmodifiableList(new ArrayList<>(dirtyParts));
-					for (Save decision : decisions) {
+					List<MPart> dirtyPartsList = Collections.unmodifiableList(new ArrayList<>(dirtyParts)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (Save decision : decisions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (decision == Save.CANCEL) {
 							return false;
 						}
 					}
 
-					for (int i = 0; i < decisions.length; i++) {
+					for (int i = 0; i < decisions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (decisions[i] == Save.YES) {
 							if (!save(dirtyPartsList.get(i), false)) {
 								return false;
@@ -603,7 +603,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					return true;
 				}
 
-				private boolean saveMixedParts(ArrayList<MPart> nonCompParts, ArrayList<IWorkbenchPart> compParts,
+				private boolean saveMixedParts(ArrayList<MPart> nonCompParts, ArrayList<IWorkbenchPart> compParts, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						boolean confirm, boolean addNonPartSources) {
 					SaveablesList saveablesList = (SaveablesList) PlatformUI.getWorkbench()
 							.getService(ISaveablesLifecycleListener.class);
@@ -623,20 +623,20 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 							return ((MPart) element).getLocalizedLabel();
 						}
 					};
-					ArrayList<Object> listParts = new ArrayList<>();
+					ArrayList<Object> listParts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					Map<IWorkbenchPart, List<Saveable>> saveableMap = saveablesList.getSaveables(compParts);
 					listParts.addAll(nonCompParts);
 					LinkedHashSet<Saveable> saveablesSet = new LinkedHashSet<>();
-					for (IWorkbenchPart workbenchPart : compParts) {
+					for (IWorkbenchPart workbenchPart : compParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						List<Saveable> list = saveableMap.get(workbenchPart);
 						if (list != null) {
 							saveablesSet.addAll(list);
 						}
 					}
 					if (addNonPartSources) {
-						for (ISaveablesSource nonPartSource : saveablesList.getNonPartSources()) {
+						for (ISaveablesSource nonPartSource : saveablesList.getNonPartSources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Saveable[] saveables = nonPartSource.getSaveables();
-							for (Saveable saveable : saveables) {
+							for (Saveable saveable : saveables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (saveable.isDirty()) {
 									saveablesSet.add(saveable);
 								}
@@ -658,19 +658,19 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					Save[] compatSaves = new Save[saveablesSet.size()];
 					Arrays.fill(nonCompatSaves, Save.NO);
 					Arrays.fill(compatSaves, Save.NO);
-					for (int i = 0; i < nonCompatSaves.length; i++) {
+					for (int i = 0; i < nonCompatSaves.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						MPart part = nonCompParts.get(i);
-						for (Object o : toSave) {
+						for (Object o : toSave) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (o == part) {
 								nonCompatSaves[i] = Save.YES;
 								break;
 							}
 						}
 					}
-					Map<Saveable, Save> saveOptionMap = new HashMap<>();
-					for (Saveable saveable : saveablesSet) {
+					Map<Saveable, Save> saveOptionMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+					for (Saveable saveable : saveablesSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						boolean found = false;
-						for (Object o : toSave) {
+						for (Object o : toSave) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (o == saveable) {
 								saveOptionMap.put(saveable, Save.YES);
 								found = true;
@@ -691,7 +691,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 				}
 
 				private void removeSaveOnCloseNotNeededParts(List<IWorkbenchPart> parts) {
-					for (Iterator<IWorkbenchPart> it = parts.iterator(); it.hasNext();) {
+					for (Iterator<IWorkbenchPart> it = parts.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IWorkbenchPart part = it.next();
 						ISaveablePart saveable = SaveableHelper.getSaveable(part);
 						if (saveable == null || !saveable.isSaveOnCloseNeeded()) {
@@ -701,7 +701,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 				}
 
 				private void removeSaveOnCloseNotNeededSplitEditorParts(List<MPart> parts) {
-					for (Iterator<MPart> it = parts.iterator(); it.hasNext();) {
+					for (Iterator<MPart> it = parts.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						MPart part = it.next();
 						if (isSaveOnCloseNotNeededSplitEditorPart(part)) {
 							it.remove();
@@ -709,14 +709,14 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					}
 				}
 
-				private boolean isSaveOnCloseNotNeededSplitEditorPart(MPart part) {
+				private boolean isSaveOnCloseNotNeededSplitEditorPart(MPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					boolean notNeeded = false;
 					if (part instanceof MCompositePart compPart
 							&& SplitHost.SPLIT_HOST_CONTRIBUTOR_URI.equals(part.getContributionURI())) {
 						List<MPart> elements = modelService.findElements(compPart, null, MPart.class);
 						if (elements != null && elements.size() > 1) {
 							elements.remove(0);
-							for (MPart mpart : elements) {
+							for (MPart mpart : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Object object = mpart.getObject();
 								if (object instanceof CompatibilityPart) {
 									IWorkbenchPart workbenchPart = ((CompatibilityPart) object).getPart();
@@ -741,11 +741,11 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					return notNeeded;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean saveParts(Collection<MPart> dirtyParts, boolean confirm, boolean closing, boolean addNonPartSources) {
-					ArrayList<IWorkbenchPart> saveableParts = new ArrayList<>();
-					ArrayList<MPart> nonCompatibilityParts = new ArrayList<>();
-					for (MPart part : dirtyParts) {
+					ArrayList<IWorkbenchPart> saveableParts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					ArrayList<MPart> nonCompatibilityParts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (MPart part : dirtyParts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Object object = part.getObject();
 						if (object instanceof CompatibilityPart) {
 							IWorkbenchPart workbenchPart = ((CompatibilityPart) object).getPart();
@@ -865,12 +865,12 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 						IEclipseContext leafContext = windowContext.getActiveLeaf();
 						MenuManagerRendererFilter.collectInfo(info, mainMenu, renderer, leafContext, true);
 						// if one of these variables change, re-run the RAT
-						for (String name : info.getAccessedVariableNames()) {
+						for (String name : info.getAccessedVariableNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							leafContext.get(name);
 						}
 						if (canUpdateMenus && workbench.getDisplay() != null) {
 							canUpdateMenus = false;
-							workbench.getDisplay().asyncExec(menuUpdater);
+							workbench.getDisplay().asyncExec(menuUpdater); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						}
 						return manageChanges;
 					}
@@ -930,12 +930,12 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		Shell shell = getShell();
 		Display display = shell.getDisplay();
 		Runnable promptForRestart = () -> getWorkbenchImpl().promptForRestartIfZoomChanged(shell);
-		shell.addListener(SWT.ZoomChanged, event -> {
+		shell.addListener(SWT.ZoomChanged, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			// Only needed when SWT cannot rescale at runtime
 			if (!display.isRescalingAtRuntime() && display.getPrimaryMonitor().equals(shell.getMonitor())) {
 				// Delay so that a transient zoom change, e.g. on monitor reconnect, does not prompt;
 				// rescheduling the same runnable restarts the timer, which coalesces bursts
-				display.timerExec(ZOOM_RESTART_PROMPT_DELAY_MS, promptForRestart);
+				display.timerExec(ZOOM_RESTART_PROMPT_DELAY_MS, promptForRestart); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		});
 	}
@@ -952,7 +952,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		renderer = null;
 	}
 
-	private void configureShell(Shell shell, IEclipseContext context) {
+	private void configureShell(Shell shell, IEclipseContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String title = getWindowConfigurer().basicGetTitle();
 		if (title != null) {
 			shell.setText(TextProcessor.process(title, TEXT_DELIMITERS));
@@ -972,7 +972,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 	}
 
-	private boolean setupPerspectiveStack(IEclipseContext context) {
+	private boolean setupPerspectiveStack(IEclipseContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPerspectiveRegistry registry = getWorkbench().getPerspectiveRegistry();
 		String forcedPerspectiveId = (String) context.get(E4Workbench.FORCED_PERSPECTIVE_ID);
 
@@ -1003,7 +1003,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	private boolean manageChanges = true;
 	private boolean canUpdateMenus = true;
 
-	void populateTopTrimContributions() {
+	void populateTopTrimContributions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		getCoolBarManager2().update(true);
 		getCoolBarManager2().add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 
@@ -1057,7 +1057,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * {@link IPreferenceConstants#PERSPECTIVE_SWITCHER_SIDE} if that value differs
 	 * from the one last applied, so that a placement by the user survives restarts.
 	 */
-	private void placePerspectiveSwitcher() {
+	private void placePerspectiveSwitcher() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MToolControl switcherControl = (MToolControl) modelService.find(PERSPECTIVE_SWITCHER_ID, model);
 		if (switcherControl == null) {
 			return;
@@ -1108,7 +1108,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * look at: {@link PositionInfo#parse(String)}.
 	 * </p>
 	 */
-	private void positionQuickAccess() {
+	private void positionQuickAccess() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * The QUICK_ACCESS_ELEMENT_IDS array contains the IDs of optional elements
 		 * provided via an e4xmi application model fragment. The method checks if they
@@ -1118,7 +1118,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		 * application model and the corresponding fragment models are already
 		 * processed.
 		 */
-		for (String quickAccessElementId : QUICK_ACCESS_ELEMENT_IDS) {
+		for (String quickAccessElementId : QUICK_ACCESS_ELEMENT_IDS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MToolControl quickAccessElement = (MToolControl) modelService.find(quickAccessElementId, model);
 			if (quickAccessElement != null) {
 				moveControl(quickAccessElement.getParent(), quickAccessElement);
@@ -1148,7 +1148,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		return preferenceStore.getBoolean(IWorkbenchPreferenceConstants.HIDE_QUICK_ACCESS_PER_DEFAULT);
 	}
 
-	@Inject
+	@Inject //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Optional
 	private void hideQuickAccess(@UIEventTopic(UIEvents.ApplicationElement.TOPIC_TAGS) Event event) {
 		Object origin = event.getProperty(UIEvents.EventTags.ELEMENT);
@@ -1189,7 +1189,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 *                         moved
 	 * @param element          the element to move
 	 */
-	private void moveControl(MElementContainer<MUIElement> elementContainer, MUIElement element) {
+	private void moveControl(MElementContainer<MUIElement> elementContainer, MUIElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null || elementContainer == null) {
 			return;
 		}
@@ -1241,7 +1241,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 					break;
 
 				default:
-					WorkbenchPlugin.log("Can't position control '" + element.getElementId() //$NON-NLS-1$
+					WorkbenchPlugin.log("Can't position control '" + element.getElementId() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "' because of the unknown position type '" //$NON-NLS-1$
 							+ positionInfo.getPosition() + "'!"); //$NON-NLS-1$
 				}
@@ -1263,7 +1263,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 
 		int index = 0;
-		for (MUIElement element : elements) {
+		for (MUIElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(element.getElementId())) {
 				return index;
 			}
@@ -1283,7 +1283,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 */
 	private PositionInfo findMovePositionInfo(MUIElement element) {
 		if (element != null) {
-			for (String tag : element.getTags()) {
+			for (String tag : element.getTags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (tag.startsWith(MOVE_TAG)) {
 					return PositionInfo.parse(tag.substring(MOVE_TAG.length()));
 				}
@@ -1293,7 +1293,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		return null;
 	}
 
-	private void populateStandardTrim(MTrimBar bottomTrim) {
+	private void populateStandardTrim(MTrimBar bottomTrim) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// StatusLine
 		MToolControl slElement = (MToolControl) modelService.find(STATUS_LINE_ID, model);
 		if (slElement == null) {
@@ -1328,11 +1328,11 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		pbElement.setToBeRendered(getWindowConfigurer().getShowProgressIndicator());
 	}
 
-	private void populateTrimContributions(MTrimBar bottomTrim) {
+	private void populateTrimContributions(MTrimBar bottomTrim) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Part 1: Add groups
 		IConfigurationElement[] exts = extensionRegistry.getConfigurationElementsFor("org.eclipse.ui.menus"); //$NON-NLS-1$
-		List<IConfigurationElement> items = new ArrayList<>();
-		for (IConfigurationElement ice : exts) {
+		List<IConfigurationElement> items = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement ice : exts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("group".equals(ice.getName()) || "widget".equals(ice.getName())) { //$NON-NLS-1$ //$NON-NLS-2$
 				items.add(ice);
 			}
@@ -1344,19 +1344,19 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 		// Iterate over the items until they've all been placed or until
 		// an iteration doesn't place anything
-		List<IConfigurationElement> handledElements = new ArrayList<>();
+		List<IConfigurationElement> handledElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		handledElements.add(items.get(0)); // Hack!! startup seeding
 		MUIElement createdTrim = null;
-		while (!items.isEmpty() && !handledElements.isEmpty()) {
+		while (!items.isEmpty() && !handledElements.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handledElements.clear();
 
-			for (IConfigurationElement item : items) {
+			for (IConfigurationElement item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = item.getAttribute("id"); //$NON-NLS-1$
 				String classSpec = item.getAttribute("class"); //$NON-NLS-1$
 				// boolean sepVisible = "true".equals(item.getAttribute("separatorsVisible"));
 				// //$NON-NLS-1$ //$NON-NLS-2$
 				IConfigurationElement[] locs = item.getChildren("location"); //$NON-NLS-1$
-				for (IConfigurationElement loc : locs) {
+				for (IConfigurationElement loc : locs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IConfigurationElement[] bars = loc.getChildren("bar"); //$NON-NLS-1$
 					if (bars.length > 0) {
 						IConfigurationElement bar = bars[0];
@@ -1390,7 +1390,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 	}
 
-	private MToolControl addTrimElement(MTrimBar bottomTrim, IConfigurationElement ice, String id, boolean isBefore,
+	private MToolControl addTrimElement(MTrimBar bottomTrim, IConfigurationElement ice, String id, boolean isBefore, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String relTo, String classSpec) {
 		// is it already in the trim ?
 		MUIElement existingTrim = modelService.find(id, bottomTrim);
@@ -1436,7 +1436,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 	public MTrimBar getTopTrim() {
 		List<MTrimBar> trimBars = model.getTrimBars();
-		for (MTrimBar bar : trimBars) {
+		for (MTrimBar bar : trimBars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (IWorkbenchConstants.MAIN_TOOLBAR_ID.equals(bar.getElementId())) {
 				return bar;
 			}
@@ -1472,14 +1472,14 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		id = getId(element);
 		String actionSetId = null;
 		Object obj = element.getParent();
-		while (obj instanceof IConfigurationElement && actionSetId == null) {
+		while (obj instanceof IConfigurationElement && actionSetId == null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement parent = (IConfigurationElement) obj;
 			if (parent.getName().equals(IWorkbenchRegistryConstants.TAG_ACTION_SET)) {
 				actionSetId = getId(parent);
 			}
 			obj = parent.getParent();
 		}
-		return ACTION_SET_CMD_PREFIX + actionSetId + '/' + id;
+		return ACTION_SET_CMD_PREFIX + actionSetId + '/' + id; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static String getDefinitionId(IConfigurationElement element) {
@@ -1516,13 +1516,13 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * <code>ActionHandler</code>. This map is never <code>null</code>, and is never
 	 * empty as long as at least one global action has been registered.
 	 */
-	private final Map<String, ActionHandler> globalActionHandlersByCommandId = new HashMap<>();
+	private final Map<String, ActionHandler> globalActionHandlersByCommandId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The list of handler submissions submitted to the workbench command support.
 	 * This list may be empty, but it is never <code>null</code>.
 	 */
-	private List<IHandlerActivation> handlerActivations = new ArrayList<>();
+	private List<IHandlerActivation> handlerActivations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * The number of large updates that are currently going on. If this is number is
@@ -1546,7 +1546,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		pageListeners.firePageActivated(page);
 	}
 
-	void registerGlobalAction(IAction globalAction) {
+	void registerGlobalAction(IAction globalAction) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String commandId = globalAction.getActionDefinitionId();
 
 		if (commandId != null) {
@@ -1584,20 +1584,20 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * submission will become the handler.
 	 * </p>
 	 */
-	void submitGlobalActions() {
+	void submitGlobalActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IHandlerService handlerService = getService(IHandlerService.class);
 
 		/*
 		 * Mash the action sets and global actions together, with global actions taking
 		 * priority.
 		 */
-		Map<String, ActionHandler> handlersByCommandId = new HashMap<>();
+		Map<String, ActionHandler> handlersByCommandId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		handlersByCommandId.putAll(globalActionHandlersByCommandId);
 
-		List<IHandlerActivation> newHandlers = new ArrayList<>(handlersByCommandId.size());
+		List<IHandlerActivation> newHandlers = new ArrayList<>(handlersByCommandId.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Iterator<IHandlerActivation> existingIter = handlerActivations.iterator();
-		while (existingIter.hasNext()) {
+		while (existingIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IHandlerActivation next = existingIter.next();
 
 			String cmdId = next.getCommandId();
@@ -1614,7 +1614,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		final Shell shell = getShell();
 		if (shell != null) {
 			final Expression expression = new ActiveShellExpression(shell);
-			for (Entry<String, ActionHandler> entry : handlersByCommandId.entrySet()) {
+			for (Entry<String, ActionHandler> entry : handlersByCommandId.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String commandId = entry.getKey();
 				IHandler handler = entry.getValue();
 				newHandlers.add(handlerService.activateHandler(commandId, handler, expression));
@@ -1646,7 +1646,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 	private void firePropertyChanged(final String property, final Object oldValue, final Object newValue) {
 		PropertyChangeEvent event = new PropertyChangeEvent(this, property, oldValue, newValue);
-		for (Object listener : genericPropertyListeners.getListeners()) {
+		for (Object listener : genericPropertyListeners.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPropertyChangeListener propertyChangeListener = (IPropertyChangeListener) listener;
 			propertyChangeListener.propertyChange(event);
 		}
@@ -1673,7 +1673,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 *
 	 * Assumes that busy cursor is active.
 	 */
-	private boolean busyClose(boolean remove) {
+	private boolean busyClose(boolean remove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Warning: Intricate flow of control and re-entrant invocations of this method:
 		 *
@@ -1817,7 +1817,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 */
 	private void allowUpdates(IMenuManager menuManager) {
 		menuManager.markDirty();
-		for (IContributionItem item : menuManager.getItems()) {
+		for (IContributionItem item : menuManager.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof IMenuManager) {
 				allowUpdates((IMenuManager) item);
 			} else if (item instanceof SubContributionItem) {
@@ -1979,10 +1979,10 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		return PlatformUI.getWorkbench();
 	}
 
-	private void hideNonRestorableViews() {
-		List<MPart> sharedPartsToRemove = new ArrayList<>();
+	private void hideNonRestorableViews() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<MPart> sharedPartsToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<MPlaceholder> phList = modelService.findElements(model, null, MPlaceholder.class, null);
-		for (MPlaceholder ph : phList) {
+		for (MPlaceholder ph : phList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(ph.getRef() instanceof MPart)) {
 				continue;
 			}
@@ -2020,7 +2020,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 		// Remove the actual shared Parts for any placeholder that was removed
 		List<MUIElement> seList = model.getSharedElements();
-		for (MPart partToRemove : sharedPartsToRemove) {
+		for (MPart partToRemove : sharedPartsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			seList.remove(partToRemove);
 		}
 	}
@@ -2036,7 +2036,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * @param remove <code>true</code> if this window should be removed from the
 	 *               application model
 	 */
-	private boolean hardClose(boolean remove) {
+	private boolean hardClose(boolean remove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (!remove) {
 				// we're in a shutdown case so we need to hide views that should
@@ -2052,7 +2052,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 			final IHandlerService handlerService = workbench.getService(IHandlerService.class);
 			handlerService.deactivateHandlers(handlerActivations);
 			final Iterator<IHandlerActivation> activationItr = handlerActivations.iterator();
-			while (activationItr.hasNext()) {
+			while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IHandlerActivation activation = activationItr.next();
 				activation.getHandler().dispose();
 			}
@@ -2130,7 +2130,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	}
 
 	private void cleanupMenuManagerRec(MenuManagerRenderer renderer, MMenu m) {
-		for (MMenuElement e : m.getChildren()) {
+		for (MMenuElement e : m.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// renderer.clearModelToContribution(e, null);
 			if (e instanceof MMenu) {
 				cleanupMenuManagerRec(renderer, (MMenu) e);
@@ -2162,9 +2162,9 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		return true;
 	}
 
-	private boolean saveAllParts(boolean confirm, boolean closing, boolean addNonPartSources) {
+	private boolean saveAllParts(boolean confirm, boolean closing, boolean addNonPartSources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (modelService != null) {
-			Set<MPart> dirtyParts = new HashSet<>();
+			Set<MPart> dirtyParts = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			final IEclipseContext context = model.getContext();
 			if (context != null) {
 				EPartService partService = context.get(EPartService.class);
@@ -2204,7 +2204,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IWorkbenchPage openPage(final String perspectiveId, final IAdaptable input) throws WorkbenchException {
 		final Object[] result = new Object[1];
 		BusyIndicator.showWhile(null, () -> {
@@ -2224,7 +2224,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 	}
 
-	private IWorkbenchPage busyOpenPage(String perspectiveId, IAdaptable input) throws WorkbenchException {
+	private IWorkbenchPage busyOpenPage(String perspectiveId, IAdaptable input) throws WorkbenchException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPerspectiveDescriptor descriptor = workbench.getPerspectiveRegistry().findPerspectiveWithId(perspectiveId);
 		if (descriptor == null) {
 			throw new WorkbenchException(
@@ -2284,7 +2284,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(final boolean fork, boolean cancelable, final IRunnableWithProgress runnable)
 			throws InvocationTargetException, InterruptedException {
 		final StatusLineManager manager = getStatusLineManager();
@@ -2301,7 +2301,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 			IBindingService bs = model.getContext().get(IBindingService.class);
 			boolean keyFilterEnabled = bs.isKeyFilterEnabled();
-			List<Control> toEnable = new ArrayList<>();
+			List<Control> toEnable = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Shell theShell = getShell();
 			Display display = theShell.getDisplay();
 			Control currentFocus = display.getFocusControl();
@@ -2318,7 +2318,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 				}
 
 				// disable all other shells
-				for (Shell childShell : display.getShells()) {
+				for (Shell childShell : display.getShells()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (childShell != theShell) {
 						disableControl(childShell, toEnable);
 					}
@@ -2335,7 +2335,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 				if (tpl.bottom != null && !tpl.bottom.isDisposed() && tpl.bottom.isEnabled()) {
 					MUIElement statusLine = modelService.find(STATUS_LINE_ID, model);
 					Object slCtrl = statusLine != null ? statusLine.getWidget() : null;
-					for (Control bottomCtrl : tpl.bottom.getChildren()) {
+					for (Control bottomCtrl : tpl.bottom.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (bottomCtrl != slCtrl) {
 							disableControl(bottomCtrl, toEnable);
 						}
@@ -2379,7 +2379,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 				}
 
 				// Re-enable any disabled controls
-				for (Control ctrl : toEnable) {
+				for (Control ctrl : toEnable) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!ctrl.isDisposed() && !ctrl.isEnabled()) {
 						ctrl.setEnabled(true);
 					}
@@ -2417,7 +2417,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		}
 	}
 
-	private final Set<Object> menuRestrictions = new HashSet<>();
+	private final Set<Object> menuRestrictions = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private Boolean valueOf(boolean result) {
 		return result ? Boolean.TRUE : Boolean.FALSE;
@@ -2427,14 +2427,14 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		return menuRestrictions;
 	}
 
-	void liftRestrictions() {
+	void liftRestrictions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (menuRestrictions.isEmpty()) {
 			return;
 		}
 		EvaluationReference[] refs = menuRestrictions.toArray(new EvaluationReference[menuRestrictions.size()]);
 		IEvaluationService es = serviceLocator.getService(IEvaluationService.class);
 		IEvaluationContext currentState = es.getCurrentState();
-		for (EvaluationReference reference : refs) {
+		for (EvaluationReference reference : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reference.setPostingChanges(true);
 
 			boolean os = reference.evaluate(currentState);
@@ -2449,7 +2449,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 	void imposeRestrictions() {
 		Iterator<?> i = menuRestrictions.iterator();
-		while (i.hasNext()) {
+		while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EvaluationReference ref = (EvaluationReference) i.next();
 			ref.setPostingChanges(false);
 		}
@@ -2459,7 +2459,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * Hooks a listener to track the activation and deactivation of the window's
 	 * shell.
 	 */
-	private void trackShellActivation() {
+	private void trackShellActivation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		getShell().addShellListener(new ShellAdapter() {
 			@Override
 			public void shellActivated(ShellEvent event) {
@@ -2486,7 +2486,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	/**
 	 * update the action bars.
 	 */
-	public void updateActionBars() {
+	public void updateActionBars() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getShell() == null || getShell().isDisposed() || updateDisabled || updatesDeferred()) {
 			return;
 		}
@@ -2559,7 +2559,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * Update the visible action sets. This method is typically called from a page
 	 * when the user changes the visible action sets within the perspective.
 	 */
-	public void updateActionSets() {
+	public void updateActionSets() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (updateDisabled) {
 			return;
 		}
@@ -2578,7 +2578,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		updateActionBars();
 
 		// hide the launch menu if it is empty
-		String path = IWorkbenchActionConstants.M_WINDOW + IWorkbenchActionConstants.SEP
+		String path = IWorkbenchActionConstants.M_WINDOW + IWorkbenchActionConstants.SEP //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ IWorkbenchActionConstants.M_LAUNCH;
 		IMenuManager manager = getMenuBarManager().findMenuUsingPath(path);
 		IContributionItem item = getMenuBarManager().findUsingPath(path);
@@ -2600,7 +2600,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 	private final void fireActionSetsChanged() {
 		if (actionSetListeners != null) {
-			for (Object listener : actionSetListeners.getListeners()) {
+			for (Object listener : actionSetListeners.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IActionSetsListener actionSetsListener = (IActionSetsListener) listener;
 				final WorkbenchPage currentPage = (WorkbenchPage) getActivePage();
 				final IActionSetDescriptor[] newActionSets;
@@ -2640,7 +2640,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 */
 	private boolean getShowHeapStatus() {
 		return // Show if the preference is set or debug option is on
-		PrefUtil.getAPIPreferenceStore().getBoolean(IWorkbenchPreferenceConstants.SHOW_MEMORY_MONITOR) || Boolean.parseBoolean(Platform.getDebugOption(PlatformUI.PLUGIN_ID + "/perf/showHeapStatus")); //$NON-NLS-1$
+		PrefUtil.getAPIPreferenceStore().getBoolean(IWorkbenchPreferenceConstants.SHOW_MEMORY_MONITOR) || Boolean.parseBoolean(Platform.getDebugOption(PlatformUI.PLUGIN_ID + "/perf/showHeapStatus")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public void showHeapStatus(boolean show) {
@@ -2904,7 +2904,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * Initializes all of the default command-based services for the workbench
 	 * window.
 	 */
-	private final void initializeDefaultServices() {
+	private final void initializeDefaultServices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEclipseContext windowContext = model.getContext();
 		serviceLocator.registerService(IWorkbenchLocationService.class,
 				new WorkbenchLocationService(IServiceScopes.WINDOW_SCOPE, getWorkbench(), this, null, null, null, 1));
@@ -2972,7 +2972,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 
 	private void refreshToggleToolbarElements() {
 		ICommandService commandService = getService(ICommandService.class);
-		Map<String, WorkbenchWindow> filter = new HashMap<>();
+		Map<String, WorkbenchWindow> filter = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		filter.put(IServiceScopes.WINDOW_SCOPE, this);
 		commandService.refreshElements(COMMAND_ID_TOGGLE_COOLBAR, filter);
 	}
@@ -2995,7 +2995,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 */
 	private boolean resolveTrimVisibility(String key) {
 		Map<String, String> state = getModel().getPersistedState();
-		String overrideKey = key + TRIM_OVERRIDE_SUFFIX;
+		String overrideKey = key + TRIM_OVERRIDE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		// older versions copied the preference here, so only a hidden bar was a user choice
 		String legacy = state.remove(key);
 		if (legacy != null && !Boolean.parseBoolean(legacy)) {
@@ -3012,7 +3012,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	 * Stores a per-window choice, or removes it when it equals the preference.
 	 */
 	private void recordTrimOverride(String key, boolean visible) {
-		String overrideKey = key + TRIM_OVERRIDE_SUFFIX;
+		String overrideKey = key + TRIM_OVERRIDE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (visible == PrefUtil.getInternalPreferenceStore().getBoolean(key)) {
 			getModel().getPersistedState().remove(overrideKey);
 		} else {
@@ -3023,7 +3023,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	/**
 	 * Follows preference changes, for example from a theme.
 	 */
-	private void preferredTrimVisibilityChanged(PropertyChangeEvent event) {
+	private void preferredTrimVisibilityChanged(PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String key = event.getProperty();
 		if (!IPreferenceConstants.COOLBAR_VISIBLE.equals(key)
 				&& !IPreferenceConstants.PERSPECTIVEBAR_VISIBLE.equals(key)) {
@@ -3033,7 +3033,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		if (display == null || display.isDisposed()) {
 			return;
 		}
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			Shell shell = getShell();
 			if (destroyed || closing || (shell != null && shell.isDisposed())) {
 				return;
@@ -3063,7 +3063,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 	}
 
 	/* package */void fireBackgroundSaveStarted() {
-		for (Object listener : backgroundSaveListeners.getListeners()) {
+		for (Object listener : backgroundSaveListeners.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IBackgroundSaveListener backgroundSaveListener = (IBackgroundSaveListener) listener;
 			backgroundSaveListener.handleBackgroundSaveStarted();
 		}
@@ -3131,7 +3131,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Boolean getVisible(IContributionItem item) {
 			if (page == null) {
 				return null;
@@ -3149,7 +3149,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 			}
 
 			String hiddenToolItems = page.getHiddenItems();
-			if (hiddenToolItems.contains(ModeledPageLayout.HIDDEN_TOOLBAR_PREFIX + id + ",")) { //$NON-NLS-1$
+			if (hiddenToolItems.contains(ModeledPageLayout.HIDDEN_TOOLBAR_PREFIX + id + ",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return Boolean.FALSE;
 			}
 			return null;
@@ -3196,7 +3196,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Boolean getVisible(IContributionItem item) {
 			if (page == null) {
 				return null;
@@ -3214,7 +3214,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 			}
 
 			String hiddenToolItems = page.getHiddenItems();
-			if (hiddenToolItems.contains(ModeledPageLayout.HIDDEN_MENU_PREFIX + id + ",")) { //$NON-NLS-1$
+			if (hiddenToolItems.contains(ModeledPageLayout.HIDDEN_MENU_PREFIX + id + ",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return Boolean.FALSE;
 			}
 			return null;
@@ -3241,7 +3241,7 @@ public class WorkbenchWindow implements IWorkbenchWindow {
 		return new CustomizePerspectiveDialog(getWindowConfigurer(), persp, context);
 	}
 
-	private class WWinPartService extends PartService {
+	private class WWinPartService extends PartService { //FLLDCIM: MARK — T32  IMPLEMENTS
 
 		@Override
 		public void partActivated(IWorkbenchPart part) {

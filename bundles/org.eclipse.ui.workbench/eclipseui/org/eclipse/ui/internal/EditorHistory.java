@@ -36,7 +36,7 @@ public class EditorHistory {
 	/**
 	 * The list of editor entries, in FIFO order.
 	 */
-	private final ArrayList<EditorHistoryItem> fifoList = new ArrayList<>(MAX_SIZE);
+	private final ArrayList<EditorHistoryItem> fifoList = new ArrayList<>(MAX_SIZE); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Constructs a new history.
@@ -90,7 +90,7 @@ public class EditorHistory {
 	 */
 	public void refresh() {
 		Iterator<EditorHistoryItem> iter = fifoList.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EditorHistoryItem item = iter.next();
 			if (item.isRestored()) {
 				IEditorInput input = item.getInput();
@@ -116,7 +116,7 @@ public class EditorHistory {
 			return;
 		}
 		Iterator<EditorHistoryItem> iter = fifoList.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EditorHistoryItem item = iter.next();
 			if (item.matches(input)) {
 				iter.remove();
@@ -130,7 +130,7 @@ public class EditorHistory {
 	 * @param memento the memento to restore the mru history from
 	 */
 	public IStatus restoreState(IMemento memento) {
-		for (IMemento childMemento : memento.getChildren(IWorkbenchConstants.TAG_FILE)) {
+		for (IMemento childMemento : memento.getChildren(IWorkbenchConstants.TAG_FILE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EditorHistoryItem item = new EditorHistoryItem(childMemento);
 			if (!"".equals(item.getName()) || !"".equals(item.getToolTipText())) { //$NON-NLS-1$ //$NON-NLS-2$
 				add(item, fifoList.size());
@@ -145,7 +145,7 @@ public class EditorHistory {
 	 * @param memento the memento to save the mru history in
 	 */
 	public IStatus saveState(IMemento memento) {
-		for (EditorHistoryItem item : fifoList) {
+		for (EditorHistoryItem item : fifoList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.canSave()) {
 				IMemento itemMemento = memento.createChild(IWorkbenchConstants.TAG_FILE);
 				item.saveState(itemMemento);

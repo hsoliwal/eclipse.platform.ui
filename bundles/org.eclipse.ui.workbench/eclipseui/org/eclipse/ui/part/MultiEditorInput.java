@@ -75,8 +75,8 @@ public class MultiEditorInput implements IEditorInput {
 
 	@Override
 	public String getName() {
-		StringBuilder name = new StringBuilder();
-		for (int i = 0; i < (input.length - 1); i++) {
+		StringBuilder name = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < (input.length - 1); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			name.append(input[i].getName()).append("/"); //$NON-NLS-1$
 		}
 		name.append(input[input.length - 1].getName());
@@ -118,10 +118,10 @@ public class MultiEditorInput implements IEditorInput {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		for (String editor : editors) {
+		for (String editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hash = hash * 37 + editor.hashCode();
 		}
-		for (IEditorInput editorInput : input) {
+		for (IEditorInput editorInput : input) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			hash = hash * 37 + editorInput.hashCode();
 		}
 		return hash;

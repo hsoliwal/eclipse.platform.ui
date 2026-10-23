@@ -22,7 +22,7 @@ package org.eclipse.jface.dialogs;
  *
  * @since 3.1
  */
-public interface IPageChangedListener {
+public interface IPageChangedListener { //FLLDCIM: MARK — T32  IMPLEMENTS
 	/**
 	 * Notifies that the selected page has changed.
 	 *

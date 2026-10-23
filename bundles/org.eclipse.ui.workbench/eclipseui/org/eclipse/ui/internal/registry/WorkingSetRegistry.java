@@ -38,7 +38,7 @@ public class WorkingSetRegistry implements IExtensionChangeHandler {
 	// @issue this is an IDE specific working set page!
 	private static final String DEFAULT_PAGE_ID = "org.eclipse.ui.resourceWorkingSetPage"; //$NON-NLS-1$
 
-	private final HashMap<String, WorkingSetDescriptor> workingSetDescriptors = new HashMap<>();
+	private final HashMap<String, WorkingSetDescriptor> workingSetDescriptors = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public WorkingSetRegistry() {
 		IExtensionTracker tracker = PlatformUI.getWorkbench().getExtensionTracker();
@@ -111,8 +111,8 @@ public class WorkingSetRegistry implements IExtensionChangeHandler {
 	 */
 	public WorkingSetDescriptor[] getNewPageWorkingSetDescriptors() {
 		Collection<WorkingSetDescriptor> descriptors = workingSetDescriptors.values();
-		List<WorkingSetDescriptor> result = new ArrayList<>(descriptors.size());
-		for (Iterator<WorkingSetDescriptor> iter = descriptors.iterator(); iter.hasNext();) {
+		List<WorkingSetDescriptor> result = new ArrayList<>(descriptors.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<WorkingSetDescriptor> iter = descriptors.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkingSetDescriptor descriptor = iter.next();
 			if (descriptor.getPageClassName() != null) {
 				result.add(descriptor);
@@ -129,7 +129,7 @@ public class WorkingSetRegistry implements IExtensionChangeHandler {
 	 */
 	public boolean hasNewPageWorkingSetDescriptor() {
 		Collection<WorkingSetDescriptor> descriptors = workingSetDescriptors.values();
-		for (Iterator<WorkingSetDescriptor> iter = descriptors.iterator(); iter.hasNext();) {
+		for (Iterator<WorkingSetDescriptor> iter = descriptors.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkingSetDescriptor descriptor = iter.next();
 			if (descriptor.getPageClassName() != null) {
 				return true;
@@ -142,8 +142,8 @@ public class WorkingSetRegistry implements IExtensionChangeHandler {
 		if (namespace == null) { // fix for Bug 84225
 			return Collections.emptyList();
 		}
-		List<WorkingSetDescriptor> result = new ArrayList<>();
-		for (WorkingSetDescriptor descriptor : workingSetDescriptors.values()) {
+		List<WorkingSetDescriptor> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (WorkingSetDescriptor descriptor : workingSetDescriptors.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (namespace.equals(descriptor.getUpdaterNamespace())) {
 				result.add(descriptor);
 			}
@@ -156,8 +156,8 @@ public class WorkingSetRegistry implements IExtensionChangeHandler {
 			return new WorkingSetDescriptor[0];
 		}
 		Collection<WorkingSetDescriptor> descriptors = workingSetDescriptors.values();
-		List<WorkingSetDescriptor> result = new ArrayList<>();
-		for (Iterator<WorkingSetDescriptor> iter = descriptors.iterator(); iter.hasNext();) {
+		List<WorkingSetDescriptor> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<WorkingSetDescriptor> iter = descriptors.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkingSetDescriptor descriptor = iter.next();
 			if (namespace.equals(descriptor.getDeclaringNamespace())) {
 				result.add(descriptor);
@@ -192,14 +192,14 @@ public class WorkingSetRegistry implements IExtensionChangeHandler {
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
 		WorkingSetRegistryReader reader = new WorkingSetRegistryReader(this);
-		for (IConfigurationElement element : extension.getConfigurationElements()) {
+		for (IConfigurationElement element : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reader.readElement(element);
 		}
 	}
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof WorkingSetDescriptor desc) {
 				workingSetDescriptors.remove(desc.getId());
 			}

@@ -74,7 +74,7 @@ public class AdvancedValidationUserApprover implements IOperationApprover, IOper
 
 	private static final int REDOING = 3;
 
-	private class StatusReportingRunnable implements IRunnableWithProgress {
+	private class StatusReportingRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 		IStatus status;
 
 		int doing;
@@ -93,7 +93,7 @@ public class AdvancedValidationUserApprover implements IOperationApprover, IOper
 		// The casts to IAdvancedUndoableOperation and
 		// IAdvancedUndoableOperation2 are safe because these types were checked
 		// in the call chain.
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IProgressMonitor pm) {
 			try {
 				switch (doing) {
@@ -149,7 +149,7 @@ public class AdvancedValidationUserApprover implements IOperationApprover, IOper
 	/*
 	 * Determine whether the operation in question is still valid.
 	 */
-	private IStatus proceedWithOperation(final IUndoableOperation operation, final IOperationHistory history,
+	private IStatus proceedWithOperation(final IUndoableOperation operation, final IOperationHistory history, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IAdaptable uiInfo, final int doing) {
 
 		// return immediately if the operation is not relevant
@@ -170,7 +170,7 @@ public class AdvancedValidationUserApprover implements IOperationApprover, IOper
 		// The next two methods make a number of UI calls, so we wrap the
 		// whole thing up in a syncExec.
 		final IStatus[] status = new IStatus[1];
-		PlatformUI.getWorkbench().getDisplay().syncExec(() -> {
+		PlatformUI.getWorkbench().getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			// Compute the undoable or redoable status
 			status[0] = computeOperationStatus(operation, uiInfo, doing);
 
@@ -216,7 +216,7 @@ public class AdvancedValidationUserApprover implements IOperationApprover, IOper
 	/*
 	 * Report the specified execution exception to the log and to the user.
 	 */
-	private void reportException(Exception e, IAdaptable uiInfo) {
+	private void reportException(Exception e, IAdaptable uiInfo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String title = WorkbenchMessages.Error;
 		String message = WorkbenchMessages.WorkbenchWindow_exceptionMessage;
 		String exceptionMessage = e.getMessage();
@@ -241,7 +241,7 @@ public class AdvancedValidationUserApprover implements IOperationApprover, IOper
 	/*
 	 * Report a non-OK status to the user
 	 */
-	private IStatus reportAndInterpretStatus(IStatus status, IAdaptable uiInfo, IUndoableOperation operation,
+	private IStatus reportAndInterpretStatus(IStatus status, IAdaptable uiInfo, IUndoableOperation operation, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int doing) {
 		// Nothing to report if we are running automated tests. We will treat
 		// warnings as if they were authorized by the user.

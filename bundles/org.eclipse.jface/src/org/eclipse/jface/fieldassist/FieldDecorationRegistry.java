@@ -191,7 +191,7 @@ public class FieldDecorationRegistry {
 			this.image = image;
 		}
 
-		FieldDecoration getDecoration() {
+		FieldDecoration getDecoration() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (decoration == null) {
 				if (image == null) {
 					if (imageRegistry == null) {
@@ -225,7 +225,7 @@ public class FieldDecorationRegistry {
 	private int maxDecorationWidth = 0;
 	private int maxDecorationHeight = 0;
 
-	private final HashMap<String, Entry> decorations = new HashMap<>();
+	private final HashMap<String, Entry> decorations = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Get the default FieldDecorationRegistry.
@@ -398,7 +398,7 @@ public class FieldDecorationRegistry {
 
 		maxDecorationHeight = 0;
 		maxDecorationWidth = 0;
-		while (entries.hasNext()) {
+		while (entries.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Image image = entries.next().getDecoration().getImage();
 			if (image != null) {
 				maxDecorationHeight = Math.max(maxDecorationHeight, image.getBounds().height);

@@ -161,7 +161,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	 *
 	 * @param parent the parent composite
 	 */
-	protected void createAdvancedControls(Composite parent) {
+	protected void createAdvancedControls(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Preferences preferences = ResourcesPlugin.getPlugin().getPluginPreferences();
 
 		if (!preferences.getBoolean(ResourcesPlugin.PREF_DISABLE_LINKING)) {
@@ -179,7 +179,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 			GridData data = setButtonLayoutData(advancedButton);
 			data.horizontalAlignment = GridData.BEGINNING;
 			advancedButton.setLayoutData(data);
-			advancedButton.addSelectionListener(new SelectionAdapter() {
+			advancedButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleAdvancedButtonSelect();
@@ -221,7 +221,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		// top level group
@@ -264,7 +264,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	 *             the undoable operation support. To supply customized file content
 	 *             for a subclass, use {@link #getInitialContents()}.
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createFile(IFile fileHandle, InputStream contents, IProgressMonitor monitor) throws CoreException {
 		SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
 		if (contents == null) {
@@ -283,7 +283,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 					// If the direct parent of the path doesn't exist, try to
 					// create the necessary directories.
 					SubMonitor loopMonitor = subMonitor.split(30);
-					for (int i = numSegments - 2; i > 0; i--) {
+					for (int i = numSegments - 2; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						loopMonitor.setWorkRemaining(i);
 						IFolder folder = root.getFolder(path.removeLastSegments(i));
 						if (!folder.exists()) {
@@ -346,7 +346,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	 * @return the created file resource, or <code>null</code> if the file was not
 	 *         created
 	 */
-	public IFile createNewFile() {
+	public IFile createNewFile() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (newFile != null) {
 			return newFile;
 		}
@@ -395,7 +395,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 				}
 			}
 
-			IRunnableWithProgress op = monitor -> {
+			IRunnableWithProgress op = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				CreateFileOperation op1 = new CreateFileOperation(newFileHandle, linkTargetPath, initialContents,
 						IDEWorkbenchMessages.WizardNewFileCreationPage_title);
 				try {
@@ -405,7 +405,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 					// accidental file deletions.
 					op1.execute(monitor, WorkspaceUndoUtil.getUIInfoAdapter(getShell()));
 				} catch (final ExecutionException e) {
-					getContainer().getShell().getDisplay().syncExec(() -> {
+					getContainer().getShell().getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (e.getCause() instanceof CoreException) {
 							ErrorDialog.openError(getContainer().getShell(), // Was
 									// Utilities.getFocusShell()
@@ -461,7 +461,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	@Deprecated
 	protected ISchedulingRule createRule(IResource resource) {
 		IResource parent = resource.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent.exists()) {
 				return resource.getWorkspace().getRuleFactory().createRule(resource);
 			}
@@ -544,7 +544,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	/**
 	 * Shows/hides the advanced option widgets.
 	 */
-	protected void handleAdvancedButtonSelect() {
+	protected void handleAdvancedButtonSelect() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell = getShell();
 		Point shellSize = shell.getSize();
 		Composite composite = (Composite) getControl();
@@ -570,7 +570,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 
 	boolean setupLinkedResourceTargetRecursiveFlag = false;
 
-	private void setupLinkedResourceTarget() {
+	private void setupLinkedResourceTarget() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!setupLinkedResourceTargetRecursiveFlag) {
 			setupLinkedResourceTargetRecursiveFlag = true;
 			try {
@@ -620,7 +620,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	 * either a previously-specified initial value or the ability to determine such
 	 * a value.
 	 */
-	protected void initialPopulateContainerNameField() {
+	protected void initialPopulateContainerNameField() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (initialContainerFullPath != null) {
 			resourceGroup.setContainerFullPath(initialContainerFullPath);
 		} else {
@@ -717,7 +717,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	 *
 	 * @return IStatus validation result from the CreateLinkedResourceGroup
 	 */
-	protected IStatus validateLinkedResource() {
+	protected IStatus validateLinkedResource() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath containerPath = resourceGroup.getContainerFullPath();
 		IPath newFilePath = containerPath.append(resourceGroup.getResource());
 		IFile newFileHandle = createFileHandle(newFilePath);
@@ -743,7 +743,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 	 * @return <code>true</code> if all controls are valid, and <code>false</code>
 	 *         if at least one is invalid
 	 */
-	protected boolean validatePage() {
+	protected boolean validatePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean valid = true;
 
 		if (!resourceGroup.areAllValuesValid()) {
@@ -769,7 +769,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 			if (containerPath == null) {
 				result = workspace.validatePath(resourceName, IResource.FILE);
 			} else {
-				result = workspace.validatePath(containerPath.toString() + IPath.SEPARATOR + resourceName,
+				result = workspace.validatePath(containerPath.toString() + IPath.SEPARATOR + resourceName, //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						IResource.FILE);
 			}
 		}
@@ -814,7 +814,7 @@ public class WizardNewFileCreationPage extends WizardPage implements Listener {
 		return valid;
 	}
 
-	private boolean isFilteredByParent() {
+	private boolean isFilteredByParent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((linkedResourceGroup == null) || linkedResourceGroup.isEnabled()) {
 			return false;
 		}

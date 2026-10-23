@@ -56,7 +56,7 @@ public class ViewDescriptor implements IViewDescriptor, IPluginContribution {
 	public IViewPart createView() throws CoreException {
 		if (element == null) {
 			throw new CoreException(new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH,
-					"Unable to create an e4 view of id " + descriptor.getElementId())); //$NON-NLS-1$
+					"Unable to create an e4 view of id " + descriptor.getElementId())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return (IViewPart) element.createExecutableExtension("class"); //$NON-NLS-1$
 	}

@@ -84,14 +84,14 @@ public class MarkerSortUtil {
 	/**
 	 * Swap the max heap element with any greater elements in rest of the array
 	 */
-	private static void adjustMaxElement(MarkerEntry[] heapArray, int first, int heapSize, int last,
+	private static void adjustMaxElement(MarkerEntry[] heapArray, int first, int heapSize, int last, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Comparator<MarkerItem> comparator) {
 		/*
 		 * we do not clear caches for heap elements when re-adjusting and
 		 * sorting this will ensure sorting remains fast
 		 */
 		int current = heapSize;
-		while (current <= last) {
+		while (current <= last) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (comparator.compare(heapArray[current], heapArray[first]) < 0) {
 				MarkerEntry tmp = heapArray[current];
 				heapArray[current] = heapArray[first];
@@ -127,14 +127,14 @@ public class MarkerSortUtil {
 	 *
 	 * @return new holeIndex
 	 */
-	private static int leafSearch(MarkerEntry[] array, int first, int position,
+	private static int leafSearch(MarkerEntry[] array, int first, int position, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
  int last,
 			Comparator<MarkerItem> comparator) {
 		int holeOffset = position - first;
 		int len = last - first;
 		int childOffset = 2 * holeOffset + 2;
 		//
-		while (childOffset < len) {
+		while (childOffset < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (comparator.compare(array[first + childOffset], array[first
 					+ (childOffset - 1)]) < 0) {
 				--childOffset;
@@ -156,13 +156,13 @@ public class MarkerSortUtil {
 	 *
 	 * @return new holeIndex
 	 */
-	private static int bottomUpSearch(MarkerEntry[] array, int first, int fromIndex,
+	private static int bottomUpSearch(MarkerEntry[] array, int first, int fromIndex, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int toIndex, MarkerEntry hole, Comparator<MarkerItem> comparator) {
 		int holeOffset = fromIndex - first;
 		int parent = (holeOffset - 1) / 2;
 		int top = toIndex - first;
 
-		while (holeOffset != top
+		while (holeOffset != top //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				&& (comparator.compare(array[first + parent], hole) < 0)) {
 			array[first + holeOffset] = array[first + parent];
 			holeOffset = parent;
@@ -232,7 +232,7 @@ public class MarkerSortUtil {
 			return;
 		}
 		int parent = (last - first - 2) / 2;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			adjustHeap(array, first, first + parent, last, comparator);
 		} while (parent-- != 0);
 	}
@@ -244,7 +244,7 @@ public class MarkerSortUtil {
  int last, Comparator<MarkerItem> comparator) {
 		//TODO:Use mergesort to convert the heap to sorted array?
 
-		while (last - first > 1) {
+		while (last - first > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// clear cache sorted and present at the end
 			array[last].clearCache();
 			// leave out the max elements at the end
@@ -270,7 +270,7 @@ public class MarkerSortUtil {
 	 * Note: if k is greater than a number,the sorting happens in batches of that
 	 * number, this for performance reasons.
 	 */
-	public static void sortStartingKElement(MarkerEntry[] entries,
+	public static void sortStartingKElement(MarkerEntry[] entries, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
  Comparator<MarkerItem> comparator, int from, int to,
 			int k, IProgressMonitor monitor) {
 		// check range valid
@@ -285,7 +285,7 @@ public class MarkerSortUtil {
 			// use arrays sort
 			Arrays.sort(entries, from, to + 1, comparator);
 			// clear cache for first to middle since we are done with sort
-			for (int i = from; i <= to; i++) {
+			for (int i = from; i <= to; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				entries[i].clearCache();
 			}
 			return;
@@ -298,7 +298,7 @@ public class MarkerSortUtil {
 		//in case k is a multiple of  BATCH_SIZE
 		int totalBatches = (k-1) / BATCH_SIZE;
 		int batchCount = 0;
-		while (totalBatches > 0) {
+		while (totalBatches > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(monitor.isCanceled()){
 				return;
 			}

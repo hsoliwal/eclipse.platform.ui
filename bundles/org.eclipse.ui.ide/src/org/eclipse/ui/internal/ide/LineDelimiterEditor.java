@@ -89,7 +89,7 @@ public class LineDelimiterEditor {
 	 * @param parent
 	 *            the parent control
 	 */
-	private void createControl(Composite parent) {
+	private void createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 		group = new Group(parent, SWT.NONE);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
@@ -122,12 +122,12 @@ public class LineDelimiterEditor {
 		data = new GridData();
 		data.horizontalSpan = 2;
 		defaultButton.setLayoutData(data);
-		defaultButton.addSelectionListener(buttonListener);
+		defaultButton.addSelectionListener(buttonListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		defaultButton.setFont(font);
 
 		otherButton = new Button(group, SWT.RADIO);
 		otherButton.setText(IDEWorkbenchMessages.IDEWorkspacePreference_otherLineDelim);
-		otherButton.addSelectionListener(buttonListener);
+		otherButton.addSelectionListener(buttonListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		otherButton.setFont(font);
 
 		choiceCombo = new Combo(group, SWT.NONE | SWT.READ_ONLY);
@@ -171,7 +171,7 @@ public class LineDelimiterEditor {
 
 	private String getKeyForValue(String value) {
 		Map<String, String> knownValues = Platform.knownPlatformLineSeparators();
-		for (Entry<String, String> entry : knownValues.entrySet()) {
+		for (Entry<String, String> entry : knownValues.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			if (entry.getValue().equals(value)) {
 				return key;
@@ -250,7 +250,7 @@ public class LineDelimiterEditor {
 	 */
 	private void selectChoice(String selection) {
 		String[] items = choiceCombo.getItems();
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String item = items[i];
 			if (item.equals(selection)) {
 				choiceCombo.select(i);
@@ -263,7 +263,7 @@ public class LineDelimiterEditor {
 	 * Store the currently selected line delimiter value in the preference
 	 * store.
 	 */
-	public void store() {
+	public void store() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String val;
 		if (defaultButton.isDisposed() || defaultButton.getSelection() || choiceCombo.getText().isEmpty()) {
 			val = null;
@@ -293,7 +293,7 @@ public class LineDelimiterEditor {
 	 */
 	public void setEnabled(boolean enabled) {
 		group.setEnabled(enabled);
-		for (Control child : group.getChildren()) {
+		for (Control child : group.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			child.setEnabled(enabled);
 		}
 	}

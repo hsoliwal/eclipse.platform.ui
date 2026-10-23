@@ -112,7 +112,7 @@ public class GlobalBuildAction extends Action implements
 	 *            <code>IncrementalProjectBuilder.INCREMENTAL_BUILD</code> or
 	 *            <code>IncrementalProjectBuilder.FULL_BUILD</code>
 	 */
-	private void setBuildType(int type) {
+	private void setBuildType(int type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// allow AUTO_BUILD as well for backwards compatibility, but treat it
 		// the same as INCREMENTAL_BUILD
 		switch (type) {
@@ -171,7 +171,7 @@ public class GlobalBuildAction extends Action implements
 	 * Invokes a build on all projects within the workspace. Reports any errors
 	 * with the build to the user.
 	 */
-	/* package */void doBuildOperation() {
+	/* package */void doBuildOperation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Job buildJob = new Job(IDEWorkbenchMessages.GlobalBuildAction_jobTitle) {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -201,7 +201,7 @@ public class GlobalBuildAction extends Action implements
 		return ResourcesPlugin.getWorkspace().getRoot().getProjects();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		if (workbenchWindow == null) {
 			// action has been disposed
@@ -230,9 +230,9 @@ public class GlobalBuildAction extends Action implements
 	 * Checks that there is at least one project with a builder registered on
 	 * it.
 	 */
-	/* package */boolean verifyBuildersAvailable(IProject[] roots) {
+	/* package */boolean verifyBuildersAvailable(IProject[] roots) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			for (IProject root : roots) {
+			for (IProject root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root.isAccessible()) {
 					if (root.getDescription().getBuildSpec().length > 0) {
 						return true;
@@ -278,7 +278,7 @@ public class GlobalBuildAction extends Action implements
 				IDEWorkbenchMessages.GlobalBuildAction_BuildRunningTitle,
 				IDEWorkbenchMessages.GlobalBuildAction_BuildRunningMessage);
 		if (cancel) {
-			for (Job job : buildJobs) {
+			for (Job job : buildJobs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				job.cancel();
 			}
 		}

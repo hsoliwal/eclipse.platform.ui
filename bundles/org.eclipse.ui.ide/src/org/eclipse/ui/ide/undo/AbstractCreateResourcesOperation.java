@@ -70,17 +70,17 @@ abstract class AbstractCreateResourcesOperation extends
 	/*
 	 * This implementation documents the impending create or delete.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateResourceChangeDescriptionFactory(
 			IResourceChangeDescriptionFactory factory, int operation) {
 		boolean modified = false;
 		if (operation == UNDO) {
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				factory.delete(resource);
 				modified = true;
 			}
 		} else {
-			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) {
+			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resourceDescription != null) {
 					IResource resource = resourceDescription.createResourceHandle();
 					factory.create(resource);

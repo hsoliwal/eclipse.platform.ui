@@ -64,7 +64,7 @@ public class BuildSetMenu extends ContributionItem {
 	 * @param index the index to add it at
 	 */
 	private void addMnemonic(BuildSetAction action, int index) {
-		StringBuilder label = new StringBuilder();
+		StringBuilder label = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		//add the numerical accelerator
 		if (index < 9) {
 			label.append('&');
@@ -78,7 +78,7 @@ public class BuildSetMenu extends ContributionItem {
 	@Override
 	public void fill(Menu menu, int index) {
 		if (getParent() instanceof MenuManager) {
-			((MenuManager) getParent()).addMenuListener(menuListener);
+			((MenuManager) getParent()).addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		}
 		if (!dirty) {
 			return;
@@ -91,7 +91,7 @@ public class BuildSetMenu extends ContributionItem {
 	 * Fills the menu with Show View actions.
 	 * @param menu The menu being filled.
 	 */
-	private void fillMenu(Menu menu) {
+	private void fillMenu(Menu menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isAutoBuilding = ResourcesPlugin.getWorkspace()
 				.isAutoBuilding();
 
@@ -105,7 +105,7 @@ public class BuildSetMenu extends ContributionItem {
 		if (last != null) {
 			// add it only if it has not been removed
 			boolean found = false;
-			for (IWorkingSet set : sets) {
+			for (IWorkingSet set : sets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (set.equals(last.getWorkingSet())){
 					found = true;
 					break;
@@ -123,7 +123,7 @@ public class BuildSetMenu extends ContributionItem {
 			}
 		}
 		//add build actions for the most recently used working sets
-		for (IWorkingSet set : sets) {
+		for (IWorkingSet set : sets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (lastSet != null && lastSet.equals(set)) {
 				continue;
 			}

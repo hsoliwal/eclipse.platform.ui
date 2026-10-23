@@ -131,7 +131,7 @@ public class ComboBoxCellEditor extends AbstractComboBoxCellEditor {
 		populateComboBoxItems();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createControl(Composite parent) {
 
 		comboBox = new CCombo(parent, getStyle());
@@ -139,7 +139,7 @@ public class ComboBoxCellEditor extends AbstractComboBoxCellEditor {
 
 		populateComboBoxItems();
 
-		comboBox.addKeyListener(new KeyAdapter() {
+		comboBox.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			// hook key pressed - see PR 14201
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -147,7 +147,7 @@ public class ComboBoxCellEditor extends AbstractComboBoxCellEditor {
 			}
 		});
 
-		comboBox.addSelectionListener(new SelectionAdapter() {
+		comboBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
 				applyEditorValueAndDeactivate();
@@ -159,14 +159,14 @@ public class ComboBoxCellEditor extends AbstractComboBoxCellEditor {
 			}
 		});
 
-		comboBox.addTraverseListener(e -> {
+		comboBox.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_ESCAPE
 					|| e.detail == SWT.TRAVERSE_RETURN) {
 				e.doit = false;
 			}
 		});
 
-		comboBox.addFocusListener(new FocusAdapter() {
+		comboBox.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(FocusEvent e) {
 				ComboBoxCellEditor.this.focusLost();
@@ -229,7 +229,7 @@ public class ComboBoxCellEditor extends AbstractComboBoxCellEditor {
 		Assert.isTrue(comboBox != null);
 		String valueType = value == null ? "null" : value.getClass().getName(); //$NON-NLS-1$
 		Assert.isTrue(value instanceof Integer,
-				"ComboBoxCellEditor expects an Integer value but got " + valueType); //$NON-NLS-1$
+				"ComboBoxCellEditor expects an Integer value but got " + valueType); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		selection = ((Integer) value).intValue();
 		comboBox.select(selection);
 	}
@@ -240,7 +240,7 @@ public class ComboBoxCellEditor extends AbstractComboBoxCellEditor {
 	private void populateComboBoxItems() {
 		if (comboBox != null && items != null) {
 			comboBox.removeAll();
-			for (int i = 0; i < items.length; i++) {
+			for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				comboBox.add(items[i], i);
 			}
 
@@ -252,7 +252,7 @@ public class ComboBoxCellEditor extends AbstractComboBoxCellEditor {
 	/**
 	 * Applies the currently selected value and deactivates the cell editor
 	 */
-	void applyEditorValueAndDeactivate() {
+	void applyEditorValueAndDeactivate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// must set the selection before getting value
 		selection = comboBox.getSelectionIndex();
 		Object newValue = doGetValue();

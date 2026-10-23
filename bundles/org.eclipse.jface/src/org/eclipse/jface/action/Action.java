@@ -387,7 +387,7 @@ public abstract class Action extends AbstractAction {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int getStyle() {
 		// Infer the style from the value field.
 		if (value == VAL_PUSH_BTN || value == null) {
@@ -484,7 +484,7 @@ public abstract class Action extends AbstractAction {
 		actionDefinitionId = id;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setChecked(boolean checked) {
 		Object newValue = null;
 
@@ -593,7 +593,7 @@ public abstract class Action extends AbstractAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setText(String text) {
 		String oldText = this.text;
 		int oldAccel = this.accelerator;

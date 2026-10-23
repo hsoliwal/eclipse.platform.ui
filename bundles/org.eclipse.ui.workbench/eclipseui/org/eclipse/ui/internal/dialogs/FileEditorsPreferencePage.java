@@ -100,7 +100,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	 * @param newName      the new name
 	 * @param newExtension the new extension
 	 */
-	public void addResourceType(String newName, String newExtension) {
+	public void addResourceType(String newName, String newExtension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Either a file name or extension must be provided
 		Assert.isTrue(
 				(newName != null && newName.length() != 0) || (newExtension != null && newExtension.length() != 0));
@@ -114,14 +114,14 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 		}
 
 		// Find the index at which to insert the new entry.
-		String newFilename = (newName + (newExtension == null || newExtension.isEmpty() ? "" : "." + newExtension)) //$NON-NLS-1$ //$NON-NLS-2$
+		String newFilename = (newName + (newExtension == null || newExtension.isEmpty() ? "" : "." + newExtension)) //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				.toUpperCase();
 		IFileEditorMapping resourceType;
 		TableItem[] items = resourceTypeTable.getItems();
 		boolean found = false;
 		int i = 0;
 
-		while (i < items.length && !found) {
+		while (i < items.length && !found) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resourceType = (IFileEditorMapping) items[i].getData();
 			int result = newFilename.compareToIgnoreCase(resourceType.getLabel());
 			if (result == 0) {
@@ -151,10 +151,10 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	/**
 	 * Creates the page's UI content.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
-		imagesToDispose = new ArrayList<>();
-		editorsToImages = new HashMap<>(50);
+		imagesToDispose = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		editorsToImages = new HashMap<>(50); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		// define container & its gridding
 		Composite pageComponent = new Composite(parent, SWT.NULL);
@@ -186,8 +186,8 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 		label.setLayoutData(data);
 
 		resourceTypeTable = new Table(pageComponent, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-		resourceTypeTable.addListener(SWT.Selection, this);
-		resourceTypeTable.addListener(SWT.DefaultSelection, this);
+		resourceTypeTable.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		resourceTypeTable.addListener(SWT.DefaultSelection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data = new GridData(GridData.FILL_HORIZONTAL);
 
 		int availableRows = DialogUtil.availableRows(pageComponent);
@@ -207,12 +207,12 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 
 		addResourceTypeButton = new Button(groupComponent, SWT.PUSH);
 		addResourceTypeButton.setText(WorkbenchMessages.FileEditorPreference_add);
-		addResourceTypeButton.addListener(SWT.Selection, this);
+		addResourceTypeButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(addResourceTypeButton);
 
 		removeResourceTypeButton = new Button(groupComponent, SWT.PUSH);
 		removeResourceTypeButton.setText(WorkbenchMessages.FileEditorPreference_remove);
-		removeResourceTypeButton.addListener(SWT.Selection, this);
+		removeResourceTypeButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(removeResourceTypeButton);
 
 		// Spacer
@@ -231,8 +231,8 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 		editorLabel.setLayoutData(data);
 
 		editorTable = new Table(pageComponent, SWT.MULTI | SWT.BORDER);
-		editorTable.addListener(SWT.Selection, this);
-		editorTable.addListener(SWT.DefaultSelection, this);
+		editorTable.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		editorTable.addListener(SWT.DefaultSelection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = editorTable.getItemHeight() * 7;
 		editorTable.setLayoutData(data);
@@ -249,18 +249,18 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 
 		addEditorButton = new Button(groupComponent, SWT.PUSH);
 		addEditorButton.setText(WorkbenchMessages.FileEditorPreference_addEditor);
-		addEditorButton.addListener(SWT.Selection, this);
+		addEditorButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		addEditorButton.setLayoutData(data);
 		setButtonLayoutData(addEditorButton);
 
 		removeEditorButton = new Button(groupComponent, SWT.PUSH);
 		removeEditorButton.setText(WorkbenchMessages.FileEditorPreference_removeEditor);
-		removeEditorButton.addListener(SWT.Selection, this);
+		removeEditorButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(removeEditorButton);
 
 		defaultEditorButton = new Button(groupComponent, SWT.PUSH);
 		defaultEditorButton.setText(WorkbenchMessages.FileEditorPreference_default);
-		defaultEditorButton.addListener(SWT.Selection, this);
+		defaultEditorButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setButtonLayoutData(defaultEditorButton);
 
 		fillResourceTypeTable();
@@ -286,13 +286,13 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	public void dispose() {
 		super.dispose();
 		if (imagesToDispose != null) {
-			for (Image image : imagesToDispose) {
+			for (Image image : imagesToDispose) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			imagesToDispose = null;
 		}
 		if (editorsToImages != null) {
-			for (Image image : editorsToImages.values()) {
+			for (Image image : editorsToImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			editorsToImages = null;
@@ -308,11 +308,11 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 		return WorkbenchPlugin.getDefault().getPreferenceStore();
 	}
 
-	protected void fillEditorTable() {
+	protected void fillEditorTable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		editorTable.removeAll();
 		FileEditorMapping resourceType = getSelectedResourceType();
 		if (resourceType != null) {
-			for (IEditorDescriptor editor : resourceType.getEditors()) {
+			for (IEditorDescriptor editor : resourceType.getEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TableItem item = new TableItem(editorTable, SWT.NULL);
 				item.setData(DATA_EDITOR, editor);
 				// Check if it is the default editor
@@ -322,7 +322,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 				}
 
 				if (defaultString != null) {
-					item.setText(editor.getLabel() + " " + defaultString); //$NON-NLS-1$
+					item.setText(editor.getLabel() + " " + defaultString); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
 					item.setText(editor.getLabel());
 				}
@@ -332,12 +332,12 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 			// now add any content type editors
 			EditorRegistry registry = (EditorRegistry) WorkbenchPlugin.getDefault().getEditorRegistry();
 			IContentType[] contentTypes = Platform.getContentTypeManager().findContentTypesFor(resourceType.getLabel());
-			for (IContentType contentType : contentTypes) {
-				for (IEditorDescriptor editor : registry.getEditorsForContentType(contentType)) {
+			for (IContentType contentType : contentTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorDescriptor editor : registry.getEditorsForContentType(contentType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// don't add duplicates
 					TableItem[] items = editorTable.getItems();
 					TableItem foundItem = null;
-					for (TableItem item : items) {
+					for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (item.getData(DATA_EDITOR).equals(editor)) {
 							foundItem = item;
 							break;
@@ -377,7 +377,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	protected void fillResourceTypeTable() {
 		// Populate the table with the items
 		IFileEditorMapping[] array = WorkbenchPlugin.getDefault().getEditorRegistry().getFileEditorMappings();
-		for (int i = 0; i < array.length; i++) {
+		for (int i = 0; i < array.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FileEditorMapping mapping = (FileEditorMapping) array[i];
 			mapping = (FileEditorMapping) mapping.clone(); // want a copy
 			newResourceTableItem(mapping, i, false);
@@ -409,8 +409,8 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 			return null;
 		}
 		if (editorTable.getItemCount() > 0) {
-			ArrayList<IEditorDescriptor> editorList = new ArrayList<>();
-			for (int i = 0; i < editorTable.getItemCount(); i++) {
+			ArrayList<IEditorDescriptor> editorList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i = 0; i < editorTable.getItemCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				editorList.add((IEditorDescriptor) editorTable.getItem(i).getData(DATA_EDITOR));
 			}
 
@@ -419,7 +419,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void handleEvent(Event event) {
 		if (event.widget == addResourceTypeButton) {
 			promptForResourceType();
@@ -452,7 +452,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	 * Create a new <code>TableItem</code> to represent the resource type editor
 	 * description supplied.
 	 */
-	protected TableItem newResourceTableItem(IFileEditorMapping mapping, int index, boolean selected) {
+	protected TableItem newResourceTableItem(IFileEditorMapping mapping, int index, boolean selected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Image image = mapping.getImageDescriptor().createImage(false);
 		if (image != null) {
 			imagesToDispose.add(image);
@@ -480,7 +480,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	public boolean performOk() {
 		TableItem[] items = resourceTypeTable.getItems();
 		FileEditorMapping[] resourceTypes = new FileEditorMapping[items.length];
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resourceTypes[i] = (FileEditorMapping) (items[i].getData());
 		}
 		EditorRegistry registry = (EditorRegistry) WorkbenchPlugin.getDefault().getEditorRegistry(); // cast to allow
@@ -496,7 +496,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	/**
 	 * Prompt for editor.
 	 */
-	public void promptForEditor() {
+	public void promptForEditor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		EditorSelectionDialog dialog = new EditorSelectionDialog(getControl().getShell());
 		dialog.setEditorsToFilter(getAssociatedEditors());
 		dialog.setMessage(NLS.bind(WorkbenchMessages.Choose_the_editor_for_file, getSelectedResourceType().getLabel()));
@@ -508,7 +508,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 				TableItem item = new TableItem(editorTable, SWT.NULL, i);
 				item.setData(DATA_EDITOR, editor);
 				if (isEmpty) {
-					item.setText(editor.getLabel() + " " + WorkbenchMessages.FileEditorPreference_defaultLabel); //$NON-NLS-1$
+					item.setText(editor.getLabel() + " " + WorkbenchMessages.FileEditorPreference_defaultLabel); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
 					item.setText(editor.getLabel());
 				}
@@ -542,11 +542,11 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	/**
 	 * Remove the editor from the table
 	 */
-	public void removeSelectedEditor() {
+	public void removeSelectedEditor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TableItem[] items = editorTable.getSelection();
 		boolean defaultEditor = editorTable.getSelectionIndex() == 0;
 		if (items.length > 0) {
-			for (TableItem item : items) {
+			for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getSelectedResourceType().removeEditor((EditorDescriptor) item.getData(DATA_EDITOR));
 				item.dispose();
 			}
@@ -555,7 +555,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 			TableItem item = editorTable.getItem(0);
 			// explicitly set the first editor as the default
 			getSelectedResourceType().setDefaultEditor((EditorDescriptor) item.getData(DATA_EDITOR));
-			item.setText(((EditorDescriptor) (item.getData(DATA_EDITOR))).getLabel() + " " //$NON-NLS-1$
+			item.setText(((EditorDescriptor) (item.getData(DATA_EDITOR))).getLabel() + " " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ WorkbenchMessages.FileEditorPreference_defaultLabel);
 			if (!isEditorRemovable(item)) {
 				setLockedItemText(item, item.getText());
@@ -568,7 +568,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	 * Remove the type from the table
 	 */
 	public void removeSelectedResourceType() {
-		for (TableItem item : resourceTypeTable.getSelection()) {
+		for (TableItem item : resourceTypeTable.getSelection()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.dispose();
 		}
 		// Clear out the editors too
@@ -578,7 +578,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 	/**
 	 * Add the selected editor to the default list.
 	 */
-	public void setSelectedEditorAsDefault() {
+	public void setSelectedEditorAsDefault() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TableItem[] items = editorTable.getSelection();
 		if (items.length > 0) {
 			// First change the label of the old default
@@ -598,7 +598,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 			if (fromContentType != null) {
 				item.setData(DATA_FROM_CONTENT_TYPE, fromContentType);
 			}
-			item.setText(editor.getLabel() + " " + WorkbenchMessages.FileEditorPreference_defaultLabel); //$NON-NLS-1$
+			item.setText(editor.getLabel() + " " + WorkbenchMessages.FileEditorPreference_defaultLabel); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			item.setImage(getImage(editor));
 			if (!isEditorRemovable(item)) {
 				setLockedItemText(item, item.getText());
@@ -635,7 +635,7 @@ public class FileEditorsPreferencePage extends PreferencePage implements IWorkbe
 			return false;
 		}
 
-		for (TableItem item : items) {
+		for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isEditorRemovable(item)) {
 				return false;
 			}
