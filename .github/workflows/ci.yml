@@ -33,7 +33,7 @@ jobs:
       contents: read
     env:
       AGGREGATOR_SHA: 78ad2a3326d7d304cb0a94d7c547f44240f80fe4
-      SWT_CORRECTION_SHA: 483af23f7bb58a06223aad61a79795cc2047d97f
+      SWT_CORRECTION_SHA: 026e1515b0ba60588b9152e64e339f137203e966
       PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
       PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       UI_BASE_REPOSITORY: ${{ github.event.pull_request.base.repo.full_name }}
