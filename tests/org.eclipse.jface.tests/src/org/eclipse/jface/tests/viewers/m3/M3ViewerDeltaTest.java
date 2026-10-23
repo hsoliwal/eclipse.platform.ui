@@ -65,6 +65,22 @@ public class M3ViewerDeltaTest {
 	}
 
 	@Test
+	public void selfAppendCopiesOnlyTheOriginalOperations() {
+		String[] changed = { "label" }; //$NON-NLS-1$
+		M3ViewerDelta delta = new M3ViewerDelta().add("root", "a", 2).update("b", changed).remove("c"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		delta.append(delta);
+		assertEquals(6, delta.size());
+		for (int i = 0; i < 3; i++) {
+			assertEquals(delta.kind(i), delta.kind(i + 3));
+			assertEquals(delta.element(i), delta.element(i + 3));
+			assertEquals(delta.parent(i), delta.parent(i + 3));
+			assertEquals(delta.index(i), delta.index(i + 3));
+			assertArrayEquals(delta.properties(i), delta.properties(i + 3));
+		}
+		assertFalse(delta.isEmpty());
+	}
+
+	@Test
 	public void rejectsNullElementsAndBadIndexes() {
 		M3ViewerDelta d = new M3ViewerDelta();
 		assertThrows(IllegalArgumentException.class, () -> d.add("p", null, 0));
@@ -93,4 +109,38 @@ public class M3ViewerDeltaTest {
 		assertEquals("gamma", delta.element(6));
 		assertEquals(1, other.size());
 	}
+
+	@Test
+	public void emptySelfAppendIsAnIdentity() {
+		M3ViewerDelta delta = new M3ViewerDelta();
+		assertSame(delta, delta.append(delta));
+		assertTrue(delta.isEmpty());
+	}
+
+	@Test
+	public void selfAppendDuplicatesOriginalLanesExactlyOnce() {
+		for (int count : new int[] { 1, 6, 8, 9, 17, 128 }) {
+			M3ViewerDelta delta = new M3ViewerDelta();
+			Object parent = new Object();
+			String[] properties = { "label" };
+			for (int i = 0; i < count; i++) {
+				switch (i % 4) {
+				case 0 -> delta.add(parent, new Object(), i);
+				case 1 -> delta.remove(new Object());
+				case 2 -> delta.update(new Object(), properties);
+				default -> delta.refresh(null);
+				}
+			}
+			assertSame(delta, delta.append(delta));
+			assertEquals(2 * count, delta.size());
+			for (int i = 0; i < count; i++) {
+				assertEquals(delta.kind(i), delta.kind(count + i));
+				assertSame(delta.element(i), delta.element(count + i));
+				assertSame(delta.parent(i), delta.parent(count + i));
+				assertEquals(delta.index(i), delta.index(count + i));
+				assertSame(delta.properties(i), delta.properties(count + i));
+			}
+		}
+	}
+
 }

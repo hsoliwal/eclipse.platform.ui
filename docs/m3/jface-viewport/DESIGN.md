@@ -57,6 +57,7 @@ The client call sequence is unchanged by construction. Only JFace-internal searc
 | A2 | AbstractTableViewer.internalRemove: `doIndexOf(item)` per removed element | O(n x k) (SWT `Table.indexOf` is a linear scan) | `M3IdentityIndex` item -> row lane, built once when k > 8 | O(n + k) |
 | A3 | AbstractTreeViewer.updateChildren: stale item disposal compacts with `System.arraycopy` per disposed item | O(n x d) | two-pointer compaction (same dispose/disassociate order) | O(n) |
 | A4 | AbstractListViewer.setSelectionToWidget: `getElementIndex` (listMap.indexOf) per element | O(n x k) | `M3FirstIndex` over the list map | O(n + k) |
+| A5 | AbstractTreeViewer.internalFindItem: depth-first recursive lookup on non-hashed trees | O(n), O(depth) Java stack | Array-child and primitive-offset stack, same preorder and callback sequence | O(n), O(depth) lane storage |
 
 Preconditions for falling back to stock: `reveal == true` (keeps the `doSetSelection(Item[])` focus semantics),
 a virtual table, an item limit (`ExpandableNode`), a `null` element in the list, or fewer than 8 elements (the scan is
@@ -163,7 +164,7 @@ See `FOSS_REUSE_DECISION.tsv` and `PROVENANCE.tsv`. In short:
 ## 10. Next leaves
 
 1. Bridge to the enhanced SWT API (`M3ItemRange`) for bulk range clears instead of `clearAll`.
-2. Layer A for `AbstractTreeViewer.setSelectionToWidget` without hash lookup, and `internalFindItem` (recursive).
+2. Layer A for `AbstractTreeViewer.setSelectionToWidget` without hash lookup. Recursive `internalFindItem` is addressed by opt-in A5, whose fixed-point hook is in the recipe.
 3. Make the Layer B worker incremental on `add`/`remove`/`update` (M3ListDiff/M3Patch from M3jdk21 #1403), not a full
    recompute.
 4. FilteredTree (`org.eclipse.ui.dialogs` / `org.eclipse.e4.ui.dialogs.filteredtree`) on `M3TreeViewerModel` when the
