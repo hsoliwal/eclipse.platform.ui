@@ -26,10 +26,15 @@ for i in range(brace,len(source)):
             break
 if end is None:raise SystemExit("unbalanced helper")
 helper=source[start:end]
-out="interface IResource { }\ninterface IMarker { long getId(); IResource getResource(); }\n"
-out+="final class M3MarkerLanes {\n"+helper+"\n}\n"
+out="final class M3MarkerLanes {\n"+helper+"\n}\n"
 pathlib.Path(sys.argv[2]).write_text(out,encoding="utf-8")
 PY
+cat > "$tmp/IResource.java" <<'JAVA'
+interface IResource { }
+JAVA
+cat > "$tmp/IMarker.java" <<'JAVA'
+interface IMarker { long getId(); IResource getResource(); }
+JAVA
 cat > "$tmp/IdentityOracle.java" <<'JAVA'
 record Resource(String path) implements IResource { }
 record Marker(long id, IResource resource) implements IMarker {
@@ -65,7 +70,7 @@ public class IdentityOracle {
 }
 JAVA
 javac --release 21 -Xlint:all -Werror -d "$tmp" \
-  "$tmp/M3MarkerLanes.java" "$tmp/IdentityOracle.java"
+  "$tmp/IResource.java" "$tmp/IMarker.java" "$tmp/M3MarkerLanes.java" "$tmp/IdentityOracle.java"
 java -cp "$tmp" IdentityOracle
 java -Xint -cp "$tmp" IdentityOracle
 echo "SOURCE_BACKED_HELPER_PASS (not Eclipse/Equinox qualification)"
