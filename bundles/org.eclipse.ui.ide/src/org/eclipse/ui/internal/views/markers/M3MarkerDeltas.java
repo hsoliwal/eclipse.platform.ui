@@ -184,6 +184,15 @@ final class M3MarkerDeltas {
 			}
 			MarkerEntry[] entries = selected.toArray(new MarkerEntry[0]);
 			Arrays.sort(entries, (a, b) -> Long.compare(a.getMarker().getId(), b.getMarker().getId()));
+			for (int index = 1; index < entries.length; index++) {
+				IMarker previous = entries[index - 1].getMarker();
+				IMarker current = entries[index].getMarker();
+				if (previous.getId() == current.getId()
+						&& !M3MarkerLanes.sameIdentity(previous, current)) {
+					fallback(new IllegalStateException("scope has identical marker IDs across resources"));
+					return Status.OK_STATUS;
+				}
+			}
 			List<M3MarkerLanes.Change> changes = new ArrayList<>();
 			MarkerGroup group = builder.getCategoryGroup();
 			int i = 0;
@@ -192,6 +201,10 @@ final class M3MarkerDeltas {
 				long left = i < shown.length ? shown[i] : Long.MAX_VALUE;
 				long right = j < entries.length ? entries[j].getMarker().getId() : Long.MAX_VALUE;
 				if (left == right) {
+					if (!M3MarkerLanes.sameIdentity(lanes.marker(left), entries[j].getMarker())) {
+						fallback(new IllegalStateException("scope switched resource at the same marker ID"));
+						return Status.OK_STATUS;
+					}
 					i++;
 					j++; // shown before and after: the marker deltas keep it current
 				} else if (left < right) {
@@ -333,6 +346,10 @@ final class M3MarkerDeltas {
 			try {
 				MarkerGroupingEntry key = group == null ? null : group.findGroupValue(marker.getType(), marker);
 				keys = M3MarkerKeys.read(marker, lanes.needsType(), keys);
+				int existing = lanes.find(keys.id);
+				if (existing >= 0 && !M3MarkerLanes.sameIdentity(lanes.marker(keys.id), marker)) {
+					return null; // original Markers grouping handles both resources
+				}
 				lanes.add(change.set(keys.id, marker, keys, key, entry));
 			} catch (CoreException e) {
 				entry.checkIfMarkerStale(); // stock skips a stale marker when grouping (Markers.groupMarkerEntries)
@@ -352,7 +369,11 @@ final class M3MarkerDeltas {
 		}
 		for (IMarkerDelta delta : event.findMarkerDeltas(null, true)) {
 			if (types.contains(delta.getType())) {
-				add(delta.getId(), (byte) delta.getKind(), delta.getMarker());
+				if (!add(delta.getId(), (byte) delta.getKind(), delta.getMarker())) {
+					clear();
+					count(FALLBACKS);
+					return false; // existing listener schedules original rebuild
+				}
 			}
 		}
 		if (size > MAX_PENDING) {
@@ -380,7 +401,7 @@ final class M3MarkerDeltas {
 		return view != null && !view.isDisposed();
 	}
 
-	private void add(long id, byte kind, IMarker marker) {
+	private boolean add(long id, byte kind, IMarker marker) {
 		int slot = find(id);
 		if (slot < 0) {
 			grow();
@@ -389,7 +410,10 @@ final class M3MarkerDeltas {
 			kinds[slot] = kind;
 			markers[slot] = marker;
 			index(id, slot);
-			return;
+			return true;
+		}
+		if (!M3MarkerLanes.sameIdentity(markers[slot], marker)) {
+			return false;
 		}
 		byte before = kinds[slot];
 		if (before == IResourceDelta.ADDED) {
@@ -400,6 +424,7 @@ final class M3MarkerDeltas {
 			kinds[slot] = (byte) (kind == IResourceDelta.REMOVED ? IResourceDelta.REMOVED : IResourceDelta.CHANGED);
 		}
 		markers[slot] = marker;
+		return true;
 	}
 
 	private int find(long id) {
