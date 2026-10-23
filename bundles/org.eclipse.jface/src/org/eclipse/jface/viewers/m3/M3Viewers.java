@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.StructuredViewerInternals;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
@@ -212,16 +213,18 @@ public final class M3Viewers {
 	/** Nanoseconds per millisecond, shared by elapsed-time and timer conversions. */
 	private static final long NANOS_PER_MILLISECOND = 1_000_000L;
 
-	/** The UI-owned queue: one pending batch and one reusable timer per viewer. */
-	private static final class Queue {
+	/** One parent-owned batch; only its admission metadata is shared by threads. */
+	private static final class Queue implements Runnable {
 		final StructuredViewer viewer;
 		final Display display;
 		final Runnable timer;
+		final Runnable activation;
 		M3ViewerDelta pending;
 		long firstPostNanos;
 		long maximumWaitNanos;
 		long dueNanos;
 		boolean lastRefreshLater;
+		boolean activationQueued;
 		boolean draining;
 		boolean disposed;
 
@@ -229,6 +232,12 @@ public final class M3Viewers {
 			this.viewer = viewer;
 			this.display = display;
 			timer = () -> wake(this);
+			activation = () -> activate(this);
+		}
+
+		@Override
+		public void run() {
+			dispose(this);
 		}
 	}
 
@@ -237,74 +246,169 @@ public final class M3Viewers {
 	 * Deltas posted within {@code delayMillis} of each other are merged; the
 	 * merged delta is applied on the UI thread after {@code delayMillis} without
 	 * a newer post, and at the latest after four times the burst's first delay.
-	 * Delivery always goes through the display's asynchronous queue, preserving
-	 * enqueue order between UI-thread and worker-thread posts.
+	 * UI and worker posts enter the same batch in admission order. Widget
+	 * delivery is asynchronous unless an explicit flush or refresh drains it.
+	 * A worker does not read viewer controls or dispatch display events. A
+	 * custom viewer without a published owning display must use
+	 * {@link #post(Display, StructuredViewer, M3ViewerDelta, int)} from a worker.
 	 *
 	 * @param viewer      the viewer
 	 * @param delta       the delta; the caller must not change it afterwards
 	 * @param delayMillis the debounce delay, 0 or more
+	 * @throws IllegalStateException if a worker posts to a custom viewer whose
+	 *         owning display is not known
 	 */
 	public static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
 		post(viewer, delta, delayMillis, false);
 	}
 
-	private static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
-		Control control = viewer.getControl();
-		if (control == null || control.isDisposed() || delta.isEmpty()) {
-			return;
-		}
-		posted = true;
-		Display display = control.getDisplay();
-		display.asyncExec(() -> enqueue(viewer, delta, Math.max(0, delayMillis), refreshLater));
+	/**
+	 * Posts using the explicitly supplied owning display. This also supports a
+	 * custom viewer with an already-created control that has not published its
+	 * display through the control hook.
+	 *
+	 * @param display the viewer's owning display
+	 * @param viewer the target viewer
+	 * @param delta the operations; do not modify after posting
+	 * @param delayMillis the debounce delay, zero or greater
+	 * @throws IllegalArgumentException if the display differs from the known owner
+	 * @since 3.43
+	 */
+	public static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta, int delayMillis) {
+		post(display, viewer, delta, delayMillis, false);
 	}
 
-	/* UI thread: only dedicated adjacent refreshLater requests may coalesce. */
-	private static void enqueue(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
-		Control control = viewer.getControl();
-		if (control == null || control.isDisposed()) {
+	private static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
+		if (delta.isEmpty()) {
 			return;
 		}
-		Queue queue = (Queue) control.getData(KEY);
-		if (queue == null) {
-			Queue created = new Queue(viewer, control.getDisplay());
-			control.setData(KEY, created);
-			control.addDisposeListener(event -> dispose(created));
-			queue = created;
+		Display display = StructuredViewerInternals.getM3Display(viewer);
+		if (display == null) {
+			Runnable state = StructuredViewerInternals.getM3DeltaQueue(viewer);
+			if (state instanceof Queue queue) {
+				display = queue.display;
+			} else {
+				if (Display.getCurrent() == null) {
+					throw new IllegalStateException("worker post requires the viewer's owning display"); //$NON-NLS-1$
+				}
+				Control control = viewer.getControl();
+				if (control == null || control.isDisposed()) {
+					return;
+				}
+				display = control.getDisplay();
+			}
 		}
-		if (queue.disposed) {
+		post(display, viewer, delta, delayMillis, refreshLater);
+	}
+
+	private static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta,
+			int delayMillis, boolean refreshLater) {
+		if (delta.isEmpty() || display.isDisposed()) {
 			return;
 		}
-		long now = System.nanoTime();
-		long delayNanos = delayMillis * NANOS_PER_MILLISECOND;
-		if (queue.pending == null) {
-			queue.pending = new M3ViewerDelta().append(delta);
-			queue.firstPostNanos = now;
-			queue.maximumWaitNanos = 4L * delayNanos;
-		} else if (!refreshLater || !queue.lastRefreshLater) {
-			queue.pending.append(delta);
+		Display owner = StructuredViewerInternals.getM3Display(viewer);
+		if (owner != null && owner != display) {
+			throw new IllegalArgumentException("display does not own the viewer"); //$NON-NLS-1$
 		}
-		queue.lastRefreshLater = refreshLater;
-		long remaining = queue.maximumWaitNanos - (now - queue.firstPostNanos);
-		queue.dueNanos = now + Math.max(0L, Math.min(delayNanos, remaining));
-		schedule(queue);
+		Runnable state = StructuredViewerInternals.getM3DeltaQueue(viewer);
+		if (state == null) {
+			state = StructuredViewerInternals.installM3DeltaQueue(viewer, new Queue(viewer, display));
+		}
+		if (state == null) {
+			return;
+		}
+		Queue queue = (Queue) state;
+		if (queue.display != display) {
+			throw new IllegalArgumentException("display differs from the viewer queue owner"); //$NON-NLS-1$
+		}
+		boolean activate;
+		synchronized (queue) {
+			if (queue.disposed) {
+				return;
+			}
+			long now = System.nanoTime();
+			long delayNanos = Math.max(0, delayMillis) * NANOS_PER_MILLISECOND;
+			if (queue.pending == null) {
+				queue.pending = new M3ViewerDelta().append(delta);
+				queue.firstPostNanos = now;
+				queue.maximumWaitNanos = 4L * delayNanos;
+			} else if (!refreshLater || !queue.lastRefreshLater) {
+				queue.pending.append(delta);
+			}
+			queue.lastRefreshLater = refreshLater;
+			long remaining = queue.maximumWaitNanos - (now - queue.firstPostNanos);
+			queue.dueNanos = now + Math.max(0L, Math.min(delayNanos, remaining));
+			activate = !queue.activationQueued;
+			queue.activationQueued = true;
+			posted = true;
+		}
+		if (activate) {
+			try {
+				display.asyncExec(queue.activation);
+			} catch (SWTException failure) {
+				// A rejected activation must not retain an unreachable pending batch.
+				dispose(queue);
+				throw failure;
+			}
+		}
+	}
+
+	/* UI thread: aliases the parent-owned queue to its original control lifetime. */
+	private static boolean bind(Queue queue) {
+		if (StructuredViewerInternals.getM3DeltaQueue(queue.viewer) != queue) {
+			dispose(queue);
+			return false;
+		}
+		Control control = queue.viewer.getControl();
+		if (control == null || control.isDisposed() || control.getDisplay() != queue.display) {
+			dispose(queue);
+			return false;
+		}
+		if (control.getData(KEY) != queue) {
+			control.setData(KEY, queue);
+			control.addDisposeListener(event -> dispose(queue));
+		}
+		return true;
+	}
+
+	private static void activate(Queue queue) {
+		synchronized (queue) {
+			queue.activationQueued = false;
+			if (queue.disposed) {
+				return;
+			}
+		}
+		if (bind(queue)) {
+			schedule(queue);
+		}
 	}
 
 	/* Reusing the runnable replaces its previous SWT timer schedule. */
 	private static void schedule(Queue queue) {
-		long remaining = Math.max(0L, queue.dueNanos - System.nanoTime());
+		long remaining;
+		synchronized (queue) {
+			if (queue.disposed || queue.pending == null || queue.draining) {
+				return;
+			}
+			remaining = Math.max(0L, queue.dueNanos - System.nanoTime());
+		}
 		long millis = (remaining + NANOS_PER_MILLISECOND - 1) / NANOS_PER_MILLISECOND;
 		queue.display.timerExec((int) Math.min(Integer.MAX_VALUE, millis), queue.timer);
 	}
 
-	/* A stale invocation observes the current burst's deadline before doing work. */
+	/* A stale invocation checks the current batch's deadline before doing work. */
 	private static void wake(Queue queue) {
-		if (queue.disposed || queue.pending == null) {
-			return;
+		boolean due;
+		synchronized (queue) {
+			if (queue.disposed || queue.pending == null || queue.draining) {
+				return;
+			}
+			due = queue.dueNanos - System.nanoTime() <= 0;
 		}
-		if (queue.dueNanos - System.nanoTime() > 0) {
-			schedule(queue);
+		if (due) {
+			drain(queue, true);
 		} else {
-			drain(queue);
+			schedule(queue);
 		}
 	}
 
@@ -314,27 +418,36 @@ public final class M3Viewers {
 		}
 	}
 
-	/* The control's dispose event releases pending element and property references. */
+	/* Disposal also closes posts admitted before the first UI activation. */
 	private static void dispose(Queue queue) {
-		queue.disposed = true;
-		queue.pending = null;
-		queue.lastRefreshLater = false;
-		cancelTimer(queue);
+		synchronized (queue) {
+			queue.disposed = true;
+			queue.pending = null;
+			queue.lastRefreshLater = false;
+			queue.activationQueued = false;
+		}
+		if (Display.getCurrent() == queue.display) {
+			cancelTimer(queue);
+		}
 	}
 
-	private static void drain(Queue queue) {
-		if (queue.draining) {
-			return;
+	private static void drain(Queue queue, boolean onlyIfDue) {
+		M3ViewerDelta delta;
+		synchronized (queue) {
+			if (queue.draining || queue.disposed || queue.pending == null) {
+				return;
+			}
+			// A worker may have extended the deadline since wake observed it.
+			if (onlyIfDue && queue.dueNanos - System.nanoTime() > 0) {
+				return;
+			}
+			delta = queue.pending;
+			queue.pending = null;
+			queue.lastRefreshLater = false;
+			queue.draining = true;
 		}
-		cancelTimer(queue);
-		M3ViewerDelta delta = queue.pending;
-		queue.pending = null;
-		queue.lastRefreshLater = false;
-		if (delta == null || queue.disposed) {
-			return;
-		}
-		queue.draining = true;
 		try {
+			cancelTimer(queue);
 			apply(queue.viewer, delta);
 		} catch (RuntimeException e) {
 			LOG.log(Level.WARNING, "viewer delta failed; refreshing the viewer", e); //$NON-NLS-1$
@@ -343,16 +456,17 @@ public final class M3Viewers {
 				queue.viewer.refresh();
 			}
 		} finally {
-			queue.draining = false;
-			if (!queue.disposed && queue.pending != null) {
-				schedule(queue);
+			synchronized (queue) {
+				queue.draining = false;
 			}
+			schedule(queue);
 		}
 	}
 
 	/**
-	 * Applies the delta queued for {@code viewer}, if any, now. The viewers call
-	 * this before every refresh. Must run on the UI thread.
+	 * Applies every delta admitted before this flush, if any, now. The viewers
+	 * call this before refresh. Off-thread flush is a no-op. A reentrant flush
+	 * leaves later posts for the next batch and never dispatches display events.
 	 *
 	 * @param viewer the viewer
 	 */
@@ -360,12 +474,13 @@ public final class M3Viewers {
 		if (!posted) {
 			return;
 		}
-		Control control = viewer.getControl();
-		if (control == null || control.isDisposed() || control.getDisplay().getThread() != Thread.currentThread()) {
+		Display current = Display.getCurrent();
+		if (current == null) {
 			return;
 		}
-		if (control.getData(KEY) instanceof Queue queue && queue.pending != null) {
-			drain(queue);
+		Runnable state = StructuredViewerInternals.getM3DeltaQueue(viewer);
+		if (state instanceof Queue queue && queue.display == current && bind(queue)) {
+			drain(queue, false);
 		}
 	}
 

@@ -44,6 +44,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
@@ -95,6 +96,50 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @see #setSelection(ISelection, boolean)
 	 */
 	private boolean preserveSelection = true;
+
+	/* Published by hookControl; worker posts never need to read a widget. */
+	private volatile Display m3Display;
+
+	/* The existing M3 queue is viewer-owned; its Runnable only releases it. */
+	private volatile Runnable m3DeltaQueue;
+	private boolean m3Disposed;
+
+	Display m3Display() {
+		return m3Display;
+	}
+
+	Runnable m3DeltaQueue() {
+		return m3DeltaQueue;
+	}
+
+	synchronized Runnable m3InstallDeltaQueue(Runnable queue) {
+		if (m3Disposed) {
+			return null;
+		}
+		if (m3DeltaQueue == null) {
+			m3DeltaQueue = queue;
+		}
+		return m3DeltaQueue;
+	}
+
+	private void m3DisposeDeltaQueue() {
+		Runnable queue;
+		synchronized (this) {
+			m3Disposed = true;
+			queue = m3DeltaQueue;
+			m3DeltaQueue = null;
+		}
+		if (queue != null) {
+			queue.run();
+		}
+	}
+
+	private boolean m3FlushBeforeRefresh() {
+		Control control = getControl();
+		boolean initiallyLive = control != null && !control.isDisposed();
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		return !initiallyLive || !control.isDisposed();
+	}
 
 	/**
 	 * Indicates whether a selection change is in progress on this viewer.
@@ -1206,6 +1251,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	@Override
 	protected void hookControl(Control control) {
 		super.hookControl(control);
+		m3Display = control.getDisplay();
 		OpenStrategy handler = new OpenStrategy(control);
 		handler.addSelectionListener(new SelectionListener() {
 			@Override
@@ -1499,7 +1545,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	@Override
 	public void refresh() {
-		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
 		Control control = getControl();
 		if (control != null) {
 			control.setRedraw(false);
@@ -1507,7 +1555,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		try {
 			refresh(getRoot());
 		} finally {
-			if (control != null) {
+			if (control != null && !control.isDisposed()) {
 				control.setRedraw(true);
 			}
 		}
@@ -1535,7 +1583,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(boolean updateLabels) {
-		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
 		refresh(getRoot(), updateLabels);
 	}
 
@@ -1552,7 +1602,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the element
 	 */
 	public void refresh(final Object element) {
-		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
 		preservingSelection(() -> internalRefresh(element));
 	}
 
@@ -1576,7 +1628,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(final Object element, final boolean updateLabels) {
-		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
 		preservingSelection(() -> internalRefresh(element, updateLabels));
 	}
 
@@ -2367,6 +2421,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	@Override
 	protected void handleDispose(DisposeEvent event) {
+		m3DisposeDeltaQueue();
 		super.handleDispose(event);
 		sorter = null;
 		comparer = null;

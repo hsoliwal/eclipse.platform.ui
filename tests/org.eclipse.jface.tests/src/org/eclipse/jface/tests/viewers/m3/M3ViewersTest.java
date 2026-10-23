@@ -1829,4 +1829,484 @@ public class M3ViewersTest {
 		}
 	}
 
+	private static final String[] REFRESH_QUEUE_FAMILIES = { "table", "list", "combo", "ccombo" };
+
+	private record RefreshQueueObservation(String scenario, String immediatelyAfterRefresh, String afterDelivery,
+			List<String> callbacks) {
+	}
+
+	private StructuredViewer refreshQueueViewer(String name, List<String> callbacks) {
+		StructuredViewer viewer = switch (name) {
+		case "table" -> new TableViewer(shell, SWT.MULTI) {
+			@Override
+			public void add(Object[] elements) {
+				for (Object element : elements) {
+					callbacks.add("add:" + element);
+				}
+				super.add(elements);
+			}
+		};
+		case "list" -> new ListViewer(shell, SWT.MULTI) {
+			@Override
+			public void add(Object... elements) {
+				for (Object element : elements) {
+					callbacks.add("add:" + element);
+				}
+				super.add(elements);
+			}
+		};
+		case "combo" -> new ComboViewer(shell, SWT.READ_ONLY) {
+			@Override
+			public void add(Object... elements) {
+				for (Object element : elements) {
+					callbacks.add("add:" + element);
+				}
+				super.add(elements);
+			}
+		};
+		case "ccombo" -> new ComboViewer(new CCombo(shell, SWT.READ_ONLY)) {
+			@Override
+			public void add(Object... elements) {
+				for (Object element : elements) {
+					callbacks.add("add:" + element);
+				}
+				super.add(elements);
+			}
+		};
+		default -> throw new IllegalArgumentException(name);
+		};
+		viewer.setLabelProvider(new LabelProvider());
+		viewer.setContentProvider(new ITreeContentProvider() {
+			@Override
+			public Object[] getElements(Object input) {
+				callbacks.add("read");
+				return roots.toArray();
+			}
+
+			@Override
+			public Object[] getChildren(Object parent) {
+				return new Object[0];
+			}
+
+			@Override
+			public Object getParent(Object element) {
+				return null;
+			}
+
+			@Override
+			public boolean hasChildren(Object element) {
+				return false;
+			}
+		});
+		viewer.setInput(roots);
+		callbacks.clear();
+		return viewer;
+	}
+
+	private RefreshQueueObservation refreshQueueObservation(String name, boolean admitted, int refreshKind,
+			boolean updateLabels, boolean reveal) {
+		roots.clear();
+		setUpRoots();
+		List<String> callbacks = new ArrayList<>();
+		StructuredViewer viewer = refreshQueueViewer(name, callbacks);
+		try {
+			roots.add("q");
+			M3Viewers.post(viewer, new M3ViewerDelta().add(roots, "q", -1), 60_000);
+			if (admitted) {
+				drain();
+			}
+			switch (refreshKind) {
+			case 0 -> viewer.refresh();
+			case 1 -> ((TableViewer) viewer).refresh(updateLabels, reveal);
+			case 2 -> ((TableViewer) viewer).refresh(roots, updateLabels, reveal);
+			default -> throw new IllegalArgumentException(Integer.toString(refreshKind));
+			}
+			String immediate = texts(viewer);
+			drain();
+			M3Viewers.flush(viewer);
+			return new RefreshQueueObservation(name + ":" + admitted + ":" + refreshKind + ":" + updateLabels
+					+ ":" + reveal, immediate, texts(viewer), List.copyOf(callbacks));
+		} finally {
+			viewer.getControl().dispose();
+		}
+	}
+
+	private static RefreshQueueObservation expectedRefreshQueueObservation(RefreshQueueObservation observation) {
+		return new RefreshQueueObservation(observation.scenario(), "r0 r1 r2 r3 r4 q", "r0 r1 r2 r3 r4 q",
+				List.of("add:q", "read"));
+	}
+
+	@Test
+	public void postedAddsPrecedeImmediateRefreshWithoutDispatch() {
+		List<RefreshQueueObservation> observed = new ArrayList<>();
+		List<RefreshQueueObservation> expected = new ArrayList<>();
+		for (String name : REFRESH_QUEUE_FAMILIES) {
+			RefreshQueueObservation observation = refreshQueueObservation(name, false, 0, true, false);
+			observed.add(observation);
+			expected.add(expectedRefreshQueueObservation(observation));
+		}
+		assertEquals(expected, observed, "posted additions precede an immediate refresh and are delivered exactly once");
+	}
+
+	@Test
+	public void tableRevealRefreshesFlushAdmittedDeltas() {
+		List<RefreshQueueObservation> observed = new ArrayList<>();
+		List<RefreshQueueObservation> expected = new ArrayList<>();
+		for (int refreshKind : new int[] { 1, 2 }) {
+			for (boolean reveal : new boolean[] { false, true }) {
+				RefreshQueueObservation observation = refreshQueueObservation("table", true, refreshKind, !reveal,
+						reveal);
+				observed.add(observation);
+				expected.add(expectedRefreshQueueObservation(observation));
+			}
+		}
+		assertEquals(expected, observed, "both reveal-aware overloads flush before reading the current model");
+	}
+
+	@Test
+	public void refreshAfterAsyncAdmissionDeliversEachAdditionOnce() {
+		List<RefreshQueueObservation> observed = new ArrayList<>();
+		List<RefreshQueueObservation> expected = new ArrayList<>();
+		for (String name : REFRESH_QUEUE_FAMILIES) {
+			RefreshQueueObservation observation = refreshQueueObservation(name, true, 0, true, false);
+			observed.add(observation);
+			expected.add(expectedRefreshQueueObservation(observation));
+		}
+		assertEquals(expected, observed, "the existing admitted-queue refresh path remains correct");
+	}
+
+	private record MixedPostObservation(String scenario, String afterFlush, boolean unrelatedRanDuringFlush,
+			String afterDispatch, boolean unrelatedEventuallyRan, List<String> callbacks) {
+	}
+
+	private MixedPostObservation mixedPostObservation(String name, boolean admitted) throws InterruptedException {
+		roots.clear();
+		setUpRoots();
+		List<String> callbacks = new ArrayList<>();
+		StructuredViewer viewer = refreshQueueViewer(name, callbacks);
+		Throwable[] workerFailure = { null };
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.post(viewer, new M3ViewerDelta().add(roots, "worker", -1), 60_000);
+				M3Viewers.flush(viewer);
+			} catch (Throwable failure) {
+				workerFailure[0] = failure;
+			}
+		}, "m3-refresh-worker-poster");
+		worker.setDaemon(true);
+		try {
+			roots.add("worker");
+			roots.add("ui");
+			worker.start();
+			worker.join(2_000);
+			assertFalse(worker.isAlive(), "post must not wait for the UI thread");
+			assertEquals(null, workerFailure[0], "worker post and off-thread flush must complete without widget access");
+			assertTrue(callbacks.isEmpty(), "off-thread flush must not apply a delta");
+			assertEquals("r0 r1 r2 r3 r4", texts(viewer));
+			M3Viewers.post(viewer, new M3ViewerDelta().add(roots, "ui", -1), 60_000);
+			if (admitted) {
+				drain();
+			}
+			boolean[] unrelated = { false };
+			display.asyncExec(() -> unrelated[0] = true);
+			M3Viewers.flush(viewer);
+			String afterFlush = texts(viewer);
+			boolean duringFlush = unrelated[0];
+			drain();
+			M3Viewers.flush(viewer);
+			return new MixedPostObservation(name + ":" + admitted, afterFlush, duringFlush, texts(viewer), unrelated[0],
+					List.copyOf(callbacks));
+		} finally {
+			if (worker.isAlive()) {
+				worker.interrupt();
+			}
+			viewer.getControl().dispose();
+		}
+	}
+
+	private static MixedPostObservation expectedMixedPostObservation(MixedPostObservation observation) {
+		return new MixedPostObservation(observation.scenario(), "r0 r1 r2 r3 r4 worker ui", false,
+				"r0 r1 r2 r3 r4 worker ui", true, List.of("add:worker", "add:ui"));
+	}
+
+	@Test
+	public void explicitFlushAdmitsWorkerThenUiPostsWithoutPumpingDisplay() throws InterruptedException {
+		List<MixedPostObservation> observed = new ArrayList<>();
+		List<MixedPostObservation> expected = new ArrayList<>();
+		for (String name : REFRESH_QUEUE_FAMILIES) {
+			MixedPostObservation observation = mixedPostObservation(name, false);
+			observed.add(observation);
+			expected.add(expectedMixedPostObservation(observation));
+		}
+		assertEquals(expected, observed, "explicit flush adopts every preceding post without dispatching unrelated work");
+	}
+
+	@Test
+	public void deliveredPostsKeepWorkerThenUiOrderWithoutPumpingDisplay() throws InterruptedException {
+		List<MixedPostObservation> observed = new ArrayList<>();
+		List<MixedPostObservation> expected = new ArrayList<>();
+		for (String name : REFRESH_QUEUE_FAMILIES) {
+			MixedPostObservation observation = mixedPostObservation(name, true);
+			observed.add(observation);
+			expected.add(expectedMixedPostObservation(observation));
+		}
+		assertEquals(expected, observed, "asynchronously admitted posts retain the same ordering and flush boundary");
+	}
+
+	@Test
+	public void reentrantFlushDefersIncomingPostsUntilTheOuterBatchCompletes() {
+		List<String> callbacks = new ArrayList<>();
+		TableViewer viewer = new TableViewer(shell, SWT.MULTI) {
+			@Override
+			public void remove(Object[] elements) {
+				for (Object element : elements) {
+					callbacks.add("remove:" + element);
+				}
+				super.remove(elements);
+			}
+		};
+		boolean[] armed = { false };
+		boolean[] entered = { false };
+		boolean[] unrelated = { false };
+		String[] rowsInsideCallback = { null };
+		viewer.setContentProvider(ArrayContentProvider.getInstance());
+		viewer.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (armed[0] && !entered[0] && "r1".equals(element)) {
+					entered[0] = true;
+					callbacks.add("callback-enter");
+					roots.remove("r4");
+					M3Viewers.post(viewer, new M3ViewerDelta().remove("r4"), 60_000);
+					M3Viewers.flush(viewer);
+					rowsInsideCallback[0] = texts(viewer);
+					callbacks.add("callback-exit");
+				}
+				return super.getText(element);
+			}
+		});
+		try {
+			viewer.setInput(roots);
+			armed[0] = true;
+			roots.remove("r0");
+			M3Viewers.post(viewer, new M3ViewerDelta().update("r1", null).remove("r0"), 60_000);
+			drain();
+			display.asyncExec(() -> unrelated[0] = true);
+			M3Viewers.flush(viewer);
+			assertTrue(entered[0]);
+			assertFalse(unrelated[0], "neither outer nor nested flush dispatches unrelated work");
+			assertEquals("r0 r1 r2 r3 r4", rowsInsideCallback[0]);
+			assertEquals("r1 r2 r3 r4", texts(viewer));
+			assertEquals(List.of("callback-enter", "callback-exit", "remove:r0"), callbacks);
+			drain();
+			M3Viewers.flush(viewer);
+			assertTrue(unrelated[0]);
+			assertEquals("r1 r2 r3", texts(viewer));
+			assertEquals(List.of("callback-enter", "callback-exit", "remove:r0", "remove:r4"), callbacks);
+		} finally {
+			viewer.getControl().dispose();
+		}
+	}
+
+	@Test
+	public void disposingBeforeAsyncAdmissionPreventsProviderAndDeltaCallbacks() {
+		for (String name : REFRESH_QUEUE_FAMILIES) {
+			roots.clear();
+			setUpRoots();
+			List<String> callbacks = new ArrayList<>();
+			StructuredViewer viewer = refreshQueueViewer(name, callbacks);
+			roots.add("q");
+			M3Viewers.post(viewer, new M3ViewerDelta().add(roots, "q", -1), 60_000);
+			viewer.getControl().dispose();
+			M3Viewers.flush(viewer);
+			drain();
+			M3Viewers.post(viewer, new M3ViewerDelta().refresh(null), 0);
+			M3Viewers.flush(viewer);
+			drain();
+			assertTrue(callbacks.isEmpty(), name + " disposed ingress cannot call the provider or mutate the viewer");
+		}
+	}
+
+	private record WorkerControlObservation(String postingApi, List<String> workerOutcomes, int offThreadControlReads,
+			String afterFlush, String afterDispatch) {
+	}
+
+	private WorkerControlObservation workerControlObservation(Method explicitPost) throws InterruptedException {
+		Thread owningThread = Thread.currentThread();
+		int[] offThreadControlReads = { 0 };
+		TableViewer viewer = new TableViewer(shell, SWT.MULTI) {
+			@Override
+			public Control getControl() {
+				if (Thread.currentThread() != owningThread) {
+					offThreadControlReads[0]++;
+					throw new IllegalStateException("viewer control accessed outside its UI thread");
+				}
+				return super.getControl();
+			}
+		};
+		viewer.setLabelProvider(new LabelProvider());
+		viewer.setContentProvider(ArrayContentProvider.getInstance());
+		viewer.setInput(roots);
+		// Exercise an active queue before the worker, including the old flush fast path.
+		M3Viewers.post(viewer, new M3ViewerDelta().update("r0", null), 60_000);
+		drain();
+		M3Viewers.flush(viewer);
+		List<String> outcomes = new ArrayList<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3ViewerDelta delta = new M3ViewerDelta().add(roots, "worker", -1);
+				if (explicitPost == null) {
+					M3Viewers.post(viewer, delta, 60_000);
+				} else {
+					explicitPost.invoke(null, display, viewer, delta, 60_000);
+				}
+				outcomes.add("post:complete");
+			} catch (Throwable failure) {
+				Throwable observed = failure instanceof java.lang.reflect.InvocationTargetException invocation
+						? invocation.getCause() : failure;
+				outcomes.add("post:" + observed.getClass().getName() + ":" + observed.getMessage());
+			}
+			try {
+				M3Viewers.flush(viewer);
+				outcomes.add("flush:complete");
+			} catch (Throwable failure) {
+				outcomes.add("flush:" + failure.getClass().getName() + ":" + failure.getMessage());
+			}
+		}, "m3-viewer-control-guard");
+		worker.setDaemon(true);
+		try {
+			roots.add("worker");
+			worker.start();
+			worker.join(2_000);
+			assertFalse(worker.isAlive(), "posting must not require the UI thread to dispatch an event");
+			assertEquals("r0 r1 r2 r3 r4", texts(viewer), "a worker never applies widget changes");
+			M3Viewers.flush(viewer);
+			String afterFlush = texts(viewer);
+			drain();
+			M3Viewers.flush(viewer);
+			return new WorkerControlObservation(explicitPost == null ? "implicit" : "explicit", List.copyOf(outcomes),
+					offThreadControlReads[0], afterFlush, texts(viewer));
+		} finally {
+			if (worker.isAlive()) {
+				worker.interrupt();
+			}
+			viewer.getControl().dispose();
+		}
+	}
+
+	@Test
+	public void workerPostingAndFlushNeverReadTheViewerControl() throws InterruptedException {
+		WorkerControlObservation expected = new WorkerControlObservation("implicit", List.of("post:complete", "flush:complete"),
+				0, "r0 r1 r2 r3 r4 worker", "r0 r1 r2 r3 r4 worker");
+		assertEquals(expected, workerControlObservation(null), "worker entry points do not touch the viewer control");
+	}
+
+	@Test
+	public void explicitOwningDisplayPostRetainsWorkerSafetyAndImmediateFlush() throws ReflectiveOperationException,
+			InterruptedException {
+		Method explicitPost = M3Viewers.class.getMethod("post", Display.class, StructuredViewer.class, M3ViewerDelta.class,
+				int.class);
+		WorkerControlObservation expected = new WorkerControlObservation("explicit", List.of("post:complete", "flush:complete"),
+				0, "r0 r1 r2 r3 r4 worker", "r0 r1 r2 r3 r4 worker");
+		assertEquals(expected, workerControlObservation(explicitPost), "the explicit owning-display API retains the same queue contract");
+	}
+
+	private record DisposedRefreshObservation(String scenario, boolean queuedLabelCallbackRan,
+			boolean disposedWhenRefreshReturned, String failure) {
+	}
+
+	private DisposedRefreshObservation disposedRefreshObservation(int refreshKind, boolean admitted) {
+		boolean[] updating = { false };
+		boolean[] callbackRan = { false };
+		TableViewer viewer = new TableViewer(shell, SWT.MULTI) {
+			@Override
+			public void update(Object[] elements, String[] properties) {
+				updating[0] = true;
+				try {
+					super.update(elements, properties);
+				} finally {
+					updating[0] = false;
+				}
+			}
+		};
+		viewer.setContentProvider(ArrayContentProvider.getInstance());
+		viewer.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (updating[0] && !callbackRan[0] && "r1".equals(element)) {
+					callbackRan[0] = true;
+					viewer.getControl().dispose();
+				}
+				return super.getText(element);
+			}
+		});
+		try {
+			viewer.setInput(roots);
+			M3Viewers.post(viewer, new M3ViewerDelta().update("r1", null), 60_000);
+			if (admitted) {
+				drain();
+			}
+			String failure = "none";
+			try {
+				switch (refreshKind) {
+				case 0 -> viewer.refresh();
+				case 1 -> viewer.refresh(false);
+				case 2 -> viewer.refresh(roots);
+				case 3 -> viewer.refresh(roots, false);
+				case 4 -> viewer.refresh(false, true);
+				case 5 -> viewer.refresh(roots, false, true);
+				default -> throw new IllegalArgumentException(Integer.toString(refreshKind));
+				}
+			} catch (RuntimeException exception) {
+				failure = exception.getClass().getName() + ":" + exception.getMessage();
+			}
+			return new DisposedRefreshObservation(refreshKind + ":" + admitted, callbackRan[0],
+					viewer.getControl().isDisposed(), failure);
+		} finally {
+			if (!viewer.getControl().isDisposed()) {
+				viewer.getControl().dispose();
+			}
+			drain();
+		}
+	}
+
+	@Test
+	public void refreshStopsWhenItsQueuedLabelCallbackDisposesTheControl() {
+		List<DisposedRefreshObservation> observed = new ArrayList<>();
+		List<DisposedRefreshObservation> expected = new ArrayList<>();
+		for (boolean admitted : new boolean[] { false, true }) {
+			for (int refreshKind = 0; refreshKind < 6; refreshKind++) {
+				DisposedRefreshObservation observation = disposedRefreshObservation(refreshKind, admitted);
+				observed.add(observation);
+				expected.add(new DisposedRefreshObservation(observation.scenario(), true, true, "none"));
+			}
+		}
+		assertEquals(expected, observed, "all refresh overloads stop after the queued callback disposes their control");
+	}
+
+	@Test
+	public void alreadyDisposedRefreshRetainsItsSwtExceptionContract() {
+		for (int kind = 0; kind < 6; kind++) {
+			TableViewer viewer = new TableViewer(shell, SWT.MULTI);
+			viewer.setLabelProvider(new LabelProvider());
+			viewer.setContentProvider(ArrayContentProvider.getInstance());
+			viewer.setInput(roots);
+			viewer.getControl().dispose();
+			int form = kind;
+			SWTException failure = assertThrows(SWTException.class, () -> {
+				switch (form) {
+				case 0 -> viewer.refresh();
+				case 1 -> viewer.refresh(false);
+				case 2 -> viewer.refresh(roots);
+				case 3 -> viewer.refresh(roots, false);
+				case 4 -> viewer.refresh(false, true);
+				case 5 -> viewer.refresh(roots, false, true);
+				default -> throw new AssertionError(form);
+				}
+			}, "refresh form " + form + " keeps the already-disposed widget failure");
+			assertEquals(SWTException.class, failure.getClass());
+			assertEquals(SWT.ERROR_WIDGET_DISPOSED, failure.code, "refresh form " + form);
+		}
+	}
+
 }
