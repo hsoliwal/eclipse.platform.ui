@@ -46,6 +46,8 @@ class MarkerPatternFilter extends PatternFilter {
 	public void setPattern(String patternString) {
 		this.patternString = patternString;
 		super.setPattern(patternString);
+		// M3 mode: the search text is a lane of the view's model, recomputed before the refresh that follows
+		M3MarkerDeltas.textChanged(view, isFilterEmpty() ? null : this);
 	}
 
 	/**

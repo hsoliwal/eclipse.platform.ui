@@ -3,11 +3,14 @@
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: com.synexia.openrewrite.viewport.MarkersViewDeltaHooks
-displayName: Markers view on marker deltas (M3)
+displayName: Markers view on one lane model and marker deltas (M3)
 description: >-
-  Hooks of the markers views' delta path (docs/m3/markers-view/DESIGN.md): the change listener offers the
-  IMarkerDeltas to M3MarkerDeltas before scheduling a clean rebuild; a clean rebuild supersedes pending deltas;
-  categories sort completely so deltas insert by binary search; Markers gains one replace method for the patch.
+  Hooks of the markers views' lane model and delta path (docs/m3/markers-view/DESIGN.md, PROBLEMS_VIEW.md): the
+  change listener offers the IMarkerDeltas to M3MarkerDeltas before scheduling a clean rebuild; a clean rebuild
+  supersedes pending deltas and builds M3MarkerLanes instead of the entry array; Markers answers categories, counts,
+  marker items, clones and resorts from the lanes; the total count, the content provider's windows and hasChildren
+  come from the lanes; the tree viewer exposes preservingSelection for the window patch. Every hook is inert unless
+  -Dorg.eclipse.ui.ide.markers.mode=viewport.
 recipeList:
   - com.synexia.openrewrite.viewport.M3InsertStatements:
       declaringClasses: [org.eclipse.ui.internal.views.markers.MarkersChangeListener]
@@ -22,12 +25,100 @@ recipeList:
       position: METHOD_START
       statements: "\t\tM3MarkerDeltas.supersede(this);"
   - com.synexia.openrewrite.viewport.M3InsertStatements:
-      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
-      methodName: getShowingLimit
+      declaringClasses: [org.eclipse.ui.internal.views.markers.CachedMarkerBuilder]
+      methodName: getTotalMarkerCount
+      parameterCount: 1
       position: METHOD_START
-      statements: "\t\tif (M3MarkerDeltas.fullSort()) {\n\t\t\treturn available;\n\t\t}"
+      statements: "\t\tM3MarkerLanes lanes = markers.m3;\n\t\tif (lanes != null) {\n\t\t\treturn lanes.size();\n\t\t}"
   - com.synexia.openrewrite.viewport.M3AddMemberIfMissing:
       declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
-      memberName: m3Replace
-      beforeMethod: getClone
-      memberSource: "\t/**\n\t * Replaces the model in one step with the result of a marker delta patch\n\t * (M3MarkerDeltas; docs/m3/markers-view/DESIGN.md).\n\t *\n\t * @param entries       the entries, grouped by category\n\t * @param newCategories the categories over {@code entries}\n\t * @param counts        the counts: errors, warnings, infos, others\n\t */\n\tsynchronized void m3Replace(MarkerEntry[] entries, MarkerCategory[] newCategories, Integer[] counts) {\n\t\tmarkerEntryArray = entries;\n\t\tcategories = newCategories;\n\t\tmarkerCounts = counts;\n\t\tmarkerToEntryMap = null;\n\t}\n"
+      memberName: m3
+      beforeMethod: updateWithNewMarkers
+      memberSource: "\t/**\n\t * The lane model in M3 mode (M3MarkerLanes, docs/m3/markers-view/PROBLEMS_VIEW.md); {@code null} while\n\t * the entry array is the model.\n\t */\n\tvolatile M3MarkerLanes m3;\n"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: updateWithNewMarkers
+      anchor: "if (markerEntries.isEmpty())"
+      position: BEFORE
+      statements: "\t\t\tif (M3MarkerDeltas.ENABLED) {\n\t\t\t\tm3 = sortAndGroup ? M3MarkerDeltas.build(this, markerEntries, monitor) : null;\n\t\t\t\tif (m3 != null) {\n\t\t\t\t\tcategories = m3.categories();\n\t\t\t\t\tmarkerEntryArray = EMPTY_ENTRY_ARRAY;\n\t\t\t\t\tmarkerCounts = m3.counts();\n\t\t\t\t\treturn !monitor.isCanceled();\n\t\t\t\t}\n\t\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: sortMarkerEntries
+      position: METHOD_START
+      statements: "\t\tM3MarkerLanes lanes = m3;\n\t\tif (lanes != null) {\n\t\t\tif (lanes.resort(builder.getComparator())) {\n\t\t\t\treturn true;\n\t\t\t}\n\t\t\tm3 = null;\n\t\t\tbuilder.scheduleUpdate();\n\t\t\treturn false;\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: getMarkerCounts
+      parameterCount: 0
+      position: METHOD_START
+      statements: "\t\tM3MarkerLanes lanes = m3;\n\t\tif (lanes != null) {\n\t\t\treturn lanes.counts();\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: getMarkerItem
+      position: METHOD_START
+      statements: "\t\tM3MarkerLanes lanes = m3;\n\t\tif (lanes != null) {\n\t\t\treturn lanes.item(marker);\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: getCategories
+      position: METHOD_START
+      statements: "\t\tM3MarkerLanes lanes = m3;\n\t\tif (lanes != null) {\n\t\t\treturn lanes.categories();\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: getElements
+      position: METHOD_START
+      statements: "\t\tM3MarkerLanes lanes = m3;\n\t\tif (lanes != null) {\n\t\t\treturn lanes.elements();\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.Markers]
+      methodName: getClone
+      anchor: "if (!inChange)"
+      position: BEFORE
+      statements: "\t\tmarkers.m3 = m3;\n\t\tif (markers.m3 != null) {\n\t\t\treturn markers;\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkerViewerContentProvider]
+      methodName: getChildren
+      position: METHOD_START
+      statements: "\t\tif (parentElement instanceof M3MarkerCategory category) {\n\t\t\treturn category.window(M3MarkerDeltas.limit(markersView));\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkerViewerContentProvider]
+      methodName: hasChildren
+      position: METHOD_START
+      statements: "\t\tif (element instanceof M3MarkerCategory category) {\n\t\t\treturn category.getChildrenCount() > 0;\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3AddMemberIfMissing:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkersTreeViewer]
+      memberName: m3PreservingSelection
+      beforeMethod: doUpdateItem
+      memberSource: "\t/**\n\t * Runs a window patch of the lane model (M3MarkerDeltas) the way refresh does: the selection is kept, and\n\t * selection listeners hear only of a selection that changed.\n\t *\n\t * @param patch the patch\n\t */\n\tvoid m3PreservingSelection(Runnable patch) {\n\t\tpreservingSelection(patch);\n\t}\n"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkerViewerContentProvider]
+      methodName: getElements
+      position: METHOD_START
+      statements: "\t\tif (inputElement instanceof Markers markers && markers.m3 != null && markers.m3.isFlat()) {\n\t\t\treturn markers.m3.flatWindow(M3MarkerDeltas.limit(markersView));\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.ExtendedMarkersView]
+      methodName: getStatusMessage
+      position: METHOD_START
+      statements: "\t\tM3MarkerLanes m3Lanes = markers.m3;\n\t\tif (m3Lanes != null && m3Lanes.isFlat() && getSearchFilter() == null) {\n\t\t\t// flat lane model: the counts come from the lanes, no entry per marker (same messages as below)\n\t\t\tint m3Total = m3Lanes.size();\n\t\t\tint m3Shown = applyMarkerLimit(m3Total);\n\t\t\tif (counts[0].intValue() == 0 && counts[1].intValue() == 0) {\n\t\t\t\treturn m3Shown >= m3Total ? NLS.bind(MarkerMessages.filter_itemsMessage, m3Total)\n\t\t\t\t\t\t: NLS.bind(MarkerMessages.filter_matchedMessage, m3Shown, m3Total);\n\t\t\t}\n\t\t\tString m3Message = formatSummaryBreakdown(counts);\n\t\t\treturn m3Shown >= m3Total ? m3Message\n\t\t\t\t\t: NLS.bind(MarkerMessages.problem_filter_matchedMessage, m3Message, m3Shown, m3Total);\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3AddMemberIfMissing:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.CachedMarkerBuilder]
+      memberName: m3Building
+      beforeMethod: setBuilding
+      memberSource: "\t/**\n\t * Whether a clean rebuild is running, without the change listener's receiving flag that\n\t * {@link #isBuilding()} adds: the delta path asks from inside resourceChanged (M3MarkerDeltas).\n\t *\n\t * @return whether a clean rebuild is running\n\t */\n\tboolean m3Building() {\n\t\treturn building;\n\t}\n"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkerContentGenerator]
+      methodName: requestMarkerUpdate
+      position: METHOD_START
+      statements: "\t\tif (builder != null && M3MarkerDeltas.scopeChanged(builder)) {\n\t\t\treturn;\n\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.CachedMarkerBuilder$WorkingSetListener]
+      methodName: propertyChange
+      anchor: "scheduleUpdate();"
+      position: BEFORE
+      statements: "\t\t\t\tif (M3MarkerDeltas.scopeChanged(CachedMarkerBuilder.this)) {\n\t\t\t\t\treturn;\n\t\t\t\t}"
+  - com.synexia.openrewrite.viewport.M3InsertStatements:
+      declaringClasses: [org.eclipse.ui.internal.views.markers.MarkerPatternFilter]
+      methodName: setPattern
+      parameterCount: 1
+      parameterTypes: String
+      anchor: "super.setPattern(patternString);"
+      position: AFTER
+      statements: "\t\tM3MarkerDeltas.textChanged(view, isFilterEmpty() ? null : this);"

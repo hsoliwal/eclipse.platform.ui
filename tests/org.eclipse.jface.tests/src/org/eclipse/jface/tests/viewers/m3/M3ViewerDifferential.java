@@ -239,7 +239,10 @@ public final class M3ViewerDifferential {
 		return r;
 	}
 
-	/** A model of {@code n} rows with a few equal duplicates (first-match semantics). */
+	/**
+	 * A model of {@code n} base rows plus a few additional rows. Equal duplicates
+	 * are retained for flat viewers; tree siblings must have distinct ids.
+	 */
 	void newModel(int n) {
 		model = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
@@ -247,7 +250,8 @@ public final class M3ViewerDifferential {
 		}
 		for (int d = n / 20; d > 0; d--) {
 			Row original = model.get(random.nextInt(model.size()));
-			model.add(random.nextInt(model.size()), new Row(original.id, d));
+			int at = random.nextInt(model.size());
+			model.add(at, variant.startsWith("tree") ? new Row(nextId++, 0) : new Row(original.id, d));
 		}
 		root = new Row(-1, 0);
 		root.children.addAll(model);
@@ -311,14 +315,22 @@ public final class M3ViewerDifferential {
 		Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
 		shell.setSize(420, 320);
-		shell.open();
 		try {
 			newModel(40 + random.nextInt(400));
 			StructuredViewer v = create(shell);
 			v.setInput(input());
+			shell.layout(true, true);
+			shell.open();
 			record(display, v, "setInput");
 			for (int step = 0; step < steps; step++) {
-				String op = operate(v);
+				String op;
+				try {
+					op = operate(v);
+				} catch (RuntimeException e) {
+					// a defect of the viewer under test is part of its behaviour: record it and stop this script
+					log.add(step + " exception " + e.getClass().getName() + " " + e.getMessage());
+					break;
+				}
 				record(display, v, step + " " + op);
 			}
 		} finally {
@@ -443,11 +455,17 @@ public final class M3ViewerDifferential {
 		while (display.readAndDispatch()) {
 			// let paint and deferred events run
 		}
+		Control control = v.getControl();
+		org.eclipse.swt.graphics.Point size = control.getSize();
+		if (size.x <= 0 || size.y <= 0) {
+			throw new IllegalStateException("Viewer control must have positive size: " + size);
+		}
 		StringBuilder b = new StringBuilder(op);
 		b.append(" | sel=").append(ids(v.getStructuredSelection().toList()));
 		b.append(" | ").append(calls.drain());
-		b.append(" | ").append(widgetState(v.getControl()));
-		b.append(" | px=").append(pixels(v.getControl()));
+		b.append(" | size=").append(size.x).append('x').append(size.y);
+		b.append(" | ").append(widgetState(control));
+		b.append(" | px=").append(pixels(control));
 		log.add(b.toString());
 	}
 

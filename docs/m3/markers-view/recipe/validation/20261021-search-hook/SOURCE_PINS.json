@@ -1,0 +1,191 @@
+{
+  "schema": "synexia.ui.search-hook.source-tool-pins.v1",
+  "receiving": {
+    "repository": "hsoliwal/eclipse.platform.ui",
+    "historical_Java_commit": "39c657ea05697ddff9ac19df93208cb50501dfc0",
+    "current_descriptor_only_commit": "e6d4268625d2b46ff3b0639803d4239d18b4908c",
+    "current_tree": "da0eb75f43f904b2ca51bbbd81cdcc39e8f90176",
+    "preimage_Git_blob": "a9401a5e1031173e581f70f4f54503696ecbe681",
+    "postimage_Git_blob": "2d1de18d9600d38eb27695f3173ef62bc82ecbd6",
+    "Java_inputs": [
+      {
+        "relative": "bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerViewerContentProvider.java",
+        "bytes": 4387,
+        "sha256": "23cc12885897615a230c2c7d794b3800e0ffa00e40d5d5d128e94515e6c6444d",
+        "git_blob": "54a10df2cb262cc5e3bb2fa2a9bff059b2ef9dee"
+      },
+      {
+        "relative": "bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerPatternFilter.java",
+        "bytes": 3883,
+        "sha256": "040d77e535a3d382fa7727aab3a879f5d5a8de981b5e5ed3cff0084b964493aa",
+        "git_blob": "db570fd039fd5ae73244439c2bcb8f731fa695f4"
+      },
+      {
+        "relative": "bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/M3MarkerDeltas.java",
+        "bytes": 27861,
+        "sha256": "1bbd031c719b4fad2cb030f1137f07e55d883857f9b29722c37a7108b6b58366",
+        "git_blob": "9b228dd9446b8ab7dc19d085e61dea1aef1de079"
+      },
+      {
+        "relative": "bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/M3MarkerLanes.java",
+        "bytes": 25394,
+        "sha256": "00194177b3ac3ccaa3e7d09f9c06be5652730fa0b506f0eace48468e9cdafa62",
+        "git_blob": "ba30b658e34e00e5969cdaded38679ed142f77a1"
+      },
+      {
+        "relative": "bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ExtendedMarkersView.java",
+        "bytes": 58556,
+        "sha256": "73718957d2ead8983db45279287fe6b3601eeeba4608b382a4e80b01e22046c0",
+        "git_blob": "0d78988246acacebce0848a521fcd45d2d42d4dd"
+      },
+      {
+        "relative": "bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/M3MarkerCategory.java",
+        "bytes": 2467,
+        "sha256": "dbfcc7a424f6c4d5e46b68b966d742e92ab894f2cb0b6d049989ee70dc6eb0d9",
+        "git_blob": "33d61a5ec501993e7759e2a678dd9c16663882e9"
+      }
+    ]
+  },
+  "host": {
+    "repository": "hsoliwal/com.synexia",
+    "source_commit": "b4f8ee411f4e04cb336f58744ed261b2c2810af6",
+    "source_Git_blob": "2e7747814b90c242cd89e8ecbcce61ab15825058",
+    "source_bytes": 19983,
+    "source_sha256": "5a64bd502cb8aa7d51b78813b736e37a0a7f420233f405c4d2df08ee2eefe8bc",
+    "license": "Apache-2.0",
+    "reused_major65_class_entries": [
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$1.class",
+        2984,
+        "46239f751be0a263c88411b61b26401bc7611bea9ac367565bf3f9b2af43f840"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$2.class",
+        4345,
+        "92338fdee14441d91da4f17086d60d83a38f83d88008e4bb9aaa217542da822e"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$Inventory.class",
+        1132,
+        "3eef26913ce29f7fdc4c00b364b27117de582139d341a40df544f39a6585bb87"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$Target.class",
+        1775,
+        "6cf8d1e8b23e3743b59fd3ac9273585c8a25318ea92a5adea7c6cb3a6df38fdc"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.class",
+        17508,
+        "b05e5e7e90bc6fe358f6f78d004786316d7555ac213d0fc57fe31d2a6c4265c7"
+      ]
+    ],
+    "artifact_entries": [
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$1.class",
+        2984,
+        "46239f751be0a263c88411b61b26401bc7611bea9ac367565bf3f9b2af43f840"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$2.class",
+        4345,
+        "92338fdee14441d91da4f17086d60d83a38f83d88008e4bb9aaa217542da822e"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$Inventory.class",
+        1132,
+        "3eef26913ce29f7fdc4c00b364b27117de582139d341a40df544f39a6585bb87"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe$Target.class",
+        1775,
+        "6cf8d1e8b23e3743b59fd3ac9273585c8a25318ea92a5adea7c6cb3a6df38fdc"
+      ],
+      [
+        "com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.class",
+        17508,
+        "b05e5e7e90bc6fe358f6f78d004786316d7555ac213d0fc57fe31d2a6c4265c7"
+      ],
+      [
+        "com/synexia/rewrite/hash-pinned-text/ui-search-hook-route-20261021/m3-markers-view.yml",
+        9199,
+        "45e04e374dbcea2f9d77dc3921bde7cc6bd4ceda48b5210ed716d8a2e30e09f0"
+      ],
+      [
+        "com/synexia/rewrite/hash-pinned-text/ui-search-hook-route-20261021/manifest.tsv",
+        215,
+        "104064cc6c40851338aa457eba076970e71fd93928307c9a22a74d3c74b03676"
+      ]
+    ],
+    "retained_custody_artifact_sha256": "db1dee910ebab23bfa845d8e45812450dfba1f55dbca284ee804901f72623b47",
+    "retained_actual_result_sha256": "f1f0a6dca1a84dcf305f2da384f28db2cd2dc16da98e0ab1590d23f81d9eba55",
+    "new_compile": false
+  },
+  "operational_pins": {
+    "PLAN_sha256": "91544fb6b1d4faff48dfe1bf6c7aaf5d265d3474a748c9c6d77abc7c504e87b3",
+    "adapter": {
+      "path": "K:\\codex-work\\m3jdk21-recipe-pass-20261020\\ui-search-hook-route-execution-prep-k-v1\\run_materialization.py",
+      "bytes": 19275,
+      "sha256": "7b62da860687e791c2ef40cca59b014fb19d8d661156b159211bee5d6e6eafcf"
+    },
+    "expected_exit_owner": {
+      "path": "K:\\codex-work\\m3jdk21-recipe-pass-20261020\\pr-stack-recipe-refusal-prep-k-v1\\run_refusal.py",
+      "bytes": 15761,
+      "sha256": "ad8493d5743fd412d6f7c4279c0e0b87b2ae74b2851e0fc24bb563390330080f"
+    },
+    "helpers": {
+      "recipe_helpers": {
+        "path": "K:\\codex-work\\m3jdk21-recipe-pass-20261020\\bench-header-execution-prep-k-v1\\run_existing_recipe.py",
+        "bytes": 12006,
+        "sha256": "2ffc73e2d0b3ffaf7449c49b1978c63611655a742329fe347989ff17144f4908"
+      },
+      "operational": {
+        "path": "K:\\codex-work\\claude-preservation-20261020\\bootstrap-conflict\\qualification-k-v1\\run_qualification.py",
+        "bytes": 8266,
+        "sha256": "e0513362b4240c6698fb8190a05420e9fcd6e1894a918cf54a998a5919cc34d8"
+      },
+      "owned_paths": {
+        "path": "K:\\codex-work\\agent-temp\\run_maven_version_startup_20261020.py",
+        "bytes": 8474,
+        "sha256": "6154d54fb98c78ee9f95a1262f6d4743de9ed1f44cc527ec0bd1cfc9e5d5f748"
+      },
+      "native_supervisor": {
+        "path": "S:\\codex-work\\storage-recovery-20261013\\native-process-cwd-recipe-20261016\\target\\generated\\OwnedJobSupervisor.py",
+        "bytes": 10328,
+        "sha256": "c3f5f71cacbb8b95c99eaff74b3bc787359540ad738d65a007668da6b6ad83e9"
+      }
+    }
+  },
+  "dependency_manifests": {
+    "base_Maven_PLAN": {
+      "path": "K:\\codex-work\\m3jdk21-recipe-pass-20261020\\bench-header-execution-prep-k-v1\\PLAN.json",
+      "bytes": 108057,
+      "sha256": "e6c21ef68179d3e2782fefbefee42ed1f12cdbe9e33fa3e0b8af2432f19d5ce1"
+    },
+    "host_TOOLS": {
+      "path": "K:\\codex-work\\m3jdk21-recipe-pass-20261020\\pr-stack-recipe-host-review-k-v1\\TOOL_INPUTS.json",
+      "bytes": 3993,
+      "sha256": "3d556388cdd943533adcd37f595941386406bd2a3a475108448cce5241912e23"
+    },
+    "project_GRAPH": {
+      "path": "K:\\codex-work\\m3jdk21-recipe-pass-20261020\\pr-stack-recipe-host-review-k-v1\\PROJECT_GRAPH_BINDING.json",
+      "bytes": 10476,
+      "sha256": "8067ef1b93f197290a5ab7fe90199d53770001a6fc942c73d3a88250e92ddd9f"
+    },
+    "exact_pin_set": {
+      "unique_count": 446,
+      "canonical_json_sha256": "9d22e85cd0410a9ef081e7d137dd02593bd8b4da3865769c6d6ead9f4758c2d2",
+      "composition": "Same exact collect_inputs owner; new YAML/data/runner/drift/contract/source pins plus inherited source-bound base/tool/project graph. No complete cache copy."
+    },
+    "actual_realm_counts": {
+      "installer": 2,
+      "recipe": 117
+    },
+    "actual_project_graph": {
+      "root": "com.synexia.verification:m3-ast-build-reverse-recipe-proof:jar:1",
+      "lines": 44,
+      "sha256": "fabaffc91993cd8298b5c147a79e29a00139675d22b871e4ee0900d7d0ae0b0d"
+    }
+  },
+  "boundary": "Pins identify existing private/local donor mechanisms; no full donor source, JAR, cache or private transcript is redistributed. Global invocation remains HOLD_ENVIRONMENT_AND_FIT."
+}

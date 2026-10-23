@@ -757,10 +757,10 @@ public final class LegacyActionTools {
 			if (index > 0 && text.charAt(index - 1) == '('
 					&& text.length() >= index + 3
 					&& text.charAt(index + 2) == ')') {
-				sb.append(text.substring(lastIndex, index - 1));
+				sb.append(text, lastIndex, index - 1);
 				index += 3;
 			} else {
-				sb.append(text.substring(lastIndex, index));
+				sb.append(text, lastIndex, index);
 				// skip the &
 				++index;
 			}
@@ -769,7 +769,7 @@ public final class LegacyActionTools {
 			index = text.indexOf('&', index);
 		}
 		if (lastIndex < len) {
-			sb.append(text.substring(lastIndex, len));
+			sb.append(text, lastIndex, len);
 		}
 		return sb.toString();
 	}

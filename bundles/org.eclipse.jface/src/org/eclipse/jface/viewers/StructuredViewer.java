@@ -103,6 +103,16 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 */
 	private boolean inChange;
 
+	/** True only while an M3 caller requests selection preservation. */
+	private boolean m3PreservingSelection;
+
+	/** The active M3 owner, distinct from calls made by its final listeners. */
+	private boolean m3SelectionActive;
+
+	private boolean m3SelectionRequested;
+	private ISelection m3RequestedSelection;
+	private boolean m3RequestedReveal;
+
 	/**
 	 * Used while a selection change is in progress on this viewer to indicates
 	 * whether the selection should be restored.
@@ -816,6 +826,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @see #addPostSelectionChangedListener(ISelectionChangedListener)
 	 */
 	protected void firePostSelectionChanged(final SelectionChangedEvent event) {
+		if (m3PreservingSelection && inChange) {
+			return;
+		}
 		for (ISelectionChangedListener l : postSelectionChangedListeners) {
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
@@ -1358,6 +1371,74 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		preservingSelection(updateCode, false);
 	}
 
+	/* Reuse virtual preservation, including subclass check-state ownership. */
+	void m3PreservingSelection(Runnable updateCode) {
+		if (!getPreserveSelection()) {
+			updateCode.run();
+			return;
+		}
+		boolean previous = m3PreservingSelection;
+		m3PreservingSelection = true;
+		try {
+			preservingSelection(updateCode);
+		} finally {
+			m3PreservingSelection = previous;
+		}
+	}
+
+	private void preservingM3Selection(Runnable updateCode, boolean reveal) {
+		if (m3SelectionActive) {
+			updateCode.run();
+			return;
+		}
+		if (!preserveSelection) {
+			return;
+		}
+		boolean previousInChange = inChange;
+		boolean previousRestoreSelection = restoreSelection;
+		boolean previousRequested = m3SelectionRequested;
+		ISelection previousSelection = m3RequestedSelection;
+		boolean previousReveal = m3RequestedReveal;
+		ISelection oldSelection = getSelection();
+		m3SelectionActive = true;
+		m3SelectionRequested = false;
+		m3RequestedSelection = null;
+		m3RequestedReveal = false;
+		try {
+			inChange = restoreSelection = true;
+			updateCode.run();
+		} finally {
+			try {
+				Control control = getControl();
+				if (control != null && !control.isDisposed() && (m3SelectionRequested || restoreSelection)) {
+					ISelection selection = m3SelectionRequested ? m3RequestedSelection : oldSelection;
+					boolean restoreReveal = m3SelectionRequested ? m3RequestedReveal : reveal;
+					ISelection currentSelection = getSelection();
+					boolean unchanged = selection == null ? currentSelection.isEmpty() : currentSelection.equals(selection);
+					if (restoreReveal || !unchanged) {
+						setSelectionToWidget(selection, restoreReveal);
+					}
+				}
+			} finally {
+				// Native restoration may call setSelection again through Modify.
+				// Its request wins, without replaying restoration in a loop.
+				inChange = previousInChange;
+				restoreSelection = previousRestoreSelection && restoreSelection;
+				m3SelectionActive = false;
+				m3SelectionRequested = previousRequested;
+				m3RequestedSelection = previousSelection;
+				m3RequestedReveal = previousReveal;
+			}
+			Control control = getControl();
+			if (!previousInChange && control != null && !control.isDisposed()) {
+				ISelection newSelection = getSelection();
+				if (!newSelection.equals(oldSelection)) {
+					handleInvalidSelection(oldSelection, newSelection);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Attempts to preserves the current selection across a run of the given
 	 * code, with a best effort to avoid scrolling if <code>reveal</code> is
@@ -1383,6 +1464,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 3.3
 	 */
 	void preservingSelection(Runnable updateCode, boolean reveal) {
+		if (m3PreservingSelection) {
+			preservingM3Selection(updateCode, reveal);
+			return;
+		}
 		if (!preserveSelection) {
 			return;
 		}
@@ -1414,6 +1499,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	@Override
 	public void refresh() {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		Control control = getControl();
 		if (control != null) {
 			control.setRedraw(false);
@@ -1449,6 +1535,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(boolean updateLabels) {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		refresh(getRoot(), updateLabels);
 	}
 
@@ -1465,6 +1552,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the element
 	 */
 	public void refresh(final Object element) {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		preservingSelection(() -> internalRefresh(element));
 	}
 
@@ -1488,6 +1576,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(final Object element, final boolean updateLabels) {
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		preservingSelection(() -> internalRefresh(element, updateLabels));
 	}
 
@@ -1670,6 +1759,11 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			firePostSelectionChanged(new SelectionChangedEvent(this, sel));
 		} else {
 			restoreSelection = false;
+			if (m3SelectionActive) {
+				m3SelectionRequested = true;
+				m3RequestedSelection = selection;
+				m3RequestedReveal = reveal;
+			}
 			setSelectionToWidget(selection, reveal);
 		}
 	}
@@ -2130,6 +2224,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the selection, or <code>null</code> if none
 	 */
 	protected void updateSelection(ISelection selection) {
+		if (m3PreservingSelection && inChange) {
+			return;
+		}
 		SelectionChangedEvent event = new SelectionChangedEvent(this, selection);
 		fireSelectionChanged(event);
 	}

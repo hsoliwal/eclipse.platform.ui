@@ -29,7 +29,10 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.m3.M3ViewerDelta;
+import org.eclipse.jface.viewers.m3.M3Viewers;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.internal.navigator.resources.nested.PathComparator;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 
@@ -39,6 +42,21 @@ import org.eclipse.ui.model.WorkbenchContentProvider;
 public class ResourceExtensionContentProvider extends WorkbenchContentProvider {
 
 	private static final Object[] NO_CHILDREN = new Object[0];
+	private static final String MODE_PROPERTY = "org.eclipse.ui.navigator.resources.mode"; //$NON-NLS-1$
+	private static final boolean M3_DELTA = "viewport".equals(System.getProperty(MODE_PROPERTY, "original")); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/** One immutable owner/display pair, published from the input/UI thread. */
+	private static final class Binding {
+		final Viewer viewer;
+		final Display display;
+
+		Binding(Viewer viewer, Display display) {
+			this.viewer = viewer;
+			this.display = display;
+		}
+	}
+
+	private volatile Binding binding;
 	private Viewer viewer;
 
 	public ResourceExtensionContentProvider() {
@@ -79,6 +97,19 @@ public class ResourceExtensionContentProvider extends WorkbenchContentProvider {
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		super.inputChanged(viewer, oldInput, newInput);
 		this.viewer = viewer;
+		// inputChanged runs on the viewer's UI thread. Resource delta
+		// notifications may not: publish the owning display once here.
+		Control control = viewer == null ? null : viewer.getControl();
+		binding = control == null || control.isDisposed() ? null : new Binding(viewer, control.getDisplay());
+	}
+
+	/** Called only on the published display thread. */
+	private boolean active(Binding expected) {
+		if (binding != expected) {
+			return false;
+		}
+		Control control = expected.viewer.getControl();
+		return control != null && !control.isDisposed() && control.getDisplay() == expected.display;
 	}
 
 
@@ -88,8 +119,10 @@ public class ResourceExtensionContentProvider extends WorkbenchContentProvider {
 	@Override
 	protected void processDelta(IResourceDelta delta) {
 
-		Control ctrl = viewer.getControl();
-		if (ctrl == null || ctrl.isDisposed()) {
+		// Never read Control.isDisposed/getDisplay from a resource event worker.
+		// The binding was published when the viewer acquired its input.
+		Binding expected = binding;
+		if (expected == null || expected.display.isDisposed()) {
 			return;
 		}
 
@@ -120,18 +153,17 @@ public class ResourceExtensionContentProvider extends WorkbenchContentProvider {
 			return;
 		}
 
-		//Are we in the UIThread? If so spin it until we are done
-		if (ctrl.getDisplay().getThread() == Thread.currentThread()) {
-			runUpdates(runnables);
-		} else {
-			ctrl.getDisplay().asyncExec(() -> {
-				// Abort if this happens after disposes
-				Control ctrl1 = viewer.getControl();
-				if (ctrl1 == null || ctrl1.isDisposed()) {
-					return;
-				}
-
+		// Apply only on the exact owning display, and reject stale input
+		// bindings after disposal/reparenting. A worker touches no SWT widget.
+		if (Display.getCurrent() == expected.display) {
+			if (active(expected)) {
 				runUpdates(runnables);
+			}
+		} else {
+			expected.display.asyncExec(() -> {
+				if (active(expected)) {
+					runUpdates(runnables);
+				}
 			});
 		}
 
@@ -143,12 +175,8 @@ public class ResourceExtensionContentProvider extends WorkbenchContentProvider {
 	 */
 	private void processDelta(IResourceDelta delta, Collection<Runnable> addAndRemoveRunnables,
 			Set<IResource> toRefresh) {
-		//he widget may have been destroyed
-		// by the time this is run. Check for this and do nothing if so.
-		Control ctrl = viewer.getControl();
-		if (ctrl == null || ctrl.isDisposed()) {
-			return;
-		}
+		// The root dispatcher checks the published display and the UI
+		// receiver validates the current binding just before applying.
 
 		// Get the affected resource
 		final IResource resource = delta.getResource();
@@ -263,11 +291,25 @@ public class ResourceExtensionContentProvider extends WorkbenchContentProvider {
 					treeViewer.getControl().setRedraw(false);
 				}
 				try {
-					if (addedObjects.length > 0) {
-						treeViewer.add(resource, addedObjects);
-					}
-					if (removedObjects.length > 0) {
-						treeViewer.remove(removedObjects);
+					if (M3_DELTA && !hasRename) {
+						// The same add-before-remove order as stock. M3Viewers
+						// batches adjacent lane operations into identical JFace calls.
+						M3ViewerDelta changes = new M3ViewerDelta();
+						for (Object added : addedObjects) {
+							changes.add(resource, added, -1);
+						}
+						for (Object removed : removedObjects) {
+							changes.remove(removed);
+						}
+						M3Viewers.apply(treeViewer, changes);
+					} else {
+						// Preserve the stock redraw/rename path unchanged.
+						if (addedObjects.length > 0) {
+							treeViewer.add(resource, addedObjects);
+						}
+						if (removedObjects.length > 0) {
+							treeViewer.remove(removedObjects);
+						}
 					}
 				} finally {
 					if (hasRename) {
