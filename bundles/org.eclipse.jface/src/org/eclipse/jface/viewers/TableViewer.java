@@ -372,6 +372,11 @@ public class TableViewer extends AbstractTableViewer {
 			cancelEditing();
 		}
 
+		boolean initiallyLive = !table.isDisposed();
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		if (initiallyLive && table.isDisposed()) {
+			return;
+		}
 		preservingSelection(() -> internalRefresh(element, updateLabels), reveal);
 	}
 
