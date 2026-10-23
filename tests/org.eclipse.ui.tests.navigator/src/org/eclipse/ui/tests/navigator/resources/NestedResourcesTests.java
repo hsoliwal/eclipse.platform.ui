@@ -164,14 +164,14 @@ public class NestedResourcesTests {
 		labelProvider.init(null);
 		assertEquals(-1, labelProvider.getHighestProblemSeverity(parentProject));
 		//
-		root.getWorkspace().run(_ -> {
+		root.getWorkspace().run(unused -> {
 			IMarker marker = firstChildProject.createMarker(IMarker.PROBLEM);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 		}, monitor);
 		assertTrue(DisplayHelper.waitForCondition(Display.getDefault(), TIMEOUT,
 				() -> IMarker.SEVERITY_WARNING == labelProvider.getHighestProblemSeverity(parentProject)));
 		//
-		root.getWorkspace().run(_ -> {
+		root.getWorkspace().run(unused -> {
 			IMarker marker = secondChildProject.createMarker(IMarker.PROBLEM);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 		}, monitor);
@@ -184,7 +184,7 @@ public class NestedResourcesTests {
 		assertTrue(DisplayHelper.waitForCondition(Display.getDefault(), TIMEOUT,
 				() -> IMarker.SEVERITY_WARNING == labelProvider.getHighestProblemSeverity(parentProject)));
 		//
-		root.getWorkspace().run(_ -> {
+		root.getWorkspace().run(unused -> {
 			IMarker marker = secondChildProject.createMarker(IMarker.PROBLEM);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 		}, monitor);
@@ -197,7 +197,7 @@ public class NestedResourcesTests {
 		assertTrue(DisplayHelper.waitForCondition(Display.getDefault(), TIMEOUT,
 				() -> IMarker.SEVERITY_ERROR == labelProvider.getHighestProblemSeverity(parentProject)));
 		//
-		root.getWorkspace().run(_ -> {
+		root.getWorkspace().run(unused -> {
 			IMarker marker = parentProject.createMarker(IMarker.PROBLEM);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 			secondChildProject.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE)[0].delete();

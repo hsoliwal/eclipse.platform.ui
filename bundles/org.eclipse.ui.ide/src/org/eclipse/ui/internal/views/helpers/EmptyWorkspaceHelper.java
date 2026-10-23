@@ -194,7 +194,7 @@ public final class EmptyWorkspaceHelper {
 		GridDataFactory.swtDefaults().indent(5, 0).align(SWT.FILL, SWT.CENTER).grab(true, true).applyTo(optionsArea);
 
 		final FormToolkit toolkit = new FormToolkit(emptyArea.getDisplay());
-		emptyArea.addDisposeListener(_ -> toolkit.dispose());
+		emptyArea.addDisposeListener(unused -> toolkit.dispose());
 		final Color linkColor = JFaceColors.getHyperlinkText(emptyArea.getDisplay());
 
 		for (IAction action : projectWizardActions) {

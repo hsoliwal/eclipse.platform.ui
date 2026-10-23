@@ -118,7 +118,7 @@ public class MoveResourcesWizard extends RefactoringWizard {
 					return false;
 				}
 			});
-			fDestinationField.addSelectionChangedListener(_ -> validatePage());
+			fDestinationField.addSelectionChangedListener(unused -> validatePage());
 			if (resourcesToMove.length > 0) {
 				fDestinationField.setSelection(new StructuredSelection(resourcesToMove[0].getParent()));
 			}

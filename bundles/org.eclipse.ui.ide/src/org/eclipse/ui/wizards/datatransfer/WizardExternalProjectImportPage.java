@@ -83,7 +83,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 
 	private IProjectDescription description;
 
-	private final Listener locationModifyListener = _ -> setPageComplete(validatePage());
+	private final Listener locationModifyListener = unused -> setPageComplete(validatePage());
 
 	// constants
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;

@@ -73,7 +73,7 @@ public class IEditorRegistryTest {
 	private final AtomicInteger loggedErrors = new AtomicInteger();
 
 	/** Listener to count error messages while testing. */
-	private final ILogListener errorLogListener = (IStatus status, String _) -> {
+	private final ILogListener errorLogListener = (IStatus status, String unused) -> {
 		if (status.matches(IStatus.ERROR)) {
 			System.out.println(status);
 			loggedErrors.incrementAndGet();

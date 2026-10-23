@@ -495,7 +495,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 			}
 		});
 
-		sourceNameField.addModifyListener(_ -> entryChanged = true);
+		sourceNameField.addModifyListener(unused -> entryChanged = true);
 
 		sourceNameField.addFocusListener(new FocusListener() {
 			/*

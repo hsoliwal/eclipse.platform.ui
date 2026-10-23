@@ -79,7 +79,7 @@ public final class PathVariableSelectionDialog extends SelectionDialog {
 		setTitle(IDEWorkbenchMessages.PathVariableSelectionDialog_title);
 		this.variableType = variableType;
 		pathVariablesGroup = new PathVariablesGroup(false, variableType,
-				_ -> updateExtendButtonState());
+				unused -> updateExtendButtonState());
 		pathVariablesGroup.setSaveVariablesOnChange(true);
 		setShellStyle(getShellStyle() | SWT.SHEET);
 	}

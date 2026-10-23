@@ -159,7 +159,7 @@ public class QuickSearchDialog extends SelectionStatusDialog {
 	public static final Styler HIGHLIGHT_STYLE = org.eclipse.search.internal.ui.text.DecoratingFileSearchLabelProvider.HIGHLIGHT_STYLE;
 
 	private final UIJob refreshJob = UIJob.create(Messages.QuickSearchDialog_RefreshJob,
-			(ICoreRunnable) _ -> refreshWidgets());
+			(ICoreRunnable) unused -> refreshWidgets());
 
 	protected void openSelection() {
 		try {
@@ -264,7 +264,7 @@ public class QuickSearchDialog extends SelectionStatusDialog {
 
 	private Image getBlankImage() {
 		if (blankImage==null) {
-			final ImageGcDrawer noOp = (_, _, _) -> {};
+			final ImageGcDrawer noOp = (unused, unused2, unused3) -> {};
 			blankImage = new Image(Display.getDefault(), noOp, 1, 1);
 		}
 		return blankImage;
@@ -775,7 +775,7 @@ public class QuickSearchDialog extends SelectionStatusDialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite dialogArea = (Composite) super.createDialogArea(parent);
 
-		dialogArea.addDisposeListener(_ -> QuickSearchDialog.this.dispose());
+		dialogArea.addDisposeListener(unused -> QuickSearchDialog.this.dispose());
 
 		Composite content = createNestedComposite(dialogArea, 1, false);
 		GridData gd = new GridData(GridData.FILL_BOTH);
@@ -880,11 +880,11 @@ public class QuickSearchDialog extends SelectionStatusDialog {
 
 		createPopupMenu();
 
-		pattern.addModifyListener(_ -> {
+		pattern.addModifyListener(unused -> {
 			applyFilter(false);
 		});
 
-		searchIn.addModifyListener(_ -> {
+		searchIn.addModifyListener(unused -> {
 			applyPathMatcher();
 		});
 
@@ -908,7 +908,7 @@ public class QuickSearchDialog extends SelectionStatusDialog {
 			handleSelected(selection);
 		});
 
-		list.addDoubleClickListener(_ -> handleDoubleClick());
+		list.addDoubleClickListener(unused -> handleDoubleClick());
 
 		list.getTable().addKeyListener(new KeyAdapter() {
 			@Override
@@ -1038,7 +1038,7 @@ public class QuickSearchDialog extends SelectionStatusDialog {
 		viewer.getTextWidget().setFont(JFaceResources.getFont(TEXT_FONT));
 		createViewerDecorations();
 
-		list.addSelectionChangedListener(_ -> refreshDetails());
+		list.addSelectionChangedListener(unused -> refreshDetails());
 
 		viewer.getTextWidget().addControlListener(new ControlAdapter() {
 			@Override

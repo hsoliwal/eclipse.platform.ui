@@ -52,19 +52,19 @@ public class TitleTestView extends ViewPart {
 		title = new Text(composite, SWT.BORDER);
 		title.setText(getTitle());
 
-		title.addModifyListener(_ -> setTitle(title.getText()));
+		title.addModifyListener(unused -> setTitle(title.getText()));
 
 		Label secondLabel = new Label(composite, SWT.NONE);
 		secondLabel.setText("Name");
 		name = new Text(composite, SWT.BORDER);
 		name.setText(getPartName());
-		name.addModifyListener(_ -> setPartName(name.getText()));
+		name.addModifyListener(unused -> setPartName(name.getText()));
 
 		Label thirdLabel = new Label(composite, SWT.NONE);
 		thirdLabel.setText("Content");
 		contentDescription = new Text(composite, SWT.BORDER);
 		contentDescription.setText(getContentDescription());
-		contentDescription.addModifyListener(_ -> setContentDescription(contentDescription.getText()));
+		contentDescription.addModifyListener(unused -> setContentDescription(contentDescription.getText()));
 
 		Label tlLabel = new Label(composite, SWT.NONE);
 		tlLabel.setText("getTitle() = ");
@@ -80,7 +80,7 @@ public class TitleTestView extends ViewPart {
 
 		updateLabels();
 
-		addPropertyListener((_, _) -> updateLabels());
+		addPropertyListener((unused, unused2) -> updateLabels());
 	}
 
 	private void updateLabels() {

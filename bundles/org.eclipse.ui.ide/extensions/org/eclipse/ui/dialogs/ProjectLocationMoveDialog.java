@@ -121,7 +121,7 @@ public class ProjectLocationMoveDialog extends SelectionDialog {
 	 * @return IErrorMessageReporter
 	 */
 	private IErrorMessageReporter getErrorReporter() {
-		return (errorMessage, _) -> setMessage(errorMessage);
+		return (errorMessage, unused) -> setMessage(errorMessage);
 	}
 
 	/**

@@ -554,7 +554,7 @@ public class JobsView {
 
 	private void cancelTestJobs() {
 		try {
-			progressService.busyCursorWhile(_ -> Job.getJobManager().cancel(TestJob.FAMILY_TEST_JOB));
+			progressService.busyCursorWhile(unused -> Job.getJobManager().cancel(TestJob.FAMILY_TEST_JOB));
 		} catch (InterruptedException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

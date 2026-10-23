@@ -149,7 +149,7 @@ public class SaveAsDialog extends TitleAreaDialog {
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		composite.setFont(parentComposite.getFont());
 
-		Listener listener = _ -> setDialogComplete(validatePage());
+		Listener listener = unused -> setDialogComplete(validatePage());
 
 		resourceGroup = new ResourceAndContainerGroup(composite, listener, IDEWorkbenchMessages.SaveAsDialog_fileLabel,
 				IDEWorkbenchMessages.SaveAsDialog_file);

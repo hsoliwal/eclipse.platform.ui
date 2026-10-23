@@ -52,7 +52,7 @@ public class RawIViewPartTest {
 
 	boolean contentChangeEvent = false;
 
-	private final IPropertyListener propertyListener = (_, propId) -> {
+	private final IPropertyListener propertyListener = (unused, propId) -> {
 		switch (propId) {
 		case IWorkbenchPartConstants.PROP_TITLE:
 			titleChangeEvent = true;

@@ -559,7 +559,7 @@ public class ExtendedMarkersView extends ViewPart {
 
 	private void addHelpListener() {
 		// Set help on the view itself
-		viewer.getControl().addHelpListener(_ -> {
+		viewer.getControl().addHelpListener(unused -> {
 			IContextProvider provider = Adapters.adapt(ExtendedMarkersView.this, IContextProvider.class);
 			if (provider == null) {
 				return;

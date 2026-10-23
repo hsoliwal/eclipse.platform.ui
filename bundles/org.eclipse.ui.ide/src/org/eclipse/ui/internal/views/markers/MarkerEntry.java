@@ -252,7 +252,7 @@ class MarkerEntry extends MarkerSupportItem implements IAdaptable {
 
 	@Override
 	public String getLocation() {
-		return (String) getCachedValueOrCompute(LOCATION_STRING, (entry, _) -> entry.computeLocation());
+		return (String) getCachedValueOrCompute(LOCATION_STRING, (entry, unused) -> entry.computeLocation());
 	}
 
 	private String computeLocation() {
@@ -320,7 +320,7 @@ class MarkerEntry extends MarkerSupportItem implements IAdaptable {
 
 	@Override
 	public String getPath() {
-		return (String) getCachedValueOrCompute(MarkerViewUtil.PATH_ATTRIBUTE, (entry, _) -> entry.computePath());
+		return (String) getCachedValueOrCompute(MarkerViewUtil.PATH_ATTRIBUTE, (entry, unused) -> entry.computePath());
 	}
 
 	private String computePath() {

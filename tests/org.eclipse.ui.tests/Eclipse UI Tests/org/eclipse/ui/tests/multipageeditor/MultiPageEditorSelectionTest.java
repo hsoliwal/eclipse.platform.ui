@@ -69,7 +69,7 @@ public class MultiPageEditorSelectionTest {
 		final boolean[] called = { false };
 		IPostSelectionProvider postSelectionProvider = (IPostSelectionProvider) provider;
 		postSelectionProvider
-				.addPostSelectionChangedListener(_ -> called[0] = true);
+				.addPostSelectionChangedListener(unused -> called[0] = true);
 
 		((MultiPageResourceEditor) part).updateSelection();
 		assertTrue(called[0]);

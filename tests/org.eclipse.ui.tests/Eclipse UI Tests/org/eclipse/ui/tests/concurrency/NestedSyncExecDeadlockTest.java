@@ -65,7 +65,7 @@ public class NestedSyncExecDeadlockTest {
 			public void execute(final IProgressMonitor pm) {
 				Display.getDefault().syncExec(() -> {
 					try {
-						workspace.run((IWorkspaceRunnable) _ -> {
+						workspace.run((IWorkspaceRunnable) unused -> {
 							project.touch(null);
 							try {
 								// wait long enough to be sure to trigger notification
@@ -74,7 +74,7 @@ public class NestedSyncExecDeadlockTest {
 								ex.printStackTrace();
 							}
 						}, workspace.getRoot(), IResource.NONE, pm);
-						workspace.run((IWorkspaceRunnable) _ -> {
+						workspace.run((IWorkspaceRunnable) unused -> {
 						}, pm);
 
 					} catch (CoreException ex) {

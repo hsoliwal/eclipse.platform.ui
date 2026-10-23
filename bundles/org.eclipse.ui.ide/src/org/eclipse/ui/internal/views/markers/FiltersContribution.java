@@ -71,7 +71,7 @@ public class FiltersContribution extends MarkersContribution {
 				 */
 				private Listener getMenuItemListener(final MarkerFieldFilterGroup filter,
 						final ExtendedMarkersView extendedView) {
-					return _ -> {
+					return unused -> {
 						if (extendedView != null) {
 							extendedView.toggleFilter(filter);
 						}
@@ -100,7 +100,7 @@ public class FiltersContribution extends MarkersContribution {
 				item.setText(MarkerMessages.MarkerFilter_showAllCommand_title);
 				item.setSelection(noFiltersSelected());
 
-				item.addListener(SWT.Selection, _ -> {
+				item.addListener(SWT.Selection, unused -> {
 					ExtendedMarkersView view = getView();
 					if (view != null) {
 						view.disableAllFilters();
