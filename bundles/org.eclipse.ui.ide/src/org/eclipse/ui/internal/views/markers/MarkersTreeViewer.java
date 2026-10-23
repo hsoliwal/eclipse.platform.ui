@@ -64,7 +64,7 @@ public class MarkersTreeViewer extends TreeViewer {
 	 *
 	 * @param patch the patch
 	 */
-	void m3PreservingSelection(Runnable patch) {
+	void m3PreservingMarkerSelection(Runnable patch) {
 		preservingSelection(patch);
 	}
 
