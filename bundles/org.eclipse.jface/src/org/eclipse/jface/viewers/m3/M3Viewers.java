@@ -240,8 +240,9 @@ public final class M3Viewers {
 	}
 
 	private static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
-		// Never read viewer/control/widget state from a worker thread. SWT's
-		// getDisplay() may reject access outside the owning UI thread.
+		// Do not inspect the viewer or its SWT Control outside the UI thread.
+		// A caller on a secondary Display must supply that known owner explicitly.
+		java.util.Objects.requireNonNull(viewer, "viewer"); //$NON-NLS-1$
 		Display current = Display.getCurrent();
 		post(current != null ? current : Display.getDefault(), viewer, delta, delayMillis, refreshLater);
 	}
@@ -262,12 +263,18 @@ public final class M3Viewers {
 
 	private static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta,
 			int delayMillis, boolean refreshLater) {
+		java.util.Objects.requireNonNull(display, "display"); //$NON-NLS-1$
+		java.util.Objects.requireNonNull(viewer, "viewer"); //$NON-NLS-1$
 		if (delta.isEmpty() || display.isDisposed()) {
 			return;
 		}
 		posted = true;
-		int delay = Math.max(0, delayMillis);
-		display.asyncExec(() -> enqueue(viewer, delta, delay, refreshLater));
+		display.asyncExec(() -> {
+			Control control = viewer.getControl();
+			if (control != null && !control.isDisposed() && control.getDisplay() == display) {
+				enqueue(viewer, delta, Math.max(0, delayMillis), refreshLater);
+			}
+		});
 	}
 
 	/* UI thread */

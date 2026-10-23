@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BooleanSupplier;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -299,6 +301,47 @@ public class M3ViewersTest {
 		}
 		M3Viewers.apply(v, d);
 		assertEquals(105, v.getTable().getItemCount());
+	}
+
+	@Test
+	public void owningDisplayAcceptsWorkerPostsOnItsUiThread() throws Exception {
+		TableViewer viewer = table();
+		roots.add("worker");
+		AtomicReference<Throwable> failure = new AtomicReference<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.post(display, viewer, new M3ViewerDelta().add(roots, "worker", -1), 0);
+			} catch (Throwable error) {
+				failure.set(error);
+			}
+		});
+		worker.start();
+		worker.join();
+		assertNull(failure.get(), "post may not inspect SWT controls off-thread");
+		waitUntil(() -> viewer.getTable().getItemCount() == 6);
+		assertEquals("r0 r1 r2 r3 r4 worker", texts(viewer));
+	}
+
+	@Test
+	public void workerFlushReturnsBeforeSwtControlAccess() throws Exception {
+		TableViewer viewer = table();
+		roots.add("later");
+		M3Viewers.post(display, viewer, new M3ViewerDelta().add(roots, "later", -1), 60_000);
+		drain();
+		AtomicReference<Throwable> failure = new AtomicReference<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.flush(viewer);
+			} catch (Throwable error) {
+				failure.set(error);
+			}
+		});
+		worker.start();
+		worker.join();
+		assertNull(failure.get(), "flush may not inspect SWT controls off-thread");
+		assertEquals(5, viewer.getTable().getItemCount());
+		M3Viewers.flush(viewer);
+		assertEquals(6, viewer.getTable().getItemCount());
 	}
 
 	@Test
