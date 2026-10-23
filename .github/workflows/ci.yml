@@ -17,6 +17,7 @@ concurrency:
     - master
     - m3/jface-viewport-20261019
     - m3/viewer-fixes-20261021
+    - m3/jface-superset-20261023
     paths-ignore:
     - docs/**
     - '*.md'
@@ -25,14 +26,14 @@ jobs:
     if: github.event_name != 'pull_request' || github.base_ref == 'master'
     uses: eclipse-platform/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@master
   m3-viewers:
-    if: github.event_name == 'pull_request' && (github.base_ref == 'm3/jface-viewport-20261019' || github.base_ref == 'm3/viewer-fixes-20261021')
+    if: github.event_name == 'pull_request' && (github.base_ref == 'm3/jface-viewport-20261019' || github.base_ref == 'm3/viewer-fixes-20261021' || github.base_ref == 'm3/jface-superset-20261023')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
       contents: read
     env:
       AGGREGATOR_SHA: 78ad2a3326d7d304cb0a94d7c547f44240f80fe4
-      SWT_CORRECTION_SHA: af098d7d33a9a66e9ed3cc27fc12abe2300445b8
+      SWT_CORRECTION_SHA: 026e1515b0ba60588b9152e64e339f137203e966
       PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
       PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       UI_BASE_REPOSITORY: ${{ github.event.pull_request.base.repo.full_name }}
