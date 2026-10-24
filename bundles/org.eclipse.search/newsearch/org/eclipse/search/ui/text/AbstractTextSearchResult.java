@@ -209,7 +209,7 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 		updateFilterState(match);
 		try {
 			return fElementsToMatches.computeIfAbsent(match.getElement(),
-					_ -> new ConcurrentSkipListSet<>(this::compare)).add(match);
+					unused -> new ConcurrentSkipListSet<>(this::compare)).add(match);
 		} finally {
 			modCount.incrementAndGet();
 		}
@@ -254,8 +254,8 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 
 	@SuppressWarnings("boxing")
 	private int resolveCollision(Match a, Match b) {
-		long orderA = collisionOrder.computeIfAbsent(a, _ -> collisionCounter.incrementAndGet());
-		long orderB = collisionOrder.computeIfAbsent(b, _ -> collisionCounter.incrementAndGet());
+		long orderA = collisionOrder.computeIfAbsent(a, unused -> collisionCounter.incrementAndGet());
+		long orderB = collisionOrder.computeIfAbsent(b, unused -> collisionCounter.incrementAndGet());
 		return Long.compare(orderA, orderB);
 	}
 
@@ -313,7 +313,7 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 
 	private boolean didRemoveMatch(Match match) {
 		boolean[] existed = new boolean[1];
-		fElementsToMatches.computeIfPresent(match.getElement(), (_, matches) -> {
+		fElementsToMatches.computeIfPresent(match.getElement(), (unused, matches) -> {
 			existed[0] = matches.remove(match);
 			if (matches.isEmpty()) {
 				return null; // remove

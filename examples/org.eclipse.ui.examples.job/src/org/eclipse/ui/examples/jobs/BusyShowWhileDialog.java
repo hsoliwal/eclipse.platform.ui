@@ -42,9 +42,9 @@ public class BusyShowWhileDialog extends IconAndMessageDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		Button detailsButton = createButton(parent, 4, "Start busy show while", false); //$NON-NLS-1$
-		detailsButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> {
+		detailsButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> {
 			try {
-				org.eclipse.ui.internal.progress.ProgressManager.getInstance().busyCursorWhile(_ -> {
+				org.eclipse.ui.internal.progress.ProgressManager.getInstance().busyCursorWhile(unused2 -> {
 					long time = System.currentTimeMillis();
 					long delay = PlatformUI.getWorkbench().getProgressService().getLongOperationTime();
 					long end = time + delay + delay;

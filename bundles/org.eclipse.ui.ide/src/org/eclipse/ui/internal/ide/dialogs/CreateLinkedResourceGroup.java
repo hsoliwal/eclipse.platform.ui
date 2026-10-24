@@ -277,7 +277,7 @@ public class CreateLinkedResourceGroup {
 		linkTargetField.setEnabled(enabled);
 		linkTargetField.setFont(locationGroup.getFont());
 		BidiUtils.applyBidiProcessing(linkTargetField, StructuredTextTypeHandlerFactory.FILE);
-		linkTargetField.addModifyListener(_ -> {
+		linkTargetField.addModifyListener(unused -> {
 			linkTarget = linkTargetField.getText();
 			if (isDefaultConfigurationSelected()) {
 				linkTarget = getPathVariableManager().convertFromUserEditableFormat(linkTarget, true);

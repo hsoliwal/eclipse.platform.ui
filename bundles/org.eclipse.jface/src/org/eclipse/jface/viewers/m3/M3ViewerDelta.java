@@ -102,17 +102,36 @@ public final class M3ViewerDelta {
 
 	/**
 	 * Appends the operations of {@code other} to this delta, so that deltas
-	 * posted in a burst are applied as one. The source operation count is fixed
-	 * at entry: appending this delta to itself duplicates its sequence once.
+	 * posted in a burst are applied as one.
 	 *
 	 * @param other the later delta
 	 * @return this delta
 	 */
 	public M3ViewerDelta append(M3ViewerDelta other) {
-		int sourceSize = other.size;
-		for (int i = 0; i < sourceSize; i++) {
-			push(other.kinds[i], other.elements[i], other.parents[i], other.indexes[i], other.properties[i]);
+		// Capture the source size once: self-append must copy exactly one
+		// original run rather than extending the loop while it is traversed.
+		int count = other.size;
+		if (count == 0) {
+			return this;
 		}
+		int previous = size;
+		int required = Math.addExact(previous, count);
+		if (required > kinds.length) {
+			int capacity = Math.max(required, (int) Math.min((long) Integer.MAX_VALUE - 8, 2L * kinds.length));
+			kinds = Arrays.copyOf(kinds, capacity);
+			elements = Arrays.copyOf(elements, capacity);
+			parents = Arrays.copyOf(parents, capacity);
+			indexes = Arrays.copyOf(indexes, capacity);
+			properties = Arrays.copyOf(properties, capacity);
+		}
+		// Parent-owned physical lanes; one bulk copy per lane, including
+		// the same-array case handled by System.arraycopy.
+		System.arraycopy(other.kinds, 0, kinds, previous, count);
+		System.arraycopy(other.elements, 0, elements, previous, count);
+		System.arraycopy(other.parents, 0, parents, previous, count);
+		System.arraycopy(other.indexes, 0, indexes, previous, count);
+		System.arraycopy(other.properties, 0, properties, previous, count);
+		size = required;
 		return this;
 	}
 

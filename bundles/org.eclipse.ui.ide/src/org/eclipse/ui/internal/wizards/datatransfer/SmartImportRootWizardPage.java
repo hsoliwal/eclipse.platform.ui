@@ -498,7 +498,7 @@ public class SmartImportRootWizardPage extends WizardPage {
 		closeProjectsCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 4, 1));
 		closeProjectsCheckbox.setSelection(closeProjectsAfterImport);
 		closeProjectsCheckbox.addSelectionListener(SelectionListener
-				.widgetSelectedAdapter(_ -> closeProjectsAfterImport = closeProjectsCheckbox.getSelection()));
+				.widgetSelectedAdapter(unused -> closeProjectsAfterImport = closeProjectsCheckbox.getSelection()));
 
 		Link showDetectorsLink = new Link(parent, SWT.NONE);
 		showDetectorsLink.setText(DataTransferMessages.SmartImportWizardPage_showAvailableDetectors);

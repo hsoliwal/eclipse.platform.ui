@@ -7,7 +7,8 @@ Bundle-Activator: org.eclipse.ui.internal.ide.IDEWorkbenchPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Plugin.providerName
 Bundle-Localization: plugin
-Export-Package: org.eclipse.ui,
+Export-Package: com.m3.collections;x-internal:=true,
+ org.eclipse.ui,
  org.eclipse.ui.actions,
  org.eclipse.ui.dialogs,
  org.eclipse.ui.ide,
@@ -68,6 +69,6 @@ Import-Package: com.m3.collections,
  jakarta.annotation;version="[2.0.0,4.0.0)",
  jakarta.inject;version="[2.0.0,3.0.0)",
  org.osgi.service.event;version="[1.4.0,2.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-25
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.eclipse.ui.ide
 Require-Capability: eclipse.swt;filter:="(image.format=svg)"

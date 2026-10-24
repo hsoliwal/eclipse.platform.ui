@@ -261,7 +261,7 @@ public class AnnotationCodeMiningProvider extends AbstractCodeMiningProvider
 
 	private List<AbstractCodeMining> createCodeMinings(Stream<Annotation> annotations, IProgressMonitor monitor) {
 		final Stream<AbstractCodeMining> result= annotations
-				.filter(_ -> !monitor.isCanceled())
+				.filter(unused -> !monitor.isCanceled())
 				.map(this::createCodeMining)
 				.filter(Objects::nonNull);
 		return result.toList();
@@ -295,7 +295,7 @@ public class AnnotationCodeMiningProvider extends AbstractCodeMiningProvider
 			return null;
 		}
 
-		return (_ -> {
+		return (unused -> {
 			final IQuickFixableAnnotation quickFixableAnnotation= (IQuickFixableAnnotation) annotation;
 			if (!quickFixableAnnotation.isQuickFixableStateSet() || !quickFixableAnnotation.isQuickFixable()) {
 				return;

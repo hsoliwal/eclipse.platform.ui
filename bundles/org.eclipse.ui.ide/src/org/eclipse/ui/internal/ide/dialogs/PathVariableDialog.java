@@ -309,7 +309,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 			variableNameField.setText(variableName);
 			variableNameField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 					false, 2, 1));
-			variableNameField.addModifyListener(_ -> variableNameModified());
+			variableNameField.addModifyListener(unused -> variableNameModified());
 		}
 
 		// variable value label
@@ -322,7 +322,7 @@ public class PathVariableDialog extends TitleAreaDialog {
 		variableValueField.setText(variableValue);
 		variableValueField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false));
-		variableValueField.addModifyListener(_ -> variableValueModified());
+		variableValueField.addModifyListener(unused -> variableValueModified());
 
 		Composite buttonsComposite = new Composite(contents, SWT.NONE);
 		buttonsComposite.setLayoutData(new GridData(SWT.END, SWT.CENTER, false,

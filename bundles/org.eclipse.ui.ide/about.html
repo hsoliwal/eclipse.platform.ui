@@ -32,5 +32,34 @@
 			href="http://www.eclipse.org/">http://www.eclipse.org</a>.
 	</p>
 
+	<h3>Synexia Fenwick index adaptations</h3>
+
+	<p>
+		The cumulative block-count operations in
+		<code>org.eclipse.ui.internal.views.markers.M3SlotOrder</code>
+		include portions adapted from <code>com.synexia.primitives.LongFenwickTree</code>,
+		Copyright 2026 Hitesh Soliwal and contributors, licensed under the
+		<a href="about_files/APACHE-2.0.txt">Apache License, Version 2.0</a>.
+		These donor portions remain Apache-2.0; no EPL grant is added for them.
+	</p>
+	<p>
+		The original M3SlotOrder content and point-update/rebuild portions adapted
+		from <code>org.eclipse.swt.widgets.VirtualRowExtents</code>,
+		Copyright (c) 2026 Synexia, Hitesh Soliwal and others, retain their
+		Apache-2.0 OR EPL-2.0 grant. Both donor copyright notices are retained.
+	</p>
+	<p>
+		Upstream sources:
+		<a href="https://github.com/hsoliwal/com.synexia/blob/af4494b143270d03cf4d3f33d1e7b4f84325f5dd/synexia-primitives/src/main/java/com/synexia/primitives/LongFenwickTree.java">LongFenwickTree at af4494b143270d03cf4d3f33d1e7b4f84325f5dd</a>
+		and
+		<a href="https://github.com/hsoliwal/eclipse.platform.swt/blob/c8fb00069c9dc8d73e458b672d05c55196bebff9/bundles/org.eclipse.swt/Eclipse%20SWT/common/org/eclipse/swt/widgets/VirtualRowExtents.java">VirtualRowExtents at c8fb00069c9dc8d73e458b672d05c55196bebff9</a>.
+	</p>
+	<p>
+		October 2026 modifications narrow long-valued prefix/select operations
+		to existing int block lengths, retain the short-directory scan, and
+		invalidate derived counts across incomplete fills. This notice records
+		provenance and applicable terms; it does not change either donor's grant.
+	</p>
+
 </body>
 </html>

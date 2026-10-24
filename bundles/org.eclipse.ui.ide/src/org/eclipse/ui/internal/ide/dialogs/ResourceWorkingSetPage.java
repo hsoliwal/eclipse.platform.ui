@@ -140,7 +140,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 
 		text = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		text.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
-		text.addModifyListener(_ -> validateInput());
+		text.addModifyListener(unused -> validateInput());
 		text.setFocus();
 
 		label = new Label(composite, SWT.WRAP);

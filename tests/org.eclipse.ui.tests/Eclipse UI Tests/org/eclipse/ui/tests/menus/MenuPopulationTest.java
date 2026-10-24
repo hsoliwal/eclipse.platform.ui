@@ -161,7 +161,7 @@ public class MenuPopulationTest extends MenuTestCase {
 
 	private boolean[] addLogger() {
 		final boolean []errorLogged = new boolean[] {false};
-		Platform.addLogListener((status, _) -> {
+		Platform.addLogListener((status, unused) -> {
 			if("org.eclipse.ui.workbench".equals(status.getPlugin())
 					&& status.getSeverity() == IStatus.ERROR
 					&& status.getException() instanceof IndexOutOfBoundsException) {

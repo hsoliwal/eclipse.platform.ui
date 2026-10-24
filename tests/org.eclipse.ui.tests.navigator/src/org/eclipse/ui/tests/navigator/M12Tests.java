@@ -193,7 +193,7 @@ public class M12Tests extends NavigatorTestBase {
 
 		final IFile file2 = _p2.getFile("file2.txt");
 
-		IWorkspaceRunnable runnable = _ -> {
+		IWorkspaceRunnable runnable = unused -> {
 			file2.delete(true, new NullProgressMonitor());
 			file2.create(null, true, null);
 		};

@@ -105,7 +105,7 @@ public class IDEWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	private IWorkbenchPage lastActivePage;
 	private final String lastEditorTitleTooltip = ""; //$NON-NLS-1$
 
-	private final IPropertyListener editorPropertyListener = (_, propId) -> {
+	private final IPropertyListener editorPropertyListener = (unused, propId) -> {
 		if (propId == IWorkbenchPartConstants.PROP_TITLE) {
 			if (lastActiveEditor != null) {
 				String newTitle = lastActiveEditor.getTitleToolTip();

@@ -65,6 +65,22 @@ public class M3ViewerDeltaTest {
 	}
 
 	@Test
+	public void selfAppendCopiesOnlyTheOriginalOperations() {
+		String[] changed = { "label" }; //$NON-NLS-1$
+		M3ViewerDelta delta = new M3ViewerDelta().add("root", "a", 2).update("b", changed).remove("c"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		delta.append(delta);
+		assertEquals(6, delta.size());
+		for (int i = 0; i < 3; i++) {
+			assertEquals(delta.kind(i), delta.kind(i + 3));
+			assertEquals(delta.element(i), delta.element(i + 3));
+			assertEquals(delta.parent(i), delta.parent(i + 3));
+			assertEquals(delta.index(i), delta.index(i + 3));
+			assertArrayEquals(delta.properties(i), delta.properties(i + 3));
+		}
+		assertFalse(delta.isEmpty());
+	}
+
+	@Test
 	public void rejectsNullElementsAndBadIndexes() {
 		M3ViewerDelta d = new M3ViewerDelta();
 		assertThrows(IllegalArgumentException.class, () -> d.add("p", null, 0));
@@ -73,6 +89,27 @@ public class M3ViewerDeltaTest {
 		assertThrows(IndexOutOfBoundsException.class, () -> d.kind(0));
 		assertThrows(IndexOutOfBoundsException.class, () -> d.element(-1));
 	}
+	@Test
+	public void bulkAppendCopiesOriginalLanesExactlyOnceEvenForSelfAppend() {
+		String[] properties = { "label" };
+		M3ViewerDelta delta = new M3ViewerDelta().add("parent", "alpha", 7)
+				.update("beta", properties).refresh(null);
+		delta.append(delta);
+		assertEquals(6, delta.size());
+		for (int i = 0; i < 3; i++) {
+			assertEquals(delta.kind(i), delta.kind(i + 3));
+			assertSame(delta.element(i), delta.element(i + 3));
+			assertSame(delta.parent(i), delta.parent(i + 3));
+			assertEquals(delta.index(i), delta.index(i + 3));
+			assertSame(delta.properties(i), delta.properties(i + 3));
+		}
+		M3ViewerDelta other = new M3ViewerDelta().remove("gamma");
+		delta.append(other);
+		assertEquals(7, delta.size());
+		assertEquals("gamma", delta.element(6));
+		assertEquals(1, other.size());
+	}
+
 	@Test
 	public void emptySelfAppendIsAnIdentity() {
 		M3ViewerDelta delta = new M3ViewerDelta();

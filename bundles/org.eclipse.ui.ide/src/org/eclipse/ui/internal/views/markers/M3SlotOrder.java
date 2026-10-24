@@ -1,13 +1,30 @@
 /*******************************************************************************
  * Copyright (c) 2026 Synexia, Hitesh Soliwal (hsoliwal@gmail.com) and others.
  *
- * This program and the accompanying materials are made available under the
- * terms of the Apache License, Version 2.0, or (at your option) the Eclipse
- * Public License 2.0, which are available at
+ * The original M3SlotOrder content and the portions adapted from SWT
+ * VirtualRowExtents are made available under the terms of the Apache License,
+ * Version 2.0, or (at your option) the Eclipse Public License 2.0, available at
  * https://www.apache.org/licenses/LICENSE-2.0 and
  * https://www.eclipse.org/legal/epl-2.0/
  *
- * SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
+ * Portions adapted from com.synexia.primitives.LongFenwickTree:
+ * Copyright 2026 Hitesh Soliwal and contributors.
+ * These portions are licensed under the Apache License, Version 2.0 only.
+ * No Eclipse Public License grant is added for these donor portions.
+ *
+ * SPDX-License-Identifier: Apache-2.0 AND (Apache-2.0 OR EPL-2.0)
+ *
+ * Adaptation notice, October 2026: exclusive-prefix and cumulative-selection
+ * operations from LongFenwickTree (com.synexia commit
+ * af4494b143270d03cf4d3f33d1e7b4f84325f5dd) are narrowed from long values to
+ * existing int block lengths. Point updates and linear rebuilding follow
+ * VirtualRowExtents (eclipse.platform.swt commit
+ * c8fb00069c9dc8d73e458b672d05c55196bebff9), Copyright (c) 2026 Synexia,
+ * Hitesh Soliwal and others, Apache-2.0 OR EPL-2.0. The adaptation retains the
+ * short-directory scan and invalidates derived counts across incomplete fills.
+ *
+ * See this bundle's about.html and about_files/APACHE-2.0.txt for the donor
+ * attribution and the full Apache License, Version 2.0.
  *
  * Contributors:
  *     Hitesh Soliwal (Synexia) - initial API and implementation
@@ -16,21 +33,17 @@ package org.eclipse.ui.internal.views.markers;
 
 import java.util.Arrays;
 
-import com.m3.collections.M3SparseExtents;
-
 /**
  * The rows of one category in sort order: an order-statistic list of
  * {@code int} slots kept as sorted blocks of at most {@link #BLOCK} slots.
  * <p>
- * Slots remain in the existing primitive blocks. Above 128 blocks,
- * M3JDK21's {@link M3SparseExtents} indexes block lengths; half-full blocks
- * are implicit and only differing lengths need measured entries. With m
- * measured blocks, {@link #get(int)} costs O(log squared (m + 1)); the
- * prefix-rank step and repeat length updates cost O(log(m + 1)). Existing
- * block/slot binary searches remain. First measurements in the middle and
- * block insertion/deletion cost O(m). Small categories retain direct scans.
- * Slot movement is bounded by {@link #BLOCK}, apart from directory shifts
- * on splits. Catalogue: order-statistic list over blocked sorted arrays (rule 21).
+ * Insert and remove cost a binary search over the blocks, a binary search in
+ * one block and one {@code arraycopy} of at most {@link #BLOCK} ints, whatever
+ * the size of the category: a marker change never moves the other rows of a
+ * category of 10^6 markers. A Fenwick index over the block lengths locates a
+ * position or computes its rank in logarithmic block count. Splitting or
+ * dropping a block rebuilds that index while moving the block directory.
+ * Catalogue: order-statistic list over blocked sorted arrays (rule 21).
  * </p>
  * <p>
  * The comparator must be a total order on the slots it is given: it returns 0
@@ -52,14 +65,14 @@ public final class M3SlotOrder {
 
 	/** The longest block; a full block splits in two halves. */
 	static final int BLOCK = 1024;
-
-	/* Measured crossover: avoid index preparation and lookup cost for short directories. */
-	private static final int INDEX_THRESHOLD = 128;
+	/* Short directories are cheaper to scan than to search by cumulative count. */
+	private static final int LINEAR_BLOCKS = 8;
 
 	private final SlotComparator order;
 	private int[][] blocks = new int[4][];
 	private int[] lengths = new int[4];
-	private M3SparseExtents blockIndex;
+	/* Derived counts; null also preserves the scan path after an incomplete fill. */
+	private int[] blockCounts;
 	private int blockCount;
 	private int size;
 
@@ -83,13 +96,19 @@ public final class M3SlotOrder {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException(index);
 		}
-		if (blockIndex != null) {
-			int b = blockIndex.rowAt(index);
-			return blocks[b][index - (int) blockIndex.offsetOf(b)];
-		}
 		int b = 0;
-		while (index >= lengths[b]) {
-			index -= lengths[b++];
+		if (blockCount <= LINEAR_BLOCKS || blockCounts == null) {
+			while (index >= lengths[b]) {
+				index -= lengths[b++];
+			}
+		} else {
+			for (int bit = Integer.highestOneBit(blockCount); bit != 0; bit >>>= 1) {
+				int next = b + bit;
+				if (next <= blockCount && blockCounts[next] <= index) {
+					index -= blockCounts[next];
+					b = next;
+				}
+			}
 		}
 		return blocks[b][index];
 	}
@@ -125,7 +144,7 @@ public final class M3SlotOrder {
 		if (i < 0) {
 			return -1;
 		}
-		return i + offsetBefore(b);
+		return i + countBefore(b);
 	}
 
 	/**
@@ -141,6 +160,7 @@ public final class M3SlotOrder {
 			lengths[0] = 1;
 			blockCount = 1;
 			size = 1;
+			rebuildCounts();
 			return 0;
 		}
 		int b = blockOf(slot);
@@ -164,11 +184,9 @@ public final class M3SlotOrder {
 		System.arraycopy(block, i, block, i + 1, lengths[b] - i);
 		block[i] = slot;
 		lengths[b]++;
-		if (blockIndex != null) {
-			blockIndex.setExtent(b, lengths[b]);
-		}
 		size++;
-		return i + offsetBefore(b);
+		addCount(b, 1);
+		return i + countBefore(b);
 	}
 
 	/**
@@ -188,14 +206,14 @@ public final class M3SlotOrder {
 		if (i < 0) {
 			return -1;
 		}
-		int index = i + offsetBefore(b);
+		int index = i + countBefore(b);
 		System.arraycopy(block, i + 1, block, i, lengths[b] - i - 1);
 		lengths[b]--;
 		size--;
 		if (lengths[b] == 0) {
 			dropBlock(b);
-		} else if (blockIndex != null) {
-			blockIndex.setExtent(b, lengths[b]);
+		} else {
+			addCount(b, -1);
 		}
 		return index;
 	}
@@ -208,10 +226,10 @@ public final class M3SlotOrder {
 	 */
 	public void fill(int[] sorted, int n) {
 		int count = (n + BLOCK / 2 - 1) / (BLOCK / 2);
+		blockCounts = null;
 		blocks = new int[Math.max(4, count)][];
 		lengths = new int[blocks.length];
 		blockCount = 0;
-		blockIndex = null;
 		for (int from = 0; from < n; from += BLOCK / 2) {
 			int len = Math.min(BLOCK / 2, n - from);
 			int[] block = new int[BLOCK];
@@ -220,7 +238,7 @@ public final class M3SlotOrder {
 			lengths[blockCount++] = len;
 		}
 		size = n;
-		resetBlockIndex();
+		rebuildCounts();
 	}
 
 	/**
@@ -309,32 +327,6 @@ public final class M3SlotOrder {
 		return -lo - 1;
 	}
 
-	private int offsetBefore(int b) {
-		if (blockIndex != null) {
-			return (int) blockIndex.offsetOf(b);
-		}
-		int offset = 0;
-		for (int k = 0; k < b; k++) {
-			offset += lengths[k];
-		}
-		return offset;
-	}
-
-	private void resetBlockIndex() {
-		blockIndex = null;
-		if (blockCount <= INDEX_THRESHOLD) {
-			return;
-		}
-		M3SparseExtents next = new M3SparseExtents(BLOCK / 2);
-		next.reset(blockCount);
-		for (int b = 0; b < blockCount; b++) {
-			if (lengths[b] != BLOCK / 2) {
-				next.setExtent(b, lengths[b]);
-			}
-		}
-		blockIndex = next;
-	}
-
 	private void split(int b) {
 		if (blockCount == blocks.length) {
 			blocks = Arrays.copyOf(blocks, blockCount << 1);
@@ -349,12 +341,8 @@ public final class M3SlotOrder {
 		lengths[b + 1] = lengths[b] - half;
 		lengths[b] = half;
 		blockCount++;
-		if (blockIndex != null) {
-			blockIndex.insert(b + 1, 1);
-			blockIndex.setExtent(b, lengths[b]);
-			blockIndex.setExtent(b + 1, lengths[b + 1]);
-		} else if (blockCount > INDEX_THRESHOLD) {
-			resetBlockIndex();
+		if (blockCounts != null) {
+			rebuildCounts();
 		}
 	}
 
@@ -364,10 +352,57 @@ public final class M3SlotOrder {
 		blockCount--;
 		blocks[blockCount] = null;
 		lengths[blockCount] = 0;
-		if (blockCount <= INDEX_THRESHOLD) {
-			blockIndex = null;
-		} else if (blockIndex != null) {
-			blockIndex.remove(b, 1);
+		if (blockCounts != null) {
+			rebuildCounts();
+		}
+	}
+
+	/* Exclusive prefix sum, adapted from Synexia LongFenwickTree. */
+	private int countBefore(int block) {
+		int count = 0;
+		if (blockCounts == null) {
+			for (int b = 0; b < block; b++) {
+				count += lengths[b];
+			}
+		} else {
+			for (int b = block; b > 0; b -= b & -b) {
+				count += blockCounts[b];
+			}
+		}
+		return count;
+	}
+
+	/* Point updates and linear rebuild follow SWT VirtualRowExtents. */
+	private void addCount(int block, int delta) {
+		if (blockCounts == null) {
+			return;
+		}
+		for (int b = block + 1; b <= blockCount;) {
+			blockCounts[b] += delta;
+			int step = b & -b;
+			if (step > blockCount - b) {
+				break;
+			}
+			b += step;
+		}
+	}
+
+	private void rebuildCounts() {
+		if (blockCount == 0) {
+			blockCounts = null;
+			return;
+		}
+		if (blockCounts == null || blockCounts.length != blocks.length + 1) {
+			blockCounts = new int[blocks.length + 1];
+		} else {
+			Arrays.fill(blockCounts, 0, blockCount + 1, 0);
+		}
+		for (int b = 1; b <= blockCount; b++) {
+			blockCounts[b] += lengths[b - 1];
+			int step = b & -b;
+			if (step <= blockCount - b) {
+				blockCounts[b + step] += blockCounts[b];
+			}
 		}
 	}
 }

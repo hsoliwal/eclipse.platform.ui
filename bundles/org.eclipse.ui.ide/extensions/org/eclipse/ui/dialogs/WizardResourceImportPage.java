@@ -221,7 +221,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 				getFolderProvider(), new WorkbenchLabelProvider(), getFileProvider(), new WorkbenchLabelProvider(),
 				SWT.NONE, DialogUtil.inRegularFontMode(parent));
 
-		ICheckStateListener listener = _ -> updateWidgetEnablements();
+		ICheckStateListener listener = unused -> updateWidgetEnablements();
 
 		WorkbenchViewerComparator comparator = new WorkbenchViewerComparator();
 		this.selectionGroup.setTreeComparator(comparator);

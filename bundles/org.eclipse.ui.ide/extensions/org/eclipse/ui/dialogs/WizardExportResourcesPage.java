@@ -288,7 +288,7 @@ public abstract class WizardExportResourcesPage extends WizardDataTransferPage {
 				WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(), SWT.NONE,
 				DialogUtil.inRegularFontMode(parent));
 
-		ICheckStateListener listener = _ -> updateWidgetEnablements();
+		ICheckStateListener listener = unused -> updateWidgetEnablements();
 
 		this.resourceGroup.addCheckStateListener(listener);
 	}

@@ -43,7 +43,7 @@ public class SizeSection
 
 	private ButtonElement buttonElement;
 
-	private final ModifyListener listener = _ -> {
+	private final ModifyListener listener = unused -> {
 		ButtonElementProperties properties = (ButtonElementProperties) Adapters.adapt(buttonElement, IPropertySource.class);
 		SizePropertySource sizePropertySource = (SizePropertySource) properties
 				.getPropertyValue(ButtonElementProperties.PROPERTY_SIZE);

@@ -12,7 +12,7 @@ S6	ViewerComparator.java	sort(Viewer,Object[])	201	setComparator, refresh	O(n lo
 S7	StructuredViewer.java	preservingSelection(Runnable,boolean)	1385	refresh, remove, add, update	O(sel)+A1	getSelection twice + setSelectionToWidget	selection events	A	via A1/A4
 S8	AbstractTreeViewer.java	getExpandedElements()	1383	getExpandedElements, refresh	O(items)	recursive getItems walk (native per level)	none	C	already delegated to SWT when available (fork PR #9)
 S9	AbstractTreeViewer.java	setSelectionToWidget(List,boolean)	2900	setSelection on trees	O(k) hashed / O(n*k) unhashed	internalExpand -> findItem recursive search	content provider getParent/getChildren (expansion)	next	next leaf: first-index over materialized items when unhashed
-S10	AbstractTreeViewer.java	internalFindItem(Item,Object)	2050	findItem without hash lookup	O(items)	recursive equals walk	none	next	next leaf
+S10	AbstractTreeViewer.java	internalFindItem(Item,Object)	2050	findItem without hash lookup	O(items)	recursive equals walk	none	A	A5: opt-in iterative preorder over materialized child arrays; exact data/equality/getChildren call order; O(depth) offset lane instead of Java recursion
 S11	AbstractTreeViewer.java	internalExpandToLevel/expandAll	2006	expandAll	O(n)	content provider + native item creation	getChildren/hasChildren in stock order	C	kept; native work is SWT viewport
 S12	TableViewer.java	remove(Object[])	406	remove	O(sel)	deselect loop over selection	none	A	kept (already hashed); then A2/A1
 S13	CheckboxTableViewer.java	preservingSelection/setCheckedElements	314	refresh with check boxes	O(n)	getItems + getChecked per row (native)	none	C	kept; native reads are SWT viewport lanes
