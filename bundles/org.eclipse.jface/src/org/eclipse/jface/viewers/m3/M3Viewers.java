@@ -181,7 +181,8 @@ public final class M3Viewers {
 
 	private static void insert(StructuredViewer viewer, Object parent, Object element, int index) {
 		if (viewer instanceof AbstractTreeViewer tree) {
-			tree.insert(parent, element, index);
+			// the model computed the position and applied the filters: the stock insert would append under a filter
+			StructuredViewerInternals.insertAt(tree, parent, element, index);
 		} else if (viewer instanceof AbstractTableViewer table) {
 			table.insert(element, index);
 		} else {

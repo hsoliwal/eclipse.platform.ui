@@ -42,7 +42,7 @@ rm -rf "$B/classes" "$B/jar" && mkdir -p "$B/classes" "$B/jar"
 # the class path (425 jars) goes through an argument file: the command line is too long for Windows
 { echo "-cp"; echo "$OUT/cand/classes;$B/wb-classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
 # org.eclipse.ui.ide needs JavaSE-25 on master (unnamed variables in ExtendedMarkersView): compile it with JDK 25
-"F:/jdks/temurin25/jdk-25.0.4.1+1/bin/javac" --release 25 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/classes" "$M"/M3*.java $HOOKED
+"F:/jdks/temurin25/jdk-25.0.4.1+1/bin/javac" --release 25 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/classes" "$M"/M3*.java "$WT"/bundles/org.eclipse.ui.ide/src/com/m3/collections/*.java $HOOKED   # com.m3.collections: the ide-bundle copy (PR #49, M3SparseExtents) that M3SlotOrder imports
 (cd "$B/jar" && "$JDK/bin/jar" xf "$POOL/$STOCK" && rm -f META-INF/*.SF META-INF/*.RSA META-INF/*.DSA META-INF/*.EC)
 cp -r "$B/classes/." "$B/jar/"
 rm -f "$E/plugins/org.eclipse.ui.ide_m3.jar"

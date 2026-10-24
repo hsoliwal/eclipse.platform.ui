@@ -106,16 +106,22 @@ public final class M3MarkersBench implements IStartup {
 		label = System.getProperty("m3.markers.label", "run"); //$NON-NLS-1$ //$NON-NLS-2$
 		int n = Integer.getInteger("m3.markers.n", 10000).intValue(); //$NON-NLS-1$
 		display = PlatformUI.getWorkbench().getDisplay();
+		// phase lines in the run log: a run that stops before the bench shows where (2026-10-24: two runs ended their
+		// log at the workbench theme line and hit the 1800 s timeout without a row)
+		LOG.info("bench start: label " + label + ", n " + n); //$NON-NLS-1$ //$NON-NLS-2$
 		waitForWindow();
+		LOG.info("bench: window up"); //$NON-NLS-1$
 		long t0 = System.nanoTime();
 		IProject project = createProject(n);
 		createMarkers(n);
 		row("create-markers", n, millis(t0), -1, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		LOG.info("bench: markers created in " + millis(t0) + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
 		t0 = System.nanoTime();
 		view = ui(() -> page().showView(PROBLEM_VIEW));
 		String counted = NumberFormat.getIntegerInstance().format(countSeverity(IMarker.SEVERITY_ERROR));
 		String desc = waitDescription(d -> d.contains(counted), 600_000);
 		row("initial-build", n, millis(t0), -1, desc);
+		LOG.info("bench: initial build " + millis(t0) + " ms, " + desc); //$NON-NLS-1$ //$NON-NLS-2$
 		settle();
 		ui(() -> {
 			viewer().expandAll(); // the categories as a user works with them: windows of rows shown
@@ -136,6 +142,7 @@ public final class M3MarkersBench implements IStartup {
 		}
 		String log = System.getProperty("m3.markers.log"); //$NON-NLS-1$
 		if (log != null) {
+			LOG.info("bench: differential to " + log); //$NON-NLS-1$
 			differential(Path.of(log), n, Long.getLong("m3.markers.seed", 1).longValue(), //$NON-NLS-1$
 					Integer.getInteger("m3.markers.steps", 30).intValue(), project); //$NON-NLS-1$
 		}
@@ -214,7 +221,11 @@ public final class M3MarkersBench implements IStartup {
 				f.setAccessible(true);
 				Object tree = f.get(view);
 				ui(() -> {
-					((org.eclipse.ui.dialogs.FilteredTree) tree).getFilterControl().setText(text);
+					// MarkersFilteredTree extends the e4 FilteredTree, not org.eclipse.ui.dialogs.FilteredTree: reach
+					// the search box through the accessor both trees declare
+					java.lang.reflect.Method control = tree.getClass().getMethod("getFilterControl"); //$NON-NLS-1$
+					control.setAccessible(true);
+					((org.eclipse.swt.widgets.Text) control.invoke(tree)).setText(text);
 					return null;
 				});
 				return;
@@ -597,7 +608,9 @@ public final class M3MarkersBench implements IStartup {
 	/** Waits until no markers job is pending and the title is stable for {@link #SETTLE_MILLIS}. */
 	private void settle() throws InterruptedException {
 		String last = description();
-		long stableSince = System.currentTimeMillis();
+		long since = System.currentTimeMillis();
+		long stableSince = since;
+		long logged = since;
 		while (System.currentTimeMillis() - stableSince < SETTLE_MILLIS || markersJobsPending()) {
 			Thread.sleep(20);
 			String d = description();
@@ -605,17 +618,48 @@ public final class M3MarkersBench implements IStartup {
 				last = d;
 				stableSince = System.currentTimeMillis();
 			}
+			long now = System.currentTimeMillis();
+			if (now - logged >= 10_000) {
+				// a hang shows up in the run log with its state (2026-10-24: a stock side settled for 30 minutes)
+				logged = now;
+				String state = "settle: " + (now - since) / 1000 + " s, description '" + d + "', pending " + pendingJobNames(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				LOG.info(state);
+			}
+			if (now - since > 300_000) {
+				throw new IllegalStateException("settle: markers jobs still pending after 300 s: " + pendingJobNames()); //$NON-NLS-1$
+			}
 		}
+	}
+
+	/*
+	 * A markers job: the stock jobs are classes of org.eclipse.ui.internal.views.markers; the M3 jobs ("M3 marker
+	 * deltas", "M3 marker scope") are Job.create instances, anonymous classes of org.eclipse.core.runtime.jobs, so
+	 * they are matched by name (2026-10-24: at 10^6 the scope job outlived the 800 ms settle window and the m3 side
+	 * was captured one step behind on every scope and filter change).
+	 */
+	private static boolean isMarkersJob(Job job) {
+		return job.getClass().getName().contains(".views.markers.") || job.getName().startsWith("M3 marker"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static boolean markersJobsPending() {
 		for (Job job : Job.getJobManager().find(null)) {
-			String name = job.getClass().getName();
-			if (name.contains(".views.markers.") && job.getState() != Job.NONE) { //$NON-NLS-1$
+			if (isMarkersJob(job) && job.getState() != Job.NONE) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/* the markers jobs that are not NONE, with their state (for the settle log) */
+	private static String pendingJobNames() {
+		StringBuilder b = new StringBuilder();
+		for (Job job : Job.getJobManager().find(null)) {
+			if (isMarkersJob(job) && job.getState() != Job.NONE) {
+				String name = job.getClass().getName().contains(".views.markers.") ? job.getClass().getName() : job.getName(); //$NON-NLS-1$
+				b.append(name.substring(name.lastIndexOf('.') + 1)).append('=').append(job.getState()).append(' ');
+			}
+		}
+		return b.length() == 0 ? "none" : b.toString().trim(); //$NON-NLS-1$
 	}
 
 	private String description() {

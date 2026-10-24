@@ -54,7 +54,7 @@ osgi.configuration.cascaded=false
 CFGEOF
   # no welcome page, no workspace prompt, no update check: nothing but the workbench and the bench
   printf '%s\n' org.eclipse.ui/showIntro=false org.eclipse.ui.ide/SHOW_WORKSPACE_SELECTION_DIALOG=false \
-    org.eclipse.equinox.p2.ui.sdk.scheduler/enabled=false > "$CFG/plugin_customization.ini"
+    org.eclipse.equinox.p2.ui.sdk.scheduler/enabled=false org.eclipse.ui/windows.defender.startup.check.skip=true > "$CFG/plugin_customization.ini"   # qualifier org.eclipse.ui: WorkbenchPlugin.PI_WORKBENCH is PlatformUI.PLUGIN_ID
   echo "bundles: $(grep -vc '^#' "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info")"
   # 3. first start outside the lock, headless (no application): Equinox installs the framework extensions and asks
   #    for a restart (exit 23, which only the native launcher handles), the second start resolves; the measured run
@@ -71,6 +71,13 @@ CFGEOF
   exec bash C:/m3-superset/tools/ui_lock.sh jface-viewport bash "$0" "$SIDE" "$N" "$SEED" "$STEPS" --inner "$INSTALL" "$POOL" "$JDK25"
 fi
 INSTALL=$6 POOL=$7 JDK25=$8
+# a 4 GB-heap workbench on a starved machine blocks silently (2026-10-24: two runs hit the timeout at 310 MB free):
+# wait up to 10 minutes for 6 GB of free RAM, then run anyway with a line in the output
+for i in $(seq 1 20); do
+  ram=$(powershell.exe -NoProfile -Command "[int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1KB)" 2>/dev/null | tr -d '\r')
+  [ "${ram:-0}" -ge 6000 ] && break
+  echo "free RAM ${ram:-?} MB under 6 GB: waiting ($i/20)"; sleep 30
+done
 CFG=$E/config-$SIDE-$N; [ -d "$CFG" ] || CFG=$E/config-$SIDE
 WS=$E/ws-$SIDE-$N; rm -rf "$WS" "$E/user-$SIDE-$N"; mkdir -p "$WS"
 LAUNCHER=$(ls "$POOL" | grep '^org.eclipse.equinox.launcher_' | head -1)
@@ -84,5 +91,27 @@ fi
 DIFF=""; [ -n "$SEED" ] && DIFF="-Dm3.markers.log=$(cygpath -w "$E/diff-$SIDE-$N-$SEED.log") -Dm3.markers.seed=$SEED -Dm3.markers.steps=$STEPS"
 w() { cygpath -w "$1"; }
 CMD="\"$(w "$JDK25/bin/java.exe")\" -Xmx${XMX:-4g} -XX:+UseG1GC -XX:ErrorFile=$(w "$OUT/tmp")\hs_err_%p.log --add-modules=ALL-SYSTEM -Djava.io.tmpdir=$(w "$OUT/tmp") -Dosgi.requiredJavaVersion=21 -Dosgi.user.area=$(w "$E/user-$SIDE-$N") -Dm3.markers.out=$(w "$RES") -Dm3.markers.label=$LABEL -Dm3.markers.n=$N $DIFF $COV ${MARKERS_OPTS:-} -jar $(w "$POOL/$LAUNCHER") -install $(w "$INSTALL") -configuration $(w "$CFG") -data $(w "$WS") -nosplash -consoleLog ${MARKERS_ARGS:-}"
-powershell -NoProfile -ExecutionPolicy Bypass -File "$(cygpath -w C:/m3-superset/tools/run_hidden_desktop.ps1)" -TimeoutSec ${MARKERS_TIMEOUT:-1800} -Log "$(w "$E/run-$LABEL.log")" -CommandLine "$CMD" -Desktop "${M3_UI_DESKTOP:-m3-ui-tests}" || echo "hidden desktop run: exit $?"
-grep -P "^$LABEL\t" "$RES" || { echo "no rows for $LABEL; log tail:"; tail -30 "$E/run-$LABEL.log"; }
+# 4. the measured run under a startup watchdog: a workbench started on a starved machine can come up without its
+#    extension registry (2026-10-24 06:17 UTC, m3-100000: "Product org.eclipse.platform.ide could not be found", no bench
+#    thread, 40 minutes to the timeout). No "bench start" in the log within MARKERS_STARTUP seconds stops the bench JVM;
+#    a run whose JVM does not exit 0 (the bench halts with 0 after its last row) is retried MARKERS_RETRIES times.
+stop_bench() {
+  powershell.exe -NoProfile -Command "Get-CimInstance Win32_Process -Filter \"Name='java.exe'\" | Where-Object { \$_.CommandLine -like '*m3.markers.label=$LABEL *' } | ForEach-Object { Stop-Process -Id \$_.ProcessId -Force }" 2>/dev/null || true
+}
+run_once() {   # workspace, user area, log and the label's rows start empty; the exit code is the bench JVM's
+  rm -rf "$WS" "$E/user-$SIDE-$N" "$E/run-$LABEL.log"; mkdir -p "$WS"
+  if [ -f "$RES" ]; then awk -F'\t' -v l="$LABEL" '$1 != l' "$RES" > "$RES.tmp" && mv "$RES.tmp" "$RES"; fi
+  powershell -NoProfile -ExecutionPolicy Bypass -File "$(cygpath -w C:/m3-superset/tools/run_hidden_desktop.ps1)" -TimeoutSec ${MARKERS_TIMEOUT:-1800} -Log "$(w "$E/run-$LABEL.log")" -CommandLine "$CMD" -Desktop "${M3_UI_DESKTOP:-m3-ui-tests}" &
+  local rp=$! t=0 rc
+  while kill -0 "$rp" 2>/dev/null && ! grep -q "bench start" "$E/run-$LABEL.log" 2>/dev/null; do
+    if [ "$t" -ge "${MARKERS_STARTUP:-300}" ]; then echo "startup watchdog: no 'bench start' after $t s; stopping the bench JVM"; stop_bench; break; fi
+    sleep 10; t=$((t + 10))
+  done
+  wait "$rp" && rc=0 || rc=$?
+  echo "hidden desktop run: exit $rc"; return $rc
+}
+for attempt in $(seq 1 $((1 + ${MARKERS_RETRIES:-1}))); do
+  run_once && break
+  [ "$attempt" -le "${MARKERS_RETRIES:-1}" ] && echo "attempt $attempt of $LABEL failed; retrying" || true
+done
+rows=$(awk -F'\t' -v l="$LABEL" '$1 == l' "$RES" 2>/dev/null); if [ -n "$rows" ]; then printf '%s\n' "$rows"; else echo "no rows for $LABEL; log tail:"; tail -30 "$E/run-$LABEL.log"; fi   # awk, not grep -P: the latter fails under LC_ALL=C

@@ -21,10 +21,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.osgi.util.NLS;
+import org.eclipse.osgi.util.TextProcessor;
 import org.eclipse.ui.views.markers.MarkerField;
 import org.eclipse.ui.views.markers.MarkerItem;
 import org.eclipse.ui.views.markers.internal.MarkerGroup;
 import org.eclipse.ui.views.markers.internal.MarkerGroupingEntry;
+import org.eclipse.ui.views.markers.internal.MarkerMessages;
 
 /**
  * The one model of a markers view in M3 mode: every shown marker is a slot in
@@ -122,6 +125,8 @@ final class M3MarkerLanes {
 	private long[] textHits = new long[1];
 	private MarkerPatternFilter textFilter;
 	private int textGeneration;
+	/* the selection lane (PROBLEMS_VIEW.md 3.2): one bit per selected row; written from the viewer's selection events */
+	private final M3SlotBits selected = new M3SlotBits();
 	private int slots;
 	private int[] free = new int[16];
 	private int freeCount;
@@ -428,6 +433,7 @@ final class M3MarkerLanes {
 		state[slot] = 0;
 		markers[slot] = null;
 		category[slot] = -1;
+		selected.set(slot, false);
 		live--;
 		if (freeCount == free.length) {
 			free = Arrays.copyOf(free, freeCount << 1);
@@ -772,21 +778,128 @@ final class M3MarkerLanes {
 		if (filter == null) {
 			return;
 		}
+		// the lane-native match (M3TextMatch): one word match per distinct label; the facade route only for
+		// the visible fields without a lane, and only for rows no lane column matched (the stock OR over the
+		// visible fields; docs/m3/jface-viewport/PROBLEMS_VIEW.md 3.1)
+		MarkerField[] fields = filter.visibleFields();
+		byte[] kinds = plan(fields);
+		M3TextMatch match = new M3TextMatch(filter::matchesText, kinds, labels, M3MarkerLanes::lineLabel,
+				MarkerMessages.Unknown, TextProcessor::process);
+		MarkerField[] rest = facadeFields(fields, kinds);
 		for (int s = 0; s < slots; s++) {
 			if (state[s] != 0) {
-				MarkerEntry e = facades[s];
-				if (e == null) {
-					e = new MarkerEntry(markers[s]);
-					e.setCategory(byId[category[s]].facade);
+				boolean hit = match.hit(message[s], resource[s], path[s], location[s], line[s], type[s], created[s],
+						ids[s]);
+				if (!hit && rest.length > 0) {
+					hit = filter.matchesAny(facadeForText(s), rest);
 				}
-				setTextHit(s, filter.matches(e));
+				setTextHit(s, hit);
 			}
 		}
+	}
+
+	/* the facade of a slot for the fields without a lane: kept when the slot has one, transient otherwise */
+	private MarkerEntry facadeForText(int slot) {
+		MarkerEntry e = facades[slot];
+		if (e == null) {
+			e = new MarkerEntry(markers[slot]);
+			e.setCategory(byId[category[slot]].facade);
+		}
+		return e;
+	}
+
+	/* the lane of each visible field, by exact class: a subclass or a contributed field keeps the facade route */
+	private byte[] plan(MarkerField[] fields) {
+		byte[] kinds = new byte[fields.length];
+		for (int i = 0; i < fields.length; i++) {
+			Class<?> c = fields[i].getClass();
+			if (c == MarkerDescriptionField.class || c == MarkerSeverityAndDescriptionField.class
+					|| c == MarkerProblemSeverityAndMessageField.class) {
+				kinds[i] = M3TextMatch.MESSAGE;
+			} else if (c == MarkerResourceField.class) {
+				kinds[i] = M3TextMatch.RESOURCE;
+			} else if (c == MarkerPathField.class) {
+				kinds[i] = M3TextMatch.PATH;
+			} else if (c == MarkerLocationField.class) {
+				kinds[i] = M3TextMatch.LOCATION;
+			} else if (c == MarkerTypeField.class && needType) {
+				kinds[i] = M3TextMatch.TYPE;
+			} else if (c == MarkerCreationTimeField.class) {
+				kinds[i] = M3TextMatch.CREATED;
+			} else if (c == MarkerIDField.class) {
+				kinds[i] = M3TextMatch.ID;
+			}
+		}
+		return kinds;
+	}
+
+	/* the visible fields that keep the facade route, in the view's order */
+	private static MarkerField[] facadeFields(MarkerField[] fields, byte[] kinds) {
+		int n = 0;
+		for (byte k : kinds) {
+			n += k == M3TextMatch.FACADE ? 1 : 0;
+		}
+		MarkerField[] rest = new MarkerField[n];
+		for (int i = 0, j = 0; i < kinds.length; i++) {
+			if (kinds[i] == M3TextMatch.FACADE) {
+				rest[j++] = fields[i];
+			}
+		}
+		return rest;
+	}
+
+	/* MarkerEntry.computeLocation: the label of a row without a location attribute but with a line */
+	private static String lineLabel(int line) {
+		return NLS.bind(MarkerMessages.label_lineNumber, Integer.toString(line));
 	}
 
 	/** The active search filter, or {@code null}. */
 	MarkerPatternFilter textFilter() {
 		return textFilter;
+	}
+
+	/* ---------------------------------------------------------------- selection lane (PROBLEMS_VIEW.md 3.2) */
+
+	/**
+	 * Writes the viewer's selection into the lane: the rows of the given marker
+	 * ids are selected, every other row is not. Called on the UI thread from the
+	 * view's selection listener; a shadow of the widget until the window patch
+	 * restores the selection by index from these bits.
+	 *
+	 * @param markerIds the ids of the selected rows
+	 * @param n         how many
+	 */
+	synchronized void setSelection(long[] markerIds, int n) {
+		selected.clear();
+		for (int i = 0; i < n; i++) {
+			int slot = find(markerIds[i]);
+			if (slot >= 0) {
+				selected.set(slot, true);
+			}
+		}
+	}
+
+	/** @return whether the slot's row is selected */
+	boolean isSelected(int slot) {
+		return selected.get(slot);
+	}
+
+	/** @return the number of selected rows (O(1)) */
+	int selectedCount() {
+		return selected.count();
+	}
+
+	/**
+	 * The selected rows of a window: the positions among {@code slots} whose
+	 * row is selected, for a restore by index after a patch.
+	 *
+	 * @param slots the window slots
+	 * @param n     how many
+	 * @param out   receives the positions, at least {@code n} long
+	 * @return the number of positions written
+	 */
+	int selectedPositions(int[] slots, int n, int[] out) {
+		return selected.positions(slots, n, out);
 	}
 
 	/** Increases on every {@link #applyText}. */
