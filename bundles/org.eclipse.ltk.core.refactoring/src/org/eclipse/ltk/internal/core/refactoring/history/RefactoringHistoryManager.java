@@ -413,13 +413,7 @@ public final class RefactoringHistoryManager {
 	 */
 	public static IPath stampToPath(final long stamp) {
 		fgCalendar.setTimeInMillis(stamp);
-		final StringBuilder buffer= new StringBuilder(256);
-		buffer.append(fgCalendar.get(Calendar.YEAR));
-		buffer.append(IPath.SEPARATOR);
-		buffer.append(fgCalendar.get(Calendar.MONTH) + 1);
-		buffer.append(IPath.SEPARATOR);
-		buffer.append(fgCalendar.get(Calendar.WEEK_OF_YEAR));
-		return new Path(buffer.toString());
+		return new Path("" + fgCalendar.get(Calendar.YEAR) + IPath.SEPARATOR + (fgCalendar.get(Calendar.MONTH) + 1) + IPath.SEPARATOR + fgCalendar.get(Calendar.WEEK_OF_YEAR));
 	}
 
 	/**
@@ -620,11 +614,7 @@ public final class RefactoringHistoryManager {
 		}
 
 		private void endTag(Element element) {
-			StringBuilder sb= new StringBuilder();
-			sb.append("</"); //$NON-NLS-1$
-			sb.append(element.getNodeName());
-			sb.append(">"); //$NON-NLS-1$
-			print(sb.toString());
+			print("</" + element.getNodeName() + ">"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 		private static void appendEscapedChar(StringBuilder buffer, char c) {

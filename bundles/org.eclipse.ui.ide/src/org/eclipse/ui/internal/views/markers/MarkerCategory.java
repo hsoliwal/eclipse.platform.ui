@@ -249,17 +249,7 @@ class MarkerCategory extends MarkerSupportItem {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MarkerCategory [name="); //$NON-NLS-1$
-		builder.append(name);
-		builder.append(", severity="); //$NON-NLS-1$
-		builder.append(severity);
-		builder.append(", start="); //$NON-NLS-1$
-		builder.append(start);
-		builder.append(", end="); //$NON-NLS-1$
-		builder.append(end);
-		builder.append(']');
-		return builder.toString();
+		return "MarkerCategory [name=" + name + ", severity=" + severity + ", start=" + start + ", end=" + end + ']'; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 }
