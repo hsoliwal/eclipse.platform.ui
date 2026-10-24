@@ -230,7 +230,11 @@ final class M3MarkerLanes {
 	 * @param change the marker, its keys and category
 	 */
 	void add(Change change) {
-		if (find(change.id) >= 0) {
+		int existing = find(change.id);
+		if (existing >= 0) {
+			if (!sameIdentity(markers[existing], change.marker)) {
+				throw new IllegalStateException("marker ID reused across resources");
+			}
 			return; // the same marker found through two scopes
 		}
 		int slot = allocate(change.id);
@@ -304,6 +308,10 @@ final class M3MarkerLanes {
 		List<Category> touched = new ArrayList<>();
 		for (Change change : changes) {
 			int slot = find(change.id);
+			if (slot >= 0 && change.marker != null
+					&& !sameIdentity(markers[slot], change.marker)) {
+				throw new IllegalStateException("delta would overwrite another resource's marker");
+			}
 			if (slot >= 0) {
 				Category before = byId[category[slot]];
 				before.order.remove(slot);
@@ -487,6 +495,20 @@ final class M3MarkerLanes {
 		created = Arrays.copyOf(created, capacity);
 		type = Arrays.copyOf(type, capacity);
 		facades = Arrays.copyOf(facades, capacity);
+	}
+
+	/**
+	 * A marker's stable logical key is (marker id, resource equals).
+	 * While the M3 table remains id-only, mismatches refuse its fast path.
+	 */
+	static boolean sameIdentity(IMarker first, IMarker second) {
+		if (first == null || second == null || first.getId() != second.getId()) {
+			return false;
+		}
+		if (first.getResource() == null || second.getResource() == null) {
+			return false; // ambiguous resource handle: use original Eclipse rebuild
+		}
+		return first.getResource().equals(second.getResource());
 	}
 
 	/* id table */
@@ -869,7 +891,7 @@ final class M3MarkerLanes {
 	 */
 	MarkerEntry item(IMarker marker) {
 		int slot = find(marker.getId());
-		if (slot < 0 || !marker.equals(markers[slot])) {
+		if (slot < 0 || !sameIdentity(marker, markers[slot])) {
 			return null;
 		}
 		return facade(slot);
