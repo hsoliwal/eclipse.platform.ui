@@ -54,7 +54,7 @@ osgi.configuration.cascaded=false
 CFGEOF
   # no welcome page, no workspace prompt, no update check: nothing but the workbench and the bench
   printf '%s\n' org.eclipse.ui/showIntro=false org.eclipse.ui.ide/SHOW_WORKSPACE_SELECTION_DIALOG=false \
-    org.eclipse.equinox.p2.ui.sdk.scheduler/enabled=false org.eclipse.ui.workbench/windows.defender.startup.check.skip=true > "$CFG/plugin_customization.ini"
+    org.eclipse.equinox.p2.ui.sdk.scheduler/enabled=false org.eclipse.ui/windows.defender.startup.check.skip=true > "$CFG/plugin_customization.ini"   # qualifier org.eclipse.ui: WorkbenchPlugin.PI_WORKBENCH is PlatformUI.PLUGIN_ID
   echo "bundles: $(grep -vc '^#' "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info")"
   # 3. first start outside the lock, headless (no application): Equinox installs the framework extensions and asks
   #    for a restart (exit 23, which only the native launcher handles), the second start resolves; the measured run
@@ -71,6 +71,13 @@ CFGEOF
   exec bash C:/m3-superset/tools/ui_lock.sh jface-viewport bash "$0" "$SIDE" "$N" "$SEED" "$STEPS" --inner "$INSTALL" "$POOL" "$JDK25"
 fi
 INSTALL=$6 POOL=$7 JDK25=$8
+# a 4 GB-heap workbench on a starved machine blocks silently (2026-10-24: two runs hit the timeout at 310 MB free):
+# wait up to 10 minutes for 6 GB of free RAM, then run anyway with a line in the output
+for i in $(seq 1 20); do
+  ram=$(powershell.exe -NoProfile -Command "[int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1KB)" 2>/dev/null | tr -d '\r')
+  [ "${ram:-0}" -ge 6000 ] && break
+  echo "free RAM ${ram:-?} MB under 6 GB: waiting ($i/20)"; sleep 30
+done
 CFG=$E/config-$SIDE-$N; [ -d "$CFG" ] || CFG=$E/config-$SIDE
 WS=$E/ws-$SIDE-$N; rm -rf "$WS" "$E/user-$SIDE-$N"; mkdir -p "$WS"
 LAUNCHER=$(ls "$POOL" | grep '^org.eclipse.equinox.launcher_' | head -1)

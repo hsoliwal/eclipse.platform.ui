@@ -2195,7 +2195,16 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				Widget[] itemsOfElement = internalFindItems(element);
 				for (Widget item : itemsOfElement) {
 					if (item instanceof TreeItem ti) {
+						if (ti.isDisposed()) {
+							continue; // disposed by the refresh of a sibling earlier in this batch
+						}
 						TreeItem parentItem = ti.getParentItem();
+						if (M3ViewerPaths.on(this) && !showsExpandableNode(parentItem == null ? ti.getParent() : parentItem)) {
+							// viewport mode: the parent shows no partial display, so the plain removal below is exact and
+							// keeps the siblings (the parent refresh recreated them and disposed the items of the other
+							// elements of this batch: docs/m3/jface-viewport, Problems view differential 2026-10-24)
+							continue;
+						}
 						if (parentItem == null) {
 							internalRefreshStruct(ti.getParent(), getInput(), false);
 							continueOuter = true;
@@ -2214,6 +2223,10 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			if (childItems.length > 0) {
 				for (Widget childItem : childItems) {
 					if (childItem instanceof Item it) {
+						if (it.isDisposed()) {
+							unmapElement(element, it); // its widget is gone already; drop the stale mapping
+							continue;
+						}
 						disassociate(it);
 						childItem.dispose();
 					}
@@ -2227,6 +2240,12 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				}
 			}
 		}
+	}
+
+	/* whether the last child of the widget is the expandable node of a partial display (items limit) */
+	private boolean showsExpandableNode(Widget parent) {
+		Item[] children = getChildren(parent);
+		return children.length > 0 && isExpandableNode(children[children.length - 1].getData());
 	}
 
 	/**
