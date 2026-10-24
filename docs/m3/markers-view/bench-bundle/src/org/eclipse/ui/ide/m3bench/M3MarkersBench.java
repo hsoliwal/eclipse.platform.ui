@@ -106,16 +106,22 @@ public final class M3MarkersBench implements IStartup {
 		label = System.getProperty("m3.markers.label", "run"); //$NON-NLS-1$ //$NON-NLS-2$
 		int n = Integer.getInteger("m3.markers.n", 10000).intValue(); //$NON-NLS-1$
 		display = PlatformUI.getWorkbench().getDisplay();
+		// phase lines in the run log: a run that stops before the bench shows where (2026-10-24: two runs ended their
+		// log at the workbench theme line and hit the 1800 s timeout without a row)
+		LOG.info("bench start: label " + label + ", n " + n); //$NON-NLS-1$ //$NON-NLS-2$
 		waitForWindow();
+		LOG.info("bench: window up"); //$NON-NLS-1$
 		long t0 = System.nanoTime();
 		IProject project = createProject(n);
 		createMarkers(n);
 		row("create-markers", n, millis(t0), -1, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		LOG.info("bench: markers created in " + millis(t0) + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
 		t0 = System.nanoTime();
 		view = ui(() -> page().showView(PROBLEM_VIEW));
 		String counted = NumberFormat.getIntegerInstance().format(countSeverity(IMarker.SEVERITY_ERROR));
 		String desc = waitDescription(d -> d.contains(counted), 600_000);
 		row("initial-build", n, millis(t0), -1, desc);
+		LOG.info("bench: initial build " + millis(t0) + " ms, " + desc); //$NON-NLS-1$ //$NON-NLS-2$
 		settle();
 		ui(() -> {
 			viewer().expandAll(); // the categories as a user works with them: windows of rows shown
@@ -136,6 +142,7 @@ public final class M3MarkersBench implements IStartup {
 		}
 		String log = System.getProperty("m3.markers.log"); //$NON-NLS-1$
 		if (log != null) {
+			LOG.info("bench: differential to " + log); //$NON-NLS-1$
 			differential(Path.of(log), n, Long.getLong("m3.markers.seed", 1).longValue(), //$NON-NLS-1$
 					Integer.getInteger("m3.markers.steps", 30).intValue(), project); //$NON-NLS-1$
 		}
