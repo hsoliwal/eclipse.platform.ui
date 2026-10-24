@@ -34,14 +34,15 @@ the work of 2026-10-24 on top of it.
   identical in both modes); to be rerun on a quiet machine before merging.
 - Differential stock vs m3 (seed 7, 30 steps; `docs/m3/markers-view/tools/markers_round.sh 7 30 <n>`):
   - 10^4 before the insert fix: 52 of 69 steps differed (category order, one misplaced row, MV-8).
-  - 10^4 after the insert fix: RESULT_10E4.
+  - 10^4 after the insert and remove fixes (run of 05:54-06:03 UTC, c49919094b): IDENTICAL, 69 of 69 steps,
+    m3 counters applied=76 fallbacks=0 builds=2 shown-patches=1.
   - 10^5: RESULT_10E5.
   - Counters (m3, 10^4): 76 deltas applied, 0 fallbacks, 1 shown patch; stock: 30 full refreshes and 30 rebuilds
     for 30 edits, 6 for 9 search steps, 16 for 4 scope steps.
 
 ### Open
 
-- MV-8: stock gains a native `Warnings` selection when the search text changes (no code selects; consistent with
-  the win32 caret moving when a focused item is deleted during the refresh); M3 keeps the empty selection. Decision
-  pending: match stock or count it as a stock defect.
+- MV-8 withdrawn: the stock-side `Warnings` selection on a text change appeared only while the Windows Defender
+  prompt was open on the hidden desktop (the bench then ran inside the dialog's nested event loop); with the prompt
+  skipped under its real preference qualifier both sides agree on every selection segment.
 - The >50k pending-deltas fallback stays FAIL in DELTA_GATE until measured against the merge path.
