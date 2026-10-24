@@ -44,6 +44,7 @@ public class DefaultContentAssistProcessor implements IContentAssistProcessor {
 
 	private static final String NON_ALPHANUMERIC_LAST_REGEXP = "[^\\w](?!.*[^\\w])"; //$NON-NLS-1$
 	private static final String NON_ALPHANUMERIC_REGEXP = "[^a-zA-Z0-9]+"; //$NON-NLS-1$
+	private static final Pattern NON_ALPHANUMERIC_PATTERN = Pattern.compile(NON_ALPHANUMERIC_REGEXP);
 	private static final Pattern NON_ALPHANUMERIC_LAST_PATTERN = Pattern.compile(NON_ALPHANUMERIC_LAST_REGEXP);
 
 
@@ -56,7 +57,7 @@ public class DefaultContentAssistProcessor implements IContentAssistProcessor {
 			// not possible
 			return null;
 		}
-		String[] tokens = text.split(NON_ALPHANUMERIC_REGEXP);
+		String[] tokens = NON_ALPHANUMERIC_PATTERN.split(text);
 
 		// remove duplicates
 		Set<String> tokenSet = new HashSet<>(Arrays.asList(tokens));

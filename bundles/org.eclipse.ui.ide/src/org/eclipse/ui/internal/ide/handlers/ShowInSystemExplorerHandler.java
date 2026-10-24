@@ -18,6 +18,7 @@ package org.eclipse.ui.internal.ide.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -179,10 +180,12 @@ public class ShowInSystemExplorerHandler extends AbstractHandler {
 		return command;
 	}
 
+	private static final Pattern PATH_PATTERN = Pattern.compile("[\"$`]"); //$NON-NLS-1$
+
 	private String quotePath(String path) {
 		if (Util.isLinux() || Util.isMac()) {
 			// Quote for usage inside "", man sh, topic QUOTING:
-			path = path.replaceAll("[\"$`]", "\\\\$0"); //$NON-NLS-1$ //$NON-NLS-2$
+			path = PATH_PATTERN.matcher(path).replaceAll("\\\\$0"); //$NON-NLS-1$
 		}
 		// Windows: Can't quote, since explorer.exe has a very special command line parsing strategy.
 		return path;
