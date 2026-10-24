@@ -116,11 +116,14 @@ public class FileNamePatternSearchScope extends TextSearchScope {
 	}
 
 
+	private static final Pattern GET_FILE_NAME_MATCHER_PATTERN = Pattern.compile(".*"); //$NON-NLS-1$
+
+
 	private Matcher getFileNameMatcher() {
 		if (fFileNameMatcher == null) {
 			Pattern pattern;
 			if (fFileNamePatterns.isEmpty()) {
-				pattern= Pattern.compile(".*"); //$NON-NLS-1$
+				pattern= GET_FILE_NAME_MATCHER_PATTERN;
 			} else {
 				String[] patternStrings= fFileNamePatterns.toArray(new String[fFileNamePatterns.size()]);
 				pattern= PatternConstructor.createPattern(patternStrings, IS_CASE_SENSITIVE_FILESYSTEM);
