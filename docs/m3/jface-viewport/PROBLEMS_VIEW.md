@@ -88,6 +88,38 @@ current); a marker that vanished without a delta differs until its removal delta
 Proof: `M3TextMatchTest` (headless: lane match against the stock derivation over 5,000 random rows and 8 tokens,
 facade counting, memo growth); the differential's `search '<text>'` steps (stock and m3 logs identical).
 
+
+### 3.2 Selection and expansion as lanes (design, 2026-10-24; from the TV_5.0 state providers)
+
+Today the selection and the expansion of the Problems view live in the widget and in JFace: a window patch runs
+inside `preservingSelection` (`MarkersTreeViewer.m3PreservingMarkerSelection`), which reads the selection as an
+element list (`getSelection()`, one `MarkerEntry` facade per selected row), applies the patch, and restores it with
+`setSelectionToWidget` (an item lookup per element); the expansion is a set of category names
+(`ExtendedMarkersView.getCategoriesToExpand`) replayed by `reexpandCategories` after every patch. Both are O(selected)
+and O(categories) walks with allocations, and a select-all over 10^5 rows materialises 10^5 facades.
+
+The lane form (TV_5.0 `ISelectStateProvider`, `IExpandStateProvider`: the model owns the state, the widget asks):
+
+1. `M3MarkerLanes` gains a `selected` bit lane over slots and an `expanded` bit per category id. A selection change
+   from the widget (`SWT.Selection`) writes the bits of the rows in the window; a select-all sets every live slot
+   in O(words); `getSelection()` materialises facades only when an API caller asks (bits/ints + lazy objects law).
+2. A window patch does not preserve the selection through JFace: the patch inserts and removes rows, then the rows
+   inside the shown window whose bit is set are selected by index (`Tree.select(items)` once per category), and
+   rows outside the window need no item. `preservingM3Selection` is bypassed for lane patches (one boundary: the
+   selection-changed event fires once, after the patch, only when the selected id set changed).
+3. Expansion: a category's bit replaces the name set; `reexpandCategories` becomes "expand the categories whose
+   bit is set and whose item exists", O(categories) without the name lookups; a new category inherits the bit of
+   the stock rule (single category expanded).
+4. The delta path keeps the bits across changes: a removed marker clears its bit; a changed marker keeps it; a
+   marker leaving the window keeps it (it is still selected, as stock keeps the element in its selection list).
+
+Equivalence: the selection and expansion the view reports (`getStructuredSelection`, `getExpandedState`, the status
+line) are the same sets as stock after every step of the differential; the only intended difference is the cost.
+Proof: the differential's `selection` segment (every step records the tree selection and the viewer selection) at
+10^4, 10^5 and 10^6, a headless test of the bit lanes, and the ledger rows `select-all`, `patch-with-selection`.
+Open question for the user: MV-8 (stock's accidental native selection on a text change) decides whether the lane
+reproduces native caret side effects or not.
+
 ## 4. Still a clean rebuild (DELTA_GATE.tsv)
 
 These still rebuild: the first input; filter, grouping, sort, scope and limit changes (user actions); and the
