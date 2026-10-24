@@ -61,6 +61,33 @@ docs/m3/markers-view/INVENTORY.tsv and UPSTREAM_DEFECTS.tsv give the file:line e
    touched categories and changed ids. On `partVisible` it applies one window patch (`M3PartVisibility`, see
    REFERENCE_TREE_VIEW.md; SWT.PartVisible is the coming source of truth).
 
+
+### 3.1 The search text on the lanes (2026-10-24)
+
+Stock evaluates the search box per child: `PatternFilter.isLeafMatch` calls `MarkerField.getValue(item)` for every
+visible field of every marker (attribute reads through `MarkerEntry`), once per keystroke that survives the
+`FilteredTree` debounce. The first lane version (`M3MarkerLanes.applyText`, 2026-10-20) kept the stock test but ran
+it on a transient `MarkerEntry` per slot: 10^5 facades per keystroke at 10^5 markers.
+
+`M3TextMatch` evaluates the standard columns on the lanes. The value a standard column shows is an interned label
+(message, resource, path, location) or a number (line, creation time, marker id), so the pattern's word match
+(`MarkerPatternFilter.matchesText`, the stock `wordMatches`) runs once per distinct label and is remembered per
+label id for the pass. The visible fields are mapped to lanes by exact class (`M3MarkerLanes.plan`:
+`MarkerDescriptionField` and its two stock subclasses, `MarkerResourceField`, `MarkerPathField`,
+`MarkerLocationField`, `MarkerTypeField` when the model keeps the type lane, `MarkerCreationTimeField`,
+`MarkerIDField`); any other field (a contributed column, a subclass with its own `getValue`) keeps the facade route,
+evaluated only for rows no lane column matched (the stock OR over the visible fields, same order within each
+route). The derivations are the stock ones: `MarkerEntry.computeLocation` (location attribute, else "line N", else
+Unknown), `MarkerPathField` (bidi processor over the path), `MarkerCreationTimeField` (empty below zero),
+`MarkerIDField`.
+
+Known difference: stock reads the attributes at match time and treats a `RuntimeException` of a field as no match;
+the lanes match the labels captured by the last delta. A marker whose attributes changed is a delta (the lanes are
+current); a marker that vanished without a delta differs until its removal delta lands.
+
+Proof: `M3TextMatchTest` (headless: lane match against the stock derivation over 5,000 random rows and 8 tokens,
+facade counting, memo growth); the differential's `search '<text>'` steps (stock and m3 logs identical).
+
 ## 4. Still a clean rebuild (DELTA_GATE.tsv)
 
 These still rebuild: the first input; filter, grouping, sort, scope and limit changes (user actions); and the

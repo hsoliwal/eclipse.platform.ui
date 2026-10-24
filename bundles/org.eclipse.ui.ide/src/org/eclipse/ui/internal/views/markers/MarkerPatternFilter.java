@@ -79,6 +79,32 @@ class MarkerPatternFilter extends PatternFilter {
 		return isLeafMatch(null, item);
 	}
 
+	/** The visible fields of the view, in the view's order (M3 lanes: the plan of the lane-native match). */
+	MarkerField[] visibleFields() {
+		return view.getVisibleFields();
+	}
+
+	/**
+	 * Whether one column value matches the current pattern (M3 lanes: once per
+	 * distinct label, M3TextMatch).
+	 */
+	boolean matchesText(String value) {
+		return value != null && wordMatches(value);
+	}
+
+	/**
+	 * Whether the item matches through one of the given fields (M3 lanes: the
+	 * visible fields without a lane, on a facade).
+	 */
+	boolean matchesAny(MarkerItem item, MarkerField[] fields) {
+		for (MarkerField field : fields) {
+			if (matches(field, item)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	protected boolean isLeafMatch(Viewer viewer, Object element) {
 		if (isFilterEmpty()) {

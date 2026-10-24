@@ -66,8 +66,11 @@ Open, in order:
    `M3ViewerBench` as a median of 5 on quiet slots before calling it either way.
 2. DELTA_GATE FAIL row: `CachedMarkerBuilder.java:597,611` (working-set listener: `group.refresh()` then a full
    update). Make it the scope set-diff.
-3. Deferred `MarkerEntry` facades: no entry object for rows outside the window; replace `Markers.markerToEntryMap`
-   (HashMap) with the open-addressing id table.
+3. **Done (verified 2026-10-24):** deferred `MarkerEntry` facades (`M3MarkerLanes.facade/releaseFacade`, kept only
+   while a slot is in a shown window), the open-addressing marker-id table (`find/put/unput`, `Markers.getMarkerItem`
+   goes through `lanes.item`). The last per-row facade use, the search text, is now the lane-native match
+   (`M3TextMatch`, PROBLEMS_VIEW.md 3.1); `children(Category)` still materialises transient entries for copy and
+   select-all by design.
 4. Differential at 10^4/10^5/10^6 with zero mismatches, and the full-refresh counter = 0. Record the run ids here.
 5. TREE_VIEW_API_MATRIX: no TODO; every row has a differential status.
 6. Switch the PartVisible stand-in to SWT.PartVisible/PartHidden once the all-widgets track lands it (rule 25).
@@ -95,3 +98,4 @@ S:/m3-scratch, never write to G:, D: or E:.
 - 2026-10-20 13:40: handover written by the lead (Claude) from branch head af302a4438.
 - 2026-10-20 14:05 (JFace agent): item 2 code done in d13d2522a5 (WorkingSetListener and requestMarkerUpdate offer scope changes to M3MarkerDeltas.scopeChanged: gather diff against the lanes, one delta); DELTA_GATE rows now PASS pending the differential scope sweep. Harness fixes since: m3Building readiness (fcdb7394b8: every earlier delta fell back), osgi.configuration.cascaded=false (2c12e1b555: every earlier m3 run had loaded the stock pool jars), in-process class histogram (3f4203ea90). Runs queued: round 1000 (stock+m3), stock 10^4 (done, 60-line log), stock 10^5. Item 1: same-build A/B with 5 interleaved repetitions under one slot (tools/run_ab.sh) queued; source check says viewport mode only changes remove/select paths (ledger note aab7823a2f).
 - 2026-10-20 14:50 (lead, Fable): search text as a lane. M3MarkerLanes: textHits bit lane, applyText(filter), textHit/matching, windowSlots filters before the limit; Change.textHit/textGeneration set in write(); M3MarkerDeltas: ready() no longer treats a search text as a fallback, build() applies the text after finishBuild, prepareOne evaluates MarkerPatternFilter.matches per changed row, apply() re-evaluates rows prepared before a newer text, textChanged(view, filter) hook; MarkerPatternFilter.setPattern calls it; MarkerViewerContentProvider serves lane windows under a search; M3MarkerCategory.getShownChildrenCount = applyMarkerLimit(lanes.matching). Bench: filterText + search steps ('Added', 'problem 1', clear; 3 edits each) + diff-search-* rows. run_headless_tests.sh now uses JDK 25 (overlay ide classes are --release 25): 6/6 tests pass. Differential at n=1000 seed 7 (stock, then m3 with this build) queued on the UI lock; result to be logged here.
+- 2026-10-24 04:05 UTC (lead, Fable): branch forward-merged with the fork master (135799b8bb: PR #45 JFace superset, #48 marker identity, #49 M3SparseExtents inline, #44 JDK21 compat); build_overlay.sh now compiles the ide-bundle com.m3.collections copy M3SlotOrder imports (97dc0f9dbe). Setup confirmed: build_jface 636 classes, overlay ok, 12 headless tests green, differential round 10^4 seed 7 started (see the next entry for its result). Leaf: the search text on the lanes (M3TextMatch, PROBLEMS_VIEW.md 3.1): one word match per distinct label instead of a MarkerEntry facade per row; facade route only for fields without a lane; M3TextMatchTest headless.
