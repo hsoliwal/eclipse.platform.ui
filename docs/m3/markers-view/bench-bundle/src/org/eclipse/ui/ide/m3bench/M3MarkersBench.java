@@ -601,13 +601,25 @@ public final class M3MarkersBench implements IStartup {
 	/** Waits until no markers job is pending and the title is stable for {@link #SETTLE_MILLIS}. */
 	private void settle() throws InterruptedException {
 		String last = description();
-		long stableSince = System.currentTimeMillis();
+		long since = System.currentTimeMillis();
+		long stableSince = since;
+		long logged = since;
 		while (System.currentTimeMillis() - stableSince < SETTLE_MILLIS || markersJobsPending()) {
 			Thread.sleep(20);
 			String d = description();
 			if (!d.equals(last) || markersJobsPending()) {
 				last = d;
 				stableSince = System.currentTimeMillis();
+			}
+			long now = System.currentTimeMillis();
+			if (now - logged >= 10_000) {
+				// a hang shows up in the run log with its state (2026-10-24: a stock side settled for 30 minutes)
+				logged = now;
+				String state = "settle: " + (now - since) / 1000 + " s, description '" + d + "', pending " + pendingJobNames(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				LOG.info(state);
+			}
+			if (now - since > 300_000) {
+				throw new IllegalStateException("settle: markers jobs still pending after 300 s: " + pendingJobNames()); //$NON-NLS-1$
 			}
 		}
 	}
@@ -620,6 +632,18 @@ public final class M3MarkersBench implements IStartup {
 			}
 		}
 		return false;
+	}
+
+	/* the markers jobs that are not NONE, with their state (for the settle log) */
+	private static String pendingJobNames() {
+		StringBuilder b = new StringBuilder();
+		for (Job job : Job.getJobManager().find(null)) {
+			String name = job.getClass().getName();
+			if (name.contains(".views.markers.") && job.getState() != Job.NONE) { //$NON-NLS-1$
+				b.append(name.substring(name.lastIndexOf('.') + 1)).append('=').append(job.getState()).append(' ');
+			}
+		}
+		return b.length() == 0 ? "none" : b.toString().trim(); //$NON-NLS-1$
 	}
 
 	private String description() {

@@ -42,6 +42,8 @@ modes and combination, the tree filter ancestor rule, `CachedLazyTreeContentProv
 2. Filter algebra on lanes (`IEntryFilter`): one bit lane per filter group, AND/OR word-wise, one lane recomputed per edit.
 3. Patch priority by visibility and per-marker discard (`IViewerUpdater`): shown-window patches first, pending work of a
    removed marker dropped.
-4. `relocate`: a category change keeps the slot (verify in `M3MarkerLanes.apply`).
+4. `relocate`: a category change keeps the slot. **Verified 2026-10-24:** `M3MarkerLanes.apply` removes a changed
+   marker from its old category order, releases its labels and writes the change into the same slot; only the category
+   lane and the orders move (no free + allocate).
 
 Each is a recipe-sized leaf with a headless test and a differential step; the order follows the Problems view proof.
