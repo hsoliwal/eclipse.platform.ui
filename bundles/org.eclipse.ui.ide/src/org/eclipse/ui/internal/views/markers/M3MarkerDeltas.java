@@ -40,6 +40,7 @@ import org.eclipse.jface.viewers.m3.M3ViewerDelta;
 import org.eclipse.jface.viewers.m3.M3Viewers;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.internal.m3.M3PartVisibility;
@@ -92,13 +93,17 @@ final class M3MarkerDeltas {
 	private static final byte NONE = 0;
 
 	/** Counters for the differential and the benchmark: see {@link #counters()}. */
-	private static final int[] COUNTERS = new int[5];
+	private static final int[] COUNTERS = new int[6];
 	private static final int APPLIED = 0;
 	private static final int FALLBACKS = 1;
 	private static final int BUILDS = 2;
 	private static final int SHOWN = 3;
 	/* patches after which the selection lane and the viewer's row selection disagreed (PROBLEMS_VIEW.md 3.2 shadow) */
 	private static final int SELECTION_LANE_MISMATCHES = 4;
+	/* patches whose selection was restored from the lane by index (PROBLEMS_VIEW.md 3.2 step 2) */
+	private static final int LANE_SELECTIONS = 5;
+	/* -Dorg.eclipse.ui.ide.markers.selection=lane: the window patch restores the selection from the lane, not JFace */
+	private static final boolean LANE_SELECTION = "lane".equals(System.getProperty("org.eclipse.ui.ide.markers.selection")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private final MarkersChangeListener listener;
 	private final CachedMarkerBuilder builder;
@@ -251,7 +256,8 @@ final class M3MarkerDeltas {
 	 */
 	static synchronized String counters() {
 		return "applied=" + COUNTERS[APPLIED] + " fallbacks=" + COUNTERS[FALLBACKS] + " builds=" + COUNTERS[BUILDS] //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ " shown-patches=" + COUNTERS[SHOWN] + " selection-lane-mismatches=" + COUNTERS[SELECTION_LANE_MISMATCHES]; //$NON-NLS-1$ //$NON-NLS-2$
+				+ " shown-patches=" + COUNTERS[SHOWN] + " selection-lane-mismatches=" + COUNTERS[SELECTION_LANE_MISMATCHES] //$NON-NLS-1$ //$NON-NLS-2$
+				+ " lane-selections=" + COUNTERS[LANE_SELECTIONS]; //$NON-NLS-1$
 	}
 
 	private static synchronized void count(int counter) {
@@ -714,13 +720,14 @@ final class M3MarkerDeltas {
 		TreeViewer viewer = view.getViewer();
 		Object input = viewer.getInput();
 		M3ViewerDelta delta = new M3ViewerDelta();
+		int limit = limit(view);
 		if (lanes.isFlat()) {
 			M3MarkerLanes.Category flat = lanes.flatCategory();
 			if (flat != null) {
-				patchRows(delta, lanes, flat, input, viewer.getTree().getItems(), limit(view), changed);
+				patchRows(delta, lanes, flat, input, viewer.getTree().getItems(), limit, changed);
 			}
 			if (!delta.isEmpty()) {
-				((MarkersTreeViewer) viewer).m3PreservingMarkerSelection(() -> M3Viewers.apply(viewer, delta));
+				applyPatch(view, lanes, delta, touched, limit);
 			}
 			return;
 		}
@@ -740,7 +747,6 @@ final class M3MarkerDeltas {
 				}
 			}
 		}
-		int limit = limit(view);
 		for (M3MarkerLanes.Category c : touched) {
 			if (lanes.indexOf(c) < 0) {
 				continue;
@@ -754,9 +760,76 @@ final class M3MarkerDeltas {
 		if (delta.isEmpty()) {
 			return;
 		}
-		((MarkersTreeViewer) viewer).m3PreservingMarkerSelection(() -> M3Viewers.apply(viewer, delta));
+		applyPatch(view, lanes, delta, touched, limit);
 		for (M3MarkerCategory category : expand) {
 			viewer.setExpandedState(category, true);
+		}
+	}
+
+	/*
+	 * The patch, then the selection. Default: JFace preservingSelection around the patch (the selection as an element
+	 * list before, setSelectionToWidget with an item lookup per element after). Lane mode (PROBLEMS_VIEW.md 3.2 step
+	 * 2): the patch runs bare; the selected items of the untouched windows and the category items are kept as they
+	 * are, the rows of every touched window are taken from the lane bits by position (a row the patch re-inserted
+	 * regains its selection, a native caret selection inside a patched window does not survive, as under stock), and
+	 * the tree's selection is set once; one selection event follows when a selected row left the window or the model.
+	 * O(selected + touched windows) item references, no facade materialised, no element lookup.
+	 */
+	private static void applyPatch(ExtendedMarkersView view, M3MarkerLanes lanes, M3ViewerDelta delta,
+			List<M3MarkerLanes.Category> touched, int limit) {
+		MarkersTreeViewer viewer = (MarkersTreeViewer) view.getViewer();
+		if (!LANE_SELECTION) {
+			viewer.m3PreservingMarkerSelection(() -> M3Viewers.apply(viewer, delta));
+			return;
+		}
+		Tree tree = viewer.getTree();
+		TreeItem[] before = tree.getSelection();
+		M3Viewers.apply(viewer, delta);
+		List<TreeItem> next = new ArrayList<>(before.length);
+		boolean flat = lanes.isFlat();
+		for (TreeItem item : before) {
+			if (!item.isDisposed() && !flat && !inTouchedWindow(item, touched)) {
+				next.add(item);
+			}
+		}
+		if (flat) {
+			M3MarkerLanes.Category c = lanes.flatCategory();
+			if (c != null) {
+				selectedRows(lanes, c, tree.getItems(), limit, next);
+			}
+		} else {
+			for (M3MarkerLanes.Category c : touched) {
+				if (lanes.indexOf(c) >= 0 && viewer.testFindItem(c.facade) instanceof TreeItem item) {
+					selectedRows(lanes, c, item.getItems(), limit, next);
+				}
+			}
+		}
+		tree.setSelection(next.toArray(new TreeItem[0]));
+		count(LANE_SELECTIONS);
+		if (next.size() != before.length) {
+			viewer.m3SelectionPatched();
+		}
+	}
+
+	/* whether a selected item is a row of a category the patch touched (its rows come from the lane instead) */
+	private static boolean inTouchedWindow(TreeItem item, List<M3MarkerLanes.Category> touched) {
+		TreeItem parent = item.getParentItem();
+		return parent != null && parent.getData() instanceof M3MarkerCategory category && contains(touched, category);
+	}
+
+	/* the rows of one window whose lane bit is set, by position: O(window) ints, no lookup */
+	private static void selectedRows(M3MarkerLanes lanes, M3MarkerLanes.Category c, TreeItem[] rows, int limit,
+			List<TreeItem> out) {
+		if (rows.length == 0 || rows[0].getData() == null) {
+			return; // never expanded: nothing shown, nothing selected
+		}
+		int[] slots = lanes.windowSlots(c, limit);
+		int[] positions = new int[slots.length];
+		int n = lanes.selectedPositions(slots, slots.length, positions);
+		for (int i = 0; i < n; i++) {
+			if (positions[i] < rows.length) {
+				out.add(rows[positions[i]]);
+			}
 		}
 	}
 
