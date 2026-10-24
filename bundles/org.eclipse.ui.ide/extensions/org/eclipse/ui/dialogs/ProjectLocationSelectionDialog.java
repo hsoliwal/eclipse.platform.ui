@@ -254,9 +254,11 @@ public class ProjectLocationSelectionDialog extends SelectionStatusDialog {
 		}
 	}
 
+	private static final Pattern COMPUTE_NEW_NAME_PATTERN = Pattern.compile("[0-9]+$"); //$NON-NLS-1$
+
 	private static String computeNewName(String str) {
 		String fileNameNoExtension = str;
-		Pattern p = Pattern.compile("[0-9]+$"); //$NON-NLS-1$
+		Pattern p = COMPUTE_NEW_NAME_PATTERN;
 		Matcher m = p.matcher(fileNameNoExtension);
 		if (m.find()) {
 			// String ends with a number: increment it by 1

@@ -468,6 +468,8 @@ public class JobsView extends ViewPart {
 		return parseDuration(durationField.getText(), 3000);
 	}
 
+	private static final Pattern PARSE_DURATION_PATTERN = Pattern.compile("(\\d+)\\s*([a-z]*)", Pattern.CASE_INSENSITIVE); //$NON-NLS-1$
+
 	/**
 	 * Parse a time duration string with optional time unit to milliseconds. Only
 	 * supports integer values without sign. No negative value possible.
@@ -490,7 +492,7 @@ public class JobsView extends ViewPart {
 		long[] prefixMultiplicator = new long[] { 1000, 60_000, 3_600_000, 1_314_000_000, 1 };
 		assert unitPrefix.length == prefixMultiplicator.length;
 
-		Pattern p = Pattern.compile("(\\d+)\\s*([a-z]*)", Pattern.CASE_INSENSITIVE); //$NON-NLS-1$
+		Pattern p = PARSE_DURATION_PATTERN;
 		Matcher m = p.matcher(durationStr.trim());
 		if (m.matches()) {
 			long value = Long.parseLong(m.group(1));
