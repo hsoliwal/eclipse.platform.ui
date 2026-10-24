@@ -3500,6 +3500,28 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			add(parentElementOrTreePath, new Object[] { element });
 			return;
 		}
+		insertAt(parentElementOrTreePath, element, position);
+	}
+
+	/**
+	 * Inserts {@code element} at {@code position} without the comparator and
+	 * filter check of {@link #insert(Object, Object, int)}: for the M3 viewport
+	 * deltas, whose model applied the viewer's filters and computed the position
+	 * (docs/m3/jface-viewport). The stock insert turns an indexed insert into an
+	 * add whenever a filter is installed, and add appends when the viewer has no
+	 * comparator; a filtered tree always has its pattern filter installed, so
+	 * every delta row landed at the end of its parent (differential 2026-10-24).
+	 *
+	 * @param parentElementOrTreePath the parent element, or the tree path to the
+	 *                                parent
+	 * @param element                 the element
+	 * @param position                a 0-based position relative to the model,
+	 *                                or -1 for the last position
+	 */
+	void insertAt(Object parentElementOrTreePath, Object element, int position) {
+		if (checkBusy()) {
+			return;
+		}
 		Widget[] items;
 		if (internalIsInputOrEmptyPath(parentElementOrTreePath)) {
 			items = new Widget[] { getControl() };
