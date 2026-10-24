@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -764,6 +765,9 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			return str;
 		}
 
+		private static final Pattern REGIONS_PATTERN = Pattern.compile("(?=[A-Z0-9])"); //$NON-NLS-1$
+		private static final Pattern REGIONS_PATTERN_2 = Pattern.compile("[?*]"); //$NON-NLS-1$
+
 		private List<Position> getMatchPositions(String string, String matching) {
 			List<Position> positions = new ArrayList<>();
 			if (matching.isEmpty() || string.isEmpty()) {
@@ -782,9 +786,9 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			String[] regions;
 			if (matching.indexOf('?') == -1 && matching.indexOf('*') == -1) {
 				// Expect that CamelCase search was possibly performed
-				regions = matching.split("(?=[A-Z0-9])"); //$NON-NLS-1$
+				regions = REGIONS_PATTERN.split(matching);
 			} else {
-				regions = matching.toLowerCase().split("[?*]"); //$NON-NLS-1$
+				regions = REGIONS_PATTERN_2.split(matching.toLowerCase());
 				string = string.toLowerCase();
 			}
 

@@ -14,6 +14,7 @@ package org.eclipse.text.quicksearch.internal.core.preferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.text.quicksearch.internal.core.QuickTextSearcher;
@@ -71,6 +72,8 @@ public class QuickSearchPreferences {
 		return null;
 	}
 
+	private static final Pattern ELEMENTS_PATTERN = Pattern.compile("[,\n]"); //$NON-NLS-1$
+
 	/**
 	 * Takes a raw string list as entered in the prefs page input field and parses it.
 	 * <p>
@@ -79,7 +82,7 @@ public class QuickSearchPreferences {
 	 * dropped.
 	 */
 	private String[] parseStringList(String raw) {
-		String[] elements = raw.split("[,\n]");  //$NON-NLS-1$
+		String[] elements = ELEMENTS_PATTERN.split(raw);
 		List<String> list = new ArrayList<>(elements.length);
 		for (String e : elements) {
 			e = e.trim();

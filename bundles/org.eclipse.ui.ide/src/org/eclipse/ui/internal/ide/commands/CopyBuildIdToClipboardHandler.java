@@ -16,6 +16,7 @@
 package org.eclipse.ui.internal.ide.commands;
 
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -59,6 +60,7 @@ public class CopyBuildIdToClipboardHandler extends AbstractHandler {
 	private static final String SWT_GTK_VERSION = "org.eclipse.swt.internal.gtk.version"; //$NON-NLS-1$
 	/** WebKitGTK version */
 	static final String SWT_WEBKITGTK_VERSION = "org.eclipse.swt.internal.webkitgtk.version"; //$NON-NLS-1$
+	private static final Pattern LINES_PATTERN = Pattern.compile("\\r?\\n"); //$NON-NLS-1$
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -69,7 +71,7 @@ public class CopyBuildIdToClipboardHandler extends AbstractHandler {
 		}
 
 		String aboutText = ProductProperties.getAboutText(product);
-		String lines[] = aboutText.split("\\r?\\n"); //$NON-NLS-1$
+		String lines[] = LINES_PATTERN.split(aboutText);
 		if (lines.length<=3){
 			throw new ExecutionException("Product About Text is not properly defined."); //$NON-NLS-1$
 		}

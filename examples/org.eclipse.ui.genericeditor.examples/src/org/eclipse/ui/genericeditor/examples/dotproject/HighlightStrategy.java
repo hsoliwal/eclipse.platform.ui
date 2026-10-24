@@ -108,9 +108,11 @@ public class HighlightStrategy implements IReconcilingStrategy, IReconcilingStra
 		}
 	}
 
+	private static final Pattern SPLIT_PATTERN = Pattern.compile("[^a-zA-Z0-9]+"); //$NON-NLS-1$
+
 	private static int findEndingOffset(String text, int offset) {
 		String substring = text.substring(offset);
-		String[] split = substring.split("[^a-zA-Z0-9]+");//$NON-NLS-1$
+		String[] split = SPLIT_PATTERN.split(substring);
 		if(split.length == 0) {
 			return -1;
 		}
