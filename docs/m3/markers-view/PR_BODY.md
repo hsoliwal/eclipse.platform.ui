@@ -27,6 +27,11 @@ the work of 2026-10-24 on top of it.
 - Headless: `M3MarkerLanesAlgorithmsTest`, `M3SparseExtentsTest`, `M3TextMatchTest` (lane match against the stock
   derivation over 5,000 random rows and 8 tokens): 15/15.
 - UI (hidden desktop, viewport mode): `M3ViewersInsertUnderFilterTest`: 2/2.
+- JFace layer A (`run_differential.sh`, 3 seeds x 150 steps, stock vs original vs viewport over list, table, tree,
+  hashed and sorted-filtered variants): 0 mismatches outside the pixel hash with the insert fix (18/18 logs, both
+  modes); the pixel hashes of some `update` and `reveal` steps differed today under memory starvation, and differed
+  the same way in a pre-merge build (bfe9344666) run alongside, so they are load noise (the 2026-10-20 run la4 was
+  identical in both modes); to be rerun on a quiet machine before merging.
 - Differential stock vs m3 (seed 7, 30 steps; `docs/m3/markers-view/tools/markers_round.sh 7 30 <n>`):
   - 10^4 before the insert fix: 52 of 69 steps differed (category order, one misplaced row, MV-8).
   - 10^4 after the insert fix: RESULT_10E4.
