@@ -94,7 +94,8 @@ facade counting, memo growth); the differential's `search '<text>'` steps (stock
 Status 2026-10-24 07:25 UTC: step 1 (the `selected` bit lane written from the view's selection listener, M3SlotBits) is on the
 branch (12ff21103a) and proven: headless 17/17, the 10^4 differential IDENTICAL with `selection-lane-mismatches=0` over 76
 patches (the counter compares the viewer's selected rows with the lane after every patch). Step 2 (restore by index from the
-lane, no preservingSelection) is behind `-Dorg.eclipse.ui.ide.markers.selection=lane` until the differential proves it.
+lane, no preservingSelection) is behind `-Dorg.eclipse.ui.ide.markers.selection=lane`; proven at 10^4 on 2026-10-24 07:37 UTC
+(IDENTICAL, lane-selections=76, selection-lane-mismatches=0, c28418d387); the default flips after the 10^5 lane-mode run.
 
 Today the selection and the expansion of the Problems view live in the widget and in JFace: a window patch runs
 inside `preservingSelection` (`MarkersTreeViewer.m3PreservingMarkerSelection`), which reads the selection as an
