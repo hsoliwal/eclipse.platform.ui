@@ -69,17 +69,6 @@ final class DefaultRefactoringDescriptorProxy extends RefactoringDescriptorProxy
 	@Override
 	public String toString() {
 
-		final StringBuilder buffer= new StringBuilder(128);
-
-		buffer.append(getClass().getName());
-		buffer.append("[stamp="); //$NON-NLS-1$
-		buffer.append(fTimeStamp);
-		buffer.append(",project="); //$NON-NLS-1$
-		buffer.append(fProject);
-		buffer.append(",description="); //$NON-NLS-1$
-		buffer.append(fDescription);
-		buffer.append("]"); //$NON-NLS-1$
-
-		return buffer.toString();
+		return getClass().getName() + "[stamp=" + fTimeStamp + ",project=" + fProject + ",description=" + fDescription + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 }

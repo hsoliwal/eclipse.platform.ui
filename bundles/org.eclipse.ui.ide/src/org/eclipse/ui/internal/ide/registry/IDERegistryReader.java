@@ -75,11 +75,8 @@ public abstract class IDERegistryReader {
 	protected void logError(IConfigurationElement element, String text) {
 		IExtension extension = element.getDeclaringExtension();
 		String pluginId = extension.getContributor().getName();
-		StringBuilder buf = new StringBuilder();
-		buf.append("Plugin " + pluginId + ", extension " //$NON-NLS-2$//$NON-NLS-1$
-				+ extension.getExtensionPointUniqueIdentifier());
-		buf.append("\n" + text);//$NON-NLS-1$
-		IDEWorkbenchPlugin.log(buf.toString());
+		IDEWorkbenchPlugin.log(("Plugin " + pluginId + ", extension " //$NON-NLS-2$//$NON-NLS-1$
+                + extension.getExtensionPointUniqueIdentifier()) + ("\n" + text)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**
