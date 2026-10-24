@@ -95,7 +95,9 @@ Status 2026-10-24 07:25 UTC: step 1 (the `selected` bit lane written from the vi
 branch (12ff21103a) and proven: headless 17/17, the 10^4 differential IDENTICAL with `selection-lane-mismatches=0` over 76
 patches (the counter compares the viewer's selected rows with the lane after every patch). Step 2 (restore by index from the
 lane, no preservingSelection) is behind `-Dorg.eclipse.ui.ide.markers.selection=lane`; proven at 10^4 on 2026-10-24 07:37 UTC
-(IDENTICAL, lane-selections=76, selection-lane-mismatches=0, c28418d387); the default flips after the 10^5 lane-mode run.
+(IDENTICAL, lane-selections=76, selection-lane-mismatches=0, c28418d387) and at 10^5 (IDENTICAL, lane-selections=76); since
+2026-10-24 07:50 UTC it is the default, `-Dorg.eclipse.ui.ide.markers.selection=jface` keeps JFace preservingSelection
+for comparison. Step 3 (expansion lane) is deferred: reexpandCategories is O(categories) and category counts are small.
 
 Today the selection and the expansion of the Problems view live in the widget and in JFace: a window patch runs
 inside `preservingSelection` (`MarkersTreeViewer.m3PreservingMarkerSelection`), which reads the selection as an

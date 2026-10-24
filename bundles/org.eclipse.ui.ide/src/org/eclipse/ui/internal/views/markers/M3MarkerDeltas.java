@@ -102,8 +102,12 @@ final class M3MarkerDeltas {
 	private static final int SELECTION_LANE_MISMATCHES = 4;
 	/* patches whose selection was restored from the lane by index (PROBLEMS_VIEW.md 3.2 step 2) */
 	private static final int LANE_SELECTIONS = 5;
-	/* -Dorg.eclipse.ui.ide.markers.selection=lane: the window patch restores the selection from the lane, not JFace */
-	private static final boolean LANE_SELECTION = "lane".equals(System.getProperty("org.eclipse.ui.ide.markers.selection")); //$NON-NLS-1$ //$NON-NLS-2$
+	/*
+	 * The window patch restores the selection from the lane (PROBLEMS_VIEW.md 3.2 step 2; the default since the
+	 * differential was IDENTICAL at 10^4 and 10^5 with every patch restored from the lane);
+	 * -Dorg.eclipse.ui.ide.markers.selection=jface keeps JFace preservingSelection around the patch for comparison.
+	 */
+	private static final boolean LANE_SELECTION = !"jface".equals(System.getProperty("org.eclipse.ui.ide.markers.selection")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private final MarkersChangeListener listener;
 	private final CachedMarkerBuilder builder;

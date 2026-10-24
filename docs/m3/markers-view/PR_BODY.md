@@ -38,8 +38,8 @@ the work of 2026-10-24 on top of it.
     m3 counters applied=76 fallbacks=0 builds=2 shown-patches=1.
   - 10^5: IDENTICAL, 69 of 69 steps (stock 06:04-06:10 UTC; m3 06:59-07:04 UTC after a first start that came up without its extension registry on a starved machine, see the 07:05 log entry). m3 counters applied=76 fallbacks=0 builds=2 shown-patches=1; 0 rebuilds for 30 edits, 9 search and 4 scope steps (stock 30, 9 and 4 rebuilds); create 1119 ms vs 856, initial build 1575 ms vs 1514.
   - Selection lane (3.2 step 2, -Dorg.eclipse.ui.ide.markers.selection=lane, c28418d387): 10^4 IDENTICAL, 69 of 69 steps, every one of
-    the 76 patches restored its selection from the lane by position (lane-selections=76, selection-lane-mismatches=0); default
-    unchanged until the 10^5 lane-mode run.
+    the 76 patches restored its selection from the lane by position (lane-selections=76, selection-lane-mismatches=0); 10^5
+    IDENTICAL as well; the default since 07:50 UTC (-Dorg.eclipse.ui.ide.markers.selection=jface keeps JFace preservingSelection).
   - Counters (m3, 10^4): 76 deltas applied, 0 fallbacks, 1 shown patch; stock: 30 full refreshes and 30 rebuilds
     for 30 edits, 6 for 9 search steps, 16 for 4 scope steps.
 

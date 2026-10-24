@@ -631,10 +631,19 @@ public final class M3MarkersBench implements IStartup {
 		}
 	}
 
+	/*
+	 * A markers job: the stock jobs are classes of org.eclipse.ui.internal.views.markers; the M3 jobs ("M3 marker
+	 * deltas", "M3 marker scope") are Job.create instances, anonymous classes of org.eclipse.core.runtime.jobs, so
+	 * they are matched by name (2026-10-24: at 10^6 the scope job outlived the 800 ms settle window and the m3 side
+	 * was captured one step behind on every scope and filter change).
+	 */
+	private static boolean isMarkersJob(Job job) {
+		return job.getClass().getName().contains(".views.markers.") || job.getName().startsWith("M3 marker"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
 	private static boolean markersJobsPending() {
 		for (Job job : Job.getJobManager().find(null)) {
-			String name = job.getClass().getName();
-			if (name.contains(".views.markers.") && job.getState() != Job.NONE) { //$NON-NLS-1$
+			if (isMarkersJob(job) && job.getState() != Job.NONE) {
 				return true;
 			}
 		}
@@ -645,8 +654,8 @@ public final class M3MarkersBench implements IStartup {
 	private static String pendingJobNames() {
 		StringBuilder b = new StringBuilder();
 		for (Job job : Job.getJobManager().find(null)) {
-			String name = job.getClass().getName();
-			if (name.contains(".views.markers.") && job.getState() != Job.NONE) { //$NON-NLS-1$
+			if (isMarkersJob(job) && job.getState() != Job.NONE) {
+				String name = job.getClass().getName().contains(".views.markers.") ? job.getClass().getName() : job.getName(); //$NON-NLS-1$
 				b.append(name.substring(name.lastIndexOf('.') + 1)).append('=').append(job.getState()).append(' ');
 			}
 		}
