@@ -44,6 +44,9 @@ the work of 2026-10-24 on top of it.
     65 of 69 steps identical, the 4 search steps differ only in a category expansion flag (MV-9, SOFT_MAX_EXPAND_TIME 200 ms;
     tools/diff_modulo_expansion.awk), 0 other differences; m3 applied=76 fallbacks=0 lane-selections=76, 0 rebuilds against
     stock 30/9/4; create 7061 vs 6141 ms, initial build 10929 vs 10747 ms.
+  - JFace layer-A la5 (08:06 UTC, 3 seeds x 150, original and viewport, 18 of 18 logs): 0 non-pixel mismatches in both modes;
+    px (paint hash) differs on timing under load only (unpainted first frame, paint runs); the quiet-machine all-fields-zero
+    run of 2026-10-20 (la4) stands as the strict gate.
   - Counters (m3, 10^4): 76 deltas applied, 0 fallbacks, 1 shown patch; stock: 30 full refreshes and 30 rebuilds
     for 30 edits, 6 for 9 search steps, 16 for 4 scope steps.
 
