@@ -749,7 +749,7 @@ public class WizardFileSystemResourceImportPage1 extends WizardResourceImportPag
 	 */
 	private File getSourceDirectory(String path) {
 		File sourceDirectory = new File(getSourceDirectoryName(path));
-		if (!sourceDirectory.exists() || !sourceDirectory.isDirectory()) {
+		if (!sourceDirectory.isDirectory()) {
 			return null;
 		}
 

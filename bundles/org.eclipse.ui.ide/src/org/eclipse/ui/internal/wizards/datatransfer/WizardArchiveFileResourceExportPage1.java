@@ -151,7 +151,7 @@ public class WizardArchiveFileResourceExportPage1 extends
 	 * is valid and available for use.
 	 */
 	protected boolean ensureTargetFileIsValid(File targetFile) {
-		if (targetFile.exists() && targetFile.isDirectory()) {
+		if (targetFile.isDirectory()) {
 			displayErrorDialog(DataTransferMessages.ZipExport_mustBeFile);
 			giveFocusToDestination();
 			return false;
