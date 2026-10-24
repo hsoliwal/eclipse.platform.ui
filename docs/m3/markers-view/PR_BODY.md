@@ -40,6 +40,10 @@ the work of 2026-10-24 on top of it.
   - Selection lane (3.2 step 2, -Dorg.eclipse.ui.ide.markers.selection=lane, c28418d387): 10^4 IDENTICAL, 69 of 69 steps, every one of
     the 76 patches restored its selection from the lane by position (lane-selections=76, selection-lane-mismatches=0); 10^5
     IDENTICAL as well; the default since 07:50 UTC (-Dorg.eclipse.ui.ide.markers.selection=jface keeps JFace preservingSelection).
+  - 10^6 (m3 rerun 07:50-07:57 UTC with the bench waiting for the M3 jobs): IDENTICAL modulo the e4 FilteredTree expansion budget:
+    65 of 69 steps identical, the 4 search steps differ only in a category expansion flag (MV-9, SOFT_MAX_EXPAND_TIME 200 ms;
+    tools/diff_modulo_expansion.awk), 0 other differences; m3 applied=76 fallbacks=0 lane-selections=76, 0 rebuilds against
+    stock 30/9/4; create 7061 vs 6141 ms, initial build 10929 vs 10747 ms.
   - Counters (m3, 10^4): 76 deltas applied, 0 fallbacks, 1 shown patch; stock: 30 full refreshes and 30 rebuilds
     for 30 edits, 6 for 9 search steps, 16 for 4 scope steps.
 
