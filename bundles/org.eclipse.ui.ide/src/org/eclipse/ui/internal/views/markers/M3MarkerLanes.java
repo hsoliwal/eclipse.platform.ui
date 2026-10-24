@@ -125,6 +125,8 @@ final class M3MarkerLanes {
 	private long[] textHits = new long[1];
 	private MarkerPatternFilter textFilter;
 	private int textGeneration;
+	/* the selection lane (PROBLEMS_VIEW.md 3.2): one bit per selected row; written from the viewer's selection events */
+	private final M3SlotBits selected = new M3SlotBits();
 	private int slots;
 	private int[] free = new int[16];
 	private int freeCount;
@@ -431,6 +433,7 @@ final class M3MarkerLanes {
 		state[slot] = 0;
 		markers[slot] = null;
 		category[slot] = -1;
+		selected.set(slot, false);
 		live--;
 		if (freeCount == free.length) {
 			free = Arrays.copyOf(free, freeCount << 1);
@@ -853,6 +856,50 @@ final class M3MarkerLanes {
 	/** The active search filter, or {@code null}. */
 	MarkerPatternFilter textFilter() {
 		return textFilter;
+	}
+
+	/* ---------------------------------------------------------------- selection lane (PROBLEMS_VIEW.md 3.2) */
+
+	/**
+	 * Writes the viewer's selection into the lane: the rows of the given marker
+	 * ids are selected, every other row is not. Called on the UI thread from the
+	 * view's selection listener; a shadow of the widget until the window patch
+	 * restores the selection by index from these bits.
+	 *
+	 * @param markerIds the ids of the selected rows
+	 * @param n         how many
+	 */
+	synchronized void setSelection(long[] markerIds, int n) {
+		selected.clear();
+		for (int i = 0; i < n; i++) {
+			int slot = find(markerIds[i]);
+			if (slot >= 0) {
+				selected.set(slot, true);
+			}
+		}
+	}
+
+	/** @return whether the slot's row is selected */
+	boolean isSelected(int slot) {
+		return selected.get(slot);
+	}
+
+	/** @return the number of selected rows (O(1)) */
+	int selectedCount() {
+		return selected.count();
+	}
+
+	/**
+	 * The selected rows of a window: the positions among {@code slots} whose
+	 * row is selected, for a restore by index after a patch.
+	 *
+	 * @param slots the window slots
+	 * @param n     how many
+	 * @param out   receives the positions, at least {@code n} long
+	 * @return the number of positions written
+	 */
+	int selectedPositions(int[] slots, int n, int[] out) {
+		return selected.positions(slots, n, out);
 	}
 
 	/** Increases on every {@link #applyText}. */

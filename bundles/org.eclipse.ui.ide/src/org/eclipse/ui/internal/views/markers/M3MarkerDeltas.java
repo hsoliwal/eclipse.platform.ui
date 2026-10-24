@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.m3.M3ViewerDelta;
 import org.eclipse.jface.viewers.m3.M3Viewers;
@@ -91,11 +92,13 @@ final class M3MarkerDeltas {
 	private static final byte NONE = 0;
 
 	/** Counters for the differential and the benchmark: see {@link #counters()}. */
-	private static final int[] COUNTERS = new int[4];
+	private static final int[] COUNTERS = new int[5];
 	private static final int APPLIED = 0;
 	private static final int FALLBACKS = 1;
 	private static final int BUILDS = 2;
 	private static final int SHOWN = 3;
+	/* patches after which the selection lane and the viewer's row selection disagreed (PROBLEMS_VIEW.md 3.2 shadow) */
+	private static final int SELECTION_LANE_MISMATCHES = 4;
 
 	private final MarkersChangeListener listener;
 	private final CachedMarkerBuilder builder;
@@ -248,7 +251,7 @@ final class M3MarkerDeltas {
 	 */
 	static synchronized String counters() {
 		return "applied=" + COUNTERS[APPLIED] + " fallbacks=" + COUNTERS[FALLBACKS] + " builds=" + COUNTERS[BUILDS] //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ " shown-patches=" + COUNTERS[SHOWN]; //$NON-NLS-1$
+				+ " shown-patches=" + COUNTERS[SHOWN] + " selection-lane-mismatches=" + COUNTERS[SELECTION_LANE_MISMATCHES]; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static synchronized void count(int counter) {
@@ -293,6 +296,33 @@ final class M3MarkerDeltas {
 		if (input instanceof Markers markers && markers.m3 != null) {
 			markers.m3.applyText(filter);
 		}
+	}
+
+	/**
+	 * The viewer's selection changed (the view's selection listener, UI thread):
+	 * the selection lane of the model follows it (PROBLEMS_VIEW.md 3.2). Rows
+	 * only: a selected category is widget state of the category item.
+	 *
+	 * @param view      the view
+	 * @param selection the new selection
+	 */
+	static void selectionChanged(ExtendedMarkersView view, IStructuredSelection selection) {
+		if (!ENABLED || view == null || view.isDisposed()) {
+			return;
+		}
+		TreeViewer viewer = view.getViewer();
+		Object input = viewer == null ? null : viewer.getInput();
+		if (!(input instanceof Markers markers) || markers.m3 == null) {
+			return;
+		}
+		long[] ids = new long[selection.size()];
+		int n = 0;
+		for (Object element : selection) {
+			if (element instanceof MarkerEntry entry && entry.getMarker() != null) {
+				ids[n++] = entry.getMarker().getId();
+			}
+		}
+		markers.m3.setSelection(ids, n);
 	}
 
 	/**
@@ -616,7 +646,16 @@ final class M3MarkerDeltas {
 		}
 		view.reexpandCategories();
 		view.updateTitle();
-		view.updateStatusLine(view.getViewer().getStructuredSelection());
+		IStructuredSelection selection = view.getViewer().getStructuredSelection();
+		view.updateStatusLine(selection);
+		// the selection lane shadows the viewer's row selection: a disagreement after a patch is counted (proof of 3.2)
+		int rows = 0;
+		for (Object element : selection) {
+			rows += element instanceof MarkerEntry entry && entry.getMarker() != null ? 1 : 0;
+		}
+		if (rows != lanes.selectedCount()) {
+			count(SELECTION_LANE_MISMATCHES);
+		}
 	}
 
 	/* the coalesced dirty window of a hidden view: O(changed) ids and the touched categories */
