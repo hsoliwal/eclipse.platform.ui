@@ -54,7 +54,7 @@ osgi.configuration.cascaded=false
 CFGEOF
   # no welcome page, no workspace prompt, no update check: nothing but the workbench and the bench
   printf '%s\n' org.eclipse.ui/showIntro=false org.eclipse.ui.ide/SHOW_WORKSPACE_SELECTION_DIALOG=false \
-    org.eclipse.equinox.p2.ui.sdk.scheduler/enabled=false > "$CFG/plugin_customization.ini"
+    org.eclipse.equinox.p2.ui.sdk.scheduler/enabled=false org.eclipse.ui.workbench/windows.defender.startup.check.skip=true > "$CFG/plugin_customization.ini"
   echo "bundles: $(grep -vc '^#' "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info")"
   # 3. first start outside the lock, headless (no application): Equinox installs the framework extensions and asks
   #    for a restart (exit 23, which only the native launcher handles), the second start resolves; the measured run

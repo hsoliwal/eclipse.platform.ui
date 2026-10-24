@@ -214,7 +214,11 @@ public final class M3MarkersBench implements IStartup {
 				f.setAccessible(true);
 				Object tree = f.get(view);
 				ui(() -> {
-					((org.eclipse.ui.dialogs.FilteredTree) tree).getFilterControl().setText(text);
+					// MarkersFilteredTree extends the e4 FilteredTree, not org.eclipse.ui.dialogs.FilteredTree: reach
+					// the search box through the accessor both trees declare
+					java.lang.reflect.Method control = tree.getClass().getMethod("getFilterControl"); //$NON-NLS-1$
+					control.setAccessible(true);
+					((org.eclipse.swt.widgets.Text) control.invoke(tree)).setText(text);
 					return null;
 				});
 				return;
