@@ -91,6 +91,11 @@ facade counting, memo growth); the differential's `search '<text>'` steps (stock
 
 ### 3.2 Selection and expansion as lanes (design, 2026-10-24; from the TV_5.0 state providers)
 
+Status 2026-10-24 07:25 UTC: step 1 (the `selected` bit lane written from the view's selection listener, M3SlotBits) is on the
+branch (12ff21103a) and proven: headless 17/17, the 10^4 differential IDENTICAL with `selection-lane-mismatches=0` over 76
+patches (the counter compares the viewer's selected rows with the lane after every patch). Step 2 (restore by index from the
+lane, no preservingSelection) is behind `-Dorg.eclipse.ui.ide.markers.selection=lane` until the differential proves it.
+
 Today the selection and the expansion of the Problems view live in the widget and in JFace: a window patch runs
 inside `preservingSelection` (`MarkersTreeViewer.m3PreservingMarkerSelection`), which reads the selection as an
 element list (`getSelection()`, one `MarkerEntry` facade per selected row), applies the patch, and restores it with
