@@ -7,7 +7,8 @@ Bundle-Activator: org.eclipse.ui.internal.ide.IDEWorkbenchPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Plugin.providerName
 Bundle-Localization: plugin
-Export-Package: org.eclipse.ui,
+Export-Package: com.m3.collections;x-internal:=true,
+ org.eclipse.ui,
  org.eclipse.ui.actions,
  org.eclipse.ui.dialogs,
  org.eclipse.ui.ide,
