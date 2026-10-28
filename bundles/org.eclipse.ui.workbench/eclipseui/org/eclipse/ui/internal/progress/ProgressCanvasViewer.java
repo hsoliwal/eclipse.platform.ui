@@ -87,7 +87,7 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
 	 */
 	@Override
 	protected void hookControl(Control control) {
-		control.addDisposeListener(this::handleDispose);
+		control.addDisposeListener(this::handleDispose); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	@Override
@@ -132,8 +132,8 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
 		return canvas;
 	}
 
-	private void initializeListeners() {
-		canvas.addPaintListener(event -> {
+	private void initializeListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		canvas.addPaintListener(event -> { //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 
 			GC gc = event.gc;
 			Transform transform = null;
@@ -161,7 +161,7 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
 				}
 			}
 
-			for (int i = 0; i < itemCount; i++) {
+			for (int i = 0; i < itemCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String string = labelProvider.getText(displayedItems[i]);
 				if (string == null) {
 					string = "";//$NON-NLS-1$
@@ -182,7 +182,7 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
 	@Override
 	public void setLabelProvider(IBaseLabelProvider labelProvider) {
 		Assert.isTrue(labelProvider instanceof ILabelProvider);
-		super.setLabelProvider(labelProvider);
+		super.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
 	 *
 	 * @return Point - the preferred x and y coordinates
 	 */
-	public Point getSizeHints() {
+	public Point getSizeHints() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Display display = canvas.getDisplay();
 
@@ -214,13 +214,13 @@ public class ProgressCanvasViewer extends AbstractProgressViewer {
 
 	@Override
 	public void add(JobTreeElement... elements) {
-		refresh(true);
+		refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 	}
 
 	@Override
 	public void remove(JobTreeElement... elements) {
-		refresh(true);
+		refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 	}
 

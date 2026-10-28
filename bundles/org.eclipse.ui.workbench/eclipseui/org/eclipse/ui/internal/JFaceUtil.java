@@ -43,13 +43,13 @@ final class JFaceUtil {
 	/**
 	 * Initializes JFace for use by Eclipse.
 	 */
-	public static void initializeJFace() {
+	public static void initializeJFace() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Set the SafeRunner to run all SafeRunnables
 		SafeRunnable.setRunner(SafeRunner::run);
 
 		// Pass all errors and warnings to the status handling facility
 		// and the rest to the main runtime log
-		Policy.setLog(status -> {
+		Policy.setLog(status -> { //FLLDCIM: MARK — T40 CALLBACK_SETTER CALL
 			if (status.getSeverity() == IStatus.WARNING || status.getSeverity() == IStatus.ERROR) {
 				StatusManager.getManager().handle(status);
 			} else {
@@ -67,30 +67,30 @@ final class JFaceUtil {
 		});
 
 		// Get all debug options from Platform
-		if ("true".equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug"))) { //$NON-NLS-1$ //$NON-NLS-2$
+		if ("true".equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug"))) { //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Policy.DEBUG_DIALOG_NO_PARENT = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/dialog/noparent")); //$NON-NLS-1$
-			Policy.TRACE_ACTIONS = "true".equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/trace/actions")); //$NON-NLS-1$ //$NON-NLS-2$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/dialog/noparent")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			Policy.TRACE_ACTIONS = "true".equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/trace/actions")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Policy.TRACE_TOOLBAR = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/trace/toolbarDisposal")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/trace/toolbarDisposal")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InternalPolicy.DEBUG_LOG_REENTRANT_VIEWER_CALLS = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/viewers/reentrantViewerCalls")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/viewers/reentrantViewerCalls")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InternalPolicy.DEBUG_LOG_EQUAL_VIEWER_ELEMENTS = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/viewers/equalElements")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/viewers/equalElements")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InternalPolicy.DEBUG_BIDI_UTILS = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/bidiUtils")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/bidiUtils")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InternalPolicy.DEBUG_TRACE_URL_IMAGE_DESCRIPTOR = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/trace/URLImageDescriptor")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/trace/URLImageDescriptor")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InternalPolicy.DEBUG_LOG_URL_IMAGE_DESCRIPTOR_MISSING_2x = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/logURLImageDescriptorMissing2x")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/logURLImageDescriptorMissing2x")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InternalPolicy.DEBUG_LOAD_URL_IMAGE_DESCRIPTOR_DIRECTLY = "true" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/loadURLImageDescriptorDirectly")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/loadURLImageDescriptorDirectly")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			// loadURLImageDescriptor2x is "true" by default and should stay "true" when
 			// absent in the debug options file:
 			InternalPolicy.DEBUG_LOAD_URL_IMAGE_DESCRIPTOR_2x = !"false" //$NON-NLS-1$
-					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/loadURLImageDescriptor2x")); //$NON-NLS-1$
+					.equalsIgnoreCase(Platform.getDebugOption(Policy.JFACE + "/debug/loadURLImageDescriptor2x")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			InternalPolicy.DEBUG_LOAD_URL_IMAGE_DESCRIPTOR_2x_PNG_FOR_GIF = "true".equalsIgnoreCase( //$NON-NLS-1$
-					Platform.getDebugOption(Policy.JFACE + "/debug/loadURLImageDescriptor2xPngForGif")); //$NON-NLS-1$
+					Platform.getDebugOption(Policy.JFACE + "/debug/loadURLImageDescriptor2xPngForGif")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -98,7 +98,7 @@ final class JFaceUtil {
 	 * Adds a preference listener so that the JFace preference store is initialized
 	 * as soon as the workbench preference store becomes available.
 	 */
-	public static void initializeJFacePreferences() {
+	public static void initializeJFacePreferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEclipsePreferences rootNode = (IEclipsePreferences) Platform.getPreferencesService().getRootNode()
 				.node(InstanceScope.SCOPE);
 		final String workbenchName = WorkbenchPlugin.getDefault().getBundle().getSymbolicName();

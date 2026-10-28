@@ -62,7 +62,7 @@ public class ShowInSystemExplorerHandler extends AbstractHandler {
 	private static final String VARIABLE_RESOURCE_URI = "${selected_resource_uri}"; //$NON-NLS-1$
 	private static final String VARIABLE_FOLDER = "${selected_resource_parent_loc}"; //$NON-NLS-1$
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(final ExecutionEvent event) {
 
 		final IResource item = getResource(event);
@@ -73,25 +73,25 @@ public class ShowInSystemExplorerHandler extends AbstractHandler {
 		final StatusReporter statusReporter = HandlerUtil.getActiveWorkbenchWindow(event).getService(
 				StatusReporter.class);
 
-		Job job = Job.create(IDEWorkbenchMessages.ShowInSystemExplorerHandler_jobTitle, unused -> {
+		Job job = Job.create(IDEWorkbenchMessages.ShowInSystemExplorerHandler_jobTitle, unused -> { //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 			String logMsgPrefix;
 			try {
-				logMsgPrefix = event.getCommand().getName() + ": "; //$NON-NLS-1$
+				logMsgPrefix = event.getCommand().getName() + ": "; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} catch (NotDefinedException e1) {
 				// will used id instead...
-				logMsgPrefix = event.getCommand().getId() + ": "; //$NON-NLS-1$
+				logMsgPrefix = event.getCommand().getId() + ": "; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			try {
 				File canonicalPath = getSystemExplorerPath(item);
 				if (canonicalPath == null) {
-					return statusReporter.newStatus(IStatus.ERROR, logMsgPrefix
+					return statusReporter.newStatus(IStatus.ERROR, logMsgPrefix //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ IDEWorkbenchMessages.ShowInSystemExplorerHandler_notDetermineLocation, null);
 				}
 				String launchCmd = formShowInSytemExplorerCommand(canonicalPath);
 
 				if ("".equals(launchCmd)) { //$NON-NLS-1$
-					return statusReporter.newStatus(IStatus.ERROR, logMsgPrefix
+					return statusReporter.newStatus(IStatus.ERROR, logMsgPrefix //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ IDEWorkbenchMessages.ShowInSystemExplorerHandler_commandUnavailable, null);
 				}
 
@@ -104,11 +104,11 @@ public class ShowInSystemExplorerHandler extends AbstractHandler {
 				}
 				int retCode = p.waitFor();
 				if (retCode != 0 && !Util.isWindows()) {
-					return statusReporter.newStatus(IStatus.ERROR, "Execution of '" + launchCmd //$NON-NLS-1$
+					return statusReporter.newStatus(IStatus.ERROR, "Execution of '" + launchCmd //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "' failed with return code: " + retCode, null); //$NON-NLS-1$
 				}
 			} catch (IOException | InterruptedException e2) {
-				return statusReporter.newStatus(IStatus.ERROR, logMsgPrefix + "Unhandled failure.", e2); //$NON-NLS-1$
+				return statusReporter.newStatus(IStatus.ERROR, logMsgPrefix + "Unhandled failure.", e2); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return Status.OK_STATUS;
 		});

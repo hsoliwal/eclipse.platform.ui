@@ -110,7 +110,7 @@ public class ElementTreeSelectionDialog extends SelectionStatusDialog {
 		fLabelProvider = labelProvider;
 		fContentProvider = contentProvider;
 
-		setResult(new ArrayList<>(0));
+		setResult(new ArrayList<>(0)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		setStatusLineAboveButtons(true);
 	}
 
@@ -180,7 +180,7 @@ public class ElementTreeSelectionDialog extends SelectionStatusDialog {
 	 */
 	public void addFilter(ViewerFilter filter) {
 		if (fFilters == null) {
-			fFilters = new ArrayList<>(4);
+			fFilters = new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		fFilters.add(filter);
@@ -268,7 +268,7 @@ public class ElementTreeSelectionDialog extends SelectionStatusDialog {
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -298,34 +298,34 @@ public class ElementTreeSelectionDialog extends SelectionStatusDialog {
 	 * @return the tree viewer
 	 * @see #doCreateTreeViewer(Composite, int)
 	 */
-	protected TreeViewer createTreeViewer(Composite parent) {
+	protected TreeViewer createTreeViewer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int style = SWT.BORDER | (fAllowMultiple ? SWT.MULTI : SWT.SINGLE);
 
 		fViewer = doCreateTreeViewer(parent, style);
 		fViewer.setContentProvider(fContentProvider);
-		fViewer.setLabelProvider(fLabelProvider);
-		fViewer.addSelectionChangedListener(event -> {
+		fViewer.setLabelProvider(fLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			access$setResult(event.getStructuredSelection().toList());
 			updateOKStatus();
 		});
 
 		fViewer.setComparator(fComparator);
 		if (fFilters != null) {
-			for (int i = 0; i != fFilters.size(); i++) {
-				fViewer.addFilter(fFilters.get(i));
+			for (int i = 0; i != fFilters.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				fViewer.addFilter(fFilters.get(i)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			}
 		}
 
 		if (fDoubleClickSelects) {
 			Tree tree = fViewer.getTree();
-			tree.addSelectionListener(widgetDefaultSelectedAdapter(e -> {
+			tree.addSelectionListener(widgetDefaultSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				updateOKStatus();
 				if (fCurrStatus.isOK()) {
 					access$superButtonPressed(IDialogConstants.OK_ID);
 				}
 			}));
 		}
-		fViewer.addDoubleClickListener(event -> {
+		fViewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			updateOKStatus();
 
 			// If it is not OK or if double click does not
@@ -343,7 +343,7 @@ public class ElementTreeSelectionDialog extends SelectionStatusDialog {
 			}
 		});
 
-		fViewer.setInput(fInput);
+		fViewer.setInput(fInput); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		return fViewer;
 	}
@@ -373,7 +373,7 @@ public class ElementTreeSelectionDialog extends SelectionStatusDialog {
 		Object[] elements = fContentProvider.getElements(input);
 		if (elements.length > 0) {
 			if (fFilters != null) {
-				for (ViewerFilter curr : fFilters) {
+				for (ViewerFilter curr : fFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					elements = curr.filter(fViewer, input, elements);
 				}
 			}

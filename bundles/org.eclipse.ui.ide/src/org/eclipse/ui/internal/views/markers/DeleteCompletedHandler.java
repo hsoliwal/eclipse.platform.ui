@@ -34,7 +34,7 @@ import org.eclipse.ui.views.markers.internal.MarkerMessages;
  */
 public class DeleteCompletedHandler extends MarkerViewHandler {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) {
 
 		ExtendedMarkersView view = getView(event);
@@ -82,9 +82,9 @@ public class DeleteCompletedHandler extends MarkerViewHandler {
 	 * @return List of {@link IMarker}
 	 */
 	private List<IMarker> getCompletedTasks(ExtendedMarkersView view) {
-		List<IMarker> completed = new ArrayList<>();
+		List<IMarker> completed = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (MarkerItem markerItem : view.getAllConcreteItems()) {
+		for (MarkerItem markerItem : view.getAllConcreteItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (markerItem.getAttributeValue(IMarker.DONE, false)
 					&& markerItem.getMarker() != null) {
 				completed.add(markerItem.getMarker());

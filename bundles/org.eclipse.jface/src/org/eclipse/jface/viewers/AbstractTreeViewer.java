@@ -195,7 +195,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			return;
 		}
 
-		for (Widget widget : widgets) {
+		for (Widget widget : widgets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			internalAdd(widget, parentElementOrTreePath, childElements);
 		}
 	}
@@ -233,7 +233,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	private Widget internalFindItem(TreePath path) {
 		Widget[] widgets = findItems(path.getLastSegment());
-		for (Widget widget : widgets) {
+		for (Widget widget : widgets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (widget instanceof Item item) {
 				TreePath p = getTreePathFromItem(item);
 				if (p.equals(path)) {
@@ -262,7 +262,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the child elements to add
 	 * @since 3.1
 	 */
-	@SuppressWarnings("removal")
+	@SuppressWarnings("removal") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void internalAdd(Widget widget, Object parentElementOrTreePath,
 			Object[] childElements) {
 		Object parent;
@@ -283,7 +283,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				boolean haveDummy = false;
 				// remove all children
 				Item[] items = getItems(ti);
-				for (Item item : items) {
+				for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (item.getData() != null) {
 						disassociate(item);
 						item.dispose();
@@ -333,7 +333,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			if (InternalPolicy.DEBUG_LOG_EQUAL_VIEWER_ELEMENTS) {
 				Item[] children = getChildren(widget);
 				Object[] elements = new Object[children.length];
-				for (int i = 0; i < children.length; i++) {
+				for (int i = 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					elements[i] = children[i].getData();
 				}
 				assertElementsNotNull(parent, elements);
@@ -350,14 +350,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the child elements
 	 * @return the filter list of children
 	 */
-	private Object[] filter(Object parentElementOrTreePath, Object[] elements) {
+	private Object[] filter(Object parentElementOrTreePath, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerFilter[] filters = getFilters();
 		if (filters != null) {
 			Object[] filtered = new Object[elements.length];
 			int count = 0;
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean add = true;
-				for (ViewerFilter filter : filters) {
+				for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					add = filter.select(this, parentElementOrTreePath,
 							element);
 					if (!add) {
@@ -379,7 +379,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @param elements Sorted list of elements to add.
 	 */
-	private void createAddedElements(Widget widget, Object[] elements) {
+	private void createAddedElements(Widget widget, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (elements.length == 1) {
 			if (equals(elements[0], widget.getData())) {
@@ -394,7 +394,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		// Optimize for the empty case
 		if (items.length == 0) {
 			// For performance insert every item at index 0 (in reverse order):
-			for (int i = elements.length - 1; i >= 0; i--) {
+			for (int i = elements.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				createTreeItem(widget, elements[i], 0);
 			}
 			return;
@@ -402,7 +402,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 
 		// Optimize for no comparator
 		if (comparator == null) {
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (itemExists(items, element)) {
 					internalRefresh(element);
 				} else {
@@ -419,7 +419,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		// Count of elements we have added. See bug 205700 for why this is needed.
 		int newItems = 0;
 
-		elementloop: for (Object element : elements) {
+		elementloop: for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// update the index relative to the original item array
 			indexInItems = insertionPosition(items, comparator,
 					indexInItems, element, parentPath);
@@ -438,7 +438,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				// element.
 				// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=571844.
 				int directionStep = -1;
-				while (insertionIndexInItems < items.length) {
+				while (insertionIndexInItems < items.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (insertionIndexInItems >= 0 && internalCompare(comparator, parentPath, element,
 							items[insertionIndexInItems].getData()) == 0) {
 						// As we cannot assume the sorter is consistent with
@@ -486,7 +486,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @return <code>true</code> if the element matches.
 	 */
-	private boolean itemExists(Item[] items, Object element) {
+	private boolean itemExists(Item[] items, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (usingElementMap()) {
 			Widget[] existingItems = findItems(element);
 			// optimization for two common cases
@@ -498,7 +498,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				}
 			}
 		}
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.getData().equals(element)) {
 				return true;
 			}
@@ -523,7 +523,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @return the index to use when inserting the element.
 	 */
 
-	private int insertionPosition(Item[] items, ViewerComparator comparator,
+	private int insertionPosition(Item[] items, ViewerComparator comparator, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int lastInsertion, Object element, TreePath parentPath) {
 
 		int size = items.length;
@@ -532,7 +532,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		}
 		int min = lastInsertion, max = size - 1;
 
-		while (min <= max) {
+		while (min <= max) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (min + max) / 2;
 			Object data = items[mid].getData();
 			int compare = internalCompare(comparator, parentPath, data, element);
@@ -578,7 +578,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            The element to insert.
 	 * @return the index of the element
 	 */
-	protected int indexForElement(Widget parent, Object element) {
+	protected int indexForElement(Widget parent, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerComparator comparator = getComparator();
 		TreePath parentPath = internalGetSorterParentPath(parent, comparator);
 
@@ -590,13 +590,13 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		}
 		int min = 0, max = count - 1;
 
-		while (min <= max) {
+		while (min <= max) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (min + max) / 2;
 			Object data = items[mid].getData();
 			int compare = internalCompare(comparator, parentPath, data, element);
 			if (compare == 0) {
 				// find first item > element
-				while (compare == 0) {
+				while (compare == 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					++mid;
 					if (mid >= count) {
 						break;
@@ -664,7 +664,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		return comparator.compare(this, e1, e2);
 	}
 
-	@SuppressWarnings("removal")
+	@SuppressWarnings("removal") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	protected Object[] getSortedChildren(Object parentElementOrTreePath) {
 		Object[] result = null;
@@ -812,7 +812,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			if (internalDelegateCollapseSelectionToControl(level)) {
 				return;
 			}
-			for (Item item : getSelection(control)) {
+			for (Item item : getSelection(control)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				internalCollapseToLevel(item, level);
 			}
 		} finally {
@@ -876,7 +876,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param materialize
 	 * 			  true if children are expected to be fully materialized
 	 */
-	void createChildren(final Widget widget, boolean materialize) {
+	void createChildren(final Widget widget, boolean materialize) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean oldBusy = isBusy();
 		setBusy(true);
 		try {
@@ -891,7 +891,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			// fix for PR 1FW89L7:
 			// don't complain and remove all "dummies" ...
 			if (items != null) {
-				for (Item item : items) {
+				for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (item.getData() != null) {
 						disassociate(item);
 						Assert.isTrue(item.getData() == null, "Second or later child is non -null");//$NON-NLS-1$
@@ -911,7 +911,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 					children = getSortedChildren(parentElement);
 				}
 				// For performance insert every item at index 0 (in reverse order):
-				for (int i = children.length - 1; i >= 0; i--) {
+				for (int i = children.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					createTreeItem(widget, children[i], 0);
 				}
 			}
@@ -962,7 +962,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	private void disassociateChildren(Item item) {
 		Item[] items = getChildren(item);
-		for (Item child : items) {
+		for (Item child : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.getData() != null) {
 				disassociate(child);
 			}
@@ -983,7 +983,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Widget doFindItem(Object element) {
 		// compare with root
 		Object root = getRoot();
@@ -993,7 +993,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 
 		Item[] items = getChildren(getControl());
 		if (items != null) {
-			for (Item item : items) {
+			for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Widget o = internalFindItem(item, element);
 				if (o != null) {
 					return o;
@@ -1011,7 +1011,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param element
 	 *            the element
 	 */
-	protected void doUpdateItem(final Item item, Object element) {
+	protected void doUpdateItem(final Item item, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (item.isDisposed()) {
 			unmapElement(element, item);
 			return;
@@ -1031,7 +1031,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			viewerRowFromItem = (ViewerRow) viewerRowFromItem.clone();
 		}
 
-		for (int column = 0; column < columnCount; column++) {
+		for (int column = 0; column < columnCount; column++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			// ExpandableNode is shown in first column only.
 			if (element instanceof ExpandableNode && column != 0) {
@@ -1071,7 +1071,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @since 3.1 in TreeViewer, moved to AbstractTreeViewer in 3.3
 	 */
-	protected boolean isSameSelection(List<Item> items, Item[] current) {
+	protected boolean isSameSelection(List<Item> items, Item[] current) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// If they are not the same size then they are not equivalent
 		int n = items.size();
 		if (n != current.length) {
@@ -1079,14 +1079,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		}
 
 		CustomHashtable itemSet = newHashtable(n * 2 + 1);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element = item.getData();
 			itemSet.put(element, element);
 		}
 
 		// Go through the items of the current collection
 		// If there is a mismatch return false
-		for (Item c : current) {
+		for (Item c : current) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (c.getData() == null || !itemSet.containsKey(c.getData())) {
 				return false;
 			}
@@ -1097,7 +1097,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doUpdateItem(Widget widget, Object element, boolean fullMap) {
 		boolean oldBusy = isBusy();
 		setBusy(true);
@@ -1161,7 +1161,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			if (internalDelegateExpandSelectionToControl(level)) {
 				return;
 			}
-			for (Item item : getSelection(control)) {
+			for (Item item : getSelection(control)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				internalExpandToLevel(item, level);
 			}
 		} finally {
@@ -1238,7 +1238,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *                          UI.
 	 * @since 3.14
 	 */
-	public void expandToLevel(Object elementOrTreePath, int level, boolean disableRedraw) {
+	public void expandToLevel(Object elementOrTreePath, int level, boolean disableRedraw) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (checkBusy()) {
 			return;
 		}
@@ -1270,11 +1270,11 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		boolean oldBusy = isBusy();
 		setBusy(true);
 		try {
-			for (ITreeViewerListener l : treeListeners) {
+			for (ITreeViewerListener l : treeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunnable.run(new SafeRunnable() {
 					@Override
 					public void run() {
-						l.treeCollapsed(event);
+						l.treeCollapsed(event); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 					}
 				});
 			}
@@ -1295,11 +1295,11 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		boolean oldBusy = isBusy();
 		setBusy(true);
 		try {
-			for (ITreeViewerListener l : treeListeners) {
+			for (ITreeViewerListener l : treeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SafeRunnable.run(new SafeRunnable() {
 					@Override
 					public void run() {
-						l.treeExpanded(event);
+						l.treeExpanded(event); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 					}
 				});
 			}
@@ -1382,15 +1382,15 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @see #setExpandedElements
 	 */
 	public Object[] getExpandedElements() {
-		ArrayList<Item> items = new ArrayList<>();
+		ArrayList<Item> items = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Item[] delegatedItems = internalDelegateExpandedItems();
 		if (delegatedItems == null) {
 			internalCollectExpandedItems(items, getControl());
 		} else {
 			items.addAll(Arrays.asList(delegatedItems));
 		}
-		ArrayList<Object> result = new ArrayList<>(items.size());
-		for (Item item : items) {
+		ArrayList<Object> result = new ArrayList<>(items.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null) {
 				result.add(data);
@@ -1456,7 +1456,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            subtrees are ignored
 	 * @return the next item, or <code>null</code> if none
 	 */
-	protected Item getNextItem(Item item, boolean includeChildren) {
+	protected Item getNextItem(Item item, boolean includeChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (item == null) {
 			return null;
 		}
@@ -1479,7 +1479,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				return getNextItem(parent, false);
 			}
 
-			for (int i = 0; i < siblings.length; i++) {
+			for (int i = 0; i < siblings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (siblings[i] == item && i < (siblings.length - 1)) {
 					return siblings[i + 1];
 				}
@@ -1506,7 +1506,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the item
 	 * @return the previous item, or <code>null</code> if none
 	 */
-	protected Item getPreviousItem(Item item) {
+	protected Item getPreviousItem(Item item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// previous item is either right-most visible descendent of previous
 		// sibling or parent
 		Item parent = getParentItem(item);
@@ -1518,7 +1518,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			return parent;
 		}
 		Item previous = siblings[0];
-		for (int i = 1; i < siblings.length; i++) {
+		for (int i = 1; i < siblings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (siblings[i] == item) {
 				return rightMostVisibleDescendent(previous);
 			}
@@ -1527,7 +1527,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object[] getRawChildren(Object parentElementOrTreePath) {
 		boolean oldBusy = isBusy();
 		setBusy(true);
@@ -1587,19 +1587,19 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @see #assertElementsNotNull(Object[])
 	 */
-	private void assertElementsNotNull(Object parent, Object[] elements) {
+	private void assertElementsNotNull(Object parent, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(elements);
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isNotNull(element);
 		}
 
 		if (InternalPolicy.DEBUG_LOG_EQUAL_VIEWER_ELEMENTS
 				&& elements.length > 1) {
 			CustomHashtable elementSet = newHashtable(elements.length * 2);
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object old = elementSet.put(element, element);
 				if (old != null) {
-					String message = "Sibling elements in viewer must not be equal:\n  " //$NON-NLS-1$
+					String message = "Sibling elements in viewer must not be equal:\n  " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ old + ",\n  " + element + ",\n  parent: " + parent; //$NON-NLS-1$ //$NON-NLS-2$
 					Policy.getLog().log(Status.warning(message));
 					return;
@@ -1621,8 +1621,8 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	@Override
 	protected List getSelectionFromWidget() {
 		Widget[] items = getSelection(getControl());
-		List<Object> list = new ArrayList<>(items.length);
-		for (Widget item : items) {
+		List<Object> list = new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Widget item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object e = item.getData();
 			if (e != null) {
 				list.add(e);
@@ -1635,7 +1635,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * Overridden in AbstractTreeViewer to fix bug 108102 (code copied from
 	 * StructuredViewer to avoid introducing new API)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleDoubleSelect(SelectionEvent event) {
 		// expand ExpandableNode for default selection.
 		if (event.item != null && event.item.getData() instanceof ExpandableNode) {
@@ -1697,7 +1697,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	@Override
 	protected void hookControl(Control control) {
 		super.hookControl(control);
-		addTreeListener(control, new TreeListener() {
+		addTreeListener(control, new TreeListener() { //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 			@Override
 			public void treeExpanded(TreeEvent event) {
 				handleTreeExpand(event);
@@ -1745,7 +1745,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param level  non-negative level, or <code>ALL_LEVELS</code> to collapse all
 	 *               levels of the tree
 	 */
-	protected void internalCollapseToLevel(Widget widget, int level) {
+	protected void internalCollapseToLevel(Widget widget, int level) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (internalDelegateCollapseToControl(widget, level)) {
 			return;
 		}
@@ -1766,7 +1766,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				if (children != null) {
 					int nextLevel = (level == ALL_LEVELS ? ALL_LEVELS
 							: level - 1);
-					for (Item element : children) {
+					for (Item element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						internalCollapseToLevel(element, nextLevel);
 					}
 				}
@@ -1785,7 +1785,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	private void internalCollectExpandedItems(List<Item> result, Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Disregard dummy nodes (see bug 287765)
 			if (item.getData() != null) {
 				if (getExpanded(item)) {
@@ -1809,7 +1809,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            expanded, and <code>false</code> otherwise
 	 * @return Widget
 	 */
-	protected Widget internalExpand(Object elementOrPath, boolean expand) {
+	protected Widget internalExpand(Object elementOrPath, boolean expand) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (elementOrPath == null) {
 			return null;
@@ -1836,13 +1836,13 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			// expand parent items top-down
 			Item item = getParentItem(it);
 			LinkedList<Item> toExpandList = new LinkedList<>();
-			while (item != null) {
+			while (item != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!getExpanded(item)) {
 					toExpandList.addFirst(item);
 				}
 				item = getParentItem(item);
 			}
-			for (Item toExpand : toExpandList) {
+			for (Item toExpand : toExpandList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				setExpanded(toExpand, true);
 			}
 		}
@@ -1875,7 +1875,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @since 3.2
 	 */
-	protected Object getParentElement(Object elementOrTreePath) {
+	protected Object getParentElement(Object elementOrTreePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elementOrTreePath instanceof TreePath treePath) {
 			return (treePath).getParentPath();
 		}
@@ -1904,13 +1904,13 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @since 3.1
 	 */
-	protected Widget internalGetWidgetToSelect(Object elementOrTreePath) {
+	protected Widget internalGetWidgetToSelect(Object elementOrTreePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elementOrTreePath instanceof TreePath treePath) {
 			if (treePath.getSegmentCount() == 0) {
 				return getControl();
 			}
 			Widget[] candidates = findItems(treePath.getLastSegment());
-			for (Widget candidate : candidates) {
+			for (Widget candidate : candidates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(candidate instanceof Item)) {
 					continue;
 				}
@@ -1938,7 +1938,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param childrenExpansionFunction function to be called on a child to be
 	 *                                  expanded
 	 */
-	private void internalCustomizedExpandToLevel(Widget widget, int level,
+	private void internalCustomizedExpandToLevel(Widget widget, int level, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CustomChildrenExpansionFunction childrenExpansionFunction) {
 		if (level == ALL_LEVELS || level > 0) {
 			Object data = widget.getData();
@@ -2011,7 +2011,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		internalCustomizedExpandToLevel(widget, level, (parent, newLevel) -> {
 			Item[] children = getChildren(parent);
 			if (children != null) {
-				for (Item child : children) {
+				for (Item child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					internalExpandToLevel(child, newLevel);
 				}
 			}
@@ -2030,7 +2030,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	private Widget internalFindChild(Widget parent, Object element) {
 		Item[] items = getChildren(parent);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null && equals(data, element)) {
 				return item;
@@ -2048,7 +2048,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the element
 	 * @return Widget
 	 */
-	private Widget internalFindItem(Item parent, Object element) {
+	private Widget internalFindItem(Item parent, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (M3ViewerPaths.on(this)) {
 			return M3ViewerPaths.findTreeItem(this, parent, element);
 		}
@@ -2062,7 +2062,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		}
 		// recurse over children
 		Item[] items = getChildren(parent);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Widget o = internalFindItem(item, element);
 			if (o != null) {
 				return o;
@@ -2085,7 +2085,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		}
 		Widget[] items = findItems(element);
 		if (items.length != 0) {
-			for (Widget item : items) {
+			for (Widget item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// pick up structure changes too
 				internalRefresh(item, element, true, updateLabels);
 			}
@@ -2115,7 +2115,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            that labels for existing elements are unchanged.
 	 * @since 3.1
 	 */
-	protected void internalRefresh(Widget widget, Object element,
+	protected void internalRefresh(Widget widget, Object element, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean doStruct, boolean updateLabels) {
 
 		if (widget instanceof Item it) {
@@ -2134,7 +2134,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		} else {
 			Item[] children = getChildren(widget);
 			if (children != null) {
-				for (Item item : children) {
+				for (Item item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object data = item.getData();
 					if (data != null) {
 						internalRefresh(item, data, doStruct, updateLabels);
@@ -2148,7 +2148,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * Update the structure and recurse. Items are updated in updateChildren, as
 	 * needed.
 	 */
-	/* package */void internalRefreshStruct(Widget widget, Object element,
+	/* package */void internalRefreshStruct(Widget widget, Object element, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean updateLabels) {
 
 		// updateChildren will ask getSortedChildren for items to be populated.
@@ -2160,7 +2160,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		updateChildren(widget, element, updatedChildren, updateLabels);
 		Item[] children = getChildren(widget);
 		if (children != null) {
-			for (Item item : children) {
+			for (Item item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object data = item.getData();
 				if (data != null) {
 					internalRefreshStruct(item, data, updateLabels);
@@ -2182,18 +2182,18 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the elements or element paths to remove
 	 * @since 3.1
 	 */
-	protected void internalRemove(Object[] elementsOrPaths) {
+	protected void internalRemove(Object[] elementsOrPaths) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object input = getInput();
-		for (Object element : elementsOrPaths) {
+		for (Object element : elementsOrPaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (equals(element, input)) {
-				setInput(null);
+				setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				return;
 			}
 
 			boolean continueOuter = false;
 			if (getItemsLimit() > 0) {
 				Widget[] itemsOfElement = internalFindItems(element);
-				for (Widget item : itemsOfElement) {
+				for (Widget item : itemsOfElement) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (item instanceof TreeItem ti) {
 						TreeItem parentItem = ti.getParentItem();
 						if (parentItem == null) {
@@ -2212,7 +2212,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			}
 			Widget[] childItems = internalFindItems(element);
 			if (childItems.length > 0) {
-				for (Widget childItem : childItems) {
+				for (Widget childItem : childItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (childItem instanceof Item it) {
 						disassociate(it);
 						childItem.dispose();
@@ -2238,16 +2238,16 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the elements to remove
 	 * @since 3.1
 	 */
-	protected void internalRemove(Object parent, Object[] elements) {
+	protected void internalRemove(Object parent, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		CustomHashtable toRemove = new CustomHashtable(getComparer());
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			toRemove.put(element, element);
 		}
 
 		// Find each place the parent appears in the tree
 		Widget[] parentItemArray = findItems(parent);
-		for (Widget parentItem : parentItemArray) {
+		for (Widget parentItem : parentItemArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// May happen if parent element is a descendent of of a previously
 			// removed element
 			if (parentItem.isDisposed()) {
@@ -2271,7 +2271,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				// Remove plus if parent element has no children
 				updatePlus(it, parent);
 			} else {
-				for (Item child : children) {
+				for (Item child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object data = child.getData();
 					if (data != null && toRemove.containsKey(data)) {
 						disassociate(child);
@@ -2292,10 +2292,10 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param widget
 	 *            the widget
 	 */
-	private void internalSetExpanded(CustomHashtable expandedElements,
+	private void internalSetExpanded(CustomHashtable expandedElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null) {
 				// remove the element to avoid an infinite loop
@@ -2327,11 +2327,11 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the hash {@link TreePath#hashCode(IElementComparer)} would return
 	 *            for <code>currentPath</code>
 	 */
-	private void internalSetExpandedTreePaths(
+	private void internalSetExpandedTreePaths( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			CustomHashtable expandedTreePaths, Widget widget,
 			TreePath currentPath, int currentHash, IElementComparer comparer) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expandedTreePaths.size() == 0) {
 				// Every path that had to be expanded has been found, so the rest of the
 				// tree can only be collapsed, which needs neither a path nor its hash.
@@ -2369,7 +2369,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		if (item.getData() != null && getExpanded(item)) {
 			setExpanded(item, false);
 		}
-		for (Item child : getChildren(item)) {
+		for (Item child : getChildren(item)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			internalCollapseSubtree(child);
 		}
 	}
@@ -2389,7 +2389,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @return <code>true</code> if the tree node representing the given
 	 *         element can be expanded, or <code>false</code> if not
 	 */
-	public boolean isExpandable(Object elementOrTreePath) {
+	public boolean isExpandable(Object elementOrTreePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object element;
 		TreePath path;
 		if (elementOrTreePath instanceof TreePath) {
@@ -2679,7 +2679,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	}
 
 	private void registerAutoExpandOnSingleChildListener() {
-		autoExpandOnSingleChildListener = new ITreeViewerListener() {
+		autoExpandOnSingleChildListener = new ITreeViewerListener() { //FLLDCIM: MARK — T22  ANONYMOUS
 			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
 				// Do nothing
@@ -2691,14 +2691,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				internalCustomizedExpandToLevel(item, autoExpandOnSingleChildLevels, singleChildExpansionFunction);
 			}
 		};
-		addTreeListener(autoExpandOnSingleChildListener);
+		addTreeListener(autoExpandOnSingleChildListener); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 	}
 
 	private final CustomChildrenExpansionFunction singleChildExpansionFunction = (widget, newLevel) -> {
 		Item[] children = getChildren(widget);
 		boolean hasExactlyOneChild = children != null && children.length == 1;
 		if (hasExactlyOneChild) {
-			for (Item child : children) {
+			for (Item child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				internalCustomizedExpandToLevel(child, newLevel, this.singleChildExpansionFunction);
 			}
 		}
@@ -2755,14 +2755,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            the array of expanded elements
 	 * @see #getExpandedElements
 	 */
-	public void setExpandedElements(Object... elements) {
+	public void setExpandedElements(Object... elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertElementsNotNull(elements);
 		if (checkBusy()) {
 			return;
 		}
 		CustomHashtable expandedElements = newHashtable(elements.length * 2 + 1);
-		ArrayList<Item> expandedItems = new ArrayList<>(elements.length);
-		for (Object element : elements) {
+		ArrayList<Item> expandedItems = new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Ensure item exists for element. This will materialize items for
 			// each element and their parents, if possible. This is important
 			// to support expanding of inner tree nodes without necessarily
@@ -2799,7 +2799,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @since 3.2
 	 */
-	public void setExpandedTreePaths(TreePath... treePaths) {
+	public void setExpandedTreePaths(TreePath... treePaths) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertElementsNotNull((Object[]) treePaths);
 		if (checkBusy()) {
 			return;
@@ -2820,8 +2820,8 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		};
 		CustomHashtable expandedTreePaths = new CustomHashtable(
 				treePaths.length * 2 + 1, treePathComparer);
-		ArrayList<Item> expandedItems = new ArrayList<>(treePaths.length);
-		for (TreePath treePath : treePaths) {
+		ArrayList<Item> expandedItems = new ArrayList<>(treePaths.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TreePath treePath : treePaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Ensure item exists for element. This will materialize items for
 			// each element and their parents, if possible. This is important
 			// to support expanding of inner tree nodes without necessarily
@@ -2900,15 +2900,15 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * This implementation of setSelectionToWidget accepts a list of elements or
 	 * a list of tree paths.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List v, boolean reveal) {
 		if (v == null) {
-			setSelection(new ArrayList<>(0));
+			setSelection(new ArrayList<>(0)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			return;
 		}
 		int size = v.size();
-		List<Item> newSelection = new ArrayList<>(size);
-		for (int i = 0; i < size; ++i) {
+		List<Item> newSelection = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object elementOrTreePath = v.get(i);
 			// Use internalExpand since item may not yet be created. See
 			// 1G6B1AR.
@@ -2930,10 +2930,10 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		// case try to find the item to select inside all the visible expandable nodes.
 		if (newSelection.size() < v.size() && getItemsLimit() > 0) {
 			// make out still not found items
-			List<Object> notFound = new ArrayList<>();
-			for (Object toSelect : v) {
+			List<Object> notFound = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object toSelect : v) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean bFound = false;
-				for (Item found : newSelection) {
+				for (Item found : newSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (equals(toSelect, found.getData())) {
 						bFound = true;
 						break;
@@ -2948,8 +2948,8 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			Collection<ExpandableNode> expandItems = getExpandableNodes();
 
 			// search for still missing items inside expandable nodes
-			for (Object nFound : notFound) {
-				for (ExpandableNode expNode : expandItems) {
+			for (Object nFound : notFound) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (ExpandableNode expNode : expandItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (findElementInExpandableNode(expNode, nFound)) {
 						Widget w = findItem(expNode);
 						if (w instanceof Item item) {
@@ -2969,7 +2969,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		if (reveal && !newSelection.isEmpty()) {
 			// Iterate backwards so the first item in the list
 			// is the one guaranteed to be visible
-			for (int i = (newSelection.size()-1); i >= 0; i--) {
+			for (int i = (newSelection.size()-1); i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				showItem(newSelection.get(i));
 			}
 		}
@@ -2977,7 +2977,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 
 	private boolean findElementInExpandableNode(ExpandableNode expNode, Object toFind) {
 		Object[] remEles = expNode.getRemainingElements();
-		for (Object element : remEles) {
+		for (Object element : remEles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (equals(element, toFind)) {
 				return true;
 			}
@@ -3029,7 +3029,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *            that labels for existing elements are unchanged.
 	 * @since 2.1
 	 */
-	private void updateChildren(Widget widget, Object parent,
+	private void updateChildren(Widget widget, Object parent, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object[] elementChildren, boolean updateLabels) {
 		// optimization! prune collapsed subtrees
 		if (widget instanceof Item ti) {
@@ -3052,7 +3052,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 					}
 					// else fall through to normal update code below
 				} else {
-					for (Item it : its) {
+					for (Item it : its) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (it.getData() != null) {
 							disassociate(it);
 						}
@@ -3087,7 +3087,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 
 		// save the expanded elements
 		CustomHashtable expanded = null;
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getExpanded(item)) {
 				Object element = item.getData();
 				if (element != null) {
@@ -3106,12 +3106,12 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		int numItemsToDispose = items.length - min;
 		if (numItemsToDispose > 0) {
 			CustomHashtable children = newHashtable(elementChildren.length * 2);
-			for (Object elementChild : elementChildren) {
+			for (Object elementChild : elementChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				children.put(elementChild, elementChild);
 			}
 			numItemsToDispose = M3ViewerPaths.disposeStale(this, items, children, numItemsToDispose);
 			int i = 0;
-			while (numItemsToDispose > 0 && i < items.length) {
+			while (numItemsToDispose > 0 && i < items.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object data = items[i].getData();
 				if (data == null || !children.containsKey(data)) {
 					if (data != null) {
@@ -3138,7 +3138,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		// because otherwise a later disassociate can remove a mapping made for
 		// a previous associate,
 		// making the map inconsistent
-		for (int i = 0; i < min; ++i) {
+		for (int i = 0; i < min; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Item item = items[i];
 			Object oldElement = item.getData();
 			if (oldElement != null) {
@@ -3170,7 +3170,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			}
 		}
 
-		for (int i = 0; i < min; ++i) {
+		for (int i = 0; i < min; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Item item = items[i];
 			Object newElement = elementChildren[i];
 			if (item.getData() == null) {
@@ -3195,7 +3195,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		// Need to call setExpanded for both expanded and unexpanded
 		// cases since the expanded state can change either way.
 		// This needs to be done in a second loop, see bug 148025.
-		for (int i = 0; i < min; ++i) {
+		for (int i = 0; i < min; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Item item = items[i];
 			Object newElement = elementChildren[i];
 			setExpanded(item, expanded != null && expanded.containsKey(newElement));
@@ -3203,7 +3203,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 
 		// add any remaining elements
 		if (min < elementChildren.length) {
-			for (int i = min; i < elementChildren.length; ++i) {
+			for (int i = min; i < elementChildren.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				createTreeItem(widget, elementChildren[i], -1);
 			}
 
@@ -3213,7 +3213,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			if (expanded != null && expanded.size() > 0) {
 				// get the items again, to include the new items
 				items = getChildren(widget);
-				for (int i = min; i < elementChildren.length; ++i) {
+				for (int i = min; i < elementChildren.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// Restore expanded state for items that changed position.
 					// Make sure setExpanded is called after updatePlus (called
 					// in createTreeItem), since
@@ -3236,14 +3236,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	}
 
 	/** Returns true if children were pruned */
-	/*package*/ boolean optionallyPruneChildren(Item item, Object element) {
+	/*package*/ boolean optionallyPruneChildren(Item item, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// need a dummy node if element is expandable;
 		// but try to avoid recreating the dummy node
 		boolean needDummy = isExpandable(item, null, element);
 		boolean haveDummy = false;
 		// remove all children
 		Item[] items = getItems(item);
-		for (Item child : items) {
+		for (Item child : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.getData() != null) {
 				disassociate(child);
 				child.dispose();
@@ -3286,7 +3286,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @param element
 	 *            the element
 	 */
-	protected void updatePlus(Item item, Object element) {
+	protected void updatePlus(Item item, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hasPlus = getItemCount(item) > 0;
 		boolean needsPlus = isExpandable(item, null, element);
 		boolean removeAll = false;
@@ -3312,7 +3312,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		if (removeAll) {
 			// remove all children
 			Item[] items = getItems(item);
-			for (Item item2 : items) {
+			for (Item item2 : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item2.getData() != null) {
 					disassociate(item2);
 				}
@@ -3332,14 +3332,14 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @since 2.0
 	 */
 	public Object[] getVisibleExpandedElements() {
-		ArrayList<Object> v = new ArrayList<>();
+		ArrayList<Object> v = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		internalCollectVisibleExpanded(v, getControl());
 		return v.toArray();
 	}
 
 	private void internalCollectVisibleExpanded(ArrayList<Object> result, Widget widget) {
 		Item[] items = getChildren(widget);
-		for (Item item : items) {
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getExpanded(item)) {
 				Object data = item.getData();
 				if (data != null) {
@@ -3362,11 +3362,11 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 */
 	protected TreePath getTreePathFromItem(Item item) {
 		int depth = 0;
-		for (Item i = item; i != null; i = getParentItem(i)) {
+		for (Item i = item; i != null; i = getParentItem(i)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			depth++;
 		}
 		Object[] segments = new Object[depth];
-		for (int i = depth - 1; i >= 0; i--) {
+		for (int i = depth - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object segment = item.getData();
 			Assert.isNotNull(segment);
 			segments[i] = segment;
@@ -3395,8 +3395,8 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			return TreeSelection.EMPTY;
 		}
 		Widget[] items = getSelection(getControl());
-		ArrayList<TreePath> list = new ArrayList<>(items.length);
-		for (Widget item : items) {
+		ArrayList<TreePath> list = new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Widget item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.getData() != null) {
 				list.add(getTreePathFromItem((Item) item));
 			}
@@ -3424,7 +3424,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			return its;
 		}
 		throw new ClassCastException(
-				getClass().getName() + " should return an instance of ITreeSelection from its getSelection() method."); //$NON-NLS-1$
+				getClass().getName() + " should return an instance of ITreeSelection from its getSelection() method."); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -3451,15 +3451,15 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @since 3.2
 	 */
 	public TreePath[] getExpandedTreePaths() {
-		ArrayList<Item> items = new ArrayList<>();
+		ArrayList<Item> items = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Item[] delegatedItems = internalDelegateExpandedItems();
 		if (delegatedItems == null) {
 			internalCollectExpandedItems(items, getControl());
 		} else {
 			items.addAll(Arrays.asList(delegatedItems));
 		}
-		ArrayList<TreePath> result = new ArrayList<>(items.size());
-		for (Item item : items) {
+		ArrayList<TreePath> result = new ArrayList<>(items.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Item item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TreePath treePath = getTreePathFromItem(item);
 			if (treePath != null) {
 				result.add(treePath);
@@ -3489,7 +3489,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 *
 	 * @since 3.2
 	 */
-	public void insert(Object parentElementOrTreePath, Object element,
+	public void insert(Object parentElementOrTreePath, Object element, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int position) {
 		Assert.isNotNull(parentElementOrTreePath);
 		Assert.isNotNull(element);
@@ -3507,7 +3507,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			items = internalFindItems(parentElementOrTreePath);
 		}
 
-		for (Widget widget : items) {
+		for (Widget widget : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (widget instanceof Item item) {
 				Item[] childItems = getChildren(item);
 				if (getExpanded(item)
@@ -3651,7 +3651,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	public void setExpandPreCheckFilters(boolean checkFilters) {
 		if (checkFilters != isExpandableCheckFilters) {
 			this.isExpandableCheckFilters = checkFilters;
-			refresh();
+			refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -3677,7 +3677,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 	 * @return if given model element is contained in the viewer
 	 * @since 3.31
 	 */
-	public boolean contains(Object parent, Object element) {
+	public boolean contains(Object parent, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (findItem(element) != null) {
 			return true;
 		}
@@ -3701,7 +3701,7 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	ISelection getUpdatedSelection(ISelection selection) {
 		if (getItemsLimit() <= 0) {
 			return selection;
@@ -3709,10 +3709,10 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		if (!(selection instanceof TreeSelection treeSel)) {
 			return super.getUpdatedSelection(selection);
 		}
-		List<TreePath> pathsList = new ArrayList<>(Arrays.asList(treeSel.getPaths()));
+		List<TreePath> pathsList = new ArrayList<>(Arrays.asList(treeSel.getPaths())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<TreePath> itr = pathsList.iterator();
 		boolean foundExpNode = false;
-		while (itr.hasNext()) {
+		while (itr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (itr.next().getLastSegment() instanceof ExpandableNode) {
 				itr.remove();
 				foundExpNode = true;

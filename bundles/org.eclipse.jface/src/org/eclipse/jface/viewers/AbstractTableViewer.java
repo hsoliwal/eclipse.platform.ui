@@ -65,8 +65,8 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		/**
 		 * Add the listener for SetData on the table
 		 */
-		private void addTableListener() {
-			getControl().addListener(SWT.SetData, event -> {
+		private void addTableListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			getControl().addListener(SWT.SetData, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				Item item = (Item) event.item;
 				final int index = doIndexOf(item);
 
@@ -90,7 +90,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 							// should run async update to avoid RuntimeException
 							// from ColumnViewer.checkBusy(), see bug 488484
 							Control control = getControl();
-							control.getDisplay().asyncExec(() -> {
+							control.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 								if (!control.isDisposed()) {
 									lazyProvider.updateElement(index);
 								}
@@ -143,7 +143,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		 * The elements with the given indices need to be removed from the
 		 * cache.
 		 */
-		public void removeIndices(int[] indices) {
+		public void removeIndices(int[] indices) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (indices.length == 1) {
 				removeIndicesFromTo(indices[0], indices[0]);
 			}
@@ -153,7 +153,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			Object[] newCache = new Object[requiredCount];
 			int indexInNewCache = 0;
 			int nextToSkip = 0;
-			for (int i = 0; i < cachedElements.length; i++) {
+			for (int i = 0; i < cachedElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (nextToSkip < indices.length && i == indices[nextToSkip]) {
 					nextToSkip++;
 				} else {
@@ -248,7 +248,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param elements
 	 *            the elements to add
 	 */
-	public void add(Object[] elements) {
+	public void add(Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertElementsNotNull(elements);
 		if (checkBusy()) {
 			return;
@@ -256,7 +256,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		Object[] filtered = filter(elements);
 
 		final int itemsLimit = getItemsLimit();
-		for (Object element : filtered) {
+		for (Object element : filtered) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int index = indexForElement(element);
 			// 1. Cost is negligible if you don't set limit.
 			// 2. Fast way to check if items have reached the limit.
@@ -336,7 +336,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	protected Widget doFindItem(Object element) {
 
 		Item[] children = doGetItems();
-		for (Item item : children) {
+		for (Item item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null && equals(data, element)) {
 				return item;
@@ -346,7 +346,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doUpdateItem(Widget widget, Object element, boolean fullMap) {
 		boolean oldBusy = isBusy();
 		setBusy(true);
@@ -380,7 +380,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 
 				// Also enter loop if no columns added. See 1G9WWGZ: JFUIF:WINNT -
 				// TableViewer with 0 columns does not work
-				for (int column = 0; column < columnCount || column == 0; column++) {
+				for (int column = 0; column < columnCount || column == 0; column++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					// ExpandableNode is shown in first column only.
 					if (element instanceof ExpandableNode && column != 0) {
@@ -469,8 +469,8 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			return getVirtualSelection();
 		}
 		Widget[] items = doGetSelection();
-		List<Object> list = new ArrayList<>(items.length);
-		for (Widget item : items) {
+		List<Object> list = new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Widget item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object e = item.getData();
 			if (e != null) {
 				list.add(e);
@@ -486,12 +486,12 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @return List of Object
 	 */
 
-	private List<Object> getVirtualSelection() {
+	private List<Object> getVirtualSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		List<Object> result = new ArrayList<>();
+		List<Object> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int[] selectionIndices = doGetSelectionIndices();
 		if (getContentProvider() instanceof ILazyContentProvider lazy) {
-			for (int selectionIndex : selectionIndices) {
+			for (int selectionIndex : selectionIndices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				lazy.updateElement(selectionIndex);// Start the update
 				// check for the case where the content provider changed the number of items
 				if (selectionIndex < doGetItemCount()) {
@@ -505,7 +505,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 				}
 			}
 		} else {
-			for (int selectionIndex : selectionIndices) {
+			for (int selectionIndex : selectionIndices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element = null;
 				if (selectionIndex < virtualManager.cachedElements.length) {
 					element = virtualManager.cachedElements[selectionIndex];
@@ -529,20 +529,20 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *            the element to insert
 	 * @return the index where the item should be inserted.
 	 */
-	protected int indexForElement(Object element) {
+	protected int indexForElement(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerComparator comparator = getComparator();
 		if (comparator == null) {
 			return doGetItemCount();
 		}
 		int count = doGetItemCount();
 		int min = 0, max = count - 1;
-		while (min <= max) {
+		while (min <= max) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (min + max) / 2;
 			Object data = doGetItem(mid).getData();
 			int compare = comparator.compare(this, data, element);
 			if (compare == 0) {
 				// find first item > element
-				while (compare == 0) {
+				while (compare == 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					++mid;
 					if (mid >= count) {
 						break;
@@ -587,7 +587,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *            a 0-based position relative to the model, or -1 to indicate
 	 *            the last position
 	 */
-	public void insert(Object element, int position) {
+	public void insert(Object element, int position) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		applyEditorValue();
 		if (getComparator() != null || hasFilters()) {
 			add(element);
@@ -662,7 +662,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *
 	 * @since 3.1
 	 */
-	private void internalRefreshAll(boolean updateLabels) {
+	private void internalRefreshAll(boolean updateLabels) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// the parent
 
 		// in the code below, it is important to do all disassociates
@@ -677,7 +677,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			children = getSortedChildren(getRoot());
 		}
 		int min = Math.min(children.length, items.length);
-		for (int i = 0; i < min; ++i) {
+		for (int i = 0; i < min; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			Item item = items[i];
 
@@ -706,7 +706,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		}
 		// dispose of all items beyond the end of the current elements
 		if (min < items.length) {
-			for (int i = items.length; --i >= min;) {
+			for (int i = items.length; --i >= min;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				disassociate(items[i]);
 			}
@@ -721,7 +721,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			doRemoveAll();
 		}
 		// Update items which were disassociated above
-		for (int i = 0; i < min; ++i) {
+		for (int i = 0; i < min; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			Item item = items[i];
 			if (item.getData() == null) {
@@ -729,7 +729,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			}
 		}
 		// add any remaining elements
-		for (int i = min; i < children.length; ++i) {
+		for (int i = min; i < children.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createItem(children[i], i);
 		}
 	}
@@ -740,17 +740,17 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param elements
 	 *            the elements to remove
 	 */
-	private void internalRemove(final Object[] elements) {
+	private void internalRemove(final Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (M3ViewerPaths.removeRows(this, elements, virtualManager == null)) {
 			return;
 		}
 		Object input = getInput();
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (equals(element, input)) {
 				boolean oldBusy = isBusy();
 				setBusy(false);
 				try {
-					setInput(null);
+					setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				} finally {
 					setBusy(oldBusy);
 				}
@@ -769,7 +769,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		// to allow SWT to optimize multiple removals
 		int[] indices = new int[elements.length];
 		int count = 0;
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Widget w = findItem(element);
 			if (w == null && virtualManager != null) {
 				int index = virtualManager.find(element);
@@ -801,7 +801,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *
 	 * @return may return null
 	 */
-	Object getLastElement() {
+	Object getLastElement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Item lastItem;
 		try {
 			// fast path first
@@ -865,7 +865,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		remove(new Object[] { element });
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void reveal(Object element) {
 		Assert.isNotNull(element);
 		Widget w = findItem(element);
@@ -876,7 +876,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			if (getLastElement() instanceof ExpandableNode node) {
 				Item[] items = doGetItems();
 				Object[] remEles = node.getRemainingElements();
-				for (Object object : remEles) {
+				for (Object object : remEles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (equals(object, element)) {
 						w = items[items.length - 1];
 						break;
@@ -890,7 +890,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setSelectionToWidget(@SuppressWarnings("rawtypes") List list, boolean reveal) {
 		if (M3ViewerPaths.selectRows(this, list, reveal, virtualManager == null)) {
 			return;
@@ -911,7 +911,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			int size = list.size();
 			Item[] items = new Item[size];
 			int count = 0;
-			for (int i = 0; i < size; ++i) {
+			for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object o = list.get(i);
 				Widget w = findItem(o);
 				if (w instanceof Item item) {
@@ -932,10 +932,10 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 				Object modelElement;
 
 				int count = 0;
-				while( it.hasNext() ) {
+				while( it.hasNext() ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					modelElement = it.next();
 					boolean found = false;
-					for (int i = 0; i < items.length && !found; i++) {
+					for (int i = 0; i < items.length && !found; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (equals(modelElement, items[i].getData())) {
 							indices[count++] = i;
 							found = true;
@@ -952,14 +952,14 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 						&& getLastElement() instanceof ExpandableNode expNode) {
 
 					// extract only non found items already.
-					List<Object> notFoundItems = new ArrayList<>(list);
-					for (int index : indices) {
+					List<Object> notFoundItems = new ArrayList<>(list); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (int index : indices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						notFoundItems.remove(doGetItem(index).getData());
 					}
 
 					Object[] remEles = expNode.getRemainingElements();
-					OuterLoop : for (Object searchItem : notFoundItems) {
-						for (Object remEle : remEles) {
+					OuterLoop : for (Object searchItem : notFoundItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						for (Object remEle : remEles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (equals(remEle, searchItem)) {
 								int[] placeHolder = new int[indices.length + 1];
 								System.arraycopy(indices, 0, placeHolder, 0, indices.length);
@@ -984,14 +984,14 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 * @param reveal
 	 *            Whether or not reveal the first item.
 	 */
-	private void virtualSetSelectionToWidget(@SuppressWarnings("rawtypes") List list, boolean reveal) {
+	private void virtualSetSelectionToWidget(@SuppressWarnings("rawtypes") List list, boolean reveal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int size = list.size();
 		int[] indices = new int[list.size()];
 
 		Item firstItem = null;
 		int count = 0;
-		HashSet<Object> virtualElements = new HashSet<>();
-		for (int i = 0; i < size; ++i) {
+		HashSet<Object> virtualElements = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = list.get(i);
 			Widget w = findItem(o);
 			if (w instanceof Item item) {
@@ -1010,7 +1010,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			// This may create all items so it is not a good
 			// idea in general.
 			// Use #setSelection (int [] indices,boolean reveal) instead
-			for (int i = 0; !virtualElements.isEmpty() && i < doGetItemCount(); i++) {
+			for (int i = 0; !virtualElements.isEmpty() && i < doGetItemCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				provider.updateElement(i);
 				Item item = doGetItem(i);
 				if (virtualElements.contains(item.getData())) {
@@ -1024,7 +1024,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		} else if (count != list.size()) {// As this is expensive skip it if all
 			// have been found
 			// If it is not lazy we can use the cache
-			for (int i = 0; i < virtualManager.cachedElements.length; i++) {
+			for (int i = 0; i < virtualManager.cachedElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element = virtualManager.cachedElements[i];
 				if (virtualElements.contains(element)) {
 					Item item = doGetItem(i);
@@ -1059,14 +1059,14 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 	 *
 	 * @since 3.1
 	 */
-	public void setItemCount(int count) {
+	public void setItemCount(int count) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (checkBusy()) {
 			return;
 		}
 		int oldCount = doGetItemCount();
 		if (count < oldCount) {
 			// need to disassociate elements that are being disposed
-			for (int i = count; i < oldCount; i++) {
+			for (int i = count; i < oldCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Item item = doGetItem(i);
 				if (item.getData() != null) {
 					disassociate(item);
@@ -1142,7 +1142,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 				|| provider instanceof ILazyContentProvider);
 	}
 
-	private void createExpandableNode(Object element, int index) {
+	private void createExpandableNode(Object element, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// case2 : if ExpNode absent. Create an ExpNode
 		Item[] items = doGetItems();
 		// there is an extra element being added.
@@ -1150,7 +1150,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 
 		// case2.1 : new element goes inside ExpNode and a new ExpNode is created
 		if (index >= doGetItemCount()) {
-			for (int i = 0; i < items.length; i++) {
+			for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allEles[i] = items[i].getData();
 			}
 			allEles[allEles.length - 1] = element;
@@ -1161,7 +1161,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			// elements until last element and create an ExpNode.
 
 			// copy data until index
-			for (int i = 0; i < index; i++) {
+			for (int i = 0; i < index; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allEles[i] = items[i].getData();
 
 			}
@@ -1176,7 +1176,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 
 			// move all elements one position ahead from index(including)
 			// after the loop 'temp' will contain last element which will go inside ExpNode.
-			for (int i = index; i < items.length - 1; i++) {
+			for (int i = index; i < items.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				temp1 = items[i + 1].getData();
 				doUpdateItem(items[i + 1], temp, true);
 				allEles[i + 1] = temp;
@@ -1190,7 +1190,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 		}
 	}
 
-	private void addElementAtIndex(Object element, int index, ExpandableNode expNode) {
+	private void addElementAtIndex(Object element, int index, ExpandableNode expNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int itemCount = doGetItemCount();
 		if (index >= itemCount - 1) {
 			// case 1.2 : this element belongs to hidden elements in the expandable node
@@ -1211,7 +1211,7 @@ public abstract class AbstractTableViewer extends ColumnViewer {
 			Object temp1 = items[index + 1].getData();
 
 			// update all the items to one position next from the index.
-			for (int i = index + 1; i < items.length - 1; i++) {
+			for (int i = index + 1; i < items.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				temp1 = items[i].getData();
 				doUpdateItem(items[i], temp, true);
 				temp = temp1;

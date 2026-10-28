@@ -326,7 +326,7 @@ public class ListSelectionDialog extends SelectionDialog {
 		 * @param parentShell the parent shell
 		 * @return the new assembled {@link ListSelectionDialog}
 		 */
-		public ListSelectionDialog create(Shell parentShell) {
+		public ListSelectionDialog create(Shell parentShell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ListSelectionDialog dialog = new ListSelectionDialog(parentShell, input,
 					contentProvider == null ? ArrayContentProvider.getInstance() : contentProvider,
 					labelProvider == null ? new LabelProvider() : labelProvider, message, okButtonText,
@@ -354,7 +354,7 @@ public class ListSelectionDialog extends SelectionDialog {
 	 *
 	 * @param composite org.eclipse.swt.widgets.Composite
 	 */
-	private void addSelectionButtons(Composite composite) {
+	private void addSelectionButtons(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonComposite = new Composite(composite, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 0;
@@ -365,12 +365,12 @@ public class ListSelectionDialog extends SelectionDialog {
 		Button selectAllButton = createButton(buttonComposite, IDialogConstants.SELECT_ALL_ID,
 				WorkbenchMessages.SelectionDialog_selectLabel, false);
 		selectAllButton.setToolTipText(WorkbenchMessages.SelectionDialog_selectLabel);
-		selectAllButton.addSelectionListener(widgetSelectedAdapter(e -> setAllChecked(true)));
+		selectAllButton.addSelectionListener(widgetSelectedAdapter(e -> setAllChecked(true))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		Button deselectAllButton = createButton(buttonComposite, IDialogConstants.DESELECT_ALL_ID,
 				WorkbenchMessages.SelectionDialog_deselectLabel,
 				false);
 		deselectAllButton.setToolTipText(WorkbenchMessages.SelectionDialog_deselectLabel);
-		deselectAllButton.addSelectionListener(widgetSelectedAdapter(e -> setAllChecked(false)));
+		deselectAllButton.addSelectionListener(widgetSelectedAdapter(e -> setAllChecked(false))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	private void setAllChecked(boolean state) {
@@ -398,7 +398,7 @@ public class ListSelectionDialog extends SelectionDialog {
 	private void checkInitialSelections() {
 		Iterator<?> itemsToCheck = getInitialElementSelections().iterator();
 
-		while (itemsToCheck.hasNext()) {
+		while (itemsToCheck.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listViewer.setChecked(itemsToCheck.next(), true);
 		}
 	}
@@ -416,7 +416,7 @@ public class ListSelectionDialog extends SelectionDialog {
 		return contents;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// page group
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -431,9 +431,9 @@ public class ListSelectionDialog extends SelectionDialog {
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		listViewer.getTable().setLayoutData(data);
 
-		listViewer.setLabelProvider(labelProvider);
+		listViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		listViewer.setContentProvider(contentProvider);
-		listViewer.addCheckStateListener(e -> updateButtonsOnSelection());
+		listViewer.addCheckStateListener(e -> updateButtonsOnSelection()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
 		addSelectionButtons(composite);
 
@@ -486,7 +486,7 @@ public class ListSelectionDialog extends SelectionDialog {
 	 * Initializes this dialog's viewer after it has been laid out.
 	 */
 	private void initializeViewer() {
-		listViewer.setInput(inputElement);
+		listViewer.setInput(inputElement); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -494,7 +494,7 @@ public class ListSelectionDialog extends SelectionDialog {
 	 * <code>Dialog</code> method builds a list of the selected elements for later
 	 * retrieval by the client and closes this dialog.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 
 		// Get the input children.
@@ -502,8 +502,8 @@ public class ListSelectionDialog extends SelectionDialog {
 
 		// Build a list of selected children.
 		if (children != null) {
-			ArrayList<Object> list = new ArrayList<>();
-			for (Object element : children) {
+			ArrayList<Object> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (listViewer.getChecked(element)) {
 					list.add(element);
 				}

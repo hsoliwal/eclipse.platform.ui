@@ -90,7 +90,7 @@ public class EditorInputTransfer extends ByteArrayTransfer {
 
 	// Create a unique ID to make sure that different Eclipse
 	// applications use different "types" of <code>EditorInputTransfer</code>
-	private static final String TYPE_NAME = "editor-input-transfer-format:" + System.currentTimeMillis() + ":" //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String TYPE_NAME = "editor-input-transfer-format:" + System.currentTimeMillis() + ":" //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ instance.hashCode();
 
 	private static final int TYPEID = registerType(TYPE_NAME);
@@ -132,7 +132,7 @@ public class EditorInputTransfer extends ByteArrayTransfer {
 		return new String[] { TYPE_NAME };
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void javaToNative(Object data, TransferData transferData) {
 
 		if (!(data instanceof EditorInputData[] editorInputs)) {
@@ -155,7 +155,7 @@ public class EditorInputTransfer extends ByteArrayTransfer {
 			dataOut.writeInt(editorInputCount);
 
 			// write each resource
-			for (EditorInputData editorInput : editorInputs) {
+			for (EditorInputData editorInput : editorInputs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				writeEditorInput(dataOut, editorInput);
 			}
 
@@ -165,7 +165,7 @@ public class EditorInputTransfer extends ByteArrayTransfer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object nativeToJava(TransferData transferData) {
 
 		byte[] bytes = (byte[]) super.nativeToJava(transferData);
@@ -176,7 +176,7 @@ public class EditorInputTransfer extends ByteArrayTransfer {
 		try {
 			int count = in.readInt();
 			EditorInputData[] results = new EditorInputData[count];
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				results[i] = readEditorInput(in);
 			}
 			return results;
@@ -191,7 +191,7 @@ public class EditorInputTransfer extends ByteArrayTransfer {
 	 *
 	 * @return EditorInputData
 	 */
-	private EditorInputData readEditorInput(DataInputStream dataIn) throws IOException, WorkbenchException {
+	private EditorInputData readEditorInput(DataInputStream dataIn) throws IOException, WorkbenchException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String editorId = dataIn.readUTF();
 		String factoryId = dataIn.readUTF();
@@ -221,7 +221,7 @@ public class EditorInputTransfer extends ByteArrayTransfer {
 	/**
 	 * Method writeEditorInput.
 	 */
-	private void writeEditorInput(DataOutputStream dataOut, EditorInputData editorInputData) throws IOException {
+	private void writeEditorInput(DataOutputStream dataOut, EditorInputData editorInputData) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// write the id of the editor
 		dataOut.writeUTF(editorInputData.editorId);
 

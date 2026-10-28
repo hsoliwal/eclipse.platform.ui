@@ -55,7 +55,7 @@ import org.eclipse.swt.widgets.Scrollable;
 	public static void generateLayout(Composite toGenerate) {
 		Control[] children = toGenerate.getChildren();
 
-		for (Control control : children) {
+		for (Control control : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Skip any children that already have layout data
 			if (control.getLayoutData() != null) {
 				continue;
@@ -79,7 +79,7 @@ import org.eclipse.swt.widgets.Scrollable;
 	 * @param control the control the factory is search for
 	 * @return a default factory for the control
 	 */
-	public static GridDataFactory defaultsFor(Control control) {
+	public static GridDataFactory defaultsFor(Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (control instanceof Button button) {
 			if (hasStyle(button, SWT.CHECK)) {
 				return nonWrappingLabelData.copy();
@@ -97,7 +97,7 @@ import org.eclipse.swt.widgets.Scrollable;
 					boolean growsVertically = false;
 
 					Control[] children = composite.getChildren();
-					for (Control child : children) {
+					for (Control child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						GridData data = (GridData) child.getLayoutData();
 
 						if (data != null) {

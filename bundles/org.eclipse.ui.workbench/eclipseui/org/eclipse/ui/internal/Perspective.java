@@ -42,20 +42,20 @@ public class Perspective {
 		this.page = page;
 		this.layout = layout;
 		descriptor = desc;
-		alwaysOnActionSets = new ArrayList<>(2);
-		alwaysOffActionSets = new ArrayList<>(2);
+		alwaysOnActionSets = new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		alwaysOffActionSets = new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
-	public void initActionSets() {
+	public void initActionSets() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (descriptor != null) {
 			List<String> alwaysOn = ModeledPageLayout.getIds(layout, ModeledPageLayout.ACTION_SET_TAG);
 
 			// read explicitly disabled sets.
 			String hiddenIDs = page.getHiddenItems();
-			List<String> alwaysOff = new ArrayList<>();
+			List<String> alwaysOff = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			String[] hiddenIds = hiddenIDs.split(","); //$NON-NLS-1$
-			for (String id : hiddenIds) {
+			for (String id : hiddenIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!id.startsWith(ModeledPageLayout.HIDDEN_ACTIONSET_PREFIX)) {
 					continue;
 				}
@@ -67,13 +67,13 @@ public class Perspective {
 
 			alwaysOn.removeAll(alwaysOff);
 
-			for (IActionSetDescriptor descriptor : createInitialActionSets(alwaysOn)) {
+			for (IActionSetDescriptor descriptor : createInitialActionSets(alwaysOn)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!alwaysOnActionSets.contains(descriptor)) {
 					alwaysOnActionSets.add(descriptor);
 				}
 			}
 
-			for (IActionSetDescriptor descriptor : createInitialActionSets(alwaysOff)) {
+			for (IActionSetDescriptor descriptor : createInitialActionSets(alwaysOff)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!alwaysOffActionSets.contains(descriptor)) {
 					alwaysOffActionSets.add(descriptor);
 				}
@@ -89,9 +89,9 @@ public class Perspective {
 	 *         empty but never null.
 	 */
 	private List<IActionSetDescriptor> createInitialActionSets(List<String> ids) {
-		List<IActionSetDescriptor> result = new ArrayList<>();
+		List<IActionSetDescriptor> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
-		for (String id : ids) {
+		for (String id : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IActionSetDescriptor desc = reg.findActionSet(id);
 			if (desc != null) {
 				result.add(desc);
@@ -170,13 +170,13 @@ public class Perspective {
 	}
 
 	public void turnOnActionSets(IActionSetDescriptor[] newArray) {
-		for (IActionSetDescriptor descriptor : newArray) {
+		for (IActionSetDescriptor descriptor : newArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addActionSet(descriptor);
 		}
 	}
 
 	public void turnOffActionSets(IActionSetDescriptor[] toDisable) {
-		for (IActionSetDescriptor descriptor : toDisable) {
+		for (IActionSetDescriptor descriptor : toDisable) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			turnOffActionSet(descriptor);
 		}
 	}
@@ -186,11 +186,11 @@ public class Perspective {
 	}
 
 	// for dynamic UI
-	protected void addActionSet(IActionSetDescriptor newDesc) {
+	protected void addActionSet(IActionSetDescriptor newDesc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContextService service = page.getWorkbenchWindow().getService(IContextService.class);
 		try {
 			service.deferUpdates(true);
-			for (IActionSetDescriptor desc : alwaysOnActionSets) {
+			for (IActionSetDescriptor desc : alwaysOnActionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (desc.getId().equals(newDesc.getId())) {
 					removeAlwaysOn(desc);
 					removeAlwaysOff(desc);
@@ -201,7 +201,7 @@ public class Perspective {
 			final String actionSetID = newDesc.getId();
 
 			// Add Tags
-			String tag = ModeledPageLayout.ACTION_SET_TAG + actionSetID;
+			String tag = ModeledPageLayout.ACTION_SET_TAG + actionSetID; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!layout.getTags().contains(tag)) {
 				layout.getTags().add(tag);
 			}
@@ -211,7 +211,7 @@ public class Perspective {
 	}
 
 	// for dynamic UI
-	protected void removeActionSet(IActionSetDescriptor toRemove) {
+	protected void removeActionSet(IActionSetDescriptor toRemove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id = toRemove.getId();
 		IContextService service = page.getWorkbenchWindow().getService(IContextService.class);
 		try {
@@ -219,7 +219,7 @@ public class Perspective {
 
 			// this advance for loop only works because it breaks out of it
 			// right after the removal
-			for (IActionSetDescriptor desc : alwaysOnActionSets) {
+			for (IActionSetDescriptor desc : alwaysOnActionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (desc.getId().equals(id)) {
 					removeAlwaysOn(desc);
 					break;
@@ -228,7 +228,7 @@ public class Perspective {
 
 			// this advance for loop only works because it breaks out of it
 			// right after the removal
-			for (IActionSetDescriptor desc : alwaysOffActionSets) {
+			for (IActionSetDescriptor desc : alwaysOffActionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (desc.getId().equals(id)) {
 					removeAlwaysOff(desc);
 					break;

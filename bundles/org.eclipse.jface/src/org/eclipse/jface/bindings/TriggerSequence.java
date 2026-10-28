@@ -70,7 +70,7 @@ public abstract class TriggerSequence {
 			throw new NullPointerException("The triggers cannot be null"); //$NON-NLS-1$
 		}
 
-		for (Trigger trigger : triggers) {
+		for (Trigger trigger : triggers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (trigger == null) {
 				throw new IllegalArgumentException(
 						"All triggers in a trigger sequence must be an instance of Trigger"); //$NON-NLS-1$

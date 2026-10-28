@@ -53,7 +53,7 @@ public class ObjectActionContributorManager extends ObjectContributorManager {
 	 *                           the menu
 	 * @return whether anything was contributed
 	 */
-	public boolean contributeObjectActions(IWorkbenchPart part, IMenuManager popupMenu, ISelectionProvider selProv,
+	public boolean contributeObjectActions(IWorkbenchPart part, IMenuManager popupMenu, ISelectionProvider selProv, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Set<IObjectActionContributor> alreadyContributed) {
 		// Get a selection.
 		ISelection selection = selProv.getSelection();
@@ -69,7 +69,7 @@ public class ObjectActionContributorManager extends ObjectContributorManager {
 		if (selection instanceof IStructuredSelection) {
 			elements = ((IStructuredSelection) selection).toList();
 		} else {
-			elements = new ArrayList<>(1);
+			elements = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			elements.add(selection);
 		}
 
@@ -83,8 +83,8 @@ public class ObjectActionContributorManager extends ObjectContributorManager {
 		// First pass, add the menus and collect the overrides. Prune from the
 		// list any non-applicable contributions.
 		boolean actualContributions = false;
-		ArrayList<?> overrides = new ArrayList<>(4);
-		for (Iterator<IObjectActionContributor> it = contributors.iterator(); it.hasNext();) {
+		ArrayList<?> overrides = new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<IObjectActionContributor> it = contributors.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IObjectActionContributor contributor = it.next();
 			if (!isApplicableTo(elements, contributor)) {
 				it.remove();
@@ -99,7 +99,7 @@ public class ObjectActionContributorManager extends ObjectContributorManager {
 
 		// Second pass, add the contributions that are applicable to
 		// the selection.
-		for (IObjectActionContributor contributor : contributors) {
+		for (IObjectActionContributor contributor : contributors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (contributor.contributeObjectActions(part, popupMenu, selProv, overrides)) {
 				actualContributions = true;
 				alreadyContributed.add(contributor);
@@ -140,7 +140,7 @@ public class ObjectActionContributorManager extends ObjectContributorManager {
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension addedExtension) {
 		IConfigurationElement[] addedElements = addedExtension.getConfigurationElements();
-		for (IConfigurationElement addedElement : addedElements) {
+		for (IConfigurationElement addedElement : addedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ObjectActionContributorReader reader = new ObjectActionContributorReader();
 			reader.setManager(this);
 			reader.readElement(addedElement);

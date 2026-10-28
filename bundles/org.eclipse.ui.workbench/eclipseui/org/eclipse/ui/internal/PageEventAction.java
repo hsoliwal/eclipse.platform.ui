@@ -62,7 +62,7 @@ import org.eclipse.ui.actions.PartEventAction;
  * any other cleanup.
  * </p>
  */
-public abstract class PageEventAction extends PartEventAction implements IPageListener, ActionFactory.IWorkbenchAction {
+public abstract class PageEventAction extends PartEventAction implements IPageListener, ActionFactory.IWorkbenchAction { //FLLDCIM: MARK — T20  IMPLEMENTS
 	/**
 	 * The active page, or <code>null</code> if none.
 	 */

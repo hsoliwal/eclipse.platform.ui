@@ -116,19 +116,19 @@ public abstract class PreferencePersistence extends RegistryPersistence {
 	 * @param extraAttributeValue The value of the extra attribute to be logged; may
 	 *                            be <code>null</code>.
 	 */
-	protected static final void addWarning(final List<IStatus> warningsToLog, final String message, final String id,
+	protected static final void addWarning(final List<IStatus> warningsToLog, final String message, final String id, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String extraAttributeName, final String extraAttributeValue) {
 		String statusMessage = message;
 		if (id != null) {
-			statusMessage = statusMessage + ": id='" + id + '\''; //$NON-NLS-1$
+			statusMessage = statusMessage + ": id='" + id + '\''; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (extraAttributeName != null) {
 			if (id != null) {
-				statusMessage = statusMessage + ',';
+				statusMessage = statusMessage + ','; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				statusMessage = statusMessage + ':';
+				statusMessage = statusMessage + ':'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
-			statusMessage = statusMessage + ' ' + extraAttributeName + "='" //$NON-NLS-1$
+			statusMessage = statusMessage + ' ' + extraAttributeName + "='" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ extraAttributeValue + '\'';
 		}
 
@@ -224,15 +224,15 @@ public abstract class PreferencePersistence extends RegistryPersistence {
 	 * @return The array of parameters found for this memento; <code>null</code> if
 	 *         none can be found.
 	 */
-	protected static final ParameterizedCommand readParameters(final IMemento memento,
+	protected static final ParameterizedCommand readParameters(final IMemento memento, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final List<IStatus> warningsToLog, final Command command) {
 		final IMemento[] parameterMementos = memento.getChildren(TAG_PARAMETER);
 		if ((parameterMementos == null) || (parameterMementos.length == 0)) {
 			return new ParameterizedCommand(command, null);
 		}
 
-		final Collection<Parameterization> parameters = new ArrayList<>();
-		for (final IMemento parameterMemento : parameterMementos) {
+		final Collection<Parameterization> parameters = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (final IMemento parameterMemento : parameterMementos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Read out the id.
 			final String id = parameterMemento.getString(ATT_ID);
 			if ((id == null) || (id.isEmpty())) {
@@ -246,7 +246,7 @@ public abstract class PreferencePersistence extends RegistryPersistence {
 			try {
 				final IParameter[] commandParameters = command.getParameters();
 				if (commandParameters != null) {
-					for (final IParameter currentParameter : commandParameters) {
+					for (final IParameter currentParameter : commandParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (Objects.equals(currentParameter.getId(), id)) {
 							parameter = currentParameter;
 							break;
@@ -374,7 +374,7 @@ public abstract class PreferencePersistence extends RegistryPersistence {
 	protected PreferencePersistence() {
 		super();
 
-		preferenceChangeListener = event -> {
+		preferenceChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (isChangeImportant(event)) {
 				read();
 			}

@@ -38,7 +38,7 @@ public class FocusControlSourceProvider extends AbstractSourceProvider implement
 	private static final String[] PROVIDED_SOURCE_NAMES = new String[] { ISources.ACTIVE_FOCUS_CONTROL_ID_NAME,
 			ISources.ACTIVE_FOCUS_CONTROL_NAME };
 
-	Map<Control, String> controlToId = new HashMap<>();
+	Map<Control, String> controlToId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private FocusListener focusListener;
 
 	private String currentId;
@@ -53,13 +53,13 @@ public class FocusControlSourceProvider extends AbstractSourceProvider implement
 			return;
 		}
 		controlToId.put(control, id);
-		control.addFocusListener(getFocusListener());
-		control.addDisposeListener(getDisposeListener());
+		control.addFocusListener(getFocusListener()); //FLLDCIM: MARK — T15 FOCUS CALL
+		control.addDisposeListener(getDisposeListener()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	private DisposeListener getDisposeListener() {
 		if (disposeListener == null) {
-			disposeListener = e -> {
+			disposeListener = e -> { //FLLDCIM: MARK — T01  LAMBDA
 				controlToId.remove(e.widget);
 				if (currentControl == e.widget) {
 					focusIn(null);
@@ -87,10 +87,10 @@ public class FocusControlSourceProvider extends AbstractSourceProvider implement
 		return focusListener;
 	}
 
-	private void focusIn(Widget widget) {
+	private void focusIn(Widget widget) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id = controlToId.get(widget);
 		if (currentId != id) {
-			Map<String, Object> m = new HashMap<>();
+			Map<String, Object> m = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			if (id == null) {
 				currentId = null;
 				currentControl = null;
@@ -123,7 +123,7 @@ public class FocusControlSourceProvider extends AbstractSourceProvider implement
 	@Override
 	public void dispose() {
 		Iterator<Control> i = controlToId.keySet().iterator();
-		while (i.hasNext()) {
+		while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control c = i.next();
 			if (!c.isDisposed()) {
 				c.removeFocusListener(getFocusListener());
@@ -138,7 +138,7 @@ public class FocusControlSourceProvider extends AbstractSourceProvider implement
 
 	@Override
 	public Map getCurrentState() {
-		Map<String, Object> m = new HashMap<>();
+		Map<String, Object> m = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (currentId == null) {
 			m.put(ISources.ACTIVE_FOCUS_CONTROL_ID_NAME, IEvaluationContext.UNDEFINED_VARIABLE);
 			m.put(ISources.ACTIVE_FOCUS_CONTROL_NAME, IEvaluationContext.UNDEFINED_VARIABLE);

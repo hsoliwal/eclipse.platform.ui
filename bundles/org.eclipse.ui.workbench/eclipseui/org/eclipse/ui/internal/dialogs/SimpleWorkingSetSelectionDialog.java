@@ -42,14 +42,14 @@ import org.eclipse.ui.internal.WorkbenchMessages;
  */
 public class SimpleWorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 
-	private class Filter extends ViewerFilter {
+	private class Filter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 			return isCompatible((IWorkingSet) element);
 		}
 
-		private boolean isCompatible(IWorkingSet set) {
+		private boolean isCompatible(IWorkingSet set) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (set.isAggregateWorkingSet()) {
 				return false;
 			}
@@ -74,7 +74,7 @@ public class SimpleWorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 			if (workingSetTypeIds == null) {
 				return true;
 			}
-			for (String workingSetTypeId : workingSetTypeIds) {
+			for (String workingSetTypeId : workingSetTypeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (workingSetTypeId.equals(set.getId())) {
 					return true;
 				}
@@ -106,7 +106,7 @@ public class SimpleWorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 		setMessage(WorkbenchMessages.WorkingSetSelectionDialog_message_multiSelect);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -122,14 +122,14 @@ public class SimpleWorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 
 		viewer = CheckboxTableViewer.newCheckList(viewerComposite, SWT.BORDER);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-		viewer.setLabelProvider(new WorkingSetLabelProvider());
+		viewer.setLabelProvider(new WorkingSetLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		viewer.addFilter(new WorkingSetFilter(null));
+		viewer.addFilter(new WorkingSetFilter(null)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		IWorkingSet[] workingSets = PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets();
-		viewer.setInput(workingSets);
-		viewer.setFilters(new Filter());
+		viewer.setInput(workingSets); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		viewer.setFilters(new Filter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
-		viewer.addSelectionChangedListener(event -> handleSelectionChanged());
+		viewer.addSelectionChangedListener(event -> handleSelectionChanged()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		viewer.setCheckedElements(initialSelection);
 
 		GridData viewerData = new GridData(GridData.FILL_BOTH);
@@ -165,7 +165,7 @@ public class SimpleWorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 
 	@Override
 	protected void availableWorkingSetsChanged() {
-		viewer.setInput(PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets());
+		viewer.setInput(PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		super.availableWorkingSetsChanged();
 	}
 

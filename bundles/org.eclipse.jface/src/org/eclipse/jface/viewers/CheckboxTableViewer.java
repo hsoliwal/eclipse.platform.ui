@@ -163,7 +163,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 */
 	public void setCheckStateProvider(ICheckStateProvider checkStateProvider) {
 		this.checkStateProvider = checkStateProvider;
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/*
@@ -210,7 +210,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 * @see ICheckStateListener#checkStateChanged
 	 */
 	private void fireCheckStateChanged(final CheckStateChangedEvent event) {
-		for (ICheckStateListener l : checkStateListeners) {
+		for (ICheckStateListener l : checkStateListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -242,8 +242,8 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 */
 	public Object[] getCheckedElements() {
 		TableItem[] children = getTable().getItems();
-		List<Object> v = new ArrayList<>(children.length);
-		for (TableItem item : children) {
+		List<Object> v = new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TableItem item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null) {
 				if (item.getChecked()) {
@@ -282,8 +282,8 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 */
 	public Object[] getGrayedElements() {
 		TableItem[] children = getTable().getItems();
-		List<Object> v = new ArrayList<>(children.length);
-		for (TableItem item : children) {
+		List<Object> v = new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TableItem item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null) {
 				if (item.getGrayed()) {
@@ -310,7 +310,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void preservingSelection(Runnable updateCode) {
 		if (!getPreserveSelection()) {
 			return;
@@ -329,7 +329,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 		CustomHashtable checked = newHashtable(children.length * 2 + 1);
 		CustomHashtable grayed = newHashtable(children.length * 2 + 1);
 
-		for (TableItem item : children) {
+		for (TableItem item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null) {
 				if (item.getChecked()) {
@@ -344,7 +344,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 		super.preservingSelection(updateCode);
 
 		children = getTable().getItems();
-		for (TableItem item : children) {
+		for (TableItem item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object data = item.getData();
 			if (data != null) {
 				item.setChecked(checked.containsKey(data));
@@ -367,7 +367,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 */
 	public void setAllChecked(boolean state) {
 		TableItem[] children = getTable().getItems();
-		for (TableItem item : children) {
+		for (TableItem item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.getData() != null) {
 				if (item.getChecked() != state) {
 					item.setChecked(state);
@@ -384,7 +384,7 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 */
 	public void setAllGrayed(boolean state) {
 		TableItem[] children = getTable().getItems();
-		for (TableItem item : children) {
+		for (TableItem item : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.getData() != null) {
 				if (item.getGrayed() != state) {
 					item.setGrayed(state);
@@ -419,14 +419,14 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 * @param elements the list of checked elements (element type: <code>Object</code>)
 	 * @see #getCheckedElements
 	 */
-	public void setCheckedElements(Object[] elements) {
+	public void setCheckedElements(Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertElementsNotNull(elements);
 		CustomHashtable set = newHashtable(elements.length * 2 + 1);
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			set.put(element, element);
 		}
 		TableItem[] items = getTable().getItems();
-		for (TableItem item : items) {
+		for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element = item.getData();
 			if (element != null) {
 				boolean check = set.containsKey(element);
@@ -472,14 +472,14 @@ public class CheckboxTableViewer extends TableViewer implements ICheckable {
 	 *
 	 * @see #getGrayedElements
 	 */
-	public void setGrayedElements(Object... elements) {
+	public void setGrayedElements(Object... elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertElementsNotNull(elements);
 		CustomHashtable set = newHashtable(elements.length * 2 + 1);
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			set.put(element, element);
 		}
 		TableItem[] items = getTable().getItems();
-		for (TableItem item : items) {
+		for (TableItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element = item.getData();
 			if (element != null) {
 				boolean gray = set.containsKey(element);

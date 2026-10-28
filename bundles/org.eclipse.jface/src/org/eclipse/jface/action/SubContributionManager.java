@@ -33,7 +33,7 @@ public abstract class SubContributionManager implements IContributionManager {
 	 * Maps each item in the manager to a wrapper.  The wrapper is used to
 	 * control the visibility of each item.
 	 */
-	private final Map<IContributionItem, SubContributionItem> mapItemToWrapper = new HashMap<>();
+	private final Map<IContributionItem, SubContributionItem> mapItemToWrapper = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The visibility of the manager,
@@ -91,7 +91,7 @@ public abstract class SubContributionManager implements IContributionManager {
 		// Dispose items in addition to removing them.
 		// See bugs 64024 and 73715 for details.
 		// Do not use getItems() here as subclasses can override that in bad ways.
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = it.next();
 			item.dispose();
 		}
@@ -268,7 +268,7 @@ public abstract class SubContributionManager implements IContributionManager {
 	@Override
 	public void removeAll() {
 		Object[] array = mapItemToWrapper.keySet().toArray();
-		for (Object element : array) {
+		for (Object element : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = (IContributionItem) element;
 			remove(item);
 		}
@@ -286,7 +286,7 @@ public abstract class SubContributionManager implements IContributionManager {
 		this.visible = visible;
 		if (mapItemToWrapper.size() > 0) {
 			Iterator<SubContributionItem> it = mapItemToWrapper.values().iterator();
-			while (it.hasNext()) {
+			while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IContributionItem item = it.next();
 				item.setVisible(visible);
 			}

@@ -117,7 +117,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 
 	private boolean showLocationIsSetOnCommandLine;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
@@ -254,7 +254,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 	 * @param composite
 	 *            the Composite the group is created in.
 	 */
-	private void createWorkspaceLocationGroup(Composite composite) {
+	private void createWorkspaceLocationGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// show workspace location in window title
 		boolean isShowLocation = getIDEPreferenceStore().getBoolean(IDEInternalPreferences.SHOW_LOCATION) || showLocationIsSetOnCommandLine;
@@ -336,7 +336,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 	 *
 	 * @param composite the Composite the group is created in.
 	 */
-	private void createSaveIntervalGroup(Composite composite) {
+	private void createSaveIntervalGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite groupComposite = new Composite(composite, SWT.LEFT);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -367,7 +367,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 		long interval = description.getSnapshotInterval() / 60000;
 		saveInterval.setStringValue(Long.toString(interval));
 
-		saveInterval.setPropertyChangeListener(event -> {
+		saveInterval.setPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 				setValid(saveInterval.isValid());
 			}
@@ -378,7 +378,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * Create the Refresh controls
 	 */
-	private void createAutoRefreshControls(Composite parent) {
+	private void createAutoRefreshControls(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		this.autoRefreshButton = new Button(parent, SWT.CHECK);
 		this.autoRefreshButton.setText(IDEWorkbenchMessages.IDEWorkspacePreference_RefreshButtonText);
@@ -400,7 +400,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * Create a composite that contains the encoding controls
 	 */
-	private void createEncodingEditorControls(Composite parent){
+	private void createEncodingEditorControls(Composite parent){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite encodingComposite = new Composite(parent,SWT.NONE);
 		encodingComposite.setLayout(new GridLayout());
 		encodingComposite.setLayoutData(new GridData(
@@ -411,7 +411,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 
 		encodingEditor.setPage(this);
 		encodingEditor.load();
-		encodingEditor.setPropertyChangeListener(event -> {
+		encodingEditor.setPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 				setValid(encodingEditor.isValid());
 			}
@@ -439,7 +439,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * Create the widget for the system explorer command.
 	 */
-	protected void createSystemExplorerGroup(Composite composite) {
+	protected void createSystemExplorerGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite groupComposite = new Composite(composite, SWT.LEFT);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -461,7 +461,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 
 		systemExplorer.load();
 
-		systemExplorer.setPropertyChangeListener(event -> {
+		systemExplorer.setPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 				setValid(systemExplorer.isValid());
 			}
@@ -520,7 +520,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * The default button has been pressed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performDefaults() {
 
 		IPreferenceStore store = getIDEPreferenceStore();
@@ -573,7 +573,7 @@ public class IDEWorkspacePreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * The user has pressed Ok. Store/apply this page's values appropriately.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		IWorkspaceDescription description = ResourcesPlugin.getWorkspace()
 				.getDescription();

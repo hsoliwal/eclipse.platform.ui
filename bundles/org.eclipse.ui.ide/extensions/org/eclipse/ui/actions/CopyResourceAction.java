@@ -40,13 +40,13 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class CopyResourceAction extends SelectionListenerAction implements
+public class CopyResourceAction extends SelectionListenerAction implements //FLLDCIM: MARK — T04  IMPLEMENTS
 		ISelectionValidator {
 
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID
+	public static final String ID = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ ".CopyResourceAction"; //$NON-NLS-1$
 
 	/**
@@ -228,7 +228,7 @@ public class CopyResourceAction extends SelectionListenerAction implements
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		try {
 			operation = createOperation();
@@ -274,7 +274,7 @@ public class CopyResourceAction extends SelectionListenerAction implements
 	 * all of the one or more selections are sibling resources which are
 	 * local (depth infinity).
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateSelection(IStructuredSelection selection) {
 		if (!super.updateSelection(selection)) {
 			return false;
@@ -294,7 +294,7 @@ public class CopyResourceAction extends SelectionListenerAction implements
 			return false;
 		}
 		Iterator<? extends IResource> resourcesEnum = selectedResources.iterator();
-		while (resourcesEnum.hasNext()) {
+		while (resourcesEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource currentResource = resourcesEnum.next();
 			if (!currentResource.exists()) {
 				return false;

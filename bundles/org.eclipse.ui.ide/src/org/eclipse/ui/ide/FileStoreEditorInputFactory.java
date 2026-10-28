@@ -65,7 +65,7 @@ public class FileStoreEditorInputFactory implements IElementFactory {
 	/*
 	 * @see org.eclipse.ui.IElementFactory#createElement(org.eclipse.ui.IMemento)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAdaptable createElement(IMemento memento) {
 		// Get the file name.
 		String uriString = memento.getString(TAG_URI);

@@ -92,17 +92,17 @@ public final class M3SlotOrder {
 	 * @param index a position, 0 to {@code size() - 1}
 	 * @return the slot at {@code index}
 	 */
-	public int get(int index) {
+	public int get(int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException(index);
 		}
 		int b = 0;
 		if (blockCount <= LINEAR_BLOCKS || blockCounts == null) {
-			while (index >= lengths[b]) {
+			while (index >= lengths[b]) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				index -= lengths[b++];
 			}
 		} else {
-			for (int bit = Integer.highestOneBit(blockCount); bit != 0; bit >>>= 1) {
+			for (int bit = Integer.highestOneBit(blockCount); bit != 0; bit >>>= 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int next = b + bit;
 				if (next <= blockCount && blockCounts[next] <= index) {
 					index -= blockCounts[next];
@@ -123,7 +123,7 @@ public final class M3SlotOrder {
 	public int head(int limit, int[] out) {
 		int n = Math.min(limit, size);
 		int copied = 0;
-		for (int b = 0; copied < n; b++) {
+		for (int b = 0; copied < n; b++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int take = Math.min(lengths[b], n - copied);
 			System.arraycopy(blocks[b], 0, out, copied, take);
 			copied += take;
@@ -153,7 +153,7 @@ public final class M3SlotOrder {
 	 * @param slot a slot that is not in the list
 	 * @return its position
 	 */
-	public int insert(int slot) {
+	public int insert(int slot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (blockCount == 0) {
 			blocks[0] = new int[BLOCK];
 			blocks[0][0] = slot;
@@ -170,7 +170,7 @@ public final class M3SlotOrder {
 		int[] block = blocks[b];
 		int i = search(block, lengths[b], slot);
 		if (i >= 0) {
-			throw new IllegalArgumentException("slot already present: " + slot); //$NON-NLS-1$
+			throw new IllegalArgumentException("slot already present: " + slot); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		i = -i - 1;
 		if (lengths[b] == BLOCK) {
@@ -196,7 +196,7 @@ public final class M3SlotOrder {
 	 * @param slot a slot
 	 * @return its former position, or -1 when it was not in the list
 	 */
-	public int remove(int slot) {
+	public int remove(int slot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int b = blockOf(slot);
 		if (b == blockCount) {
 			return -1;
@@ -230,7 +230,7 @@ public final class M3SlotOrder {
 		blocks = new int[Math.max(4, count)][];
 		lengths = new int[blocks.length];
 		blockCount = 0;
-		for (int from = 0; from < n; from += BLOCK / 2) {
+		for (int from = 0; from < n; from += BLOCK / 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int len = Math.min(BLOCK / 2, n - from);
 			int[] block = new int[BLOCK];
 			System.arraycopy(sorted, from, block, 0, len);
@@ -261,27 +261,27 @@ public final class M3SlotOrder {
 	 * @param n     how many of them
 	 * @param order the order
 	 */
-	static void sort(int[] slots, int n, SlotComparator order) {
+	static void sort(int[] slots, int n, SlotComparator order) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (n < 2) {
 			return;
 		}
 		int[] scratch = new int[n];
 		int[] from = slots;
 		int[] to = scratch;
-		for (int run = 1; run < n; run <<= 1) {
-			for (int lo = 0; lo < n; lo += run << 1) {
+		for (int run = 1; run < n; run <<= 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int lo = 0; lo < n; lo += run << 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int mid = Math.min(lo + run, n);
 				int hi = Math.min(lo + (run << 1), n);
 				int i = lo;
 				int j = mid;
 				int k = lo;
-				while (i < mid && j < hi) {
+				while (i < mid && j < hi) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					to[k++] = order.compare(from[j], from[i]) < 0 ? from[j++] : from[i++];
 				}
-				while (i < mid) {
+				while (i < mid) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					to[k++] = from[i++];
 				}
-				while (j < hi) {
+				while (j < hi) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					to[k++] = from[j++];
 				}
 			}
@@ -298,7 +298,7 @@ public final class M3SlotOrder {
 	private int blockOf(int slot) {
 		int lo = 0;
 		int hi = blockCount - 1;
-		while (lo <= hi) {
+		while (lo <= hi) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (lo + hi) >>> 1;
 			if (order.compare(blocks[mid][lengths[mid] - 1], slot) < 0) {
 				lo = mid + 1;
@@ -313,7 +313,7 @@ public final class M3SlotOrder {
 	private int search(int[] block, int length, int slot) {
 		int lo = 0;
 		int hi = length - 1;
-		while (lo <= hi) {
+		while (lo <= hi) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int mid = (lo + hi) >>> 1;
 			int c = order.compare(block[mid], slot);
 			if (c < 0) {
@@ -327,7 +327,7 @@ public final class M3SlotOrder {
 		return -lo - 1;
 	}
 
-	private void split(int b) {
+	private void split(int b) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (blockCount == blocks.length) {
 			blocks = Arrays.copyOf(blocks, blockCount << 1);
 			lengths = Arrays.copyOf(lengths, blockCount << 1);
@@ -361,11 +361,11 @@ public final class M3SlotOrder {
 	private int countBefore(int block) {
 		int count = 0;
 		if (blockCounts == null) {
-			for (int b = 0; b < block; b++) {
+			for (int b = 0; b < block; b++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				count += lengths[b];
 			}
 		} else {
-			for (int b = block; b > 0; b -= b & -b) {
+			for (int b = block; b > 0; b -= b & -b) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				count += blockCounts[b];
 			}
 		}
@@ -377,7 +377,7 @@ public final class M3SlotOrder {
 		if (blockCounts == null) {
 			return;
 		}
-		for (int b = block + 1; b <= blockCount;) {
+		for (int b = block + 1; b <= blockCount;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			blockCounts[b] += delta;
 			int step = b & -b;
 			if (step > blockCount - b) {
@@ -387,7 +387,7 @@ public final class M3SlotOrder {
 		}
 	}
 
-	private void rebuildCounts() {
+	private void rebuildCounts() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (blockCount == 0) {
 			blockCounts = null;
 			return;
@@ -397,7 +397,7 @@ public final class M3SlotOrder {
 		} else {
 			Arrays.fill(blockCounts, 0, blockCount + 1, 0);
 		}
-		for (int b = 1; b <= blockCount; b++) {
+		for (int b = 1; b <= blockCount; b++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			blockCounts[b] += lengths[b - 1];
 			int step = b & -b;
 			if (step <= blockCount - b) {

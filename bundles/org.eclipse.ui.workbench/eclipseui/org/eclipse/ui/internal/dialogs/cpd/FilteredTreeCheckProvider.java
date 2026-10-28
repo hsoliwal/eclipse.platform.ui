@@ -58,13 +58,13 @@ class FilteredTreeCheckProvider implements ICheckStateProvider {
 	 *         {@link TreeManager#CHECKSTATE_GRAY} or
 	 *         {@link TreeManager#CHECKSTATE_UNCHECKED}
 	 */
-	static int getLeafStates(TreeItem item, ITreeContentProvider provider, ViewerFilter filter) {
+	static int getLeafStates(TreeItem item, ITreeContentProvider provider, ViewerFilter filter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] children = provider.getChildren(item);
 
 		boolean checkedFound = false;
 		boolean uncheckedFound = false;
 
-		for (Object element : children) {
+		for (Object element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filter.select(null, null, element)) {
 				TreeItem child = (TreeItem) element;
 				switch (getLeafStates(child, provider, filter)) {

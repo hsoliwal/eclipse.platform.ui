@@ -191,7 +191,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		/**
 		 * Set the name of the project based on the projectFile.
 		 */
-		private void setProjectName() {
+		private void setProjectName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				if (projectArchiveFile != null) {
 					try (InputStream stream = structureProvider.getContents(projectArchiveFile)) {
@@ -296,7 +296,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	/**
 	 * A filter to remove conflicting projects
 	 */
-	static class ConflictingProjectFilter extends ViewerFilter {
+	static class ConflictingProjectFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		@Override
 		public boolean select(Viewer viewer, Object parentElement,
@@ -409,7 +409,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 *
 	 * @since 3.5
 	 */
-	public WizardProjectsImportPage(String pageName,String initialPath,
+	public WizardProjectsImportPage(String pageName,String initialPath, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IStructuredSelection currentSelection) {
 		super(pageName);
 		if (initialPath != null) {
@@ -430,7 +430,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		setDescription(DataTransferMessages.WizardProjectsImportPage_ImportProjectsDescription);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -458,13 +458,13 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		workingSetGroup = new WorkingSetGroup(workArea, currentSelection, workingSetIds);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createOptionsGroupButtons(Group optionsGroup) {
 		nestedProjectsCheckbox = new Button(optionsGroup, SWT.CHECK);
 		nestedProjectsCheckbox
 				.setText(DataTransferMessages.WizardProjectsImportPage_SearchForNestedProjects);
 		nestedProjectsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		nestedProjectsCheckbox.addSelectionListener(new SelectionAdapter() {
+		nestedProjectsCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				nestedProjects = nestedProjectsCheckbox.getSelection();
@@ -480,14 +480,14 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		copyCheckbox
 				.setText(DataTransferMessages.WizardProjectsImportPage_CopyProjectsIntoWorkspace);
 		copyCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		copyCheckbox.addSelectionListener(new SelectionAdapter() {
+		copyCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				copyFiles = copyCheckbox.getSelection();
 				// need to refresh the project list as projects already
 				// in the workspace directory are treated as conflicts
 				// and should be hidden too
-				projectsList.refresh(true);
+				projectsList.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		});
 
@@ -495,19 +495,19 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		closeProjectsCheckbox.setText(DataTransferMessages.WizardProjectsImportPage_closeProjectsAfterImport);
 		closeProjectsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		closeProjectsCheckbox.setSelection(closeProjectsAfterImport);
-		closeProjectsCheckbox.addSelectionListener(
-				SelectionListener.widgetSelectedAdapter(unused -> closeProjectsAfterImport = closeProjectsCheckbox.getSelection()));
+		closeProjectsCheckbox.addSelectionListener( //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				SelectionListener.widgetSelectedAdapter(unused -> closeProjectsAfterImport = closeProjectsCheckbox.getSelection())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		hideConflictingProjectsCheckbox = new Button(optionsGroup, SWT.CHECK);
 		hideConflictingProjectsCheckbox
 				.setText(DataTransferMessages.WizardProjectsImportPage_hideExistingProjects);
 		hideConflictingProjectsCheckbox.setLayoutData(new GridData(
 				GridData.FILL_HORIZONTAL));
-		hideConflictingProjectsCheckbox.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> {
+		hideConflictingProjectsCheckbox.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			hideConflictingProjects = hideConflictingProjectsCheckbox.getSelection();
 			projectsList.removeFilter(conflictingProjectsFilter);
 			if (hideConflictingProjectsCheckbox.getSelection()) {
-				projectsList.addFilter(conflictingProjectsFilter);
+				projectsList.addFilter(conflictingProjectsFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			}
 		}));
 		Dialog.applyDialogFont(hideConflictingProjectsCheckbox);
@@ -516,7 +516,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		skipDotFoldersCheckbox.setText(DataTransferMessages.WizardProjectsImportPage_skipDotFolders);
 		skipDotFoldersCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		skipDotFoldersCheckbox.setSelection(skipDotFolders);
-		skipDotFoldersCheckbox.addSelectionListener(new SelectionAdapter() {
+		skipDotFoldersCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				skipDotFolders = skipDotFoldersCheckbox.getSelection();
@@ -532,7 +532,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	/**
 	 * Create the checkbox list for the found projects.
 	 */
-	private void createProjectsList(Composite workArea) {
+	private void createProjectsList(Composite workArea) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Label title = new Label(workArea, SWT.NONE);
 		title
@@ -554,7 +554,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		gridData.widthHint = new PixelConverter(projectsList.getControl()).convertWidthInCharsToPixels(25);
 		gridData.heightHint = new PixelConverter(projectsList.getControl()).convertHeightInCharsToPixels(10);
 		projectsList.getControl().setLayoutData(gridData);
-		projectsList.setContentProvider(new ITreeContentProvider() {
+		projectsList.setContentProvider(new ITreeContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 
 			@Override
 			public Object[] getChildren(Object parentElement) {
@@ -588,9 +588,9 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		});
 
-		projectsList.setLabelProvider(new ProjectLabelProvider());
+		projectsList.setLabelProvider(new ProjectLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
-		projectsList.addCheckStateListener(event -> {
+		projectsList.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			ProjectRecord element = (ProjectRecord) event.getElement();
 			if (element.hasConflicts || element.isInvalid) {
 				projectsList.setChecked(element, false);
@@ -598,7 +598,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 			setPageComplete(projectsList.getCheckedElements().length > 0);
 		});
 
-		projectsList.setInput(this);
+		projectsList.setInput(this); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		projectsList.setComparator(new ViewerComparator());
 		createSelectionButtons(listComposite);
 	}
@@ -606,7 +606,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	/**
 	 * Create the selection buttons in the listComposite.
 	 */
-	private void createSelectionButtons(Composite listComposite) {
+	private void createSelectionButtons(Composite listComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonsComposite = new Composite(listComposite, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
@@ -618,10 +618,10 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		Button selectAll = new Button(buttonsComposite, SWT.PUSH);
 		selectAll.setText(DataTransferMessages.DataTransfer_selectAll);
-		selectAll.addSelectionListener(new SelectionAdapter() {
+		selectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (ProjectRecord selectedProject : selectedProjects) {
+				for (ProjectRecord selectedProject : selectedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (selectedProject.hasConflicts || selectedProject.isInvalid) {
 						projectsList.setChecked(selectedProject, false);
 					} else {
@@ -636,7 +636,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		Button deselectAll = new Button(buttonsComposite, SWT.PUSH);
 		deselectAll.setText(DataTransferMessages.DataTransfer_deselectAll);
-		deselectAll.addSelectionListener(new SelectionAdapter() {
+		deselectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
@@ -649,7 +649,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		Button refresh = new Button(buttonsComposite, SWT.PUSH);
 		refresh.setText(DataTransferMessages.DataTransfer_refresh);
-		refresh.addSelectionListener(new SelectionAdapter() {
+		refresh.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (projectFromDirectoryRadio.getSelection()) {
@@ -669,7 +669,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 * @param workArea
 	 * 		Composite
 	 */
-	private void createProjectsRoot(Composite workArea) {
+	private void createProjectsRoot(Composite workArea) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// project specification group
 		Composite projectGroup = new Composite(workArea, SWT.NONE);
@@ -717,7 +717,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		archivePathField.setEnabled(false);
 		browseArchivesButton.setEnabled(false);
 
-		browseDirectoriesButton.addSelectionListener(new SelectionAdapter() {
+		browseDirectoriesButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleLocationDirectoryButtonPressed();
@@ -725,7 +725,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		});
 
-		browseArchivesButton.addSelectionListener(new SelectionAdapter() {
+		browseArchivesButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleLocationArchiveButtonPressed();
@@ -733,14 +733,14 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		});
 
-		directoryPathField.addTraverseListener(e -> {
+		directoryPathField.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_RETURN) {
 				e.doit = false;
 				updateProjectsList(directoryPathField.getText().trim());
 			}
 		});
 
-		directoryPathField.addFocusListener(new FocusAdapter() {
+		directoryPathField.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
 				if (!isUpdatingProjectsList) {
@@ -750,21 +750,21 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		});
 
-		directoryPathField.addSelectionListener(new SelectionAdapter() {
+		directoryPathField.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateProjectsList(directoryPathField.getText().trim());
 			}
 		});
 
-		archivePathField.addTraverseListener(e -> {
+		archivePathField.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_RETURN) {
 				e.doit = false;
 				updateProjectsList(archivePathField.getText().trim());
 			}
 		});
 
-		archivePathField.addFocusListener(new FocusAdapter() {
+		archivePathField.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
 				if (!isUpdatingProjectsList) {
@@ -773,21 +773,21 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 			}
 		});
 
-		archivePathField.addSelectionListener(new SelectionAdapter() {
+		archivePathField.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateProjectsList(archivePathField.getText().trim());
 			}
 		});
 
-		projectFromDirectoryRadio.addSelectionListener(new SelectionAdapter() {
+		projectFromDirectoryRadio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				directoryRadioSelected();
 			}
 		});
 
-		projectFromArchiveRadio.addSelectionListener(new SelectionAdapter() {
+		projectFromArchiveRadio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				archiveRadioSelected();
@@ -795,7 +795,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		});
 	}
 
-	private void archiveRadioSelected() {
+	private void archiveRadioSelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (projectFromArchiveRadio.getSelection()) {
 			directoryPathField.setEnabled(false);
 			browseDirectoriesButton.setEnabled(false);
@@ -818,7 +818,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		}
 	}
 
-	private void directoryRadioSelected() {
+	private void directoryRadioSelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (projectFromDirectoryRadio.getSelection()) {
 			directoryPathField.setEnabled(true);
 			browseDirectoriesButton.setEnabled(true);
@@ -874,12 +874,12 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		}
 	}
 
-	private void updateProjectsList(final String path, boolean forceUpdate) {
+	private void updateProjectsList(final String path, boolean forceUpdate) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// on an empty path empty selectedProjects
 		if (path == null || path.isEmpty()) {
 			setMessage(DataTransferMessages.WizardProjectsImportPage_ImportProjectsDescription);
 			selectedProjects = new ProjectRecord[0];
-			projectsList.refresh(true);
+			projectsList.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			projectsList.setCheckedElements(selectedProjects);
 			setPageComplete(projectsList.getCheckedElements().length > 0);
 			lastPath = path;
@@ -896,7 +896,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		// status beforehand
 		final boolean dirSelected = this.projectFromDirectoryRadio.getSelection();
 		try {
-			getContainer().run(true, true, monitor -> {
+			getContainer().run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 
 				monitor
 						.beginTask(
@@ -915,7 +915,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 							sourceTarFile);
 					Object child1 = structureProvider.getRoot();
 
-					Collection<ProjectRecord> files = new ArrayList<>();
+					Collection<ProjectRecord> files = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (!collectProjectFilesFromProvider(files, child1, 0,
 							monitor)) {
 						return;
@@ -926,7 +926,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 					monitor.worked(50);
 					monitor
 							.subTask(DataTransferMessages.WizardProjectsImportPage_ProcessingMessage);
-					while (filesIterator1.hasNext()) {
+					while (filesIterator1.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						selectedProjects[index1++] = filesIterator1
 								.next();
 					}
@@ -940,7 +940,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 							sourceFile);
 					Object child2 = structureProvider.getRoot();
 
-					Collection<ProjectRecord> files = new ArrayList<>();
+					Collection<ProjectRecord> files = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (!collectProjectFilesFromProvider(files, child2, 0,
 							monitor)) {
 						return;
@@ -952,7 +952,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 					monitor.worked(50);
 					monitor
 							.subTask(DataTransferMessages.WizardProjectsImportPage_ProcessingMessage);
-					while (filesIterator2.hasNext()) {
+					while (filesIterator2.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						selectedProjects[index2++] = filesIterator2
 								.next();
 					}
@@ -960,7 +960,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 				else if (dirSelected && directory.isDirectory()) {
 
-					Collection<File> files = new ArrayList<>();
+					Collection<File> files = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (!collectProjectFilesFromDirectory(files, directory,
 							null, nestedProjects, skipDotFolders, monitor)) {
 						return;
@@ -971,7 +971,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 					monitor.worked(50);
 					monitor
 							.subTask(DataTransferMessages.WizardProjectsImportPage_ProcessingMessage);
-					while (filesIterator3.hasNext()) {
+					while (filesIterator3.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						File file = filesIterator3.next();
 						selectedProjects[index3] = new ProjectRecord(file);
 						index3++;
@@ -1003,14 +1003,14 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		}
 	}
 
-	private void updateProjectsStatus() {
-		projectsList.refresh(true);
+	private void updateProjectsStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		projectsList.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		ProjectRecord[] projects = getProjectRecords();
 
 		boolean displayConflictWarning = false;
 		boolean displayInvalidWarning = false;
 
-		for (ProjectRecord project : projects) {
+		for (ProjectRecord project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (project.hasConflicts || project.isInvalid) {
 				projectsList.setGrayed(project, true);
 				displayConflictWarning |= project.hasConflicts;
@@ -1047,7 +1047,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		}
 
 		try {
-			return new ZipFile(fileName);
+			return new ZipFile(fileName); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 		} catch (ZipException e) {
 			displayErrorDialog(DataTransferMessages.ZipImport_badFormat);
 		} catch (IOException e) {
@@ -1092,7 +1092,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 *            The monitor to report to
 	 * @return boolean <code>true</code> if the operation was completed.
 	 */
-	static boolean collectProjectFilesFromDirectory(Collection<File> files, File directory,
+	static boolean collectProjectFilesFromDirectory(Collection<File> files, File directory, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Set<String> directoriesVisited, boolean nestedProjects, boolean skipDotFolders, IProgressMonitor monitor) {
 
 		if (monitor.isCanceled()) {
@@ -1108,7 +1108,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		// Initialize recursion guard for recursive symbolic links
 		if (directoriesVisited == null) {
-			directoriesVisited = new HashSet<>();
+			directoriesVisited = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			try {
 				directoriesVisited.add(directory.getCanonicalPath());
 			} catch (IOException exception) {
@@ -1118,8 +1118,8 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 
 		// first look for project description files
 		final String dotProject = IProjectDescription.DESCRIPTION_FILE_NAME;
-		List<File> directories = new ArrayList<>();
-		for (File file : contents) {
+		List<File> directories = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (File file : contents) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(file.isDirectory()){
 				directories.add(file);
 			} else if (file.getName().equals(dotProject) && file.isFile()) {
@@ -1133,7 +1133,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 		}
 		// no project description found or search for nested projects enabled,
 		// so recurse into sub-directories
-		for (File dir : directories) {
+		for (File dir : directories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (dir.getName().equals(METADATA_FOLDER)) {
 				continue;
 			}
@@ -1163,7 +1163,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 * 		The monitor to report to
 	 * @return boolean <code>true</code> if the operation was completed.
 	 */
-	private boolean collectProjectFilesFromProvider(Collection<ProjectRecord> files,
+	private boolean collectProjectFilesFromProvider(Collection<ProjectRecord> files, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object entry, int level, IProgressMonitor monitor) {
 
 		if (monitor.isCanceled()) {
@@ -1174,10 +1174,10 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 				structureProvider.getLabel(entry)));
 		List<?> children = structureProvider.getChildren(entry);
 		if (children == null) {
-			children = new ArrayList<>(1);
+			children = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		Iterator<?> childrenEnum = children.iterator();
-		while (childrenEnum.hasNext()) {
+		while (childrenEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object child = childrenEnum.next();
 			if (structureProvider.isFolder(child)) {
 				collectProjectFilesFromProvider(files, child, level + 1,
@@ -1194,7 +1194,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	/**
 	 * The browse button has been selected. Select the location.
 	 */
-	protected void handleLocationDirectoryButtonPressed() {
+	protected void handleLocationDirectoryButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		DirectoryDialog dialog = new DirectoryDialog(directoryPathField
 				.getShell(), SWT.SHEET);
@@ -1228,7 +1228,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	/**
 	 * The browse button has been selected. Select the location.
 	 */
-	protected void handleLocationArchiveButtonPressed() {
+	protected void handleLocationArchiveButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		FileDialog dialog = new FileDialog(archivePathField.getShell(), SWT.SHEET);
 		dialog.setFilterExtensions(FILE_IMPORT_MASK);
@@ -1265,12 +1265,12 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 * @return boolean <code>true</code> if all project creations were
 	 * 	successful.
 	 */
-	public boolean createProjects() {
+	public boolean createProjects() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		saveWidgetValues();
 
 		final Object[] selected = projectsList.getCheckedElements();
-		createdProjects = new ArrayList<>();
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+		createdProjects = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		WorkspaceModifyOperation op = new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			protected void execute(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				SubMonitor subMonitor = SubMonitor.convert(monitor, selected.length);
@@ -1278,7 +1278,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 				// report to the user
 				MultiStatus status = new MultiStatus(IDEWorkbenchPlugin.IDE_WORKBENCH, 1,
 						DataTransferMessages.WizardProjectsImportPage_projectsInWorkspaceAndInvalid);
-				for (Object element : selected) {
+				for (Object element : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					status.add(createExistingProject((ProjectRecord) element, subMonitor.split(1)));
 				}
 				if (!status.isOK()) {
@@ -1326,7 +1326,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 			return; // no Working set is selected
 		}
 		IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
-		for (IProject element : createdProjects) {
+		for (IProject element : createdProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			workingSetManager.addToWorkingSets(element, selectedWorkingSets);
 		}
 	}
@@ -1344,7 +1344,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 *
 	 * @return status of the creation
 	 */
-	private IStatus createExistingProject(final ProjectRecord record, IProgressMonitor mon)
+	private IStatus createExistingProject(final ProjectRecord record, IProgressMonitor mon) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws InterruptedException {
 		SubMonitor subMonitor = SubMonitor.convert(mon, 3);
 		String projectName = record.getProjectName();
@@ -1513,8 +1513,8 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 * 	workspace
 	 */
 	public ProjectRecord[] getProjectRecords() {
-		List<ProjectRecord> projectRecords = new ArrayList<>();
-		for (ProjectRecord selectedProject : selectedProjects) {
+		List<ProjectRecord> projectRecords = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ProjectRecord selectedProject : selectedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String projectName = selectedProject.getProjectName();
 			selectedProject.hasConflicts = (isProjectInWorkspacePath(projectName)
 					&& (copyFiles || selectedProject.projectArchiveFile != null)) || isProjectInWorkspace(projectName);
@@ -1550,7 +1550,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 			return false;
 		}
 		IProject[] workspaceProjects = getProjectsInWorkspace();
-		for (IProject workspaceProject : workspaceProjects) {
+		for (IProject workspaceProject : workspaceProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (projectName.equals(workspaceProject.getName())) {
 				return true;
 			}
@@ -1565,7 +1565,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 *
 	 * Method declared public only for use of tests.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void restoreWidgetValues() {
 
 		// First, check to see if we have resore settings, and
@@ -1646,7 +1646,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 			return; // ie.- no values stored, so stop
 		}
 
-		for (String sourceName : sourceNames) {
+		for (String sourceName : sourceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			combo.add(sourceName);
 		}
 	}
@@ -1657,7 +1657,7 @@ public class WizardProjectsImportPage extends WizardDataTransferPage {
 	 *
 	 * Method declared public only for use of tests.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveWidgetValues() {
 		IDialogSettings settings = getDialogSettings();
 		if (settings != null) {

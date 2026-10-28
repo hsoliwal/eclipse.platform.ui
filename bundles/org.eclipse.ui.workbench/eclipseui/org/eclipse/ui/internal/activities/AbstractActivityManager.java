@@ -46,7 +46,7 @@ public abstract class AbstractActivityManager implements IActivityManager {
 		}
 
 		if (activityManagerListeners != null) {
-			for (IActivityManagerListener listener : activityManagerListeners) {
+			for (IActivityManagerListener listener : activityManagerListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.activityManagerChanged(activityManagerEvent);
 			}
 		}

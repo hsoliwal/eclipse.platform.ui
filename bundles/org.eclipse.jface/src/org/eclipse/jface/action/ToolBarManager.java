@@ -167,7 +167,7 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 	 * associated contribution items. Use <code>removeAll</code> for that
 	 * purpose.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (toolBarExist()) {
 			toolBar.dispose();
@@ -175,7 +175,7 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 		toolBar = null;
 
 		IContributionItem[] items = getItems();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.dispose();
 		}
 
@@ -209,7 +209,7 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 	 * @param newCount
 	 *            the new number of items
 	 */
-	protected void relayout(ToolBar layoutBar, int oldCount, int newCount) {
+	protected void relayout(ToolBar layoutBar, int oldCount, int newCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (oldCount != newCount && newCount != 0) {
 			Composite parent = layoutBar.getParent();
 			try {
@@ -232,7 +232,7 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 				if (parent instanceof CoolBar) {
 					CoolBar cb = (CoolBar) layoutBar.getParent();
 					CoolItem[] items = cb.getItems();
-					for (CoolItem item : items) {
+					for (CoolItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (item.getControl() == layoutBar) {
 							Point curSize = item.getSize();
 							item.setSize(curSize.x + (afterPack.x - beforePack.x),
@@ -257,7 +257,7 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 		return toolBar != null && !toolBar.isDisposed();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(boolean force) {
 
 		if (!isDirty() && !force) {
@@ -272,9 +272,9 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 
 		// clean contains all active items without double separators
 		IContributionItem[] items = getItems();
-		ArrayList<IContributionItem> clean = new ArrayList<>(items.length);
+		ArrayList<IContributionItem> clean = new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IContributionItem separator = null;
-		for (IContributionItem ci : items) {
+		for (IContributionItem ci : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isChildVisible(ci)) {
 				continue;
 			}
@@ -295,8 +295,8 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 
 		// determine obsolete items (removed or non active)
 		ToolItem[] mi = toolBar.getItems();
-		ArrayList<ToolItem> toRemove = new ArrayList<>(mi.length);
-		for (ToolItem item : mi) {
+		ArrayList<ToolItem> toRemove = new ArrayList<>(mi.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ToolItem item : mi) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// there may be null items in a toolbar
 			if (item == null) {
 				continue;
@@ -313,7 +313,7 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 			toolBar.setRedraw(false);
 
 			// remove obsolete items
-			for (int i = toRemove.size(); --i >= 0;) {
+			for (int i = toRemove.size(); --i >= 0;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ToolItem item = toRemove.get(i);
 				if (!item.isDisposed()) {
 					Control ctrl = item.getControl();
@@ -330,7 +330,7 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 			mi = toolBar.getItems();
 			int srcIx = 0;
 			int destIx = 0;
-			for (IContributionItem src : clean) {
+			for (IContributionItem src : clean) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// get corresponding item in SWT widget
 				if (srcIx < mi.length) {
 					dest = (IContributionItem) mi[srcIx].getData();
@@ -357,14 +357,14 @@ public class ToolBarManager extends ContributionManager implements IToolBarManag
 				int start = toolBar.getItemCount();
 				src.fill(toolBar, destIx);
 				int newItems = toolBar.getItemCount() - start;
-				for (int i = 0; i < newItems; i++) {
+				for (int i = 0; i < newItems; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ToolItem item = toolBar.getItem(destIx++);
 					item.setData(src);
 				}
 			}
 
 			// remove any old tool items not accounted for
-			for (int i = mi.length; --i >= srcIx;) {
+			for (int i = mi.length; --i >= srcIx;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ToolItem item = mi[i];
 				if (!item.isDisposed()) {
 					Control ctrl = item.getControl();

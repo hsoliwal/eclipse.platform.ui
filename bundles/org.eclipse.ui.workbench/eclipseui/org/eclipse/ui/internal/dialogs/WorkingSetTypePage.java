@@ -86,7 +86,7 @@ public class WorkingSetTypePage extends WizardPage {
 	 *
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Font font = parent.getFont();
 		Composite composite = new Composite(parent, SWT.NULL);
@@ -107,10 +107,10 @@ public class WorkingSetTypePage extends WizardPage {
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		typesListViewer.getTable().setLayoutData(data);
 		typesListViewer.getTable().setFont(font);
-		typesListViewer.addSelectionChangedListener(event -> handleSelectionChanged());
-		typesListViewer.addDoubleClickListener(event -> handleDoubleClick());
+		typesListViewer.addSelectionChangedListener(event -> handleSelectionChanged()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		typesListViewer.addDoubleClickListener(event -> handleDoubleClick()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		typesListViewer.setContentProvider(ArrayContentProvider.getInstance());
-		typesListViewer.setLabelProvider(new LabelProvider() {
+		typesListViewer.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			private final ResourceManager images = new LocalResourceManager(JFaceResources.getResources());
 
 			@Override
@@ -130,7 +130,7 @@ public class WorkingSetTypePage extends WizardPage {
 				return imageDescriptor == null ? null : images.get(imageDescriptor);
 			}
 		});
-		typesListViewer.setInput(descriptors);
+		typesListViewer.setInput(descriptors); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		setPageComplete(false);
 	}
 

@@ -46,7 +46,7 @@ public final class ThemeElementHelper {
 		}
 	}
 
-	public static void populateRegistry(ITheme theme, FontDefinition[] definitions, IPreferenceStore store) {
+	public static void populateRegistry(ITheme theme, FontDefinition[] definitions, IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// sort the definitions by dependant ordering so that we process
 		// ancestors before children.
 		FontDefinition[] copyOfDefinitions = null;
@@ -65,12 +65,12 @@ public final class ThemeElementHelper {
 		System.arraycopy(definitions, 0, copyOfDefinitions, 0, definitions.length);
 		Arrays.sort(copyOfDefinitions, new IThemeRegistry.HierarchyComparator(definitions));
 
-		for (FontDefinition definition : copyOfDefinitions) {
+		for (FontDefinition definition : copyOfDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			installFont(definition, theme, store, true);
 		}
 
 		if (defaults != null) {
-			for (FontDefinition fontDef : defaults) {
+			for (FontDefinition fontDef : defaults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				installFont(fontDef, theme, store, false);
 			}
 		}
@@ -95,7 +95,7 @@ public final class ThemeElementHelper {
 	 * @param setInRegistry whether the color should be put into the registry as
 	 *                      well as having its default preference set
 	 */
-	private static void installFont(FontDefinition definition, ITheme theme, IPreferenceStore store,
+	private static void installFont(FontDefinition definition, ITheme theme, IPreferenceStore store, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean setInRegistry) {
 		FontRegistry registry = theme.getFontRegistry();
 		Display display = PlatformUI.getWorkbench().getDisplay();
@@ -157,7 +157,7 @@ public final class ThemeElementHelper {
 		}
 	}
 
-	public static void populateRegistry(ITheme theme, ColorDefinition[] definitions, IPreferenceStore store) {
+	public static void populateRegistry(ITheme theme, ColorDefinition[] definitions, IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// sort the definitions by dependant ordering so that we process
 		// ancestors before children.
 
@@ -177,12 +177,12 @@ public final class ThemeElementHelper {
 		System.arraycopy(definitions, 0, copyOfDefinitions, 0, definitions.length);
 		Arrays.sort(copyOfDefinitions, new IThemeRegistry.HierarchyComparator(definitions));
 
-		for (ColorDefinition definition : copyOfDefinitions) {
+		for (ColorDefinition definition : copyOfDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			installColor(definition, theme, store, true);
 		}
 
 		if (defaults != null) {
-			for (ColorDefinition colorDef : defaults) {
+			for (ColorDefinition colorDef : defaults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				installColor(colorDef, theme, store, false);
 			}
 		}
@@ -239,7 +239,7 @@ public final class ThemeElementHelper {
 		System.arraycopy(allDefs, 0, copy, 0, allDefs.length);
 
 		Arrays.sort(allDefs, new IThemeRegistry.HierarchyComparator(copy));
-		for (IHierarchalThemeElementDefinition def : allDefs) {
+		for (IHierarchalThemeElementDefinition def : allDefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (def.getDefaultsTo() != null) {
 				if (set.contains(def.getDefaultsTo())) {
 					set.add(def);
@@ -260,7 +260,7 @@ public final class ThemeElementHelper {
 	 * @param setInRegistry whether the color should be put into the registry
 	 */
 
-	private static void installColor(ColorDefinition definition, ITheme theme, IPreferenceStore store,
+	private static void installColor(ColorDefinition definition, ITheme theme, IPreferenceStore store, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean setInRegistry) {
 		Assert.isNotNull(store);
 
@@ -306,12 +306,12 @@ public final class ThemeElementHelper {
 			return id;
 		}
 
-		return themeId + '.' + id;
+		return themeId + '.' + id; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static String createPreferenceKey(org.eclipse.e4.ui.css.swt.theme.ITheme cssTheme, ITheme theme, String id) {
-		String cssThemePrefix = cssTheme != null ? cssTheme.getId() + '.' : ""; //$NON-NLS-1$
-		return cssThemePrefix + createPreferenceKey(theme, id);
+		String cssThemePrefix = cssTheme != null ? cssTheme.getId() + '.' : ""; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		return cssThemePrefix + createPreferenceKey(theme, id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

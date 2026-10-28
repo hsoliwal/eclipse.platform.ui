@@ -33,7 +33,7 @@ import org.eclipse.ui.internal.registry.RegistryReader;
  */
 public class SettingsTransferRegistryReader extends RegistryReader {
 
-	Collection<IConfigurationElement> settingsTransfers = new ArrayList<>();
+	Collection<IConfigurationElement> settingsTransfers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Create an instance of the receiver.
@@ -49,7 +49,7 @@ public class SettingsTransferRegistryReader extends RegistryReader {
 	 */
 	public IConfigurationElement[] getSettingTransfers() {
 
-		settingsTransfers = new ArrayList<>();
+		settingsTransfers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		readRegistry(registry, WorkbenchPlugin.PI_WORKBENCH, IWorkbenchRegistryConstants.PL_PREFERENCE_TRANSFER);
 

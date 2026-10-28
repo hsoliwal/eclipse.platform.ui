@@ -32,7 +32,7 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
  * for scrubbing local content.
  * @noextend This class is not intended to be subclassed by clients.
  */
-@Deprecated
+@Deprecated //FLLDCIM: MARK — T04  IMPLEMENTS
 public class ScrubLocalAction extends WorkspaceAction {
 
 	/**

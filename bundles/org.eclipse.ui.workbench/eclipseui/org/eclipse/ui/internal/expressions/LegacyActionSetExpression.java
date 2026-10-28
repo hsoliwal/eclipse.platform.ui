@@ -90,7 +90,7 @@ public final class LegacyActionSetExpression extends WorkbenchWindowExpression {
 
 	@Override
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("ActionSetExpression("); //$NON-NLS-1$
 		buffer.append(actionSetId);
 		buffer.append(',');

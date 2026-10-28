@@ -84,7 +84,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 	// initial value stores
 	private String initialContainerFieldValue;
 
-	protected List<Object> selectedTypes = new ArrayList<>();
+	protected List<Object> selectedTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	// widgets
 	private Text containerNameField;
@@ -114,7 +114,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 	 * @param name      the name of the page
 	 * @param selection the current resource selection
 	 */
-	protected WizardResourceImportPage(String name, IStructuredSelection selection) {
+	protected WizardResourceImportPage(String name, IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(name);
 
 		// Initialize to null
@@ -146,7 +146,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -176,7 +176,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 	 *
 	 * @param parent the parent control
 	 */
-	protected void createDestinationGroup(Composite parent) {
+	protected void createDestinationGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// container specification group
 		Composite containerGroup = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -194,7 +194,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 		containerNameField = new Text(containerGroup, SWT.SINGLE | SWT.BORDER);
 		BidiUtils.applyBidiProcessing(containerNameField, StructuredTextTypeHandlerFactory.FILE);
 
-		containerNameField.addListener(SWT.Modify, this);
+		containerNameField.addListener(SWT.Modify, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		containerNameField.setLayoutData(data);
@@ -204,7 +204,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 		containerBrowseButton = new Button(containerGroup, SWT.PUSH);
 		containerBrowseButton.setText(IDEWorkbenchMessages.WizardImportPage_browse2);
 		containerBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		containerBrowseButton.addListener(SWT.Selection, this);
+		containerBrowseButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		containerBrowseButton.setFont(parent.getFont());
 		setButtonLayoutData(containerBrowseButton);
 
@@ -221,12 +221,12 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 				getFolderProvider(), new WorkbenchLabelProvider(), getFileProvider(), new WorkbenchLabelProvider(),
 				SWT.NONE, DialogUtil.inRegularFontMode(parent));
 
-		ICheckStateListener listener = unused -> updateWidgetEnablements();
+		ICheckStateListener listener = unused -> updateWidgetEnablements(); //FLLDCIM: MARK — T21  LAMBDA
 
 		WorkbenchViewerComparator comparator = new WorkbenchViewerComparator();
 		this.selectionGroup.setTreeComparator(comparator);
 		this.selectionGroup.setListComparator(comparator);
-		this.selectionGroup.addCheckStateListener(listener);
+		this.selectionGroup.addCheckStateListener(listener); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
 	}
 
@@ -259,7 +259,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 	 * @return the full path of the container resource specified in the container
 	 *         name entry field, or <code>null</code>
 	 */
-	protected IPath getContainerFullPath() {
+	protected IPath getContainerFullPath() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspace workspace = IDEWorkbenchPlugin.getPluginWorkspace();
 
 		// make the path absolute to allow for optional leading slash
@@ -418,7 +418,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 
 		Object[] newSelectedTypes = dialog.getResult();
 		if (newSelectedTypes != null) { // ie.- did not press Cancel
-			this.selectedTypes = new ArrayList<>(newSelectedTypes.length);
+			this.selectedTypes = new ArrayList<>(newSelectedTypes.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			this.selectedTypes.addAll(Arrays.asList(newSelectedTypes));
 
 			setupSelectionsBasedOnSelectedTypes();
@@ -493,7 +493,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 		super.updateWidgetEnablements();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected final boolean validateDestinationGroup() {
 
 		IPath containerPath = getContainerFullPath();
@@ -585,7 +585,7 @@ public abstract class WizardResourceImportPage extends WizardDataTransferPage {
 	 */
 	private boolean noOpenProjects() {
 		IProject[] projects = IDEWorkbenchPlugin.getPluginWorkspace().getRoot().getProjects();
-		for (IProject project : projects) {
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (project.isOpen()) {
 				return false;
 			}

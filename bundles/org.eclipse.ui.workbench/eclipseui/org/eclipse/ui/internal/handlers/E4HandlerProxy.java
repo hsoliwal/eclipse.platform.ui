@@ -51,7 +51,7 @@ import org.eclipse.ui.menus.UIElement;
 /**
  * @since 3.5
  */
-public class E4HandlerProxy implements IHandler2, IHandlerListener, IElementUpdater, IObjectWithState {
+public class E4HandlerProxy implements IHandler2, IHandlerListener, IElementUpdater, IObjectWithState { //FLLDCIM: MARK — T26  IMPLEMENTS
 	public HandlerActivation activation;
 	private final Command command;
 	private final IHandler handler;
@@ -79,12 +79,12 @@ public class E4HandlerProxy implements IHandler2, IHandlerListener, IElementUpda
 		return handler.isEnabled();
 	}
 
-	@Execute
+	@Execute //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(IEclipseContext context, @Optional @Named(HandlerServiceImpl.PARM_MAP) Map parms,
 			@Optional Event trigger, @Optional IEvaluationContext staticContext)
 			throws ExecutionException, NotHandledException {
 		if (Policy.DEBUG_CMDS) {
-			Activator.trace(Policy.DEBUG_CMDS_FLAG, "execute " + command + " and " //$NON-NLS-1$ //$NON-NLS-2$
+			Activator.trace(Policy.DEBUG_CMDS_FLAG, "execute " + command + " and " //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ handler + " with: " + context, null); //$NON-NLS-1$
 		}
 		IEvaluationContext appContext = staticContext;
@@ -97,10 +97,10 @@ public class E4HandlerProxy implements IHandler2, IHandlerListener, IElementUpda
 			if (handler.isHandled()) {
 				return handler.execute(event);
 			}
-			throw new NotHandledException("Handler " + handler //$NON-NLS-1$
+			throw new NotHandledException("Handler " + handler //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " is not handled for for command " + command); //$NON-NLS-1$
 		}
-		throw new NotHandledException("There is no handler to execute for command " + command); //$NON-NLS-1$
+		throw new NotHandledException("There is no handler to execute for command " + command); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public IHandler getHandler() {
@@ -150,7 +150,7 @@ public class E4HandlerProxy implements IHandler2, IHandlerListener, IElementUpda
 		if (logExecute) {
 			logExecute = false;
 			Status status = new Status(IStatus.WARNING, "org.eclipse.ui", //$NON-NLS-1$
-					"Called handled proxy execute(*) directly" + command, new Exception()); //$NON-NLS-1$
+					"Called handled proxy execute(*) directly" + command, new Exception()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			WorkbenchPlugin.log(status);
 		}
 		return null;
@@ -176,14 +176,14 @@ public class E4HandlerProxy implements IHandler2, IHandlerListener, IElementUpda
 		if (logSetEnabled) {
 			logSetEnabled = false;
 			Status status = new Status(IStatus.WARNING, "org.eclipse.ui", //$NON-NLS-1$
-					"Called handled proxy setEnabled(*) directly" + command, new Exception()); //$NON-NLS-1$
+					"Called handled proxy setEnabled(*) directly" + command, new Exception()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			WorkbenchPlugin.log(status);
 		}
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append("E4HandlerProxy ["); //$NON-NLS-1$
 		builder.append("handler="); //$NON-NLS-1$
 		builder.append(handler);

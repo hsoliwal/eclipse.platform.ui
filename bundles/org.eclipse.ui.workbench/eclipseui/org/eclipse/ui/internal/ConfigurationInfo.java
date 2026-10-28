@@ -77,11 +77,11 @@ public final class ConfigurationInfo {
 	 * Appends the contents of all extensions to the configurationLogSections
 	 * extension point.
 	 */
-	private static void appendExtensions(PrintWriter writer) {
+	private static void appendExtensions(PrintWriter writer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement[] configElements = getSortedExtensions(
 				Platform.getExtensionRegistry().getConfigurationElementsFor(PlatformUI.PLUGIN_ID,
 						IWorkbenchRegistryConstants.PL_SYSTEM_SUMMARY_SECTIONS));
-		for (IConfigurationElement element : configElements) {
+		for (IConfigurationElement element : configElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object obj = null;
 			try {
 				obj = WorkbenchPlugin.createExtension(element, IWorkbenchConstants.TAG_CLASS);
@@ -102,12 +102,12 @@ public final class ConfigurationInfo {
 		}
 	}
 
-	public static IConfigurationElement[] getSortedExtensions(IConfigurationElement[] configElements) {
+	public static IConfigurationElement[] getSortedExtensions(IConfigurationElement[] configElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Arrays.sort(configElements, new Comparator() {
 			Collator collator = Collator.getInstance(Locale.getDefault());
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public int compare(Object a, Object b) {
 				IConfigurationElement element1 = (IConfigurationElement) a;
 				IConfigurationElement element2 = (IConfigurationElement) b;

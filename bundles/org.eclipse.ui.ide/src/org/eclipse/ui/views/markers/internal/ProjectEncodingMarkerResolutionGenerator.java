@@ -101,7 +101,7 @@ public class ProjectEncodingMarkerResolutionGenerator implements IMarkerResoluti
 			return NLS.bind(MarkerMessages.ProjectEncodingMarkerResolution_label, charset);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IMarker marker) {
 			Runnable task = () -> run(marker);
 			if (Display.getCurrent() != null) {
@@ -141,7 +141,7 @@ public class ProjectEncodingMarkerResolutionGenerator implements IMarkerResoluti
 		}
 
 		private static void runAsWorkspaceJob(Runnable task, String message) {
-			WorkspaceJob job = new WorkspaceJob(message) {
+			WorkspaceJob job = new WorkspaceJob(message) { //FLLDCIM: MARK — T09  ANONYMOUS
 				@Override
 				public IStatus runInWorkspace(IProgressMonitor m) {
 					task.run();

@@ -52,9 +52,9 @@ public class BuildUtilities {
 	 * @param selection The selection to analyze
 	 * @return The selected projects
 	 */
-	public static IProject[] extractProjects(Object[] selection) {
-		HashSet<IProject> projects = new HashSet<>();
-		for (Object currentSelection : selection) {
+	public static IProject[] extractProjects(Object[] selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<IProject> projects = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object currentSelection : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = ResourceUtil.getResource(currentSelection);
 			if (resource != null) {
 				projects.add(resource.getProject());
@@ -83,7 +83,7 @@ public class BuildUtilities {
 	 * @param window The window to find the selection in
 	 * @return The selected projects, or an empty array if no selection could be found.
 	 */
-	public static IProject[] findSelectedProjects(IWorkbenchWindow window) {
+	public static IProject[] findSelectedProjects(IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (window == null) {
 			return new IProject[0];
 		}
@@ -144,14 +144,14 @@ public class BuildUtilities {
 	 * @return <code>true</code> if one of the projects has a builder whose
 	 * trigger activation matches the provided value, and <code>false</code> otherwise.
 	 */
-	private static boolean matchingTrigger(IProject[] projects, int trigger, boolean value) {
-		for (IProject project : projects) {
+	private static boolean matchingTrigger(IProject[] projects, int trigger, boolean value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.isAccessible()) {
 				continue;
 			}
 			try {
 				IProjectDescription description = project.getDescription();
-				for (ICommand buildSpec : description.getBuildSpec()) {
+				for (ICommand buildSpec : description.getBuildSpec()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (buildSpec.isBuilding(trigger) == value) {
 						return true;
 					}
@@ -169,17 +169,17 @@ public class BuildUtilities {
 	 * @param projects The projects in which to save editors, or <code>null</code>
 	 * to save editors in all projects.
 	 */
-	public static void saveEditors(Collection<IProject> projects) {
+	public static void saveEditors(Collection<IProject> projects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!BuildAction.isSaveAllSet()) {
 			return;
 		}
 		IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-		for (IWorkbenchWindow window : windows) {
-			for (IWorkbenchPage page : window.getPages()) {
+		for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (projects == null) {
 					page.saveAllEditors(false);
 				} else {
-					for (IEditorPart editor : page.getDirtyEditors()) {
+					for (IEditorPart editor : page.getDirtyEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IFile inputFile = ResourceUtil.getFile(editor.getEditorInput());
 						if (inputFile != null) {
 							if (projects.contains(inputFile.getProject())) {

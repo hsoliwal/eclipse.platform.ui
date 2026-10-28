@@ -155,23 +155,23 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 	}
 
 	public MarkerHelpRegistry() {
-		helpQueries = new HashMap<>();
-		resolutionQueries = new LinkedHashMap<>();
-		generatorMap = new HashMap<>();
-		helpProviderMap = new HashMap<>();
+		helpQueries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		resolutionQueries = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		generatorMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		helpProviderMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getHelp(IMarker marker) {
 		if (sortedHelpQueries == null) {
 			Set<MarkerQuery> set = helpQueries.keySet();
-			sortedHelpQueries = new ArrayList<>(set.size());
+			sortedHelpQueries = new ArrayList<>(set.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			sortedHelpQueries.addAll(set);
 			sortedHelpQueries.sort(new QueryComparator());
 		}
 
 	    // Return the first match (we assume there is only one)
-		for (MarkerQuery query : sortedHelpQueries) {
+		for (MarkerQuery query : sortedHelpQueries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerQueryResult result = query.performQuery(marker);
 			if (result != null) {
 				// See if a matching result is registered
@@ -180,7 +180,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 				if (resultsTable.containsKey(result)) {
 
 					Iterator<IConfigurationElement> elements = resultsTable.get(result).iterator();
-					while (elements.hasNext()) {
+					while (elements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IConfigurationElement element = elements.next();
 						// We have a match so check whether the element has a helpContextProvider
 						String helpContextProvider = element.getAttribute(ATT_PROVIDER);
@@ -216,10 +216,10 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 		return provider;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean hasResolutions(IMarker marker) {
 		// Detect a match
-		for (Entry<MarkerQuery, Map<MarkerQueryResult, Collection<IConfigurationElement>>> entry : resolutionQueries
+		for (Entry<MarkerQuery, Map<MarkerQueryResult, Collection<IConfigurationElement>>> entry : resolutionQueries //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.entrySet()) {
 			MarkerQuery query = entry.getKey();
 			MarkerQueryResult result = query.performQuery(marker);
@@ -230,7 +230,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 				if (resultsTable.containsKey(result)) {
 
 					Iterator<IConfigurationElement> elements = resultsTable.get(result).iterator();
-					while (elements.hasNext()) {
+					while (elements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IConfigurationElement element = elements.next();
 						IMarkerResolutionGenerator generator = createGenerator(element);
 						if (hasResolution(marker, element, generator)) {
@@ -249,7 +249,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 	 *
 	 * @return boolean <code>true</code> if there is a resolution.
 	 */
-	private boolean hasResolution(IMarker marker, IConfigurationElement element, IMarkerResolutionGenerator generator) {
+	private boolean hasResolution(IMarker marker, IConfigurationElement element, IMarkerResolutionGenerator generator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (generator == null || generator == GENERATOR_ERROR) {
 			// error happened, no resolution here
 			return false;
@@ -267,7 +267,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 			IMarkerResolution[] resolutions = generator.getResolutions(marker);
 			if (resolutions == null) {
 				StatusManager.getManager().handle(new Status(IStatus.ERROR, IDEWorkbenchPlugin.IDE_WORKBENCH,
-						IStatus.ERROR, "Failure in " + generator.getClass().getName() + //$NON-NLS-1$
+						IStatus.ERROR, "Failure in " + generator.getClass().getName() + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								" from plugin " + element.getContributor().getName() + //$NON-NLS-1$
 								": getResolutions(IMarker) must not return null", //$NON-NLS-1$
 						null), StatusManager.LOG);
@@ -281,7 +281,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 		return false;
 	}
 
-	private IMarkerResolutionGenerator createGenerator(IConfigurationElement element) {
+	private IMarkerResolutionGenerator createGenerator(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMarkerResolutionGenerator generator = getGenerator(element);
 		if (generator != null && generator != GENERATOR_NOT_STARTED) {
 			return generator;
@@ -371,11 +371,11 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		// Collect all matches
-		ArrayList<IMarkerResolution> resolutions = new ArrayList<>();
-		for (Entry<MarkerQuery, Map<MarkerQueryResult, Collection<IConfigurationElement>>> resolutionQueryEntry : resolutionQueries
+		ArrayList<IMarkerResolution> resolutions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Entry<MarkerQuery, Map<MarkerQueryResult, Collection<IConfigurationElement>>> resolutionQueryEntry : resolutionQueries //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.entrySet()) {
 			Entry<MarkerQuery, Map<MarkerQueryResult, Collection<IConfigurationElement>>> entry = resolutionQueryEntry;
 			MarkerQuery query = entry.getKey();
@@ -385,7 +385,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 				Map<MarkerQueryResult, Collection<IConfigurationElement>> resultsTable = entry.getValue();
 				if (resultsTable.containsKey(result)) {
 					Iterator<IConfigurationElement> elements = resultsTable.get(result).iterator();
-					while (elements.hasNext()) {
+					while (elements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IConfigurationElement element = elements.next();
 						IMarkerResolutionGenerator generator = null;
 						try {
@@ -396,7 +396,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 							} else {
 								StatusManager.getManager()
 								.handle(new Status(IStatus.ERROR, IDEWorkbenchPlugin.IDE_WORKBENCH,
-										IStatus.ERROR, "Failure in " + generator.getClass().getName() + //$NON-NLS-1$
+										IStatus.ERROR, "Failure in " + generator.getClass().getName() + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										" from plugin " + element.getContributor().getName() + //$NON-NLS-1$
 										": getResolutions(IMarker) must not return null", //$NON-NLS-1$
 										null), StatusManager.LOG);
@@ -455,7 +455,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 	 * @param element
 	 *            the configuration element defining the result
 	 */
-	private void addQuery(Map<MarkerQuery, Map<MarkerQueryResult, Collection<IConfigurationElement>>> table,
+	private void addQuery(Map<MarkerQuery, Map<MarkerQueryResult, Collection<IConfigurationElement>>> table, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			MarkerQuery query,
 			MarkerQueryResult result, IConfigurationElement element) {
 
@@ -463,7 +463,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 		Map<MarkerQueryResult, Collection<IConfigurationElement>> results = table.get(query);
 		if (results == null) {
 			// Create a new results table
-			results = new HashMap<>();
+			results = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 			// Add the query to the table
 			table.put(query, results);
@@ -473,7 +473,7 @@ public class MarkerHelpRegistry implements IMarkerHelpRegistry {
 			Collection<IConfigurationElement> currentElements = results.get(result);
 			currentElements.add(element);
 		} else {
-			Collection<IConfigurationElement> elements = new HashSet<>();
+			Collection<IConfigurationElement> elements = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			elements.add(element);
 
 			// Add the new result

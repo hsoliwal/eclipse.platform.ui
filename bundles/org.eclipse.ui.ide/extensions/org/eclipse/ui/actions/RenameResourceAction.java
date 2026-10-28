@@ -64,7 +64,7 @@ import org.eclipse.ui.internal.ide.actions.LTKLauncher;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class RenameResourceAction extends WorkspaceAction {
+public class RenameResourceAction extends WorkspaceAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private static final String WORKBENCH_PLUGIN_ID = "org.eclipse.ui.workbench"; //$NON-NLS-1$
 
@@ -91,7 +91,7 @@ public class RenameResourceAction extends WorkspaceAction {
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID
+	public static final String ID = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ ".RenameResourceAction";//$NON-NLS-1$
 
 	/**
@@ -186,7 +186,7 @@ public class RenameResourceAction extends WorkspaceAction {
 	 *            the resource to be overwritten
 	 * @return true if there is no collision or delete was successful
 	 */
-	private boolean checkOverwrite(final Shell shell,
+	private boolean checkOverwrite(final Shell shell, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IResource destination) {
 
 		final boolean[] result = new boolean[1];
@@ -207,7 +207,7 @@ public class RenameResourceAction extends WorkspaceAction {
 					title, MessageFormat.format(message, pathName));
 		};
 
-		shell.getDisplay().syncExec(query);
+		shell.getDisplay().syncExec(query); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		return result[0];
 	}
 
@@ -262,13 +262,13 @@ public class RenameResourceAction extends WorkspaceAction {
 	 * @param resource
 	 *            the resource to rename
 	 */
-	private void createTextEditor(final IResource resource) {
+	private void createTextEditor(final IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create text editor parent. This draws a nice bounding rect.
 		textEditorParent = createParent();
 		textEditorParent.setVisible(false);
 		final int inset = getCellEditorInset(textEditorParent);
 		if (inset > 0) {
-			textEditorParent.addListener(SWT.Paint, e -> {
+			textEditorParent.addListener(SWT.Paint, e -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				Point textSize = textEditor.getSize();
 				Point parentSize = textEditorParent.getSize();
 				e.gc.drawRectangle(0, 0, Math.min(textSize.x + 4,
@@ -279,7 +279,7 @@ public class RenameResourceAction extends WorkspaceAction {
 		textEditor = new Text(textEditorParent, SWT.NONE);
 		textEditor.setFont(navigatorTree.getFont());
 		textEditorParent.setBackground(textEditor.getBackground());
-		textEditor.addListener(SWT.Modify, unused -> {
+		textEditor.addListener(SWT.Modify, unused -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			Point textSize = textEditor.computeSize(SWT.DEFAULT,
 					SWT.DEFAULT);
 			textSize.x += textSize.y; // Add extra space for new
@@ -289,7 +289,7 @@ public class RenameResourceAction extends WorkspaceAction {
 					parentSize.x - 4), parentSize.y - 2 * inset);
 			textEditorParent.redraw();
 		});
-		textEditor.addListener(SWT.Traverse, event -> {
+		textEditor.addListener(SWT.Traverse, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			// Workaround for Bug 20214 due to extra
 			// traverse events
@@ -307,7 +307,7 @@ public class RenameResourceAction extends WorkspaceAction {
 				break;
 			}
 		});
-		textEditor.addFocusListener(new FocusAdapter() {
+		textEditor.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(FocusEvent fe) {
 				saveChangesAndDispose(resource);
@@ -348,7 +348,7 @@ public class RenameResourceAction extends WorkspaceAction {
 			return super.getActionResources();
 		}
 
-		List<IResource> actionResources = new ArrayList<>();
+		List<IResource> actionResources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		actionResources.add(inlinedResource);
 		return actionResources;
 	}
@@ -384,7 +384,7 @@ public class RenameResourceAction extends WorkspaceAction {
 	 * @param resource
 	 *            the resource to query status on
 	 */
-	protected String queryNewResourceName(final IResource resource) {
+	protected String queryNewResourceName(final IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IWorkspace workspace = IDEWorkbenchPlugin.getPluginWorkspace();
 		final IPath prefix = resource.getFullPath().removeLastSegments(1);
 		IInputValidator validator = string -> {
@@ -421,7 +421,7 @@ public class RenameResourceAction extends WorkspaceAction {
 	 *
 	 * @param resource the resource to rename
 	 */
-	private void queryNewResourceNameInline(final IResource resource) {
+	private void queryNewResourceNameInline(final IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Make sure text editor is created only once. Simply reset text
 		// editor when action is executed more than once. Fixes bug 22269.
 		if (textEditorParent == null) {
@@ -447,7 +447,7 @@ public class RenameResourceAction extends WorkspaceAction {
 		textEditor.setFocus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IResource currentResource = getCurrentResource();
 		if (currentResource == null || !currentResource.exists()) {
@@ -524,7 +524,7 @@ public class RenameResourceAction extends WorkspaceAction {
 	 * @param resource -
 	 *            the resource to move.
 	 */
-	private void saveChangesAndDispose(IResource resource) {
+	private void saveChangesAndDispose(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (saving) {
 			return;
 		}
@@ -567,7 +567,7 @@ public class RenameResourceAction extends WorkspaceAction {
 				saving = false;
 			}
 		};
-		getTree().getShell().getDisplay().asyncExec(query);
+		getTree().getShell().getDisplay().asyncExec(query); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	/**
@@ -635,9 +635,9 @@ public class RenameResourceAction extends WorkspaceAction {
 	 * Overridden to create and execute an undoable operation that performs the
 	 * rename.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IRunnableWithProgress createOperation(final IStatus[] errorStatus) {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			IResource[] resources = getActionResources()
 					.toArray(new IResource[getActionResources().size()]);
 			// Rename is only valid for a single resource. This has already

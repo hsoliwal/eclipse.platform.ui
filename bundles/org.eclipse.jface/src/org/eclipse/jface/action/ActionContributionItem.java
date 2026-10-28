@@ -110,7 +110,7 @@ public class ActionContributionItem extends ContributionItem {
 	 * The listener for changes to the text of the action contributed by an
 	 * external source.
 	 */
-	private final IPropertyChangeListener actionTextListener = event -> update(event.getProperty());
+	private final IPropertyChangeListener actionTextListener = event -> update(event.getProperty()); //FLLDCIM: MARK — T06  LAMBDA
 
 	/**
 	 * Remembers all images in use by this contribution item
@@ -169,7 +169,7 @@ public class ActionContributionItem extends ContributionItem {
 			if (display.getThread() == Thread.currentThread()) {
 				update(e.getProperty());
 			} else {
-				display.asyncExec(() -> update(e.getProperty()));
+				display.asyncExec(() -> update(e.getProperty())); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 
 		}
@@ -194,7 +194,7 @@ public class ActionContributionItem extends ContributionItem {
 	 * action's checked property has been set, the button is created and primed
 	 * to the value of the checked property.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Composite parent) {
 		if (widget != null || parent == null) {
 			return;
@@ -212,11 +212,11 @@ public class ActionContributionItem extends ContributionItem {
 
 		Button b = new Button(parent, flags);
 		b.setData(this);
-		b.addListener(SWT.Dispose, getButtonListener());
+		b.addListener(SWT.Dispose, getButtonListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		// Don't hook a dispose listener on the parent
-		b.addListener(SWT.Selection, getButtonListener());
+		b.addListener(SWT.Selection, getButtonListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		if (action.getHelpListener() != null) {
-			b.addHelpListener(action.getHelpListener());
+			b.addHelpListener(action.getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 		}
 		widget = b;
 
@@ -242,7 +242,7 @@ public class ActionContributionItem extends ContributionItem {
 	 * the value of the checked property. If the action's menu creator property
 	 * has been set, a cascading submenu is created.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu parent, int index) {
 		if (widget != null || parent == null) {
 			return;
@@ -275,18 +275,18 @@ public class ActionContributionItem extends ContributionItem {
 		widget = mi;
 
 		mi.setData(this);
-		mi.addListener(SWT.Dispose, getMenuItemListener());
-		mi.addListener(SWT.Selection, getMenuItemListener());
+		mi.addListener(SWT.Dispose, getMenuItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		mi.addListener(SWT.Selection, getMenuItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		if (action.getHelpListener() != null) {
-			mi.addHelpListener(action.getHelpListener());
+			mi.addHelpListener(action.getHelpListener()); //FLLDCIM: MARK — T14 HELP CALL
 		}
 
 		if (flags == SWT.CASCADE) {
 			// just create a proxy for now, if the user shows it then
 			// fill it in
 			Menu subMenu = new Menu(parent);
-			subMenu.addListener(SWT.Show, getMenuCreatorListener());
-			subMenu.addListener(SWT.Hide, getMenuCreatorListener());
+			subMenu.addListener(SWT.Show, getMenuCreatorListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+			subMenu.addListener(SWT.Hide, getMenuCreatorListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			mi.setMenu(subMenu);
 		}
 
@@ -312,7 +312,7 @@ public class ActionContributionItem extends ContributionItem {
 	 * the value of the checked property. If the action's menu creator property
 	 * has been set, a drop-down tool item is created.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(ToolBar parent, int index) {
 		if (widget != null || parent == null) {
 			return;
@@ -343,8 +343,8 @@ public class ActionContributionItem extends ContributionItem {
 			ti = new ToolItem(parent, flags);
 		}
 		ti.setData(this);
-		ti.addListener(SWT.Selection, getToolItemListener());
-		ti.addListener(SWT.Dispose, getToolItemListener());
+		ti.addListener(SWT.Selection, getToolItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		ti.addListener(SWT.Dispose, getToolItemListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		widget = ti;
 
@@ -377,7 +377,7 @@ public class ActionContributionItem extends ContributionItem {
 	 *
 	 * @return a listener for button events
 	 */
-	private Listener getButtonListener() {
+	private Listener getButtonListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (buttonListener == null) {
 			buttonListener = event -> {
 				switch (event.type) {
@@ -402,7 +402,7 @@ public class ActionContributionItem extends ContributionItem {
 	 *
 	 * @return a listener for menu item events
 	 */
-	private Listener getMenuItemListener() {
+	private Listener getMenuItemListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (menuItemListener == null) {
 			menuItemListener = event -> {
 				switch (event.type) {
@@ -441,7 +441,7 @@ public class ActionContributionItem extends ContributionItem {
 	 *
 	 * @return a listener for tool item events
 	 */
-	private Listener getToolItemListener() {
+	private Listener getToolItemListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (toolItemListener == null) {
 			toolItemListener = event -> {
 				switch (event.type) {
@@ -464,7 +464,7 @@ public class ActionContributionItem extends ContributionItem {
 	/**
 	 * Handles a widget dispose event for the widget corresponding to this item.
 	 */
-	private void handleWidgetDispose(Event e) {
+	private void handleWidgetDispose(Event e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check if our widget is the one being disposed.
 		if (e.widget != widget) {
 			return; // Not for us.
@@ -497,7 +497,7 @@ public class ActionContributionItem extends ContributionItem {
 	/**
 	 * Handles a widget selection event.
 	 */
-	private void handleWidgetSelection(Event e, boolean selection) {
+	private void handleWidgetSelection(Event e, boolean selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Widget item = e.widget;
 		if (item == null || item != widget) {
@@ -561,12 +561,12 @@ public class ActionContributionItem extends ContributionItem {
 			long ms = 0L;
 			if (trace) {
 				ms = System.currentTimeMillis();
-				System.out.println("Running action: " + action.getText()); //$NON-NLS-1$
+				System.out.println("Running action: " + action.getText()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			IPropertyChangeListener resultListener = null;
 			if (callback != null) {
-				resultListener = event -> {
+				resultListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 					// Check on result
 					if (event.getProperty().equals(IAction.RESULT)) {
 						if (event.getNewValue() instanceof Boolean) {
@@ -585,7 +585,7 @@ public class ActionContributionItem extends ContributionItem {
 					callback.postExecuteSuccess(action, Boolean.TRUE);
 				} else {
 					callback.postExecuteFailure(action,
-							new ExecutionException(action.getText() + " returned failure.")); //$NON-NLS-1$
+							new ExecutionException(action.getText() + " returned failure.")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 
@@ -594,10 +594,10 @@ public class ActionContributionItem extends ContributionItem {
 				action.removePropertyChangeListener(resultListener);
 			}
 			if (trace) {
-				System.out.println((System.currentTimeMillis() - ms) + " ms to run action: " + action.getText()); //$NON-NLS-1$
+				System.out.println((System.currentTimeMillis() - ms) + " ms to run action: " + action.getText()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else if (callback != null) {
-			callback.notEnabled(action, new NotEnabledException(action.getText() + " is not enabled.")); //$NON-NLS-1$
+			callback.notEnabled(action, new NotEnabledException(action.getText() + " is not enabled.")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -721,7 +721,7 @@ public class ActionContributionItem extends ContributionItem {
 	 *            the name of the property, or <code>null</code> meaning all
 	 *            applicable properties
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(String propertyName) {
 		if (widget == null) {
 			return;
@@ -748,7 +748,7 @@ public class ActionContributionItem extends ContributionItem {
 		}
 	}
 
-	private void updateToolItem(ToolItem ti, boolean textChanged, boolean imageChanged, boolean tooltipTextChanged,
+	private void updateToolItem(ToolItem ti, boolean textChanged, boolean imageChanged, boolean tooltipTextChanged, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean enableStateChanged, boolean checkChanged) {
 		String text = action.getText();
 		// The set text is shown only if there is no image or if forced by
@@ -818,7 +818,7 @@ public class ActionContributionItem extends ContributionItem {
 		}
 	}
 
-	private void updateMenuItemText(MenuItem mi) {
+	private void updateMenuItemText(MenuItem mi) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String acceleratorText = null;
 		IAction updatedAction = getAction();
 		String text = null;
@@ -839,7 +839,7 @@ public class ActionContributionItem extends ContributionItem {
 		if ((Util.isGtk()) && (callback instanceof final IBindingManagerCallback bindingManagerCallback) && (commandId != null)) {
 			final IKeyLookup lookup = KeyLookupFactory.getDefault();
 			final TriggerSequence[] triggerSequences = bindingManagerCallback.getActiveBindingsFor(commandId);
-			for (final TriggerSequence triggerSequence : triggerSequences) {
+			for (final TriggerSequence triggerSequence : triggerSequences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Trigger[] triggers = triggerSequence.getTriggers();
 				if (triggers.length == 1) {
 					final Trigger trigger = triggers[0];
@@ -898,11 +898,11 @@ public class ActionContributionItem extends ContributionItem {
 		if (acceleratorText == null) {
 			mi.setText(text);
 		} else {
-			mi.setText(text + '\t' + acceleratorText);
+			mi.setText(text + '\t' + acceleratorText); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private void updateMenuItem(MenuItem mi, boolean textChanged, boolean imageChanged, boolean tooltipTextChanged,
+	private void updateMenuItem(MenuItem mi, boolean textChanged, boolean imageChanged, boolean tooltipTextChanged, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean enableStateChanged, boolean checkChanged) {
 		if (textChanged) {
 			updateMenuItemText(mi);
@@ -933,7 +933,7 @@ public class ActionContributionItem extends ContributionItem {
 		}
 	}
 
-	private void updateButton(Button button, boolean textChanged, boolean imageChanged, boolean tooltipTextChanged,
+	private void updateButton(Button button, boolean textChanged, boolean imageChanged, boolean tooltipTextChanged, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean enableStateChanged, boolean checkChanged) {
 		if (imageChanged) {
 			updateImages(false);
@@ -981,7 +981,7 @@ public class ActionContributionItem extends ContributionItem {
 	 * @return <code>true</code> if there are images for this action,
 	 *         <code>false</code> if not
 	 */
-	private boolean updateImages(boolean forceImage) {
+	private boolean updateImages(boolean forceImage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ResourceManager parentResourceManager = JFaceResources.getResources();
 
@@ -1080,7 +1080,7 @@ public class ActionContributionItem extends ContributionItem {
 	 *            the tool item the text belongs to
 	 * @return the shortened string
 	 */
-	protected String shortenText(String textValue, ToolItem item) {
+	protected String shortenText(String textValue, ToolItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (textValue == null) {
 			return null;
 		}
@@ -1094,9 +1094,9 @@ public class ActionContributionItem extends ContributionItem {
 			return textValue;
 		}
 
-		for (int i = textValue.length(); i > 0; i--) {
+		for (int i = textValue.length(); i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String test = textValue.substring(0, i);
-			test = test + ellipsis;
+			test = test + ellipsis; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (gc.textExtent(test).x < maxWidth) {
 				gc.dispose();
 				return test;
@@ -1179,7 +1179,7 @@ public class ActionContributionItem extends ContributionItem {
 	 *            the proxy menu to populate
 	 * @since 3.4
 	 */
-	private void copyMenu(Menu realMenu, Menu proxy) {
+	private void copyMenu(Menu realMenu, Menu proxy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (realMenu.isDisposed() || proxy.isDisposed()) {
 			return;
 		}
@@ -1207,7 +1207,7 @@ public class ActionContributionItem extends ContributionItem {
 		};
 
 		MenuItem[] items = realMenu.getItems();
-		for (final MenuItem realItem : items) {
+		for (final MenuItem realItem : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final MenuItem proxyItem = new MenuItem(proxy, realItem.getStyle());
 			proxyItem.setData(realItem);
 			proxyItem.setAccelerator(realItem.getAccelerator());
@@ -1217,9 +1217,9 @@ public class ActionContributionItem extends ContributionItem {
 			proxyItem.setText(realItem.getText());
 
 			// pass through any events
-			proxyItem.addListener(SWT.Selection, passThrough);
-			proxyItem.addListener(SWT.Arm, passThrough);
-			proxyItem.addListener(SWT.Help, passThrough);
+			proxyItem.addListener(SWT.Selection, passThrough); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+			proxyItem.addListener(SWT.Arm, passThrough); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+			proxyItem.addListener(SWT.Help, passThrough); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			final Menu itemMenu = realItem.getMenu();
 			if (itemMenu != null) {
@@ -1227,7 +1227,7 @@ public class ActionContributionItem extends ContributionItem {
 				final Menu subMenu = new Menu(proxy);
 				subMenu.setData(itemMenu);
 				proxyItem.setMenu(subMenu);
-				subMenu.addListener(SWT.Show, new Listener() {
+				subMenu.addListener(SWT.Show, new Listener() { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 					@Override
 					public void handleEvent(Event event) {
 						event.widget.removeListener(SWT.Show, this);
@@ -1236,8 +1236,8 @@ public class ActionContributionItem extends ContributionItem {
 						}
 					}
 				});
-				subMenu.addListener(SWT.Help, passThrough);
-				subMenu.addListener(SWT.Hide, passThrough);
+				subMenu.addListener(SWT.Help, passThrough); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				subMenu.addListener(SWT.Hide, passThrough); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			}
 		}
 	}
@@ -1251,7 +1251,7 @@ public class ActionContributionItem extends ContributionItem {
 	 */
 	private void handleHideProxy(final Menu proxy) {
 		proxy.removeListener(SWT.Hide, getMenuCreatorListener());
-		proxy.getDisplay().asyncExec(() -> {
+		proxy.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (!proxy.isDisposed()) {
 				MenuItem parentItem = proxy.getParentItem();
 				proxy.dispose();

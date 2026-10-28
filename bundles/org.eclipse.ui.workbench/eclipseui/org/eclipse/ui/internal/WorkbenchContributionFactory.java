@@ -56,7 +56,7 @@ class WorkbenchContributionFactory implements IContributionFactory {
 		return delegate.getBundle(uriString);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isEnabled(String uriString) {
 		if (uriString != null) {
 			String identifierId = uriString;

@@ -20,7 +20,7 @@ package org.eclipse.jface.viewers;
  *
  * @see CheckStateChangedEvent
  */
-@FunctionalInterface
+@FunctionalInterface //FLLDCIM: MARK — T21  IMPLEMENTS
 public interface ICheckStateListener {
 	/**
 	 * Notifies of a change to the checked state of an element.

@@ -38,7 +38,7 @@ public class WorkbenchViewerSetup {
 
 	static Map<DisposeListener, ColumnViewer> registeredViewers = new ConcurrentHashMap<>();
 
-	static final IPropertyChangeListener propertyChangeListener = event -> {
+	static final IPropertyChangeListener propertyChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (!IWorkbenchPreferenceConstants.LARGE_VIEW_LIMIT.equals(event.getProperty())) {
 			return;
 		}
@@ -47,10 +47,10 @@ public class WorkbenchViewerSetup {
 			v.setDisplayIncrementally(itemsLimit);
 			Object input = v.getInput();
 			if (input != null) {
-				v.setInput(null);
-				v.setInput(input);
+				v.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+				v.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			} else {
-				v.refresh();
+				v.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		});
 	};
@@ -90,11 +90,11 @@ public class WorkbenchViewerSetup {
 		viewer.setDisplayIncrementally(getItemsLimit());
 		Control control = viewer.getControl();
 		if (control != null) {
-			control.addDisposeListener(new DisposeListener(viewer));
+			control.addDisposeListener(new DisposeListener(viewer)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 	}
 
-	private static class DisposeListener implements org.eclipse.swt.events.DisposeListener {
+	private static class DisposeListener implements org.eclipse.swt.events.DisposeListener { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 		public DisposeListener(ColumnViewer viewer) {
 			registeredViewers.put(this, viewer);

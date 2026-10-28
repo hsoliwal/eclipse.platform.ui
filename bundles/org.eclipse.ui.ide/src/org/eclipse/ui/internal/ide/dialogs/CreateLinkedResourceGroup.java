@@ -178,7 +178,7 @@ public class CreateLinkedResourceGroup {
 	 *            parent composite of the widget group
 	 * @return the widget group
 	 */
-	private Composite createContents(Composite parent, boolean createCheckbox) {
+	private Composite createContents(Composite parent, boolean createCheckbox) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 		initializeDialogUnits(parent);
 		// top level group
@@ -206,7 +206,7 @@ public class CreateLinkedResourceGroup {
 					setEnabled(createLinkButton.getSelection());
 				}
 			};
-			createLinkButton.addSelectionListener(selectionListener);
+			createLinkButton.addSelectionListener(selectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
 		createLinkLocationGroup(groupComposite, createLink);
@@ -248,7 +248,7 @@ public class CreateLinkedResourceGroup {
 	 * @param enabled
 	 *            sets the initial enabled state of the widgets
 	 */
-	private void createLinkLocationGroup(Composite locationGroup,
+	private void createLinkLocationGroup(Composite locationGroup, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean enabled) {
 		Button button = new Button(locationGroup, SWT.CHECK);
 		int indent = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
@@ -277,7 +277,7 @@ public class CreateLinkedResourceGroup {
 		linkTargetField.setEnabled(enabled);
 		linkTargetField.setFont(locationGroup.getFont());
 		BidiUtils.applyBidiProcessing(linkTargetField, StructuredTextTypeHandlerFactory.FILE);
-		linkTargetField.addModifyListener(unused -> {
+		linkTargetField.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			linkTarget = linkTargetField.getText();
 			if (isDefaultConfigurationSelected()) {
 				linkTarget = getPathVariableManager().convertFromUserEditableFormat(linkTarget, true);
@@ -304,7 +304,7 @@ public class CreateLinkedResourceGroup {
 		browseButton = new Button(linkTargetGroup, SWT.PUSH);
 		browseButton
 				.setText(IDEWorkbenchMessages.CreateLinkedResourceGroup_browseButton);
-		browseButton.addSelectionListener(new SelectionAdapter() {
+		browseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleLinkTargetBrowseButtonPressed();
@@ -318,7 +318,7 @@ public class CreateLinkedResourceGroup {
 		variablesButton = new Button(linkTargetGroup, SWT.PUSH);
 		variablesButton
 				.setText(IDEWorkbenchMessages.CreateLinkedResourceGroup_variablesButton);
-		variablesButton.addSelectionListener(new SelectionAdapter() {
+		variablesButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleVariablesButtonPressed();
@@ -343,7 +343,7 @@ public class CreateLinkedResourceGroup {
 	 * @param enabled
 	 *            the initial enablement state.
 	 */
-	private void createFileSystemSelection(Composite composite, boolean enabled) {
+	private void createFileSystemSelection(Composite composite, boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Always use the default if that is all there is.
 		if (FileSystemSupportRegistry.getInstance().hasOneFileSystem()) {
@@ -368,7 +368,7 @@ public class CreateLinkedResourceGroup {
 	/**
 	 * Create the composite for the resolved path.
 	 */
-	private void createResolvedPathGroup(Composite locationGroup, int indent) {
+	private void createResolvedPathGroup(Composite locationGroup, int indent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridLayout layout;
 		GridData data;
 		Composite resolvedPathGroup = new Composite(locationGroup, SWT.NONE);
@@ -419,7 +419,7 @@ public class CreateLinkedResourceGroup {
 	 * @return the link target location entered by the user. null if the user
 	 *         chose not to create a link.
 	 */
-	public URI getLinkTargetURI() {
+	public URI getLinkTargetURI() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!createLink) {
 			return null;
 		}
@@ -459,7 +459,7 @@ public class CreateLinkedResourceGroup {
 	/**
 	 * Opens a file or directory browser depending on the link type.
 	 */
-	private void handleLinkTargetBrowseButtonPressed() {
+	private void handleLinkTargetBrowseButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFileStore store = null;
 		String selection = null;
 		FileSystemConfiguration config= getSelectedConfiguration();
@@ -551,7 +551,7 @@ public class CreateLinkedResourceGroup {
 	/**
 	 * Opens a path variable selection dialog
 	 */
-	private void handleVariablesButtonPressed() {
+	private void handleVariablesButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int variableTypes = IResource.FOLDER;
 
 		// allow selecting file and folder variables when creating a
@@ -597,7 +597,7 @@ public class CreateLinkedResourceGroup {
 	 * variable, if the value is a relative path. Displays the resolved value if
 	 * the entered value is a variable.
 	 */
-	private void resolveVariable() {
+	private void resolveVariable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPathVariableManager pathVariableManager = getPathVariableManager();
 		boolean isURL = true;
 		URI uri;
@@ -700,7 +700,7 @@ public class CreateLinkedResourceGroup {
 	 * @return IStatus indicating the validation result. IStatus.OK if the
 	 *         specified link target is valid given the linkHandle.
 	 */
-	public IStatus validateLinkLocation(IResource linkHandle) {
+	public IStatus validateLinkLocation(IResource linkHandle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (linkTargetField == null || linkTargetField.isDisposed()
 				|| !createLink) {
 			return Status.OK_STATUS;

@@ -88,7 +88,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 * Layout for the page container.
 	 */
 	private class PageLayout extends Layout {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Point computeSize(Composite composite, int wHint, int hHint, boolean force) {
 			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
 				return new Point(wHint, hHint);
@@ -96,7 +96,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 			int x = minimumPageSize.x;
 			int y = minimumPageSize.y;
 			Control[] children = composite.getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Point size = element.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
 				x = Math.max(x, size.x);
 				y = Math.max(y, size.y);
@@ -123,7 +123,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		public void layout(Composite composite, boolean force) {
 			Rectangle rect = composite.getClientArea();
 			Control[] children = composite.getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				element.setSize(rect.width, rect.height);
 			}
 		}
@@ -243,12 +243,12 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void cancelPressed() {
 		// Inform all pages that we are cancelling
 		Iterator<IPreferenceNode> nodes = preferenceManager.getElements(PreferenceManager.PRE_ORDER).iterator();
 		final boolean[] cancelOK = new boolean[] { true };
-		while (nodes.hasNext()) {
+		while (nodes.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPreferenceNode node = nodes.next();
 			if (getPage(node) != null) {
 				SafeRunnable.run(new SafeRunnable() {
@@ -280,14 +280,14 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		setSelectedNodePreference(null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean close() {
 
 		//Do this is in a SafeRunnable as it may run client code
 		SafeRunnable runnable = new SafeRunnable(){
 			@Override
 			public void run() throws Exception {
-				for (IPreferenceNode node : preferenceManager.getElements(PreferenceManager.PRE_ORDER)) {
+				for (IPreferenceNode node : preferenceManager.getElements(PreferenceManager.PRE_ORDER)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					node.disposeResources();
 				}
 
@@ -351,7 +351,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		return control[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		final Composite composite = (Composite) super.createDialogArea(parent);
 		GridLayout parentLayout = ((GridLayout) composite.getLayout());
@@ -431,13 +431,13 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 *
 	 * @since 3.1
 	 */
-	protected Sash createSash(final Composite composite, final Control rightControl) {
+	protected Sash createSash(final Composite composite, final Control rightControl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Sash sash = new Sash(composite, SWT.VERTICAL);
 		sash.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		sash.setBackground(composite.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 		// the following listener resizes the tree control based on sash deltas.
 		// If necessary, it will also grow/shrink the dialog.
-		sash.addListener(SWT.Selection, event -> {
+		sash.addListener(SWT.Selection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (event.detail == SWT.DRAG) {
 				return;
 			}
@@ -478,7 +478,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 * @param parent the parent composite
 	 * @return Composite
 	 */
-	protected Composite createPageContainer(Composite parent) {
+	protected Composite createPageContainer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite outer = new Composite(parent, SWT.NONE);
 
@@ -533,7 +533,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 *            the SWT parent for the title area composite.
 	 * @return the created title area composite.
 	 */
-	protected Composite createTitleArea(Composite parent) {
+	protected Composite createTitleArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create the title area which will contain
 		// a title, message, and image.
 		int margins = 2;
@@ -552,14 +552,14 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		messageArea = new DialogMessageArea();
 		messageArea.createContents(titleArea);
 
-		titleArea.addControlListener(new ControlAdapter() {
+		titleArea.addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlResized(ControlEvent e) {
 				updateMessage();
 			}
 		});
 
-		final IPropertyChangeListener fontListener = event -> {
+		final IPropertyChangeListener fontListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (JFaceResources.BANNER_FONT.equals(event.getProperty())) {
 				updateMessage();
 			}
@@ -568,14 +568,14 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 				Font dialogFont = JFaceResources.getDialogFont();
 				updateTreeFont(dialogFont);
 				Control[] children = ((Composite) buttonBar).getChildren();
-				for (Control element : children) {
+				for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					element.setFont(dialogFont);
 				}
 			}
 		};
 
-		titleArea.addDisposeListener(event -> JFaceResources.getFontRegistry().removeListener(fontListener));
-		JFaceResources.getFontRegistry().addListener(fontListener);
+		titleArea.addDisposeListener(event -> JFaceResources.getFontRegistry().removeListener(fontListener)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
+		JFaceResources.getFontRegistry().addListener(fontListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		messageArea.setTitleLayoutData(createMessageAreaData());
 		messageArea.setMessageLayoutData(createMessageAreaData());
 		return titleArea;
@@ -604,7 +604,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	protected Control createTreeAreaContents(Composite parent) {
 		// Build the tree an put it into the composite.
 		treeViewer = createTreeViewer(parent);
-		treeViewer.setInput(getPreferenceManager());
+		treeViewer.setInput(getPreferenceManager()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		updateTreeFont(JFaceResources.getDialogFont());
 		layoutTreeAreaControl(treeViewer.getControl());
 		return treeViewer.getControl();
@@ -622,7 +622,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		TreeViewer viewer = new TreeViewer(parent, SWT.NONE);
 		viewer.setUseHashlookup(true);
 		addListeners(viewer);
-		viewer.setLabelProvider(new PreferenceLabelProvider());
+		viewer.setLabelProvider(new PreferenceLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		viewer.setContentProvider(new PreferenceContentProvider());
 		return viewer;
 	}
@@ -634,8 +634,8 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 *
 	 * @since 3.1
 	 */
-	protected void addListeners(final TreeViewer viewer) {
-		viewer.addPostSelectionChangedListener(new ISelectionChangedListener() {
+	protected void addListeners(final TreeViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		viewer.addPostSelectionChangedListener(new ISelectionChangedListener() { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			private void handleError() {
 				try {
 					// remove the listener temporarily so that the events caused
@@ -646,7 +646,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 					selectCurrentPageAgain();
 					clearSelectedNode();
 				} finally {
-					viewer.addPostSelectionChangedListener(this);
+					viewer.addPostSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				}
 			}
 
@@ -668,7 +668,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 				}
 			}
 		});
-		((Tree) viewer.getControl()).addSelectionListener(widgetDefaultSelectedAdapter(event -> {
+		((Tree) viewer.getControl()).addSelectionListener(widgetDefaultSelectedAdapter(event -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			ISelection selection = viewer.getSelection();
 			if (selection.isEmpty()) {
 				return;
@@ -678,8 +678,8 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 			viewer.setExpandedState(singleSelection, !expanded);
 		}));
 		//Register help listener on the tree to use context sensitive help
-		viewer.getControl().addHelpListener(new HelpListener() {
-			@Override
+		viewer.getControl().addHelpListener(new HelpListener() { //FLLDCIM: MARK — T14 HELP CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void helpRequested(HelpEvent event) {
 				if (currentPage == null) { // no current page? open dialog's help
 					openDialogHelp();
@@ -707,7 +707,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 				if (pageContainer == null) {
 					return;
 				}
-				for(Control currentControl = pageContainer; currentControl != null; currentControl = currentControl.getParent()) {
+				for(Control currentControl = pageContainer; currentControl != null; currentControl = currentControl.getParent()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (currentControl.isListening(SWT.Help)) {
 						currentControl.notifyListeners(SWT.Help, new Event());
 						break;
@@ -728,7 +728,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 */
 	protected IPreferenceNode findNodeMatching(String nodeId) {
 		List<IPreferenceNode> nodes = preferenceManager.getElements(PreferenceManager.POST_ORDER);
-		for (IPreferenceNode node : nodes) {
+		for (IPreferenceNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node.getId().equals(nodeId)) {
 				return node;
 			}
@@ -802,9 +802,9 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 * Subclasses may override.
 	 * </p>
 	 */
-	protected void handleSave() {
+	protected void handleSave() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<IPreferenceNode> nodes = preferenceManager.getElements(PreferenceManager.PRE_ORDER).iterator();
-		while (nodes.hasNext()) {
+		while (nodes.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPreferenceNode node = nodes.next();
 			IPreferencePage page = node.getPage();
 			if (page instanceof PreferencePage) {
@@ -884,12 +884,12 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 * preference dialog, then calls <code>handleSave</code> on this dialog to
 	 * save any state, and then calls <code>close</code> to close this dialog.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 		SafeRunnable.run(new SafeRunnable() {
 			private boolean errorOccurred;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
 				errorOccurred = false;
@@ -898,7 +898,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 					// Notify all the pages and give them a chance to abort
 					Iterator<IPreferenceNode> nodes = preferenceManager.getElements(PreferenceManager.PRE_ORDER)
 							.iterator();
-					while (nodes.hasNext()) {
+					while (nodes.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IPreferenceNode node = nodes.next();
 						IPreferencePage page = node.getPage();
 						if (page != null) {
@@ -957,7 +957,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 * Selects the saved item in the tree of preference pages. If it cannot do
 	 * this it saves the first one.
 	 */
-	protected void selectSavedItem() {
+	protected void selectSavedItem() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceNode node = findNodeMatching(getSelectedNodePreference());
 		if (node == null) {
 			IPreferenceNode[] nodes = preferenceManager.getRootSubNodes();
@@ -966,10 +966,10 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 				comparator.sort(null, nodes);
 			}
 			ViewerFilter[] filters = getTreeViewer().getFilters();
-			for (IPreferenceNode preferenceNode : nodes) {
+			for (IPreferenceNode preferenceNode : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPreferenceNode selectedNode = preferenceNode;
 				// See if it passes all filters
-				for (ViewerFilter filter : filters) {
+				for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!filter.select(this.treeViewer, preferenceManager.getRoot(), selectedNode)) {
 						selectedNode = null;
 						break;
@@ -1153,7 +1153,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 * @return <code>true</code> if the page flip was successful, and
 	 *         <code>false</code> is unsuccessful
 	 */
-	protected boolean showPage(IPreferenceNode node) {
+	protected boolean showPage(IPreferenceNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node == null) {
 			return false;
 		}
@@ -1250,7 +1250,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		// their creation).
 		Control[] children = pageContainer.getChildren();
 		Control currentControl = currentPage.getControl();
-		for (Control element : children) {
+		for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element != currentControl) {
 				element.setVisible(false);
 			}
@@ -1317,7 +1317,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 		okButton.setEnabled(isCurrentPageValid());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void updateMessage() {
 		String message = null;
 		String errorMessage = null;
@@ -1470,7 +1470,7 @@ public class PreferenceDialog extends TrayDialog implements IPreferencePageConta
 	 * @since 3.1
 	 */
 	protected void firePageChanged(final PageChangedEvent event) {
-		for (IPageChangedListener l : pageChangedListeners) {
+		for (IPageChangedListener l : pageChangedListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {

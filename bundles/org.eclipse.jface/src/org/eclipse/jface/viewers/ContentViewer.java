@@ -69,10 +69,10 @@ public abstract class ContentViewer extends Viewer {
 	 * a label provider avoids having to define public methods
 	 * for internal events.
 	 */
-	private final ILabelProviderListener labelProviderListener = new ILabelProviderListener() {
+	private final ILabelProviderListener labelProviderListener = new ILabelProviderListener() { //FLLDCIM: MARK — T24  ANONYMOUS
 		private boolean logWhenDisposed = true; // initially true, set to false
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void labelProviderChanged(LabelProviderChangedEvent event) {
 			Control control = getControl();
 			if (control == null || control.isDisposed()) {
@@ -162,14 +162,14 @@ public abstract class ContentViewer extends Viewer {
 	 *
 	 * @param event a dispose event
 	 */
-	protected void handleDispose(DisposeEvent event) {
+	protected void handleDispose(DisposeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (contentProvider != null) {
 			try {
 				contentProvider.inputChanged(this, getInput(), null);
 			} catch (Exception e) {
 				// ignore exception
 				String message = "Exception while calling ContentProvider.inputChanged from ContentViewer.handleDispose"; //$NON-NLS-1$
-				message += " (" + contentProvider.getClass().getName() + ")"; //$NON-NLS-1$//$NON-NLS-2$
+				message += " (" + contentProvider.getClass().getName() + ")"; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				Policy.getLog().log(Status.warning(message, e));
 			}
 			contentProvider.dispose();
@@ -193,7 +193,7 @@ public abstract class ContentViewer extends Viewer {
 	 * @param event the change event
 	 */
 	protected void handleLabelProviderChanged(LabelProviderChangedEvent event) {
-		labelProviderChanged();
+		labelProviderChanged(); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/**
@@ -212,7 +212,7 @@ public abstract class ContentViewer extends Viewer {
 	 * @param control the control
 	 */
 	protected void hookControl(Control control) {
-		control.addDisposeListener(this::handleDispose);
+		control.addDisposeListener(this::handleDispose); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	/**
@@ -292,7 +292,7 @@ public abstract class ContentViewer extends Viewer {
 	 *
 	 * @param labelProvider the label provider, or <code>null</code> if none
 	 */
-	public void setLabelProvider(IBaseLabelProvider labelProvider) {
+	public void setLabelProvider(IBaseLabelProvider labelProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IBaseLabelProvider oldProvider = this.labelProvider;
 		// If it hasn't changed, do nothing.
 		// This also ensures that the provider is not disposed
@@ -305,7 +305,7 @@ public abstract class ContentViewer extends Viewer {
 		}
 		this.labelProvider = labelProvider;
 		if (labelProvider != null) {
-			labelProvider.addListener(this.labelProviderListener);
+			labelProvider.addListener(this.labelProviderListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 		refresh();
 

@@ -432,7 +432,7 @@ public class Geometry {
 	 *         the given distance.
 	 * @since 3.0
 	 */
-	public static Rectangle getExtrudedEdge(Rectangle toExtrude, int size,
+	public static Rectangle getExtrudedEdge(Rectangle toExtrude, int size, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int orientation) {
 		Rectangle bounds = new Rectangle(toExtrude.x, toExtrude.y,
 				toExtrude.width, toExtrude.height);
@@ -708,7 +708,7 @@ public class Geometry {
 		int closestSide = SWT.LEFT;
 		int closestDistance = Integer.MAX_VALUE;
 
-		for (int side : sides) {
+		for (int side : sides) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int distance = getDistanceFromEdge(boundary, toTest, side);
 
 			if (distance < closestDistance) {

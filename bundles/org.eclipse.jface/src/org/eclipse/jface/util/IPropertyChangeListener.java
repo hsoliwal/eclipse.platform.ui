@@ -34,7 +34,7 @@ import java.util.EventListener;
  * emitter.removePropertyChangeListener(listener);
  * </pre>
  */
-@FunctionalInterface
+@FunctionalInterface //FLLDCIM: MARK — T06  IMPLEMENTS
 public interface IPropertyChangeListener extends EventListener {
 	/**
 	 * Notification that a property has changed.

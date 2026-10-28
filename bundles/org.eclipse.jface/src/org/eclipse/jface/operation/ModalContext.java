@@ -116,7 +116,7 @@ public class ModalContext {
 			this.callingThread = Thread.currentThread();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			try {
 				if (runnable != null) {
@@ -138,7 +138,7 @@ public class ModalContext {
 
 				// Make sure that all events in the asynchronous event queue
 				// are dispatched.
-				display.syncExec(() -> {
+				display.syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					// Do nothing.
 				});
 
@@ -147,17 +147,17 @@ public class ModalContext {
 
 				// Force the event loop to return from sleep() so that
 				// it stops event dispatching.
-				display.asyncExec(null);
+				display.asyncExec(null); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 
 		/**
 		 * Processes events or waits until this modal context thread terminates.
 		 */
-		public void block() {
+		public void block() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (display == Display.getCurrent()) {
 				int exceptionCount = 0;
-				while (continueEventDispatching) {
+				while (continueEventDispatching) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// Run the event loop. Handle any uncaught exceptions caused
 					// by UI events.
 					try {
@@ -215,7 +215,7 @@ public class ModalContext {
 			return true;
 		}
 
-		while (monitor1 instanceof ProgressMonitorWrapper) {
+		while (monitor1 instanceof ProgressMonitorWrapper) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			monitor1 = ((ProgressMonitorWrapper) monitor1).getWrappedProgressMonitor();
 			if (monitor1 == monitor2) {
 				return true;
@@ -331,7 +331,7 @@ public class ModalContext {
 	 *                by throwing <code>InterruptedException</code>; this method
 	 *                propagates the exception
 	 */
-	public static void run(IRunnableWithProgress operation, boolean fork,
+	public static void run(IRunnableWithProgress operation, boolean fork, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProgressMonitor monitor, Display display)
 			throws InvocationTargetException, InterruptedException {
 		Assert.isTrue(operation != null && monitor != null);

@@ -96,12 +96,12 @@ public class CreateFolderOperation extends AbstractCreateResourcesOperation {
 			List<IResourceFilterDescription> l = Arrays.asList(filterList).stream().map(x -> convert(x))
 					.collect(Collectors.toList());
 			IResourceFilterDescription[] asArr = l.toArray(new IResourceFilterDescription[l.size()]);
-			WorkspaceUndoUtil.getFirstLeafFolder(containerDescription).setFilters(asArr);
+			WorkspaceUndoUtil.getFirstLeafFolder(containerDescription).setFilters(asArr); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 		setResourceDescriptions(new IResourceSnapshot<?>[] { containerDescription });
 	}
 
-	private IResourceFilterDescription convert(final UIResourceFilterDescription desc) {
+	private IResourceFilterDescription convert(final UIResourceFilterDescription desc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new IResourceFilterDescription() {
 			@Override
 			public FileInfoMatcherDescription getFileInfoMatcherDescription() {

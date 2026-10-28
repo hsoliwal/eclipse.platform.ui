@@ -77,7 +77,7 @@ public class FilteredList extends Composite {
 
 		@Override
 		public void setFilter(String pattern, boolean ignoreCase, boolean ignoreWildCards) {
-			fMatcher = new StringMatcher(pattern.trim() + '*', ignoreCase, ignoreWildCards);
+			fMatcher = new StringMatcher(pattern.trim() + '*', ignoreCase, ignoreWildCards); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -104,7 +104,7 @@ public class FilteredList extends Composite {
 
 	Label[] fLabels;
 
-	List<Image> fImages = new ArrayList<>();
+	List<Image> fImages = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	int[] fFoldedIndices;
 
@@ -181,7 +181,7 @@ public class FilteredList extends Composite {
 			labelIgnoreCase = ignoreCase;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(Object left, Object right) {
 			Label leftLabel = (Label) left;
 			Label rightLabel = (Label) right;
@@ -218,7 +218,7 @@ public class FilteredList extends Composite {
 	 * @param matchEmptyString specifies whether empty filter strings should filter
 	 *                         everything or nothing
 	 */
-	public FilteredList(Composite parent, int style, ILabelProvider labelProvider, boolean ignoreCase,
+	public FilteredList(Composite parent, int style, ILabelProvider labelProvider, boolean ignoreCase, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean allowDuplicates, boolean matchEmptyString) {
 		super(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -228,7 +228,7 @@ public class FilteredList extends Composite {
 		fList = new Table(this, style);
 		fList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		fList.setFont(parent.getFont());
-		fList.addDisposeListener(e -> {
+		fList.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			fLabelProvider.dispose();
 			if (fUpdateJob != null) {
 				fUpdateJob.cancel();
@@ -246,7 +246,7 @@ public class FilteredList extends Composite {
 	 *
 	 * @param elements the elements to be shown in the list.
 	 */
-	public void setElements(Object... elements) {
+	public void setElements(Object... elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements == null) {
 			fElements = new Object[0];
 		} else {
@@ -257,8 +257,8 @@ public class FilteredList extends Composite {
 		int length = fElements.length;
 		// fill labels
 		fLabels = new Label[length];
-		Set<Image> imageSet = new HashSet<>();
-		for (int i = 0; i != length; i++) {
+		Set<Image> imageSet = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int i = 0; i != length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String text = fLabelProvider.getText(fElements[i]);
 			Image image = fLabelProvider.getImage(fElements[i]);
 			fLabels[i] = new Label(text, image);
@@ -309,7 +309,7 @@ public class FilteredList extends Composite {
 	 * @param listener the selection listener to be added.
 	 */
 	public void addSelectionListener(SelectionListener listener) {
-		fList.addSelectionListener(listener);
+		fList.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	/**
@@ -365,7 +365,7 @@ public class FilteredList extends Composite {
 	 *
 	 * @param elements the array of elements to be selected.
 	 */
-	public void setSelection(Object... elements) {
+	public void setSelection(Object... elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements == null || elements.length == 0) {
 			fList.deselectAll();
 			return;
@@ -375,12 +375,12 @@ public class FilteredList extends Composite {
 		}
 		// fill indices
 		int[] indices = new int[elements.length];
-		for (int i = 0; i != elements.length; i++) {
+		for (int i = 0; i != elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int j;
-			for (j = 0; j != fFoldedCount; j++) {
+			for (j = 0; j != fFoldedCount; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int max = (j == fFoldedCount - 1) ? fFilteredCount : fFoldedIndices[j + 1];
 				int l;
-				for (l = fFoldedIndices[j]; l != max; l++) {
+				for (l = fFoldedIndices[j]; l != max; l++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// found matching element?
 					if (fElements[fFilteredIndices[l]].equals(elements[i])) {
 						indices[i] = j;
@@ -412,7 +412,7 @@ public class FilteredList extends Composite {
 		}
 		int[] indices = fList.getSelectionIndices();
 		Object[] elements = new Object[indices.length];
-		for (int i = 0; i != indices.length; i++) {
+		for (int i = 0; i != indices.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elements[i] = fElements[fFilteredIndices[fFoldedIndices[indices[i]]]];
 		}
 		return elements;
@@ -461,7 +461,7 @@ public class FilteredList extends Composite {
 		int start = fFoldedIndices[index];
 		int count = (index == fFoldedCount - 1) ? fFilteredCount - start : fFoldedIndices[index + 1] - start;
 		Object[] elements = new Object[count];
-		for (int i = 0; i != count; i++) {
+		for (int i = 0; i != count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			elements[i] = fElements[fFilteredIndices[start + i]];
 		}
 		return elements;
@@ -472,16 +472,16 @@ public class FilteredList extends Composite {
 	 * if they coiincide in the rendered string and image. @return returns the
 	 * number of elements after folding.
 	 */
-	private int fold() {
+	private int fold() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fAllowDuplicates) {
-			for (int i = 0; i != fFilteredCount; i++) {
+			for (int i = 0; i != fFilteredCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fFoldedIndices[i] = i; // identity mapping
 			}
 			return fFilteredCount;
 		}
 		int k = 0;
 		Label last = null;
-		for (int i = 0; i != fFilteredCount; i++) {
+		for (int i = 0; i != fFilteredCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int j = fFilteredIndices[i];
 			Label current = fLabels[j];
 			if (!current.equals(last)) {
@@ -503,7 +503,7 @@ public class FilteredList extends Composite {
 		}
 		fFilterMatcher.setFilter(fFilter.trim(), fIgnoreCase, false);
 		int k = 0;
-		for (int i = 0; i != fElements.length; i++) {
+		for (int i = 0; i != fElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fFilterMatcher.match(fElements[i])) {
 				fFilteredIndices[k++] = i;
 			}
@@ -511,7 +511,7 @@ public class FilteredList extends Composite {
 		return k;
 	}
 
-	private class TableUpdateJob extends WorkbenchJob {
+	private class TableUpdateJob extends WorkbenchJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 		final Table fTable;
 
 		final int fCount;
@@ -538,7 +538,7 @@ public class FilteredList extends Composite {
 			fCount = count;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus runInUIThread(IProgressMonitor monitor) {
 			if (fTable.isDisposed()) {
 				return Status.CANCEL_STATUS;
@@ -559,7 +559,7 @@ public class FilteredList extends Composite {
 			}
 			// How many we are going to do this time.
 			int iterations = Math.min(10, fCount - currentIndex);
-			for (int i = 0; i < iterations; i++) {
+			for (int i = 0; i < iterations; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (monitor.isCanceled()) {
 					return Status.CANCEL_STATUS;
 				}

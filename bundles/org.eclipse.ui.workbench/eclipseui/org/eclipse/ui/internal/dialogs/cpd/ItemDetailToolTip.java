@@ -105,7 +105,7 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 		return v.getCell(new Point(event.x, event.y));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addContent(Composite destination, Object modelElement) {
 		final DisplayItem item = (DisplayItem) modelElement;
 
@@ -149,7 +149,7 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 						// i.e. multiple children
 						String commandGroupList = null;
 
-						for (ActionSet actionSet : actionGroup) {
+						for (ActionSet actionSet : actionGroup) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							// For each action set, make a link for it, set
 							// the href to its id
 							String commandGroupLink = MessageFormat.format("<a href=\"{0}\">{1}</a>", //$NON-NLS-1$
@@ -173,12 +173,12 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 				Image warningImage;
 				if (!effectivelyAvailable) {
 					warningImage = dialog.warningImageDescriptor.createImage();
-					destination.addDisposeListener(e -> warningImage.dispose());
+					destination.addDisposeListener(e -> warningImage.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				} else {
 					warningImage = null;
 				}
 				Link link = createEntryWithLink(destination, warningImage, text);
-				link.addSelectionListener(new SelectionListener() {
+				link.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetDefaultSelected(SelectionEvent e) {
 						widgetSelected(e);
@@ -231,7 +231,7 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 				// bindings
 				final Object highlight;
 				if (bindings.length == 0) {
-					Map<String, String> parameters = new HashMap<>();
+					Map<String, String> parameters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 					// If item is a shortcut, need to add a parameter to go
 					// to
@@ -257,7 +257,7 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 
 				Link bindingLink = createEntryWithLink(destination, null, text);
 
-				bindingLink.addSelectionListener(new SelectionListener() {
+				bindingLink.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetDefaultSelected(SelectionEvent e) {
 						widgetSelected(e);
@@ -276,13 +276,13 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 
 		// Show dynamic menu item info
 		if (item instanceof DynamicContributionItem dynamic) {
-			StringBuilder text = new StringBuilder();
+			StringBuilder text = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			final List<MenuItem> currentItems = dynamic.getCurrentItems();
 
 			if (currentItems.size() > 0) {
 				// Create a list of the currently displayed items
 				text.append(WorkbenchMessages.HideItems_dynamicItemList);
-				for (MenuItem menuItem : currentItems) {
+				for (MenuItem menuItem : currentItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					text.append(CustomizePerspectiveDialog.NEW_LINE).append("- ") //$NON-NLS-1$
 							.append(menuItem.getText());
 				}
@@ -312,7 +312,7 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 	static void collectDescendantCommandGroups(Collection<ActionSet> collection, DisplayItem item,
 			ViewerFilter filter) {
 		List<TreeItem> children = item.getChildren();
-		for (TreeItem treeItem : children) {
+		for (TreeItem treeItem : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem child = (DisplayItem) treeItem;
 			if ((filter == null || filter.select(null, null, child)) && child.getActionSet() != null) {
 				collection.add(child.getActionSet());
@@ -324,13 +324,13 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 	/**
 	 * @return a String representing the key bindings in <code>bindings</code>
 	 */
-	static String keyBindingsAsString(Binding[] bindings) {
+	static String keyBindingsAsString(Binding[] bindings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String keybindings = null;
-		for (int i = 0; i < bindings.length; i++) {
+		for (int i = 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Unfortunately, bindings may be reported more than once:
 			// check to see if this one has already been recorded.
 			boolean alreadyRecorded = false;
-			for (int j = 0; j < i && !alreadyRecorded; j++) {
+			for (int j = 0; j < i && !alreadyRecorded; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (bindings[i].getTriggerSequence().equals(bindings[j].getTriggerSequence())) {
 					alreadyRecorded = true;
 				}
@@ -350,7 +350,7 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 	/**
 	 * Gets the keybindings associated with a ContributionItem.
 	 */
-	static Binding[] getKeyBindings(WorkbenchWindow window, DisplayItem item) {
+	static Binding[] getKeyBindings(WorkbenchWindow window, DisplayItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IBindingService bindingService = window.getService(IBindingService.class);
 
 		if (!(bindingService instanceof BindingService)) {
@@ -364,9 +364,9 @@ class ItemDetailToolTip extends NameAndDescriptionToolTip {
 
 		Collection<?> allBindings = bindingManager.getActiveBindingsDisregardingContextFlat();
 
-		List<Binding> foundBindings = new ArrayList<>(2);
+		List<Binding> foundBindings = new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object name : allBindings) {
+		for (Object name : allBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Binding binding = (Binding) name;
 			if (binding.getParameterizedCommand() == null) {
 				continue;

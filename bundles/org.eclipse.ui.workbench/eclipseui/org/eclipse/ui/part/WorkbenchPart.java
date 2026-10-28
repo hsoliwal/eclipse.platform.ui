@@ -122,7 +122,7 @@ public abstract class WorkbenchPart extends EventManager
 	 * @param propertyId the id of the property that changed
 	 */
 	protected void firePropertyChange(final int propertyId) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPropertyListener propertyListener = (IPropertyListener) listener;
 			try {
 				propertyListener.propertyChanged(WorkbenchPart.this, propertyId);
@@ -218,7 +218,7 @@ public abstract class WorkbenchPart extends EventManager
 	 * Should not be called by clients. It is called by the core plugin when
 	 * creating this executable extension.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		// Save config element.
 		configElement = cfig;
@@ -463,7 +463,7 @@ public abstract class WorkbenchPart extends EventManager
 	 */
 	protected void firePartPropertyChanged(String key, String oldValue, String newValue) {
 		final PropertyChangeEvent event = new PropertyChangeEvent(this, key, oldValue, newValue);
-		for (IPropertyChangeListener l : partChangeListeners) {
+		for (IPropertyChangeListener l : partChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				l.propertyChange(event);
 			} catch (RuntimeException e) {
@@ -472,7 +472,7 @@ public abstract class WorkbenchPart extends EventManager
 		}
 	}
 
-	private final Map<String, String> partProperties = new HashMap<>();
+	private final Map<String, String> partProperties = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	@Override
 	public void setPartProperty(String key, String value) {

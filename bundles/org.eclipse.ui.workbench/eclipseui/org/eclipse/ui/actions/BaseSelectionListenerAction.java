@@ -51,7 +51,7 @@ import org.eclipse.swt.widgets.Event;
  *
  * @since 3.0
  */
-public abstract class BaseSelectionListenerAction extends Action implements ISelectionChangedListener {
+public abstract class BaseSelectionListenerAction extends Action implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * The current selection.
 	 */

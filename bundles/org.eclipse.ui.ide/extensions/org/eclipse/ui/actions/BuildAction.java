@@ -58,17 +58,17 @@ import org.eclipse.ui.progress.IProgressConstants2;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class BuildAction extends WorkspaceAction {
+public class BuildAction extends WorkspaceAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The id of an incremental build action.
 	 */
-	public static final String ID_BUILD = PlatformUI.PLUGIN_ID + ".BuildAction";//$NON-NLS-1$
+	public static final String ID_BUILD = PlatformUI.PLUGIN_ID + ".BuildAction";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The id of a rebuild all action.
 	 */
-	public static final String ID_REBUILD_ALL = PlatformUI.PLUGIN_ID + ".RebuildAllAction";//$NON-NLS-1$
+	public static final String ID_REBUILD_ALL = PlatformUI.PLUGIN_ID + ".RebuildAllAction";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private int buildType;
 
@@ -163,12 +163,12 @@ public class BuildAction extends WorkspaceAction {
 	 */
 	List<IProject> getProjectsToBuild() {
 		if (projectsToBuild == null) {
-			Set<IProject> projects = new HashSet<>(3);
+			Set<IProject> projects = new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			List<? extends IBuildConfiguration> configurations = getBuildConfigurationsToBuild();
-			for (IBuildConfiguration buildConfiguration : configurations) {
+			for (IBuildConfiguration buildConfiguration : configurations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				projects.add(buildConfiguration.getProject());
 			}
-			projectsToBuild = new ArrayList<>(projects);
+			projectsToBuild = new ArrayList<>(projects); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		return projectsToBuild;
 	}
@@ -182,8 +182,8 @@ public class BuildAction extends WorkspaceAction {
 	 */
 	protected List<? extends IBuildConfiguration> getBuildConfigurationsToBuild() {
 		if (projectConfigsToBuild == null) {
-			Set<IBuildConfiguration> configs = new HashSet<>(3);
-			for (IResource resource : getSelectedResources()) {
+			Set<IBuildConfiguration> configs = new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IResource resource : getSelectedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IProject project = resource.getProject();
 				if (project != null && hasBuilder(project)) {
 					try {
@@ -193,7 +193,7 @@ public class BuildAction extends WorkspaceAction {
 					}
 				}
 			}
-			projectConfigsToBuild = new ArrayList<>(configs);
+			projectConfigsToBuild = new ArrayList<>(configs); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		return projectConfigsToBuild;
 	}
@@ -260,7 +260,7 @@ public class BuildAction extends WorkspaceAction {
 		runInBackground(null, ResourcesPlugin.FAMILY_MANUAL_BUILD);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runInBackground(ISchedulingRule rule, Object[] jobFamilies) {
 		// Get immutable copies of the build settings
 		final int kind = buildType;
@@ -272,7 +272,7 @@ public class BuildAction extends WorkspaceAction {
 				.toArray(new IBuildConfiguration[buildConfigurations.size()]);
 
 		// Schedule a Workspace Job to perform the build
-		Job job = new WorkspaceJob(removeMnemonics(getText())) {
+		Job job = new WorkspaceJob(removeMnemonics(getText())) { //FLLDCIM: MARK — T09  ANONYMOUS
 
 			@Override
 			public boolean belongsTo(Object family) {

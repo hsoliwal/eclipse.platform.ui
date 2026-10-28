@@ -735,63 +735,63 @@ public interface IWorkbenchRegistryConstants {
 	/**
 	 * The name of the deprecated accelerator configurations extension point.
 	 */
-	String EXTENSION_ACCELERATOR_CONFIGURATIONS = PlatformUI.PLUGIN_ID + '.' + PL_ACCELERATOR_CONFIGURATIONS;
+	String EXTENSION_ACCELERATOR_CONFIGURATIONS = PlatformUI.PLUGIN_ID + '.' + PL_ACCELERATOR_CONFIGURATIONS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the accelerator scopes extension point.
 	 */
-	String EXTENSION_ACCELERATOR_SCOPES = PlatformUI.PLUGIN_ID + '.' + PL_ACCELERATOR_SCOPES;
+	String EXTENSION_ACCELERATOR_SCOPES = PlatformUI.PLUGIN_ID + '.' + PL_ACCELERATOR_SCOPES; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the action definitions extension point.
 	 */
-	String EXTENSION_ACTION_DEFINITIONS = PlatformUI.PLUGIN_ID + '.' + PL_ACTION_DEFINITIONS;
+	String EXTENSION_ACTION_DEFINITIONS = PlatformUI.PLUGIN_ID + '.' + PL_ACTION_DEFINITIONS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the <code>org.eclipse.ui.actionSets</code> extension point.
 	 */
-	String EXTENSION_ACTION_SETS = PlatformUI.PLUGIN_ID + '.' + IWorkbenchRegistryConstants.PL_ACTION_SETS;
+	String EXTENSION_ACTION_SETS = PlatformUI.PLUGIN_ID + '.' + IWorkbenchRegistryConstants.PL_ACTION_SETS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the bindings extension point.
 	 */
-	String EXTENSION_BINDINGS = PlatformUI.PLUGIN_ID + '.' + PL_BINDINGS;
+	String EXTENSION_BINDINGS = PlatformUI.PLUGIN_ID + '.' + PL_BINDINGS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the commands extension point.
 	 */
-	String EXTENSION_COMMAND_IMAGES = PlatformUI.PLUGIN_ID + '.' + PL_COMMAND_IMAGES;
+	String EXTENSION_COMMAND_IMAGES = PlatformUI.PLUGIN_ID + '.' + PL_COMMAND_IMAGES; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the commands extension point, and the name of the key for the
 	 * commands preferences.
 	 */
-	String EXTENSION_COMMANDS = PlatformUI.PLUGIN_ID + '.' + PL_COMMANDS;
+	String EXTENSION_COMMANDS = PlatformUI.PLUGIN_ID + '.' + PL_COMMANDS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the contexts extension point.
 	 */
-	String EXTENSION_CONTEXTS = PlatformUI.PLUGIN_ID + '.' + PL_CONTEXTS;
+	String EXTENSION_CONTEXTS = PlatformUI.PLUGIN_ID + '.' + PL_CONTEXTS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the <code>org.eclipse.ui.editorActions</code> extension point.
 	 */
-	String EXTENSION_EDITOR_ACTIONS = PlatformUI.PLUGIN_ID + '.' + PL_EDITOR_ACTIONS;
+	String EXTENSION_EDITOR_ACTIONS = PlatformUI.PLUGIN_ID + '.' + PL_EDITOR_ACTIONS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the commands extension point.
 	 */
-	String EXTENSION_HANDLERS = PlatformUI.PLUGIN_ID + '.' + PL_HANDLERS;
+	String EXTENSION_HANDLERS = PlatformUI.PLUGIN_ID + '.' + PL_HANDLERS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the <code>org.eclipse.ui.menus</code> extension point.
 	 */
-	String EXTENSION_MENUS = PlatformUI.PLUGIN_ID + '.' + PL_MENUS;
+	String EXTENSION_MENUS = PlatformUI.PLUGIN_ID + '.' + PL_MENUS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The name of the <code>org.eclipse.ui.viewActions</code> extension point.
 	 */
-	String EXTENSION_VIEW_ACTIONS = PlatformUI.PLUGIN_ID + '.' + PL_VIEW_ACTIONS;
+	String EXTENSION_VIEW_ACTIONS = PlatformUI.PLUGIN_ID + '.' + PL_VIEW_ACTIONS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The action style for drop-down menus.

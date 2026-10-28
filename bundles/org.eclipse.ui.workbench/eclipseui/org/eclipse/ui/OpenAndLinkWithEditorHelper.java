@@ -40,7 +40,7 @@ public abstract class OpenAndLinkWithEditorHelper {
 
 	private InternalListener listener;
 
-	private final class InternalListener implements IOpenListener, ISelectionChangedListener, IDoubleClickListener {
+	private final class InternalListener implements IOpenListener, ISelectionChangedListener, IDoubleClickListener { //FLLDCIM: MARK — T05  IMPLEMENTS
 
 		@Override
 		public void open(OpenEvent event) {
@@ -75,9 +75,9 @@ public abstract class OpenAndLinkWithEditorHelper {
 		Assert.isLegal(viewer != null);
 		this.viewer = viewer;
 		listener = new InternalListener();
-		viewer.addPostSelectionChangedListener(listener);
-		viewer.addOpenListener(listener);
-		viewer.addDoubleClickListener(listener);
+		viewer.addPostSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		viewer.addOpenListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
+		viewer.addDoubleClickListener(listener); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 	}
 
 	/**

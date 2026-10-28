@@ -52,7 +52,7 @@ public class ActionSetContributionItem extends SubContributionItem implements IA
 
 	@Override
 	public String toString() {
-		return "ActionSetContributionItem [id=" + actionSetId + //$NON-NLS-1$
+		return "ActionSetContributionItem [id=" + actionSetId + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				", visible=" + isVisible() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

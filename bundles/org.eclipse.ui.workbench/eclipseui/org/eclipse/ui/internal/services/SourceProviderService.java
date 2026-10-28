@@ -43,13 +43,13 @@ public final class SourceProviderService implements ISourceProviderService, IDis
 	 * <code>null</code>. This is a map of the source name ({@link String}) to the
 	 * source provider ({@link ISourceProvider}).
 	 */
-	private final Map<String, ISourceProvider> sourceProvidersByName = new HashMap<>();
+	private final Map<String, ISourceProvider> sourceProvidersByName = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * All of the source providers registered with this service. This value is never
 	 * <code>null</code>.
 	 */
-	private final Set<ISourceProvider> sourceProviders = new HashSet<>();
+	private final Set<ISourceProvider> sourceProviders = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private final IServiceLocator locator;
 
@@ -60,7 +60,7 @@ public final class SourceProviderService implements ISourceProviderService, IDis
 	@Override
 	public void dispose() {
 		final Iterator<ISourceProvider> sourceProviderItr = sourceProviders.iterator();
-		while (sourceProviderItr.hasNext()) {
+		while (sourceProviderItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ISourceProvider sourceProvider = sourceProviderItr.next();
 			sourceProvider.dispose();
 		}
@@ -83,7 +83,7 @@ public final class SourceProviderService implements ISourceProviderService, IDis
 			throw new NullPointerException("The source provider cannot be null"); //$NON-NLS-1$
 		}
 
-		for (final String sourceName : sourceProvider.getProvidedSourceNames()) {
+		for (final String sourceName : sourceProvider.getProvidedSourceNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sourceProvidersByName.put(sourceName, sourceProvider);
 		}
 		sourceProviders.add(sourceProvider);
@@ -94,14 +94,14 @@ public final class SourceProviderService implements ISourceProviderService, IDis
 			throw new NullPointerException("The source provider cannot be null"); //$NON-NLS-1$
 		}
 
-		for (String sourceName : sourceProvider.getProvidedSourceNames()) {
+		for (String sourceName : sourceProvider.getProvidedSourceNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sourceProvidersByName.remove(sourceName);
 		}
 		sourceProviders.remove(sourceProvider);
 	}
 
 	public void readRegistry() {
-		for (AbstractSourceProvider sourceProvider : WorkbenchServiceRegistry.getRegistry().getSourceProviders()) {
+		for (AbstractSourceProvider sourceProvider : WorkbenchServiceRegistry.getRegistry().getSourceProviders()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sourceProvider.initialize(locator);
 			registerProvider(sourceProvider);
 		}

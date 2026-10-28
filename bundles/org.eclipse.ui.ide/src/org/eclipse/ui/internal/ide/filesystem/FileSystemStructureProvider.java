@@ -41,9 +41,9 @@ public class FileSystemStructureProvider implements IImportStructureProvider {
 		File folder = (File) element;
 		String[] children = folder.list();
 		int childrenLength = children == null ? 0 : children.length;
-		List<File> result = new ArrayList<>(childrenLength);
+		List<File> result = new ArrayList<>(childrenLength); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < childrenLength; i++) {
+		for (int i = 0; i < childrenLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			File file = new File(folder, children[i]);
 			if(isRecursiveLink(file)) {
 				continue;
@@ -56,7 +56,7 @@ public class FileSystemStructureProvider implements IImportStructureProvider {
 
 	private void initVisitedDirs(){
 		if(visitedDirs == null){
-			visitedDirs = new HashSet<>();
+			visitedDirs = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 	}
 

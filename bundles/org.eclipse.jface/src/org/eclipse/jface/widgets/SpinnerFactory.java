@@ -126,8 +126,8 @@ public final class SpinnerFactory extends AbstractControlFactory<SpinnerFactory,
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public SpinnerFactory onSelect(Consumer<SelectionEvent> consumer) {
-		SelectionListener listener = SelectionListener.widgetSelectedAdapter(consumer);
-		addProperty(s -> s.addSelectionListener(listener));
+		SelectionListener listener = SelectionListener.widgetSelectedAdapter(consumer); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		addProperty(s -> s.addSelectionListener(listener)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return this;
 	}
 
@@ -145,7 +145,7 @@ public final class SpinnerFactory extends AbstractControlFactory<SpinnerFactory,
 	 * @see ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 	 */
 	public SpinnerFactory onModify(ModifyListener listener) {
-		addProperty(s -> s.addModifyListener(listener));
+		addProperty(s -> s.addModifyListener(listener)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		return this;
 	}
 }

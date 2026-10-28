@@ -31,7 +31,7 @@ public final class ProxyActivityManager extends AbstractActivityManager {
 
 		this.activityManager = activityManager;
 
-		this.activityManager.addActivityManagerListener(activityManagerEvent -> {
+		this.activityManager.addActivityManagerListener(activityManagerEvent -> { //FLLDCIM: MARK — T36  LAMBDA
 			ActivityManagerEvent proxyActivityManagerEvent = activityManagerEvent.copyFor(ProxyActivityManager.this);
 			fireActivityManagerChanged(proxyActivityManagerEvent);
 		});

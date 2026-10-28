@@ -125,7 +125,7 @@ public final class ExternalActionManager {
 		 * will be removed from this set and the listener removed. This value
 		 * may be empty, but never <code>null</code>.
 		 */
-		private final Set<String> loggedCommandIds = new HashSet<>();
+		private final Set<String> loggedCommandIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		/**
 		 * The list of listeners that have registered for property change
@@ -133,7 +133,7 @@ public final class ExternalActionManager {
 		 * to listeners (<code>IPropertyChangeListener</code> or
 		 * <code>ListenerList</code> of <code>IPropertyChangeListener</code>).
 		 */
-		private final Map<String, Object> registeredListeners = new HashMap<>();
+		private final Map<String, Object> registeredListeners = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		/**
 		 * Constructs a new instance of <code>CommandCallback</code> with the
@@ -192,7 +192,7 @@ public final class ExternalActionManager {
 		 *
 		 * @since 3.4
 		 */
-		public CommandCallback(final BindingManager bindingManager,
+		public CommandCallback(final BindingManager bindingManager, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				final CommandManager commandManager,
 				final IActiveChecker activeChecker,
 				final IExecuteApplicable checker) {
@@ -245,12 +245,12 @@ public final class ExternalActionManager {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final void bindingManagerChanged(final BindingManagerEvent event) {
 			if (event.isActiveBindingsChanged()) {
 				final Iterator<Entry<String, Object>> listenerItr = registeredListeners.entrySet()
 						.iterator();
-				while (listenerItr.hasNext()) {
+				while (listenerItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final Entry<String, Object> entry = listenerItr.next();
 					final String commandId = entry.getKey();
 					final Command command = commandManager
@@ -263,7 +263,7 @@ public final class ExternalActionManager {
 								.getManager(), IAction.TEXT, null, null);
 						if (value instanceof ListenerList) {
 							Object[] listeners= ((ListenerList) value).getListeners();
-							for (Object l : listeners) {
+							for (Object l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								final IPropertyChangeListener listener = (IPropertyChangeListener) l;
 								listener.propertyChange(propertyChangeEvent);
 							}
@@ -348,7 +348,7 @@ public final class ExternalActionManager {
 		 * Calling this method with an undefined command id will generate a log
 		 * message.
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean isActive(final String commandId) {
 			if (commandId != null) {
 				final Command command = commandManager.getCommand(commandId);
@@ -363,7 +363,7 @@ public final class ExternalActionManager {
 
 					// And remember this item so we don't log it again.
 					loggedCommandIds.add(commandId);
-					command.addCommandListener(new ICommandListener() {
+					command.addCommandListener(new ICommandListener() { //FLLDCIM: MARK — T26 COMMAND_STATE CALL
 						@Override
 						public final void commandChanged(
 								final CommandEvent commandEvent) {

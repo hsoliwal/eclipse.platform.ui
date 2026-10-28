@@ -78,7 +78,7 @@ final class ArrayFontDescriptor extends FontDescriptor {
 		return new Font(device, data);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (obj instanceof ArrayFontDescriptor descr) {
 			if (descr.originalFont != originalFont) {

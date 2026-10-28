@@ -54,7 +54,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  * @see ISchedulingRule
  * @see org.eclipse.core.resources.IWorkspace#run(ICoreRunnable, IProgressMonitor)
  *  */
-public abstract class WorkspaceModifyOperation implements IRunnableWithProgress, IThreadListener {
+public abstract class WorkspaceModifyOperation implements IRunnableWithProgress, IThreadListener { //FLLDCIM: MARK — T09  IMPLEMENTS
 	private final ISchedulingRule rule;
 
 	/**
@@ -101,13 +101,13 @@ public abstract class WorkspaceModifyOperation implements IRunnableWithProgress,
 	 * invoking the <code>execute</code> method as a workspace runnable
 	 * (<code>IWorkspaceRunnable</code>).
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized final void run(IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException {
 		AtomicReference<InvocationTargetException> rethrownInvocationTargetException = new AtomicReference<>();
 		AtomicReference<InterruptedException> rethrownInterruptedException = new AtomicReference<>();
 		try {
-			IWorkspaceRunnable workspaceRunnable = pm -> {
+			IWorkspaceRunnable workspaceRunnable = pm -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					execute(pm);
 				} catch (InvocationTargetException e1) {

@@ -105,7 +105,7 @@ public final class LegacySelectionEnablerWrapper extends WorkbenchWindowExpressi
 
 	@Override
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("LegacySelectionEnablerWrapper("); //$NON-NLS-1$
 		buffer.append(enabler);
 		buffer.append(',');

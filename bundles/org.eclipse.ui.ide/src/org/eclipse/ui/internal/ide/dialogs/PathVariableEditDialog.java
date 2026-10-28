@@ -85,7 +85,7 @@ public class PathVariableEditDialog extends SelectionDialog {
 		return dialogAreaComposite;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 		// Sets the dialog result to the selected path variable name(s).
 		try {
@@ -94,7 +94,7 @@ public class PathVariableEditDialog extends SelectionDialog {
 						.getSelection();
 				String[] variableNames = new String[selection.length];
 
-				for (int i = 0; i < selection.length; i++) {
+				for (int i = 0; i < selection.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					variableNames[i] = selection[i].name;
 				}
 				setSelectionResult(variableNames);

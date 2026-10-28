@@ -35,15 +35,15 @@ public class OpenResourceQuickAccessComputer implements IQuickAccessComputer, IQ
 
 	private static final long TIMEOUT_MS = 200;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public QuickAccessElement[] computeElements(String query, IProgressMonitor monitor) {
 		SearchPattern searchPattern = new SearchPattern();
 		searchPattern.setPattern(query);
 
-		LinkedHashMap<String, IFile> res = new LinkedHashMap<>();
+		LinkedHashMap<String, IFile> res = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		long startTime = System.currentTimeMillis();
 		try {
-			ResourcesPlugin.getWorkspace().getRoot().accept(resourceProxy -> {
+			ResourcesPlugin.getWorkspace().getRoot().accept(resourceProxy -> { //FLLDCIM: MARK — T07  LAMBDA
 				if (resourceProxy.isDerived() || !resourceProxy.isAccessible()) {
 					return false;
 				}

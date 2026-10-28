@@ -105,7 +105,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	private void addWorkingSetElements(List<IResource> collectedResources, IContainer container) {
 		IPath containerPath = container.getFullPath();
 
-		for (IAdaptable adaptable : workingSet.getElements()) {
+		for (IAdaptable adaptable : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = Adapters.adapt(adaptable, IResource.class);
 
 			if (resource != null) {
@@ -122,7 +122,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	 *
 	 * @see org.eclipse.jface.wizard.WizardPage#createControl(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -140,7 +140,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 
 		text = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		text.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
-		text.addModifyListener(unused -> validateInput());
+		text.addModifyListener(unused -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		text.setFocus();
 
 		label = new Label(composite, SWT.WRAP);
@@ -152,9 +152,9 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 		tree.setUseHashlookup(true);
 		final ITreeContentProvider treeContentProvider = new WorkbenchContentProvider();
 		tree.setContentProvider(treeContentProvider);
-		tree.setLabelProvider(new DecoratingLabelProvider(new WorkbenchLabelProvider(),
+		tree.setLabelProvider(new DecoratingLabelProvider(new WorkbenchLabelProvider(), //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				PlatformUI.getWorkbench().getDecoratorManager().getLabelDecorator()));
-		tree.setInput(IDEWorkbenchPlugin.getPluginWorkspace().getRoot());
+		tree.setInput(IDEWorkbenchPlugin.getPluginWorkspace().getRoot()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		tree.setComparator(new ResourceComparator(ResourceComparator.NAME));
 
 		data = new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL);
@@ -162,9 +162,9 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		tree.getControl().setLayoutData(data);
 
-		tree.addCheckStateListener(this::handleCheckStateChange);
+		tree.addCheckStateListener(this::handleCheckStateChange); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
-		tree.addTreeListener(new ITreeViewerListener() {
+		tree.addTreeListener(new ITreeViewerListener() { //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
 			}
@@ -191,7 +191,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 		Button selectAllButton = new Button(buttonComposite, SWT.PUSH);
 		selectAllButton.setText(IDEWorkbenchMessages.ResourceWorkingSetPage_selectAll_label);
 		selectAllButton.setToolTipText(IDEWorkbenchMessages.ResourceWorkingSetPage_selectAll_toolTip);
-		selectAllButton.addSelectionListener(new SelectionAdapter() {
+		selectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent selectionEvent) {
 				BusyIndicator.showWhile(getShell().getDisplay(), () -> {
@@ -206,7 +206,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 		Button deselectAllButton = new Button(buttonComposite, SWT.PUSH);
 		deselectAllButton.setText(IDEWorkbenchMessages.ResourceWorkingSetPage_deselectAll_label);
 		deselectAllButton.setToolTipText(IDEWorkbenchMessages.ResourceWorkingSetPage_deselectAll_toolTip);
-		deselectAllButton.addSelectionListener(new SelectionAdapter() {
+		deselectAllButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent selectionEvent) {
 				BusyIndicator.showWhile(getShell().getDisplay(), () -> {
@@ -233,7 +233,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	 * @param checkedResources the output, list of checked resources
 	 * @param container        the container to collect checked resources in
 	 */
-	private void findCheckedResources(List<IResource> checkedResources, IContainer container) {
+	private void findCheckedResources(List<IResource> checkedResources, IContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource[] resources = null;
 		try {
 			resources = container.members();
@@ -241,7 +241,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 			handleCoreException(ex, getShell(), IDEWorkbenchMessages.ResourceWorkingSetPage_error,
 					IDEWorkbenchMessages.ResourceWorkingSetPage_error_updateCheckedState);
 		}
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tree.getGrayed(resource)) {
 				if (resource.isAccessible()) {
 					findCheckedResources(checkedResources, (IContainer) resource);
@@ -261,7 +261,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	 */
 	@Override
 	public void finish() {
-		ArrayList<IResource> resources = new ArrayList<>(10);
+		ArrayList<IResource> resources = new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		findCheckedResources(resources, (IContainer) tree.getInput());
 		if (workingSet == null) {
 			IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
@@ -332,7 +332,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	 * Sets the checked state of tree items based on the initial working set, if
 	 * any.
 	 */
-	private void initializeCheckedState() {
+	private void initializeCheckedState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BusyIndicator.showWhile(getShell().getDisplay(), () -> {
 			Object[] items = null;
 			if (workingSet == null) {
@@ -358,7 +358,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 				return;
 			}
 			tree.setCheckedElements(items);
-			for (Object i : items) {
+			for (Object i : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(i instanceof IAdaptable item)) {
 					continue;
 				}
@@ -410,7 +410,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	 *                           checked state. false=only set checked state of
 	 *                           members of this container
 	 */
-	private void setSubtreeChecked(IContainer container, boolean state, boolean checkExpandedState) {
+	private void setSubtreeChecked(IContainer container, boolean state, boolean checkExpandedState) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// checked state is set lazily on expand, don't set it if container is collapsed
 		if (!container.isAccessible() || (!tree.getExpandedState(container) && state && checkExpandedState)) {
 			return;
@@ -422,7 +422,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 			handleCoreException(ex, getShell(), IDEWorkbenchMessages.ResourceWorkingSetPage_error,
 					IDEWorkbenchMessages.ResourceWorkingSetPage_error_updateCheckedState);
 		}
-		for (int i = members.length - 1; i >= 0; i--) {
+		for (int i = members.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource element = members[i];
 			boolean elementGrayChecked = tree.getGrayed(element) || tree.getChecked(element);
 
@@ -446,7 +446,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	 *
 	 * @param child the resource whose parent checked state should be set.
 	 */
-	private void updateParentState(IResource child) {
+	private void updateParentState(IResource child) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (child == null || child.getParent() == null) {
 			return;
 		}
@@ -460,7 +460,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 			handleCoreException(ex, getShell(), IDEWorkbenchMessages.ResourceWorkingSetPage_error,
 					IDEWorkbenchMessages.ResourceWorkingSetPage_error_updateCheckedState);
 		}
-		for (int i = members.length - 1; i >= 0; i--) {
+		for (int i = members.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tree.getChecked(members[i]) || tree.getGrayed(members[i])) {
 				childChecked = true;
 				break;
@@ -473,7 +473,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 	/**
 	 * Validates the working set name and the checked state of the resource tree.
 	 */
-	private void validateInput() {
+	private void validateInput() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String errorMessage = null;
 		String infoMessage = null;
 		String newText = text.getText();
@@ -491,7 +491,7 @@ public class ResourceWorkingSetPage extends WizardPage implements IWorkingSetPag
 		}
 		firstCheck = false;
 		if (errorMessage == null && (workingSet == null || !newText.equals(workingSet.getName()))) {
-			for (IWorkingSet set : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) {
+			for (IWorkingSet set : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (newText.equals(set.getName())) {
 					errorMessage = IDEWorkbenchMessages.ResourceWorkingSetPage_warning_workingSetExists;
 				}

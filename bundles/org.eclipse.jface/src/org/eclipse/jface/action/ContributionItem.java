@@ -199,7 +199,7 @@ public abstract class ContributionItem implements IContributionItem {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "(id=" + getId() + ", " //$NON-NLS-1$ //$NON-NLS-2$
+		return getClass().getSimpleName() + "(id=" + getId() + ", " //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "visible=" + isVisible() + ")";//$NON-NLS-2$//$NON-NLS-1$
 	}
 

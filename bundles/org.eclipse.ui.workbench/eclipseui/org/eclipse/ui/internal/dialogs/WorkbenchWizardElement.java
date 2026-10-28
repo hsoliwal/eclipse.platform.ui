@@ -327,7 +327,7 @@ public class WorkbenchWizardElement extends WorkbenchAdapter
 					.getChildren(IWorkbenchRegistryConstants.TAG_KEYWORD_REFERENCE);
 			keywordLabels = new String[children.length];
 			KeywordRegistry registry = KeywordRegistry.getInstance();
-			for (int i = 0; i < children.length; i++) {
+			for (int i = 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = children[i].getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 				keywordLabels[i] = registry.getKeywordLabel(id);
 			}

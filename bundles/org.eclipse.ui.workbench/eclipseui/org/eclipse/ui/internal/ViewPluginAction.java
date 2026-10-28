@@ -25,7 +25,7 @@ import org.eclipse.ui.WorkbenchException;
  * has one additional method (init) whose purpose is to initialize the delegate
  * with the view part in which the action is intended to run.
  */
-public final class ViewPluginAction extends PartPluginAction {
+public final class ViewPluginAction extends PartPluginAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	private final IViewPart viewPart;
 
 	/**

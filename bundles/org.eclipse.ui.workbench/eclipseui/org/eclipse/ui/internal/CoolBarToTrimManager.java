@@ -111,7 +111,7 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		this.window = window;
 		rendererFactory = rf;
 		this.workbenchTrimElements = workbenchTrimElements;
-		toolbarExtensions = new ArrayList<>();
+		toolbarExtensions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		modelService = window.getContext().get(EModelService.class);
 		topTrim = (MTrimBar) modelService.find(IWorkbenchConstants.MAIN_TOOLBAR_ID, window);
@@ -134,7 +134,7 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		add(topTrim, -1, item);
 	}
 
-	private void add(MTrimBar trimBar, int idx, IContributionItem item) {
+	private void add(MTrimBar trimBar, int idx, IContributionItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Special check to make sure that new additions are *before* the SPACER
 		if (idx == -1) {
 			MUIElement spacer = modelService.find(WorkbenchWindow.PERSPECTIVE_SPACER_ID, trimBar);
@@ -183,7 +183,7 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 			if (item.getId() == null) {
 				return;
 			}
-			for (MTrimElement toolBar : topTrim.getChildren()) {
+			for (MTrimElement toolBar : topTrim.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item.getId().equals(toolBar.getElementId()) && toolBar.getTags().contains(TOOLBAR_SEPARATOR)) {
 					// already in the coolbar
 					return;
@@ -228,7 +228,7 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 	}
 
 	// See MenuAdditionCacheEntry
-	private static String getToolbarLabel(MApplication application, String elementId) {
+	private static String getToolbarLabel(MApplication application, String elementId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name;
 		if (IWorkbenchActionConstants.TOOLBAR_FILE.equalsIgnoreCase(elementId)) {
 			return WorkbenchMessages.WorkbenchWindow_FileToolbar;
@@ -243,8 +243,8 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 			return WorkbenchMessages.WorkbenchWindow_HelpToolbar;
 		}
 		List<MTrimContribution> trimContributions = application.getTrimContributions();
-		for (MTrimContribution mtb : trimContributions) {
-			for (MTrimElement e : mtb.getChildren()) {
+		for (MTrimContribution mtb : trimContributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (MTrimElement e : mtb.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (e.getElementId().equals(elementId)) {
 					name = getTransientName(e);
 					if (name != null) {
@@ -295,12 +295,12 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (renderer == null) {
 			return;
 		}
-		for (ToolBarContributionItemExtension ext : toolbarExtensions) {
+		for (ToolBarContributionItemExtension ext : toolbarExtensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ToolBarManager manager = renderer.getManager(ext.tb);
 			if (manager != null) {
 				manager.dispose();
@@ -313,7 +313,7 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		List<MToolBar> toolbars = workbenchTrimElements.stream().filter(e -> e instanceof MToolBar)
 				.map(e -> (MToolBar) e).collect(Collectors.toList());
 
-		for (MToolBar mToolBar : toolbars) {
+		for (MToolBar mToolBar : toolbars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ToolBarManager manager = renderer.getManager(mToolBar);
 			if (manager != null) {
 				manager.dispose();
@@ -322,10 +322,10 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 			renderer.clearModelToManager(mToolBar, null);
 		}
 
-		ArrayList<MToolBarElement> toRemove = new ArrayList<>();
-		for (MTrimElement child : topTrim.getChildren()) {
+		ArrayList<MToolBarElement> toRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MTrimElement child : topTrim.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof MToolBar toolbar) {
-				for (MToolBarElement element : toolbar.getChildren()) {
+				for (MToolBarElement element : toolbar.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (OpaqueElementUtil.isOpaqueToolItem(element)) {
 						toRemove.add(element);
 					}
@@ -341,7 +341,7 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		rendererFactory = null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContributionItem find(String id) {
 		List<MToolBar> toolbars = modelService.findElements(window, id, MToolBar.class);
 		if (toolbars.isEmpty()) {
@@ -379,12 +379,12 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContributionItem[] getItems() {
-		ArrayList<IContributionItem> items = new ArrayList<>();
+		ArrayList<IContributionItem> items = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		List<MToolBar> toolBars = modelService.findElements(window, null, MToolBar.class);
-		for (final MToolBar tb : toolBars) {
+		for (final MToolBar tb : toolBars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tb.getTransientData().get(OBJECT) != null) {
 				items.add((IContributionItem) tb.getTransientData().get(OBJECT));
 			} else {
@@ -510,9 +510,9 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 	public void refresh() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContributionItem remove(IContributionItem item) {
-		for (final MToolBar child : modelService.findElements(window, null, MToolBar.class, null)) {
+		for (final MToolBar child : modelService.findElements(window, null, MToolBar.class, null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Object obj = child.getTransientData().get(OBJECT);
 			if (obj != null && obj.equals(item)) {
 				if (child instanceof MToolBarElement) {
@@ -575,11 +575,11 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		topTrim.getTransientData().put(IContributionManagerOverrides.class.getName(), newOverrides);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(boolean force) {
 		final List<MToolBar> children = modelService.findElements(window, null, MToolBar.class, null);
 
-		for (MToolBar el : children) {
+		for (MToolBar el : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ToolBarManagerRenderer renderer = (ToolBarManagerRenderer) rendererFactory.getRenderer(el, null);
 			final ToolBarManager manager = renderer.getManager(el);
 			if (manager != null) {
@@ -612,9 +612,9 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 		}
 	}
 
-	private void updateAll() {
+	private void updateAll() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final List<MToolBar> children = modelService.findElements(window, null, MToolBar.class, null);
-		for (MToolBar mToolbar : children) {
+		for (MToolBar mToolbar : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mToolbar == null) {
 				continue;
 			}
@@ -635,12 +635,12 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 	 * @return true if the contribution manager needs to be updated because item
 	 *         visibility is changed
 	 */
-	private boolean fill(MToolBar container, IContributionManager manager) {
+	private boolean fill(MToolBar container, IContributionManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean needUpdate = false;
 		ToolBarManagerRenderer renderer = (ToolBarManagerRenderer) rendererFactory.getRenderer(container, null);
 
 		IContributionItem[] items = manager.getItems();
-		for (int index = 0; index < items.length; index++) {
+		for (int index = 0; index < items.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = items[index];
 			if (item == null) {
 				continue;
@@ -718,7 +718,7 @@ public class CoolBarToTrimManager extends ContributionManager implements ICoolBa
 	 * @return true if the contribution manager needs to be updated because item
 	 *         visibility is changed
 	 */
-	private boolean applyOverridenVisibility(MToolBarElement modelItem, IContributionItem item,
+	private boolean applyOverridenVisibility(MToolBarElement modelItem, IContributionItem item, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContributionManager manager) {
 		boolean needUpdate = false;
 		Boolean overridenVisibility = getOverridenVisibility(item, manager);

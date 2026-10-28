@@ -84,7 +84,7 @@ public class PriorityMarkerFieldFilter extends CompatibilityFieldFilter {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean select(MarkerItem item) {
 
 		if (selectedPriorities == 0) {

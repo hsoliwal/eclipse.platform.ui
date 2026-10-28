@@ -59,7 +59,7 @@ public final class FinishedJobs extends EventManager {
 
 	private final Set<JobTreeElement> keptjobinfos = new LinkedHashSet<>();
 
-	private final Map<JobTreeElement, Long> finishedTime = new HashMap<>();
+	private final Map<JobTreeElement, Long> finishedTime = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private static JobTreeElement[] emptyInfos;
 
@@ -76,7 +76,7 @@ public final class FinishedJobs extends EventManager {
 		return theInstance;
 	}
 
-	private FinishedJobs() {
+	private FinishedJobs() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		listener = new IJobProgressManagerListener() {
 			@Override
 			public void addJob(JobInfo info) {
@@ -126,7 +126,7 @@ public final class FinishedJobs extends EventManager {
 	/**
 	 * Returns true if JobInfo indicates that it must be kept.
 	 */
-	static boolean keep(JobInfo info) {
+	static boolean keep(JobInfo info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Job job = info.getJob();
 		if (job != null) {
 			Object prop = job.getProperty(ProgressManagerUtil.KEEP_PROPERTY);
@@ -170,7 +170,7 @@ public final class FinishedJobs extends EventManager {
 	}
 
 	private void removeDuplicates(GroupInfo info) {
-		for (Object child : info.getChildren()) {
+		for (Object child : info.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof JobInfo) {
 				removeDuplicates((JobInfo) child);
 			}
@@ -179,7 +179,7 @@ public final class FinishedJobs extends EventManager {
 
 	private void removeDuplicates(JobTreeElement info) {
 		synchronized (keptjobinfos) {
-			for (JobTreeElement element : findJobsToRemove(info)) {
+			for (JobTreeElement element : findJobsToRemove(info)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				remove(element);
 			}
 		}
@@ -188,7 +188,7 @@ public final class FinishedJobs extends EventManager {
 	/**
 	 * Add given Job to list of kept jobs.
 	 */
-	private void add(JobInfo info) {
+	private void add(JobInfo info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean fire = false;
 
 		synchronized (keptjobinfos) {
@@ -209,7 +209,7 @@ public final class FinishedJobs extends EventManager {
 		}
 
 		if (fire) {
-			for (Object listener : getListeners()) {
+			for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				KeptJobsListener jv = (KeptJobsListener) listener;
 				jv.finished(info);
 			}
@@ -229,7 +229,7 @@ public final class FinishedJobs extends EventManager {
 		}
 	}
 
-	private Iterable<JobTreeElement> findJobsToRemove(JobTreeElement info) {
+	private Iterable<JobTreeElement> findJobsToRemove(JobTreeElement info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!info.isJobInfo()) {
 			return Collections.emptyList();
@@ -247,14 +247,14 @@ public final class FinishedJobs extends EventManager {
 
 		ArrayList<JobTreeElement> found = null;
 		JobTreeElement[] all = getKeptElements();
-		for (JobTreeElement jobTreeElement : all) {
+		for (JobTreeElement jobTreeElement : all) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (jobTreeElement == info || !jobTreeElement.isJobInfo()) {
 				continue;
 			}
 			Job job = ((JobInfo) jobTreeElement).getJob();
 			if (job != null && job != myJob && job.belongsTo(myJob)) {
 				if (found == null) {
-					found = new ArrayList<>();
+					found = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				found.add(jobTreeElement);
 			}
@@ -266,7 +266,7 @@ public final class FinishedJobs extends EventManager {
 		return Collections.emptyList();
 	}
 
-	private void checkTasks(JobInfo info) {
+	private void checkTasks(JobInfo info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (keep(info)) {
 			Optional<TaskInfo> optional = info.getTaskInfo();
 			if (optional.isPresent()) {
@@ -279,14 +279,14 @@ public final class FinishedJobs extends EventManager {
 						keptjobinfos.add(tinfo);
 						finishedTime.put(tinfo, Long.valueOf(System.currentTimeMillis()));
 
-						for (JobTreeElement jobTreeElement : toBeRemoved) {
+						for (JobTreeElement jobTreeElement : toBeRemoved) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							remove(jobTreeElement);
 						}
 					}
 				}
 
 				if (fire) {
-					for (Object listener : getListeners()) {
+					for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						KeptJobsListener jv = (KeptJobsListener) listener;
 						jv.finished(info);
 					}
@@ -298,9 +298,9 @@ public final class FinishedJobs extends EventManager {
 	/**
 	 * Remove all kept jobs with result status {@link IStatus#ERROR error}.
 	 */
-	public void removeErrorJobs() {
+	public void removeErrorJobs() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JobTreeElement[] infos = getKeptElements();
-		for (JobTreeElement info : infos) {
+		for (JobTreeElement info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isJobInfo()) {
 				JobInfo info1 = (JobInfo) info;
 				Job job = info1.getJob();
@@ -318,7 +318,7 @@ public final class FinishedJobs extends EventManager {
 		}
 	}
 
-	boolean remove(JobTreeElement jte) {
+	boolean remove(JobTreeElement jte) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean fire = false;
 		boolean removed = false;
 
@@ -330,7 +330,7 @@ public final class FinishedJobs extends EventManager {
 
 				// delete all elements that have jte as their direct or indirect parent
 				JobTreeElement jtes[] = getKeptElements();
-				for (JobTreeElement jobTreeElement : jtes) {
+				for (JobTreeElement jobTreeElement : jtes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					JobTreeElement parent = jobTreeElement.getParent();
 					if (parent != null) {
 						if (parent == jte || parent.getParent() == jte) {
@@ -347,7 +347,7 @@ public final class FinishedJobs extends EventManager {
 
 		if (fire) {
 			// notify listeners
-			for (Object listener : getListeners()) {
+			for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				KeptJobsListener jv = (KeptJobsListener) listener;
 				jv.removed(jte);
 			}
@@ -400,7 +400,7 @@ public final class FinishedJobs extends EventManager {
 	public void clearAll() {
 		synchronized (keptjobinfos) {
 			JobTreeElement[] all = getKeptElements();
-			for (JobTreeElement jobTreeElement : all) {
+			for (JobTreeElement jobTreeElement : all) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				disposeAction(jobTreeElement);
 			}
 			keptjobinfos.clear();
@@ -408,7 +408,7 @@ public final class FinishedJobs extends EventManager {
 		}
 
 		// notify listeners
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			KeptJobsListener jv = (KeptJobsListener) listener;
 			jv.removed(null);
 		}

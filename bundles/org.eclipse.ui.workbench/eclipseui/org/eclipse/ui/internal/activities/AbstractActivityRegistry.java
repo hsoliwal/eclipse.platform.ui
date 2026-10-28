@@ -46,7 +46,7 @@ public abstract class AbstractActivityRegistry implements IActivityRegistry {
 		}
 
 		if (activityRegistryListeners == null) {
-			activityRegistryListeners = new ArrayList<>();
+			activityRegistryListeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		if (!activityRegistryListeners.contains(activityRegistryListener)) {
@@ -56,7 +56,7 @@ public abstract class AbstractActivityRegistry implements IActivityRegistry {
 
 	protected void fireActivityRegistryChanged() {
 		if (activityRegistryListeners != null) {
-			for (IActivityRegistryListener activityRegistryListener : activityRegistryListeners) {
+			for (IActivityRegistryListener activityRegistryListener : activityRegistryListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (activityRegistryEvent == null) {
 					activityRegistryEvent = new ActivityRegistryEvent(this);
 				}

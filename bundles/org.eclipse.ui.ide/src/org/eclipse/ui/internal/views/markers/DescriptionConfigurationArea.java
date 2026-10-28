@@ -80,7 +80,7 @@ public class DescriptionConfigurationArea extends FilterConfigurationArea {
 	/**
 	 * Create the group for the description filter.
 	 */
-	private void createDescriptionGroup(Composite parent) {
+	private void createDescriptionGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite descriptionComposite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(3, false);
@@ -98,7 +98,7 @@ public class DescriptionConfigurationArea extends FilterConfigurationArea {
 
 		// Prevent Esc and Return from closing the dialog when the combo is
 		// active.
-		descriptionCombo.addTraverseListener(e -> {
+		descriptionCombo.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_ESCAPE
 					|| e.detail == SWT.TRAVERSE_RETURN) {
 				e.doit = false;

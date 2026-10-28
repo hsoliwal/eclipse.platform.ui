@@ -21,7 +21,7 @@ import org.eclipse.jface.viewers.Viewer;
  *
  * @since 3.0
  */
-public class PreferenceContentProvider implements ITreeContentProvider {
+public class PreferenceContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private PreferenceManager manager;
 
@@ -38,7 +38,7 @@ public class PreferenceContentProvider implements ITreeContentProvider {
 	 * @param target the target child node.
 	 * @return the parent node of the child node.
 	 */
-	private IPreferenceNode findParent(IPreferenceNode parent,
+	private IPreferenceNode findParent(IPreferenceNode parent, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPreferenceNode target) {
 		if (parent.getId().equals(target.getId())) {
 			return null;
@@ -51,7 +51,7 @@ public class PreferenceContentProvider implements ITreeContentProvider {
 
 		IPreferenceNode[] children = parent.getSubNodes();
 
-		for (IPreferenceNode element : children) {
+		for (IPreferenceNode element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			found = findParent(element, target);
 			if (found != null) {
 				return found;

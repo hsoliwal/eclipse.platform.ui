@@ -62,7 +62,7 @@ public class ProjectReferencePage extends PropertyPage {
 	/*
 	 * @see PreferencePage#createContents
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(),
 				IIDEHelpContextIds.PROJECT_REFERENCE_PROPERTY_PAGE);
@@ -80,11 +80,11 @@ public class ProjectReferencePage extends PropertyPage {
 			listViewer.getControl().setEnabled(false);
 		}
 
-		listViewer.setLabelProvider(WorkbenchLabelProvider
+		listViewer.setLabelProvider(WorkbenchLabelProvider //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				.getDecoratingWorkbenchLabelProvider());
 		listViewer.setContentProvider(getContentProvider(project));
 		listViewer.setComparator(new ViewerComparator());
-		listViewer.setInput(project.getWorkspace());
+		listViewer.setInput(project.getWorkspace()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		try {
 			listViewer.setCheckedElements(project.getDescription()
 					.getReferencedProjects());
@@ -93,7 +93,7 @@ public class ProjectReferencePage extends PropertyPage {
 		}
 
 		//check for initial modification to avoid work if no changes are made
-		listViewer.addCheckStateListener(unused -> modified = true);
+		listViewer.addCheckStateListener(unused -> modified = true); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 
 		applyDialogFont(composite);
 
@@ -111,10 +111,10 @@ public class ProjectReferencePage extends PropertyPage {
 	 * @param project the project to provide content for
 	 * @return the content provider that shows the project content
 	 */
-	protected static IStructuredContentProvider getContentProvider(
+	protected static IStructuredContentProvider getContentProvider( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IProject project) {
-		return new WorkbenchContentProvider() {
-			@Override
+		return new WorkbenchContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Object[] getChildren(Object o) {
 				if (!(o instanceof IWorkspace)) {
 					return new Object[0];
@@ -122,9 +122,9 @@ public class ProjectReferencePage extends PropertyPage {
 
 				// Collect all the projects in the workspace except the given project
 				IProject[] projects = ((IWorkspace) o).getRoot().getProjects();
-				List<IProject> referenced = new ArrayList<>(projects.length);
+				List<IProject> referenced = new ArrayList<>(projects.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				boolean found = false;
-				for (IProject currentProject : projects) {
+				for (IProject currentProject : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!found && currentProject.equals(project)) {
 						found = true;
 						continue;
@@ -135,7 +135,7 @@ public class ProjectReferencePage extends PropertyPage {
 				// Add any referenced that do not exist in the workspace currently
 				try {
 					IProject[] referencedProjects = project.getDescription().getReferencedProjects();
-					for (IProject referencedProject : referencedProjects) {
+					for (IProject referencedProject : referencedProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!referenced.contains(referencedProject)) {
 							referenced.add(referencedProject);
 						}
@@ -186,7 +186,7 @@ public class ProjectReferencePage extends PropertyPage {
 	/**
 	 * @see PreferencePage#performOk
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		if (!modified) {
 			return true;
@@ -194,7 +194,7 @@ public class ProjectReferencePage extends PropertyPage {
 		Object[] checked = listViewer.getCheckedElements();
 		final IProject[] refs = new IProject[checked.length];
 		System.arraycopy(checked, 0, refs, 0, checked.length);
-		IRunnableWithProgress runnable = monitor -> {
+		IRunnableWithProgress runnable = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 
 			try {
 		IProjectDescription description = project.getDescription();

@@ -133,7 +133,7 @@ public final class EmptyWorkspaceHelper {
 		registerListeners();
 	}
 
-	private void dispose(Listener listener) {
+	private void dispose(Listener listener) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (activeWorkbenchWindow != null) {
 			activeWorkbenchWindow.removePerspectiveListener(listener);
@@ -159,12 +159,12 @@ public final class EmptyWorkspaceHelper {
 		if (activeWorkbenchWindow != null) {
 			activeWorkbenchWindow.addPerspectiveListener(listener);
 		}
-		control.addListener(SWT.EmptinessChanged, listener);
-		JFaceResources.getColorRegistry().addListener(listener);
-		parent.addDisposeListener(listener);
+		control.addListener(SWT.EmptinessChanged, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		JFaceResources.getColorRegistry().addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		parent.addDisposeListener(listener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
-	private void createEmptyArea(Composite displayAreas) {
+	private void createEmptyArea(Composite displayAreas) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (newProjectAction == null) {
 			newProjectAction = new NewProjectAction();
 		}
@@ -172,7 +172,7 @@ public final class EmptyWorkspaceHelper {
 			importAction = new ImportAction();
 		}
 		if (projectWizardActions == null) {
-			projectWizardActions = new ArrayList<>();
+			projectWizardActions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			readProjectWizardActions();
 		}
 
@@ -194,10 +194,10 @@ public final class EmptyWorkspaceHelper {
 		GridDataFactory.swtDefaults().indent(5, 0).align(SWT.FILL, SWT.CENTER).grab(true, true).applyTo(optionsArea);
 
 		final FormToolkit toolkit = new FormToolkit(emptyArea.getDisplay());
-		emptyArea.addDisposeListener(unused -> toolkit.dispose());
+		emptyArea.addDisposeListener(unused -> toolkit.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		final Color linkColor = JFaceColors.getHyperlinkText(emptyArea.getDisplay());
 
-		for (IAction action : projectWizardActions) {
+		for (IAction action : projectWizardActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String description = action.getDescription();
 			if (description == null || description.isEmpty()) {
 				description = action.getText();
@@ -232,7 +232,7 @@ public final class EmptyWorkspaceHelper {
 		}
 	}
 
-	private void readProjectWizardActions() {
+	private void readProjectWizardActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (projectWizardActions == null) {
 			return;
 		}
@@ -247,14 +247,14 @@ public final class EmptyWorkspaceHelper {
 		}
 		String[] wizardIds = page.getNewWizardShortcuts();
 		projectWizardActions.clear();
-		for (String wizardId : wizardIds) {
+		for (String wizardId : wizardIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWizardRegistry newWizardRegistry = WorkbenchPlugin.getDefault().getNewWizardRegistry();
 			IWizardDescriptor wizardDesc = newWizardRegistry.findWizard(wizardId);
 			if (wizardDesc == null) {
 				continue;
 			}
 			String[] tags = wizardDesc.getTags();
-			for (String tag : tags) {
+			for (String tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (WorkbenchWizardElement.TAG_PROJECT.equals(tag)) {
 					IAction action = getAction(newWizardRegistry, wizardId);
 					if (action != null) {
@@ -265,7 +265,7 @@ public final class EmptyWorkspaceHelper {
 		}
 	}
 
-	private void createOption(Composite optionsArea, final FormToolkit toolkit, final Color linkColor, IAction action,
+	private void createOption(Composite optionsArea, final FormToolkit toolkit, final Color linkColor, IAction action, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ImageDescriptor imageDesc, String text) {
 		Label addLabel = new Label(optionsArea, SWT.NONE);
 
@@ -320,7 +320,7 @@ public final class EmptyWorkspaceHelper {
 		return oldTop != layout.topControl;
 	}
 
-	private class Listener
+	private class Listener //FLLDCIM: MARK — T06  IMPLEMENTS
 			implements org.eclipse.swt.widgets.Listener, //
 			IPerspectiveListener, IPropertyChangeListener, DisposeListener {
 

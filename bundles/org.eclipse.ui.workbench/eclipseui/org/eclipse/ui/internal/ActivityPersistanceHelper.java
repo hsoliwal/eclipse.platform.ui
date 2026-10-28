@@ -48,10 +48,10 @@ final class ActivityPersistanceHelper {
 	/**
 	 * The listener that responds to changes in the <code>IActivityManager</code>
 	 */
-	private final IActivityManagerListener activityManagerListener = (ActivityManagerEvent activityManagerEvent) -> {
+	private final IActivityManagerListener activityManagerListener = (ActivityManagerEvent activityManagerEvent) -> { //FLLDCIM: MARK — T36  LAMBDA
 		// process newly defined activities.
 		if (activityManagerEvent.haveDefinedActivityIdsChanged()) {
-			Set<String> delta = new HashSet<>(activityManagerEvent.getActivityManager().getDefinedActivityIds());
+			Set<String> delta = new HashSet<>(activityManagerEvent.getActivityManager().getDefinedActivityIds()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			delta.removeAll(activityManagerEvent.getPreviouslyDefinedActivityIds());
 			// whatever is still in delta are new activities - restore their
 			// state
@@ -65,7 +65,7 @@ final class ActivityPersistanceHelper {
 	/**
 	 * The listener that responds to preference changes
 	 */
-	private final IPropertyChangeListener propertyChangeListener = event -> {
+	private final IPropertyChangeListener propertyChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		// dont process property events if we're in the process of
 		// serializing state.
 		if (!this.saving && event.getProperty().startsWith(PREFIX)) {
@@ -76,7 +76,7 @@ final class ActivityPersistanceHelper {
 			boolean enabled = Boolean.parseBoolean(event.getNewValue().toString());
 			// if we're turning an activity off we'll need to create its dependency tree to
 			// ensuure that all dependencies are also disabled.
-			Set<String> set = new HashSet<>(activityManager.getEnabledActivityIds());
+			Set<String> set = new HashSet<>(activityManager.getEnabledActivityIds()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (enabled) {
 				set.add(activityId);
 			} else {
@@ -114,10 +114,10 @@ final class ActivityPersistanceHelper {
 	 * @return a set of activity IDs
 	 */
 	protected Set<String> buildDependencies(IActivityManager activityManager, String activityId) {
-		Set<String> set = new HashSet<>();
-		for (String id : activityManager.getDefinedActivityIds()) {
+		Set<String> set = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String id : activityManager.getDefinedActivityIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IActivity activity = activityManager.getActivity(id);
-			for (IActivityRequirementBinding binding : activity.getActivityRequirementBindings()) {
+			for (IActivityRequirementBinding binding : activity.getActivityRequirementBindings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (activityId.equals(binding.getRequiredActivityId())) {
 					set.addAll(buildDependencies(activityManager, activity.getId()));
 				}
@@ -173,7 +173,7 @@ final class ActivityPersistanceHelper {
 	 * @return String a preference key representing the activity.
 	 */
 	private String createPreferenceKey(String activityId) {
-		return PREFIX + activityId;
+		return PREFIX + activityId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -191,19 +191,19 @@ final class ActivityPersistanceHelper {
 	 *                                    must be writabe.
 	 * @param activityIdsToProcess        the activity ids to process
 	 */
-	protected void loadEnabledStates(Set<String> previouslyEnabledActivities, Set<String> activityIdsToProcess) {
+	protected void loadEnabledStates(Set<String> previouslyEnabledActivities, Set<String> activityIdsToProcess) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (activityIdsToProcess.isEmpty()) {
 			return;
 		}
 
-		Set<String> enabledActivities = new HashSet<>(previouslyEnabledActivities);
+		Set<String> enabledActivities = new HashSet<>(previouslyEnabledActivities); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
 
 		IWorkbenchActivitySupport support = PlatformUI.getWorkbench().getActivitySupport();
 
 		IActivityManager activityManager = support.getActivityManager();
 
-		for (String activityId : activityIdsToProcess) {
+		for (String activityId : activityIdsToProcess) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String preferenceKey = createPreferenceKey(activityId);
 			try {
 				IActivity activity = activityManager.getActivity(activityId);
@@ -234,7 +234,7 @@ final class ActivityPersistanceHelper {
 	/**
 	 * Save the enabled states in the preference store.
 	 */
-	protected void saveEnabledStates() {
+	protected void saveEnabledStates() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			saving = true;
 
@@ -243,7 +243,7 @@ final class ActivityPersistanceHelper {
 			IWorkbenchActivitySupport support = PlatformUI.getWorkbench().getActivitySupport();
 			IActivityManager activityManager = support.getActivityManager();
 			Iterator<String> values = activityManager.getDefinedActivityIds().iterator();
-			while (values.hasNext()) {
+			while (values.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IActivity activity = activityManager.getActivity(values.next());
 				if (activity.getExpression() != null) {
 					continue;

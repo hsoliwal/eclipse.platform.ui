@@ -90,8 +90,8 @@ public class ImportExportPespectiveHandler {
 	private IPreferenceChangeListener preferenceListener;
 	private boolean ignoreEvents;
 
-	private final List<MPerspective> exportedPersps = new ArrayList<>();
-	private final List<String> importedPersps = new ArrayList<>();
+	private final List<MPerspective> exportedPersps = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final List<String> importedPersps = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private Map<String, String> minMaxPersistedState;
 
 	@PostConstruct
@@ -128,9 +128,9 @@ public class ImportExportPespectiveHandler {
 			String targetId = getOriginalId(perspective.getElementId());
 			ArrayList<String> showInTags = PerspectiveBuilder.getShowInPartFromRegistry(targetId);
 			if (showInTags != null) {
-				List<String> newTags = new ArrayList<>();
-				for (String showIn : showInTags) {
-					newTags.add(ModeledPageLayout.SHOW_IN_PART_TAG + showIn);
+				List<String> newTags = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (String showIn : showInTags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					newTags.add(ModeledPageLayout.SHOW_IN_PART_TAG + showIn); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				perspective.getTags().addAll(newTags);
 			}
@@ -162,7 +162,7 @@ public class ImportExportPespectiveHandler {
 		addPerspectiveToWorkbench(perspective);
 	}
 
-	private void addPerspectiveToWorkbench(MPerspective perspective) {
+	private void addPerspectiveToWorkbench(MPerspective perspective) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (perspective == null) {
 			return;
 		}
@@ -187,14 +187,14 @@ public class ImportExportPespectiveHandler {
 	}
 
 	private void logError(PreferenceChangeEvent event, Exception e) {
-		logger.error(e, String.format("Cannot read perspective \"%s\" from preferences", event.getKey())); //$NON-NLS-1$
+		logger.error(e, String.format("Cannot read perspective \"%s\" from preferences", event.getKey())); //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 	}
 
 	private void copyPerspToPreferences(MPerspective persp) throws IOException {
 		MPerspective perspClone = (MPerspective) modelService.cloneElement(persp, null);
 		exportToolbarsLocation(perspClone);
 		String perspAsString = perspToString(perspClone);
-		preferences.put(perspClone.getLabel() + PERSPECTIVE_SUFFIX_4X, perspAsString);
+		preferences.put(perspClone.getLabel() + PERSPECTIVE_SUFFIX_4X, perspAsString); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void exportToolbarsLocation(MPerspective persp) {
@@ -223,7 +223,7 @@ public class ImportExportPespectiveHandler {
 		if (minMaxPersistedState != null) {
 			return minMaxPersistedState;
 		}
-		for (MAddon addon : application.getAddons()) {
+		for (MAddon addon : application.getAddons()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("MinMax Addon".equals(addon.getElementId())) { //$NON-NLS-1$
 				minMaxPersistedState = addon.getPersistedState();
 				break;
@@ -236,7 +236,7 @@ public class ImportExportPespectiveHandler {
 		Resource resource = new E4XMIResourceFactory().createResource(null);
 		resource.getContents().add((EObject) persp);
 		try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
-			Map<String, Object> options = new HashMap<>();
+			Map<String, Object> options = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			options.put(E4XMIResource.OPTION_FILTER_PERSIST_STATE, Boolean.TRUE);
 			resource.save(output, options);
 			resource.getContents().clear();
@@ -255,17 +255,17 @@ public class ImportExportPespectiveHandler {
 	}
 
 	private void copyPerspsToPreferences() {
-		for (MUIElement snippet : application.getSnippets()) {
+		for (MUIElement snippet : application.getSnippets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (snippet instanceof MPerspective persp) {
 				exportedPersps.add(persp);
 			}
 		}
 		ignoreEvents = true;
-		for (MPerspective persp : exportedPersps) {
+		for (MPerspective persp : exportedPersps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				copyPerspToPreferences(persp);
 			} catch (IOException e) {
-				logger.error(e, String.format("Cannot save perspective \"%s\" to preferences", persp.getElementId())); //$NON-NLS-1$
+				logger.error(e, String.format("Cannot save perspective \"%s\" to preferences", persp.getElementId())); //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 			}
 		}
 		ignoreEvents = false;
@@ -273,8 +273,8 @@ public class ImportExportPespectiveHandler {
 
 	private void removeExportedPreferences() {
 		ignoreEvents = true;
-		for (MPerspective persp : exportedPersps) {
-			preferences.remove(persp.getLabel() + PERSPECTIVE_SUFFIX_4X);
+		for (MPerspective persp : exportedPersps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			preferences.remove(persp.getLabel() + PERSPECTIVE_SUFFIX_4X); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		ignoreEvents = false;
 		exportedPersps.clear();
@@ -282,7 +282,7 @@ public class ImportExportPespectiveHandler {
 
 	private void removeImportedPreferences() {
 		ignoreEvents = true;
-		for (String key : importedPersps) {
+		for (String key : importedPersps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			preferences.remove(key);
 		}
 		ignoreEvents = false;
@@ -292,7 +292,7 @@ public class ImportExportPespectiveHandler {
 		preferences.remove("perspectives"); //$NON-NLS-1$
 	}
 
-	private void initializeEventHandlers() {
+	private void initializeEventHandlers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		importPreferencesEnd = event -> removeImportedPreferences();
 

@@ -45,11 +45,11 @@ public class ThemeRegistry implements IThemeRegistry {
 	 * Create a new ThemeRegistry.
 	 */
 	public ThemeRegistry() {
-		themes = new ArrayList<>();
-		colors = new ArrayList<>();
-		fonts = new ArrayList<>();
-		categories = new ArrayList<>();
-		dataMap = new HashMap<>();
+		themes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		colors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fonts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		categories = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		dataMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class ThemeRegistry implements IThemeRegistry {
 	 */
 	private <T extends IThemeElementDefinition> T addOrReplaceDescriptor(List<T> descriptors, T newElement) {
 		String id = newElement.getId();
-		for (int i = 0; i < descriptors.size(); i++) {
+		for (int i = 0; i < descriptors.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			T existingElement = descriptors.get(i);
 			if (existingElement.getId().equals(id)) {
 				descriptors.remove(i);
@@ -161,7 +161,7 @@ public class ThemeRegistry implements IThemeRegistry {
 	 * @return the overlayed elements
 	 */
 	private IThemeElementDefinition[] overlay(IThemeElementDefinition[] defs, IThemeElementDefinition[] overrides) {
-		for (IThemeElementDefinition override : overrides) {
+		for (IThemeElementDefinition override : overrides) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int idx = Arrays.binarySearch(defs, override, IThemeRegistry.ID_COMPARATOR);
 			if (idx >= 0) {
 				defs[idx] = overlay(defs[idx], override);
@@ -244,7 +244,7 @@ public class ThemeRegistry implements IThemeRegistry {
 	 * @param otherData the other data to add
 	 */
 	public void addData(Map<?, ?> otherData) {
-		for (Entry<?, ?> entry : otherData.entrySet()) {
+		for (Entry<?, ?> entry : otherData.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object key = entry.getKey();
 			if (dataMap.containsKey(key)) {
 				continue;

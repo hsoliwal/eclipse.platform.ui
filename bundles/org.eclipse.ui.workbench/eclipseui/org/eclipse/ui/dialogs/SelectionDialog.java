@@ -43,7 +43,7 @@ public abstract class SelectionDialog extends TrayDialog {
 	private Object[] result;
 
 	// a collection of the initially-selected elements
-	private List initialSelections = new ArrayList();
+	private List initialSelections = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	// title of dialog
 	private String title;
@@ -161,7 +161,7 @@ public abstract class SelectionDialog extends TrayDialog {
 	 * @param selectedElements the array of elements to select
 	 */
 	public void setInitialSelections(Object... selectedElements) {
-		initialSelections = new ArrayList(selectedElements.length);
+		initialSelections = new ArrayList(selectedElements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		initialSelections.addAll(Arrays.asList(selectedElements));
 	}
 

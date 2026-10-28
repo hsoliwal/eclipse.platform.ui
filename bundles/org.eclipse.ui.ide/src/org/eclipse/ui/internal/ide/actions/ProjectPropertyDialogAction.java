@@ -36,7 +36,7 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 /**
  * Implementation for the action Property on the Project menu.
  */
-public class ProjectPropertyDialogAction extends PartEventAction implements
+public class ProjectPropertyDialogAction extends PartEventAction implements //FLLDCIM: MARK — T20  IMPLEMENTS
 		INullSelectionListener, ActionFactory.IWorkbenchAction {
 
 	/**
@@ -101,7 +101,7 @@ public class ProjectPropertyDialogAction extends PartEventAction implements
 	/**
 	 * Returns a project from the selection of the active part.
 	 */
-	private IProject getProject() {
+	private IProject getProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPart part = getActivePart();
 		Object selection = null;
 		if (part instanceof IEditorPart) {

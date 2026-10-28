@@ -122,7 +122,7 @@ public final class BidiUtils {
 	 * Listener cache. Map from structured text type id ({@link String}) to
 	 * structured text segment listener ({@link SegmentListener}).
 	 */
-	private static final Map<String, SegmentListener> structuredTextSegmentListeners = new HashMap<>();
+	private static final Map<String, SegmentListener> structuredTextSegmentListeners = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The LRE char
@@ -263,7 +263,7 @@ public final class BidiUtils {
 	 * @throws IllegalArgumentException
 	 *             if <code>handlingType</code> is not a known type identifier
 	 */
-	public static void applyBidiProcessing(Text field, String handlingType) {
+	public static void applyBidiProcessing(Text field, String handlingType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SegmentListener listener = getSegmentListener(handlingType);
 		if (listener != null) {
 			field.addSegmentListener(listener);
@@ -282,10 +282,10 @@ public final class BidiUtils {
 				}
 				field.setBackground(field.getDisplay().getSystemColor(color));
 				if (field.getMessage().isEmpty()) {
-					field.setMessage('<' + handlingType + '>');
+					field.setMessage('<' + handlingType + '>'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				if (field.getToolTipText() == null) {
-					field.setToolTipText('<' + handlingType + '>');
+					field.setToolTipText('<' + handlingType + '>'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -391,7 +391,7 @@ public final class BidiUtils {
 	 *             if <code>handlingType</code> is not a known type identifier
 	 * @since 3.10
 	 */
-	public static void applyBidiProcessing(Combo combo, String handlingType) {
+	public static void applyBidiProcessing(Combo combo, String handlingType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SegmentListener listener = getSegmentListener(handlingType);
 		if (listener != null) {
 			combo.addSegmentListener(listener);
@@ -410,7 +410,7 @@ public final class BidiUtils {
 				}
 				combo.setBackground(combo.getDisplay().getSystemColor(color));
 				if (combo.getToolTipText() == null) {
-					combo.setToolTipText('<' + handlingType + '>');
+					combo.setToolTipText('<' + handlingType + '>'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -434,7 +434,7 @@ public final class BidiUtils {
 	 *             if <code>handlingType</code> is not a known type identifier
 	 * @see #applyBidiProcessing(Text, String)
 	 */
-	public static SegmentListener getSegmentListener(String handlingType) {
+	public static SegmentListener getSegmentListener(String handlingType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SegmentListener listener = null;
 		if (LEFT_TO_RIGHT.equals(handlingType)) {
 			listener = BASE_TEXT_DIRECTION_LTR;
@@ -506,7 +506,7 @@ public final class BidiUtils {
 	 * @param control       the control
 	 * @param textDirection the text direction
 	 */
-	public static void applyTextDirection(Control control, String textDirection) {
+	public static void applyTextDirection(Control control, String textDirection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int textDir = 0;
 
 		if (LEFT_TO_RIGHT.equals(textDirection)) {

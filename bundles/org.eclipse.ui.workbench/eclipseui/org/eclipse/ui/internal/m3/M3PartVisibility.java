@@ -35,7 +35,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
  * </p>
  * Must be created and used on the UI thread.
  */
-public final class M3PartVisibility implements IPartListener2 {
+public final class M3PartVisibility implements IPartListener2 { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	private final IWorkbenchPart part;
 	private final IWorkbenchPage page;

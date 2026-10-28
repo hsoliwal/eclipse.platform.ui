@@ -85,7 +85,7 @@ public abstract class OperationHistoryActionHandler extends Action
 
 	private static final int MAX_LABEL_LENGTH = 33;
 
-	private class PartListener implements IPartListener {
+	private class PartListener implements IPartListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 		/**
 		 * @see IPartListener#partActivated(IWorkbenchPart)
 		 */
@@ -132,7 +132,7 @@ public abstract class OperationHistoryActionHandler extends Action
 	}
 
 	private class HistoryListener implements IOperationHistoryListener {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void historyNotification(final OperationHistoryEvent event) {
 			IWorkbenchWindow workbenchWindow = getWorkbenchWindow();
 			if (workbenchWindow == null) {
@@ -150,12 +150,12 @@ public abstract class OperationHistoryActionHandler extends Action
 			case OperationHistoryEvent.UNDONE:
 			case OperationHistoryEvent.REDONE:
 				if (event.getOperation().hasContext(undoContext)) {
-					display.asyncExec(() -> update());
+					display.asyncExec(() -> update()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				}
 				break;
 			case OperationHistoryEvent.OPERATION_NOT_OK:
 				if (event.getOperation().hasContext(undoContext)) {
-					display.asyncExec(() -> {
+					display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (pruning) {
 							IStatus status = event.getStatus();
 							/*
@@ -176,7 +176,7 @@ public abstract class OperationHistoryActionHandler extends Action
 				break;
 			case OperationHistoryEvent.OPERATION_CHANGED:
 				if (event.getOperation() == getOperation()) {
-					display.asyncExec(() -> update());
+					display.asyncExec(() -> update()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				}
 				break;
 			}
@@ -214,7 +214,7 @@ public abstract class OperationHistoryActionHandler extends Action
 		update();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 
 		IOperationHistory history = getHistory();
@@ -282,7 +282,7 @@ public abstract class OperationHistoryActionHandler extends Action
 	 */
 	abstract IUndoableOperation getOperation();
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final void run() {
 		if (isInvalid()) {
 			return;
@@ -291,7 +291,7 @@ public abstract class OperationHistoryActionHandler extends Action
 		Shell parent = getWorkbenchWindow().getShell();
 		progressDialog = new TimeTriggeredProgressMonitorDialog(parent,
 				getWorkbenchWindow().getWorkbench().getProgressService().getLongOperationTime());
-		IRunnableWithProgress runnable = pm -> {
+		IRunnableWithProgress runnable = pm -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				runCommand(pm);
 			} catch (ExecutionException e) {
@@ -311,7 +311,7 @@ public abstract class OperationHistoryActionHandler extends Action
 				progressDialog.run(runInBackground, true, runnable);
 			} else {
 				Object schedulableOperation = operation;
-				while (!(schedulableOperation instanceof ISchedulableOperation)
+				while (!(schedulableOperation instanceof ISchedulableOperation) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						&& schedulableOperation instanceof TriggeredOperations) {
 					schedulableOperation = ((TriggeredOperations) schedulableOperation).getTriggeringOperation();
 				}
@@ -354,7 +354,7 @@ public abstract class OperationHistoryActionHandler extends Action
 
 	abstract IStatus runCommand(IProgressMonitor pm) throws ExecutionException;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getAdapter(Class<T> adapter) {
 		if (adapter.equals(IUndoContext.class)) {
 			return adapter.cast(undoContext);
@@ -432,7 +432,7 @@ public abstract class OperationHistoryActionHandler extends Action
 	 * Update enabling and labels according to the current status of the operation
 	 * history.
 	 */
-	public void update() {
+	public void update() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isInvalid()) {
 			return;
 		}
@@ -441,7 +441,7 @@ public abstract class OperationHistoryActionHandler extends Action
 		String text, tooltipText;
 		if (enabled) {
 			tooltipText = NLS.bind(getTooltipString(), getOperation().getLabel());
-			text = NLS.bind(getCommandString(),
+			text = NLS.bind(getCommandString(), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					LegacyActionTools.escapeMnemonics(shortenText(getOperation().getLabel()))) + '@';
 		} else {
 			tooltipText = NLS.bind(WorkbenchMessages.Operations_undoRedoCommandDisabled, getSimpleTooltipString());
@@ -465,7 +465,7 @@ public abstract class OperationHistoryActionHandler extends Action
 	private String shortenText(String message) {
 		int length = message.length();
 		if (length > MAX_LABEL_LENGTH) {
-			StringBuilder result = new StringBuilder();
+			StringBuilder result = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int end = MAX_LABEL_LENGTH / 2 - 1;
 			result.append(message.substring(0, end));
 			result.append("..."); //$NON-NLS-1$

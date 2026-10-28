@@ -56,14 +56,14 @@ import org.eclipse.ui.internal.ide.misc.ProjectReferenceGraph;
  * @see IDEActionFactory#CLOSE_UNRELATED_PROJECTS
  * @since 3.3
  */
-public class CloseUnrelatedProjectsAction extends CloseResourceAction {
+public class CloseUnrelatedProjectsAction extends CloseResourceAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * The id of this action.
 	 */
 	@SuppressWarnings("hiding")
-	public static final String ID = PlatformUI.PLUGIN_ID + ".CloseUnrelatedProjectsAction"; //$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".CloseUnrelatedProjectsAction"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private List<IResource> projectsToClose = new ArrayList<>();
+	private List<IResource> projectsToClose = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private boolean selectionDirty = true;
 
@@ -123,12 +123,12 @@ public class CloseUnrelatedProjectsAction extends CloseResourceAction {
 	 *
 	 * @return <code>false</code> if the user cancelled or the rebuild failed
 	 */
-	private boolean refreshProjectGraph() {
+	private boolean refreshProjectGraph() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			// waits for the background job rather than computing here, so a slow
 			// reference provider cannot freeze the workbench
 			PlatformUI.getWorkbench().getProgressService()
-					.busyCursorWhile(monitor -> ProjectReferenceGraph.getInstance().refresh(monitor));
+					.busyCursorWhile(monitor -> ProjectReferenceGraph.getInstance().refresh(monitor)); //FLLDCIM: MARK — T09  LAMBDA
 		} catch (InterruptedException e) {
 			// how the progress service reports that the user cancelled, so the
 			// calling thread was never interrupted and must not be marked as such
@@ -149,7 +149,7 @@ public class CloseUnrelatedProjectsAction extends CloseResourceAction {
 	 * @return <code>true</code> if unrelated projects should be closed, and
 	 *         <code>false</code> otherwise.
 	 */
-	private boolean promptForConfirmation() {
+	private boolean promptForConfirmation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
 		if (store.getBoolean(IDEInternalPreferences.CLOSE_UNRELATED_PROJECTS)) {
 			return true;
@@ -204,12 +204,12 @@ public class CloseUnrelatedProjectsAction extends CloseResourceAction {
 	/**
 	 * Computes the related projects of the selection.
 	 */
-	private List<IResource> computeRelated(List<? extends IResource> selection) {
+	private List<IResource> computeRelated(List<? extends IResource> selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.contains(ResourcesPlugin.getWorkspace().getRoot())) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
-		Set<IProject> selectedProjects = new HashSet<>();
-		for (IResource resource : selection) {
+		Set<IProject> selectedProjects = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IResource resource : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject project = resource.getProject();
 			if (project != null) {
 				selectedProjects.add(project);
@@ -217,8 +217,8 @@ public class CloseUnrelatedProjectsAction extends CloseResourceAction {
 		}
 		// a component without a selected project is unrelated, so all of it can be
 		// closed; the components come from the cache and resolve no references here
-		List<IResource> projects = new ArrayList<>();
-		for (List<IProject> component : ProjectReferenceGraph.getInstance().getComponents(enablementRefresher)) {
+		List<IResource> projects = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (List<IProject> component : ProjectReferenceGraph.getInstance().getComponents(enablementRefresher)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Collections.disjoint(component, selectedProjects)) {
 				projects.addAll(component);
 			}
@@ -234,7 +234,7 @@ public class CloseUnrelatedProjectsAction extends CloseResourceAction {
 		if (display == null || display.isDisposed()) {
 			return;
 		}
-		display.asyncExec(() -> selectionChanged(getStructuredSelection()));
+		display.asyncExec(() -> selectionChanged(getStructuredSelection())); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	@Override
@@ -264,7 +264,7 @@ public class CloseUnrelatedProjectsAction extends CloseResourceAction {
 			IResourceDelta delta = event.getDelta();
 			if (delta != null) {
 				IResourceDelta[] projDeltas = delta.getAffectedChildren(IResourceDelta.CHANGED);
-				for (IResourceDelta projDelta : projDeltas) {
+				for (IResourceDelta projDelta : projDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					//changing either the description or the open state can affect enablement
 					if ((projDelta.getFlags() & (IResourceDelta.OPEN | IResourceDelta.DESCRIPTION)) != 0) {
 						selectionChanged(getStructuredSelection());

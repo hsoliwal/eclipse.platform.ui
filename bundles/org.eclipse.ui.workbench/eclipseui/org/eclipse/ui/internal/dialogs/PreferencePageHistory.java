@@ -57,7 +57,7 @@ class PreferencePageHistory {
 	 * A list of preference history domain elements that stores the history of the
 	 * visited preference pages.
 	 */
-	private final List<PreferenceHistoryEntry> history = new ArrayList<>();
+	private final List<PreferenceHistoryEntry> history = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Stores the current entry into <code>history</code> and
@@ -73,7 +73,7 @@ class PreferencePageHistory {
 	/**
 	 * The handler submission for these controls.
 	 */
-	private final Set<IHandlerActivation> activations = new HashSet<>();
+	private final Set<IHandlerActivation> activations = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Creates a new history for the given dialog.
@@ -132,7 +132,7 @@ class PreferencePageHistory {
 	 */
 	private void updateHistoryControls() {
 		historyToolbar.update(false);
-		for (IContributionItem item : historyToolbar.getItems()) {
+		for (IContributionItem item : historyToolbar.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.update(IAction.ENABLED);
 			item.update(IAction.TOOL_TIP_TEXT);
 		}
@@ -143,7 +143,7 @@ class PreferencePageHistory {
 	 *
 	 * @return the control of the history toolbar
 	 */
-	public ToolBar createHistoryControls(ToolBar historyBar, ToolBarManager manager) {
+	public ToolBar createHistoryControls(ToolBar historyBar, ToolBarManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		historyToolbar = manager;
 		/**
@@ -235,7 +235,7 @@ class PreferencePageHistory {
 			@Override
 			protected void createEntries(Menu menu) {
 				int limit = Math.max(0, historyIndex - MAX_ENTRIES);
-				for (int i = historyIndex - 1; i >= limit; i--) {
+				for (int i = historyIndex - 1; i >= limit; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IAction action = new HistoryItemAction(i, getHistoryEntry(i).getLabel());
 					addActionToMenu(menu, action);
 				}
@@ -271,7 +271,7 @@ class PreferencePageHistory {
 			@Override
 			protected void createEntries(Menu menu) {
 				int limit = Math.min(history.size(), historyIndex + MAX_ENTRIES + 1);
-				for (int i = historyIndex + 1; i < limit; i++) {
+				for (int i = historyIndex + 1; i < limit; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IAction action = new HistoryItemAction(i, getHistoryEntry(i).getLabel());
 					addActionToMenu(menu, action);
 				}
@@ -308,7 +308,7 @@ class PreferencePageHistory {
 	public void dispose() {
 		final IHandlerService handlerService = PlatformUI.getWorkbench().getService(IHandlerService.class);
 		final Iterator<IHandlerActivation> iterator = activations.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handlerService.deactivateHandler(iterator.next());
 		}
 		activations.clear();

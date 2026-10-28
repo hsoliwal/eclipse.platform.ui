@@ -38,7 +38,7 @@ import org.eclipse.ui.internal.progress.ProgressMonitorJobsDialog;
  * The MoveProjectAction is the action designed to move projects specifically as
  * they have different semantics from other resources.
  */
-public class MoveProjectAction extends CopyProjectAction {
+public class MoveProjectAction extends CopyProjectAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	private static String MOVE_TOOL_TIP = IDEWorkbenchMessages.MoveProjectAction_toolTip;
 
 	private static String MOVE_TITLE = IDEWorkbenchMessages.MoveProjectAction_text;
@@ -49,7 +49,7 @@ public class MoveProjectAction extends CopyProjectAction {
 	 * The id of this action.
 	 */
 	@SuppressWarnings("hiding")
-	public static final String ID = PlatformUI.PLUGIN_ID + ".MoveProjectAction";//$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".MoveProjectAction";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Creates a new project move action and initializes it.
@@ -106,10 +106,10 @@ public class MoveProjectAction extends CopyProjectAction {
 	 * @return <code>true</code> if the copy operation completed, and
 	 *         <code>false</code> if it was abandoned part way
 	 */
-	boolean performMove(final IProject project,
+	boolean performMove(final IProject project, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final URI newLocation) {
 
-		IRunnableWithProgress op =  monitor -> {
+		IRunnableWithProgress op =  monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			MoveProjectOperation op1 = new MoveProjectOperation(project, newLocation, IDEWorkbenchMessages.MoveProjectAction_moveTitle);
 			op1.setModelProviderIds(getModelProviderIds());
 			try {
@@ -162,7 +162,7 @@ public class MoveProjectAction extends CopyProjectAction {
 	/**
 	 * Implementation of method defined on <code>IAction</code>.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 
 		errorStatus = null;

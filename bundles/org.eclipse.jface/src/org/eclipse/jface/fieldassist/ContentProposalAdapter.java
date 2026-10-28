@@ -60,7 +60,7 @@ import org.eclipse.swt.widgets.Text;
  *
  * @since 3.2
  */
-public class ContentProposalAdapter {
+public class ContentProposalAdapter { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/*
 	 * The lightweight popup used to show content proposals for a text field. If
@@ -79,7 +79,7 @@ public class ContentProposalAdapter {
 		private final class PopupCloserListener implements Listener {
 			private boolean scrollbarClicked = false;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void handleEvent(final Event e) {
 
 				// If focus is leaving an important widget or the field's
@@ -92,7 +92,7 @@ public class ContentProposalAdapter {
 					 * scrollbar. Do this in an async since the focus is not
 					 * actually switched when this event is received.
 					 */
-					e.display.asyncExec(() -> {
+					e.display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (isValid()) {
 							if (scrollbarClicked || hasFocus()) {
 								return;
@@ -126,32 +126,32 @@ public class ContentProposalAdapter {
 
 			// Install the listeners for events that need to be monitored for
 			// popup closure.
-			void installListeners() {
+			void installListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				// Listeners on this popup's table and scroll bar
-				proposalTable.addListener(SWT.FocusOut, this);
+				proposalTable.addListener(SWT.FocusOut, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				ScrollBar scrollbar = proposalTable.getVerticalBar();
 				if (scrollbar != null) {
-					scrollbar.addListener(SWT.Selection, this);
+					scrollbar.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				}
 
 				// Listeners on this popup's shell
-				getShell().addListener(SWT.Deactivate, this);
-				getShell().addListener(SWT.Close, this);
+				getShell().addListener(SWT.Deactivate, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				getShell().addListener(SWT.Close, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 				// Listeners on the target control
-				control.addListener(SWT.MouseDoubleClick, this);
-				control.addListener(SWT.MouseDown, this);
-				control.addListener(SWT.Dispose, this);
-				control.addListener(SWT.FocusOut, this);
+				control.addListener(SWT.MouseDoubleClick, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				control.addListener(SWT.MouseDown, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				control.addListener(SWT.Dispose, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				control.addListener(SWT.FocusOut, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				// Listeners on the target control's shell
 				Shell controlShell = control.getShell();
-				controlShell.addListener(SWT.Move, this);
-				controlShell.addListener(SWT.Resize, this);
+				controlShell.addListener(SWT.Move, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				controlShell.addListener(SWT.Resize, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			}
 
 			// Remove installed listeners
-			void removeListeners() {
+			void removeListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (isValid()) {
 					proposalTable.removeListener(SWT.FocusOut, this);
 					ScrollBar scrollbar = proposalTable.getVerticalBar();
@@ -182,7 +182,7 @@ public class ContentProposalAdapter {
 		 */
 		private final class TargetControlListener implements Listener {
 			// Key events from the control
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void handleEvent(Event e) {
 				if (!isValid()) {
 					return;
@@ -390,7 +390,7 @@ public class ContentProposalAdapter {
 					// and filter the proposals.
 					if (Character.isDefined(key)) {
 						if (filterStyle == FILTER_CUMULATIVE) {
-							filterText = filterText + key;
+							filterText = filterText + key; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						} else if (filterStyle == FILTER_CHARACTER) {
 							filterText = String.valueOf(key);
 						}
@@ -428,7 +428,7 @@ public class ContentProposalAdapter {
 			/*
 			 * Create a text control for showing the info about a proposal.
 			 */
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Control createDialogArea(Composite parent) {
 				text = new Text(parent, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP | SWT.NO_FOCUS);
 
@@ -440,7 +440,7 @@ public class ContentProposalAdapter {
 				text.setText(contents);
 
 				// since SWT.NO_FOCUS is only a hint...
-				text.addFocusListener(new FocusAdapter() {
+				text.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 					@Override
 					public void focusGained(FocusEvent event) {
 						ContentProposalPopup.this.close();
@@ -452,7 +452,7 @@ public class ContentProposalAdapter {
 			/*
 			 * Adjust the bounds so that we appear adjacent to our parent shell
 			 */
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected void adjustBounds() {
 				Rectangle parentBounds = getParentShell().getBounds();
 				Rectangle proposedBounds;
@@ -616,18 +616,18 @@ public class ContentProposalAdapter {
 		 * @param parent The parent composite to contain the dialog area; must
 		 * not be <code>null</code>.
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected final Control createDialogArea(final Composite parent) {
 			proposalTable = new Table(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.VIRTUAL);
 
 			Listener listener = this::handleSetData;
-			proposalTable.addListener(SWT.SetData, listener);
+			proposalTable.addListener(SWT.SetData, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			// set the proposals to force population of the table.
 			setProposals(filterProposals(proposals, filterText));
 			proposalTable.setTextDirection(SWT.AUTO_TEXT_DIRECTION);
 
 			proposalTable.setHeaderVisible(false);
-			proposalTable.addSelectionListener(new SelectionListener() {
+			proposalTable.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -651,7 +651,7 @@ public class ContentProposalAdapter {
 			return proposalTable;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void adjustBounds() {
 			// Get our control's location in display coordinates.
 			Point location = control.getDisplay().map(control.getParent(), null, control.getLocation());
@@ -697,7 +697,7 @@ public class ContentProposalAdapter {
 			}
 
 			// Now set up a listener to monitor any changes in size.
-			getShell().addListener(SWT.Resize, e -> {
+			getShell().addListener(SWT.Resize, e -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				popupSize = getShell().getSize();
 				if (infoPopup != null) {
 					infoPopup.adjustBounds();
@@ -725,7 +725,7 @@ public class ContentProposalAdapter {
 		 * Caches the specified proposals and repopulates the table if it has
 		 * been created.
 		 */
-		private void setProposals(IContentProposal[] newProposals) {
+		private void setProposals(IContentProposal[] newProposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (newProposals == null || newProposals.length == 0) {
 				newProposals = getEmptyProposalArray();
 			}
@@ -891,7 +891,7 @@ public class ContentProposalAdapter {
 		 * Show the currently selected proposal's description in a secondary
 		 * popup.
 		 */
-		private void showProposalDescription() {
+		private void showProposalDescription() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// If we do not already have a pending update, then
 			// create a thread now that will show the proposal description
 			if (!pendingDescriptionUpdate) {
@@ -908,7 +908,7 @@ public class ContentProposalAdapter {
 					if (!isValid()) {
 						return;
 					}
-					getShell().getDisplay().syncExec(() -> {
+					getShell().getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						// Query the current selection since we have
 						// been delayed
 						IContentProposal p = getSelectedProposal();
@@ -918,8 +918,8 @@ public class ContentProposalAdapter {
 								if (infoPopup == null) {
 									infoPopup = new InfoPopupDialog(getShell());
 									infoPopup.open();
-									infoPopup.getShell()
-											.addDisposeListener(event -> infoPopup = null);
+									infoPopup.getShell() //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
+											.addDisposeListener(event -> infoPopup = null); //FLLDCIM: MARK — T01  LAMBDA
 								}
 								infoPopup.setContents(p.getDescription());
 							} else if (infoPopup != null) {
@@ -977,7 +977,7 @@ public class ContentProposalAdapter {
 		 */
 		private void asyncRecomputeProposals(final String filterText) {
 			if (isValid()) {
-				control.getDisplay().asyncExec(() -> {
+				control.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					recordCursorPosition();
 					recomputeProposals(filterText);
 				});
@@ -990,7 +990,7 @@ public class ContentProposalAdapter {
 		 * Filter the provided list of content proposals according to the filter
 		 * text.
 		 */
-		private IContentProposal[] filterProposals(
+		private IContentProposal[] filterProposals( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				IContentProposal[] proposals, String filterString) {
 			if (filterString.isEmpty()) {
 				return proposals;
@@ -998,8 +998,8 @@ public class ContentProposalAdapter {
 
 			// Check each string for a match. Use the string displayed to the
 			// user, not the proposal content.
-			ArrayList<IContentProposal> list = new ArrayList<>();
-			for (IContentProposal proposal : proposals) {
+			ArrayList<IContentProposal> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IContentProposal proposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String string = getString(proposal);
 				if (string.length() >= filterString.length()
 						&& string.substring(0, filterString.length())
@@ -1652,7 +1652,7 @@ public class ContentProposalAdapter {
 	 * Add our listener to the control. Debug information to be left in until
 	 * this support is stable on all platforms.
 	 */
-	private void addControlListener(Control control) {
+	private void addControlListener(Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (DEBUG) {
 			System.out
 					.println("ContentProposalListener#installControlListener()"); //$NON-NLS-1$
@@ -1662,7 +1662,7 @@ public class ContentProposalAdapter {
 			return;
 		}
 		controlListener = new Listener() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void handleEvent(Event e) {
 				if (!isEnabled) {
 					return;
@@ -1674,9 +1674,9 @@ public class ContentProposalAdapter {
 					if (DEBUG) {
 						StringBuilder sb;
 						if (e.type == SWT.Traverse) {
-							sb = new StringBuilder("Traverse"); //$NON-NLS-1$
+							sb = new StringBuilder("Traverse"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 						} else {
-							sb = new StringBuilder("KeyDown"); //$NON-NLS-1$
+							sb = new StringBuilder("KeyDown"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 						}
 						sb.append(" received by adapter"); //$NON-NLS-1$
 						dump(sb.toString(), e);
@@ -1688,9 +1688,9 @@ public class ContentProposalAdapter {
 						if (DEBUG) {
 							StringBuilder sb;
 							if (e.type == SWT.Traverse) {
-								sb = new StringBuilder("Traverse"); //$NON-NLS-1$
+								sb = new StringBuilder("Traverse"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 							} else {
-								sb = new StringBuilder("KeyDown"); //$NON-NLS-1$
+								sb = new StringBuilder("KeyDown"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 							}
 							sb.append(" after being handled by popup"); //$NON-NLS-1$
 							dump(sb.toString(), e);
@@ -1844,25 +1844,25 @@ public class ContentProposalAdapter {
 			 *            the event
 			 */
 			private void dump(String who, Event e) {
-				StringBuilder sb = new StringBuilder(
+				StringBuilder sb = new StringBuilder( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 						"--- [ContentProposalAdapter]\n"); //$NON-NLS-1$
 				sb.append(who);
-				sb.append(" - e: keyCode=" + e.keyCode + hex(e.keyCode)); //$NON-NLS-1$
-				sb.append("; character=" + e.character + hex(e.character)); //$NON-NLS-1$
-				sb.append("; stateMask=" + e.stateMask + hex(e.stateMask)); //$NON-NLS-1$
-				sb.append("; doit=" + e.doit); //$NON-NLS-1$
-				sb.append("; detail=" + e.detail + hex(e.detail)); //$NON-NLS-1$
-				sb.append("; widget=" + e.widget); //$NON-NLS-1$
+				sb.append(" - e: keyCode=" + e.keyCode + hex(e.keyCode)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				sb.append("; character=" + e.character + hex(e.character)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				sb.append("; stateMask=" + e.stateMask + hex(e.stateMask)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				sb.append("; doit=" + e.doit); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				sb.append("; detail=" + e.detail + hex(e.detail)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				sb.append("; widget=" + e.widget); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				System.out.println(sb);
 			}
 
 			private String hex(int i) {
-				return "[0x" + Integer.toHexString(i) + ']'; //$NON-NLS-1$
+				return "[0x" + Integer.toHexString(i) + ']'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		};
-		control.addListener(SWT.KeyDown, controlListener);
-		control.addListener(SWT.Traverse, controlListener);
-		control.addListener(SWT.Modify, controlListener);
+		control.addListener(SWT.KeyDown, controlListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.Traverse, controlListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		control.addListener(SWT.Modify, controlListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		if (DEBUG) {
 			System.out
@@ -1880,7 +1880,7 @@ public class ContentProposalAdapter {
 	 *            a boolean indicating whether the popup was autoactivated. If
 	 *            false, a beep will sound when no proposals can be shown.
 	 */
-	private void openProposalPopup(boolean autoActivated) {
+	private void openProposalPopup(boolean autoActivated) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isValid()) {
 			if (popup == null) {
 				// Check whether there are any proposals to be shown.
@@ -1896,7 +1896,7 @@ public class ContentProposalAdapter {
 					recordCursorPosition();
 					popup = new ContentProposalPopup(null, proposals);
 					popup.open();
-					popup.getShell().addDisposeListener(event -> popup = null);
+					popup.getShell().addDisposeListener(event -> popup = null); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 					internalPopupOpened();
 					notifyPopupOpened();
 				} else if (!autoActivated) {
@@ -1939,7 +1939,7 @@ public class ContentProposalAdapter {
 	 *
 	 * @param proposal the accepted proposal
 	 */
-	private void proposalAccepted(IContentProposal proposal) {
+	private void proposalAccepted(IContentProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (proposalAcceptanceStyle) {
 		case (PROPOSAL_REPLACE):
 			setControlContent(proposal.getContent(), proposal
@@ -1976,7 +1976,7 @@ public class ContentProposalAdapter {
 	 * Insert the specified text into the control content, setting the
 	 * cursorPosition at the desired location within the new contents.
 	 */
-	private void insertControlContent(String text, int cursorPosition) {
+	private void insertControlContent(String text, int cursorPosition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isValid()) {
 			// should already be false, but just in case.
 			watchModify = false;
@@ -2047,7 +2047,7 @@ public class ContentProposalAdapter {
 	 * Autoactivation has been triggered. Open the popup using any specified
 	 * delay.
 	 */
-	private void autoActivate() {
+	private void autoActivate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (autoActivationDelay > 0) {
 			Runnable runnable = () -> {
 				receivedKeyDown = false;
@@ -2058,7 +2058,7 @@ public class ContentProposalAdapter {
 				if (!isValid() || receivedKeyDown) {
 					return;
 				}
-				getControl().getDisplay().syncExec(() -> openProposalPopup(true));
+				getControl().getDisplay().syncExec(() -> openProposalPopup(true)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			};
 			Thread t = new Thread(runnable);
 			t.start();
@@ -2069,7 +2069,7 @@ public class ContentProposalAdapter {
 			// some event that will cause the cursor position or
 			// other important info to change as a result of this
 			// event occurring.
-			getControl().getDisplay().asyncExec(() -> {
+			getControl().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (isValid()) {
 					openProposalPopup(true);
 				}
@@ -2084,7 +2084,7 @@ public class ContentProposalAdapter {
 		if (DEBUG) {
 			System.out.println("Notify listeners - proposal accepted."); //$NON-NLS-1$
 		}
-		for (IContentProposalListener l : proposalListeners) {
+		for (IContentProposalListener l : proposalListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.proposalAccepted(proposal);
 		}
 	}
@@ -2096,7 +2096,7 @@ public class ContentProposalAdapter {
 		if (DEBUG) {
 			System.out.println("Notify listeners - popup opened."); //$NON-NLS-1$
 		}
-		for (IContentProposalListener2 l : proposalListeners2) {
+		for (IContentProposalListener2 l : proposalListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.proposalPopupOpened(this);
 		}
 	}
@@ -2108,7 +2108,7 @@ public class ContentProposalAdapter {
 		if (DEBUG) {
 			System.out.println("Notify listeners - popup closed."); //$NON-NLS-1$
 		}
-		for (IContentProposalListener2 l : proposalListeners2) {
+		for (IContentProposalListener2 l : proposalListeners2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.proposalPopupClosed(this);
 		}
 	}
@@ -2157,7 +2157,7 @@ public class ContentProposalAdapter {
 			return true;
 		}
 		String content = getControlContentAdapter().getControlContents(getControl());
-		for (int i=0; i<autoActivateString.length(); i++) {
+		for (int i=0; i<autoActivateString.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (content.indexOf(autoActivateString.charAt(i)) >= 0) {
 				return true;
 			}

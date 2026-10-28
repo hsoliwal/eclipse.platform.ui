@@ -130,7 +130,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 * @param defaultButton <code>true</code> if the button is to be the default
 	 *                      button, and <code>false</code> otherwise
 	 */
-	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) {
+	protected Button createButton(Composite parent, int id, String label, boolean defaultButton) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// increment the number of columns in the button bar
 		((GridLayout) parent.getLayout()).numColumns++;
 
@@ -161,7 +161,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		destinationNameField.add(value);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		Composite composite = new Composite(parent, SWT.NULL);
@@ -221,7 +221,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 
 	protected void setPreferenceTransfers() {
 		PreferenceTransferElement[] transfers = getTransfers();
-		viewer.setInput(transfers);
+		viewer.setInput(transfers); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/*
@@ -234,7 +234,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		return transfers;
 	}
 
-	protected void createTransfersList(Composite composite) {
+	protected void createTransfersList(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		transferAllButton = new Button(composite, SWT.CHECK);
 		transferAllButton.setText(getAllButtonText());
@@ -259,7 +259,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 
 		viewer = (CheckboxTreeViewer) transfersTree.getViewer();
 		viewer.setContentProvider(new PreferencesContentProvider());
-		viewer.setLabelProvider(new WorkbenchLabelProvider());
+		viewer.setLabelProvider(new WorkbenchLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		Label description = new Label(group, SWT.NONE);
 		description.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -270,7 +270,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		descriptionData.heightHint = convertHeightInCharsToPixels(3);
 		descText.setLayoutData(descriptionData);
 
-		transferAllButton.addSelectionListener(widgetSelectedAdapter(e -> {
+		transferAllButton.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			if (transferAllButton.getSelection()) {
 				viewer.setAllChecked(false);
 			}
@@ -278,9 +278,9 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 			updatePageCompletion();
 		}));
 
-		viewer.addSelectionChangedListener(event -> updateDescription());
+		viewer.addSelectionChangedListener(event -> updateDescription()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		viewer.addCheckStateListener(event -> {
+		viewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			transferAllButton.setSelection(false);
 			updateEnablement();
 			updatePageCompletion();
@@ -321,7 +321,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 *
 	 * @param composite org.eclipse.swt.widgets.Composite
 	 */
-	private void addSelectionButtons(Composite composite) {
+	private void addSelectionButtons(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font parentFont = composite.getFont();
 		buttonComposite = new Composite(composite, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -337,11 +337,11 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		selectAllButton.setData(Integer.valueOf(IDialogConstants.SELECT_ALL_ID));
 		setButtonLayoutData(selectAllButton);
 
-		SelectionListener listener = widgetSelectedAdapter(e -> {
+		SelectionListener listener = widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			viewer.setAllChecked(true);
 			updatePageCompletion();
 		});
-		selectAllButton.addSelectionListener(listener);
+		selectAllButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		selectAllButton.setFont(parentFont);
 
 		deselectAllButton = new Button(buttonComposite, SWT.PUSH);
@@ -349,11 +349,11 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		deselectAllButton.setData(Integer.valueOf(IDialogConstants.DESELECT_ALL_ID));
 		setButtonLayoutData(deselectAllButton);
 
-		listener = widgetSelectedAdapter(e -> {
+		listener = widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			viewer.setAllChecked(false);
 			updatePageCompletion();
 		});
-		deselectAllButton.addSelectionListener(listener);
+		deselectAllButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		deselectAllButton.setFont(parentFont);
 	}
 
@@ -362,7 +362,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 *
 	 * @param parent org.eclipse.swt.widgets.Composite
 	 */
-	protected void createDestinationGroup(Composite parent) {
+	protected void createDestinationGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// destination specification group
 		Composite destinationSelectionGroup = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -376,8 +376,8 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 
 		// destination name entry field
 		destinationNameField = new Combo(destinationSelectionGroup, SWT.SINGLE | SWT.BORDER);
-		destinationNameField.addListener(SWT.Modify, this);
-		destinationNameField.addListener(SWT.Selection, this);
+		destinationNameField.addListener(SWT.Modify, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		destinationNameField.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		destinationNameField.setLayoutData(data);
 
@@ -385,7 +385,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		destinationBrowseButton = new Button(destinationSelectionGroup, SWT.PUSH);
 		destinationBrowseButton.setText(PreferencesMessages.PreferencesExport_browse);
 		setButtonLayoutData(destinationBrowseButton);
-		destinationBrowseButton.addListener(SWT.Selection, this);
+		destinationBrowseButton.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		new Label(parent, SWT.NONE); // vertical spacer
 	}
@@ -460,7 +460,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 *
 	 * @return boolean
 	 */
-	protected boolean ensureTargetIsValid(File file) {
+	protected boolean ensureTargetIsValid(File file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (file.exists()) {
 			if (!getOverwriteExisting()) {
 				String msg = NLS.bind(PreferencesMessages.WizardPreferencesExportPage1_overwrite,
@@ -479,7 +479,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		return true;
 	}
 
-	protected void saveWidgetValues() {
+	protected void saveWidgetValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IDialogSettings settings = getDialogSettings();
 		if (settings != null) {
@@ -506,7 +506,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 				if (!transferAll) {
 					Object[] elements = viewer.getCheckedElements();
 					String[] preferenceIds = new String[elements.length];
-					for (int i = 0; i < elements.length; i++) {
+					for (int i = 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						PreferenceTransferElement element = (PreferenceTransferElement) elements[i];
 						preferenceIds[i] = element.getID();
 					}
@@ -524,7 +524,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 *
 	 * @return boolean
 	 */
-	public boolean finish() {
+	public boolean finish() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// about to invoke the operation so save our state
 		saveWidgetValues();
 
@@ -570,7 +570,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		transferElements = getPreferenceTransferElements();
 		if (transferElements != null) {
 			filters = new IPreferenceFilter[transferElements.length];
-			for (int j = 0; j < transferElements.length; j++) {
+			for (int j = 0; j < transferElements.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				PreferenceTransferElement element = transferElements[j];
 				filters[j] = element.getFilter();
 			}
@@ -757,7 +757,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 * @param newEntry the entry to add to the history
 	 */
 	protected String[] addToHistory(String[] history, String newEntry) {
-		ArrayList<String> l = new ArrayList<>(Arrays.asList(history));
+		ArrayList<String> l = new ArrayList<>(Arrays.asList(history)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addToHistory(l, newEntry);
 		String[] r = new String[l.size()];
 		l.toArray(r);
@@ -787,7 +787,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 * Hook method for restoring widget values to the values that they held last
 	 * time this wizard was used to completion.
 	 */
-	protected void restoreWidgetValues() {
+	protected void restoreWidgetValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IDialogSettings settings = getDialogSettings();
 		if (shouldSaveTransferAll() && settings != null) {
@@ -803,8 +803,8 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 				String[] preferenceIds = settings.getArray(TRANSFER_PREFERENCES_NAMES_ID);
 				if (preferenceIds != null) {
 					PreferenceTransferElement[] transfers = getTransfers();
-					for (PreferenceTransferElement transfer : transfers) {
-						for (String preferenceId : preferenceIds) {
+					for (PreferenceTransferElement transfer : transfers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						for (String preferenceId : preferenceIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (transfer.getID().equals(preferenceId)) {
 								viewer.setChecked(transfer, true);
 								break;
@@ -823,7 +823,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 			if (directoryNames != null) {
 				// destination
 				setDestinationValue(directoryNames[0]);
-				for (String directoryName : directoryNames) {
+				for (String directoryName : directoryNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addDestinationItem(directoryName);
 				}
 
@@ -877,7 +877,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 	 * @return the user's reply: one of <code>"YES"</code>, <code>"NO"</code>,
 	 *         <code>"ALL"</code>, or <code>"CANCEL"</code>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String queryOverwrite(String pathString) {
 
 		IPath path = IPath.fromOSString(pathString);
@@ -903,7 +903,7 @@ public abstract class WizardPreferencesPage extends WizardPage implements Listen
 		String[] response = new String[] { YES, ALL, NO, NO_ALL, CANCEL };
 		// run in syncExec because callback is from an operation,
 		// which is probably not running in the UI thread.
-		getControl().getDisplay().syncExec(dialog::open);
+		getControl().getDisplay().syncExec(dialog::open); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		return dialog.getReturnCode() < 0 ? CANCEL : response[dialog.getReturnCode()];
 	}
 

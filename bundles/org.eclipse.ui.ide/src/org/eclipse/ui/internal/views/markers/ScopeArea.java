@@ -54,7 +54,7 @@ public class ScopeArea extends GroupFilterConfigurationArea {
 		 * @param parent
 		 *            the parent composite of the working set widgets
 		 */
-		WorkingSetArea(Composite parent) {
+		WorkingSetArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 
 			// radio button has to be part of main radio button group
@@ -84,8 +84,8 @@ public class ScopeArea extends GroupFilterConfigurationArea {
 			layoutData.widthHint = Math.max(widthHint, minSize.x);
 
 			selectButton.setLayoutData(layoutData);
-			selectButton.addSelectionListener(new SelectionAdapter() {
-				@Override
+			selectButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void widgetSelected(SelectionEvent e) {
 
 					IWorkingSetSelectionDialog dialog = PlatformUI
@@ -144,7 +144,7 @@ public class ScopeArea extends GroupFilterConfigurationArea {
 		 */
 		void setSelection(boolean selected) {
 			if (selected || (button.getSelection() && !selected)) {
-				for (Button currentButton : buttons) {
+				for (Button currentButton : buttons) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					currentButton.setSelection(false);
 				}
 				if (selected) {
@@ -199,7 +199,7 @@ public class ScopeArea extends GroupFilterConfigurationArea {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createContents(Composite parent) {
 
 		buttons = new Button[5];
@@ -234,7 +234,7 @@ public class ScopeArea extends GroupFilterConfigurationArea {
 		Button button = new Button(parent, SWT.RADIO);
 		button.setText(text);
 		button.setSelection(value == scope);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {

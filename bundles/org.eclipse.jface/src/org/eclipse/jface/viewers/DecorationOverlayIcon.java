@@ -148,9 +148,9 @@ public class DecorationOverlayIcon extends CompositeImageDescriptor {
 	/**
 	 * Draw the overlays for the receiver.
 	 */
-	private void drawOverlays(ImageDescriptor[] overlaysArray) {
+	private void drawOverlays(ImageDescriptor[] overlaysArray) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		for (int i = 0; i < overlays.length; i++) {
+		for (int i = 0; i < overlays.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ImageDescriptor overlay = overlaysArray[i];
 			if (overlay == null) {
 				continue;

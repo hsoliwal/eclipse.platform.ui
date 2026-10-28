@@ -48,7 +48,7 @@ public final class ResourceLocator {
 	 * @return an <code>{@link Optional}&lt;{@link URL}&gt;</code> or
 	 *         {@link Optional#empty()}.
 	 */
-	public static Optional<URL> locate(String bundleSymbolicName, String filePath) {
+	public static Optional<URL> locate(String bundleSymbolicName, String filePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Don't resolve the URL here, but create a URL using the
 		// "platform:/plugin" protocol, which also supports fragments.
 		// Caveat: The resulting URL may contain $nl$ etc., which is not

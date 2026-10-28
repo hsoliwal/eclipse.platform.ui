@@ -56,7 +56,7 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 		super();
 		this.original = original;
 		this.manager = manager;
-		this.temporarySettings = new HashMap<>();
+		this.temporarySettings = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	/*
@@ -65,7 +65,7 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 	 */
 	private void checkRemoved() {
 		if (removed) {
-			String message = "Preference node: " + absolutePath() + " has been removed."; //$NON-NLS-1$ //$NON-NLS-2$
+			String message = "Preference node: " + absolutePath() + " has been removed."; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			throw new IllegalStateException(message);
 		}
 	}
@@ -97,12 +97,12 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 		checkRemoved();
 
 		// clear all values (long way so people get notified)
-		for (String key : keys()) {
+		for (String key : keys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			remove(key);
 		}
 
 		// remove children
-		for (String childName : childrenNames()) {
+		for (String childName : childrenNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node(childName).removeNode();
 		}
 
@@ -122,7 +122,7 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 		if (!visitor.visit(this)) {
 			return;
 		}
-		for (String childName : childrenNames()) {
+		for (String childName : childrenNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((IEclipsePreferences) node(childName)).accept(visitor);
 		}
 	}
@@ -151,7 +151,7 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 			return;
 		}
 		PreferenceChangeEvent event = new PreferenceChangeEvent(this, key, oldValue, newValue);
-		for (Object listener : listeners) {
+		for (Object listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((IPreferenceChangeListener) listener).preferenceChange(event);
 		}
 	}
@@ -195,7 +195,7 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 	@Override
 	public void clear() {
 		checkRemoved();
-		for (Entry<String, Object> entry : temporarySettings.entrySet()) {
+		for (Entry<String, Object> entry : temporarySettings.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			Object value = entry.getValue();
 			if (value != null) {
@@ -396,8 +396,8 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 	@Override
 	public String[] keys() throws BackingStoreException {
 		checkRemoved();
-		HashSet<String> allKeys = new HashSet<>(Arrays.asList(getOriginal().keys()));
-		for (Entry<String, Object> entry : temporarySettings.entrySet()) {
+		HashSet<String> allKeys = new HashSet<>(Arrays.asList(getOriginal().keys())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Entry<String, Object> entry : temporarySettings.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			if (entry.getValue() != null) {
 				allKeys.add(key);
@@ -439,7 +439,7 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 		return getOriginal().absolutePath();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void flush() throws BackingStoreException {
 		if (removed) {
 			getOriginal().removeNode();
@@ -447,7 +447,7 @@ public class WorkingCopyPreferences extends EventManager implements IEclipsePref
 		}
 		checkRemoved();
 		// update underlying preferences
-		for (Entry<String, Object> entry : temporarySettings.entrySet()) {
+		for (Entry<String, Object> entry : temporarySettings.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = entry.getKey();
 			String value = (String) entry.getValue();
 			if (value == null) {

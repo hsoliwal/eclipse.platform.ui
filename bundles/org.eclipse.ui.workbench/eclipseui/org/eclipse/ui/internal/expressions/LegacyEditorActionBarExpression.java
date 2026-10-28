@@ -90,7 +90,7 @@ public class LegacyEditorActionBarExpression extends Expression {
 
 	@Override
 	public final String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("LegacyEditorActionBarExpression("); //$NON-NLS-1$
 		buffer.append(activeEditorId);
 		buffer.append(')');

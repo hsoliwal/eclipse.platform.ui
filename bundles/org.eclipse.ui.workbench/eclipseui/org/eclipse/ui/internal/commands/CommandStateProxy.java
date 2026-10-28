@@ -113,7 +113,7 @@ public final class CommandStateProxy extends PersistentState {
 		if (state == null) {
 			addListenerObject(listener);
 		} else {
-			state.addListener(listener);
+			state.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 	}
 
@@ -169,7 +169,7 @@ public final class CommandStateProxy extends PersistentState {
 	 * @return <code>true</code> if the state is now non-null; <code>false</code>
 	 *         otherwise.
 	 */
-	private boolean loadState(final boolean readPersistence) {
+	private boolean loadState(final boolean readPersistence) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (state == null) {
 			try {
 				state = (State) configurationElement.createExecutableExtension(stateAttributeName);
@@ -184,8 +184,8 @@ public final class CommandStateProxy extends PersistentState {
 
 				// Transfer the local listeners to the real state.
 				final Object[] listenerArray = getListeners();
-				for (Object element : listenerArray) {
-					state.addListener((IStateListener) element);
+				for (Object element : listenerArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					state.addListener((IStateListener) element); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				}
 				clearListeners();
 
@@ -198,7 +198,7 @@ public final class CommandStateProxy extends PersistentState {
 				return false;
 
 			} catch (final CoreException e) {
-				final String message = "The proxied state for '" + configurationElement.getAttribute(stateAttributeName) //$NON-NLS-1$
+				final String message = "The proxied state for '" + configurationElement.getAttribute(stateAttributeName) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "' could not be loaded"; //$NON-NLS-1$
 				IStatus status = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, 0, message, e);
 				WorkbenchPlugin.log(message, status);

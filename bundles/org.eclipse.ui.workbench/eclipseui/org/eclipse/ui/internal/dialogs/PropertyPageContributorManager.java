@@ -78,12 +78,12 @@ public class PropertyPageContributorManager extends ObjectContributorManager {
 	 *
 	 * @return true if contribution took place, false otherwise.
 	 */
-	public boolean contribute(PropertyPageManager manager, Object object) {
+	public boolean contribute(PropertyPageManager manager, Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Collection result = null;
 		if (object instanceof IStructuredSelection) {
 			Object[] objs = ((IStructuredSelection) object).toArray();
-			for (Object obj : objs) {
+			for (Object obj : objs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List contribs = getContributors(obj);
 				if (result == null) {
 					result = new LinkedHashSet(contribs);
@@ -104,11 +104,11 @@ public class PropertyPageContributorManager extends ObjectContributorManager {
 		Iterator resultIterator = catNodes.iterator();
 
 		// K(CategorizedPageNode) V(PreferenceNode - property page)
-		Map catPageNodeToPages = new HashMap();
+		Map catPageNodeToPages = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		// Allow each contributor to add its page to the manager.
 		boolean actualContributions = false;
-		while (resultIterator.hasNext()) {
+		while (resultIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CategorizedPageNode next = (CategorizedPageNode) resultIterator.next();
 			IPropertyPageContributor ppcont = next.contributor;
 			if (!ppcont.isApplicableTo(object)) {
@@ -124,7 +124,7 @@ public class PropertyPageContributorManager extends ObjectContributorManager {
 		// Fixup the parents in each page
 		if (actualContributions) {
 			resultIterator = catNodes.iterator();
-			while (resultIterator.hasNext()) {
+			while (resultIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CategorizedPageNode next = (CategorizedPageNode) resultIterator.next();
 				PreferenceNode child = (PreferenceNode) catPageNodeToPages.get(next);
 				if (child == null) {
@@ -150,18 +150,18 @@ public class PropertyPageContributorManager extends ObjectContributorManager {
 	 *
 	 * @return List of CategorizedPageNode
 	 */
-	private List buildNodeList(Collection nodes) {
+	private List buildNodeList(Collection nodes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Hashtable mapping = new Hashtable();
 
 		Iterator nodesIterator = nodes.iterator();
-		while (nodesIterator.hasNext()) {
+		while (nodesIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RegistryPageContributor page = (RegistryPageContributor) nodesIterator.next();
 			mapping.put(page.getPageId(), new CategorizedPageNode(page));
 		}
 
 		Iterator values = mapping.values().iterator();
-		List returnValue = new ArrayList();
-		while (values.hasNext()) {
+		List returnValue = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (values.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CategorizedPageNode next = (CategorizedPageNode) values.next();
 			returnValue.add(next);
 			if (next.contributor.getCategory() == null) {
@@ -207,7 +207,7 @@ public class PropertyPageContributorManager extends ObjectContributorManager {
 
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
-		for (IConfigurationElement addedElement : extension.getConfigurationElements()) {
+		for (IConfigurationElement addedElement : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			PropertyPagesRegistryReader reader = new PropertyPagesRegistryReader(this);
 			reader.readElement(addedElement);
 		}
@@ -223,8 +223,8 @@ public class PropertyPageContributorManager extends ObjectContributorManager {
 			return getApplicableContributors((IStructuredSelection) element);
 		}
 		Collection contributors = getContributors(element);
-		Collection result = new ArrayList();
-		for (Iterator iter = contributors.iterator(); iter.hasNext();) {
+		Collection result = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator iter = contributors.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RegistryPageContributor contributor = (RegistryPageContributor) iter.next();
 			if (contributor.isApplicableTo(element)) {
 				result.add(contributor);
@@ -240,16 +240,16 @@ public class PropertyPageContributorManager extends ObjectContributorManager {
 	 * @return Collection of applicable property page contributors
 	 * @since 3.7
 	 */
-	public Collection getApplicableContributors(IStructuredSelection selection) {
+	public Collection getApplicableContributors(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isMultiSelection = selection.size() > 1;
 		Collection<RegistryPageContributor> result = null;
-		for (Object selectionElement : selection) {
+		for (Object selectionElement : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Collection<RegistryPageContributor> collection = getApplicableContributors(selectionElement);
 			if (isMultiSelection) {
 				// Most pages are not available for multi selection.
 				// We can abort early in most cases by checking this during each iteration.
 				Iterator<RegistryPageContributor> resIter = collection.iterator();
-				while (resIter.hasNext()) {
+				while (resIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					RegistryPageContributor contrib = resIter.next();
 					if (!contrib.supportsMultipleSelection()) {
 						resIter.remove();

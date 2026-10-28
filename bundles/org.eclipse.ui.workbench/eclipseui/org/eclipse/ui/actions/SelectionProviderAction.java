@@ -40,7 +40,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
  * <li><code>selectionChanged(ISelection)</code></li>
  * </ul>
  */
-public abstract class SelectionProviderAction extends Action implements ISelectionChangedListener {
+public abstract class SelectionProviderAction extends Action implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The selection provider that is the target of this action.
@@ -60,7 +60,7 @@ public abstract class SelectionProviderAction extends Action implements ISelecti
 	protected SelectionProviderAction(ISelectionProvider provider, String text) {
 		super(text);
 		this.provider = provider;
-		provider.addSelectionChangedListener(this);
+		provider.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	/**

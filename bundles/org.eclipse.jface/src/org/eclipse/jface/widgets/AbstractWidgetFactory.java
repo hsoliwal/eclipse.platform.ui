@@ -36,7 +36,7 @@ public abstract class AbstractWidgetFactory<F extends AbstractWidgetFactory<?, ?
 
 	private final WidgetSupplier<W, P> widgetCreator;
 
-	private final List<Property<W>> properties = new ArrayList<>();
+	private final List<Property<W>> properties = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	AbstractWidgetFactory(Class<F> factoryClass, WidgetSupplier<W, P> widgetCreator) {
 		this.factoryClass = factoryClass;

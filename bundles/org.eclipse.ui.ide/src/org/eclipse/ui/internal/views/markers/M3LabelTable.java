@@ -55,11 +55,11 @@ public final class M3LabelTable {
 	 * @param label the label, not {@code null}
 	 * @return its id
 	 */
-	public int acquire(String label) {
+	public int acquire(String label) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int mask = table.length - 1;
 		int h = label.hashCode();
 		int i = mix(h) & mask;
-		while (table[i] != 0) {
+		while (table[i] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int id = table[i] - 1;
 			if (text[id].equals(label)) {
 				refs[id]++;
@@ -90,7 +90,7 @@ public final class M3LabelTable {
 	 *
 	 * @param id a label id
 	 */
-	public void release(int id) {
+	public void release(int id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (--refs[id] > 0) {
 			return;
 		}
@@ -105,11 +105,11 @@ public final class M3LabelTable {
 		// remove from the table and re-place the rest of the cluster (linear probing)
 		int mask = table.length - 1;
 		int i = mix(label.hashCode()) & mask;
-		while (table[i] != id + 1) {
+		while (table[i] != id + 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i = (i + 1) & mask;
 		}
 		table[i] = 0;
-		for (int j = (i + 1) & mask; table[j] != 0; j = (j + 1) & mask) {
+		for (int j = (i + 1) & mask; table[j] != 0; j = (j + 1) & mask) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int other = table[j] - 1;
 			table[j] = 0;
 			place(other);
@@ -174,7 +174,7 @@ public final class M3LabelTable {
 
 	private void rehash(int capacity) {
 		table = new int[capacity];
-		for (int id = 0; id < count; id++) {
+		for (int id = 0; id < count; id++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (text[id] != null) {
 				place(id);
 			}
@@ -184,7 +184,7 @@ public final class M3LabelTable {
 	private void place(int id) {
 		int mask = table.length - 1;
 		int i = mix(text[id].hashCode()) & mask;
-		while (table[i] != 0) {
+		while (table[i] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i = (i + 1) & mask;
 		}
 		table[i] = id + 1;

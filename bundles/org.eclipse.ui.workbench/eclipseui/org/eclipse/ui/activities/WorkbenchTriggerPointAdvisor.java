@@ -78,13 +78,13 @@ public class WorkbenchTriggerPointAdvisor implements ITriggerPointAdvisor, IExec
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Set<String> allow(ITriggerPoint triggerPoint, IIdentifier identifier) {
 
 		if (triggerPoint.getBooleanHint(ITriggerPoint.HINT_PRE_UI)) {
 			IActivityManager activityManager = PlatformUI.getWorkbench().getActivitySupport().getActivityManager();
 			Iterator<String> iterator = identifier.getActivityIds().iterator();
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = iterator.next();
 				IActivity activity = activityManager.getActivity(id);
 				if (activity.getExpression() != null) {
@@ -178,7 +178,7 @@ public class WorkbenchTriggerPointAdvisor implements ITriggerPointAdvisor, IExec
 	 *         <code>false</code> otherwise
 	 * @since 3.4
 	 */
-	protected boolean doComputeEnablement(IActivityManager activityManager, IIdentifier identifier,
+	protected boolean doComputeEnablement(IActivityManager activityManager, IIdentifier identifier, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean disabledExpressionActivitiesTakePrecedence) {
 		final Set<String> activityIds = identifier.getActivityIds();
 		if (activityIds.isEmpty()) {
@@ -187,7 +187,7 @@ public class WorkbenchTriggerPointAdvisor implements ITriggerPointAdvisor, IExec
 
 		boolean matchesAtLeastOneEnabled = false;
 		boolean matchesDisabledExpressionActivitiesWithPrecedence = false;
-		for (String activityId : activityIds) {
+		for (String activityId : activityIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IActivity activity = activityManager.getActivity(activityId);
 
 			if (activity.isEnabled()) {

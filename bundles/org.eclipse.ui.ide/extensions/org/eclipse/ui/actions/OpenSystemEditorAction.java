@@ -33,12 +33,12 @@ import org.eclipse.ui.part.FileEditorInput;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenSystemEditorAction extends SelectionListenerAction {
+public class OpenSystemEditorAction extends SelectionListenerAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID
+	public static final String ID = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ ".OpenSystemEditorAction";//$NON-NLS-1$
 
 	/**
@@ -91,7 +91,7 @@ public class OpenSystemEditorAction extends SelectionListenerAction {
 
 	@Override
 	public void run() {
-		for (IResource resource : getSelectedResources()) {
+		for (IResource resource : getSelectedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IFile) {
 				openFile((IFile) resource);
 			}

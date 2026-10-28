@@ -27,7 +27,7 @@ import org.osgi.service.log.LogLevel;
 public class LogThrottle {
 
 	private final LinkedBlockingQueue<String> fThrottleQueue;
-	private final HashMap<String, MutableInt> fActiveMessages = new HashMap<>();
+	private final HashMap<String, MutableInt> fActiveMessages = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private final String fThrottleMessage;
 	private int fThrottleValue;
 
@@ -92,7 +92,7 @@ public class LogThrottle {
 		counter.increment();
 		if (counter.fCount >= fThrottleValue) {
 			fThrottleQueue.remove(messageText); // remove to place back in tail
-			while (!fThrottleQueue.offer(messageText)) {
+			while (!fThrottleQueue.offer(messageText)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String message = fThrottleQueue.poll(); // queue full, remove head entry
 				fActiveMessages.remove(message); // and also purge from active messages
 			}

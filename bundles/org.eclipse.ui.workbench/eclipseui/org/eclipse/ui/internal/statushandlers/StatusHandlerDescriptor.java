@@ -54,7 +54,7 @@ public class StatusHandlerDescriptor implements IPluginContribution {
 	 * @return the status handler
 	 * @throws CoreException thrown if there is a problem creating the handler
 	 */
-	public synchronized AbstractStatusHandler getStatusHandler() throws CoreException {
+	public synchronized AbstractStatusHandler getStatusHandler() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (cachedInstance == null) {
 			AbstractStatusHandler statusHandler = (AbstractStatusHandler) configElement
 					.createExecutableExtension(IWorkbenchRegistryConstants.ATT_CLASS);
@@ -62,9 +62,9 @@ public class StatusHandlerDescriptor implements IPluginContribution {
 
 			IConfigurationElement parameters[] = configElement.getChildren(IWorkbenchRegistryConstants.TAG_PARAMETER);
 
-			Map<String, String> params = new HashMap<>();
+			Map<String, String> params = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-			for (IConfigurationElement configElement : parameters) {
+			for (IConfigurationElement configElement : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				params.put(configElement.getAttribute(IWorkbenchRegistryConstants.ATT_NAME),
 						configElement.getAttribute(IWorkbenchRegistryConstants.ATT_VALUE));
 			}
@@ -83,7 +83,7 @@ public class StatusHandlerDescriptor implements IPluginContribution {
 	public String getPrefix() {
 		IConfigurationElement parameters[] = configElement.getChildren(IWorkbenchRegistryConstants.TAG_PARAMETER);
 
-		for (IConfigurationElement configElement : parameters) {
+		for (IConfigurationElement configElement : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (configElement.getAttribute(IWorkbenchRegistryConstants.ATT_NAME).equals(PREFIX)) {
 				prefix = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_VALUE);
 			}

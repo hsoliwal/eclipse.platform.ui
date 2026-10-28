@@ -73,7 +73,7 @@ public class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(job.getName());
-		shell.addTraverseListener(e -> {
+		shell.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_ESCAPE) {
 				cancelPressed();
 				e.detail = SWT.TRAVERSE_NONE;
@@ -86,7 +86,7 @@ public class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		Button runInWorkspace = createButton(parent, IDialogConstants.CLOSE_ID,
 				ProgressMessages.ProgressMonitorFocusJobDialog_RunInBackgroundButton, true);
-		runInWorkspace.addSelectionListener(widgetSelectedAdapter(e -> {
+		runInWorkspace.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			job.setProperty(IProgressConstants.PROPERTY_IN_DIALOG, Boolean.FALSE);
 			finishedRun();
 		}));
@@ -103,9 +103,9 @@ public class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 	 *
 	 * @return IJobChangeListener
 	 */
-	private IJobChangeListener createCloseListener() {
+	private IJobChangeListener createCloseListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new JobChangeAdapter() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void done(IJobChangeEvent event) {
 				// first of all, make sure this listener is removed
 				event.getJob().removeJobChangeListener(this);
@@ -117,7 +117,7 @@ public class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 					return;
 				}
 
-				PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+				PlatformUI.getWorkbench().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					Shell currentShell = getShell();
 					if (currentShell == null || currentShell.isDisposed()) {
 						return;
@@ -153,7 +153,7 @@ public class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 	 * @param originatingShell The shell this request was created from. Do not block
 	 *                         on this shell.
 	 */
-	public void show(Job jobToWatch, final Shell originatingShell) {
+	public void show(Job jobToWatch, final Shell originatingShell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		job = jobToWatch;
 		// after the dialog is opened we can get access to its monitor
 		job.setProperty(IProgressConstants.PROPERTY_IN_DIALOG, Boolean.TRUE);
@@ -188,8 +188,8 @@ public class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 		});
 		job.removeJobChangeListener(jobListener);
 
-		WorkbenchJob openJob = new WorkbenchJob(ProgressMessages.ProgressMonitorFocusJobDialog_UserDialogJob) {
-			@Override
+		WorkbenchJob openJob = new WorkbenchJob(ProgressMessages.ProgressMonitorFocusJobDialog_UserDialogJob) { //FLLDCIM: MARK — T09  ANONYMOUS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 
 				// if the job is done at this point, we don't need the dialog
@@ -261,8 +261,8 @@ public class ProgressMonitorFocusJobDialog extends ProgressMonitorJobsDialog {
 		gd.horizontalAlignment = GridData.FILL;
 		showUserDialogButton.setLayoutData(gd);
 
-		showUserDialogButton
-				.addSelectionListener(widgetSelectedAdapter(e -> showDialog = showUserDialogButton.getSelection()));
+		showUserDialogButton //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				.addSelectionListener(widgetSelectedAdapter(e -> showDialog = showUserDialogButton.getSelection())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		super.createExtendedDialogArea(parent);
 	}

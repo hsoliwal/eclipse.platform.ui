@@ -148,7 +148,7 @@ public final class ActivityPatternBinding implements IActivityPatternBinding {
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(activityId);
 			stringBuffer.append(',');

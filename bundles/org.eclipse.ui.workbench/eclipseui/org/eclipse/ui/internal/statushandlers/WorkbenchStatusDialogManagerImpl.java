@@ -65,7 +65,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 
 	static final QualifiedName HINT = new QualifiedName(IStatusAdapterConstants.PROPERTY_PREFIX, "hint"); //$NON-NLS-1$
 
-	private final class StatusDialogDisposeListener implements DisposeListener {
+	private final class StatusDialogDisposeListener implements DisposeListener { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 		@Override
 		public void widgetDisposed(org.eclipse.swt.events.DisposeEvent e) {
@@ -83,7 +83,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 	/**
 	 * This variable holds the real state of the dialog.
 	 */
-	private Map<Object, Object> dialogState = new HashMap<>();
+	private Map<Object, Object> dialogState = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Returns whether the given StatusAdapter object should be displayed.
@@ -93,7 +93,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 	 *         <code>false</code> otherwise
 	 * @see org.eclipse.core.runtime.IStatus#matches(int)
 	 */
-	public boolean shouldAccept(StatusAdapter statusAdapter) {
+	public boolean shouldAccept(StatusAdapter statusAdapter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status = statusAdapter.getStatus();
 		IStatus[] children = status.getChildren();
 		int mask = ((Integer) dialogState.get(IStatusDialogConstants.MASK)).intValue();
@@ -102,7 +102,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 		if (children == null || children.length == 0) {
 			return status.matches(mask) || (handleOKStatuses && status.isOK());
 		}
-		for (IStatus child : children) {
+		for (IStatus child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.matches(mask)) {
 				return true;
 			}
@@ -138,7 +138,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 	 * @param dialogTitle - the dialog title.
 	 * @return populated dialogState
 	 */
-	public Map<Object, Object> initDialogState(Map<Object, Object> dialogState, int displayMask, String dialogTitle) {
+	public Map<Object, Object> initDialogState(Map<Object, Object> dialogState, int displayMask, String dialogTitle) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		dialogState.put(IStatusDialogConstants.MASK, Integer.valueOf(displayMask));
 		dialogState.put(IStatusDialogConstants.TITLE,
 				dialogTitle == null ? JFaceResources.getString("Problem_Occurred") : //$NON-NLS-1$
@@ -151,7 +151,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 		dialogState.put(IStatusDialogConstants.TRAY_OPENED, Boolean.FALSE);
 		dialogState.put(IStatusDialogConstants.HIDE_SUPPORT_BUTTON, Boolean.FALSE);
 		dialogState.put(IStatusDialogConstants.STATUS_ADAPTERS, Collections.synchronizedSet(new LinkedHashSet<>()));
-		dialogState.put(IStatusDialogConstants.STATUS_MODALS, new HashMap<>());
+		dialogState.put(IStatusDialogConstants.STATUS_MODALS, new HashMap<>()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		dialogState.put(IStatusDialogConstants.LABEL_PROVIDER, new LabelProviderWrapper(dialogState));
 		dialogState.put(IStatusDialogConstants.MODALITY_SWITCH, Boolean.FALSE);
 		return dialogState;
@@ -180,7 +180,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 	 *                      <code>false</code> otherwise
 	 * @param statusAdapter the status adapter
 	 */
-	public void addStatusAdapter(final StatusAdapter statusAdapter, final boolean modal) {
+	public void addStatusAdapter(final StatusAdapter statusAdapter, final boolean modal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ErrorDialog.AUTOMATED_MODE) {
 			return;
 		}
@@ -215,7 +215,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 		dialogState.remove(IStatusDialogConstants.CURRENT_STATUS_ADAPTER);
 	}
 
-	private void doAddStatusAdapter(final StatusAdapter statusAdapter, final boolean modal) {
+	private void doAddStatusAdapter(final StatusAdapter statusAdapter, final boolean modal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!PlatformUI.isWorkbenchRunning()) {
 			// we are shutting down, so just log
@@ -245,7 +245,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 					setSelectedStatusAdapter(statusAdapter);
 					dialog = new InternalDialog(dialogState, shouldBeModal());
 					dialog.create();
-					dialog.getShell().addDisposeListener(disposeListener);
+					dialog.getShell().addDisposeListener(disposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 					boolean showSupport = ((Boolean) dialogState.get(IStatusDialogConstants.SHOW_SUPPORT))
 							.booleanValue();
 					if (showSupport) {
@@ -293,7 +293,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 			dialog.close();
 			dialog = new InternalDialog(dialogState, modal);
 			dialog.open();
-			dialog.getShell().addDisposeListener(disposeListener);
+			dialog.getShell().addDisposeListener(disposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			dialogState.put(IStatusDialogConstants.MODALITY_SWITCH, Boolean.FALSE);
 		}
 		dialog.refresh();
@@ -337,7 +337,7 @@ public class WorkbenchStatusDialogManagerImpl implements KeptJobsListener {
 	 */
 	public boolean shouldBeModal() {
 		Map<?, ?> modals = (Map<?, ?>) dialogState.get(IStatusDialogConstants.STATUS_MODALS);
-		for (Object value : modals.values()) {
+		for (Object value : modals.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (value instanceof Boolean b) {
 				if (b.booleanValue()) {
 					return true;

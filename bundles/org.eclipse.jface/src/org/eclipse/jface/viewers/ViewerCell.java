@@ -241,7 +241,7 @@ public class ViewerCell {
 	 *            if <code>true</code>, only consider cells from sibling rows
 	 * @return the requested neighbor cell, or <code>null</code> if not found
 	 */
-	public ViewerCell getNeighbor(int directionMask, boolean sameLevel) {
+	public ViewerCell getNeighbor(int directionMask, boolean sameLevel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerRow row;
 
 		if ((directionMask & ABOVE) == ABOVE) {
@@ -270,7 +270,7 @@ public class ViewerCell {
 
 			if (columnIndex >= 0 && columnIndex < row.getColumnCount()) {
 				ViewerCell cell = row.getCellAtVisualIndex(columnIndex);
-				while (cell != null && columnIndex < row.getColumnCount() - 1 && columnIndex > 0) {
+				while (cell != null && columnIndex < row.getColumnCount() - 1 && columnIndex > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (cell.isVisible()) {
 						break;
 					}

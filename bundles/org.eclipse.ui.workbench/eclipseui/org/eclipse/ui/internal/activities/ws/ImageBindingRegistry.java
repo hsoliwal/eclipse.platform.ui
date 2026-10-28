@@ -38,15 +38,15 @@ public class ImageBindingRegistry implements IExtensionChangeHandler {
 		super();
 		this.tag = tag;
 		IExtension[] extensions = getExtensionPointFilter().getExtensions();
-		for (IExtension extension : extensions) {
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addExtension(PlatformUI.getWorkbench().getExtensionTracker(), extension);
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
 		IConfigurationElement[] elements = extension.getConfigurationElements();
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getName().equals(tag)) {
 				String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 				String file = element.getAttribute(IWorkbenchRegistryConstants.ATT_ICON);
@@ -79,7 +79,7 @@ public class ImageBindingRegistry implements IExtensionChangeHandler {
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof String) {
 				registry.remove((String) object);
 			}

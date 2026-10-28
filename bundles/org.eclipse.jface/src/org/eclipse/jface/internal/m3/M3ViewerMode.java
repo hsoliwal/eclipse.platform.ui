@@ -61,12 +61,12 @@ public final class M3ViewerMode {
 	 * @return {@code true} when the class runs in {@link #VIEWPORT} mode
 	 */
 	public static boolean enabled(String simpleClassName) {
-		return VIEWPORT.equals(read(PROPERTY + '.' + simpleClassName, GLOBAL));
+		return VIEWPORT.equals(read(PROPERTY + '.' + simpleClassName, GLOBAL)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static boolean hasClassProperty() {
 		try {
-			return System.getProperties().stringPropertyNames().stream().anyMatch(k -> k.startsWith(PROPERTY + '.'));
+			return System.getProperties().stringPropertyNames().stream().anyMatch(k -> k.startsWith(PROPERTY + '.')); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (SecurityException e) {
 			return false;
 		}

@@ -50,7 +50,7 @@ public class HelpSearchAction extends Action implements IWorkbenchAction {
 	 *
 	 * @param window the window
 	 */
-	public HelpSearchAction(IWorkbenchWindow window) {
+	public HelpSearchAction(IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (window == null) {
 			throw new IllegalArgumentException();
 		}

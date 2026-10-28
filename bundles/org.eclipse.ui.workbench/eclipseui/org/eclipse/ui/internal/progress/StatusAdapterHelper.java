@@ -52,7 +52,7 @@ public class StatusAdapterHelper {
 	 */
 	public void putStatusAdapter(JobInfo info, StatusAdapter statusAdapter) {
 		if (map == null) {
-			map = new HashMap<>();
+			map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		map.put(info, statusAdapter);
 	}

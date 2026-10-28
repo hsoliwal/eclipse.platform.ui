@@ -49,8 +49,8 @@ public abstract class RegistryReader {
 	 */
 	protected static void logError(IConfigurationElement element, String text) {
 		IExtension extension = element.getDeclaringExtension();
-		StringBuilder buf = new StringBuilder();
-		buf.append("Plugin " + extension.getContributor().getName() + ", extension " //$NON-NLS-1$//$NON-NLS-2$
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("Plugin " + extension.getContributor().getName() + ", extension " //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ extension.getExtensionPointUniqueIdentifier());
 		// look for an ID if available - this should help debugging
 		String id = element.getAttribute("id"); //$NON-NLS-1$
@@ -58,7 +58,7 @@ public abstract class RegistryReader {
 			buf.append(", id "); //$NON-NLS-1$
 			buf.append(id);
 		}
-		buf.append(": " + text);//$NON-NLS-1$
+		buf.append(": " + text);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		WorkbenchPlugin.log(buf.toString());
 	}
 
@@ -66,21 +66,21 @@ public abstract class RegistryReader {
 	 * Logs a very common registry error when a required attribute is missing.
 	 */
 	protected static void logMissingAttribute(IConfigurationElement element, String attributeName) {
-		logError(element, "Required attribute '" + attributeName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$
+		logError(element, "Required attribute '" + attributeName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
 	 * Logs a very common registry error when a required child is missing.
 	 */
 	protected static void logMissingElement(IConfigurationElement element, String elementName) {
-		logError(element, "Required sub element '" + elementName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$
+		logError(element, "Required sub element '" + elementName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
 	 * Logs a registry error when the configuration element is unknown.
 	 */
 	protected static void logUnknownElement(IConfigurationElement element) {
-		logError(element, "Unknown extension tag found: " + element.getName());//$NON-NLS-1$
+		logError(element, "Unknown extension tag found: " + element.getName());//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -119,7 +119,7 @@ public abstract class RegistryReader {
 	 * Logs an error if the element was not recognized.
 	 */
 	protected void readElements(IConfigurationElement[] elements) {
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!readElement(element)) {
 				logUnknownElement(element);
 			}
@@ -148,7 +148,7 @@ public abstract class RegistryReader {
 		}
 		IExtension[] extensions = point.getExtensions();
 		extensions = orderExtensions(extensions);
-		for (IExtension extension : extensions) {
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			readExtension(extension);
 		}
 	}

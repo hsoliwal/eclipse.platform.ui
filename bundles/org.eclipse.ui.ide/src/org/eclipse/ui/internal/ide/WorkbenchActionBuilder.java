@@ -252,7 +252,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Hooks listeners on the preference store and the window's page, perspective and selection services.
 	 */
-	private void hookListeners() {
+	private void hookListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		pageListener = new IPageListener() {
 			@Override
@@ -274,7 +274,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 		};
 		getWindow().addPageListener(pageListener);
 
-		partListener = new IPartListener() {
+		partListener = new IPartListener() { //FLLDCIM: MARK — T20  ANONYMOUS
 
 			@Override
 			public void partOpened(IWorkbenchPart part) {
@@ -315,13 +315,13 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 
 		// listener for the "close editors automatically"
 		// preference change
-		propPrefListener = event -> {
+		propPrefListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (event.getProperty().equals(
 					IPreferenceConstants.REUSE_EDITORS_BOOLEAN)) {
 				if (workbenchWindow.getShell() != null
 						&& !workbenchWindow.getShell().isDisposed()) {
 					// this property change notification could be from a non-ui thread
-					workbenchWindow.getShell().getDisplay().asyncExec(() -> {
+					workbenchWindow.getShell().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (workbenchWindow.getShell() != null && !workbenchWindow.getShell().isDisposed()) {
 							updatePinActionToolbar();
 						}
@@ -339,12 +339,12 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 		WorkbenchPlugin.getDefault().getPreferenceStore()
 				.addPropertyChangeListener(propPrefListener);
 		//listen for project description changes, which can affect enablement of build actions
-		resourceListener = event -> {
+		resourceListener = event -> { //FLLDCIM: MARK — T07  LAMBDA
 			IResourceDelta delta = event.getDelta();
 			if (delta == null) {
 				return;
 			}
-			for (IResourceDelta projectDelta : delta.getAffectedChildren()) {
+			for (IResourceDelta projectDelta : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int kind = projectDelta.getKind();
 				//affected by projects being opened/closed or description changes
 				boolean changed = (projectDelta.getFlags() & (IResourceDelta.DESCRIPTION | IResourceDelta.OPEN)) != 0;
@@ -369,7 +369,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Fills the coolbar with the workbench actions.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void fillCoolBar(ICoolBarManager coolBar) {
 
 		IActionBarConfigurer2 actionBarConfigurer = (IActionBarConfigurer2) getActionBarConfigurer();
@@ -462,7 +462,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates and returns the File menu.
 	 */
-	private MenuManager createFileMenu() {
+	private MenuManager createFileMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager menu = new MenuManager(IDEWorkbenchMessages.Workbench_file, IWorkbenchActionConstants.M_FILE);
 		menu.add(new GroupMarker(IWorkbenchActionConstants.FILE_START));
 		// create the New submenu, using the same id for it as the New action
@@ -533,7 +533,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates and returns the Edit menu.
 	 */
-	private MenuManager createEditMenu() {
+	private MenuManager createEditMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager menu = new MenuManager(IDEWorkbenchMessages.Workbench_edit, IWorkbenchActionConstants.M_EDIT);
 		menu.add(new GroupMarker(IWorkbenchActionConstants.EDIT_START));
 
@@ -568,7 +568,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates and returns the Navigate menu.
 	 */
-	private MenuManager createNavigateMenu() {
+	private MenuManager createNavigateMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager menu = new MenuManager(
 				IDEWorkbenchMessages.Workbench_navigate, IWorkbenchActionConstants.M_NAVIGATE);
 		menu.add(new GroupMarker(IWorkbenchActionConstants.NAV_START));
@@ -582,8 +582,8 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 		goToSubMenu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 
 		menu.add(new Separator(IWorkbenchActionConstants.OPEN_EXT));
-		for (int i = 2; i < 5; ++i) {
-			menu.add(new Separator(IWorkbenchActionConstants.OPEN_EXT + i));
+		for (int i = 2; i < 5; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			menu.add(new Separator(IWorkbenchActionConstants.OPEN_EXT + i)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		menu.add(new Separator(IWorkbenchActionConstants.SHOW_EXT));
 		MenuManager showInSubMenu = new MenuManager(
@@ -593,8 +593,8 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 		showInSubMenu.add(ContributionItemFactory.VIEWS_SHOW_IN
 				.create(getWindow()));
 		menu.add(showInSubMenu);
-		for (int i = 2; i < 5; ++i) {
-			menu.add(new Separator(IWorkbenchActionConstants.SHOW_EXT + i));
+		for (int i = 2; i < 5; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			menu.add(new Separator(IWorkbenchActionConstants.SHOW_EXT + i)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		menu.add(new Separator());
 		menu.add(nextAction);
@@ -612,7 +612,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates and returns the Project menu.
 	 */
-	private MenuManager createProjectMenu() {
+	private MenuManager createProjectMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager menu = new MenuManager(
 				IDEWorkbenchMessages.Workbench_project, IWorkbenchActionConstants.M_PROJECT);
 		menu.add(new Separator(IWorkbenchActionConstants.PROJ_START));
@@ -639,7 +639,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates and returns the Window menu.
 	 */
-	private MenuManager createWindowMenu() {
+	private MenuManager createWindowMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager menu = new MenuManager(
 				IDEWorkbenchMessages.Workbench_window, IWorkbenchActionConstants.M_WINDOW);
 
@@ -695,7 +695,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 /**
 	 * Adds the perspective actions to the specified menu.
 	 */
-	private MenuManager addPerspectiveActions() {
+	private MenuManager addPerspectiveActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager menu = new MenuManager(IDEWorkbenchMessages.Workbench_perspective,
 				IWorkbenchActionConstants.M_PERSPECTIVE);
 		menu.add(new GroupMarker(IWorkbenchActionConstants.PERSPECTIVE_START));
@@ -732,7 +732,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Adds the keyboard navigation submenu to the specified menu.
 	 */
-	private void addKeyboardShortcuts(MenuManager menu) {
+	private void addKeyboardShortcuts(MenuManager menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager subMenu = new MenuManager(IDEWorkbenchMessages.Workbench_shortcuts, "shortcuts"); //$NON-NLS-1$
 		menu.add(subMenu);
 		subMenu.add(showPartPaneMenuAction);
@@ -754,7 +754,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates and returns the Help menu.
 	 */
-	private MenuManager createHelpMenu() {
+	private MenuManager createHelpMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager menu = new MenuManager(IDEWorkbenchMessages.Workbench_help, IWorkbenchActionConstants.M_HELP);
 		addSeparatorOrGroupMarker(menu, "group.intro"); //$NON-NLS-1$
 		// See if a welcome or intro page is specified
@@ -804,7 +804,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	 *            the group id for the added separator or group marker
 	 */
 	private void addSeparatorOrGroupMarker(MenuManager menu, String groupId) {
-		String prefId = "useSeparator." + menu.getId() + "." + groupId; //$NON-NLS-1$ //$NON-NLS-2$
+		String prefId = "useSeparator." + menu.getId() + "." + groupId; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		boolean addExtraSeparators = IDEWorkbenchPlugin.getDefault()
 				.getPreferenceStore().getBoolean(prefId);
 		if (addExtraSeparators) {
@@ -818,7 +818,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	 * Disposes any resources and unhooks any listeners that are no longer needed.
 	 * Called when the window is closed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (isDisposed) {
 			return;
@@ -967,7 +967,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates actions (and contribution items) for the menu bar, toolbar and status line.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void makeActions(final IWorkbenchWindow window) {
 		// @issue should obtain from ConfigurationItemFactory
 		statusLineItem = new StatusLineContributionItem("ModeContributionItem"); //$NON-NLS-1$
@@ -1205,7 +1205,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Creates the feature-dependent actions for the menu bar.
 	 */
-	private void makeFeatureDependentActions(IWorkbenchWindow window) {
+	private void makeFeatureDependentActions(IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AboutInfo[] infos = null;
 
 		IPreferenceStore prefs = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
@@ -1276,7 +1276,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	 * @return <code>true</code> if a welcome page was found, <code>false</code> if not
 	 */
 	private boolean hasWelcomePage(AboutInfo[] infos) {
-		for (AboutInfo info : infos) {
+		for (AboutInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.getWelcomePageURL() != null) {
 				return true;
 			}
@@ -1291,7 +1291,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	 * @return <code>true</code> if tips and tricks were found, <code>false</code> if not
 	 */
 	private boolean hasTipsAndTricks(AboutInfo[] infos) {
-		for (AboutInfo info : infos) {
+		for (AboutInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.getTipsAndTricksHref() != null) {
 				return true;
 			}
@@ -1308,10 +1308,10 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	 *            <code>false</code> to queue the update to be run in the
 	 *            event loop
 	 */
-	void updateBuildActions(boolean immediately) {
+	void updateBuildActions(boolean immediately) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// this can be triggered by property or resource change notifications
 		Runnable update = new Runnable() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				if (isDisposed) {
 					return;
@@ -1372,7 +1372,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 			// This helps to reduce flicker if autobuild is being temporarily disabled programmatically.
 			Shell shell = workbenchWindow.getShell();
 			if (shell != null && !shell.isDisposed()) {
-				shell.getDisplay().asyncExec(update);
+				shell.getDisplay().asyncExec(update); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}
@@ -1380,7 +1380,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 	/**
 	 * Update the pin action's tool bar
 	 */
-	void updatePinActionToolbar() {
+	void updatePinActionToolbar() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ICoolBarManager coolBarManager = getActionBarConfigurer()
 				.getCoolBarManager();
@@ -1407,7 +1407,7 @@ public class WorkbenchActionBuilder extends ActionBarAdvisor {
 		toolBarManager.markDirty();
 		toolBarManager.update(false);
 		toolBarItem.update(ICoolBarManager.SIZE);
-		workbenchWindow.getShell().getDisplay().asyncExec(() -> {
+		workbenchWindow.getShell().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (workbenchWindow.getShell() != null && !workbenchWindow.getShell().isDisposed()) {
 				ICommandService commandService = workbenchWindow.getService(ICommandService.class);
 				commandService.refreshElements(IWorkbenchCommandConstants.WINDOW_PIN_EDITOR, null);

@@ -111,7 +111,7 @@ public class MenuAdditionCacheEntry {
 		return location.getScheme().startsWith("toolbar"); //$NON-NLS-1$
 	}
 
-	public void mergeIntoModel(ArrayList<MMenuContribution> menuContributions,
+	public void mergeIntoModel(ArrayList<MMenuContribution> menuContributions, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ArrayList<MToolBarContribution> toolBarContributions, ArrayList<MTrimContribution> trimContributions) {
 		boolean hasAdditions = false;
 		if ("menu:help?after=additions".equals(location.toString())) { //$NON-NLS-1$
@@ -121,7 +121,7 @@ public class MenuAdditionCacheEntry {
 			}
 		}
 		if (location.getPath() == null || location.getPath().isEmpty()) {
-			WorkbenchPlugin.log("MenuAdditionCacheEntry.mergeIntoModel: Invalid menu URI: " + location); //$NON-NLS-1$
+			WorkbenchPlugin.log("MenuAdditionCacheEntry.mergeIntoModel: Invalid menu URI: " + location); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 		if (inToolbar()) {
@@ -154,7 +154,7 @@ public class MenuAdditionCacheEntry {
 			query = AFTER_ADDITIONS;
 		}
 		menuContribution.setPositionInParent(query);
-		menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
+		menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String filter = ContributionsAnalyzer.MC_MENU;
 		if ("popup".equals(location.getScheme())) { //$NON-NLS-1$
 			filter = ContributionsAnalyzer.MC_POPUP;
@@ -170,13 +170,13 @@ public class MenuAdditionCacheEntry {
 		processMenuChildren(menuContributions, configElement, filter);
 	}
 
-	private void processMenuChildren(ArrayList<MMenuContribution> menuContributions, IConfigurationElement element,
+	private void processMenuChildren(ArrayList<MMenuContribution> menuContributions, IConfigurationElement element, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String filter) {
 		IConfigurationElement[] menus = element.getChildren(IWorkbenchRegistryConstants.TAG_MENU);
 		if (menus.length == 0) {
 			return;
 		}
-		for (IConfigurationElement menu : menus) {
+		for (IConfigurationElement menu : menus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MMenuContribution menuContribution = MenuFactoryImpl.eINSTANCE.createMenuContribution();
 			menuContribution.getPersistedState().put(IWorkbench.PERSIST_STATE, Boolean.FALSE.toString());
 			String idContrib = MenuHelper.getId(menu);
@@ -185,7 +185,7 @@ public class MenuAdditionCacheEntry {
 			}
 			menuContribution.setParentId(idContrib);
 			menuContribution.setPositionInParent(AFTER_ADDITIONS);
-			menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
+			menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			menuContribution.getTags().add(filter);
 			menuContribution.setVisibleWhen(MenuHelper.getVisibleWhen(menu));
 			addMenuChildren(menuContribution, menu, filter);
@@ -194,9 +194,9 @@ public class MenuAdditionCacheEntry {
 		}
 	}
 
-	private void addMenuChildren(final MElementContainer<MMenuElement> container, IConfigurationElement parent,
+	private void addMenuChildren(final MElementContainer<MMenuElement> container, IConfigurationElement parent, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String filter) {
-		for (final IConfigurationElement child : parent.getChildren()) {
+		for (final IConfigurationElement child : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String itemType = child.getName();
 			String id = MenuHelper.getId(child);
 
@@ -210,7 +210,7 @@ public class MenuAdditionCacheEntry {
 				MMenu element = createMenuAddition(child, filter);
 				container.getChildren().add(element);
 			} else if (IWorkbenchRegistryConstants.TAG_TOOLBAR.equals(itemType)) {
-				System.out.println("Toolbar: " + id + " in " + location); //$NON-NLS-1$//$NON-NLS-2$
+				System.out.println("Toolbar: " + id + " in " + location); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else if (IWorkbenchRegistryConstants.TAG_DYNAMIC.equals(itemType)) {
 				ContextFunction generator = new ContextFunction() {
 					@Override
@@ -231,7 +231,7 @@ public class MenuAdditionCacheEntry {
 		}
 	}
 
-	private MMenuElement createMenuCommandAddition(IConfigurationElement commandAddition) {
+	private MMenuElement createMenuCommandAddition(IConfigurationElement commandAddition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MHandledMenuItem item = MenuFactoryImpl.eINSTANCE.createHandledMenuItem();
 		item.getPersistedState().put(IWorkbench.PERSIST_STATE, Boolean.FALSE.toString());
 		item.setElementId(MenuHelper.getId(commandAddition));
@@ -245,7 +245,7 @@ public class MenuAdditionCacheEntry {
 		}
 		item.setCommand(commandById);
 		Map parms = MenuHelper.getParameters(commandAddition);
-		for (Object obj : parms.entrySet()) {
+		for (Object obj : parms.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Map.Entry e = (Map.Entry) obj;
 			MParameter parm = CommandsFactoryImpl.eINSTANCE.createParameter();
 			parm.setName(e.getKey().toString());
@@ -293,7 +293,7 @@ public class MenuAdditionCacheEntry {
 
 	private void createIdentifierTracker(MApplicationElement item) {
 		if (item.getElementId() != null && item.getElementId().length() > 0) {
-			String id = namespaceIdentifier + "/" + item.getElementId(); //$NON-NLS-1$
+			String id = namespaceIdentifier + "/" + item.getElementId(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			item.getPersistedState().put(MenuManagerRenderer.VISIBILITY_IDENTIFIER, id);
 			final IIdentifier identifier = activityManager.getIdentifier(id);
 			if (identifier != null) {
@@ -355,7 +355,7 @@ public class MenuAdditionCacheEntry {
 		}
 	}
 
-	private void processTrimChildren(ArrayList<MTrimContribution> trimContributions,
+	private void processTrimChildren(ArrayList<MTrimContribution> trimContributions, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ArrayList<MToolBarContribution> toolBarContributions, IConfigurationElement element) {
 		IConfigurationElement[] toolbars = element.getChildren(IWorkbenchRegistryConstants.TAG_TOOLBAR);
 		if (toolbars.length == 0) {
@@ -370,8 +370,8 @@ public class MenuAdditionCacheEntry {
 		String query = location.getQuery();
 		boolean hasAdditions = AFTER_ADDITIONS.equals(query);
 		processTrimLocation(trimContribution);
-		trimContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
-		for (IConfigurationElement toolbar : toolbars) {
+		trimContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (IConfigurationElement toolbar : toolbars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MToolBar item = MenuFactoryImpl.eINSTANCE.createToolBar();
 			item.getPersistedState().put(IWorkbench.PERSIST_STATE, Boolean.FALSE.toString());
 			item.setElementId(MenuHelper.getId(toolbar));
@@ -386,7 +386,7 @@ public class MenuAdditionCacheEntry {
 		}
 	}
 
-	private void processToolbarChildren(ArrayList<MToolBarContribution> contributions, IConfigurationElement toolbar,
+	private void processToolbarChildren(ArrayList<MToolBarContribution> contributions, IConfigurationElement toolbar, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String parentId, String position, boolean hasAdditions) {
 		MToolBarContribution toolBarContribution = MenuFactoryImpl.eINSTANCE.createToolBarContribution();
 		toolBarContribution.getPersistedState().put(IWorkbench.PERSIST_STATE, Boolean.FALSE.toString());
@@ -396,9 +396,9 @@ public class MenuAdditionCacheEntry {
 		}
 		toolBarContribution.setParentId(parentId);
 		toolBarContribution.setPositionInParent(position);
-		toolBarContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
+		toolBarContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		for (final IConfigurationElement child : toolbar.getChildren()) {
+		for (final IConfigurationElement child : toolbar.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String itemType = child.getName();
 
 			if (IWorkbenchRegistryConstants.TAG_COMMAND.equals(itemType)) {
@@ -470,7 +470,7 @@ public class MenuAdditionCacheEntry {
 		return element;
 	}
 
-	private MToolBarElement createToolBarCommandAddition(final IConfigurationElement commandAddition) {
+	private MToolBarElement createToolBarCommandAddition(final IConfigurationElement commandAddition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MHandledToolItem item = MenuFactoryImpl.eINSTANCE.createHandledToolItem();
 		item.getPersistedState().put(IWorkbench.PERSIST_STATE, Boolean.FALSE.toString());
 		item.setElementId(MenuHelper.getId(commandAddition));
@@ -484,7 +484,7 @@ public class MenuAdditionCacheEntry {
 		}
 		item.setCommand(commandById);
 		Map parms = MenuHelper.getParameters(commandAddition);
-		for (Object obj : parms.entrySet()) {
+		for (Object obj : parms.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Map.Entry e = (Map.Entry) obj;
 			MParameter parm = CommandsFactoryImpl.eINSTANCE.createParameter();
 			parm.setName(e.getKey().toString());
@@ -553,7 +553,7 @@ public class MenuAdditionCacheEntry {
 
 	@Override
 	public String toString() {
-		return "MenuAdditionCacheEntry [id=" + MenuHelper.getId(configElement) //$NON-NLS-1$
+		return "MenuAdditionCacheEntry [id=" + MenuHelper.getId(configElement) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ ", namespaceId=" + namespaceIdentifier + ", location=" + location + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 

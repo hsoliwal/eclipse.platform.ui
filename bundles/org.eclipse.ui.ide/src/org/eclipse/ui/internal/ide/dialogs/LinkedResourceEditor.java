@@ -111,7 +111,7 @@ public class LinkedResourceEditor {
 		fProject = project;
 	}
 
-	protected void createButtons(Composite parent) {
+	protected void createButtons(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 		Composite groupComponent = new Composite(parent, SWT.NULL);
 		GridLayout groupLayout = new GridLayout();
@@ -126,7 +126,7 @@ public class LinkedResourceEditor {
 
 		fEditResourceButton = createButton(groupComponent,
 				IDEWorkbenchMessages.LinkedResourceEditor_editLinkedLocation);
-		fEditResourceButton.addSelectionListener(new SelectionAdapter() {
+		fEditResourceButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editLocation();
@@ -135,7 +135,7 @@ public class LinkedResourceEditor {
 
 		fConvertAbsoluteButton = createButton(groupComponent,
 				IDEWorkbenchMessages.LinkedResourceEditor_convertToVariableLocation);
-		fConvertAbsoluteButton.addSelectionListener(new SelectionAdapter() {
+		fConvertAbsoluteButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				convertLocation();
@@ -143,7 +143,7 @@ public class LinkedResourceEditor {
 		});
 		fRemoveButton = createButton(groupComponent,
 				IDEWorkbenchMessages.LinkedResourceEditor_remove);
-		fRemoveButton.addSelectionListener(new SelectionAdapter() {
+		fRemoveButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeSelection();
@@ -177,7 +177,7 @@ public class LinkedResourceEditor {
 	 *            the widget parent
 	 * @return container of the widgets
 	 */
-	public Control createContents(Composite parent) {
+	public Control createContents(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 
 		initializeDialogUnits(parent);
@@ -214,7 +214,7 @@ public class LinkedResourceEditor {
 
 		fTree = new TreeViewer(treeComposite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 
-		fTree.addSelectionChangedListener(unused -> updateSelection());
+		fTree.addSelectionChangedListener(unused -> updateSelection()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = fTree.getTree().getItemHeight() * 10;
@@ -223,8 +223,8 @@ public class LinkedResourceEditor {
 		fTree.getTree().setLinesVisible(true);
 
 		fTree.setContentProvider(new ContentProvider());
-		fTree.setLabelProvider(new LabelProvider());
-		fTree.setInput(this);
+		fTree.setLabelProvider(new LabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fTree.setInput(this); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		TreeColumn nameColumn = new TreeColumn(fTree.getTree(), SWT.LEFT, NAME_COLUMN);
 		nameColumn.setText(IDEWorkbenchMessages.LinkedResourceEditor_resourceName);
@@ -246,7 +246,7 @@ public class LinkedResourceEditor {
 		fTree.getTree().setHeaderVisible(true);
 		createButtons(pageComponent);
 
-		fTree.getTree().addMouseListener(new MouseAdapter() {
+		fTree.getTree().addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (getSelectedResource().length == 1) {
@@ -254,7 +254,7 @@ public class LinkedResourceEditor {
 				}
 			}
 		});
-		fTree.getTree().addKeyListener(new KeyAdapter() {
+		fTree.getTree().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
@@ -291,7 +291,7 @@ public class LinkedResourceEditor {
 			super();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getColumnText(Object obj, int index) {
 			if (obj instanceof IResource resource) {
 				if (index == NAME_COLUMN) {
@@ -357,7 +357,7 @@ public class LinkedResourceEditor {
 		}
 	}
 
-	class ContentProvider implements IContentProvider, ITreeContentProvider {
+	class ContentProvider implements IContentProvider, ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		@Override
 		public void dispose() {
@@ -367,12 +367,12 @@ public class LinkedResourceEditor {
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof LinkedResourceEditor) {
-				ArrayList<Object> list = new ArrayList<>();
+				ArrayList<Object> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				Object[] objs = { BROKEN, ABSOLUTE, FIXED };
-				for (Object obj : objs) {
+				for (Object obj : objs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object[] children = getChildren(obj);
 					if (children != null && children.length > 0) {
 						list.add(obj);
@@ -431,7 +431,7 @@ public class LinkedResourceEditor {
 		}
 	}
 
-	void refreshContent() {
+	void refreshContent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource[] projectFiles;
 		if (!initialized) {
 			final LinkedList<IResource> resources = new LinkedList<>();
@@ -448,16 +448,16 @@ public class LinkedResourceEditor {
 			initialized = true;
 		}
 		else {
-			ArrayList<IResource> list = new ArrayList<>();
+			ArrayList<IResource> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			list.addAll(fBrokenResources.values());
 			list.addAll(fFixedResources.values());
 			list.addAll(fAbsoluteResources.values());
 			projectFiles = list.toArray(new IResource[0]);
 		}
-		fBrokenResources = new TreeMap<>();
-		fFixedResources = new TreeMap<>();
-		fAbsoluteResources = new TreeMap<>();
-		for (IResource resource : projectFiles) {
+		fBrokenResources = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+		fFixedResources = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+		fAbsoluteResources = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+		for (IResource resource : projectFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String fullPath = resource.getFullPath().toPortableString();
 			try {
 				if (exists(resource)) {
@@ -481,7 +481,7 @@ public class LinkedResourceEditor {
 	}
 
 	boolean areAbsolute(IResource[] res) {
-		for (IResource re : res) {
+		for (IResource re : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isAbsolute(re)) {
 				return false;
 			}
@@ -507,7 +507,7 @@ public class LinkedResourceEditor {
 	}
 
 	boolean areFixed(IResource[] res) {
-		for (IResource resource : res) {
+		for (IResource resource : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String fullPath = resource.getFullPath().toPortableString();
 			if (!fFixedResources.containsKey(fullPath)) {
 				return false;
@@ -520,7 +520,7 @@ public class LinkedResourceEditor {
 		IStructuredSelection selection = fTree.getStructuredSelection();
 		Object[] array = selection.toArray();
 		if (array.length > 0) {
-		    for (Object array1 : array) {
+		    for (Object array1 : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(array1 instanceof IResource)) {
 			    return new IResource[0];
 			}
@@ -536,7 +536,7 @@ public class LinkedResourceEditor {
 		if (MessageDialog.openConfirm(fConvertAbsoluteButton.getShell(),
 				IDEWorkbenchMessages.LinkedResourceEditor_convertTitle,
 				IDEWorkbenchMessages.LinkedResourceEditor_convertMessage)) {
-			ArrayList<IResource> resources = new ArrayList<>();
+			ArrayList<IResource> resources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IResource[] selectedResources = getSelectedResource();
 			resources.addAll(Arrays.asList(selectedResources));
 			if (areFixed(selectedResources)) {
@@ -547,17 +547,17 @@ public class LinkedResourceEditor {
 		}
 	}
 
-	private void removeSelection() {
+	private void removeSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (MessageDialog.openConfirm(fRemoveButton.getShell(),
 				IDEWorkbenchMessages.LinkedResourceEditor_removeTitle,
 				IDEWorkbenchMessages.LinkedResourceEditor_removeMessage)) {
 			final IResource[] selectedResources = getSelectedResource();
-			final ArrayList<IResource> removedResources = new ArrayList<>();
+			final ArrayList<IResource> removedResources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			IRunnableWithProgress op = monitor -> {
+			IRunnableWithProgress op = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				SubMonitor subMonitor = SubMonitor.convert(monitor,
 						IDEWorkbenchMessages.LinkedResourceEditor_removingMessage, selectedResources.length);
-				for (IResource selectedResource : selectedResources) {
+				for (IResource selectedResource : selectedResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String fullPath = selectedResource.getFullPath().toPortableString();
 					try {
 						selectedResource.delete(true, subMonitor.split(1));
@@ -576,16 +576,16 @@ public class LinkedResourceEditor {
 			} catch (InvocationTargetException | InterruptedException e) {
 				IDEWorkbenchPlugin.log(null, e);
 			}
-			fTree.refresh();
+			fTree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
-	private void convertToAbsolute(ArrayList<IResource> resources,
+	private void convertToAbsolute(ArrayList<IResource> resources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource[] selectedResources) {
-		ArrayList<String> report = new ArrayList<>();
+		ArrayList<String> report = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Iterator<IResource> it = resources.iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource res = it.next();
 			IPath location = res.getLocation();
 
@@ -616,11 +616,11 @@ public class LinkedResourceEditor {
 		}
 	}
 
-	private void reportResult(IResource[] selectedResources,
+	private void reportResult(IResource[] selectedResources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ArrayList<String> report, String title) {
-		StringBuilder message = new StringBuilder();
+		StringBuilder message = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		Iterator<String> stringIt = report.iterator();
-		while (stringIt.hasNext()) {
+		while (stringIt.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			message.append(stringIt.next());
 			if (stringIt.hasNext()) {
 				message.append("\n"); //$NON-NLS-1$
@@ -636,7 +636,7 @@ public class LinkedResourceEditor {
 				return true;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Control createCustomArea(Composite comp) {
 				setShellStyle(getShellStyle() | SWT.RESIZE);
 				Composite parent = new Composite(comp, 0);
@@ -669,14 +669,14 @@ public class LinkedResourceEditor {
 		return path;
 	}
 
-	private void convertToRelative(ArrayList<IResource> resources,
+	private void convertToRelative(ArrayList<IResource> resources, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource[] selectedResources) {
-		ArrayList<String> report = new ArrayList<>();
+		ArrayList<String> report = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// first, try to use the automatic converter
-		ArrayList<IResource> remaining = new ArrayList<>();
+		ArrayList<IResource> remaining = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<IResource> it = resources.iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource res = it.next();
 			IPath location = res.getLocation();
 			try {
@@ -693,20 +693,20 @@ public class LinkedResourceEditor {
 			}
 		}
 		resources = remaining;
-		remaining = new ArrayList<>();
+		remaining = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// try for each to match with an existing variable
 		String[] variables = fProject.getPathVariableManager()
 				.getPathVariableNames();
 
 		it = resources.iterator();
 		int amountLeft = 0;
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource res = it.next();
 			IPath location = res.getLocation();
 
 			int maxCount = 0;
 			int variable = -1;
-			for (int i = 0; i < variables.length; i++) {
+			for (int i = 0; i < variables.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPath resolvePath = URIUtil.toPath(res.getPathVariableManager().resolveURI(
 						URIUtil.toURI(IPath.fromOSString(variables[i]))));
 				if (resolvePath
@@ -748,7 +748,7 @@ public class LinkedResourceEditor {
 			// try to generate a generic variable
 			it = resources.iterator();
 			IPath commonPath = null;
-			while (it.hasNext()) {
+			while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource res = it.next();
 				IPath location = res.getLocation();
 
@@ -780,7 +780,7 @@ public class LinkedResourceEditor {
 													.toOSString()));
 				}
 				it = resources.iterator();
-				while (it.hasNext()) {
+				while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource res = it.next();
 					IPath location = res.getLocation();
 					int commonCount = location
@@ -811,7 +811,7 @@ public class LinkedResourceEditor {
 				report
 						.add(IDEWorkbenchMessages.LinkedResourceEditor_unableToFindCommonPathSegments);
 				it = resources.iterator();
-				while (it.hasNext()) {
+				while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource res = it.next();
 					report.add(res.getProjectRelativePath().toPortableString());
 				}
@@ -858,7 +858,7 @@ public class LinkedResourceEditor {
 				IDEWorkbenchMessages.LinkedResourceEditor_convertAbsolutePathLocations);
 	}
 
-	private String getSuitablePathVariable(IPath commonPath) {
+	private String getSuitablePathVariable(IPath commonPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String variableName = commonPath.lastSegment();
 		if (variableName == null) {
 			variableName = commonPath.getDevice();
@@ -868,8 +868,8 @@ public class LinkedResourceEditor {
 				variableName = variableName.substring(0, variableName.length() -1); // remove the tailing ':'
 			}
 		}
-		StringBuilder buf = new StringBuilder();
-		for (int i = 0; i < variableName.length(); i++) {
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < variableName.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c = variableName.charAt(i);
 			if (Character.isLetterOrDigit(c) || (c == '_')) {
 				buf.append(c);
@@ -879,14 +879,14 @@ public class LinkedResourceEditor {
 
 		}
 		int index = 1;
-		while (fProject.getPathVariableManager().isDefined(buf.toString())) {
+		while (fProject.getPathVariableManager().isDefined(buf.toString())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buf.append(index);
 			index++;
 		}
 		return buf.toString();
 	}
 
-	void editLocation() {
+	void editLocation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource = getSelectedResource()[0];
 
 		IPath location = resource.getRawLocation();
@@ -911,10 +911,10 @@ public class LinkedResourceEditor {
 		reparent(new IResource[] { resource });
 	}
 
-	void reparent(IResource[] resources) {
+	void reparent(IResource[] resources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean changed = false;
 
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean isBroken;
 			try {
 				isBroken = !exists(resource);
@@ -941,14 +941,14 @@ public class LinkedResourceEditor {
 			}
 		}
 		if (changed) {
-			fTree.refresh();
+			fTree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
 	boolean initialized = false;
-	TreeMap<String, IResource> fBrokenResources = new TreeMap<>();
-	TreeMap<String, IResource> fAbsoluteResources = new TreeMap<>();
-	TreeMap<String, IResource> fFixedResources = new TreeMap<>();
+	TreeMap<String, IResource> fBrokenResources = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+	TreeMap<String, IResource> fAbsoluteResources = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
+	TreeMap<String, IResource> fFixedResources = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 
 	IProject fProject;
 	TreeViewer fTree;
@@ -973,7 +973,7 @@ public class LinkedResourceEditor {
 
 	public void reloadContent() {
 		refreshContent();
-		fTree.refresh();
+		fTree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		updateSelection();
 		fTree.expandAll();
 	}

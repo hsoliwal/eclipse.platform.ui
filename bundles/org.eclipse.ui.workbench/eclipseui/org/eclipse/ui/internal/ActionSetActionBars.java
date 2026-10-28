@@ -38,7 +38,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 
 	private final String actionSetId;
 
-	private ArrayList<IContributionItem> adjunctContributions = new ArrayList<>();
+	private ArrayList<IContributionItem> adjunctContributions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private IToolBarManager coolItemToolBarMgr = null;
 
@@ -84,7 +84,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 	/**
 	 * Dispose the contributions.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (coolItemToolBarMgr == null) {
 			super.dispose();
@@ -93,7 +93,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 		// remove the action set's items from its action bar, don't use
 		// removeAll since other items from other actions sets may be in
 		// the action bar's cool item
-		for (IContributionItem item : coolItemToolBarMgr.getItems()) {
+		for (IContributionItem item : coolItemToolBarMgr.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof PluginActionCoolBarContributionItem actionSetItem) {
 				if (actionSetItem.getActionSetId().equals(actionSetId)) {
 					coolItemToolBarMgr.remove(item);
@@ -107,7 +107,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 		}
 
 		// remove items from this action set that are in other action bars
-		for (IContributionItem adjunctContribution : adjunctContributions) {
+		for (IContributionItem adjunctContribution : adjunctContributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ContributionItem item = (ContributionItem) adjunctContribution;
 			IContributionManager parent = item.getParent();
 			if (parent != null) {
@@ -117,7 +117,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 		}
 		toolBarContributionItem = null;
 		coolItemToolBarMgr = null;
-		adjunctContributions = new ArrayList<>();
+		adjunctContributions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		super.dispose();
 	}
 
@@ -132,12 +132,12 @@ public class ActionSetActionBars extends SubActionBars2 {
 	 *
 	 * @since 3.0
 	 */
-	private IContributionItem findAlphabeticalOrder(String startId, String itemId, IContributionManager mgr) {
+	private IContributionItem findAlphabeticalOrder(String startId, String itemId, IContributionManager mgr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContributionItem[] items = mgr.getItems();
 		int insertIndex = 0;
 
 		// look for starting point
-		while (insertIndex < items.length) {
+		while (insertIndex < items.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = items[insertIndex];
 			if (item.getId() != null && item.getId().equals(startId)) {
 				break;
@@ -146,7 +146,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 		}
 
 		// Find the index that this item should be inserted in
-		for (int i = insertIndex + 1; i < items.length; i++) {
+		for (int i = insertIndex + 1; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = items[i];
 			String testId = item.getId();
 
@@ -193,7 +193,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 	 * @param actionId the id of the action
 	 * @return the tool bar manager
 	 */
-	public IToolBarManager getToolBarManager(String actionId) {
+	public IToolBarManager getToolBarManager(String actionId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check if a tool bar manager for an adjunct type is being requested
 		String toolBarId = actionSetId;
 		boolean isAdjunctType = false;
@@ -265,7 +265,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 	/**
 	 * Activate / Deactivate the contributions.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setActive(boolean set) {
 		super.setActive(set);
 
@@ -276,7 +276,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 
 		// 1. Need to set visibility for all non-adjunct actions
 		if (coolItemToolBarMgr != null) {
-			for (IContributionItem item : coolItemToolBarMgr.getItems()) {
+			for (IContributionItem item : coolItemToolBarMgr.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item instanceof PluginActionCoolBarContributionItem actionSetItem) {
 					// Only if the action set id for this contribution item is
 					// the same
@@ -299,7 +299,7 @@ public class ActionSetActionBars extends SubActionBars2 {
 
 		// 2. Need to set visibility for all adjunct actions
 		if (adjunctContributions.size() > 0) {
-			for (IContributionItem item : adjunctContributions) {
+			for (IContributionItem item : adjunctContributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item instanceof ContributionItem) {
 					item.setVisible(set);
 					IContributionManager manager = ((ContributionItem) item).getParent();

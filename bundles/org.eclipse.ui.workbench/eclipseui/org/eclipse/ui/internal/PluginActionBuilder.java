@@ -65,7 +65,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			return;
 		}
 
-		for (Object element : cache) {
+		for (Object element : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BasicContribution contribution = (BasicContribution) element;
 			contribution.contribute(menu, appendIfMissing, toolbar, appendIfMissing);
 		}
@@ -118,7 +118,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 	 * Implements abstract method to handle the provided XML element in the
 	 * registry.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean readElement(IConfigurationElement element) {
 		String tag = element.getName();
 
@@ -142,7 +142,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			currentContribution = createContribution();
 			readElementChildren(element);
 			if (cache == null) {
-				cache = new ArrayList<>(4);
+				cache = new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			cache.add(currentContribution);
 			currentContribution = null;
@@ -180,7 +180,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		 */
 		public void addMenu(IConfigurationElement element) {
 			if (menus == null) {
-				menus = new ArrayList<>(1);
+				menus = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			menus.add(element);
 		}
@@ -192,7 +192,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		 */
 		public void addAction(ActionDescriptor desc) {
 			if (actions == null) {
-				actions = new ArrayList<>(3);
+				actions = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			actions.add(desc);
 		}
@@ -208,16 +208,16 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		 * @param toolbar             the toolbar to contribute to
 		 * @param toolAppendIfMissing whether to append missing groups to toolbars
 		 */
-		public void contribute(IMenuManager menu, boolean menuAppendIfMissing, IToolBarManager toolbar,
+		public void contribute(IMenuManager menu, boolean menuAppendIfMissing, IToolBarManager toolbar, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				boolean toolAppendIfMissing) {
 			if (menus != null && menu != null) {
-				for (IConfigurationElement menuElement : menus) {
+				for (IConfigurationElement menuElement : menus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					contributeMenu(menuElement, menu, menuAppendIfMissing);
 				}
 			}
 
 			if (actions != null) {
-				for (ActionDescriptor ad : actions) {
+				for (ActionDescriptor ad : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (menu != null) {
 						contributeMenuAction(ad, menu, menuAppendIfMissing);
 					}
@@ -234,7 +234,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		 * menu path slot is not found, it will be created and menu will be added into
 		 * it. Otherwise, add operation will fail.
 		 */
-		protected void contributeMenu(IConfigurationElement menuElement, IMenuManager mng, boolean appendIfMissing) {
+		protected void contributeMenu(IConfigurationElement menuElement, IMenuManager mng, boolean appendIfMissing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Get config data.
 			String id = menuElement.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 			String label = menuElement.getAttribute(IWorkbenchRegistryConstants.ATT_LABEL);
@@ -246,7 +246,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 				image = ResourceLocator.imageDescriptorFromBundle(extendingPluginId, icon).orElse(null);
 			}
 			if (label == null) {
-				WorkbenchPlugin.log("Plugin \'" //$NON-NLS-1$
+				WorkbenchPlugin.log("Plugin \'" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ menuElement.getContributor().getName() + "\' invalid Menu Extension (label == null): " + id); //$NON-NLS-1$
 				return;
 			}
@@ -271,7 +271,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			if (path != null) {
 				parent = mng.findMenuUsingPath(path);
 				if (parent == null) {
-					ideLog("Plugin \'" //$NON-NLS-1$
+					ideLog("Plugin \'" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ menuElement.getContributor().getName() + "\' invalid Menu Extension (Path \'" //$NON-NLS-1$
 							+ path + "\' is invalid): " + id); //$NON-NLS-1$
 					return;
@@ -287,7 +287,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 				if (appendIfMissing) {
 					addGroup(parent, group);
 				} else {
-					WorkbenchPlugin.log("Plugin \'" //$NON-NLS-1$
+					WorkbenchPlugin.log("Plugin \'" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ menuElement.getContributor().getName() + "\' invalid Menu Extension (Group \'" //$NON-NLS-1$
 							+ group + "\' is invalid): " + id); //$NON-NLS-1$
 					return;
@@ -304,7 +304,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			try {
 				insertAfter(parent, group, newMenu);
 			} catch (IllegalArgumentException e) {
-				WorkbenchPlugin.log("Plugin \'" //$NON-NLS-1$
+				WorkbenchPlugin.log("Plugin \'" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ menuElement.getContributor().getName() + "\' invalid Menu Extension (Group \'" //$NON-NLS-1$
 						+ group + "\' is missing): " + id); //$NON-NLS-1$
 			}
@@ -314,12 +314,12 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			// properly if the menu was just created.
 			newMenu = parent.findMenuUsingPath(id);
 			if (newMenu == null) {
-				WorkbenchPlugin.log("Could not find new menu: " + id); //$NON-NLS-1$
+				WorkbenchPlugin.log("Could not find new menu: " + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			// Create separators.
 			IConfigurationElement[] children = menuElement.getChildren();
-			for (IConfigurationElement element : children) {
+			for (IConfigurationElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String childName = element.getName();
 				if (childName.equals(IWorkbenchRegistryConstants.TAG_SEPARATOR)) {
 					contributeSeparator(newMenu, element);
@@ -332,7 +332,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		/**
 		 * Contributes action from action descriptor into the provided menu manager.
 		 */
-		protected void contributeMenuAction(ActionDescriptor ad, IMenuManager menu, boolean appendIfMissing) {
+		protected void contributeMenuAction(ActionDescriptor ad, IMenuManager menu, boolean appendIfMissing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Get config data.
 			String mpath = ad.getMenuPath();
 			String mgroup = ad.getMenuGroup();
@@ -344,7 +344,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			if (mpath != null) {
 				parent = parent.findMenuUsingPath(mpath);
 				if (parent == null) {
-					ideLog("Plug-in '" + ad.getPluginId() + "' contributed an invalid Menu Extension (Path: '" + mpath //$NON-NLS-1$ //$NON-NLS-2$
+					ideLog("Plug-in '" + ad.getPluginId() + "' contributed an invalid Menu Extension (Path: '" + mpath //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "' is invalid): " + ad.getId()); //$NON-NLS-1$
 					return;
 				}
@@ -360,7 +360,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 					addGroup(parent, mgroup);
 				} else {
 					WorkbenchPlugin
-							.log("Plug-in '" + ad.getPluginId() + "' contributed an invalid Menu Extension (Group: '" //$NON-NLS-1$ //$NON-NLS-2$
+							.log("Plug-in '" + ad.getPluginId() + "' contributed an invalid Menu Extension (Group: '" //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									+ mgroup + "' is invalid): " + ad.getId()); //$NON-NLS-1$
 					return;
 				}
@@ -370,7 +370,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			try {
 				insertAfter(parent, mgroup, ad);
 			} catch (IllegalArgumentException e) {
-				WorkbenchPlugin.log("Plug-in '" + ad.getPluginId() + "' contributed an invalid Menu Extension (Group: '" //$NON-NLS-1$ //$NON-NLS-2$
+				WorkbenchPlugin.log("Plug-in '" + ad.getPluginId() + "' contributed an invalid Menu Extension (Group: '" //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ mgroup + "' is missing): " + ad.getId()); //$NON-NLS-1$
 			}
 		}
@@ -411,7 +411,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		 * Contributes action from the action descriptor into the provided tool bar
 		 * manager.
 		 */
-		protected void contributeToolbarAction(ActionDescriptor ad, IToolBarManager toolbar, boolean appendIfMissing) {
+		protected void contributeToolbarAction(ActionDescriptor ad, IToolBarManager toolbar, boolean appendIfMissing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Get config data.
 			String tId = ad.getToolbarId();
 			String tgroup = ad.getToolbarGroupId();
@@ -429,7 +429,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 				if (appendIfMissing) {
 					addGroup(toolbar, tgroup);
 				} else {
-					WorkbenchPlugin.log("Plug-in '" + ad.getPluginId() //$NON-NLS-1$
+					WorkbenchPlugin.log("Plug-in '" + ad.getPluginId() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "' invalid Toolbar Extension (Group \'" //$NON-NLS-1$
 							+ tgroup + "\' is invalid): " + ad.getId()); //$NON-NLS-1$
 					return;
@@ -439,7 +439,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 			try {
 				insertAfter(toolbar, tgroup, ad);
 			} catch (IllegalArgumentException e) {
-				WorkbenchPlugin.log("Plug-in '" + ad.getPluginId() //$NON-NLS-1$
+				WorkbenchPlugin.log("Plug-in '" + ad.getPluginId() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "' invalid Toolbar Extension (Group \'" //$NON-NLS-1$
 						+ tgroup + "\' is missing): " + ad.getId()); //$NON-NLS-1$
 			}
@@ -493,7 +493,7 @@ public abstract class PluginActionBuilder extends RegistryReader {
 		 */
 		protected void disposeActions() {
 			if (actions != null) {
-				for (ActionDescriptor action : actions) {
+				for (ActionDescriptor action : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					PluginAction proxy = action.getAction();
 					proxy.dispose();
 				}

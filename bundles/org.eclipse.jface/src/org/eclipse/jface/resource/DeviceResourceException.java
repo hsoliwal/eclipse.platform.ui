@@ -34,7 +34,7 @@ public class DeviceResourceException extends RuntimeException {
 	 * @param cause cause of the exception (or null if none)
 	 */
 	public DeviceResourceException(DeviceResourceDescriptor<?> missingResource, Throwable cause) {
-		super("Unable to create resource " + missingResource, cause); //$NON-NLS-1$
+		super("Unable to create resource " + missingResource, cause); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

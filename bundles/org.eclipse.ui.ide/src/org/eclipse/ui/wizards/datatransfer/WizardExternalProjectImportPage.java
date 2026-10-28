@@ -99,7 +99,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -149,7 +149,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 	 *
 	 * @param parent the parent composite
 	 */
-	private final void createProjectNameGroup(Composite parent) {
+	private final void createProjectNameGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font dialogFont = parent.getFont();
 
@@ -180,7 +180,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 	 *
 	 * @param projectGroup the parent composite
 	 */
-	private void createUserSpecifiedProjectLocationGroup(Composite projectGroup) {
+	private void createUserSpecifiedProjectLocationGroup(Composite projectGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font dialogFont = projectGroup.getFont();
 
@@ -197,14 +197,14 @@ public class WizardExternalProjectImportPage extends WizardPage {
 		this.browseButton.setFont(dialogFont);
 		setButtonLayoutData(this.browseButton);
 
-		this.browseButton.addSelectionListener(new SelectionAdapter() {
+		this.browseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				handleLocationBrowseButtonPressed();
 			}
 		});
 
-		locationPathField.addListener(SWT.Modify, locationModifyListener);
+		locationPathField.addListener(SWT.Modify, locationModifyListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -270,7 +270,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 	/**
 	 * Open an appropriate directory browser
 	 */
-	private void handleLocationBrowseButtonPressed() {
+	private void handleLocationBrowseButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DirectoryDialog dialog = new DirectoryDialog(locationPathField.getShell(), SWT.SHEET);
 		dialog.setMessage(DataTransferMessages.WizardExternalProjectImportPage_directoryLabel);
 
@@ -302,7 +302,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 	 * @return <code>true</code> if all controls are valid, and <code>false</code>
 	 *         if at least one is invalid
 	 */
-	private boolean validatePage() {
+	private boolean validatePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String locationFieldContents = getProjectLocationFieldValue();
 
@@ -351,7 +351,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 	 * Set the project name using either the name of the parent of the file or the
 	 * name entry in the xml for the file
 	 */
-	private void setProjectName(File projectFile) {
+	private void setProjectName(File projectFile) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// If there is no file or the user has already specified forget it
 		if (projectFile == null) {
@@ -406,7 +406,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 	 * @return the created project resource, or <code>null</code> if the project was
 	 *         not created
 	 */
-	IProject createExistingProject() {
+	IProject createExistingProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String projectName = projectNameField.getText();
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -425,7 +425,7 @@ public class WizardExternalProjectImportPage extends WizardPage {
 		}
 
 		// create the new project operation
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+		WorkspaceModifyOperation op = new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			protected void execute(IProgressMonitor monitor) throws CoreException {
 				SubMonitor subMonitor = SubMonitor.convert(monitor, 100);

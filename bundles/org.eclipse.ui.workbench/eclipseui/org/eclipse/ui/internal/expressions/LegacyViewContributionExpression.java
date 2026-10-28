@@ -100,7 +100,7 @@ public final class LegacyViewContributionExpression extends WorkbenchWindowExpre
 
 	@Override
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("LegacyViewContributionExpression("); //$NON-NLS-1$
 		buffer.append(activePartId);
 		buffer.append(',');

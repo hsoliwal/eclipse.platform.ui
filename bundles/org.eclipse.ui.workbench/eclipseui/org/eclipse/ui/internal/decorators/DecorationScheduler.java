@@ -124,7 +124,7 @@ public class DecorationScheduler {
 	private final Set<Object> pendingUpdate = new LinkedHashSet<>();
 
 	/** manually synchronized on DecorationScheduler.this **/
-	private final LinkedHashMap<Object, DecorationReference> awaitingDecoration = new LinkedHashMap<>();
+	private final LinkedHashMap<Object, DecorationReference> awaitingDecoration = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	/** manually synchronized on DecorationScheduler.this **/
 	private boolean shutdown = false;
@@ -159,7 +159,7 @@ public class DecorationScheduler {
 
 	private UIJob updateJob;
 
-	private final Collection<ILabelProviderListener> removedListeners = Collections.synchronizedSet(new HashSet<>());
+	private final Collection<ILabelProviderListener> removedListeners = Collections.synchronizedSet(new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private Job clearJob;
 
@@ -215,7 +215,7 @@ public class DecorationScheduler {
 	 * @param context         The decoration context
 	 */
 
-	synchronized void queueForDecoration(Object element, Object adaptedElement, boolean forceUpdate,
+	synchronized void queueForDecoration(Object element, Object adaptedElement, boolean forceUpdate, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String undecoratedText, IDecorationContext context) {
 
 		Assert.isNotNull(context);
@@ -349,9 +349,9 @@ public class DecorationScheduler {
 	/**
 	 * Create the Thread used for running decoration.
 	 */
-	private Job createDecorationJob() {
+	private Job createDecorationJob() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Job decorationJob = new Job(WorkbenchMessages.DecorationScheduler_CalculationJobName) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus run(IProgressMonitor monitor) {
 
 				synchronized (DecorationScheduler.this) {
@@ -360,7 +360,7 @@ public class DecorationScheduler {
 					}
 				}
 
-				while (updatesPending()) {
+				while (updatesPending()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					try {
 						jobFinishListener.sleep(100);
@@ -378,13 +378,13 @@ public class DecorationScheduler {
 
 				boolean queued = false;
 				// for each in awaitingDecorationValues, but not locking the map during the whole iteration:
-				while ((reference = removeNextReference()) != null) {
+				while ((reference = removeNextReference()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					subMonitor.split(1);
 					queued = true;
 					Object element = reference.getElement();
 					boolean force = reference.shouldForceUpdate();
 					Collection<IDecorationContext> contexts = reference.getContexts();
-					for (IDecorationContext context : contexts) {
+					for (IDecorationContext context : contexts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						queued |= queue(element, force, context);
 					}
 					subMonitor.setWorkRemaining(awaitingDecoration.size() + 1); // may grow asynchronously
@@ -404,7 +404,7 @@ public class DecorationScheduler {
 			 * @param force   whether an update should be forced
 			 * @param context the decoration context
 			 */
-			private boolean queue(Object element, boolean force, IDecorationContext context) {
+			private boolean queue(Object element, boolean force, IDecorationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				DecorationBuilder cacheResult = new DecorationBuilder(context);
 				// Calculate the decoration
 				decoratorManager.getLightweightManager().getDecorations(element, cacheResult);
@@ -478,7 +478,7 @@ public class DecorationScheduler {
 		clearJob.schedule();
 	}
 
-	private Job getClearJob() {
+	private Job getClearJob() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Job clear = new Job(WorkbenchMessages.DecorationScheduler_ClearResultsJob) {
 
 			@Override
@@ -503,8 +503,8 @@ public class DecorationScheduler {
 	 *
 	 * @return WorkbenchJob
 	 */
-	private WorkbenchJob getUpdateJob() {
-		WorkbenchJob job = new WorkbenchJob(WorkbenchMessages.DecorationScheduler_UpdateJobName) {
+	private WorkbenchJob getUpdateJob() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		WorkbenchJob job = new WorkbenchJob(WorkbenchMessages.DecorationScheduler_UpdateJobName) { //FLLDCIM: MARK — T09  ANONYMOUS
 
 			int currentIndex = NEEDS_INIT;
 
@@ -512,7 +512,7 @@ public class DecorationScheduler {
 
 			ILabelProviderListener[] listeners;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				// set the flag to true while the job is running
 				isUpdateJobRunning = true;
@@ -542,7 +542,7 @@ public class DecorationScheduler {
 					monitor.beginTask(WorkbenchMessages.DecorationScheduler_UpdatingTask, IProgressMonitor.UNKNOWN);
 
 					long startTime = System.currentTimeMillis();
-					while (currentIndex < listeners.length) {
+					while (currentIndex < listeners.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ILabelProviderListener listener = listeners[currentIndex];
 						currentIndex++;
 

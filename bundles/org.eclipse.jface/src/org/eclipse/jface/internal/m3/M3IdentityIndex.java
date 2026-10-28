@@ -39,7 +39,7 @@ public final class M3IdentityIndex {
 		positions = new int[capacity];
 		mask = capacity - 1;
 		shift = 32 - Integer.numberOfTrailingZeros(capacity);
-		for (int i = 0; i < objects.length; i++) {
+		for (int i = 0; i < objects.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			put(objects[i], i);
 		}
 	}
@@ -49,7 +49,7 @@ public final class M3IdentityIndex {
 			return;
 		}
 		int slot = slot(key);
-		while (keys[slot] != null) {
+		while (keys[slot] != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[slot] == key) {
 				return;
 			}
@@ -70,7 +70,7 @@ public final class M3IdentityIndex {
 			return -1;
 		}
 		int slot = slot(key);
-		while (keys[slot] != null) {
+		while (keys[slot] != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keys[slot] == key) {
 				return positions[slot];
 			}

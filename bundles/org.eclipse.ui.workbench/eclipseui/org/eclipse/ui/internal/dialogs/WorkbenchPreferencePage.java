@@ -142,7 +142,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 	/**
 	 * Create the widget for the max number of elements in the view
 	 */
-	protected void createLargeViewLimitPref(Composite composite) {
+	protected void createLargeViewLimitPref(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite groupComposite = new Composite(composite, SWT.LEFT);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -182,7 +182,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 
 		largeViewLimit.load();
 
-		largeViewLimit.setPropertyChangeListener(event -> {
+		largeViewLimit.setPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 				setValid(largeViewLimit.isValid());
 			}
@@ -218,7 +218,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 	 *
 	 * @param composite the Composite the group is created in.
 	 */
-	protected void createSaveIntervalGroup(Composite composite) {
+	protected void createSaveIntervalGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite groupComposite = new Composite(composite, SWT.LEFT);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -244,7 +244,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 
 		saveInterval.load();
 
-		saveInterval.setPropertyChangeListener(event -> {
+		saveInterval.setPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 				setValid(saveInterval.isValid());
 			}
@@ -252,7 +252,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 
 	}
 
-	protected void createOpenModeGroup(Composite composite) {
+	protected void createOpenModeGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font font = composite.getFont();
 
@@ -265,14 +265,14 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 
 		String label = WorkbenchMessages.WorkbenchPreference_doubleClick;
 		doubleClickButton = createRadioButton(buttonComposite, label);
-		doubleClickButton
-				.addSelectionListener(widgetSelectedAdapter(e -> selectClickMode(singleClickButton.getSelection())));
+		doubleClickButton //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				.addSelectionListener(widgetSelectedAdapter(e -> selectClickMode(singleClickButton.getSelection()))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		doubleClickButton.setSelection(!openOnSingleClick);
 
 		label = WorkbenchMessages.WorkbenchPreference_singleClick;
 		singleClickButton = createRadioButton(buttonComposite, label);
-		singleClickButton
-				.addSelectionListener(widgetSelectedAdapter(e -> selectClickMode(singleClickButton.getSelection())));
+		singleClickButton //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				.addSelectionListener(widgetSelectedAdapter(e -> selectClickMode(singleClickButton.getSelection()))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		singleClickButton.setSelection(openOnSingleClick);
 
 		label = WorkbenchMessages.WorkbenchPreference_singleClick_SelectOnHover;
@@ -280,8 +280,8 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 		selectOnHoverButton.setText(label);
 		selectOnHoverButton.setEnabled(openOnSingleClick);
 		selectOnHoverButton.setSelection(selectOnHover);
-		selectOnHoverButton
-				.addSelectionListener(widgetSelectedAdapter(e -> selectOnHover = selectOnHoverButton.getSelection()));
+		selectOnHoverButton //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				.addSelectionListener(widgetSelectedAdapter(e -> selectOnHover = selectOnHoverButton.getSelection())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		data = new GridData();
 		data.horizontalIndent = LayoutConstants.getIndent();
 		selectOnHoverButton.setLayoutData(data);
@@ -291,8 +291,8 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 		openAfterDelayButton.setText(label);
 		openAfterDelayButton.setEnabled(openOnSingleClick);
 		openAfterDelayButton.setSelection(openAfterDelay);
-		openAfterDelayButton
-				.addSelectionListener(widgetSelectedAdapter(e -> openAfterDelay = openAfterDelayButton.getSelection()));
+		openAfterDelayButton //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				.addSelectionListener(widgetSelectedAdapter(e -> openAfterDelay = openAfterDelayButton.getSelection())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		data = new GridData();
 		data.horizontalIndent = LayoutConstants.getIndent();
 		openAfterDelayButton.setLayoutData(data);
@@ -307,8 +307,8 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 		showInlineRenameButton.setText(WorkbenchMessages.WorkbenchPreference_inlineRename);
 		showInlineRenameButton.setToolTipText(WorkbenchMessages.WorkbenchPreference_inlineRename);
 
-		showInlineRenameButton.addSelectionListener(
-				widgetSelectedAdapter(e -> renameModeInline = showInlineRenameButton.getSelection()));
+		showInlineRenameButton.addSelectionListener( //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				widgetSelectedAdapter(e -> renameModeInline = showInlineRenameButton.getSelection())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		showInlineRenameButton.setSelection(renameModeInline);
 	}
@@ -420,7 +420,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 	/**
 	 * The default button has been pressed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performDefaults() {
 		IPreferenceStore store = getPreferenceStore();
 		saveInterval.loadDefault();
@@ -453,7 +453,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 	/**
 	 * The user has pressed Ok. Store/apply this page's values appropriately.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		IPreferenceStore store = getPreferenceStore();
 
@@ -499,7 +499,7 @@ public class WorkbenchPreferencePage extends PreferencePage implements IWorkbenc
 	 */
 	private void updateHeapStatus(boolean selection) {
 		IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-		for (IWorkbenchWindow window : windows) {
+		for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (window instanceof WorkbenchWindow) {
 				((WorkbenchWindow) window).showHeapStatus(selection);
 			}

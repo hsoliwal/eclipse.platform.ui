@@ -55,7 +55,7 @@ import org.eclipse.ui.services.IServiceLocator;
  */
 public class WorkbenchSourceProvider extends AbstractSourceProvider implements INullSelectionListener {
 
-	private static final String STATUS_LINE_VIS = ISources.ACTIVE_WORKBENCH_WINDOW_NAME + ".isStatusLineVisible"; //$NON-NLS-1$
+	private static final String STATUS_LINE_VIS = ISources.ACTIVE_WORKBENCH_WINDOW_NAME + ".isStatusLineVisible"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The names of the sources supported by this source provider.
@@ -81,7 +81,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		workbench.addWindowListener(windowListener);
 		lastWindow = workbench.getActiveWorkbenchWindow();
 		display = workbench.getDisplay();
-		display.addFilter(SWT.Activate, listener);
+		display.addFilter(SWT.Activate, listener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 	@Override
 	public Map getCurrentState() {
 
-		final Map currentState = new HashMap();
+		final Map currentState = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		updateActiveShell(currentState);
 		updateActivePart(currentState);
@@ -143,7 +143,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		selection = newSelection;
 
 		if (DEBUG) {
-			logDebuggingInfo("Selection changed to " + selection); //$NON-NLS-1$
+			logDebuggingInfo("Selection changed to " + selection); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		fireSourceChanged(ISources.ACTIVE_CURRENT_SELECTION, ISources.ACTIVE_CURRENT_SELECTION_NAME, selection);
@@ -201,7 +201,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 	private Object lastShowInInput = null;
 	private ISelection lastShowInSelection = null;
 
-	private final IPartListener partListener = new IPartListener() {
+	private final IPartListener partListener = new IPartListener() { //FLLDCIM: MARK — T20  ANONYMOUS
 
 		@Override
 		public final void partActivated(final IWorkbenchPart part) {
@@ -278,8 +278,8 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		checkActivePart(false);
 	}
 
-	public final void checkActivePart(boolean updateShowInSelection) {
-		Map currentState = new HashMap();
+	public final void checkActivePart(boolean updateShowInSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map currentState = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		updateActivePart(currentState, updateShowInSelection);
 
 		int sources = 0;
@@ -358,23 +358,23 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		if (sources != 0) {
 			if (DEBUG) {
 				if ((sources & ISources.ACTIVE_PART) != 0) {
-					logDebuggingInfo("Active part changed to " //$NON-NLS-1$
+					logDebuggingInfo("Active part changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ lastActivePart);
 				}
 				if ((sources & ISources.ACTIVE_PART_ID) != 0) {
-					logDebuggingInfo("Active part id changed to " //$NON-NLS-1$
+					logDebuggingInfo("Active part id changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ lastActivePartId);
 				}
 				if ((sources & ISources.ACTIVE_SITE) != 0) {
-					logDebuggingInfo("Active site changed to " //$NON-NLS-1$
+					logDebuggingInfo("Active site changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ lastActivePartSite);
 				}
 				if ((sources & ISources.ACTIVE_EDITOR) != 0) {
-					logDebuggingInfo("Active editor changed to " //$NON-NLS-1$
+					logDebuggingInfo("Active editor changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ lastActiveEditor);
 				}
 				if ((sources & ISources.ACTIVE_EDITOR_ID) != 0) {
-					logDebuggingInfo("Active editor id changed to " //$NON-NLS-1$
+					logDebuggingInfo("Active editor id changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ lastActiveEditorId);
 				}
 			}
@@ -403,7 +403,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		return null;
 	}
 
-	private IWorkbenchWindow getActiveWindow() {
+	private IWorkbenchWindow getActiveWindow() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display = workbench.getDisplay();
 		if (display == null || display.isDisposed()) {
 			return null;
@@ -428,7 +428,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		updateActivePart(currentState, false);
 	}
 
-	private void updateActivePart(Map currentState, boolean updateShowInSelection) {
+	private void updateActivePart(Map currentState, boolean updateShowInSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		currentState.put(ISources.ACTIVE_SITE_NAME, IEvaluationContext.UNDEFINED_VARIABLE);
 		currentState.put(ISources.ACTIVE_PART_NAME, IEvaluationContext.UNDEFINED_VARIABLE);
 		currentState.put(ISources.ACTIVE_PART_ID_NAME, IEvaluationContext.UNDEFINED_VARIABLE);
@@ -548,7 +548,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 	 *
 	 * @since 3.3
 	 */
-	private final IPropertyChangeListener propertyListener = event -> {
+	private final IPropertyChangeListener propertyListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (WorkbenchWindow.PROP_COOLBAR_VISIBLE.equals(event.getProperty())) {
 			Object newValue1 = event.getNewValue();
 			if (newValue1 == null || !(newValue1 instanceof Boolean)) {
@@ -576,7 +576,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 			}
 			if (!lastStatusLineVisibility.equals(newValue3)) {
 				fireSourceChanged(ISources.ACTIVE_WORKBENCH_WINDOW_SUBORDINATE,
-						ISources.ACTIVE_WORKBENCH_WINDOW_NAME + ".isStatusLineVisible", newValue3); //$NON-NLS-1$
+						ISources.ACTIVE_WORKBENCH_WINDOW_NAME + ".isStatusLineVisible", newValue3); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				lastStatusLineVisibility = (Boolean) newValue3;
 			}
 		}
@@ -590,7 +590,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 				return;
 			}
 
-			HashMap currentState = new HashMap();
+			HashMap currentState = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			int sources = updateSelection(currentState);
 			sources |= ISources.ACTIVE_WORKBENCH_WINDOW_SUBORDINATE;
 			currentState.put(ISources.ACTIVE_WORKBENCH_WINDOW_ACTIVE_PERSPECTIVE_NAME, id);
@@ -603,7 +603,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		}
 	};
 
-	private final IPropertyListener editorListener = (source, propId) -> {
+	private final IPropertyListener editorListener = (source, propId) -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (propId == IEditorPart.PROP_INPUT) {
 			handleInputChanged((IEditorPart) source);
 		}
@@ -615,13 +615,13 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 	private final Listener listener = event -> {
 		if (!(event.widget instanceof Shell)) {
 			if (DEBUG) {
-				logDebuggingInfo("WSP: passOnEvent: " + event.widget); //$NON-NLS-1$
+				logDebuggingInfo("WSP: passOnEvent: " + event.widget); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return;
 		}
 		if (DEBUG) {
-			logDebuggingInfo("\tWSP:lastActiveShell: " + lastActiveShell); //$NON-NLS-1$
-			logDebuggingInfo("\tWSP:lastActiveWorkbenchWindowShell" + lastActiveWorkbenchWindowShell); //$NON-NLS-1$
+			logDebuggingInfo("\tWSP:lastActiveShell: " + lastActiveShell); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			logDebuggingInfo("\tWSP:lastActiveWorkbenchWindowShell" + lastActiveWorkbenchWindowShell); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		final Map currentState = getCurrentState();
@@ -661,7 +661,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		final boolean perspectiveIdChanged = !Objects.equals(lastPerspectiveId, perspectiveId);
 		// Fire an event for those sources that have changed.
 		if (shellChanged && windowChanged) {
-			final Map sourceValuesByName1 = new HashMap(5);
+			final Map sourceValuesByName1 = new HashMap(5); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			sourceValuesByName1.put(ISources.ACTIVE_SHELL_NAME, newActiveShell);
 			sourceValuesByName1.put(ISources.ACTIVE_WORKBENCH_WINDOW_NAME, newActiveWorkbenchWindow);
 			sourceValuesByName1.put(ISources.ACTIVE_WORKBENCH_WINDOW_SHELL_NAME, newActiveWorkbenchWindowShell);
@@ -686,17 +686,17 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 			}
 
 			if (DEBUG) {
-				logDebuggingInfo("Active shell changed to " //$NON-NLS-1$
+				logDebuggingInfo("Active shell changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newActiveShell);
-				logDebuggingInfo("Active workbench window changed to " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newActiveWorkbenchWindow);
-				logDebuggingInfo("Active workbench window shell changed to " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window shell changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newActiveWorkbenchWindowShell);
-				logDebuggingInfo("Active workbench window coolbar visibility " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window coolbar visibility " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newCoolbarVisibility);
-				logDebuggingInfo("Active workbench window perspective bar visibility " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window perspective bar visibility " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newPerspectiveBarVisibility);
-				logDebuggingInfo("Active workbench window status line visibility " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window status line visibility " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newStatusLineVis);
 			}
 
@@ -705,12 +705,12 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 
 		} else if (shellChanged) {
 			if (DEBUG) {
-				logDebuggingInfo("Active shell changed to " //$NON-NLS-1$
+				logDebuggingInfo("Active shell changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newActiveShell);
 			}
 			fireSourceChanged(ISources.ACTIVE_SHELL, ISources.ACTIVE_SHELL_NAME, newActiveShell);
 		} else if (windowChanged) {
-			final Map sourceValuesByName2 = new HashMap(4);
+			final Map sourceValuesByName2 = new HashMap(4); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			sourceValuesByName2.put(ISources.ACTIVE_WORKBENCH_WINDOW_NAME, newActiveWorkbenchWindow);
 			sourceValuesByName2.put(ISources.ACTIVE_WORKBENCH_WINDOW_SHELL_NAME, newActiveWorkbenchWindowShell);
 
@@ -735,15 +735,15 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 			}
 
 			if (DEBUG) {
-				logDebuggingInfo("Active workbench window changed to " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newActiveWorkbenchWindow);
-				logDebuggingInfo("Active workbench window shell changed to " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window shell changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newActiveWorkbenchWindowShell);
-				logDebuggingInfo("Active workbench window coolbar visibility " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window coolbar visibility " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newCoolbarVisibility);
-				logDebuggingInfo("Active workbench window perspective bar visibility " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window perspective bar visibility " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newPerspectiveBarVisibility);
-				logDebuggingInfo("Active workbench window status line visibility " //$NON-NLS-1$
+				logDebuggingInfo("Active workbench window status line visibility " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ newStatusLineVis);
 			}
 
@@ -799,7 +799,7 @@ public class WorkbenchSourceProvider extends AbstractSourceProvider implements I
 		}
 	}
 
-	private void updateActiveShell(Map currentState) {
+	private void updateActiveShell(Map currentState) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final Shell newActiveShell = display.getActiveShell();
 		currentState.put(ISources.ACTIVE_SHELL_NAME, newActiveShell);

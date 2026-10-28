@@ -38,7 +38,7 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 /**
  *	Operation for exporting the contents of a resource to the local file system.
  */
-public class FileSystemExportOperation implements IRunnableWithProgress {
+public class FileSystemExportOperation implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 	private IPath path;
 
 	private IProgressMonitor monitor;
@@ -51,7 +51,7 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 
 	private final IResource resource;
 
-	private final List<IStatus> errorTable = new ArrayList<>(1);
+	private final List<IStatus> errorTable = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	//The constants for the overwrite 3 state
 	private static final int OVERWRITE_NOT_SET = 0;
@@ -106,7 +106,7 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 
 		int count = 0;
 		if (parentResource.isAccessible()) {
-			for (IResource child : ((IContainer) parentResource).members()) {
+			for (IResource child : ((IContainer) parentResource).members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				count += countChildrenOf(child);
 			}
 		}
@@ -124,7 +124,7 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 		int result = 0;
 		Iterator<IResource> resources = resourcesToExport.iterator();
 
-		while (resources.hasNext()) {
+		while (resources.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result += countChildrenOf(resources.next());
 		}
 
@@ -140,7 +140,7 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 	protected void createLeadupDirectoriesFor(IResource childResource) {
 		IPath resourcePath = childResource.getFullPath().removeLastSegments(1);
 
-		for (int i = 0; i < resourcePath.segmentCount(); i++) {
+		for (int i = 0; i < resourcePath.segmentCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			path = path.append(resourcePath.segment(i));
 			exporter.createFolder(path);
 		}
@@ -170,9 +170,9 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 	 *	@param children java.util.Enumeration
 	 *	@param currentPath IPath
 	 */
-	protected void exportChildren(IResource[] children, IPath currentPath)
+	protected void exportChildren(IResource[] children, IPath currentPath) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws InterruptedException {
-		for (IResource child : children) {
+		for (IResource child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!child.isAccessible() || (!resolveLinks && child.isLinked())) {
 				continue;
 			}
@@ -202,7 +202,7 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 	 *  @param file org.eclipse.core.resources.IFile
 	 *  @param location org.eclipse.core.runtime.IPath
 	 */
-	protected void exportFile(IFile file, IPath location)
+	protected void exportFile(IFile file, IPath location) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws InterruptedException {
 		IPath fullPath = location.append(file.getName());
 		monitor.subTask(file.getFullPath().toString());
@@ -262,11 +262,11 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 	 *	Export the resources contained in the previously-defined
 	 *	resourcesToExport collection
 	 */
-	protected void exportSpecifiedResources() throws InterruptedException {
+	protected void exportSpecifiedResources() throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<IResource> resources = resourcesToExport.iterator();
 		IPath initPath = (IPath) path.clone();
 
-		while (resources.hasNext()) {
+		while (resources.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource currentResource = resources.next();
 			if (!currentResource.isAccessible() || (!resolveLinks && currentResource.isLinked())) {
 				continue;
@@ -290,7 +290,7 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 								resource.getFullPath().segmentCount())
 						.removeLastSegments(1);
 
-				for (int i = 0; i < containersToCreate.segmentCount(); i++) {
+				for (int i = 0; i < containersToCreate.segmentCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					path = path.append(containersToCreate.segment(i));
 					exporter.createFolder(path);
 				}
@@ -360,7 +360,7 @@ public class FileSystemExportOperation implements IRunnableWithProgress {
 	 *	Export the resources that were previously specified for export
 	 *	(or if a single resource was specified then export it recursively)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor progressMonitor)
 			throws InterruptedException {
 		this.monitor = progressMonitor;

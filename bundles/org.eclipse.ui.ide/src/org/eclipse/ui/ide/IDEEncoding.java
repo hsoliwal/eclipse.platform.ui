@@ -124,13 +124,13 @@ public final class IDEEncoding {
 	 * @param value String or <code>null</code>
 	 * @param encodings The list of encodings to write
 	 */
-	private static void writeEncodingsPreference(String value, Collection<String> encodings) {
+	private static void writeEncodingsPreference(String value, Collection<String> encodings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean addValue = (value != null);
 
-		StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 
-		for (String string : encodings) {
+		for (String string : encodings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.append(string);
 			result.append(PREFERENCE_SEPARATOR);
 			if (addValue && string.equals(value)) {
@@ -151,7 +151,7 @@ public final class IDEEncoding {
 	 *
 	 * @return List
 	 */
-	private static List<String> getIDEEncodingsPreference() {
+	private static List<String> getIDEEncodingsPreference() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		boolean updateRequired = false;
 
@@ -159,13 +159,13 @@ public final class IDEEncoding {
 				IDE_ENCODINGS_PREFERENCE);
 
 		if (encodings == null || encodings.isEmpty()) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
-		ArrayList<String> result = new ArrayList<>();
+		ArrayList<String> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		//Drop any encodings that are not valid
-		for (String string : encodings.split(PREFERENCE_SEPARATOR)) {
+		for (String string : encodings.split(PREFERENCE_SEPARATOR)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean isSupported;
 			try {
 				isSupported = Charset.isSupported(string);
@@ -205,7 +205,7 @@ public final class IDEEncoding {
 	 *         found or the description is <code>null</code>.
 	 * @see IContentDescription#getProperty(org.eclipse.core.runtime.QualifiedName)
 	 */
-	public static String getByteOrderMarkLabel(IContentDescription description) {
+	public static String getByteOrderMarkLabel(IContentDescription description) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (description == null) {
 			return null;

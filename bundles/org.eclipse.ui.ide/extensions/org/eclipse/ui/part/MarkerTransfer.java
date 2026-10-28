@@ -57,7 +57,7 @@ public class MarkerTransfer extends ByteArrayTransfer {
 
 	// Create a unique ID to make sure that different Eclipse
 	// applications use different "types" of <code>MarkerTransfer</code>
-	private static final String TYPE_NAME = "marker-transfer-format" + System.currentTimeMillis() + ":" + instance.hashCode();//$NON-NLS-2$//$NON-NLS-1$
+	private static final String TYPE_NAME = "marker-transfer-format" + System.currentTimeMillis() + ":" + instance.hashCode();//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final int TYPEID = registerType(TYPE_NAME);
 
@@ -111,7 +111,7 @@ public class MarkerTransfer extends ByteArrayTransfer {
 	 * transferData.result field will be set to the failure value of
 	 * OLE.DV_E_TYMED.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void javaToNative(Object object, TransferData transferData) {
 		/**
 		 * Transfer data is an array of markers.  Serialized version is:
@@ -134,7 +134,7 @@ public class MarkerTransfer extends ByteArrayTransfer {
 			out.writeInt(markers.length);
 
 			/* write markers */
-			for (Object marker : markers) {
+			for (Object marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				writeMarker((IMarker) marker, out);
 			}
 			out.close();
@@ -160,7 +160,7 @@ public class MarkerTransfer extends ByteArrayTransfer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object nativeToJava(TransferData transferData) {
 		byte[] bytes = (byte[]) super.nativeToJava(transferData);
 		try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes))) {
@@ -170,7 +170,7 @@ public class MarkerTransfer extends ByteArrayTransfer {
 
 			/* read markers */
 			IMarker[] markers = new IMarker[n];
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMarker marker = readMarker(in);
 				if (marker == null) {
 					return null;

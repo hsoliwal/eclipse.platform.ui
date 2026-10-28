@@ -36,7 +36,7 @@ public abstract class ViewerColumn {
 
 	private CellLabelProvider labelProvider;
 
-	static String COLUMN_VIEWER_KEY = Policy.JFACE + ".columnViewer";//$NON-NLS-1$
+	static String COLUMN_VIEWER_KEY = Policy.JFACE + ".columnViewer";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private EditingSupport editingSupport;
 
@@ -59,7 +59,7 @@ public abstract class ViewerColumn {
 		this.viewer = viewer;
 		columnOwner.setData(ViewerColumn.COLUMN_VIEWER_KEY, this);
 		this.listener = viewer::handleLabelProviderChanged;
-		columnOwner.addDisposeListener(e -> handleDispose(viewer));
+		columnOwner.addDisposeListener(e -> handleDispose(viewer)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	/**
@@ -79,7 +79,7 @@ public abstract class ViewerColumn {
 	 *            the new {@link CellLabelProvider}
 	 */
 	public void setLabelProvider(CellLabelProvider labelProvider) {
-		setLabelProvider(labelProvider, true);
+		setLabelProvider(labelProvider, true); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/* package */void setLabelProvider(CellLabelProvider labelProvider,
@@ -96,7 +96,7 @@ public abstract class ViewerColumn {
 
 		if (registerListener) {
 			this.labelProvider.initialize(viewer, this);
-			this.labelProvider.addListener(listener);
+			this.labelProvider.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			listenerRegistered = true;
 		}
 	}
@@ -135,7 +135,7 @@ public abstract class ViewerColumn {
 	/* package */void refresh(ViewerCell cell) {
 		CellLabelProvider labelProvider = getLabelProvider();
 		if (labelProvider == null) {
-			Assert.isTrue(false, "Column " + cell.getColumnIndex() + //$NON-NLS-1$
+			Assert.isTrue(false, "Column " + cell.getColumnIndex() + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			" has no label provider."); //$NON-NLS-1$
 		}
 		// Set font and label for ExpandableNode. Client label provider should not
@@ -159,7 +159,7 @@ public abstract class ViewerColumn {
 	protected void handleDispose() {
 		boolean disposeLabelProvider = listenerRegistered;
 		CellLabelProvider cellLabelProvider = labelProvider;
-		setLabelProvider(null, false);
+		setLabelProvider(null, false); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		if (disposeLabelProvider) {
 			cellLabelProvider.dispose(viewer, this);
 		}

@@ -45,7 +45,7 @@ public class EclipseSplashHandler extends BasicSplashHandler {
 	 *
 	 * @param splash the shell that contains the splash screen
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void init(Shell splash) {
 		super.init(splash);
 		String progressRectString = null;
@@ -82,7 +82,7 @@ public class EclipseSplashHandler extends BasicSplashHandler {
 			String buildIdSize = product.getProperty("buildIdSize"); //$NON-NLS-1$
 			if (buildIdLocString != null) {
 				if (buildIdSize != null) {
-					buildIdLocString += "," + buildIdSize; //$NON-NLS-1$
+					buildIdLocString += "," + buildIdSize; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
 					buildIdLocString += ",100,40"; //$NON-NLS-1$
 				}

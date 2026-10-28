@@ -121,7 +121,7 @@ public class UILockListener extends LockListener {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean aboutToWait(Thread lockOwner) {
 		if (isUI()) {
 			// If a syncExec was executed from the current operation, it
@@ -157,7 +157,7 @@ public class UILockListener extends LockListener {
 		// Clear the interrupt flag that we may have set in interruptUI()
 		Thread.interrupted();
 		PendingSyncExec work;
-		while ((work = pendingWork.remove()) != null) {
+		while ((work = pendingWork.remove()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Remember the old current work before replacing, to handle
 			// the nested waiting case (bug 76378)
 			PendingSyncExec oldWork = currentWork;
@@ -196,10 +196,10 @@ public class UILockListener extends LockListener {
 	 * Adds a 'UI thread interrupted' message to the log with extra lock state and
 	 * thread stack information.
 	 */
-	private void reportInterruption(Runnable runnable) {
+	private void reportInterruption(Runnable runnable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Thread nonUiThread = Thread.currentThread();
 
-		String msg = "To avoid deadlock while executing Display.syncExec() with argument: " //$NON-NLS-1$
+		String msg = "To avoid deadlock while executing Display.syncExec() with argument: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ runnable + ", thread " + nonUiThread.getName() //$NON-NLS-1$
 				+ " will interrupt UI thread."; //$NON-NLS-1$
 		MultiStatus main = new MultiStatus(WorkbenchPlugin.PI_WORKBENCH, IStatus.ERROR, msg, null);
@@ -207,15 +207,15 @@ public class UILockListener extends LockListener {
 		ThreadInfo[] threads = ManagementFactory.getThreadMXBean()
 				.getThreadInfo(new long[] { nonUiThread.threadId(), display.getThread().threadId() }, true, true);
 
-		for (ThreadInfo info : threads) {
+		for (ThreadInfo info : threads) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String childMsg;
 			if (info.getThreadId() == nonUiThread.threadId()) {
 				// see org.eclipse.core.internal.jobs.LockManager.isLockOwner()
-				childMsg = nonUiThread.getName() + " thread is an instance of Worker or owns an ILock"; //$NON-NLS-1$
+				childMsg = nonUiThread.getName() + " thread is an instance of Worker or owns an ILock"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				childMsg = "UI thread waiting on a job or lock."; //$NON-NLS-1$
 			}
-			Exception childEx = new IllegalStateException("Call stack for thread " + info.getThreadName()); //$NON-NLS-1$
+			Exception childEx = new IllegalStateException("Call stack for thread " + info.getThreadName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			childEx.setStackTrace(info.getStackTrace());
 			Status child = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, IStatus.ERROR, childMsg, childEx);
 			main.add(child);

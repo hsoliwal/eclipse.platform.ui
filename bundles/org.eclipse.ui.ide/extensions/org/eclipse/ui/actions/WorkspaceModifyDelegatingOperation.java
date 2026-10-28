@@ -29,7 +29,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class WorkspaceModifyDelegatingOperation extends
+public class WorkspaceModifyDelegatingOperation extends //FLLDCIM: MARK — T09  IMPLEMENTS
 		WorkspaceModifyOperation {
 
 	/**

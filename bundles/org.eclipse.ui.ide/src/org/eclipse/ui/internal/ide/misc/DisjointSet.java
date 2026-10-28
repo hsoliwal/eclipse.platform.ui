@@ -59,7 +59,7 @@ public class DisjointSet<T> {
 	 * disjoint set, and the Node represents its position and rank
 	 * within the set.
 	 */
-	private final HashMap<T, Node<T>> objectsToNodes = new HashMap<>();
+	private final HashMap<T, Node<T>> objectsToNodes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Returns the set token for the given object, or null if the
@@ -97,7 +97,7 @@ public class DisjointSet<T> {
 		if (set == null) {
 			return;
 		}
-		for (Iterator<T> it = objectsToNodes.keySet().iterator(); it.hasNext();) {
+		for (Iterator<T> it = objectsToNodes.keySet().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			T next = it.next();
 			//remove the set representative last, otherwise findSet will fail
 			if (next != set && findSet(next) == set) {
@@ -122,7 +122,7 @@ public class DisjointSet<T> {
 	 * @param x The first set to union
 	 * @param y The second set to union
 	 */
-	public void union(T x, T y) {
+	public void union(T x, T y) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		T setX = findSet(x);
 		T setY = findSet(y);
 		if (setX == null || setY == null || setX == setY) {

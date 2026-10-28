@@ -47,17 +47,17 @@ public class DefaultWebBrowser extends AbstractWebBrowser {
 		this.support = support;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void openURL(URL url) throws PartInitException {
 		// format the href for an html file (file:///<filename.html>
 		// required for Mac only.
 		String href = url.toString();
 		if (href.startsWith("file:")) { //$NON-NLS-1$
 			href = href.substring(5);
-			while (href.startsWith("/")) { //$NON-NLS-1$
+			while (href.startsWith("/")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				href = href.substring(1);
 			}
-			href = "file:///" + href; //$NON-NLS-1$
+			href = "file:///" + href; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		final String localHref = href;
 
@@ -73,7 +73,7 @@ public class DefaultWebBrowser extends AbstractWebBrowser {
 			}
 		} else {
 			Thread launcher = new Thread("About Link Launcher") {//$NON-NLS-1$
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void run() {
 					try {
 						/*
@@ -83,7 +83,7 @@ public class DefaultWebBrowser extends AbstractWebBrowser {
 						String encodedLocalHref = urlEncodeForSpaces(localHref.toCharArray());
 						if (webBrowserOpened) {
 							Runtime.getRuntime()
-									.exec(new String[] { webBrowser, "-remote", "openURL(" + encodedLocalHref + ")" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+									.exec(new String[] { webBrowser, "-remote", "openURL(" + encodedLocalHref + ")" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						} else {
 							Process p = openWebBrowser(encodedLocalHref);
 							webBrowserOpened = true;
@@ -117,8 +117,8 @@ public class DefaultWebBrowser extends AbstractWebBrowser {
 	 * same with <code>"%20"</code>. This method is required to fix Bug 77840.
 	 */
 	private String urlEncodeForSpaces(char[] input) {
-		StringBuilder retu = new StringBuilder(input.length);
-		for (char element : input) {
+		StringBuilder retu = new StringBuilder(input.length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (char element : input) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element == ' ') {
 				retu.append("%20"); //$NON-NLS-1$
 			} else {
@@ -129,7 +129,7 @@ public class DefaultWebBrowser extends AbstractWebBrowser {
 	}
 
 	// TODO: Move browser support from Help system, remove this method
-	private Process openWebBrowser(String href) throws IOException {
+	private Process openWebBrowser(String href) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Process p = null;
 		if (webBrowser == null) {
 			try {
@@ -166,7 +166,7 @@ public class DefaultWebBrowser extends AbstractWebBrowser {
 	 * display an error message
 	 */
 	private void openWebBrowserError(Display display) {
-		display.asyncExec(() -> MessageDialog.openError(null, WorkbenchMessages.ProductInfoDialog_errorTitle,
+		display.asyncExec(() -> MessageDialog.openError(null, WorkbenchMessages.ProductInfoDialog_errorTitle, //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				WorkbenchMessages.ProductInfoDialog_unableToOpenWebBrowser));
 	}
 }

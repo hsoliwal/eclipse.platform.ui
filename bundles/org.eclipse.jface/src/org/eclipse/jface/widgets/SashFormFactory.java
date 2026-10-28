@@ -60,7 +60,7 @@ import org.eclipse.swt.widgets.Composite;
 public final class SashFormFactory extends AbstractControlFactory<SashFormFactory, SashForm> {
 
 	private SashFormFactory(int style) {
-		super(SashFormFactory.class, parent -> new SashForm(parent, style));
+		super(SashFormFactory.class, parent -> new SashForm(parent, style)); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 	}
 
 	/**

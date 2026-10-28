@@ -158,7 +158,7 @@ public class ImageRegistry {
 	 * @param key the key
 	 * @return the image, or <code>null</code> if none
 	 */
-	@SuppressWarnings({ "removal", "deprecation" })
+	@SuppressWarnings({ "removal", "deprecation" }) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image get(String key) {
 
 		// can be null
@@ -194,7 +194,7 @@ public class ImageRegistry {
 			if (swtKey != -1) {
 				final Image[] image = new Image[1];
 				final int id = swtKey;
-				display.syncExec(() -> image[0] = display.getSystemImage(id));
+				display.syncExec(() -> image[0] = display.getSystemImage(id)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				return image[0];
 			}
 		}
@@ -248,7 +248,7 @@ public class ImageRegistry {
 
 		if (entry.image != null) {
 			throw new IllegalArgumentException(
-					"ImageRegistry key already in use: " + key); //$NON-NLS-1$
+					"ImageRegistry key already in use: " + key); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		entry.descriptor = descriptor;
@@ -268,7 +268,7 @@ public class ImageRegistry {
 	 * @param image the image, should not be <code>null</code>
 	 * @exception IllegalArgumentException if the key already exists
 	 */
-	public void put(String key, Image image) {
+	public void put(String key, Image image) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Entry entry = getEntry(key);
 
 		if (entry == null) {
@@ -278,7 +278,7 @@ public class ImageRegistry {
 
 		if (entry.image != null || entry.descriptor != null) {
 			throw new IllegalArgumentException(
-					"ImageRegistry key already in use: " + key); //$NON-NLS-1$
+					"ImageRegistry key already in use: " + key); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		// Check for a null image here, otherwise the problem won't appear
@@ -318,7 +318,7 @@ public class ImageRegistry {
 
 	private Map<String, Entry> getTable() {
 		if (table == null) {
-			table = new HashMap<>(10);
+			table = new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		return table;
 	}
@@ -333,7 +333,7 @@ public class ImageRegistry {
 		manager.cancelDisposeExec(disposeRunnable);
 
 		if (table != null) {
-			for (Entry entry : table.values()) {
+			for (Entry entry : table.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.image != null) {
 					manager.destroy(entry.descriptor);
 				}

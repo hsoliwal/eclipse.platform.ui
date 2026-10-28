@@ -31,14 +31,14 @@ import org.eclipse.ui.internal.preferences.WorkbenchPreferenceExtensionNode;
  *
  * @since 3.2
  */
-public class PreferencePatternFilter extends PatternFilter {
+public class PreferencePatternFilter extends PatternFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/**
 	 * this cache is needed because
 	 * WorkbenchPreferenceExtensionNode.getKeywordLabels() is expensive. When it
 	 * tracks keyword changes effectively than this cache can be removed.
 	 */
-	private final Map<WorkbenchPreferenceExtensionNode, Collection<String>> keywordCache = new HashMap<>();
+	private final Map<WorkbenchPreferenceExtensionNode, Collection<String>> keywordCache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Create a new instance of a PreferencePatternFilter
@@ -69,7 +69,7 @@ public class PreferencePatternFilter extends PatternFilter {
 		return element instanceof WorkbenchPreferenceExtensionNode;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isElementVisible(Viewer viewer, Object element) {
 		if (WorkbenchActivityHelper.restrictUseOf(element)) {
 			return false;
@@ -101,7 +101,7 @@ public class PreferencePatternFilter extends PatternFilter {
 		}
 
 		// Also need to check the keywords
-		for (String keyword : getKeywords(node)) {
+		for (String keyword : getKeywords(node)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (wordMatches(keyword)) {
 				return true;
 			}

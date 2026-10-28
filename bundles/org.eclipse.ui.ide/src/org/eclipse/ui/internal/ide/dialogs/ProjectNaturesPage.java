@@ -89,7 +89,7 @@ public class ProjectNaturesPage extends PropertyPage {
 	/**
 	 * @see PreferencePage#createContents
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(final Composite parent) {
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(),
@@ -123,17 +123,17 @@ public class ProjectNaturesPage extends PropertyPage {
 		this.activeNaturesList.getTable().setFont(font);
 		this.activeNaturesList.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		this.activeNaturesList.setLabelProvider(new NatureLabelProvider(this.project.getWorkspace()));
+		this.activeNaturesList.setLabelProvider(new NatureLabelProvider(this.project.getWorkspace())); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		this.activeNaturesList.setContentProvider(ArrayContentProvider.getInstance());
 		try {
-			this.naturesIdsWorkingCopy = new ArrayList<>();
+			this.naturesIdsWorkingCopy = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			this.naturesIdsWorkingCopy.addAll(Arrays.asList(project.getDescription().getNatureIds()));
 		} catch (CoreException ex) {
 			ILog.of(ProjectNaturesPage.class).warn(
-					"Error while loading project description for " + this.project.getName(), //$NON-NLS-1$
+					"Error while loading project description for " + this.project.getName(), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					ex);
 		}
-		this.activeNaturesList.setInput(this.naturesIdsWorkingCopy);
+		this.activeNaturesList.setInput(this.naturesIdsWorkingCopy); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		Composite buttonComposite = new Composite(naturesComposite, SWT.NONE);
 		buttonComposite.setLayout(GridLayoutFactory.swtDefaults().margins(0, 0).create());
@@ -141,13 +141,13 @@ public class ProjectNaturesPage extends PropertyPage {
 		Button addButton = new Button(buttonComposite, SWT.PUSH);
 		addButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		addButton.setText(IDEWorkbenchMessages.ProjectNaturesPage_addNature);
-		addButton.addSelectionListener(new SelectionAdapter() {
-			@Override
+		addButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				if (!ProjectNaturesPage.this.warningAlreadyShown) {
 					if (!MessageDialog.openConfirm(getShell(),
 							IDEWorkbenchMessages.ProjectNaturesPage_changeWarningTitle,
-							IDEWorkbenchMessages.ProjectNaturesPage_warningMessage + "\n\n" + IDEWorkbenchMessages.ProjectNaturesPage_changeWarningQuestion)) { //$NON-NLS-1$
+							IDEWorkbenchMessages.ProjectNaturesPage_warningMessage + "\n\n" + IDEWorkbenchMessages.ProjectNaturesPage_changeWarningQuestion)) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						return;
 					}
 					ProjectNaturesPage.this.warningAlreadyShown = true;
@@ -155,46 +155,46 @@ public class ProjectNaturesPage extends PropertyPage {
 				ElementListSelectionDialog naturesSelectionDialog = new ElementListSelectionDialog(parent.getShell(), new NatureLabelProvider(project.getWorkspace()));
 				naturesSelectionDialog.setMessage(IDEWorkbenchMessages.ProjectNaturesPage_selectNatureToAddMessage);
 				naturesSelectionDialog.setTitle(IDEWorkbenchMessages.ProjectNaturesPage_selectNatureToAddTitle);
-				List<IProjectNatureDescriptor> natures = new ArrayList<>();
-				for (IProjectNatureDescriptor nature : project.getWorkspace().getNatureDescriptors()) {
+				List<IProjectNatureDescriptor> natures = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IProjectNatureDescriptor nature : project.getWorkspace().getNatureDescriptors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!naturesIdsWorkingCopy.contains(nature.getNatureId())) {
 						natures.add(nature);
 					}
 				}
 				naturesSelectionDialog.setElements(natures.toArray(new IProjectNatureDescriptor[natures.size()]));
 				if (naturesSelectionDialog.open() == Window.OK) {
-					for (Object item : naturesSelectionDialog.getResult()) {
+					for (Object item : naturesSelectionDialog.getResult()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IProjectNatureDescriptor nature = (IProjectNatureDescriptor) item;
 						naturesIdsWorkingCopy.add(nature.getNatureId());
 					}
-					ProjectNaturesPage.this.activeNaturesList.refresh();
+					ProjectNaturesPage.this.activeNaturesList.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			}
 		});
 		final Button removeButton = new Button(buttonComposite, SWT.PUSH);
 		removeButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		removeButton.setText(IDEWorkbenchMessages.ProjectNaturesPage_removeNature);
-		removeButton.addSelectionListener(new SelectionAdapter() {
+		removeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!ProjectNaturesPage.this.warningAlreadyShown) {
 					if (!MessageDialog.openConfirm(getShell(),
 							IDEWorkbenchMessages.ProjectNaturesPage_changeWarningTitle,
-							IDEWorkbenchMessages.ProjectNaturesPage_warningMessage + "\n\n" + IDEWorkbenchMessages.ProjectNaturesPage_changeWarningQuestion)) { //$NON-NLS-1$
+							IDEWorkbenchMessages.ProjectNaturesPage_warningMessage + "\n\n" + IDEWorkbenchMessages.ProjectNaturesPage_changeWarningQuestion)) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						return;
 					}
 					ProjectNaturesPage.this.warningAlreadyShown = true;
 				}
 				IStructuredSelection selection = ProjectNaturesPage.this.activeNaturesList.getStructuredSelection();
-				for (Object item : selection) {
+				for (Object item : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String natureId = (String) item;
 					naturesIdsWorkingCopy.remove(natureId);
 				}
-				ProjectNaturesPage.this.activeNaturesList.refresh();
+				ProjectNaturesPage.this.activeNaturesList.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		});
-		this.activeNaturesList.addSelectionChangedListener(
-				unused -> removeButton.setEnabled(!ProjectNaturesPage.this.activeNaturesList.getSelection().isEmpty()));
+		this.activeNaturesList.addSelectionChangedListener( //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+				unused -> removeButton.setEnabled(!ProjectNaturesPage.this.activeNaturesList.getSelection().isEmpty())); //FLLDCIM: MARK — T04  LAMBDA
 		this.activeNaturesList.setSelection(new StructuredSelection()); // Empty selection
 
 		return composite;
@@ -206,7 +206,7 @@ public class ProjectNaturesPage extends PropertyPage {
 
 		public NatureLabelProvider(IWorkspace workspace) {
 			this.workspace = workspace;
-			this.natureImages = new HashMap<>(workspace.getNatureDescriptors().length);
+			this.natureImages = new HashMap<>(workspace.getNatureDescriptors().length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 
 		@Override
@@ -220,12 +220,12 @@ public class ProjectNaturesPage extends PropertyPage {
 					return getMissingNatureLabel(natureId);
 				}
 			} else {
-				return "Not a valid nature input " + element; //$NON-NLS-1$
+				return "Not a valid nature input " + element; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return getNatureDescriptorLabel(nature);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Image getImage(Object element) {
 			String natureId = null;
 			if (element instanceof IProjectNatureDescriptor) {
@@ -266,7 +266,7 @@ public class ProjectNaturesPage extends PropertyPage {
 
 		@Override
 		public void dispose() {
-			for (Image image : natureImages.values()) {
+			for (Image image : natureImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			super.dispose();
@@ -307,16 +307,16 @@ public class ProjectNaturesPage extends PropertyPage {
 	/**
 	 * @see PreferencePage#performOk
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		List<String> originalNatureIds = null;
 		try {
 			originalNatureIds = Arrays.asList(this.project.getDescription().getNatureIds());
 		} catch (CoreException ex) {
 			ILog.of(ProjectNaturesPage.class).warn(
-					"Error while loading project description for " + this.project.getName(), //$NON-NLS-1$
+					"Error while loading project description for " + this.project.getName(), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					ex);
-			originalNatureIds = new ArrayList<>();
+			originalNatureIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		if (this.naturesIdsWorkingCopy.size() == originalNatureIds.size()
 				&& this.naturesIdsWorkingCopy.containsAll(originalNatureIds)) {
@@ -324,7 +324,7 @@ public class ProjectNaturesPage extends PropertyPage {
 		}
 
 		// set nature ids
-		IRunnableWithProgress runnable = monitor -> {
+		IRunnableWithProgress runnable = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 
 			try {
 				IProjectDescription description = project.getDescription();

@@ -91,7 +91,7 @@ public class ProjectLocationMoveDialog extends SelectionDialog {
 		return content;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// page group
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -139,7 +139,7 @@ public class ProjectLocationMoveDialog extends SelectionDialog {
 	@Override
 	protected void okPressed() {
 
-		List<String> list = new ArrayList<>();
+		List<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add(getProject().getName());
 		list.add(locationArea.getProjectLocation());
 		setResult(list);

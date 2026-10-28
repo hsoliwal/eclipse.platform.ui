@@ -39,7 +39,7 @@ public class WorkingSetAdapterFactory implements IAdapterFactory {
 		@Override
 		public ResourceMapping getAdaptedResourceMapping(IAdaptable adaptable) {
 			if (adaptable instanceof IWorkingSet workingSet) {
-				for (IAdaptable currentAdaptable : workingSet.getElements()) {
+				for (IAdaptable currentAdaptable : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ResourceMapping mapping = getContributedResourceMapping(currentAdaptable);
 					if (mapping == null) {
 						mapping = getResourceMapping(currentAdaptable);
@@ -97,7 +97,7 @@ public class WorkingSetAdapterFactory implements IAdapterFactory {
 
 	private final IWorkbenchAdapter workbenchAdapter = new WorkbenchAdapter();
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 		if (adaptableObject instanceof IWorkingSet workingSet) {
 			if (adapterType == IContributorResourceAdapter.class) {
@@ -107,7 +107,7 @@ public class WorkingSetAdapterFactory implements IAdapterFactory {
 				return adapterType.cast(workbenchAdapter);
 			}
 			if (adapterType == ResourceMapping.class) {
-				for (IAdaptable adaptable : workingSet.getElements()) {
+				for (IAdaptable adaptable : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ResourceMapping mapping = getResourceMapping(adaptable);
 					if (mapping != null) {
 						return adapterType.cast(new WorkingSetResourceMapping(workingSet));
@@ -140,7 +140,7 @@ public class WorkingSetAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	static ResourceMapping getContributedResourceMapping(IAdaptable element) {
+	static ResourceMapping getContributedResourceMapping(IAdaptable element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContributorResourceAdapter resourceAdapter = Adapters.adapt(element, IContributorResourceAdapter.class);
 		if (resourceAdapter != null) {
 			if (resourceAdapter instanceof IContributorResourceAdapter2 mappingAdapter) {

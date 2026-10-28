@@ -81,7 +81,7 @@ public class LabelProviderWrapper extends ViewerComparator implements ITableLabe
 			return result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getColumnText(Object element, int columnIndex) {
 			StatusAdapter statusAdapter = (StatusAdapter) element;
 			String text = WorkbenchMessages.WorkbenchStatusDialog_ProblemOccurred;
@@ -167,7 +167,7 @@ public class LabelProviderWrapper extends ViewerComparator implements ITableLabe
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		getLabelProvider().addListener(listener);
+		getLabelProvider().addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class LabelProviderWrapper extends ViewerComparator implements ITableLabe
 	 *
 	 * @return {@link Image} associated with current {@link StatusAdapter} severity.
 	 */
-	public Image getImage(StatusAdapter statusAdapter) {
+	public Image getImage(StatusAdapter statusAdapter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (statusAdapter != null) {
 			int severity = statusAdapter.getStatus().getSeverity();
 			switch (severity) {
@@ -254,7 +254,7 @@ public class LabelProviderWrapper extends ViewerComparator implements ITableLabe
 	 * @see #getPrimaryMessage(StatusAdapter)
 	 * @see #getSecondaryMessage(StatusAdapter)
 	 */
-	public String getMainMessage(StatusAdapter statusAdapter) {
+	public String getMainMessage(StatusAdapter statusAdapter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isMulti()) {
 			Job job = Adapters.adapt(statusAdapter, Job.class);
 			// job
@@ -298,7 +298,7 @@ public class LabelProviderWrapper extends ViewerComparator implements ITableLabe
 	 * @see #getMainMessage(StatusAdapter)
 	 * @see #getSecondaryMessage(StatusAdapter)
 	 */
-	public String getPrimaryMessage(StatusAdapter statusAdapter) {
+	public String getPrimaryMessage(StatusAdapter statusAdapter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// if there was nonempty title set, display the title
 		Object property = statusAdapter.getProperty(IStatusAdapterConstants.TITLE_PROPERTY);
 		if (property instanceof String header) {
@@ -347,7 +347,7 @@ public class LabelProviderWrapper extends ViewerComparator implements ITableLabe
 	 * @see #getMainMessage(StatusAdapter)
 	 * @see #getPrimaryMessage(StatusAdapter)
 	 */
-	public String getSecondaryMessage(StatusAdapter statusAdapter) {
+	public String getSecondaryMessage(StatusAdapter statusAdapter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String primary = getPrimaryMessage(statusAdapter);
 		// we can skip the title, it is always displayed as primary message
 
@@ -389,7 +389,7 @@ public class LabelProviderWrapper extends ViewerComparator implements ITableLabe
 		return string;
 	}
 
-	private int compare(StatusAdapter s1, StatusAdapter s2) {
+	private int compare(StatusAdapter s1, StatusAdapter s2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Long timestamp1 = ((Long) s1.getProperty(IStatusAdapterConstants.TIMESTAMP_PROPERTY));
 		Long timestamp2 = ((Long) s2.getProperty(IStatusAdapterConstants.TIMESTAMP_PROPERTY));
 		if (timestamp1 == null || timestamp2 == null || (timestamp1.equals(timestamp2))) {

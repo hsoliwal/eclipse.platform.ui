@@ -32,8 +32,8 @@ import org.eclipse.ui.menus.IContributionRoot;
  */
 final class ContributionRoot implements IContributionRoot {
 
-	private final List<IContributionItem> topLevelItems = new ArrayList<>();
-	private final Map<IContributionItem, Expression> itemsToExpressions = new HashMap<>();
+	private final List<IContributionItem> topLevelItems = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final Map<IContributionItem, Expression> itemsToExpressions = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private final AbstractContributionFactory factory;
 
 	public ContributionRoot(AbstractContributionFactory factory) {
@@ -68,7 +68,7 @@ final class ContributionRoot implements IContributionRoot {
 																							// this factory doesn't have
 																							// a namespace
 																							// it will be null.
-		return namespace != null ? namespace + '/' + item.getId() : null;
+		return namespace != null ? namespace + '/' + item.getId() : null; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public List<IContributionItem> getItems() {
@@ -83,7 +83,7 @@ final class ContributionRoot implements IContributionRoot {
 	 * Unregister all visible when expressions from the menu service.
 	 */
 	public void release() {
-		for (IContributionItem item : itemsToExpressions.keySet()) {
+		for (IContributionItem item : itemsToExpressions.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// menuService.unregisterVisibleWhen(item, restriction);
 			item.dispose();
 		}

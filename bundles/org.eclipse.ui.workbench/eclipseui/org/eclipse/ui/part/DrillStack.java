@@ -81,7 +81,7 @@ import java.util.Deque;
 	 * Clears the navigation stack.
 	 */
 	public void reset() {
-		fStack = new ArrayDeque<>();
+		fStack = new ArrayDeque<>(); //FLLDCIM: MARK — M08 M3_DEQUE_LANES NEW
 	}
 
 	/**

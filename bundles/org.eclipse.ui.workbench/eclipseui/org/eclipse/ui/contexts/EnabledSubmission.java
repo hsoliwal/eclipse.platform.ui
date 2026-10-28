@@ -107,7 +107,7 @@ public final class EnabledSubmission implements Comparable {
 	/**
 	 * @see Comparable#compareTo(java.lang.Object)
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public int compareTo(Object object) {
 		EnabledSubmission castedObject = (EnabledSubmission) object;
@@ -181,7 +181,7 @@ public final class EnabledSubmission implements Comparable {
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append("[activePartId="); //$NON-NLS-1$
 			stringBuffer.append(activePartId);
 			stringBuffer.append(",activeShell="); //$NON-NLS-1$

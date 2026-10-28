@@ -98,7 +98,7 @@ public class WorkspaceUndoMonitor {
 	 */
 	private WorkspaceUndoMonitor() {
 		if (Policy.DEBUG_UNDOMONITOR) {
-			System.out.println(DEBUG_PREFIX + "Installing listeners"); //$NON-NLS-1$
+			System.out.println(DEBUG_PREFIX + "Installing listeners"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		resourceListener = getResourceChangeListener();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(
@@ -115,7 +115,7 @@ public class WorkspaceUndoMonitor {
 	 * @return the resource change listeners
 	 */
 	private IResourceChangeListener getResourceChangeListener() {
-		return event -> {
+		return event -> { //FLLDCIM: MARK — T07  LAMBDA
 			// If there is an operation in progress, this event is to be
 			// ignored.
 			if (operationInProgress != null) {
@@ -135,7 +135,7 @@ public class WorkspaceUndoMonitor {
 	/**
 	 * Check a resource delta to see if it is worth noting.
 	 */
-	private boolean isAffectedBy(IResourceDelta delta) {
+	private boolean isAffectedBy(IResourceDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// For now, we consider any change except marker changes a change
 		// worth tracking. We can be more specific later if warranted.
 		if (delta.getKind() != IResourceDelta.CHANGED) {
@@ -146,7 +146,7 @@ public class WorkspaceUndoMonitor {
 			return true;
 		}
 		IResourceDelta[] children = delta.getAffectedChildren();
-		for (IResourceDelta child : children) {
+		for (IResourceDelta child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isAffectedBy(child)) {
 				return true;
 			}
@@ -159,7 +159,7 @@ public class WorkspaceUndoMonitor {
 	 *
 	 * @return the resource change listeners
 	 */
-	private IOperationHistoryListener getOperationHistoryListener() {
+	private IOperationHistoryListener getOperationHistoryListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return event -> {
 			// We only care about events that have the workspace undo
 			// context.
@@ -191,7 +191,7 @@ public class WorkspaceUndoMonitor {
 	 */
 	public void shutdown() {
 		if (Policy.DEBUG_UNDOMONITOR) {
-			System.out.println(DEBUG_PREFIX + "Shutting Down"); //$NON-NLS-1$
+			System.out.println(DEBUG_PREFIX + "Shutting Down"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		if (resourceListener != null) {
@@ -215,9 +215,9 @@ public class WorkspaceUndoMonitor {
 	/**
 	 * Check the pending undoable operation to see if it is still valid.
 	 */
-	private void checkOperationHistory() {
+	private void checkOperationHistory() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Policy.DEBUG_UNDOMONITOR) {
-			System.out.println(DEBUG_PREFIX + "Checking Operation History..."); //$NON-NLS-1$
+			System.out.println(DEBUG_PREFIX + "Checking Operation History..."); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		IUndoableOperation currentOp = getOperationHistory().getUndoOperation(
 				WorkspaceUndoUtil.getWorkspaceUndoContext());
@@ -263,7 +263,7 @@ public class WorkspaceUndoMonitor {
 	 */
 	private void flushWorkspaceHistory(IUndoableOperation op) {
 		if (Policy.DEBUG_UNDOMONITOR) {
-			System.out.println(DEBUG_PREFIX
+			System.out.println(DEBUG_PREFIX //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ "Flushing undo history due to " + op); //$NON-NLS-1$
 		}
 		getOperationHistory().dispose(
@@ -276,7 +276,7 @@ public class WorkspaceUndoMonitor {
 	private void resetChangeCount() {
 		numChanges = 0;
 		if (Policy.DEBUG_UNDOMONITOR) {
-			System.out.println(DEBUG_PREFIX + "Resetting change count to 0"); //$NON-NLS-1$
+			System.out.println(DEBUG_PREFIX + "Resetting change count to 0"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -287,7 +287,7 @@ public class WorkspaceUndoMonitor {
 		numChanges++;
 		if (Policy.DEBUG_UNDOMONITOR) {
 			System.out
-					.println(DEBUG_PREFIX
+					.println(DEBUG_PREFIX //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ "Incrementing workspace change count.  Count = " + numChanges); //$NON-NLS-1$
 		}
 	}

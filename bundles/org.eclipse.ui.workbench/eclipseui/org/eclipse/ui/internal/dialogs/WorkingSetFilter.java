@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.ui.IWorkingSet;
 
-public class WorkingSetFilter extends ViewerFilter {
+public class WorkingSetFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	Set workingSetIds;
 
 	public WorkingSetFilter(Set workingSetIds) {

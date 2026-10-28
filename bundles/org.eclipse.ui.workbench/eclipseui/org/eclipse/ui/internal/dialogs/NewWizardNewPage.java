@@ -59,7 +59,7 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
  * New wizard selection tab that allows the user to select a registered 'New'
  * wizard to be launched.
  */
-class NewWizardNewPage implements ISelectionChangedListener {
+class NewWizardNewPage implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	// id constants
 	private static final String DIALOG_SETTING_SECTION_NAME = "NewWizardSelectionPage."; //$NON-NLS-1$
@@ -68,10 +68,10 @@ class NewWizardNewPage implements ISelectionChangedListener {
 
 	private static final int SIZING_VIEWER_WIDTH = 300;
 
-	private static final String STORE_EXPANDED_CATEGORIES_ID = DIALOG_SETTING_SECTION_NAME
+	private static final String STORE_EXPANDED_CATEGORIES_ID = DIALOG_SETTING_SECTION_NAME //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "STORE_EXPANDED_CATEGORIES_ID"; //$NON-NLS-1$
 
-	private static final String STORE_SELECTED_ID = DIALOG_SETTING_SECTION_NAME + "STORE_SELECTED_ID"; //$NON-NLS-1$
+	private static final String STORE_SELECTED_ID = DIALOG_SETTING_SECTION_NAME + "STORE_SELECTED_ID"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private final NewWizardSelectionPage page;
 
@@ -92,7 +92,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 
 	private CLabel descImageCanvas;
 
-	private final Map<ImageDescriptor, Image> imageTable = new HashMap<>();
+	private final Map<ImageDescriptor, Image> imageTable = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private IWizardDescriptor selectedElement;
 
@@ -107,7 +107,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	/**
 	 * Create an instance of this class
 	 */
-	public NewWizardNewPage(NewWizardSelectionPage mainPage, IWizardCategory wizardCategories,
+	public NewWizardNewPage(NewWizardSelectionPage mainPage, IWizardCategory wizardCategories, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IWizardDescriptor[] primaryWizards, boolean projectsOnly) {
 		this.page = mainPage;
 		this.wizardCategories = wizardCategories;
@@ -141,13 +141,13 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 *         filtering
 	 */
 	private boolean allActivityEnabled(IWizardCategory category) {
-		for (IWizardDescriptor wizard : category.getWizards()) {
+		for (IWizardDescriptor wizard : category.getWizards()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (WorkbenchActivityHelper.filterItem(wizard)) {
 				return false;
 			}
 		}
 
-		for (IWizardCategory wizard : category.getCategories()) {
+		for (IWizardCategory wizard : category.getCategories()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!allActivityEnabled(wizard)) {
 				return false;
 			}
@@ -160,13 +160,13 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * Remove all primary wizards that are not in the wizard collection
 	 */
 	private void trimPrimaryWizards() {
-		ArrayList<IWizardDescriptor> newPrimaryWizards = new ArrayList<>(primaryWizards.length);
+		ArrayList<IWizardDescriptor> newPrimaryWizards = new ArrayList<>(primaryWizards.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (wizardCategories == null) {
 			return;// No categories so nothing to trim
 		}
 
-		for (IWizardDescriptor primaryWizard : primaryWizards) {
+		for (IWizardDescriptor primaryWizard : primaryWizards) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (wizardCategories.findWizard(primaryWizard.getId()) != null) {
 				newPrimaryWizards.add(primaryWizard);
 			}
@@ -181,13 +181,13 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * @return whether all wizards in the category are considered primary
 	 */
 	private boolean allPrimary(IWizardCategory category) {
-		for (IWizardDescriptor wizard : category.getWizards()) {
+		for (IWizardDescriptor wizard : category.getWizards()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isPrimary(wizard)) {
 				return false;
 			}
 		}
 
-		for (IWizardCategory wizard : category.getCategories()) {
+		for (IWizardCategory wizard : category.getCategories()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!allPrimary(wizard)) {
 				return false;
 			}
@@ -200,7 +200,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * @return whether the given wizard is primary
 	 */
 	private boolean isPrimary(IWizardDescriptor wizard) {
-		for (IWizardDescriptor primaryWizard : primaryWizards) {
+		for (IWizardDescriptor primaryWizard : primaryWizards) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (primaryWizard.equals(wizard)) {
 				return true;
 			}
@@ -222,7 +222,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * @param parent Composite
 	 * @return Control
 	 */
-	protected Control createControl(Composite parent) {
+	protected Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font wizardFont = parent.getFont();
 		// top level group
@@ -265,7 +265,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * @param parent the parent <code>Composite</code>.
 	 * @since 3.0
 	 */
-	protected FilteredTree createFilteredTree(Composite parent) {
+	protected FilteredTree createFilteredTree(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
@@ -293,11 +293,11 @@ class NewWizardNewPage implements ISelectionChangedListener {
 
 		final TreeViewer treeViewer = filterTree.getViewer();
 		treeViewer.setContentProvider(new WizardContentProvider());
-		treeViewer.setLabelProvider(new WorkbenchLabelProvider());
+		treeViewer.setLabelProvider(new WorkbenchLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		treeViewer.setComparator(NewWizardCollectionComparator.INSTANCE);
-		treeViewer.addSelectionChangedListener(this);
+		treeViewer.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
-		ArrayList<Object> inputArray = new ArrayList<>();
+		ArrayList<Object> inputArray = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		inputArray.addAll(Arrays.asList(primaryWizards));
 
@@ -319,13 +319,13 @@ class NewWizardNewPage implements ISelectionChangedListener {
 		}
 
 		AdaptableList input = new AdaptableList(inputArray);
-		treeViewer.setInput(input);
+		treeViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		filterTree.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
 		treeViewer.getTree().setFont(parent.getFont());
 
-		treeViewer.addDoubleClickListener(event -> {
+		treeViewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			IStructuredSelection s = (IStructuredSelection) event.getSelection();
 			selectionChanged(new SelectionChangedEvent(event.getViewer(), s));
 
@@ -337,10 +337,10 @@ class NewWizardNewPage implements ISelectionChangedListener {
 			}
 		});
 
-		treeViewer.addFilter(filter);
+		treeViewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		if (projectsOnly) {
-			treeViewer.addFilter(projectFilter);
+			treeViewer.addFilter(projectFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 
 		Dialog.applyDialogFont(filterTree);
@@ -352,7 +352,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 *
 	 * @param parent the parent composite on which to create the widgets
 	 */
-	private void createOptionsButtons(Composite parent) {
+	private void createOptionsButtons(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (needShowAll) {
 			showAllCheck = new Button(parent, SWT.CHECK);
 			GridData data = new GridData();
@@ -362,13 +362,13 @@ class NewWizardNewPage implements ISelectionChangedListener {
 			showAllCheck.setSelection(false);
 
 			// flipping tabs updates the selected node
-			showAllCheck.addSelectionListener(new SelectionAdapter() {
+			showAllCheck.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				// the delta of expanded elements between the last 'show all'
 				// and the current 'no show all'
 				private Object[] delta = new Object[0];
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void widgetSelected(SelectionEvent e) {
 					boolean showAll = showAllCheck.getSelection();
 
@@ -385,9 +385,9 @@ class NewWizardNewPage implements ISelectionChangedListener {
 					try {
 						if (showAll) {
 							filteredTree.getViewer().resetFilters();
-							filteredTree.getViewer().addFilter(filteredTreeFilter);
+							filteredTree.getViewer().addFilter(filteredTreeFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 							if (projectsOnly) {
-								filteredTree.getViewer().addFilter(projectFilter);
+								filteredTree.getViewer().addFilter(projectFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 							}
 
 							// restore the expanded elements that were present
@@ -399,12 +399,12 @@ class NewWizardNewPage implements ISelectionChangedListener {
 							System.arraycopy(delta, 0, expanded, currentExpanded.length, delta.length);
 							filteredTree.getViewer().setExpandedElements(expanded);
 						} else {
-							filteredTree.getViewer().addFilter(filter);
+							filteredTree.getViewer().addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 							if (projectsOnly) {
-								filteredTree.getViewer().addFilter(projectFilter);
+								filteredTree.getViewer().addFilter(projectFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 							}
 						}
-						filteredTree.getViewer().refresh(false);
+						filteredTree.getViewer().refresh(false); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 						if (!showAll) {
 							// if we're going from show all -> no show all
@@ -412,7 +412,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 							// 'show all' state but not the 'no show all' state
 							// (because they didnt exist).
 							Object[] newExpanded = filteredTree.getViewer().getExpandedElements();
-							List<Object> deltaList = new ArrayList<>(Arrays.asList(delta));
+							List<Object> deltaList = new ArrayList<>(Arrays.asList(delta)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							deltaList.removeAll(Arrays.asList(newExpanded));
 						}
 					} finally {
@@ -439,8 +439,8 @@ class NewWizardNewPage implements ISelectionChangedListener {
 		descImageCanvas.setLayoutData(data);
 
 		// hook a listener to get rid of cached images.
-		descImageCanvas.addDisposeListener(e -> {
-			for (Image image : imageTable.values()) {
+		descImageCanvas.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
+			for (Image image : imageTable.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			imageTable.clear();
@@ -452,16 +452,16 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * expanded last time this page was used. If a category that was previously
 	 * expanded no longer exists then it is ignored.
 	 */
-	protected void expandPreviouslyExpandedCategories() {
+	protected void expandPreviouslyExpandedCategories() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] expandedCategoryPaths = settings.getArray(STORE_EXPANDED_CATEGORIES_ID);
 		if (expandedCategoryPaths == null || expandedCategoryPaths.length == 0) {
 			return;
 		}
 
-		List<IWizardCategory> categoriesToExpand = new ArrayList<>(expandedCategoryPaths.length);
+		List<IWizardCategory> categoriesToExpand = new ArrayList<>(expandedCategoryPaths.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (wizardCategories != null) {
-			for (String expandedCategoryPath : expandedCategoryPaths) {
+			for (String expandedCategoryPath : expandedCategoryPaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWizardCategory category = wizardCategories.findCategory(IPath.fromOSString(expandedCategoryPath));
 				if (category != null) {
 					categoriesToExpand.add(category);
@@ -507,7 +507,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 *
 	 * @param selectionEvent ISelection
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(SelectionChangedEvent selectionEvent) {
 		page.setErrorMessage(null);
 		page.setMessage(null);
@@ -533,7 +533,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * time this page was used. If a category or wizard that was previously selected
 	 * no longer exists then it is ignored.
 	 */
-	protected void selectPreviouslySelected() {
+	protected void selectPreviouslySelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String selectedId = settings.get(STORE_SELECTED_ID);
 		if (selectedId == null) {
 			return;
@@ -556,7 +556,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 
 		// work around for 62039
 		final StructuredSelection selection = new StructuredSelection(selected);
-		filteredTree.getViewer().getControl().getDisplay()
+		filteredTree.getViewer().getControl().getDisplay() //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				.asyncExec(() -> filteredTree.getViewer().setSelection(selection, true));
 	}
 
@@ -576,8 +576,8 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 */
 	protected void storeExpandedCategories() {
 		Object[] expandedElements = filteredTree.getViewer().getExpandedElements();
-		List<String> expandedElementPaths = new ArrayList<>(expandedElements.length);
-		for (Object expandedElement : expandedElements) {
+		List<String> expandedElementPaths = new ArrayList<>(expandedElements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object expandedElement : expandedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expandedElement instanceof IWizardCategory) {
 				expandedElementPaths.add(((IWizardCategory) expandedElement).getPath().toString());
 			}
@@ -609,7 +609,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 	 * @param selectedObject the new wizard
 	 * @since 3.0
 	 */
-	private void updateDescription(IWizardDescriptor selectedObject) {
+	private void updateDescription(IWizardDescriptor selectedObject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String string = ""; //$NON-NLS-1$
 		if (selectedObject != null) {
 			string = selectedObject.getDescription();
@@ -668,7 +668,7 @@ class NewWizardNewPage implements ISelectionChangedListener {
 		return false;
 	}
 
-	private void updateWizardSelection(IWizardDescriptor selectedObject) {
+	private void updateWizardSelection(IWizardDescriptor selectedObject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		selectedElement = selectedObject;
 		WorkbenchWizardNode selectedNode;
 		if (selectedWizards.containsKey(selectedObject)) {

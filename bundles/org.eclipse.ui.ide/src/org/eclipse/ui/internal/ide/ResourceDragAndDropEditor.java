@@ -45,7 +45,7 @@ public class ResourceDragAndDropEditor {
 			this.values = values;
 		}
 
-		public void createControl(Composite parent) {
+		public void createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Font font = parent.getFont();
 			group = new Group(parent, SWT.NONE);
 			GridData data = new GridData(GridData.FILL_HORIZONTAL);
@@ -57,7 +57,7 @@ public class ResourceDragAndDropEditor {
 			group.setFont(font);
 
 			buttons = new Button[labels.length];
-			for (int i = 0; i < labels.length; i++) {
+			for (int i = 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				buttons[i] = new Button(group, SWT.RADIO);
 				buttons[i].setText(labels[i]);
 				buttons[i].setData(values[i]);
@@ -70,7 +70,7 @@ public class ResourceDragAndDropEditor {
 			updateState(resourcePreference);
 		}
 		private void updateState(String value) {
-			for (int i = 0; i < labels.length; i++) {
+			for (int i = 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (value.equals(buttons[i].getData())) {
 					buttons[i].setSelection(true);
 				}
@@ -99,7 +99,7 @@ public class ResourceDragAndDropEditor {
 		 * @return the current selection
 		 */
 		private String getSelection() {
-			for (int i = 0; i < labels.length; i++) {
+			for (int i = 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (buttons[i].getSelection()) {
 					return (String) buttons[i].getData();
 				}
@@ -114,7 +114,7 @@ public class ResourceDragAndDropEditor {
 
 		public void setEnabled(boolean enableLinking) {
 			group.setEnabled(enableLinking);
-			for (int i = 0; i < labels.length; i++) {
+			for (int i = 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (buttons[i] != null && !buttons[i].isDisposed()) {
 					buttons[i].setEnabled(enableLinking);
 				}
@@ -132,7 +132,7 @@ public class ResourceDragAndDropEditor {
 	 * @param composite
 	 *            the parent of the field editor's control
 	 */
-	public ResourceDragAndDropEditor(Composite composite) {
+	public ResourceDragAndDropEditor(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		folderPref = new PreferenceGroup(IDEWorkbenchMessages.LinkedResourcesPreference_dragAndDropHandlingMessage,
 				IDEInternalPreferences.IMPORT_FILES_AND_FOLDERS_MODE,
 				new String[] {
