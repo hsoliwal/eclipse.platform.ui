@@ -553,6 +553,8 @@ public class ExtendedMarkersView extends ViewPart {
 			ISelection selection = event.getSelection();
 			if (selection instanceof IStructuredSelection){
 				updateStatusLine((IStructuredSelection)selection);
+				// M3 mode: the selection is a lane of the model (PROBLEMS_VIEW.md 3.2)
+				M3MarkerDeltas.selectionChanged(this, (IStructuredSelection) selection);
 			}
 		});
 	}

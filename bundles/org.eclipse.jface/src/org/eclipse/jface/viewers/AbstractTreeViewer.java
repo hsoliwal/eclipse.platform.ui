@@ -2195,7 +2195,16 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				Widget[] itemsOfElement = internalFindItems(element);
 				for (Widget item : itemsOfElement) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (item instanceof TreeItem ti) {
+						if (ti.isDisposed()) {
+							continue; // disposed by the refresh of a sibling earlier in this batch
+						}
 						TreeItem parentItem = ti.getParentItem();
+						if (M3ViewerPaths.on(this) && !showsExpandableNode(parentItem == null ? ti.getParent() : parentItem)) {
+							// viewport mode: the parent shows no partial display, so the plain removal below is exact and
+							// keeps the siblings (the parent refresh recreated them and disposed the items of the other
+							// elements of this batch: docs/m3/jface-viewport, Problems view differential 2026-10-24)
+							continue;
+						}
 						if (parentItem == null) {
 							internalRefreshStruct(ti.getParent(), getInput(), false);
 							continueOuter = true;
@@ -2214,6 +2223,10 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 			if (childItems.length > 0) {
 				for (Widget childItem : childItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (childItem instanceof Item it) {
+						if (it.isDisposed()) {
+							unmapElement(element, it); // its widget is gone already; drop the stale mapping
+							continue;
+						}
 						disassociate(it);
 						childItem.dispose();
 					}
@@ -2227,6 +2240,12 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 				}
 			}
 		}
+	}
+
+	/* whether the last child of the widget is the expandable node of a partial display (items limit) */
+	private boolean showsExpandableNode(Widget parent) {
+		Item[] children = getChildren(parent);
+		return children.length > 0 && isExpandableNode(children[children.length - 1].getData());
 	}
 
 	/**
@@ -3498,6 +3517,28 @@ public abstract class AbstractTreeViewer extends ColumnViewer {
 		}
 		if (getComparator() != null || hasFilters()) {
 			add(parentElementOrTreePath, new Object[] { element });
+			return;
+		}
+		insertAt(parentElementOrTreePath, element, position);
+	}
+
+	/**
+	 * Inserts {@code element} at {@code position} without the comparator and
+	 * filter check of {@link #insert(Object, Object, int)}: for the M3 viewport
+	 * deltas, whose model applied the viewer's filters and computed the position
+	 * (docs/m3/jface-viewport). The stock insert turns an indexed insert into an
+	 * add whenever a filter is installed, and add appends when the viewer has no
+	 * comparator; a filtered tree always has its pattern filter installed, so
+	 * every delta row landed at the end of its parent (differential 2026-10-24).
+	 *
+	 * @param parentElementOrTreePath the parent element, or the tree path to the
+	 *                                parent
+	 * @param element                 the element
+	 * @param position                a 0-based position relative to the model,
+	 *                                or -1 for the last position
+	 */
+	void insertAt(Object parentElementOrTreePath, Object element, int position) {
+		if (checkBusy()) {
 			return;
 		}
 		Widget[] items;

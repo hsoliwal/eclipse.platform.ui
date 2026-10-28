@@ -143,4 +143,27 @@ public class StructuredViewerInternals {
 		return viewer.m3InstallDeltaQueue(queue);
 	}
 
+	/**
+	 * Internal access for the M3 viewport deltas: inserts {@code element} under
+	 * {@code parent} at the position the model computed. In {@code viewport}
+	 * mode and without a viewer comparator the filter check of
+	 * {@link AbstractTreeViewer#insert(Object, Object, int)} is skipped (the
+	 * model applied the filters; the stock check appends every row under a
+	 * filter); otherwise the stock insert runs.
+	 *
+	 * @param viewer   the tree viewer
+	 * @param parent   the parent element, or the tree path to the parent
+	 * @param element  the element
+	 * @param position the 0-based position among the parent's children, or -1
+	 * @since 3.43
+	 */
+	@NoReference
+	public static void insertAt(AbstractTreeViewer viewer, Object parent, Object element, int position) {
+		if (M3ViewerPaths.on(viewer) && viewer.getComparator() == null) {
+			viewer.insertAt(parent, element, position);
+		} else {
+			viewer.insert(parent, element, position);
+		}
+	}
+
 }

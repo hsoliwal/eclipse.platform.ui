@@ -15,6 +15,7 @@
 
 package org.eclipse.ui.internal.views.markers;
 
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Item;
@@ -66,6 +67,15 @@ public class MarkersTreeViewer extends TreeViewer {
 	 */
 	void m3PreservingMarkerSelection(Runnable patch) {
 		preservingSelection(patch);
+	}
+
+	/**
+	 * Lane selection mode of the window patch (M3MarkerDeltas, PROBLEMS_VIEW.md 3.2 step 2): the patch set the
+	 * tree's selection from the selection lane and a selected row went away, so the listeners hear of it once, as
+	 * they do after a refresh whose selection changed.
+	 */
+	void m3SelectionPatched() {
+		fireSelectionChanged(new SelectionChangedEvent(this, getSelection()));
 	}
 
 	@Override
