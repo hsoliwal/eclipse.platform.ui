@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
 # SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
-# V4 review template: 62 exact cases and a sealed corrected harness; CI execution remains pending.
+# Exact gates per mode: 73 JFace methods and 34 Problems workbench methods; execution remains required.
 name: Continuous Integration
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -65,7 +65,9 @@ jobs:
             'https://github.com/'+os.environ['UI_BASE_REPOSITORY']+'.git',os.environ['PR_BASE_SHA']],check=True)
         changed=git('diff','--name-only',os.environ['PR_BASE_SHA']+'...'+os.environ['PR_HEAD_SHA']).splitlines()
         prefixes=('bundles/org.eclipse.jface/','bundles/org.eclipse.ui.ide/',
-                  'tests/org.eclipse.jface.tests/','tests/org.eclipse.ui.tests.harness/','.mvn/')
+                  'tests/org.eclipse.jface.tests/','tests/org.eclipse.ui.tests/','tests/org.eclipse.ui.tests.harness/',
+                  'bundles/org.eclipse.ui/','bundles/org.eclipse.ui.workbench/',
+                  'bundles/org.eclipse.ui.ide.application/','.mvn/')
         exact={'.github/workflows/ci.yml','pom.xml'}
         matched=sorted(x for x in changed if x in exact or x.startswith(prefixes))
         evidence=pathlib.Path(os.environ['M3_EVIDENCE']); evidence.mkdir()
@@ -172,8 +174,8 @@ jobs:
             native.append({'path':str(path),'sha256':match[1],'bytes':len(data)})
         assert native and all(any(pathlib.Path(x['path']).name.startswith(prefix) for x in native)
             for prefix in ('libswt-gtk-','libswt-pi3-gtk-','libswt-cairo-gtk-','libswt-atk-gtk-'))
-        expected_tests={'org.eclipse.jface.tests.viewers.m3.M3ViewerDeltaTest': ['operationsKeepTheirOrderAndFields', 'lanesGrowAndAppendMerges', 'rejectsNullElementsAndBadIndexes', 'emptySelfAppendIsAnIdentity', 'selfAppendDuplicatesOriginalLanesExactlyOnce'], 'org.eclipse.jface.tests.viewers.m3.M3ViewSpecTest': ['parsesTheProblemsViewSpec', 'defaultsForOptionalKeys', 'theCommittedProblemsViewSpecIsValid', 'loadFindsTheSpecNextToTheClass', 'errorsNameTheProblem'], 'org.eclipse.jface.tests.viewers.m3.M3IndexTest': ['firstIndexAnswersLikeTheScan', 'firstIndexKeepsTheFirstOfEqualElements', 'firstIndexAcceptsZeroAndOneElement', 'identityIndexAnswersPositionsByIdentity', 'modeReadsTheProperties'], 'org.eclipse.jface.tests.viewers.m3.M3ViewersTest': ['appliesToTreeTableAndList', 'largeDeltasRunWithRedrawOff', 'postMergesABurstAndAppliesOnce', 'refreshFlushesQueuedDeltasFirst', 'refreshLaterRefreshesOnce', 'aFailingDeltaFallsBackToRefresh', 'disposedAndEmptyAreIgnored', 'flushOffTheUiThreadDoesNothing', 'allStructuredFamiliesPreserveRowsSelectionAndChecks', 'refreshLaterCoalescesProviderReadsForEveryFamily', 'explicitRefreshRecordsRetainTheirMultiplicity', 'explicitDeltaSeparatesAdjacentRefreshLaterRuns', 'anOldShortDelayCannotDrainANewLongDelayBurst', 'disposingAQueuedViewerPreventsLaterProviderCalls', 'zeroDelayPostsAreAsynchronousAndEventuallyDrain', 'theFirstDelayCapsABurstWhileLongDelayPostsContinue', 'reentrantDispatchAndFlushPreserveTheOuterBatchBeforeNewPosts', 'preservingDeltaRetainsReinsertedSelectionForEveryFamily', 'preservingDeltaRetainsMultipleSelectedElements', 'preservingDeltaNotifiesOnceForAPermanentlyRemovedSelection', 'callbackSelectionWinsAcrossNestedPreservingDeltas', 'checkStateProvidersRemainAuthoritativeDuringPreservingDeltas', 'preservingDeltaPropagatesFailuresAndReleasesItsScopeForEveryFamily', 'checkboxFailureKeepsPartialWidgetStateWithoutARollback', 'ordinaryApplyDoesNotRetainRemovedThenReinsertedSelection', 'preservingDeltaRestoresEqualReplacementFacadesWithHashCollisions', 'preservingTreeDeltasKeepTheSelectedPathAndUnaffectedExpansion', 'preservingSelectionDoesNotReexpandARecreatedUnselectedParent', 'preservingSelectionSkipsEmptyAndDisposedViewers', 'preservingSelectionRetainsExistingCheckboxDisposalBehavior', 'ordinaryComboUpdatesPreserveChangedSelectedLabelsDirectlyAndWhenPosted', 'comboLabelCallbacksKeepUpdatedDifferentAndEmptySelectionRequests', 'nativeComboModifyCallbacksKeepTheirLastRequestDuringMutationAndRestoration', 'comboUpdatesSkipUnneededRestorationWithoutARevealRequest', 'disabledPreservationStillExecutesOrdinaryAndExplicitComboUpdates', 'ordinaryComboUpdateFailureRestoresTheLastRequestAndReleasesItsScope', 'ordinaryComboUpdateInsideStockPreservationRetainsCallbackIntent', 'finalSelectionListenerStartsAFreshComboPreservationScope', 'comboViewersClearSelectionWhenAllRequestedElementsAreAbsent', 'ccomboDeselectAllCompletesBeforeModifyCallbacks', 'ccomboFinalRemovalRestorationHonorsModifySelectionAndDisposal', 'differentialScriptsHavePositiveGeometryAndCompleteEveryVariant', 'ccomboValidSelectionHonorsModifyReselection', 'ccomboValidSelectionAllowsModifyDisposal', 'ccomboPositiveRestorationHonorsModifySelectionAndDisposal', 'ccomboValidSelectionKeepsClearRequestsForDuplicateEmptyLabels', 'ccomboValidSelectionPreservesVerifyAndFailureSemantics']}
-        expected_test_hashes={'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewerDeltaTest.java': '862e1a7e220f22bef66b67cbd970c97c2c0a7ccb1feee11e701daac05ab4b805', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewSpecTest.java': 'ad8e0be98637f1349c57078a63eaed38c5108c35571f9f7e283113b0062ae5c6', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3IndexTest.java': 'f575ad7d1fd7bc690041d462f9009a6cba853374fd7a815aeae23f479f404325', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewersTest.java': '6c3e5a7d23207b7bf26324adac8be7c9693e5df296bcc81f7c280bc9f52dd233'}
+        expected_tests={'org.eclipse.jface.tests.viewers.m3.M3ViewerDeltaTest': ['operationsKeepTheirOrderAndFields', 'lanesGrowAndAppendMerges', 'rejectsNullElementsAndBadIndexes', 'emptySelfAppendIsAnIdentity', 'selfAppendDuplicatesOriginalLanesExactlyOnce'], 'org.eclipse.jface.tests.viewers.m3.M3ViewSpecTest': ['parsesTheProblemsViewSpec', 'defaultsForOptionalKeys', 'theCommittedProblemsViewSpecIsValid', 'loadFindsTheSpecNextToTheClass', 'errorsNameTheProblem'], 'org.eclipse.jface.tests.viewers.m3.M3IndexTest': ['firstIndexAnswersLikeTheScan', 'firstIndexKeepsTheFirstOfEqualElements', 'firstIndexAcceptsZeroAndOneElement', 'identityIndexAnswersPositionsByIdentity', 'modeReadsTheProperties'], 'org.eclipse.jface.tests.viewers.m3.M3ViewersTest': ['appliesToTreeTableAndList', 'largeDeltasRunWithRedrawOff', 'postMergesABurstAndAppliesOnce', 'refreshFlushesQueuedDeltasFirst', 'refreshLaterRefreshesOnce', 'aFailingDeltaFallsBackToRefresh', 'disposedAndEmptyAreIgnored', 'flushOffTheUiThreadDoesNothing', 'allStructuredFamiliesPreserveRowsSelectionAndChecks', 'refreshLaterCoalescesProviderReadsForEveryFamily', 'explicitRefreshRecordsRetainTheirMultiplicity', 'explicitDeltaSeparatesAdjacentRefreshLaterRuns', 'anOldShortDelayCannotDrainANewLongDelayBurst', 'disposingAQueuedViewerPreventsLaterProviderCalls', 'zeroDelayPostsAreAsynchronousAndEventuallyDrain', 'theFirstDelayCapsABurstWhileLongDelayPostsContinue', 'reentrantDispatchAndFlushPreserveTheOuterBatchBeforeNewPosts', 'preservingDeltaRetainsReinsertedSelectionForEveryFamily', 'preservingDeltaRetainsMultipleSelectedElements', 'preservingDeltaNotifiesOnceForAPermanentlyRemovedSelection', 'callbackSelectionWinsAcrossNestedPreservingDeltas', 'checkStateProvidersRemainAuthoritativeDuringPreservingDeltas', 'preservingDeltaPropagatesFailuresAndReleasesItsScopeForEveryFamily', 'checkboxFailureKeepsPartialWidgetStateWithoutARollback', 'ordinaryApplyDoesNotRetainRemovedThenReinsertedSelection', 'preservingDeltaRestoresEqualReplacementFacadesWithHashCollisions', 'preservingTreeDeltasKeepTheSelectedPathAndUnaffectedExpansion', 'preservingSelectionDoesNotReexpandARecreatedUnselectedParent', 'preservingSelectionSkipsEmptyAndDisposedViewers', 'preservingSelectionRetainsExistingCheckboxDisposalBehavior', 'ordinaryComboUpdatesPreserveChangedSelectedLabelsDirectlyAndWhenPosted', 'comboLabelCallbacksKeepUpdatedDifferentAndEmptySelectionRequests', 'nativeComboModifyCallbacksKeepTheirLastRequestDuringMutationAndRestoration', 'comboUpdatesSkipUnneededRestorationWithoutARevealRequest', 'disabledPreservationStillExecutesOrdinaryAndExplicitComboUpdates', 'ordinaryComboUpdateFailureRestoresTheLastRequestAndReleasesItsScope', 'ordinaryComboUpdateInsideStockPreservationRetainsCallbackIntent', 'finalSelectionListenerStartsAFreshComboPreservationScope', 'comboViewersClearSelectionWhenAllRequestedElementsAreAbsent', 'ccomboDeselectAllCompletesBeforeModifyCallbacks', 'ccomboFinalRemovalRestorationHonorsModifySelectionAndDisposal', 'differentialScriptsHavePositiveGeometryAndCompleteEveryVariant', 'ccomboValidSelectionHonorsModifyReselection', 'ccomboValidSelectionAllowsModifyDisposal', 'ccomboPositiveRestorationHonorsModifySelectionAndDisposal', 'ccomboValidSelectionKeepsClearRequestsForDuplicateEmptyLabels', 'ccomboValidSelectionPreservesVerifyAndFailureSemantics', 'postedAddsPrecedeImmediateRefreshWithoutDispatch', 'tableRevealRefreshesFlushAdmittedDeltas', 'refreshAfterAsyncAdmissionDeliversEachAdditionOnce', 'explicitFlushAdmitsWorkerThenUiPostsWithoutPumpingDisplay', 'deliveredPostsKeepWorkerThenUiOrderWithoutPumpingDisplay', 'reentrantFlushDefersIncomingPostsUntilTheOuterBatchCompletes', 'disposingBeforeAsyncAdmissionPreventsProviderAndDeltaCallbacks', 'workerPostingAndFlushNeverReadTheViewerControl', 'explicitOwningDisplayPostRetainsWorkerSafetyAndImmediateFlush', 'refreshStopsWhenItsQueuedLabelCallbackDisposesTheControl', 'alreadyDisposedRefreshRetainsItsSwtExceptionContract']}
+        expected_test_hashes={'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewerDeltaTest.java': '862e1a7e220f22bef66b67cbd970c97c2c0a7ccb1feee11e701daac05ab4b805', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewSpecTest.java': 'ad8e0be98637f1349c57078a63eaed38c5108c35571f9f7e283113b0062ae5c6', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3IndexTest.java': 'f575ad7d1fd7bc690041d462f9009a6cba853374fd7a815aeae23f479f404325', 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewersTest.java': 'd6c09c905aa76a4e9bcc27cf6d62d1a2574c1096ebabe094629388da8d8f7087'}
         source_hashes={}
         ui=root/'eclipse.platform.ui'
         for rel,digest in expected_test_hashes.items():
@@ -183,6 +185,20 @@ jobs:
             class_name='org.eclipse.jface.tests.viewers.m3.'+path.stem
             methods=re.findall(r'@Test\s+(?:public\s+)?void\s+(\w+)\s*\(',path.read_text())
             assert methods==expected_tests[class_name], ('test method inventory differs',class_name)
+        expected_problems_tests={'org.eclipse.ui.tests.markers.MarkerViewTests': ['testOpenView'], 'org.eclipse.ui.tests.markers.MarkerSupportViewTest': ['canOverrideOpenSelectedMarkers', 'filterEnabled', 'filterDisabled', 'limitEnabled', 'limitDisabled', 'markerContentGeneratorExtensionLoaded'], 'org.eclipse.ui.tests.markers.MarkersFilteredTreeTest': ['testProblemsViewUsesFilteredTree', 'testProblemsViewSearchBoxCanBeHiddenAndShown', 'testProblemsViewFiltersMarkers', 'testProblemsViewHidingSearchBoxResetsFilter', 'testProblemsViewDescriptionCountsShownMarkersOnly', 'testProblemsViewCategoryLabelCountsShownMarkersOnly', 'testTasksViewUsesFilteredTree', 'testTasksViewSearchBoxCanBeHiddenAndShown', 'testTasksViewFiltersMarkers', 'testTasksViewHidingSearchBoxResetsFilter', 'testTasksViewDescriptionCountsShownMarkersOnly', 'testBookmarksViewUsesFilteredTree', 'testBookmarksViewSearchBoxCanBeHiddenAndShown', 'testBookmarksViewFiltersMarkers', 'testBookmarksViewHidingSearchBoxResetsFilter', 'testBookmarksViewDescriptionCountsShownMarkersOnly', 'testAllMarkersViewUsesFilteredTree', 'testAllMarkersViewSearchBoxCanBeHiddenAndShown', 'testAllMarkersViewFiltersMarkers', 'testAllMarkersViewHidingSearchBoxResetsFilter', 'testAllMarkersViewDescriptionCountsShownMarkersOnly', 'testAllMarkersViewCategoryLabelCountsShownMarkersOnly', 'testViewMenuProvidesSearchBoxToggle', 'testVisibilityIsRestoredForNewViewInstances', 'testPreferenceControlsInitialSearchBoxVisibility', 'testPreferenceChangeIsAppliedToOpenViews', 'testExplicitToggleWinsOverPreference']}
+        expected_problems_hashes={'tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/markers/MarkerViewTests.java': '71110ef9643856d6bb38af04f668226414d8b171bfe59c49710682146ea1fd04', 'tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/markers/MarkerSupportViewTest.java': 'acd6d91286702afa03ce084ade53232bf6aeaaf1698f83832e2ae38eb973b033', 'tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/markers/MarkersFilteredTreeTest.java': '9002636c6288b4c4985b1137ae6eb9502ba490e944b6eeeb7b4a5fd30a81bb59'}
+        native_scenario_counts={'postedAddsPrecedeImmediateRefreshWithoutDispatch': 4, 'tableRevealRefreshesFlushAdmittedDeltas': 4, 'refreshAfterAsyncAdmissionDeliversEachAdditionOnce': 4, 'explicitFlushAdmitsWorkerThenUiPostsWithoutPumpingDisplay': 4, 'deliveredPostsKeepWorkerThenUiOrderWithoutPumpingDisplay': 4, 'reentrantFlushDefersIncomingPostsUntilTheOuterBatchCompletes': 1, 'disposingBeforeAsyncAdmissionPreventsProviderAndDeltaCallbacks': 4, 'workerPostingAndFlushNeverReadTheViewerControl': 1, 'explicitOwningDisplayPostRetainsWorkerSafetyAndImmediateFlush': 1, 'refreshStopsWhenItsQueuedLabelCallbackDisposesTheControl': 12, 'alreadyDisposedRefreshRetainsItsSwtExceptionContract': 6}
+        reviewed_owner_hashes={'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewer.java': 'e7ddd0f08c74c6f7498cdfb945ad957c7b9932a9f7144dd6035a48d529723745', 'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewerInternals.java': '07fce222a200b73553fb23f7e6b693602e7a41e4ce472e7b7a09824e506ea0ce', 'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TableViewer.java': 'b2a74a2d063c8b46bdd1aeca5ae31522b0e962a51986c542d0acfee0bb073848', 'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3/M3Viewers.java': '608914aa8d58ee64e96e55bbc29963aa54104876951f12cb58d0744b55a091fa'}
+        for rel,digest in expected_problems_hashes.items():
+            path=ui/rel
+            assert sha(path)==digest, ('Problems test source differs from reviewed input',rel)
+            source_hashes[str(path)]=digest
+            class_name='org.eclipse.ui.tests.markers.'+path.stem
+            methods=re.findall(r'@Test\s+(?:public\s+)?void\s+(\w+)\s*\(',path.read_text())
+            assert methods==expected_problems_tests[class_name], ('Problems test inventory differs',class_name)
+        assert sum(map(len,expected_problems_tests.values()))==34
+        for rel,digest in reviewed_owner_hashes.items():
+            assert sha(ui/rel)==digest, ('Viewer owner differs from reviewed candidate',rel)
         harness=ui/'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewerDifferential.java'
         assert sha(harness)=='ba85eecc3c7f91bcdb7df8249e009390771bb9b6f68572402d0e411a2fea968a', 'Differential harness differs from reviewed input'
         source_hashes[str(harness)]=sha(harness)
@@ -193,6 +209,16 @@ jobs:
             ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ComboViewer.java',
             ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewer.java',
             ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewerInternals.java',
+            ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TableViewer.java',
+            *[ui/'bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers'/name
+              for name in ('ProblemsView.java','ExtendedMarkersView.java','MarkersTreeViewer.java',
+                           'M3MarkerDeltas.java','M3MarkerLanes.java')],
+            *[ui/rel for rel in ('pom.xml','tests/org.eclipse.jface.tests/build.properties',
+                'tests/org.eclipse.jface.tests/META-INF/MANIFEST.MF',
+                'tests/org.eclipse.ui.tests/build.properties','tests/org.eclipse.ui.tests/META-INF/MANIFEST.MF',
+                'tests/org.eclipse.ui.tests.harness/build.properties','tests/org.eclipse.ui.tests.harness/META-INF/MANIFEST.MF',
+                'bundles/org.eclipse.ui/META-INF/MANIFEST.MF','bundles/org.eclipse.ui.workbench/META-INF/MANIFEST.MF',
+                'bundles/org.eclipse.ui.ide/META-INF/MANIFEST.MF','bundles/org.eclipse.ui.ide.application/META-INF/MANIFEST.MF')],
             *sorted((ui/'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3').glob('*.java')),
             swt/'bundles/org.eclipse.swt/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/CCombo.java',
             swt/'bundles/org.eclipse.swt/Eclipse SWT/common/org/eclipse/swt/custom/StylePolicy.java',
@@ -201,36 +227,47 @@ jobs:
             assert path.is_file(), str(path)
             source_hashes[str(path)]=sha(path)
         receipt={'commits':commits,'submodules':submodules,'source_sha256':source_hashes,
-                 'native':native,'expected_tests':expected_tests,'expected_count':62}
+                 'native':native,'expected_tests':expected_tests,'expected_count':73,
+                 'expected_native_count':58,'expected_headless_count':15,
+                 'native_scenario_counts':native_scenario_counts,
+                 'expected_problems_tests':expected_problems_tests,'problems_expected_count':34}
         (evidence/'source-before.json').write_text(json.dumps(receipt,indent=2)+'\n')
-        print('Verified source pins, 62 exact test methods, and',len(native),'hydrated native ELF files')
+        print('Verified source pins, 73 exact JFace methods (58 native + 15 headless), 34 exact Problems methods, and',len(native),'hydrated native ELF files')
         PY_PROVENANCE
-    - name: Verify both modes in the existing PDE reactor
+    - name: Verify JFace and Problems workbench in both modes
       if: steps.route.outputs.run == 'true'
       shell: bash
       run: |
         set -euo pipefail
-        modules='eclipse.platform.swt/bundles/org.eclipse.swt,eclipse.platform.swt/binaries/org.eclipse.swt.gtk.linux.x86_64,eclipse.platform.ui/bundles/org.eclipse.jface,eclipse.platform.ui/bundles/org.eclipse.ui.ide,eclipse.platform.ui/tests/org.eclipse.jface.tests'
+        modules='eclipse.platform.swt/bundles/org.eclipse.swt,eclipse.platform.swt/binaries/org.eclipse.swt.gtk.linux.x86_64,eclipse.platform.ui/bundles/org.eclipse.jface,eclipse.platform.ui/bundles/org.eclipse.ui.ide,eclipse.platform.ui/bundles/org.eclipse.ui.ide.application,eclipse.platform.ui/tests/org.eclipse.jface.tests,eclipse.platform.ui/tests/org.eclipse.ui.tests'
         cd platform
+        overall_status=0
         for mode in original viewport; do
           destination="$M3_EVIDENCE/$mode"
           mkdir "$destination"
           set +e
           xvfb-run -a mvn --show-version --batch-mode --no-transfer-progress --errors \
             -Pbree-libs -pl "$modules" -am \
-            -Dtest=M3ViewerDeltaTest,M3ViewSpecTest,M3IndexTest,M3ViewersTest \
+            -Dtest=M3ViewerDeltaTest,M3ViewSpecTest,M3IndexTest,M3ViewersTest,MarkerViewTests,MarkerSupportViewTest,MarkersFilteredTreeTest \
             -Dsurefire.failIfNoSpecifiedTests=false \
-            "-Dsurefire.systemProperties=-Djface.viewer.mode=$mode -Dm3.wt=$PWD/eclipse.platform.ui" \
+            "-Dsurefire.systemProperties=-Djface.viewer.mode=$mode -Dorg.eclipse.ui.ide.markers.mode=$mode -Dm3.wt=$PWD/eclipse.platform.ui" \
             clean verify 2>&1 | tee "$destination/maven.log"
-          maven_status=${PIPESTATUS[0]}
-          set -e
-          MODE="$mode" MAVEN_STATUS="$maven_status" python3 - <<'PY_VERIFY'
-        import collections,hashlib,json,os,pathlib,re,shutil,subprocess,xml.etree.ElementTree as ET,zipfile
+          pipeline_status=("${PIPESTATUS[@]}")
+          maven_status=${pipeline_status[0]}
+          tee_status=${pipeline_status[1]}
+          MODE="$mode" MAVEN_STATUS="$maven_status" TEE_STATUS="$tee_status" python3 - <<'PY_VERIFY'
+        import hashlib,json,os,pathlib,re,shutil,subprocess,xml.etree.ElementTree as ET,zipfile
+        from urllib.parse import unquote,urlsplit
+
         root=pathlib.Path.cwd().resolve()
         evidence=pathlib.Path(os.environ['M3_EVIDENCE'])
         destination=evidence/os.environ['MODE']
-        receipt={'mode':os.environ['MODE'],'maven_exit':int(os.environ['MAVEN_STATUS']),'status':'FAIL'}
-        def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+        receipt={'mode':os.environ['MODE'],'maven_exit':int(os.environ['MAVEN_STATUS']),
+            'tee_exit':int(os.environ['TEE_STATUS']),'status':'FAIL','groups':{}}
+
+        def sha(path):
+            return hashlib.sha256(path.read_bytes()).hexdigest()
+
         def properties(path):
             logical=[]; pending=''
             for raw in path.read_text().splitlines():
@@ -239,95 +276,219 @@ jobs:
                     pending=pending[:-1]; continue
                 logical.append(pending); pending=''
             assert not pending, 'Unterminated Java properties continuation'
-            values={}
             def decode(match):
                 value=match[1]
                 if value.startswith('u'): return chr(int(value[1:],16))
                 return {'n':'\n','r':'\r','t':'\t','f':'\f'}.get(value,value)
+            values={}
             for line in logical:
-                match=re.match(r'^(osgi\.bundles|osgi\.install\.area)\s*[=:]\s*(.*)$',line)
-                if match: values[match[1]]=re.sub(r'\\(u[0-9a-fA-F]{4}|.)',decode,match[2])
+                if not line.strip() or line.lstrip().startswith(('#','!')): continue
+                match=re.fullmatch(r'\s*([^\s:=]+)\s*[=:]\s*(.*)',line)
+                assert match, ('Unsupported Java property',path.name,line)
+                key,value=(re.sub(r'\\(u[0-9a-fA-F]{4}|.)',decode,part) for part in match.groups())
+                assert key not in values, ('Duplicate Java property',path.name,key)
+                values[key]=value
             return values
+
+        def file_url(value):
+            parsed=urlsplit(value)
+            assert parsed.scheme=='file' and not parsed.netloc and not parsed.query and not parsed.fragment, value
+            path=pathlib.Path(unquote(parsed.path))
+            assert path.is_absolute(), ('Relative runtime URL',value)
+            return path.resolve()
+
         def manifest(data):
             text=data.decode('utf-8').replace('\r\n','\n').replace('\n ','')
-            return dict(line.split(': ',1) for line in text.splitlines() if ': ' in line)
-        def artifact(path):
-            if path.is_dir(): return manifest((path/'META-INF/MANIFEST.MF').read_bytes()),{}
-            with zipfile.ZipFile(path) as jar:
-                metadata=manifest(jar.read('META-INF/MANIFEST.MF'))
-                entries={name:hashlib.sha256(jar.read(name)).hexdigest() for name in (
-                    'org/eclipse/jface/viewers/ComboViewer.class',
-                    'org/eclipse/jface/viewers/StructuredViewer.class',
-                    'org/eclipse/jface/viewers/StructuredViewerInternals.class',
-                    'org/eclipse/jface/viewers/m3/M3Viewers.class',
-                    'org/eclipse/swt/custom/CCombo.class') if name in jar.namelist()}
-            return metadata,entries
+            main=text.split('\n\n',1)[0]
+            return dict(line.split(': ',1) for line in main.splitlines() if ': ' in line)
+
+        def bundle_manifest(path):
+            if path.is_dir(): return manifest((path/'META-INF/MANIFEST.MF').read_bytes())
+            with zipfile.ZipFile(path) as jar: return manifest(jar.read('META-INF/MANIFEST.MF'))
+
+        def symbolic_name(attrs):
+            return attrs.get('Bundle-SymbolicName','').split(';',1)[0]
+
+        entry_cache={}
+        def entries(path):
+            if path in entry_cache: return entry_cache[path]
+            result={}
+            if path.is_dir():
+                for child in sorted(path.rglob('*')):
+                    assert not child.is_symlink(), ('Symlink in exploded runtime provider',str(child))
+                    if child.is_file(): result[child.relative_to(path).as_posix()]=sha(child)
+            else:
+                with zipfile.ZipFile(path) as jar:
+                    for item in jar.infolist():
+                        if item.is_dir(): continue
+                        name=item.filename
+                        assert name not in result, ('Duplicate archive member',str(path),name)
+                        assert not pathlib.PurePosixPath(name).is_absolute() and '..' not in pathlib.PurePosixPath(name).parts, name
+                        result[name]=hashlib.sha256(jar.read(item)).hexdigest()
+            entry_cache[path]=result
+            return result
+
+        def content_digest(items):
+            return hashlib.sha256(json.dumps(items,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+        def reactor_artifact(name,module):
+            candidates=[]
+            for path in sorted((module/'target').glob('*.jar')):
+                if symbolic_name(bundle_manifest(path))==name:
+                    assert path.resolve().is_relative_to((module/'target').resolve()), ('Escaped reactor artifact',str(path))
+                    candidates.append(path.resolve())
+            assert len(candidates)==1, ('Expected one built reactor bundle',name,[str(p) for p in candidates])
+            return candidates[0]
+
+        ui=root/'eclipse.platform.ui'
+        swt=root/'eclipse.platform.swt'
+        common_modules={
+            'org.eclipse.jface':ui/'bundles/org.eclipse.jface',
+            'org.eclipse.swt':swt/'bundles/org.eclipse.swt',
+            'org.eclipse.swt.gtk.linux.x86_64':swt/'binaries/org.eclipse.swt.gtk.linux.x86_64'}
+        workbench_modules={
+            **common_modules,
+            'org.eclipse.ui':ui/'bundles/org.eclipse.ui',
+            'org.eclipse.ui.workbench':ui/'bundles/org.eclipse.ui.workbench',
+            'org.eclipse.ui.ide':ui/'bundles/org.eclipse.ui.ide',
+            'org.eclipse.ui.ide.application':ui/'bundles/org.eclipse.ui.ide.application',
+            'org.eclipse.ui.tests.harness':ui/'tests/org.eclipse.ui.tests.harness',
+            'org.eclipse.ui.tests':ui/'tests/org.eclipse.ui.tests'}
+        required_classes={
+            'org.eclipse.jface':{
+                'org/eclipse/jface/viewers/ComboViewer.class',
+                'org/eclipse/jface/viewers/StructuredViewer.class',
+                'org/eclipse/jface/viewers/StructuredViewerInternals.class',
+                'org/eclipse/jface/viewers/TableViewer.class',
+                'org/eclipse/jface/viewers/m3/M3Viewers.class'},
+            'org.eclipse.swt.gtk.linux.x86_64':{'org/eclipse/swt/custom/CCombo.class'},
+            'org.eclipse.ui.ide':{
+                'org/eclipse/ui/internal/views/markers/ProblemsView.class',
+                'org/eclipse/ui/internal/views/markers/ExtendedMarkersView.class',
+                'org/eclipse/ui/internal/views/markers/MarkersTreeViewer.class',
+                'org/eclipse/ui/internal/views/markers/M3MarkerDeltas.class',
+                'org/eclipse/ui/internal/views/markers/M3MarkerLanes.class'}}
+
+        def verify_runtime(group,tests,test_bundle,required,test_inventory,target):
+            config=tests/'target/work/configuration/config.ini'
+            assert config.is_file(), ('Tycho runtime configuration missing',group)
+            shutil.copy2(config,target/'config.ini')
+            metadata=properties(config)
+            work=(tests/'target/work').resolve()
+            assert file_url(metadata['osgi.install.area'])==work, ('Unexpected runtime installation',group)
+            dev=file_url(metadata['osgi.dev'])
+            assert dev==work/'dev.properties' and dev.is_file(), ('Unexpected Tycho dev properties',group,str(dev))
+            shutil.copy2(dev,target/'dev.properties')
+            dev_properties=properties(dev)
+            assert set(dev_properties)=={test_bundle}, ('Unexpected dev-mode bundle overrides',group,dev_properties)
+            dev_roots=[pathlib.Path(value).resolve() for value in dev_properties[test_bundle].split(',')]
+            assert dev_roots==[(tests/'target/classes').resolve(),(tests/'target/test-classes').resolve()], ('Unexpected test output mapping',group,dev_roots)
+            assert dev_roots[0].is_dir(), ('Missing reactor test output',group)
+            classes_by_bundle={name:set(items) for name,items in required_classes.items()}
+            classes_by_bundle[test_bundle]={name.replace('.','/')+'.class' for name in test_inventory}
+            providers={}
+            for reference in metadata['osgi.bundles'].split(','):
+                match=re.fullmatch(r'reference:(file:.+?)(?:@(?:\d+(?::start)?|start))?',reference)
+                assert match, ('Unknown bundle reference form',reference)
+                path=file_url(match[1])
+                attrs=bundle_manifest(path)
+                name=symbolic_name(attrs)
+                if name not in required: continue
+                assert name not in providers, ('Duplicate owner provider',group,name)
+                module=required[name].resolve()
+                built=reactor_artifact(name,module)
+                built_entries=entries(built)
+                selected=classes_by_bundle.get(name,set())
+                assert selected<=set(built_entries), ('Required classes missing from reactor artifact',name,selected-set(built_entries))
+                if name==test_bundle:
+                    # Tycho installs its current test bundle at its module root and uses osgi.dev.
+                    assert path==module and path.is_dir(), ('Non-reactor test metadata provider',group,str(path))
+                    loaded_classes={}
+                    for member in sorted(selected):
+                        matches=[base/member for base in dev_roots if (base/member).is_file()]
+                        assert len(matches)==1, ('Missing or duplicate selected test class',member,[str(p) for p in matches])
+                        assert sha(matches[0])==built_entries[member], ('Test output differs from packaged reactor class',member)
+                        loaded_classes[member]=sha(matches[0])
+                    runtime_identity={'kind':'reactor-test-directory','manifest_sha256':sha(path/'META-INF/MANIFEST.MF'),
+                        'dev_roots':[str(p) for p in dev_roots]}
+                elif path==built:
+                    runtime_identity={'kind':'reactor-jar','sha256':sha(path)}
+                    loaded_classes={member:built_entries[member] for member in sorted(selected)}
+                else:
+                    # Eclipse-BundleShape: dir dependencies are extracted by the pinned Tycho launcher.
+                    built_attrs=bundle_manifest(built)
+                    expected=work/'plugins'/(name+'_'+built_attrs['Bundle-Version'])
+                    assert built_attrs.get('Eclipse-BundleShape')=='dir' and path==expected and path.is_dir(), ('Non-reactor owner provider',group,name,str(path))
+                    unpacked=entries(path)
+                    assert unpacked==built_entries, ('Exploded provider differs from reactor artifact',group,name)
+                    runtime_identity={'kind':'exact-reactor-jar-extraction','content_sha256':content_digest(unpacked),'files':len(unpacked)}
+                    loaded_classes={member:unpacked[member] for member in sorted(selected)}
+                providers[name]={'path':str(path),'manifest':attrs,'runtime_identity':runtime_identity,
+                    'reactor_artifact':{'path':str(built),'sha256':sha(built),'content_sha256':content_digest(built_entries),'files':len(built_entries)},
+                    'class_sha256':loaded_classes}
+            assert set(providers)==set(required), ('Missing owner provider',group,sorted(set(required)-set(providers)))
+            return {'config_sha256':sha(config),'dev_properties_sha256':sha(dev),'providers':providers,
+                'scope':'Exact selected test inventory in the PDE '+('Problems workbench' if group=='problems-workbench' else 'JFace')+' runtime; reactor provider identities verified'}
+
+        def verify_group(group,test_bundle,test_inventory,expected_count,required,source):
+            tests=ui/'tests'/test_bundle
+            target=destination/group
+            target.mkdir()
+            result={'group':group,'mode':os.environ['MODE'],'expected_count':expected_count,'status':'FAIL'}
+            if group=='jface':
+                result['method_counts']={'native':source['expected_native_count'],'headless':source['expected_headless_count']}
+                result['authored_new_native_scenarios']=source['native_scenario_counts']
+            try:
+                reports=sorted((tests/'target/surefire-reports').glob('TEST-*.xml'))
+                assert reports, ('No Surefire XML reports',group)
+                seen=[]; failures=[]; report_inventory=[]
+                for path in reports:
+                    shutil.copy2(path,target/path.name)
+                    tree=ET.parse(path)
+                    cases=list(tree.iter('testcase'))
+                    verified_properties={}
+                    if cases:
+                        for name,required_value in {'jface.viewer.mode':os.environ['MODE'],
+                            'org.eclipse.ui.ide.markers.mode':os.environ['MODE'],'m3.wt':str(ui)}.items():
+                            observed={item.get('value') for item in tree.iter('property') if item.get('name')==name}
+                            assert observed=={required_value}, ('Missing or conflicting runtime property',group,path.name,name,observed)
+                            verified_properties[name]=required_value
+                    for suite in tree.iter('testsuite'):
+                        for kind in ('failures','errors','skipped'):
+                            assert int(suite.get(kind,'0'))==0, ('Nonzero suite result',group,path.name,kind,suite.get(kind))
+                    for case in cases:
+                        name=case.attrib['name']
+                        if name.endswith('()'): name=name[:-2]
+                        seen.append((case.attrib['classname'],name))
+                        for kind in ('failure','error','skipped'):
+                            if case.find(kind) is not None: failures.append((kind,case.attrib))
+                    report_inventory.append({'name':path.name,'sha256':sha(path),'cases':len(cases),'runtime_properties':verified_properties})
+                expected={(owner,method) for owner,methods in test_inventory.items() for method in methods}
+                assert len(expected)==expected_count
+                result.update({'reports':report_inventory,'testcases':len(seen),'failures':failures})
+                assert not failures, ('Failures, errors, or skips',group,failures)
+                assert len(seen)==expected_count and len(set(seen))==expected_count and set(seen)==expected, ('Wrong exact test inventory',group,seen)
+                result['osgi']=verify_runtime(group,tests,test_bundle,required,test_inventory,target)
+                assert receipt['maven_exit']==0, ('Maven failed',receipt['maven_exit'])
+                result['status']='PASS'
+            except Exception as failure:
+                result['failure']=repr(failure)
+            finally:
+                runtime_log=tests/'target/work/data/.metadata/.log'
+                if runtime_log.is_file(): shutil.copy2(runtime_log,target/'eclipse.log')
+                (target/'gate.json').write_text(json.dumps(result,indent=2)+'\n')
+            return result
+
         try:
             source=json.loads((evidence/'source-before.json').read_text())
-            tests=root/'eclipse.platform.ui/tests/org.eclipse.jface.tests'
-            reports=sorted((tests/'target/surefire-reports').glob('TEST-*.xml'))
-            assert reports, 'No JFace Surefire XML reports'
-            seen=[]; problems=[]
-            report_inventory=[]
-            for path in reports:
-                shutil.copy2(path,destination/path.name)
-                tree=ET.parse(path)
-                cases=list(tree.iter('testcase'))
-                verified_properties={}
-                if cases:
-                    for name,required_value in {'jface.viewer.mode':os.environ['MODE'],
-                                                'm3.wt':str(root/'eclipse.platform.ui')}.items():
-                        observed={item.get('value') for item in tree.iter('property') if item.get('name')==name}
-                        assert observed=={required_value}, ('Missing or conflicting runtime property',path.name,name,observed)
-                        verified_properties[name]=required_value
-                for case in cases:
-                    name=case.attrib['name']
-                    if name.endswith('()'): name=name[:-2]
-                    seen.append((case.attrib['classname'],name))
-                    for kind in ('failure','error','skipped'):
-                        if case.find(kind) is not None: problems.append((kind,case.attrib))
-                report_inventory.append({'name':path.name,'sha256':sha(path),'cases':len(cases),'runtime_properties':verified_properties})
-            expected={(class_name,method) for class_name,methods in source['expected_tests'].items() for method in methods}
-            assert len(expected)==62
-            receipt['reports']=report_inventory; receipt['testcases']=len(seen); receipt['problems']=problems
-            assert not problems, ('Test failures, errors, or skips',problems)
-            assert len(seen)==62 and len(set(seen))==62 and set(seen)==expected, ('Wrong exact test inventory',seen)
-            config=tests/'target/work/configuration/config.ini'
-            assert config.is_file(), 'Default Tycho runtime configuration missing; wiring unproven'
-            shutil.copy2(config,destination/'config.ini')
-            metadata=properties(config)
-            assert 'osgi.bundles' in metadata, 'No OSGi provider metadata'
-            required={
-                'org.eclipse.jface':root/'eclipse.platform.ui/bundles/org.eclipse.jface',
-                'org.eclipse.swt':root/'eclipse.platform.swt/bundles/org.eclipse.swt',
-                'org.eclipse.swt.gtk.linux.x86_64':root/'eclipse.platform.swt/binaries/org.eclipse.swt.gtk.linux.x86_64'}
-            providers={}; optional_ide=[]
-            for reference in metadata['osgi.bundles'].split(','):
-                match=re.fullmatch(r'reference:file:(.+?)(?:@(?:\d+(?::start)?|start))?',reference)
-                assert match, ('Unknown bundle reference form',reference)
-                path=pathlib.Path(match[1]).resolve()
-                attrs,entries=artifact(path)
-                name=attrs.get('Bundle-SymbolicName','').split(';',1)[0]
-                if name in required:
-                    assert name not in providers, ('Duplicate provider',name)
-                    assert path.is_file() and path.is_relative_to(required[name]/'target'), ('Non-reactor owner provider',name,str(path))
-                    providers[name]={'path':str(path),'sha256':sha(path),'manifest':attrs,'class_sha256':entries}
-                if name=='org.eclipse.ui.ide': optional_ide.append(str(path))
-            assert set(providers)==set(required), ('Missing owner provider',set(required)-set(providers))
-            assert {'org/eclipse/jface/viewers/ComboViewer.class','org/eclipse/jface/viewers/StructuredViewer.class',
-                    'org/eclipse/jface/viewers/StructuredViewerInternals.class',
-                    'org/eclipse/jface/viewers/m3/M3Viewers.class'} <= set(providers['org.eclipse.jface']['class_sha256'])
-            assert 'org/eclipse/swt/custom/CCombo.class' in providers['org.eclipse.swt.gtk.linux.x86_64']['class_sha256']
-            ide_module=root/'eclipse.platform.ui/bundles/org.eclipse.ui.ide'
-            ide_artifacts=[]
-            for path in sorted((ide_module/'target').glob('*.jar')):
-                attrs,entries=artifact(path)
-                if attrs.get('Bundle-SymbolicName','').split(';',1)[0]=='org.eclipse.ui.ide':
-                    ide_artifacts.append({'path':str(path),'sha256':sha(path),'manifest':attrs})
-            assert len(ide_artifacts)==1, ('Expected one compiled IDE artifact',ide_artifacts)
-            receipt['osgi']={'config_sha256':sha(config),'providers':providers,
-                'ide_runtime_references':optional_ide,'ide_artifacts':ide_artifacts,
-                'scope':'JFace PDE runtime; IDE artifact compiled, no workbench-launch claim'}
+            assert source['expected_count']==73 and source['expected_native_count']==58 and source['expected_headless_count']==15
+            assert source['problems_expected_count']==34
+            for group,test_bundle,inventory,count,required in [
+                ('jface','org.eclipse.jface.tests',source['expected_tests'],73,
+                    {**common_modules,'org.eclipse.jface.tests':ui/'tests/org.eclipse.jface.tests'}),
+                ('problems-workbench','org.eclipse.ui.tests',source['expected_problems_tests'],34,workbench_modules)]:
+                result=verify_group(group,test_bundle,inventory,count,required,source)
+                receipt['groups'][group]={'status':result['status'],'gate':group+'/gate.json','sha256':sha(destination/group/'gate.json')}
             for path,digest in source['source_sha256'].items(): assert sha(pathlib.Path(path))==digest, ('Changed source',path)
             for item in source['native']: assert sha(pathlib.Path(item['path']))==item['sha256'], ('Changed native',item['path'])
             for rel,commit in source['commits'].items():
@@ -338,15 +499,23 @@ jobs:
                     assert not status, ('Tracked source changed during Maven',rel,status)
             receipt['inputs_unchanged']=True
             assert receipt['maven_exit']==0, ('Maven failed',receipt['maven_exit'])
+            assert receipt['tee_exit']==0, ('Maven diagnostic capture failed',receipt['tee_exit'])
+            assert all(item['status']=='PASS' for item in receipt['groups'].values()), receipt['groups']
             receipt['status']='PASS'
         except Exception as failure:
             receipt['failure']=repr(failure)
             raise
         finally:
             (destination/'gate.json').write_text(json.dumps(receipt,indent=2)+'\n')
-        print(os.environ['MODE']+': 62 exact M3 tests PASS; reactor JFace/SWT wiring verified')
+        print(os.environ['MODE']+': 73 exact JFace methods (58 native + 15 headless) and 34 exact Problems workbench methods PASS')
         PY_VERIFY
+          verify_status=$?
+          set -e
+          if ((maven_status != 0 || tee_status != 0 || verify_status != 0)); then
+            overall_status=1
+          fi
         done
+        exit "$overall_status"
     - name: Package bounded diagnostic evidence
       id: package
       if: always() && steps.route.outputs.run == 'true'

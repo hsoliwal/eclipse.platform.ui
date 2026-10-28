@@ -18,6 +18,7 @@ import org.eclipse.pde.api.tools.annotations.NoExtend;
 import org.eclipse.pde.api.tools.annotations.NoImplement;
 import org.eclipse.pde.api.tools.annotations.NoInstantiate;
 import org.eclipse.pde.api.tools.annotations.NoReference;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Widget;
 
@@ -103,6 +104,43 @@ public class StructuredViewerInternals {
 	@NoReference
 	public static void preservingSelection(StructuredViewer viewer, Runnable updateCode) {
 		viewer.m3PreservingSelection(updateCode);
+	}
+
+	/**
+	 * Internal queue access without reading widgets from producer threads.
+	 *
+	 * @param viewer the viewer
+	 * @return the display published by the viewer's control hook, or null
+	 * @since 3.43
+	 */
+	@NoReference
+	public static Display getM3Display(StructuredViewer viewer) {
+		return viewer.m3Display();
+	}
+
+	/**
+	 * Returns the viewer-owned queue's internal disposal callback.
+	 *
+	 * @param viewer the viewer
+	 * @return the existing queue, or null before its first post or after disposal
+	 * @since 3.43
+	 */
+	@NoReference
+	public static Runnable getM3DeltaQueue(StructuredViewer viewer) {
+		return viewer.m3DeltaQueue();
+	}
+
+	/**
+	 * Installs a first queue without resurrecting a disposed viewer.
+	 *
+	 * @param viewer the viewer
+	 * @param queue the proposed queue and its disposal callback
+	 * @return the installed queue, or null if the viewer has been disposed
+	 * @since 3.43
+	 */
+	@NoReference
+	public static Runnable installM3DeltaQueue(StructuredViewer viewer, Runnable queue) {
+		return viewer.m3InstallDeltaQueue(queue);
 	}
 
 }
