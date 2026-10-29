@@ -1,4 +1,0 @@
-org\.eclipse\.ui,icons/.*/save_edit.png,/myicons/saveme.png
-org\.eclipse\.ui,icons/.*/save_edit@2x.png,/myicons/saveme@2x.png
-
-
