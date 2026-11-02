@@ -30,7 +30,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  */
 public class UnassociatedEditorStrategyRegistry {
 
-	private static final String EXTENSION_POINT_ID = IDEWorkbenchPlugin.IDE_WORKBENCH + ".unassociatedEditorStrategy"; //$NON-NLS-1$
+	private static final String EXTENSION_POINT_ID = IDEWorkbenchPlugin.IDE_WORKBENCH + ".unassociatedEditorStrategy"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static Map<String, String> idsToLabel;
 
@@ -40,14 +40,14 @@ public class UnassociatedEditorStrategyRegistry {
 	 * @return an instance of the strategy, or {@code null} if no strategy is
 	 *         found for this id
 	 */
-	public IUnassociatedEditorStrategy getStrategy(String strategyId) {
+	public IUnassociatedEditorStrategy getStrategy(String strategyId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (strategyId == null) {
 			return null;
 		}
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = extRegistry.getConfigurationElementsFor(EXTENSION_POINT_ID);
 		if (extensions != null) {
-			for (IConfigurationElement extension : extensions) {
+			for (IConfigurationElement extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (strategyId.equals(readAttribute(extension, "id"))) { //$NON-NLS-1$
 					try {
 						return (IUnassociatedEditorStrategy) extension.createExecutableExtension("class"); //$NON-NLS-1$
@@ -64,7 +64,7 @@ public class UnassociatedEditorStrategyRegistry {
 	private String readAttribute(IConfigurationElement extension, String attribute) {
 		String res = extension.getAttribute(attribute);
 		if (res == null) {
-			IDEWorkbenchPlugin.log("Missing attribute '" + attribute + "' for extension to " + EXTENSION_POINT_ID //$NON-NLS-1$ //$NON-NLS-2$
+			IDEWorkbenchPlugin.log("Missing attribute '" + attribute + "' for extension to " + EXTENSION_POINT_ID //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " contributed by " + extension.getContributor()); //$NON-NLS-1$
 		}
 		return res;
@@ -95,11 +95,11 @@ public class UnassociatedEditorStrategyRegistry {
 	}
 
 	private void populateIdsToLabel() {
-		Map<String, String> res = new LinkedHashMap<>();
+		Map<String, String> res = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = extRegistry.getConfigurationElementsFor(EXTENSION_POINT_ID);
 		if (extensions != null) {
-			for (IConfigurationElement extension : extensions) {
+			for (IConfigurationElement extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String extId = readAttribute(extension, "id"); //$NON-NLS-1$
 				String label = readAttribute(extension, "label"); //$NON-NLS-1$
 				if (extId != null && label != null) {
@@ -121,13 +121,13 @@ public class UnassociatedEditorStrategyRegistry {
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = extRegistry.getConfigurationElementsFor(EXTENSION_POINT_ID);
 		if (extensions != null) {
-			for (IConfigurationElement extension : extensions) {
+			for (IConfigurationElement extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (strategyId.equals(readAttribute(extension, "id"))) { //$NON-NLS-1$
 					return Boolean.parseBoolean(readAttribute(extension, "interactive")); //$NON-NLS-1$
 				}
 			}
 		}
-		IDEWorkbenchPlugin.log("No editor strategy found for " + strategyId); //$NON-NLS-1$
+		IDEWorkbenchPlugin.log("No editor strategy found for " + strategyId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return false;
 	}
 

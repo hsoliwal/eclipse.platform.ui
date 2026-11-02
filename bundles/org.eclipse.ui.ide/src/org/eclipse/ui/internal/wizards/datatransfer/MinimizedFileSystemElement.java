@@ -72,14 +72,14 @@ public class MinimizedFileSystemElement extends FileSystemElement {
 	 * Populate the files and folders of the receiver using the supplied structure provider.
 	 * @param provider org.eclipse.ui.wizards.datatransfer.IImportStructureProvider
 	 */
-	private void populate(IImportStructureProvider provider) {
+	private void populate(IImportStructureProvider provider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Object fileSystemObject = getFileSystemObject();
 
 		List children = provider.getChildren(fileSystemObject);
 		if (children != null) {
 			Iterator<?> childrenEnum = children.iterator();
-			while (childrenEnum.hasNext()) {
+			while (childrenEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object child = childrenEnum.next();
 
 				String elementLabel = provider.getLabel(child);

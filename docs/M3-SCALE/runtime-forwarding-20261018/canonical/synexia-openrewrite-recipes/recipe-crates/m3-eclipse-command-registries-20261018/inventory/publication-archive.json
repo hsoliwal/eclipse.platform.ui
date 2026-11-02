@@ -1,0 +1,165 @@
+{
+  "schema": "m3-command-registries-publication-archive-v1",
+  "spdxLicenseId": "Apache-2.0",
+  "qualificationReceipt": {
+    "path": "RECEIPT.json",
+    "sha256": "91f1df4d3a60c884469a32e98b7b942496f7ffdedbe69fac2ecc6d3e93e53bb8",
+    "gitBlob": "df32653da68670e180995548fdc5bfd870f1fb18",
+    "bytes": 14604
+  },
+  "originalInventory": {
+    "path": "commands-authoring/inventory/publication-files.json",
+    "sha256": "ff35f4bd47c5b64f4f782f50fd076b74a4220262f9a6b9c316f9553e83117eb3",
+    "gitBlob": "872124ae7eb69234c150b7f007d2723a9ac0f5dc",
+    "bytes": 15841,
+    "fileCount": 66
+  },
+  "modificationsAfterQualification": [
+    {
+      "path": "README.md",
+      "qualified": {
+        "sha256": "4582bc46c4e42a664d5bd437d9ac024e4903ade0f1e31e06fe4e1bc9c0ec82ef",
+        "gitBlob": "69c3884f3cfca3ee6c99868e15b4c9ee5bf7b029",
+        "bytes": 6481
+      },
+      "published": {
+        "sha256": "c60c387cbabf9bb339a3fc72a05f98e91900528baa98840299bc0783c1b72f8f",
+        "gitBlob": "cfd334d7a4b644f366c1da8379c5f73fa62072b8",
+        "bytes": 7493
+      }
+    },
+    {
+      "path": "pom.xml",
+      "qualified": {
+        "sha256": "004c8c2fae28b1fdc653ae8e237c0bb6b15c9baf128f8285ece19d9c05d793c4",
+        "gitBlob": "4ea25fc91a5a65aeb79414ad6a90fb2d777e1273",
+        "bytes": 3259
+      },
+      "published": {
+        "sha256": "d16144a99289657dd9d74e330503ef76cde3ffc8e0987cf41757982cc4c97eef",
+        "gitBlob": "79f714461939a9850c6d2190b50d9a1dc3e2f526",
+        "bytes": 3267
+      }
+    },
+    {
+      "path": "src/test/java/com/synexia/rewrite/M3CommandRegistryForwardingRecipeTest.java",
+      "qualified": {
+        "sha256": "4e0204afd50e494e998cb6cb38340ad8ffb2a6a68e1113207ac3993bbc169f70",
+        "gitBlob": "ec459921994470ea289e0a57f664cbe0e16014cd",
+        "bytes": 8311
+      },
+      "published": {
+        "sha256": "4f007ccd2e04897b360b2a811c51d43e08f108a4a24eee6c4755fc954289a891",
+        "gitBlob": "c6d61c933e7e4eb98ab4544b0129c45a9be36486",
+        "bytes": 8334
+      }
+    },
+    {
+      "path": "src/test/resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-refused-order-20261018/README.txt",
+      "qualified": {
+        "sha256": "3c92d93ef18696e59ccf2dd08ef4408b4069bc4330ed204ce82eafeaeabf2c37",
+        "gitBlob": "23e1d7e44bc13b5eed93d39782671e5640ae141e",
+        "bytes": 268
+      },
+      "published": {
+        "sha256": "c70a086a9b351615464e776ec3d64f7d70768923a6269525d2efb9a9a0c3348c",
+        "gitBlob": "f2c5ef76e9262f9d0e07801870f611eab9160589",
+        "bytes": 389
+      }
+    }
+  ],
+  "modificationScope": "SPDX comments and README documentation only; all named recipe, manifest and nine product postimage bytes unchanged",
+  "qualifiedSourceSnapshots": [
+    {
+      "qualifiedPath": "pom.xml",
+      "archivePath": "proof/qualified-source/pom.xml.txt",
+      "sha256": "004c8c2fae28b1fdc653ae8e237c0bb6b15c9baf128f8285ece19d9c05d793c4",
+      "gitBlob": "4ea25fc91a5a65aeb79414ad6a90fb2d777e1273",
+      "bytes": 3259
+    },
+    {
+      "qualifiedPath": "src/test/java/com/synexia/rewrite/M3CommandRegistryForwardingRecipeTest.java",
+      "archivePath": "proof/qualified-source/M3CommandRegistryForwardingRecipeTest.java.txt",
+      "sha256": "4e0204afd50e494e998cb6cb38340ad8ffb2a6a68e1113207ac3993bbc169f70",
+      "gitBlob": "ec459921994470ea289e0a57f664cbe0e16014cd",
+      "bytes": 8311
+    }
+  ],
+  "originalSurefireReports": [
+    {
+      "path": "evidence/junit/baseline/TEST-org.eclipse.ui.tests.commands.CommandManagerTest.xml",
+      "sha256": "427f3c3c052ab51abd027e69affdbbf3a844a4ab2ec056741e8a4b7677da0977",
+      "gitBlob": "5ac7f1cf07b3cdf33bcbfe7d84f36f19b95001d1",
+      "bytes": 6430,
+      "suite": "org.eclipse.ui.tests.commands.CommandManagerTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "evidence/junit/baseline/TEST-org.eclipse.ui.tests.commands.M3CommandRegistryContractTest.xml",
+      "sha256": "69b916115206aa6cdcf343bb5b418184bec65da208580a2e5cf46497a93291bc",
+      "gitBlob": "2b36ca15c75a62aded38e2f5e6501530cd2a9e61",
+      "bytes": 8075,
+      "suite": "org.eclipse.ui.tests.commands.M3CommandRegistryContractTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "evidence/junit/candidate/TEST-org.eclipse.ui.tests.commands.CommandManagerTest.xml",
+      "sha256": "fadf2c3f04a4834b0725874626a5d826becd08f644e7a0509309b3071bb2ac21",
+      "gitBlob": "01072759d3065d57216760e44e09686c6429f89e",
+      "bytes": 6404,
+      "suite": "org.eclipse.ui.tests.commands.CommandManagerTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "evidence/junit/candidate/TEST-org.eclipse.ui.tests.commands.M3CommandRegistryContractTest.xml",
+      "sha256": "e06e2146b726e46e4f859cec2ec98a05f75e91e1f5f05ae6b86a79a5724c472e",
+      "gitBlob": "538f2fd25c1d758c2aceaa54d68164e46ec92f3f",
+      "bytes": 8214,
+      "suite": "org.eclipse.ui.tests.commands.M3CommandRegistryContractTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "evidence/junit/refused/TEST-org.eclipse.ui.tests.commands.M3CommandRegistryContractTest.xml",
+      "sha256": "77e444b4712314aedfcb40af1f0d1bcc96443c6ae31b5ddb52583b38096449ac",
+      "gitBlob": "36898f6caf981d289c8801a20314f227c85e7171",
+      "bytes": 7619,
+      "suite": "org.eclipse.ui.tests.commands.M3CommandRegistryContractTest",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "evidence/junit/sdk/TEST-com.synexia.rewrite.M3CommandRegistryForwardingRecipeTest.xml",
+      "sha256": "2178a3fa73ab6e103225a9be7ca327d4f32421251aa138039ed2132a9bd599db",
+      "gitBlob": "18042a23c7cb7e4c8e3a7c6cf6f2aaaa8d9b56b7",
+      "bytes": 13736,
+      "suite": "com.synexia.rewrite.M3CommandRegistryForwardingRecipeTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "expectedBaselineDensityFailure": {
+    "commandReceipt": "evidence/baseline-density-command.json",
+    "consoleLog": "evidence/baseline-density.log",
+    "xmlRetained": false,
+    "xmlSynthesized": false
+  },
+  "newTestExecutionsDuringPublication": 0,
+  "buildTargetsAndBinariesIncluded": false,
+  "fullGitProvenanceGate": "not executed by this archive step; root owns the combined changed-file gate"
+}

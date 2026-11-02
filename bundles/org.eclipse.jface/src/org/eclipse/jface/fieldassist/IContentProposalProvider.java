@@ -22,7 +22,7 @@ package org.eclipse.jface.fieldassist;
  *
  * @see SimpleContentProposalProvider
  */
-public interface IContentProposalProvider {
+public interface IContentProposalProvider { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * Return an array of content proposals representing the valid proposals for a

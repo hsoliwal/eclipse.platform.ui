@@ -44,7 +44,7 @@ abstract class SWTFocusCellManager {
 
 	private final FocusCellHighlighter cellHighlighter;
 
-	private final DisposeListener itemDeletionListener = e -> setFocusCell(null);
+	private final DisposeListener itemDeletionListener = e -> setFocusCell(null); //FLLDCIM: MARK — T01  LAMBDA
 
 	public SWTFocusCellManager(ColumnViewer viewer,
 			FocusCellHighlighter focusDrawingDelegate,
@@ -77,7 +77,7 @@ abstract class SWTFocusCellManager {
 		}
 	}
 
-	private void handleKeyDown(Event event) {
+	private void handleKeyDown(Event event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerCell tmp = null;
 
 		if (navigationStrategy.isCollapseEvent(viewer, focusCell, event)) {
@@ -126,7 +126,7 @@ abstract class SWTFocusCellManager {
 
 	abstract ViewerCell getInitialFocusCell();
 
-	private void hookListener(final ColumnViewer viewer) {
+	private void hookListener(final ColumnViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Listener listener = event -> {
 			switch (event.type) {
 			case SWT.MouseDown:
@@ -144,18 +144,18 @@ abstract class SWTFocusCellManager {
 			}
 		};
 
-		viewer.getControl().addListener(SWT.MouseDown, listener);
-		viewer.getControl().addListener(SWT.KeyDown, listener);
-		viewer.getControl().addListener(SWT.Selection, listener);
-		viewer.addSelectionChangedListener(event -> {
+		viewer.getControl().addListener(SWT.MouseDown, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		viewer.getControl().addListener(SWT.KeyDown, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		viewer.getControl().addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		viewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			if( event.selection.isEmpty() ) {
 				setFocusCell(null);
 			}
 		});
-		viewer.getControl().addListener(SWT.FocusIn, listener);
+		viewer.getControl().addListener(SWT.FocusIn, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		viewer.getControl().getAccessible().addAccessibleListener(
 				new AccessibleAdapter() {
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public void getName(AccessibleEvent event) {
 						ViewerCell cell = getFocusCell();
 						if (cell == null) {
@@ -198,7 +198,7 @@ abstract class SWTFocusCellManager {
 		return focusCell;
 	}
 
-	void setFocusCell(ViewerCell focusCell) {
+	void setFocusCell(ViewerCell focusCell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ViewerCell oldCell = this.focusCell;
 
 		if( this.focusCell != null && ! this.focusCell.getItem().isDisposed() ) {
@@ -208,7 +208,7 @@ abstract class SWTFocusCellManager {
 		this.focusCell = focusCell;
 
 		if( this.focusCell != null && ! this.focusCell.getItem().isDisposed() ) {
-			this.focusCell.getItem().addDisposeListener(itemDeletionListener);
+			this.focusCell.getItem().addDisposeListener(itemDeletionListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 
 		if( focusCell != null ) {

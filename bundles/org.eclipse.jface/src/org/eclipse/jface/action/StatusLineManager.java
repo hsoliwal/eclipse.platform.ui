@@ -120,7 +120,7 @@ public class StatusLineManager extends ContributionManager implements
 		statusLine = null;
 
 		IContributionItem items[] = getItems();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.dispose();
 		}
 	}
@@ -145,7 +145,7 @@ public class StatusLineManager extends ContributionManager implements
 		return (IProgressMonitor) getControl();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IProgressMonitor getProgressMonitor() {
 		final IProgressMonitor progressDelegate = statusLineExist() ? getProgressMonitorDelegate()
 				: new NullProgressMonitor();
@@ -165,7 +165,7 @@ public class StatusLineManager extends ContributionManager implements
 					done(); // workaround client error
 				}
 				taskStarted = new IllegalStateException(
-						"beginTask(" + name + ", " + totalWork + ") was called here previously"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						"beginTask(" + name + ", " + totalWork + ") was called here previously"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				// According to the IProgressMonitor javadoc beginTask() must only be called
 				// once on a given progress monitor instance.
 				// However it works in this case multiple times if done() was called in between.
@@ -287,7 +287,7 @@ public class StatusLineManager extends ContributionManager implements
 		return statusLine != null && !statusLine.isDisposed();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(boolean force) {
 
 		//boolean DEBUG= false;
@@ -303,7 +303,7 @@ public class StatusLineManager extends ContributionManager implements
 				// is not possible.
 
 				Control ws[] = statusLine.getChildren();
-				for (Control w : ws) {
+				for (Control w : ws) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object data = w.getData();
 					if (data instanceof IContributionItem) {
 						w.dispose();
@@ -312,12 +312,12 @@ public class StatusLineManager extends ContributionManager implements
 
 				int oldChildCount = statusLine.getChildren().length;
 				IContributionItem[] items = getItems();
-				for (IContributionItem ci : items) {
+				for (IContributionItem ci : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (ci.isVisible()) {
 						ci.fill(statusLine);
 						// associate controls with contribution item
 						Control[] newChildren = statusLine.getChildren();
-						for (int j = oldChildCount; j < newChildren.length; j++) {
+						for (int j = oldChildCount; j < newChildren.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							newChildren[j].setData(ci);
 						}
 						oldChildCount = newChildren.length;

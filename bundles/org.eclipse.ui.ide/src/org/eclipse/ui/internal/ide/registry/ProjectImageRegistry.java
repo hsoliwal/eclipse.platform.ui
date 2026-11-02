@@ -24,7 +24,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
  */
 
 public class ProjectImageRegistry {
-	private final Map<String, ImageDescriptor> map = new HashMap<>(10);
+	private final Map<String, ImageDescriptor> map = new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Returns the image for the given nature id or

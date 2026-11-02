@@ -68,7 +68,7 @@ public final class ActionHandler extends AbstractHandler {
 			attachListener();
 		}
 
-		super.addHandlerListener(handlerListener);
+		super.addHandlerListener(handlerListener); //FLLDCIM: MARK — T26 COMMAND_STATE CALL
 	}
 
 	/**
@@ -79,7 +79,7 @@ public final class ActionHandler extends AbstractHandler {
 	 */
 	private final void attachListener() {
 		if (propertyChangeListener == null) {
-			propertyChangeListener = propertyChangeEvent -> {
+			propertyChangeListener = propertyChangeEvent -> { //FLLDCIM: MARK — T06  LAMBDA
 				final String property = propertyChangeEvent.getProperty();
 				fireHandlerChanged(new HandlerEvent(ActionHandler.this,
 						IAction.ENABLED.equals(property),
@@ -111,7 +111,7 @@ public final class ActionHandler extends AbstractHandler {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final Object execute(final ExecutionEvent event)
 			throws ExecutionException {
 		if ((action.getStyle() == IAction.AS_CHECK_BOX)
@@ -163,7 +163,7 @@ public final class ActionHandler extends AbstractHandler {
 
 	@Override
 	public final String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		buffer.append("ActionHandler("); //$NON-NLS-1$
 		buffer.append(action);

@@ -26,7 +26,7 @@ public class CouldNotImportProjectException extends Exception {
 	private final File location;
 
 	public CouldNotImportProjectException(File location, Exception cause) {
-		super("Could not import project located at " + location.getAbsolutePath(), cause); //$NON-NLS-1$
+		super("Could not import project located at " + location.getAbsolutePath(), cause); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		this.location = location;
 	}
 

@@ -89,7 +89,7 @@ public class Category implements IWorkbenchAdapter, IPluginContribution, IAdapta
 
 		configurationElement = configElement;
 		if (id == null || getLabel() == null) {
-			throw new WorkbenchException("Invalid category: " + id); //$NON-NLS-1$
+			throw new WorkbenchException("Invalid category: " + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -100,7 +100,7 @@ public class Category implements IWorkbenchAdapter, IPluginContribution, IAdapta
 	 */
 	public void addElement(Object element) {
 		if (elements == null) {
-			elements = new ArrayList<>(5);
+			elements = new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		elements.add(element);
 	}
@@ -164,7 +164,7 @@ public class Category implements IWorkbenchAdapter, IPluginContribution, IAdapta
 		if (unparsedPath != null) {
 			StringTokenizer stok = new StringTokenizer(unparsedPath, "/"); //$NON-NLS-1$
 			parentPath = new String[stok.countTokens()];
-			for (int i = 0; stok.hasMoreTokens(); i++) {
+			for (int i = 0; stok.hasMoreTokens(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parentPath[i] = stok.nextToken();
 			}
 		}

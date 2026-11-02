@@ -43,7 +43,7 @@ public class ContributionComparator extends ViewerComparator implements Comparat
 	 * This implementation of {@link Comparator#compare(Object, Object)} does a
 	 * blind cast on each element to {@link IComparableContribution}.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compare(Object o1, Object o2) {
 		IComparableContribution c1 = null, c2 = null;
 
@@ -106,7 +106,7 @@ public class ContributionComparator extends ViewerComparator implements Comparat
 	 *         the second element; and a positive number if the first element is
 	 *         greater than the second element
 	 */
-	public int compare(IComparableContribution c1, IComparableContribution c2) {
+	public int compare(IComparableContribution c1, IComparableContribution c2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int cat1 = category(c1);
 		int cat2 = category(c2);
 

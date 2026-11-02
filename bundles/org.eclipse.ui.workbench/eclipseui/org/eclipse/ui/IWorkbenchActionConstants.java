@@ -147,12 +147,12 @@ public interface IWorkbenchActionConstants {
 	/**
 	 * Name of standard File menu (value <code>"file"</code>).
 	 */
-	String M_FILE = MENU_PREFIX + "file"; //$NON-NLS-1$
+	String M_FILE = MENU_PREFIX + "file"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Name of standard Edit menu (value <code>"edit"</code>).
 	 */
-	String M_EDIT = MENU_PREFIX + "edit"; //$NON-NLS-1$
+	String M_EDIT = MENU_PREFIX + "edit"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Name of standard View menu (value <code>"view"</code>).
@@ -160,7 +160,7 @@ public interface IWorkbenchActionConstants {
 	 * @deprecated Since 3.0. This is no longer used.
 	 */
 	@Deprecated
-	String M_VIEW = MENU_PREFIX + "view"; //$NON-NLS-1$
+	String M_VIEW = MENU_PREFIX + "view"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Name of standard Workbench menu (value <code>"workbench"</code>).
@@ -168,7 +168,7 @@ public interface IWorkbenchActionConstants {
 	 * @deprecated Since 3.0. This is no longer used.
 	 */
 	@Deprecated
-	String M_WORKBENCH = MENU_PREFIX + "workbench"; //$NON-NLS-1$
+	String M_WORKBENCH = MENU_PREFIX + "workbench"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// menu reorg
 
@@ -177,34 +177,34 @@ public interface IWorkbenchActionConstants {
 	 *
 	 * @since 3.107
 	 */
-	String M_PERSPECTIVE = MENU_PREFIX + "perspective"; //$NON-NLS-1$
+	String M_PERSPECTIVE = MENU_PREFIX + "perspective"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Name of standard Navigate menu (value <code>"navigate"</code>).
 	 */
-	String M_NAVIGATE = MENU_PREFIX + "navigate"; //$NON-NLS-1$
+	String M_NAVIGATE = MENU_PREFIX + "navigate"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Name of standard Project menu (value <code>"project"</code>).
 	 */
-	String M_PROJECT = MENU_PREFIX + "project"; //$NON-NLS-1$
+	String M_PROJECT = MENU_PREFIX + "project"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// end menu reorg
 
 	/**
 	 * Name of standard Window menu (value <code>"window"</code>).
 	 */
-	String M_WINDOW = MENU_PREFIX + "window"; //$NON-NLS-1$
+	String M_WINDOW = MENU_PREFIX + "window"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Name of Launch window menu (value <code>"launch"</code>).
 	 */
-	String M_LAUNCH = MENU_PREFIX + "launch"; //$NON-NLS-1$
+	String M_LAUNCH = MENU_PREFIX + "launch"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Name of standard Help menu (value <code>"help"</code>).
 	 */
-	String M_HELP = MENU_PREFIX + "help"; //$NON-NLS-1$
+	String M_HELP = MENU_PREFIX + "help"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * ID of the Project configure popup menu, can be used in menuContributions and

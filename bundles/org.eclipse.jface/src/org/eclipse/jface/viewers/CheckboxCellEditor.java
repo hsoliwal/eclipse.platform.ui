@@ -128,7 +128,7 @@ public class CheckboxCellEditor extends CellEditor {
 	protected void doSetValue(Object value) {
 		String valueType = value == null ? "null" : value.getClass().getName(); //$NON-NLS-1$
 		Assert.isTrue(value instanceof Boolean,
-				"CheckboxCellEditor expects a Boolean value but got " + valueType); //$NON-NLS-1$
+				"CheckboxCellEditor expects a Boolean value but got " + valueType); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		this.value = ((Boolean) value).booleanValue();
 	}
 

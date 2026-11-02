@@ -536,7 +536,7 @@ public class PopupDialog extends Window {
 	 *
 	 * @since 3.4
 	 */
-	private PopupDialog(Shell parent, int shellStyle, boolean takeFocusOnOpen,
+	private PopupDialog(Shell parent, int shellStyle, boolean takeFocusOnOpen, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean persistSize, boolean persistLocation,
 			boolean showDialogMenu, boolean showPersistActions,
 			boolean showPinAction,
@@ -571,11 +571,11 @@ public class PopupDialog extends Window {
 		initializeWidgetState();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void configureShell(Shell shell) {
 		GridLayoutFactory.fillDefaults().margins(0, 0).spacing(5, 5).applyTo(
 				shell);
-		shell.addListener(SWT.Deactivate, event -> {
+		shell.addListener(SWT.Deactivate, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			/*
 			 * Close if we are deactivating and have no child shells. If we
 			 * have child shells, we are deactivating due to their opening.
@@ -603,7 +603,7 @@ public class PopupDialog extends Window {
 		});
 		// Set this true whenever we activate. It may have been turned
 		// off by a menu or secondary popup showing.
-		shell.addListener(SWT.Activate, event -> {
+		shell.addListener(SWT.Activate, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			// ignore this event if we have launched a child
 			if (event.widget == getShell() && getShell().getShells().length == 0) {
 				listenToDeactivate = true;
@@ -626,14 +626,14 @@ public class PopupDialog extends Window {
 						listenToParentDeactivate = listenToDeactivate;
 					}
 				};
-				parent.addListener(SWT.Deactivate, parentDeactivateListener);
+				parent.addListener(SWT.Deactivate, parentDeactivateListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			} else if (Util.isGtk()) {
 				/*
 				 * Fix for bug 485745 on GTK: popup does not close on parent
 				 * shell activation.
 				 */
-				parent.addListener(SWT.Activate, new Listener() {
-					@Override
+				parent.addListener(SWT.Activate, new Listener() { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public void handleEvent(Event event) {
 						/*
 						 * NB: we must wait with closing until
@@ -656,14 +656,14 @@ public class PopupDialog extends Window {
 			}
 		}
 
-		shell.addDisposeListener(event -> handleDispose());
+		shell.addDisposeListener(event -> handleDispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	private void asyncClose() {
 		// workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=152010
 		Shell shell = getShell();
 		if (shell != null && !shell.isDisposed()) {
-			shell.getDisplay().asyncExec(this::close);
+			shell.getDisplay().asyncExec(this::close); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
@@ -683,7 +683,7 @@ public class PopupDialog extends Window {
 	 *
 	 * @return the control representing the contents.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		getPopupLayout().applyTo(composite);
@@ -868,7 +868,7 @@ public class PopupDialog extends Window {
 	 * @see PopupDialog#hasInfoArea()
 	 * @see PopupDialog#createTitleControl(Composite)
 	 */
-	protected Control createInfoTextArea(Composite parent) {
+	protected Control createInfoTextArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Status label
 		infoLabel = new Label(parent, SWT.RIGHT);
 		infoLabel.setText(infoText);
@@ -938,7 +938,7 @@ public class PopupDialog extends Window {
 	 * @param parent
 	 *            The parent composite.
 	 */
-	private void createDialogMenu(Composite parent) {
+	private void createDialogMenu(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		toolBar = new ToolBar(parent, SWT.FLAT);
 		ToolItem viewMenuButton = new ToolItem(toolBar, SWT.PUSH, 0);
@@ -947,9 +947,9 @@ public class PopupDialog extends Window {
 		viewMenuButton.setImage(JFaceResources.getImage(POPUP_IMG_MENU));
 		viewMenuButton.setDisabledImage(JFaceResources.getImage(POPUP_IMG_MENU_DISABLED));
 		viewMenuButton.setToolTipText(JFaceResources.getString("PopupDialog.menuTooltip")); //$NON-NLS-1$
-		viewMenuButton.addSelectionListener(widgetSelectedAdapter(e -> showDialogMenu()));
+		viewMenuButton.addSelectionListener(widgetSelectedAdapter(e -> showDialogMenu())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=177183
-		toolBar.addMouseListener(new MouseAdapter() {
+		toolBar.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDown(MouseEvent e) {
 				showDialogMenu();
@@ -963,7 +963,7 @@ public class PopupDialog extends Window {
 	 * @param dialogMenu
 	 *            The dialog's menu.
 	 */
-	protected void fillDialogMenu(IMenuManager dialogMenu) {
+	protected void fillDialogMenu(IMenuManager dialogMenu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		dialogMenu.add(new GroupMarker("SystemMenuStart")); //$NON-NLS-1$
 		dialogMenu.add(new MoveAction());
 		dialogMenu.add(new ResizeAction());
@@ -988,7 +988,7 @@ public class PopupDialog extends Window {
 	 * @param style
 	 *            The track style (resize or move).
 	 */
-	private void performTrackerAction(int style) {
+	private void performTrackerAction(int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell = getShell();
 		if (shell == null || shell.isDisposed()) {
 			return;
@@ -1018,7 +1018,7 @@ public class PopupDialog extends Window {
 	 * trigger the menu via keystrokes or other gestures. Subclasses typically
 	 * do not override method.
 	 */
-	protected void showDialogMenu() {
+	protected void showDialogMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!showDialogMenu) {
 			return;
 		}
@@ -1115,7 +1115,7 @@ public class PopupDialog extends Window {
 	 *
 	 * @see org.eclipse.jface.window.Window#open()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int open() {
 
 		Shell shell = getShell();
@@ -1165,7 +1165,7 @@ public class PopupDialog extends Window {
 	 * @return <code>true</code> if the window is (or was already) closed, and
 	 *         <code>false</code> if it is still open
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean close() {
 		// If already closed, there is nothing to do.
 		// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=127505
@@ -1214,7 +1214,7 @@ public class PopupDialog extends Window {
 	 * @param shell
 	 *            The shell whose bounds are to be stored
 	 */
-	protected void saveDialogBounds(Shell shell) {
+	protected void saveDialogBounds(Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings settings = getDialogSettings();
 		if (settings != null) {
 			Point shellLocation = shell.getLocation();
@@ -1227,33 +1227,33 @@ public class PopupDialog extends Window {
 			}
 			String prefix = getClass().getName();
 			if (persistSize) {
-				settings.put(prefix + DIALOG_WIDTH, shellSize.x);
-				settings.put(prefix + DIALOG_HEIGHT, shellSize.y);
+				settings.put(prefix + DIALOG_WIDTH, shellSize.x); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				settings.put(prefix + DIALOG_HEIGHT, shellSize.y); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if (persistLocation) {
-				settings.put(prefix + DIALOG_ORIGIN_X, shellLocation.x);
-				settings.put(prefix + DIALOG_ORIGIN_Y, shellLocation.y);
+				settings.put(prefix + DIALOG_ORIGIN_X, shellLocation.x); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				settings.put(prefix + DIALOG_ORIGIN_Y, shellLocation.y); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if (showPersistActions && showDialogMenu) {
-				settings.put(getClass().getName() + DIALOG_USE_PERSISTED_SIZE,
+				settings.put(getClass().getName() + DIALOG_USE_PERSISTED_SIZE, //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						persistSize);
-				settings.put(getClass().getName()
+				settings.put(getClass().getName() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ DIALOG_USE_PERSISTED_LOCATION, persistLocation);
 
 			}
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Point getInitialSize() {
 		Point result = getDefaultSize();
 		if (persistSize) {
 			IDialogSettings settings = getDialogSettings();
 			if (settings != null) {
 				try {
-					int width = settings.getInt(getClass().getName()
+					int width = settings.getInt(getClass().getName() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ DIALOG_WIDTH);
-					int height = settings.getInt(getClass().getName()
+					int height = settings.getInt(getClass().getName() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ DIALOG_HEIGHT);
 					result = new Point(width, height);
 
@@ -1312,16 +1312,16 @@ public class PopupDialog extends Window {
 	protected void adjustBounds() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Point getInitialLocation(Point initialSize) {
 		Point result = getDefaultLocation(initialSize);
 		if (persistLocation) {
 			IDialogSettings settings = getDialogSettings();
 			if (settings != null) {
 				try {
-					int x = settings.getInt(getClass().getName()
+					int x = settings.getInt(getClass().getName() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ DIALOG_ORIGIN_X);
-					int y = settings.getInt(getClass().getName()
+					int y = settings.getInt(getClass().getName() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ DIALOG_ORIGIN_Y);
 					result = new Point(x, y);
 					// The coordinates were stored relative to the parent shell.
@@ -1422,13 +1422,13 @@ public class PopupDialog extends Window {
 	 * @param composite
 	 *            the contents composite
 	 */
-	private void applyFonts(Composite composite) {
+	private void applyFonts(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Dialog.applyDialogFont(composite);
 
 		if (titleLabel != null) {
 			Font font = titleLabel.getFont();
 			FontData[] fontDatas = font.getFontData();
-			for (FontData fontData : fontDatas) {
+			for (FontData fontData : fontDatas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fontData.setStyle(SWT.BOLD);
 			}
 			titleFont = new Font(titleLabel.getDisplay(), fontDatas);
@@ -1438,7 +1438,7 @@ public class PopupDialog extends Window {
 		if (infoLabel != null) {
 			Font font = infoLabel.getFont();
 			FontData[] fontDatas = font.getFontData();
-			for (FontData fontData : fontDatas) {
+			for (FontData fontData : fontDatas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fontData.setHeight(fontData.getHeight() * 9 / 10);
 			}
 			infoFont = new Font(infoLabel.getDisplay(), fontDatas);
@@ -1465,7 +1465,7 @@ public class PopupDialog extends Window {
 		}
 		if (control instanceof Composite) {
 			Control[] children = ((Composite) control).getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				applyForegroundColor(color, element, exclusions);
 			}
 		}
@@ -1490,7 +1490,7 @@ public class PopupDialog extends Window {
 		}
 		if (control instanceof Composite) {
 			Control[] children = ((Composite) control).getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				applyBackgroundColor(color, element, exclusions);
 			}
 		}
@@ -1539,7 +1539,7 @@ public class PopupDialog extends Window {
 	 * @return the List of controls
 	 */
 	protected List<Control> getForegroundColorExclusions() {
-		List<Control> list = new ArrayList<>(3);
+		List<Control> list = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (infoLabel != null) {
 			list.add(infoLabel);
 		}
@@ -1560,7 +1560,7 @@ public class PopupDialog extends Window {
 	 * @return the List of controls
 	 */
 	protected List<Control> getBackgroundColorExclusions() {
-		List<Control> list = new ArrayList<>(2);
+		List<Control> list = new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (titleSeparator != null) {
 			list.add(titleSeparator);
 		}
@@ -1574,7 +1574,7 @@ public class PopupDialog extends Window {
 	 * Initialize any state related to the widgetry that should be set up each
 	 * time widgets are created.
 	 */
-	private void initializeWidgetState() {
+	private void initializeWidgetState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		menuManager = null;
 		dialogArea = null;
 		titleLabel = null;
@@ -1589,11 +1589,11 @@ public class PopupDialog extends Window {
 		if (showDialogMenu && showPersistActions) {
 			IDialogSettings settings = getDialogSettings();
 			if (settings != null) {
-				String key = getClass().getName() + DIALOG_USE_PERSISTED_SIZE;
+				String key = getClass().getName() + DIALOG_USE_PERSISTED_SIZE; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (settings.get(key) != null || !isUsing34API) {
 					persistSize = settings.getBoolean(key);
 				}
-				key = getClass().getName() + DIALOG_USE_PERSISTED_LOCATION;
+				key = getClass().getName() + DIALOG_USE_PERSISTED_LOCATION; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (settings.get(key) != null || !isUsing34API) {
 					persistLocation = settings.getBoolean(key);
 				}

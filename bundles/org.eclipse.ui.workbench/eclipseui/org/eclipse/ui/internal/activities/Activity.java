@@ -33,7 +33,7 @@ final class Activity implements IActivity {
 
 	private static final int HASH_INITIAL = Activity.class.getName().hashCode();
 
-	private static final Set<Activity> strongReferences = new HashSet<>();
+	private static final Set<Activity> strongReferences = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private Set<IActivityRequirementBinding> activityRequirementBindings;
 
@@ -78,7 +78,7 @@ final class Activity implements IActivity {
 		}
 
 		if (activityListeners == null) {
-			activityListeners = new ArrayList<>();
+			activityListeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		if (!activityListeners.contains(activityListener)) {
@@ -88,7 +88,7 @@ final class Activity implements IActivity {
 		strongReferences.add(this);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compareTo(IActivity object) {
 		Activity castedObject = (Activity) object;
 
@@ -136,7 +136,7 @@ final class Activity implements IActivity {
 		}
 
 		if (activityListeners != null) {
-			for (IActivityListener activityListener : activityListeners) {
+			for (IActivityListener activityListener : activityListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				activityListener.activityChanged(activityEvent);
 			}
 		}
@@ -200,7 +200,7 @@ final class Activity implements IActivity {
 
 	public boolean isMatch(String string) {
 		if (isDefined()) {
-			for (IActivityPatternBinding iActivityPatternBinding : activityPatternBindings) {
+			for (IActivityPatternBinding iActivityPatternBinding : activityPatternBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ActivityPatternBinding activityPatternBinding = (ActivityPatternBinding) iActivityPatternBinding;
 
 				if (activityPatternBinding.isMatch(string)) {
@@ -305,10 +305,10 @@ final class Activity implements IActivity {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(activityRequirementBindings);
 			stringBuffer.append(',');

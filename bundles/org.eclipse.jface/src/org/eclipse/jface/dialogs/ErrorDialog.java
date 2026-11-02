@@ -179,7 +179,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	/**
 	 * Create the area for extra error support information.
 	 */
-	private void createSupportArea(Composite parent) {
+	private void createSupportArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ErrorSupportProvider provider = Policy.getErrorSupportProvider();
 
@@ -232,7 +232,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	 * If the old behavior is desired by subclasses, get the returned composite's
 	 * layout data and set grabExcessVerticalSpace to true.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// Create a composite with standard margins and spacing
 		// Add the messageArea to this composite so that as subclasses add widgets to the messageArea
@@ -296,7 +296,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	 * @return the drop-down list component
 	 * @see #shouldShowDetailsButton()
 	 */
-	protected List createDropDownList(Composite parent) {
+	protected List createDropDownList(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// create the list
 		list = new List(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.MULTI);
@@ -311,7 +311,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 		list.setFont(parent.getFont());
 		Menu copyMenu = new Menu(list);
 		MenuItem copyItem = new MenuItem(copyMenu, SWT.NONE);
-		copyItem.addSelectionListener(new SelectionListener() {
+		copyItem.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				copyToClipboard();
@@ -338,7 +338,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	public int open() {
 		if (AUTOMATED_MODE) {
 			IllegalStateException e = new IllegalStateException("Error dialog is supposed to be shown now"); //$NON-NLS-1$
-			MultiStatus ms = new MultiStatus("org.eclipse.jface", IStatus.ERROR, title + " : " + message, e); //$NON-NLS-1$ //$NON-NLS-2$
+			MultiStatus ms = new MultiStatus("org.eclipse.jface", IStatus.ERROR, title + " : " + message, e); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (status != null) {
 				ms.add(status);
 			}
@@ -448,7 +448,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	 *            whether to include the buildingStatus in the display or just
 	 *            its children
 	 */
-	private void populateList(List listToPopulate, IStatus buildingStatus,
+	private void populateList(List listToPopulate, IStatus buildingStatus, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int nesting, boolean includeStatus) {
 
 		if (!buildingStatus.matches(displayMask)) {
@@ -459,14 +459,14 @@ public class ErrorDialog extends IconAndMessageDialog {
 		boolean incrementNesting = false;
 
 		if (includeStatus) {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < nesting; i++) {
+			StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i = 0; i < nesting; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				sb.append(NESTING_INDENT);
 			}
 			String message = buildingStatus.getMessage();
 			sb.append(message);
 			java.util.List<String> lines = readLines(sb.toString());
-			for (String line : lines) {
+			for (String line : lines) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listToPopulate.add(line);
 			}
 			incrementNesting = true;
@@ -474,8 +474,8 @@ public class ErrorDialog extends IconAndMessageDialog {
 
 		if (!(t instanceof CoreException) && t != null) {
 			// Include low-level exception message
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < nesting; i++) {
+			StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i = 0; i < nesting; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				sb.append(NESTING_INDENT);
 			}
 			String message = t.getLocalizedMessage();
@@ -504,17 +504,17 @@ public class ErrorDialog extends IconAndMessageDialog {
 
 		// Look for child status
 		IStatus[] children = buildingStatus.getChildren();
-		for (IStatus element : children) {
+		for (IStatus element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			populateList(listToPopulate, element, nesting, true);
 		}
 	}
 
 	private static java.util.List<String> readLines(final String s) {
-		java.util.List<String> lines = new ArrayList<>();
+		java.util.List<String> lines = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		BufferedReader reader = new BufferedReader(new StringReader(s));
 		String line;
 		try {
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (line.length() > 0) {
 					lines.add(line);
 				}
@@ -537,7 +537,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	 * @return true if any new content will be added to the list.
 	 * @see #listContentExists(IStatus, boolean)
 	 */
-	private boolean listContentExists(IStatus buildingStatus,
+	private boolean listContentExists(IStatus buildingStatus, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean includeStatus) {
 
 		if (!buildingStatus.matches(displayMask)) {
@@ -568,7 +568,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 
 		// Look for child status
 		IStatus[] children = buildingStatus.getChildren();
-		for (IStatus element : children) {
+		for (IStatus element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result |= listContentExists(element, true);
 		}
 
@@ -591,7 +591,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 		if (children == null || children.length == 0) {
 			return status.matches(mask);
 		}
-		for (IStatus element : children) {
+		for (IStatus element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.matches(mask)) {
 				return true;
 			}
@@ -603,7 +603,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 	 * Toggles the unfolding of the details area. This is triggered by the user
 	 * pressing the details button.
 	 */
-	private void toggleDetailsArea() {
+	private void toggleDetailsArea() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean opened = false;
 		Point windowSize = getShell().getSize();
 		if (listCreated) {
@@ -629,12 +629,12 @@ public class ErrorDialog extends IconAndMessageDialog {
 	/**
 	 * Put the details of the status of the error onto the stream.
 	 */
-	private void populateCopyBuffer(IStatus buildingStatus,
+	private void populateCopyBuffer(IStatus buildingStatus, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			StringBuilder buffer, int nesting) {
 		if (!buildingStatus.matches(displayMask)) {
 			return;
 		}
-		for (int i = 0; i < nesting; i++) {
+		for (int i = 0; i < nesting; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buffer.append(NESTING_INDENT);
 		}
 		buffer.append(buildingStatus.getMessage());
@@ -646,7 +646,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 			populateCopyBuffer(ce.getStatus(), buffer, nesting + 1);
 		} else if (t != null) {
 			// Include low-level exception message
-			for (int i = 0; i < nesting; i++) {
+			for (int i = 0; i < nesting; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				buffer.append(NESTING_INDENT);
 			}
 			String message = t.getLocalizedMessage();
@@ -658,7 +658,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 		}
 
 		IStatus[] children = buildingStatus.getChildren();
-		for (IStatus element : children) {
+		for (IStatus element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			populateCopyBuffer(element, buffer, nesting + 1);
 		}
 	}
@@ -670,7 +670,7 @@ public class ErrorDialog extends IconAndMessageDialog {
 		if (clipboard != null) {
 			clipboard.dispose();
 		}
-		StringBuilder statusBuffer = new StringBuilder();
+		StringBuilder statusBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		populateCopyBuffer(status, statusBuffer, 0);
 		clipboard = new Clipboard(list.getDisplay());
 		clipboard.setContents(new Object[] { statusBuffer.toString() },

@@ -240,7 +240,7 @@ public abstract class Saveable extends InternalSaveable implements IAdaptable {
 	 * @since 3.3
 	 */
 	public void disableUI(IWorkbenchPart[] parts, boolean closing) {
-		for (IWorkbenchPart workbenchPart : parts) {
+		for (IWorkbenchPart workbenchPart : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Composite paneComposite = (Composite) ((PartSite) workbenchPart.getSite()).getModel().getWidget();
 			Control[] paneChildren = paneComposite.getChildren();
 			Composite toDisable = ((Composite) paneChildren[0]);
@@ -270,7 +270,7 @@ public abstract class Saveable extends InternalSaveable implements IAdaptable {
 	 * @since 3.3
 	 */
 	public void enableUI(IWorkbenchPart[] parts) {
-		for (IWorkbenchPart workbenchPart : parts) {
+		for (IWorkbenchPart workbenchPart : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Composite paneComposite = (Composite) ((PartSite) workbenchPart.getSite()).getModel().getWidget();
 			Control[] paneChildren = paneComposite.getChildren();
 			Composite toEnable = ((Composite) paneChildren[0]);

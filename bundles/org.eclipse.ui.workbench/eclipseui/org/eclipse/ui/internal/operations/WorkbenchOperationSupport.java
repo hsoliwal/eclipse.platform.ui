@@ -84,7 +84,7 @@ public class WorkbenchOperationSupport implements IWorkbenchOperationSupport {
 	 * @return the operation history for workbench operations.
 	 * @since 3.1
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IOperationHistory getOperationHistory() {
 		IOperationHistory history = OperationHistoryFactory.getOperationHistory();
 		/*

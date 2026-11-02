@@ -124,7 +124,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor<Font> {
 	 */
 	public static FontData[] copy(FontData[] original) {
 		FontData[] result = new FontData[original.length];
-		for (int i = 0; i < original.length; i++) {
+		for (int i = 0; i < original.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FontData next = original[i];
 
 			result[i] = copy(next);
@@ -160,7 +160,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor<Font> {
 	public final FontDescriptor setStyle(int style) {
 		FontData[] data = getFontData();
 
-		for (FontData next : data) {
+		for (FontData next : data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			next.setStyle(style);
 		}
 
@@ -187,7 +187,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor<Font> {
 	public final FontDescriptor withStyle(int style) {
 		FontData[] data = getFontData();
 
-		for (FontData next : data) {
+		for (FontData next : data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			next.setStyle(next.getStyle() | style);
 		}
 
@@ -214,7 +214,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor<Font> {
 	public final FontDescriptor setHeight(int height) {
 		FontData[] data = getFontData();
 
-		for (FontData next : data) {
+		for (FontData next : data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			next.setHeight(height);
 		}
 
@@ -246,7 +246,7 @@ public abstract class FontDescriptor extends DeviceResourceDescriptor<Font> {
 		}
 		FontData[] data = getFontData();
 
-		for (FontData next : data) {
+		for (FontData next : data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			next.setHeight(next.getHeight() + heightDelta);
 		}
 

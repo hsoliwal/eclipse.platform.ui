@@ -63,7 +63,7 @@ import org.eclipse.ui.progress.WorkbenchJob;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class DeleteResourceAction extends SelectionListenerAction {
+public class DeleteResourceAction extends SelectionListenerAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	static class DeleteProjectDialog extends MessageDialog {
 
@@ -119,12 +119,12 @@ public class DeleteResourceAction extends SelectionListenerAction {
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, IIDEHelpContextIds.DELETE_PROJECT_DIALOG);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createCustomArea(Composite parent) {
 			Composite composite = new Composite(parent, SWT.NONE);
 			composite.setLayout(new GridLayout());
 			radio1 = new Button(composite, SWT.RADIO);
-			radio1.addSelectionListener(selectionListener);
+			radio1.addSelectionListener(selectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			String text1;
 			if (projects.size() == 1) {
 				IProject project = (IProject) projects.get(0);
@@ -155,7 +155,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 			// add a listener so that clicking on the label selects the
 			// corresponding radio button.
 			// see https://bugs.eclipse.org/bugs/show_bug.cgi?id=172574
-			detailsLabel.addMouseListener(new MouseAdapter() {
+			detailsLabel.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void mouseUp(MouseEvent e) {
 					deleteContent = true;
@@ -167,7 +167,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 			new Label(composite, SWT.LEFT);
 
 			radio2 = new Button(composite, SWT.RADIO);
-			radio2.addSelectionListener(selectionListener);
+			radio2.addSelectionListener(selectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			String text2 = IDEWorkbenchMessages.DeleteResourceAction_doNotDeleteContents;
 			radio2.setText(text2);
 			radio2.setFont(parent.getFont());
@@ -218,7 +218,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID + ".DeleteResourceAction";//$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".DeleteResourceAction";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private IShellProvider shellProvider;
 
@@ -287,7 +287,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 	 *         <code>false</code> if the selection contains non-resources or
 	 *         phantom resources
 	 */
-	private boolean canDelete(List<? extends IResource> resources) {
+	private boolean canDelete(List<? extends IResource> resources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resources.isEmpty()) {
 			return false;
 		}
@@ -300,7 +300,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 
 		// Return false if at least one element is not existing or workspace
 		// root
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.isPhantom() || resource.getType() == IResource.ROOT) {
 				return false;
 			}
@@ -317,7 +317,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 	 *         and <code>false</code> otherwise
 	 */
 	private boolean containsLinkedResource(List<? extends IResource> resources) {
-		for (int i = 0; i < resources.size(); i++) {
+		for (int i = 0; i < resources.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = resources.get(i);
 			if (resource.isLinked()) {
 				return true;
@@ -383,7 +383,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 	 * @return <code>true</code> if the user says to go ahead, and
 	 *         <code>false</code> if the deletion should be abandoned
 	 */
-	private boolean confirmDeleteNonProjects(List<? extends IResource> resources) {
+	private boolean confirmDeleteNonProjects(List<? extends IResource> resources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String title;
 		String msg;
 		if (resources.size() == 1) {
@@ -435,13 +435,13 @@ public class DeleteResourceAction extends SelectionListenerAction {
 	 */
 	private int getSelectedResourceTypes(List<? extends IResource> resources) {
 		int types = 0;
-		for (int i = 0; i < resources.size(); i++) {
+		for (int i = 0; i < resources.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			types |= resources.get(i).getType();
 		}
 		return types;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		final List<? extends IResource> resources = getSelectedResources();
 		if (resources.isEmpty()) {
@@ -491,11 +491,11 @@ public class DeleteResourceAction extends SelectionListenerAction {
 	/**
 	 * Schedule a job to delete the resources to delete.
 	 */
-	private void scheduleDeleteJob(final List<? extends IResource> resourcesToDelete) {
+	private void scheduleDeleteJob(final List<? extends IResource> resourcesToDelete) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// use a non-workspace job with a runnable inside so we can avoid
 		// periodic updates
 		Job deleteJob = new Job(IDEWorkbenchMessages.DeleteResourceAction_jobName) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus run(final IProgressMonitor monitor) {
 				try {
 					final DeleteResourcesOperation op =
@@ -510,7 +510,7 @@ public class DeleteResourceAction extends SelectionListenerAction {
 						// We must compute the execution status first so that any user prompting
 						// or validation checking occurs.  Do it in a syncExec because
 						// we are calling this from a Job.
-						WorkbenchJob statusJob = new WorkbenchJob("Status checking"){ //$NON-NLS-1$
+						WorkbenchJob statusJob = new WorkbenchJob("Status checking"){ //$NON-NLS-1$ //FLLDCIM: MARK — T09  ANONYMOUS
 							@Override
 							public IStatus runInUIThread(IProgressMonitor m) {
 								return op.computeExecutionStatus(m);

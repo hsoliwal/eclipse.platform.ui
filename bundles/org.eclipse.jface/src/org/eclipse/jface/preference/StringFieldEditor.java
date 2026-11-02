@@ -201,7 +201,7 @@ public class StringFieldEditor extends FieldEditor {
 	 * @return <code>true</code> if the field value is valid,
 	 *   and <code>false</code> if invalid
 	 */
-	protected boolean checkState() {
+	protected boolean checkState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean result = false;
 		if (emptyStringAllowed) {
 			result = true;
@@ -249,7 +249,7 @@ public class StringFieldEditor extends FieldEditor {
 	 * but must call <code>super.doFillIntoGrid</code>.
 	 * </p>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		getLabelControl(parent);
 
@@ -350,20 +350,20 @@ public class StringFieldEditor extends FieldEditor {
 	 * @param parent the parent
 	 * @return the text control
 	 */
-	public Text getTextControl(Composite parent) {
+	public Text getTextControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (textField == null) {
 			textField = createTextWidget(parent);
 			textField.setFont(parent.getFont());
 			switch (validateStrategy) {
 			case VALIDATE_ON_KEY_STROKE:
-				textField.addKeyListener(new KeyAdapter() {
+				textField.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 					@Override
 					public void keyReleased(KeyEvent e) {
 						valueChanged();
 					}
 				});
-				textField.addFocusListener(new FocusAdapter() {
+				textField.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 					// Ensure that the value is checked on focus loss in case we
 					// missed a keyRelease or user hasn't released key.
 					// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=214716
@@ -376,13 +376,13 @@ public class StringFieldEditor extends FieldEditor {
 
 				break;
 			case VALIDATE_ON_FOCUS_LOST:
-				textField.addKeyListener(new KeyAdapter() {
+				textField.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 					@Override
 					public void keyPressed(KeyEvent e) {
 						clearErrorMessage();
 					}
 				});
-				textField.addFocusListener(new FocusAdapter() {
+				textField.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 					@Override
 					public void focusGained(FocusEvent e) {
 						refreshValidState();
@@ -397,7 +397,7 @@ public class StringFieldEditor extends FieldEditor {
 			default:
 				Assert.isTrue(false, "Unknown validate strategy");//$NON-NLS-1$
 			}
-			textField.addDisposeListener(event -> textField = null);
+			textField.addDisposeListener(event -> textField = null); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			if (textLimit > 0) {//Only set limits above 0 - see SWT spec
 				textField.setTextLimit(textLimit);
 			}

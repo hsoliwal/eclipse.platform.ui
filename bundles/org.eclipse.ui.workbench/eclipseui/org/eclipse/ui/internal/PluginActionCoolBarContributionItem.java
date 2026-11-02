@@ -23,7 +23,7 @@ import org.eclipse.ui.PlatformUI;
  * Contribution item for actions provided by plugins via workbench action
  * extension points.
  */
-public class PluginActionCoolBarContributionItem extends PluginActionContributionItem
+public class PluginActionCoolBarContributionItem extends PluginActionContributionItem //FLLDCIM: MARK — T36  IMPLEMENTS
 		implements IActionSetContributionItem {
 	private String actionSetId;
 
@@ -55,17 +55,17 @@ public class PluginActionCoolBarContributionItem extends PluginActionContributio
 		if (parent != null && managersToUpdate.add(parent)) {
 			if (!queued) {
 				queued = true;
-				PlatformUI.getWorkbench().getDisplay().asyncExec(updater);
+				PlatformUI.getWorkbench().getDisplay().asyncExec(updater); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}
 
-	private static HashSet<IContributionManager> managersToUpdate = new HashSet<>();
+	private static HashSet<IContributionManager> managersToUpdate = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private static Runnable updater = () -> {
 		IContributionManager[] managers = managersToUpdate.toArray(new IContributionManager[managersToUpdate.size()]);
 		managersToUpdate.clear();
 		queued = false;
-		for (IContributionManager manager : managers) {
+		for (IContributionManager manager : managers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.update(false);
 		}
 	};

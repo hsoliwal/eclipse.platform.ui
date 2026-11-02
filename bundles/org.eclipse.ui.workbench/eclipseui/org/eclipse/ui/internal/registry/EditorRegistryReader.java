@@ -60,7 +60,7 @@ public class EditorRegistryReader extends RegistryReader {
 		return false;
 	}
 
-	private boolean readEditorContentTypeBinding(IConfigurationElement element) {
+	private boolean readEditorContentTypeBinding(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorDescriptor descriptor = null;
 		String editorId = element.getAttribute(IWorkbenchRegistryConstants.ATT_EDITOR_ID);
 		if (editorId == null) {
@@ -68,7 +68,7 @@ public class EditorRegistryReader extends RegistryReader {
 		} else {
 			descriptor = editorRegistry.findEditor(editorId);
 			if (descriptor == null) {
-				logError(element, "Unknown editor with id: " + editorId); //$NON-NLS-1$
+				logError(element, "Unknown editor with id: " + editorId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -79,7 +79,7 @@ public class EditorRegistryReader extends RegistryReader {
 		} else {
 			contentType = Platform.getContentTypeManager().getContentType(contentTypeId);
 			if (contentType == null) {
-				logError(element, "Unknown content-type with id: " + contentTypeId); //$NON-NLS-1$
+				logError(element, "Unknown content-type with id: " + contentTypeId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -89,7 +89,7 @@ public class EditorRegistryReader extends RegistryReader {
 		return true;
 	}
 
-	private boolean readEditorElement(IConfigurationElement element) {
+	private boolean readEditorElement(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 		if (id == null) {
 			logMissingAttribute(element, IWorkbenchRegistryConstants.ATT_ID);
@@ -98,9 +98,9 @@ public class EditorRegistryReader extends RegistryReader {
 
 		EditorDescriptor editor = new EditorDescriptor(id, element);
 
-		List<String> extensionsVector = new ArrayList<>();
-		List<String> filenamesVector = new ArrayList<>();
-		List<String> contentTypeVector = new ArrayList<>();
+		List<String> extensionsVector = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> filenamesVector = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> contentTypeVector = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean defaultEditor = false;
 
 		// Get editor name (required field).
@@ -113,20 +113,20 @@ public class EditorRegistryReader extends RegistryReader {
 		String extensionsString = element.getAttribute(IWorkbenchRegistryConstants.ATT_EXTENSIONS);
 		if (extensionsString != null) {
 			StringTokenizer tokenizer = new StringTokenizer(extensionsString, ",");//$NON-NLS-1$
-			while (tokenizer.hasMoreTokens()) {
+			while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				extensionsVector.add(tokenizer.nextToken().trim());
 			}
 		}
 		String filenamesString = element.getAttribute(IWorkbenchRegistryConstants.ATT_FILENAMES);
 		if (filenamesString != null) {
 			StringTokenizer tokenizer = new StringTokenizer(filenamesString, ",");//$NON-NLS-1$
-			while (tokenizer.hasMoreTokens()) {
+			while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				filenamesVector.add(tokenizer.nextToken().trim());
 			}
 		}
 
 		IConfigurationElement[] bindings = element.getChildren(IWorkbenchRegistryConstants.TAG_CONTENT_TYPE_BINDING);
-		for (IConfigurationElement binding : bindings) {
+		for (IConfigurationElement binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String contentTypeId = binding.getAttribute(IWorkbenchRegistryConstants.ATT_CONTENT_TYPE_ID);
 			if (contentTypeId == null) {
 				continue;

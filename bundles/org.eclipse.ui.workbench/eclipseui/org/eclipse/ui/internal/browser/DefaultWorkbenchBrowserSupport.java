@@ -36,7 +36,7 @@ public class DefaultWorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupp
 	 * The default constructor.
 	 */
 	public DefaultWorkbenchBrowserSupport() {
-		browsers = new HashMap<>();
+		browsers = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	void registerBrowser(IWebBrowser browser) {
@@ -70,8 +70,8 @@ public class DefaultWorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupp
 
 	private String getDefaultId() {
 		String id = null;
-		for (int i = 0; i < Integer.MAX_VALUE; i++) {
-			id = DEFAULT_BROWSER_ID_BASE + i;
+		for (int i = 0; i < Integer.MAX_VALUE; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			id = DEFAULT_BROWSER_ID_BASE + i; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (browsers.get(id) == null) {
 				break;
 			}

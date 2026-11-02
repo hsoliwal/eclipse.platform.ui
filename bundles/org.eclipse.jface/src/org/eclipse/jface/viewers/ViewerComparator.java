@@ -16,7 +16,8 @@
 
 package org.eclipse.jface.viewers;
 
-import java.util.Arrays;
+import org.eclipse.jface.internal.m3.M3ViewerArrays;
+
 import java.util.Comparator;
 
 import org.eclipse.core.runtime.Status;
@@ -139,7 +140,7 @@ public class ViewerComparator {
 		return getComparator().compare(name1, name2);
 	}
 
-	private String getLabel(Viewer viewer, Object e1) {
+	private String getLabel(Viewer viewer, Object e1) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name1;
 		if (viewer == null || !(viewer instanceof ContentViewer)) {
 			name1 = e1.toString();
@@ -197,18 +198,18 @@ public class ViewerComparator {
 	 * @param viewer the viewer
 	 * @param elements the elements to sort
 	 */
-	public void sort(final Viewer viewer, Object[] elements) {
+	public void sort(final Viewer viewer, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			Arrays.sort(elements, (a, b) -> ViewerComparator.this.compare(viewer, a, b));
+			M3ViewerArrays.sort(this, viewer, elements);
 		} catch (IllegalArgumentException e) {
-			String msg = e
+			String msg = e //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ "\nWorkaround for comparator violation:\n\tSet system property -Djava.util.Arrays.useLegacyMergeSort=true" //$NON-NLS-1$
 					+ "\nthis: " + getClass().getName() //$NON-NLS-1$
 					+ "\ncomparator: " + (comparator != null ? comparator.getClass().getName() : null) //$NON-NLS-1$
 					+ "\narray:"; //$NON-NLS-1$
-			StringBuilder labels = new StringBuilder();
+			StringBuilder labels = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			long timeout = System.currentTimeMillis() + 5000;
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				labels.append("\n\t"); //$NON-NLS-1$
 				if (labels.length() > 50000) {
 					labels.append("... (more elements)"); //$NON-NLS-1$

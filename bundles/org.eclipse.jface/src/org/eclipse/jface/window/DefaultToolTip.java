@@ -88,7 +88,7 @@ public class DefaultToolTip extends ToolTip {
 	 *            the parent of the content area
 	 * @return the content area created
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createToolTipContentArea(Event event, Composite parent) {
 		Image image = getImage(event);
 		Image bgImage = getBackgroundImage(event);

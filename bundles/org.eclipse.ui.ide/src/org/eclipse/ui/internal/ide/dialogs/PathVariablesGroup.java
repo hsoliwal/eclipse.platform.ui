@@ -169,9 +169,9 @@ public class PathVariablesGroup {
 		this.variableType = variableType;
 		pathVariableManager = ResourcesPlugin.getWorkspace()
 				.getPathVariableManager();
-		removedVariableNames = new HashSet<>();
+		removedVariableNames = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Collator ignoreCaseComparator = Collator.getInstance();
-		tempPathVariables = new TreeMap<>(ignoreCaseComparator);
+		tempPathVariables = new TreeMap<>(ignoreCaseComparator); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 		// initialize internal model
 		initTemporaryState();
 	}
@@ -195,7 +195,7 @@ public class PathVariablesGroup {
 	/**
 	 * Opens a dialog for creating a new variable.
 	 */
-	private void addNewVariable() {
+	private void addNewVariable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// constructs a dialog for editing the new variable's current name and value
 		PathVariableDialog dialog = new PathVariableDialog(shell,
 				PathVariableDialog.NEW_VARIABLE, variableType,
@@ -226,7 +226,7 @@ public class PathVariablesGroup {
 	 * @param parent the widget parent
 	 * @return container of the widgets
 	 */
-	public Control createContents(Composite parent) {
+	public Control createContents(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 
 		if (imageUnknown == null) {
@@ -277,7 +277,7 @@ public class PathVariablesGroup {
 		tableComposite.setLayoutData(data);
 
 		variableTable = new TableViewer(tableComposite, tableStyle);
-		variableTable.getTable().addSelectionListener(new SelectionAdapter() {
+		variableTable.getTable().addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateEnabledState();
@@ -291,11 +291,11 @@ public class PathVariablesGroup {
 		ColumnViewerToolTipSupport.enableFor(variableTable, ToolTip.NO_RECREATE);
 
 		TableViewerColumn nameColumn = new TableViewerColumn(variableTable, SWT.NONE);
-		nameColumn.setLabelProvider(new NameLabelProvider());
+		nameColumn.setLabelProvider(new NameLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		nameColumn.getColumn().setText(IDEWorkbenchMessages.PathVariablesBlock_nameColumn);
 
 		TableViewerColumn valueColumn = new TableViewerColumn(variableTable, SWT.NONE);
-		valueColumn.setLabelProvider(new ValueLabelProvider());
+		valueColumn.setLabelProvider(new ValueLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		valueColumn.getColumn().setText(IDEWorkbenchMessages.PathVariablesBlock_valueColumn);
 
 		TableColumnLayout tableLayout = new TableColumnLayout();
@@ -310,7 +310,7 @@ public class PathVariablesGroup {
 		variableTable.getTable().setLayoutData(data);
 		variableTable.getTable().setFont(font);
 
-		variableTable.getTable().addMouseListener(new MouseListener() {
+		variableTable.getTable().addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				int itemsSelectedCount = variableTable.getTable().getSelectionCount();
@@ -323,7 +323,7 @@ public class PathVariablesGroup {
 			@Override
 			public void mouseUp(MouseEvent e) { }
 		});
-		variableTable.getTable().addSelectionListener(new SelectionListener() {
+		variableTable.getTable().addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateEnabledState();
@@ -336,7 +336,7 @@ public class PathVariablesGroup {
 
 		variableTable.getTable().setToolTipText(null);
 		variableTable.setContentProvider(new ContentProvider());
-		variableTable.setInput(this);
+		variableTable.setInput(this); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		createButtonGroup(pageComponent);
 		return pageComponent;
 	}
@@ -428,7 +428,7 @@ public class PathVariablesGroup {
 	 *
 	 * @see PathVariableDialog
 	 */
-	private void editSelectedVariable() {
+	private void editSelectedVariable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// retrieves the name and value for the currently selected variable
 		TableItem item = variableTable.getTable().getItem(variableTable.getTable()
 				.getSelectionIndex());
@@ -505,7 +505,7 @@ public class PathVariablesGroup {
 		TableItem[] items = variableTable.getTable().getSelection();
 		PathVariableElement[] selection = new PathVariableElement[items.length];
 
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = (String) items[i].getData();
 			selection[i] = new PathVariableElement();
 			selection[i].name = name;
@@ -519,7 +519,7 @@ public class PathVariablesGroup {
 	 *
 	 * @param parent the widget parent
 	 */
-	private void createButtonGroup(Composite parent) {
+	private void createButtonGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Font font = parent.getFont();
 		Composite groupComponent = new Composite(parent, SWT.NULL);
 		GridLayout groupLayout = new GridLayout();
@@ -534,7 +534,7 @@ public class PathVariablesGroup {
 
 		addButton = new Button(groupComponent, SWT.PUSH);
 		addButton.setText(IDEWorkbenchMessages.PathVariablesBlock_addVariableButton);
-		addButton.addSelectionListener(new SelectionAdapter() {
+		addButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addNewVariable();
@@ -545,7 +545,7 @@ public class PathVariablesGroup {
 
 		editButton = new Button(groupComponent, SWT.PUSH);
 		editButton.setText(IDEWorkbenchMessages.PathVariablesBlock_editVariableButton);
-		editButton.addSelectionListener(new SelectionAdapter() {
+		editButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				editSelectedVariable();
@@ -556,7 +556,7 @@ public class PathVariablesGroup {
 
 		removeButton = new Button(groupComponent, SWT.PUSH);
 		removeButton.setText(IDEWorkbenchMessages.PathVariablesBlock_removeVariableButton);
-		removeButton.addSelectionListener(new SelectionAdapter() {
+		removeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeSelectedVariables();
@@ -588,9 +588,9 @@ public class PathVariablesGroup {
 	/**
 	 * (Re-)Initialize collections used to mantain temporary variable state.
 	 */
-	private void initTemporaryState() {
+	private void initTemporaryState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		tempPathVariables.clear();
-		for (String varName : pathVariableManager.getPathVariableNames()) {
+		for (String varName : pathVariableManager.getPathVariableNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// hide the PARENT variable
 			if (varName.equals(PARENT_VARIABLE_NAME)) {
 				continue;
@@ -649,10 +649,10 @@ public class PathVariablesGroup {
 	 * @return boolean <code>true</code> if there were no problems.
 	 * @see IPathVariableManager#setURIValue(String, URI)
 	 */
-	public boolean performOk() {
+	public boolean performOk() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			// first process removed variables
-			for (String removedVariableName : removedVariableNames) {
+			for (String removedVariableName : removedVariableNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// only removes variables that have not been added again
 				if (!tempPathVariables.containsKey(removedVariableName)) {
 					pathVariableManager.setURIValue(removedVariableName, null);
@@ -660,7 +660,7 @@ public class PathVariablesGroup {
 			}
 
 			// then process the current collection of variables, adding/updating them
-			for (Entry<String, IPath> entry : tempPathVariables.entrySet()) {
+			for (Entry<String, IPath> entry : tempPathVariables.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String variableName = entry.getKey();
 				IPath variableValue = entry.getValue();
 				if (!isBuiltInVariable(variableName)) {
@@ -683,7 +683,7 @@ public class PathVariablesGroup {
 	 */
 	private void removeSelectedVariables() {
 		// remove each selected element
-		for (int selectedIndex : variableTable.getTable().getSelectionIndices()) {
+		for (int selectedIndex : variableTable.getTable().getSelectionIndices()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TableItem selectedItem = variableTable.getTable().getItem(selectedIndex);
 			String varName = (String) selectedItem.getData();
 			removedVariableNames.add(varName);
@@ -694,7 +694,7 @@ public class PathVariablesGroup {
 	}
 
 	private boolean canChangeSelection() {
-		for (int selectedIndex : variableTable.getTable().getSelectionIndices()) {
+		for (int selectedIndex : variableTable.getTable().getSelectionIndices()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TableItem selectedItem = variableTable.getTable().getItem(selectedIndex);
 			String varName = (String) selectedItem.getData();
 			if (isBuiltInVariable(varName)) {
@@ -761,7 +761,7 @@ public class PathVariablesGroup {
 	 * the enabled state for the Add/Remove/Edit buttons.
 	 */
 	private void updateWidgetState() {
-		variableTable.refresh();
+		variableTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		updateEnabledState();
 	}
 
@@ -772,8 +772,8 @@ public class PathVariablesGroup {
 		} else {
 			pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
 		}
-		removedVariableNames = new HashSet<>();
-		tempPathVariables = new TreeMap<>();
+		removedVariableNames = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		tempPathVariables = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 		// initialize internal model
 		initTemporaryState();
 	}
@@ -782,8 +782,8 @@ public class PathVariablesGroup {
 	 * Reloads the path variables from the project description.
 	 */
 	public void reloadContent() {
-		removedVariableNames = new HashSet<>();
-		tempPathVariables = new TreeMap<>();
+		removedVariableNames = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		tempPathVariables = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 		initTemporaryState();
 		if (variableTable != null) {
 			updateWidgetState();

@@ -63,7 +63,7 @@ public class TaskInfo extends SubTaskInfo {
 		parentMonitor.internalWorked(workIncrement * parentTicks / totalWork);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	String getDisplayString(boolean showProgress) {
 		if (totalWork == IProgressMonitor.UNKNOWN) {
 			return unknownProgress();

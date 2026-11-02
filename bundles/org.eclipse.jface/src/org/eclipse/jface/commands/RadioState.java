@@ -91,11 +91,11 @@ public class RadioState extends ToggleState {
 			 */
 			private final void addMember(final RadioState state) {
 				if (members == null) {
-					members = new HashSet<>(5);
+					members = new HashSet<>(5); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				}
 
 				members.add(state);
-				state.addListener(this);
+				state.addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 				final Object value = state.getValue();
 				if (value instanceof Boolean) {
@@ -176,7 +176,7 @@ public class RadioState extends ToggleState {
 		private static final void registerState(final String identifier,
 				final RadioState state) {
 			if (radioStatesById == null) {
-				radioStatesById = new HashMap<>();
+				radioStatesById = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			}
 
 			RadioGroup radioGroup = radioStatesById.get(identifier);

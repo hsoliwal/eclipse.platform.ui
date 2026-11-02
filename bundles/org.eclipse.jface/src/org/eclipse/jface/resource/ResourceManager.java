@@ -191,7 +191,7 @@ public abstract class ResourceManager {
 		try {
 			return create(descriptor);
 		} catch (DeviceResourceException | SWTException e) {
-			Policy.getLog().log(Status.warning("The image could not be loaded: " + descriptor, e)); //$NON-NLS-1$
+			Policy.getLog().log(Status.warning("The image could not be loaded: " + descriptor, e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return getDefaultImage();
 		}
 	}
@@ -313,7 +313,7 @@ public abstract class ResourceManager {
 	/**
 	 * Disposes any remaining resources allocated by this manager.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (disposeExecs == null) {
 			return;
 		}
@@ -325,7 +325,7 @@ public abstract class ResourceManager {
 		RuntimeException foundException = null;
 
 		Runnable[] execs = disposeExecs.toArray(new Runnable[disposeExecs.size()]);
-		for (Runnable exec : execs) {
+		for (Runnable exec : execs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				exec.run();
 			} catch (RuntimeException e) {
@@ -367,7 +367,7 @@ public abstract class ResourceManager {
 		Assert.isNotNull(r);
 
 		if (disposeExecs == null) {
-			disposeExecs = new ArrayList<>();
+			disposeExecs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		disposeExecs.add(r);

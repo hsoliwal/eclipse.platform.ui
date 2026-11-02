@@ -79,7 +79,7 @@ import org.osgi.framework.FrameworkUtil;
 
 public class EditorSelectionDialog extends Dialog {
 
-	private static class TreeArrayContentProvider implements ITreeContentProvider {
+	private static class TreeArrayContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private static final Object[] EMPTY = new Object[0];
 
@@ -220,7 +220,7 @@ public class EditorSelectionDialog extends Dialog {
 	 * @param parent the parent composite to contain the dialog area
 	 * @return the dialog area control
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Font font = parent.getFont();
 		// create main group
@@ -248,20 +248,20 @@ public class EditorSelectionDialog extends Dialog {
 
 		internalButton = new Button(group, SWT.RADIO | SWT.LEFT);
 		internalButton.setText(WorkbenchMessages.EditorSelection_internal);
-		internalButton.addListener(SWT.Selection, listener);
+		internalButton.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		internalButton.setFont(font);
 
 		externalButton = new Button(group, SWT.RADIO | SWT.LEFT);
 		externalButton.setText(WorkbenchMessages.EditorSelection_external);
-		externalButton.addListener(SWT.Selection, listener);
+		externalButton.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		externalButton.setFont(font);
 
 		editorTable = new FilteredTree(contents, SWT.SINGLE | SWT.BORDER, new PatternFilter(), true);
 		editorTableViewer = editorTable.getViewer();
 		Tree tree = editorTableViewer.getTree();
-		tree.addListener(SWT.Selection, listener);
-		tree.addListener(SWT.DefaultSelection, listener);
-		tree.addListener(SWT.MouseDoubleClick, listener);
+		tree.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		tree.addListener(SWT.DefaultSelection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		tree.addListener(SWT.MouseDoubleClick, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data = new GridData();
 		data.widthHint = convertHorizontalDLUsToPixels(TABLE_WIDTH);
 		data.horizontalAlignment = GridData.FILL;
@@ -273,7 +273,7 @@ public class EditorSelectionDialog extends Dialog {
 		editorTable.setFont(font);
 		data.heightHint = tree.getItemHeight() * 12;
 		editorTableViewer.setContentProvider(new TreeArrayContentProvider());
-		editorTableViewer.setLabelProvider(createTextImageProvider(element-> {
+		editorTableViewer.setLabelProvider(createTextImageProvider(element-> { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			IEditorDescriptor d = (IEditorDescriptor) element;
 			return TextProcessor.process(d.getLabel(), "."); //$NON-NLS-1$
 		}, element -> {
@@ -283,7 +283,7 @@ public class EditorSelectionDialog extends Dialog {
 
 		browseExternalEditorsButton = new Button(contents, SWT.PUSH);
 		browseExternalEditorsButton.setText(WorkbenchMessages.EditorSelection_browse);
-		browseExternalEditorsButton.addListener(SWT.Selection, listener);
+		browseExternalEditorsButton.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		data = new GridData();
 		int widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
 		data.widthHint = Math.max(widthHint, browseExternalEditorsButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
@@ -295,7 +295,7 @@ public class EditorSelectionDialog extends Dialog {
 
 			rememberEditorButton = new Button(contents, SWT.CHECK | SWT.LEFT);
 			rememberEditorButton.setText(NLS.bind(WorkbenchMessages.EditorSelection_rememberEditor, fileName));
-			rememberEditorButton.addListener(SWT.Selection, listener);
+			rememberEditorButton.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			data = new GridData();
 			data.horizontalSpan = 2;
 			rememberEditorButton.setLayoutData(data);
@@ -305,7 +305,7 @@ public class EditorSelectionDialog extends Dialog {
 			if (!fileType.isEmpty()) {
 				rememberTypeButton = new Button(contents, SWT.CHECK | SWT.LEFT);
 				rememberTypeButton.setText(NLS.bind(WorkbenchMessages.EditorSelection_rememberType, fileType));
-				rememberTypeButton.addListener(SWT.Selection, listener);
+				rememberTypeButton.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				data = new GridData();
 				data.horizontalSpan = 2;
 				rememberTypeButton.setLayoutData(data);
@@ -318,7 +318,7 @@ public class EditorSelectionDialog extends Dialog {
 
 		// Run async to restore selection on *visible* dialog - otherwise three won't
 		// scroll
-		PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (editorTable.isDisposed()) {
 				return;
 			}
@@ -342,7 +342,7 @@ public class EditorSelectionDialog extends Dialog {
 	/**
 	 * Fills the editor table.
 	 */
-	protected void fillEditorTable() {
+	protected void fillEditorTable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorDescriptor newSelection = selectedEditor;
 
 		boolean showInternal = internalButton.getSelection();
@@ -359,7 +359,7 @@ public class EditorSelectionDialog extends Dialog {
 			}
 		}
 
-		editorTableViewer.setInput(showInternal ? getInternalEditors() : getExternalEditors());
+		editorTableViewer.setInput(showInternal ? getInternalEditors() : getExternalEditors()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		if (fileName != null && newSelection == null) {
 			if (!showInternal) {
@@ -409,11 +409,11 @@ public class EditorSelectionDialog extends Dialog {
 	/**
 	 * Get a list of registered programs from the OS
 	 */
-	protected IEditorDescriptor[] getExternalEditors() {
+	protected IEditorDescriptor[] getExternalEditors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (externalEditors == null) {
 			IProgressService ps = PlatformUI.getWorkbench().getService(IProgressService.class);
 			// Since this can take a while, show the busy cursor.
-			IRunnableWithProgress runnable = monitor -> {
+			IRunnableWithProgress runnable = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				// Get the external editors available
 				EditorRegistry reg = (EditorRegistry) WorkbenchPlugin.getDefault().getEditorRegistry();
 				externalEditors = reg.getSortedEditorsFromOS();
@@ -447,7 +447,7 @@ public class EditorSelectionDialog extends Dialog {
 	 * @param editors an array of editors to filter
 	 * @return a filtered array of editors
 	 */
-	protected IEditorDescriptor[] filterEditors(IEditorDescriptor[] editors) {
+	protected IEditorDescriptor[] filterEditors(IEditorDescriptor[] editors) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((editors == null) || (editors.length < 1)) {
 			return editors;
 		}
@@ -456,10 +456,10 @@ public class EditorSelectionDialog extends Dialog {
 			return editors;
 		}
 
-		List<IEditorDescriptor> filteredList = new ArrayList<>();
-		for (IEditorDescriptor editor : editors) {
+		List<IEditorDescriptor> filteredList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IEditorDescriptor editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean add = true;
-			for (IEditorDescriptor element : editorsToFilter) {
+			for (IEditorDescriptor element : editorsToFilter) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (editor.getId().equals(element.getId())) {
 					add = false;
 				}
@@ -496,7 +496,7 @@ public class EditorSelectionDialog extends Dialog {
 	/**
 	 * Opens the prompt to select an external editor.
 	 */
-	protected void promptForExternalEditor() {
+	protected void promptForExternalEditor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FileDialog dialog = new FileDialog(getShell(), SWT.OPEN | SWT.PRIMARY_MODAL | SWT.SHEET);
 		dialog.setFilterExtensions(Executable_Filters);
 		String result = dialog.open();
@@ -511,7 +511,7 @@ public class EditorSelectionDialog extends Dialog {
 			System.arraycopy(externalEditors, 0, newEditors, 0, externalEditors.length);
 			newEditors[newEditors.length - 1] = editor;
 			externalEditors = newEditors;
-			editorTableViewer.setInput(externalEditors);
+			editorTableViewer.setInput(externalEditors); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			editorTableViewer.setSelection(new StructuredSelection(editor), true);
 			editorTable.setFocus();
 			selectedEditor = editor;
@@ -548,7 +548,7 @@ public class EditorSelectionDialog extends Dialog {
 		String extension = getFileExtension(fileName);
 		Program program = Program.findProgram(extension);
 		if (program != null) {
-			for (IEditorDescriptor descriptor : getExternalEditors()) {
+			for (IEditorDescriptor descriptor : getExternalEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (descriptor instanceof EditorDescriptor
 						&& program.equals(((EditorDescriptor) descriptor).getProgram())) {
 					return descriptor;
@@ -563,7 +563,7 @@ public class EditorSelectionDialog extends Dialog {
 	 * last time this wizard was used to completion, if the previous file has same
 	 * extension.
 	 */
-	protected void restoreWidgetValues() {
+	protected void restoreWidgetValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings settings = getDialogSettings();
 		if (fileName == null || selectedEditor == null
 				|| getFileExtension(fileName).equals(settings.get(STORE_ID_FILE_EXTENSION))) {
@@ -578,7 +578,7 @@ public class EditorSelectionDialog extends Dialog {
 				} else {
 					editors = getInternalEditors();
 				}
-				for (IEditorDescriptor desc : editors) {
+				for (IEditorDescriptor desc : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (id.equals(desc.getId())) {
 						selectedEditor = desc;
 					}
@@ -591,7 +591,7 @@ public class EditorSelectionDialog extends Dialog {
 	 * Since Finish was pressed, write widget values to the dialog store so that
 	 * they will persist into the next invocation of this wizard page
 	 */
-	protected void saveWidgetValues() {
+	protected void saveWidgetValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings settings = getDialogSettings();
 		// record whether use was viewing internal or external editors
 		settings.put(STORE_ID_FILE_EXTENSION, getFileExtension(fileName));
@@ -610,13 +610,13 @@ public class EditorSelectionDialog extends Dialog {
 		// remember editor for given extension type
 		if (rememberTypeButton != null && rememberTypeButton.getSelection()) {
 			updateFileMappings(reg, false);
-			reg.setDefaultEditor("*." + getFileType(), selectedEditor); //$NON-NLS-1$
+			reg.setDefaultEditor("*." + getFileType(), selectedEditor); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			associateEditor = true;
 		}
 		if (associateEditor) {
 			// bug 468906: always re-set editor mappings: this is needed to
 			// rebuild internal editors map after setting the default editor
-			List<IFileEditorMapping> newMappings = new ArrayList<>();
+			List<IFileEditorMapping> newMappings = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			newMappings.addAll(Arrays.asList(reg.getFileEditorMappings()));
 			reg.setFileEditorMappings(newMappings.toArray(new FileEditorMapping[newMappings.size()]));
 			reg.saveAssociations();
@@ -626,11 +626,11 @@ public class EditorSelectionDialog extends Dialog {
 	/**
 	 * Make sure EditorRegistry has editor mapping for the file name/type
 	 */
-	private void updateFileMappings(EditorRegistry reg, boolean useFileName) {
+	private void updateFileMappings(EditorRegistry reg, boolean useFileName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFileEditorMapping[] mappings = reg.getFileEditorMappings();
 		boolean hasMapping = false;
 		String fileType = getFileType();
-		for (IFileEditorMapping mapping : mappings) {
+		for (IFileEditorMapping mapping : mappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (useFileName) {
 				if (fileName.equals(mapping.getLabel())) {
 					hasMapping = true;
@@ -650,7 +650,7 @@ public class EditorSelectionDialog extends Dialog {
 		} else {
 			mapping = new FileEditorMapping(null, fileType);
 		}
-		List<IFileEditorMapping> newMappings = new ArrayList<>();
+		List<IFileEditorMapping> newMappings = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		newMappings.addAll(Arrays.asList(mappings));
 		newMappings.add(mapping);
 		FileEditorMapping[] array = newMappings.toArray(new FileEditorMapping[newMappings.size()]);
@@ -722,7 +722,7 @@ public class EditorSelectionDialog extends Dialog {
 
 	private class DialogListener implements Listener {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void handleEvent(Event event) {
 			if (event.type == SWT.MouseDoubleClick) {
 				handleDoubleClickEvent();

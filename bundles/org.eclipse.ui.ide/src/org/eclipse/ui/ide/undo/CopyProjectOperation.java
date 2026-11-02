@@ -157,7 +157,7 @@ public class CopyProjectOperation extends AbstractCopyOrMoveResourcesOperation {
 			IResourceChangeDescriptionFactory factory, int operation) {
 		boolean update = false;
 		if (operation == UNDO) {
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				update = true;
 				factory.delete(resource);
 			}
@@ -172,7 +172,7 @@ public class CopyProjectOperation extends AbstractCopyOrMoveResourcesOperation {
 	 * This implementation computes the ability to delete the original copy and
 	 * restore any overwritten resources.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus computeUndoableStatus(IProgressMonitor monitor) {
 		IStatus status = super.computeUndoableStatus(monitor);
 		if (!status.isOK()) {
@@ -195,7 +195,7 @@ public class CopyProjectOperation extends AbstractCopyOrMoveResourcesOperation {
 	/*
 	 * Copy the specified project, returning the handle of the copy.
 	 */
-	IProject copyProject(IProject project, IPath destinationPath,
+	IProject copyProject(IProject project, IPath destinationPath, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			URI locationURI, IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName(UndoMessages.AbstractCopyOrMoveResourcesOperation_copyProjectProgress);
 

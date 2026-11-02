@@ -31,30 +31,30 @@ import org.eclipse.ui.PlatformUI;
  *              https://bugs.eclipse.org/bugs/show_bug.cgi?id=549953
  */
 /* package */interface INavigatorHelpContextIds {
-	public static final String PREFIX = PlatformUI.PLUGIN_ID + "."; //$NON-NLS-1$
+	public static final String PREFIX = PlatformUI.PLUGIN_ID + "."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// Actions
-	public static final String FILTER_SELECTION_ACTION = PREFIX + "filter_selection_action_context"; //$NON-NLS-1$
+	public static final String FILTER_SELECTION_ACTION = PREFIX + "filter_selection_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String GOTO_RESOURCE_ACTION = PREFIX + "goto_resource_action_context"; //$NON-NLS-1$
+	public static final String GOTO_RESOURCE_ACTION = PREFIX + "goto_resource_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String RESOURCE_NAVIGATOR_MOVE_ACTION = PREFIX + "resource_navigator_move_action_context"; //$NON-NLS-1$
+	public static final String RESOURCE_NAVIGATOR_MOVE_ACTION = PREFIX + "resource_navigator_move_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String RESOURCE_NAVIGATOR_RENAME_ACTION = PREFIX + "resource_navigator_rename_action_context"; //$NON-NLS-1$
+	public static final String RESOURCE_NAVIGATOR_RENAME_ACTION = PREFIX + "resource_navigator_rename_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String SHOW_IN_NAVIGATOR_ACTION = PREFIX + "show_in_navigator_action_context"; //$NON-NLS-1$
+	public static final String SHOW_IN_NAVIGATOR_ACTION = PREFIX + "show_in_navigator_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String SORT_VIEW_ACTION = PREFIX + "sort_view_action_context"; //$NON-NLS-1$
+	public static final String SORT_VIEW_ACTION = PREFIX + "sort_view_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String COPY_ACTION = PREFIX + "resource_navigator_copy_action_context"; //$NON-NLS-1$
+	public static final String COPY_ACTION = PREFIX + "resource_navigator_copy_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String PASTE_ACTION = PREFIX + "resource_navigator_paste_action_context"; //$NON-NLS-1$
+	public static final String PASTE_ACTION = PREFIX + "resource_navigator_paste_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String COLLAPSE_ALL_ACTION = PREFIX + "collapse_all_action_context"; //$NON-NLS-1$
+	public static final String COLLAPSE_ALL_ACTION = PREFIX + "collapse_all_action_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// Dialogs
-	public static final String GOTO_RESOURCE_DIALOG = PREFIX + "goto_resource_dialog_context"; //$NON-NLS-1$
+	public static final String GOTO_RESOURCE_DIALOG = PREFIX + "goto_resource_dialog_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// Views
-	public static final String RESOURCE_VIEW = PREFIX + "resource_view_context"; //$NON-NLS-1$
+	public static final String RESOURCE_VIEW = PREFIX + "resource_view_context"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 }

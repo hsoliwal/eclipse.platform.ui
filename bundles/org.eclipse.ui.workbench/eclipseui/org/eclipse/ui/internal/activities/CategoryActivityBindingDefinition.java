@@ -27,16 +27,16 @@ public final class CategoryActivityBindingDefinition {
 
 	private static final int HASH_INITIAL = CategoryActivityBindingDefinition.class.getName().hashCode();
 
-	static Map<String, Collection<CategoryActivityBindingDefinition>> categoryActivityBindingDefinitionsByCategoryId(
+	static Map<String, Collection<CategoryActivityBindingDefinition>> categoryActivityBindingDefinitionsByCategoryId( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<CategoryActivityBindingDefinition> categoryActivityBindingDefinitions) {
 		if (categoryActivityBindingDefinitions == null) {
 			throw new NullPointerException();
 		}
 
-		Map<String, Collection<CategoryActivityBindingDefinition>> map = new HashMap<>();
+		Map<String, Collection<CategoryActivityBindingDefinition>> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<CategoryActivityBindingDefinition> iterator = categoryActivityBindingDefinitions.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CategoryActivityBindingDefinition categoryActivityBindingDefinition = iterator.next();
 			String categoryId = categoryActivityBindingDefinition.getCategoryId();
 
@@ -44,7 +44,7 @@ public final class CategoryActivityBindingDefinition {
 				Collection<CategoryActivityBindingDefinition> categoryActivityBindingDefinitions2 = map.get(categoryId);
 
 				if (categoryActivityBindingDefinitions2 == null) {
-					categoryActivityBindingDefinitions2 = new HashSet<>();
+					categoryActivityBindingDefinitions2 = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					map.put(categoryId, categoryActivityBindingDefinitions2);
 				}
 
@@ -126,7 +126,7 @@ public final class CategoryActivityBindingDefinition {
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(activityId);
 			stringBuffer.append(',');

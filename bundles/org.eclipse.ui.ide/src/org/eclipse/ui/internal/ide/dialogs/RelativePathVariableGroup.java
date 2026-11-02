@@ -70,7 +70,7 @@ public class RelativePathVariableGroup {
 	/**
 	 * @return the control
 	 */
-	public Control createContents(Composite variableGroup) {
+	public Control createContents(Composite variableGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		shell = variableGroup.getShell();
 
 		variableCheckbox = new Button(variableGroup, SWT.CHECK);
@@ -78,7 +78,7 @@ public class RelativePathVariableGroup {
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		variableCheckbox.setFont(variableGroup.getFont());
 		variableCheckbox.setLayoutData(gridData);
-		variableCheckbox.addSelectionListener(new SelectionListener() {
+		variableCheckbox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				selectRelativeCombo();
@@ -106,7 +106,7 @@ public class RelativePathVariableGroup {
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING); // GridData.FILL_HORIZONTAL);
 		variableCombo.setLayoutData(gridData);
 		variableCombo.setFont(variableGroup.getFont());
-		variableCombo.addSelectionListener(new SelectionListener() {
+		variableCombo.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if (variableCombo.getSelectionIndex() == (variableCombo.getItemCount() -1)) {
@@ -129,7 +129,7 @@ public class RelativePathVariableGroup {
 		return variableGroup;
 	}
 
-	public void setupVariableContent() {
+	public void setupVariableContent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPathVariableManager pathVariableManager;
 		if (content.getResource() != null) {
 			pathVariableManager = content.getResource().getPathVariableManager();
@@ -137,8 +137,8 @@ public class RelativePathVariableGroup {
 			pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
 		}
 
-		ArrayList<String> items = new ArrayList<>();
-		for (String variableName : pathVariableManager.getPathVariableNames()) {
+		ArrayList<String> items = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String variableName : pathVariableManager.getPathVariableNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (variableName.equals("PARENT")) { //$NON-NLS-1$
 				continue;
 			}
@@ -176,7 +176,7 @@ public class RelativePathVariableGroup {
 
 	public void selectVariable(String var) {
 		String[] items = variableCombo.getItems();
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (var.equals(items[i])) {
 				variableCombo.select(i);
 				content.setVariable(items[i]);
@@ -229,10 +229,10 @@ public class RelativePathVariableGroup {
 	 * 		The target container onto which the items were dropped
 	 * @return the most appropriate path variable given the context
 	 */
-	public static String getPreferredVariable(IPath[] paths,
+	public static String getPreferredVariable(IPath[] paths, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IContainer target) {
 		IPath commonRoot = null;
-		for (IPath path : paths) {
+		for (IPath path : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (path != null) {
 				if (commonRoot == null) {
 					commonRoot = path;
@@ -253,7 +253,7 @@ public class RelativePathVariableGroup {
 		int mostAppropriateCountToParent = Integer.MAX_VALUE;
 		IPathVariableManager pathVariableManager = target.getPathVariableManager();
 
-		for (String variableName : pathVariableManager.getPathVariableNames()) {
+		for (String variableName : pathVariableManager.getPathVariableNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isPreferred(variableName)) {
 				URI rawValue = pathVariableManager.getURIValue(variableName);
 				URI value = pathVariableManager.resolveURI(rawValue);
@@ -308,7 +308,7 @@ public class RelativePathVariableGroup {
 	public static String getPreferredVariable(IResource[] sources,
 			IContainer target) {
 		IPath[] paths = new IPath[sources.length];
-		for (int i = 0; i < sources.length; i++) {
+		for (int i = 0; i < sources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paths[i] = sources[i].getLocation();
 		}
 		return getPreferredVariable(paths, target);
@@ -325,7 +325,7 @@ public class RelativePathVariableGroup {
 	public static String getPreferredVariable(String[] names,
 			IContainer target) {
 		IPath[] paths = new IPath[names.length];
-		for (int i = 0; i < names.length; i++) {
+		for (int i = 0; i < names.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			paths[i] = IPath.fromOSString(names[i]);
 		}
 		return getPreferredVariable(paths, target);

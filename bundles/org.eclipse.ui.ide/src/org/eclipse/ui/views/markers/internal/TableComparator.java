@@ -56,7 +56,7 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 		directions = other.getDirections();
 	}
 
-	public TableComparator(IField[] properties, final int[] defaultPriorities,
+	public TableComparator(IField[] properties, final int[] defaultPriorities, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int[] defaultDirections) {
 		super();
 		this.fields = properties;
@@ -91,12 +91,12 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 	 */
 	static TableComparator createTableSorter(IField[] sortingFields) {
 		int[] defaultPriorities = new int[sortingFields.length];
-		for (int i = 0; i < defaultPriorities.length; i++) {
+		for (int i = 0; i < defaultPriorities.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			defaultPriorities[i] = i;
 		}
 
 		int[] directions = new int[sortingFields.length];
-		for (int i = 0; i < directions.length; i++) {
+		for (int i = 0; i < directions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			directions[i] = sortingFields[i].getDefaultDirection();
 
 		}
@@ -118,7 +118,7 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 	}
 
 	public void setTopPriority(IField property) {
-		for (int i = 0; i < fields.length; i++) {
+		for (int i = 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fields[i].equals(property)) {
 				setTopPriority(i);
 				return;
@@ -126,13 +126,13 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 		}
 	}
 
-	public void setTopPriority(int priority) {
+	public void setTopPriority(int priority) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (priority < 0 || priority >= priorities.length) {
 			return;
 		}
 
 		int index = -1;
-		for (int i = 0; i < priorities.length; i++) {
+		for (int i = 0; i < priorities.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (priorities[i] == priority) {
 				index = i;
 			}
@@ -144,7 +144,7 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 		}
 
 		// shift the array
-		for (int i = index; i > 0; i--) {
+		for (int i = index; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			priorities[i] = priorities[i - 1];
 		}
 		priorities[0] = priority;
@@ -235,7 +235,7 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 		int length = priorities.length;
 		boolean[] included = new boolean[length];
 		Arrays.fill(included, false);
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int priority = priorities[i];
 			if (priority < 0 || priority >= length) {
 				return false;
@@ -249,7 +249,7 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 	}
 
 	private static boolean verifyDirections(int[] directions) {
-		for (int direction : directions) {
+		for (int direction : directions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (direction != ASCENDING && direction != DESCENDING) {
 				return false;
 			}
@@ -262,7 +262,7 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 		return compare(null, o1, o2);
 	}
 
-	public void saveState(IDialogSettings dialogSettings) {
+	public void saveState(IDialogSettings dialogSettings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (dialogSettings == null) {
 			return;
 		}
@@ -273,15 +273,15 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 			settings = dialogSettings.addNewSection(TAG_DIALOG_SECTION);
 		}
 
-		for (int i = 0; i < priorities.length; i++) {
-			settings.put(TAG_PRIORITY + i, priorities[i]);
-			settings.put(TAG_DIRECTION + i, directions[i]);
-			settings.put(TAG_DEFAULT_PRIORITY + i, defaultPriorities[i]);
-			settings.put(TAG_DEFAULT_DIRECTION + i, defaultDirections[i]);
+		for (int i = 0; i < priorities.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			settings.put(TAG_PRIORITY + i, priorities[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			settings.put(TAG_DIRECTION + i, directions[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			settings.put(TAG_DEFAULT_PRIORITY + i, defaultPriorities[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			settings.put(TAG_DEFAULT_DIRECTION + i, defaultDirections[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	public void restoreState(IDialogSettings dialogSettings) {
+	public void restoreState(IDialogSettings dialogSettings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (dialogSettings == null) {
 			resetState();
 			return;
@@ -295,8 +295,8 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 		}
 
 		try {
-			for (int i = 0; i < priorities.length; i++) {
-				String priority = settings.get(TAG_PRIORITY + i);
+			for (int i = 0; i < priorities.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String priority = settings.get(TAG_PRIORITY + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (priority == null) {
 					resetState();
 					return;
@@ -309,19 +309,19 @@ public class TableComparator extends ViewerComparator implements Comparator<Tabl
 					priorities[i] = fieldIndex;
 				}
 
-				String direction = settings.get(TAG_DIRECTION + i);
+				String direction = settings.get(TAG_DIRECTION + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (direction == null) {
 					resetState();
 					return;
 				}
 				directions[i] = Integer.parseInt(direction);
-				String defaultPriority = settings.get(TAG_DEFAULT_PRIORITY + i);
+				String defaultPriority = settings.get(TAG_DEFAULT_PRIORITY + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (defaultPriority == null) {
 					resetState();
 					return;
 				}
 				defaultPriorities[i] = Integer.parseInt(defaultPriority);
-				String defaultDirection = settings.get(TAG_DEFAULT_DIRECTION
+				String defaultDirection = settings.get(TAG_DEFAULT_DIRECTION //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ i);
 				if (defaultDirection == null) {
 					resetState();

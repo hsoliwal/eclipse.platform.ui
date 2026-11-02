@@ -73,7 +73,7 @@ public abstract class AbstractMultiEditor extends EditorPart {
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		for (IEditorPart e : innerEditors) {
+		for (IEditorPart e : innerEditors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			e.doSave(monitor);
 		}
 	}
@@ -114,7 +114,7 @@ public abstract class AbstractMultiEditor extends EditorPart {
 	 */
 	@Override
 	public boolean isDirty() {
-		for (IEditorPart e : innerEditors) {
+		for (IEditorPart e : innerEditors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (e.isDirty()) {
 				return true;
 			}
@@ -168,8 +168,8 @@ public abstract class AbstractMultiEditor extends EditorPart {
 		innerEditors = children;
 		activeEditorIndex = 0;
 
-		for (IEditorPart child : children) {
-			child.addPropertyListener((source, propId) -> handlePropertyChange(propId));
+		for (IEditorPart child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			child.addPropertyListener((source, propId) -> handlePropertyChange(propId)); //FLLDCIM: MARK — T06  LAMBDA
 		}
 
 		innerEditorsCreated();
@@ -201,7 +201,7 @@ public abstract class AbstractMultiEditor extends EditorPart {
 	 * @since 3.0
 	 */
 	protected int getIndex(IEditorPart editor) {
-		for (int i = 0; i < innerEditors.length; i++) {
+		for (int i = 0; i < innerEditors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (innerEditors[i] == editor) {
 				return i;
 			}
@@ -214,8 +214,8 @@ public abstract class AbstractMultiEditor extends EditorPart {
 	 *
 	 * @since 3.2
 	 */
-	private void setupEvents() {
-		propagationListener = new IPartListener2() {
+	private void setupEvents() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		propagationListener = new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 			}

@@ -64,7 +64,7 @@ public class ResourceFactory implements IElementFactory, IPersistableElement {
 	/**
 	 * @see IElementFactory
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAdaptable createElement(IMemento memento) {
 		// Get the file name.
 		String fileName = memento.getString(TAG_PATH);

@@ -249,7 +249,7 @@ public final class LegacyResourceSupport {
 		return c;
 	}
 
-	private static Class<?> loadClass(String bundleName, String className) {
+	private static Class<?> loadClass(String bundleName, String className) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!resourceAdapterPossible) {
 			// tried before and failed
 			return null;
@@ -303,7 +303,7 @@ public final class LegacyResourceSupport {
 		return c;
 	}
 
-	private static Object getDefaultContributorResourceAdapter() {
+	private static Object getDefaultContributorResourceAdapter() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (defaultContributorResourceAdapter != null) {
 			return defaultContributorResourceAdapter;
 		}
@@ -337,7 +337,7 @@ public final class LegacyResourceSupport {
 	 * @since 3.1
 	 */
 	public static boolean isResourceType(String objectClassName) {
-		for (String resourceClassName : resourceClassNames) {
+		for (String resourceClassName : resourceClassNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resourceClassName.equals(objectClassName)) {
 				return true;
 			}
@@ -375,7 +375,7 @@ public final class LegacyResourceSupport {
 			return true;
 		}
 		Class<?>[] interfaces = clazz.getInterfaces();
-		for (Class<?> currentInterface : interfaces) {
+		for (Class<?> currentInterface : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isInstanceOf(currentInterface, type)) {
 				return true;
 			}
@@ -395,7 +395,7 @@ public final class LegacyResourceSupport {
 	 *
 	 * @since 3.1
 	 */
-	public static Object getAdaptedContributorResource(Object object) {
+	public static Object getAdaptedContributorResource(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?> resourceClass = LegacyResourceSupport.getResourceClass();
 		if (resourceClass == null) {
 			return null;
@@ -432,7 +432,7 @@ public final class LegacyResourceSupport {
 		return null;
 	}
 
-	private static Method getContributorResourceAdapterGetAdaptedResourceMethod() {
+	private static Method getContributorResourceAdapterGetAdaptedResourceMethod() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getAdaptedResourceMethod != null) {
 			return getAdaptedResourceMethod;
 		}
@@ -451,7 +451,7 @@ public final class LegacyResourceSupport {
 		return null;
 	}
 
-	private static Method getContributorResourceAdapter2GetAdaptedResourceMappingMethod() {
+	private static Method getContributorResourceAdapter2GetAdaptedResourceMappingMethod() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getAdaptedResourceMappingMethod != null) {
 			return getAdaptedResourceMappingMethod;
 		}
@@ -483,7 +483,7 @@ public final class LegacyResourceSupport {
 	 *
 	 * @since 3.1
 	 */
-	public static Object getAdaptedContributorResourceMapping(Object object) {
+	public static Object getAdaptedContributorResourceMapping(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?> resourceMappingClass = LegacyResourceSupport.getResourceMappingClass();
 		if (resourceMappingClass == null) {
 			return null;
@@ -566,8 +566,8 @@ public final class LegacyResourceSupport {
 	 * @since 3.1
 	 */
 	public static IStructuredSelection adaptSelection(IStructuredSelection selection, String objectClass) {
-		List<Object> newSelection = new ArrayList<>(10);
-		for (Object element : selection) {
+		List<Object> newSelection = new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object adaptedElement = getAdapter(element, objectClass);
 			if (adaptedElement != null) {
 				newSelection.add(adaptedElement);
@@ -593,7 +593,7 @@ public final class LegacyResourceSupport {
 	 *
 	 * @since 3.1
 	 */
-	public static Object getAdapter(Object element, String objectClass) {
+	public static Object getAdapter(Object element, String objectClass) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object adaptedElement = null;
 		if (isInstanceOf(element.getClass(), objectClass)) {
 			adaptedElement = element;

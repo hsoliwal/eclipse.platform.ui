@@ -24,7 +24,7 @@ import org.eclipse.ui.internal.dialogs.cpd.CustomizePerspectiveDialog.ActionSet;
  *
  * @since 3.5
  */
-final class ActionSetSelectionChangedListener implements ISelectionChangedListener {
+final class ActionSetSelectionChangedListener implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 	private final TreeViewer filterViewer;
 	private final ActionSetFilter filter;
 
@@ -37,7 +37,7 @@ final class ActionSetSelectionChangedListener implements ISelectionChangedListen
 	public void selectionChanged(SelectionChangedEvent event) {
 		Object element = event.getStructuredSelection().getFirstElement();
 		filter.setActionSet((ActionSet) element);
-		filterViewer.refresh();
+		filterViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		filterViewer.expandAll();
 	}
 }

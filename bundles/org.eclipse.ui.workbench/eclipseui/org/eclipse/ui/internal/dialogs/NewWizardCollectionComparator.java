@@ -42,7 +42,7 @@ class NewWizardCollectionComparator extends ViewerComparator {
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int category(Object element) {
 		if (element instanceof WorkbenchWizardElement) {
 			return -1;

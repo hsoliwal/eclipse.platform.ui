@@ -104,9 +104,9 @@ public class PerspectiveExtensionReader extends RegistryReader {
 	/**
 	 * Process an extension. Assumption: Extension is for current perspective.
 	 */
-	private boolean processExtension(IConfigurationElement element) {
+	private boolean processExtension(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] attributes = element.getAttributeNames();
-		for (String attribute : attributes) {
+		for (String attribute : attributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!attribute.equals(IWorkbenchRegistryConstants.ATT_TARGET_ID) && includeTag(attribute)) {
 				boolean result = false;
 				switch (attribute) {
@@ -124,14 +124,14 @@ public class PerspectiveExtensionReader extends RegistryReader {
 					break;
 				}
 				if (!result) {
-					ILog.of(getClass()).error("Unable to process attribute: " + //$NON-NLS-1$
+					ILog.of(getClass()).error("Unable to process attribute: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							attribute + " in perspective extension: " + //$NON-NLS-1$
 							element.getDeclaringExtension().getUniqueIdentifier());
 				}
 			}
 		}
 		IConfigurationElement[] children = element.getChildren();
-		for (IConfigurationElement child : children) {
+		for (IConfigurationElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String type = child.getName();
 			if (includeTag(type)) {
 				boolean result = false;
@@ -167,7 +167,7 @@ public class PerspectiveExtensionReader extends RegistryReader {
 					break;
 				}
 				if (!result) {
-					ILog.of(getClass()).error("Unable to process element: " + //$NON-NLS-1$
+					ILog.of(getClass()).error("Unable to process element: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							type + " in perspective extension: " + //$NON-NLS-1$
 							element.getDeclaringExtension().getUniqueIdentifier());
 				}
@@ -224,7 +224,7 @@ public class PerspectiveExtensionReader extends RegistryReader {
 	/**
 	 * Process a view
 	 */
-	private boolean processView(IConfigurationElement element) {
+	private boolean processView(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get id, relative, and relationship.
 		String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 		String relative = element.getAttribute(IWorkbenchRegistryConstants.ATT_RELATIVE);
@@ -251,7 +251,7 @@ public class PerspectiveExtensionReader extends RegistryReader {
 			return false;
 		}
 		if (relative == null) {
-			logError(element, "Attribute '" + IWorkbenchRegistryConstants.ATT_RELATIVE //$NON-NLS-1$
+			logError(element, "Attribute '" + IWorkbenchRegistryConstants.ATT_RELATIVE //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ "' not defined.  This attribute is required when " //$NON-NLS-1$
 					+ IWorkbenchRegistryConstants.ATT_RELATIONSHIP + "=\"" + relationship + "\"."); //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
@@ -432,7 +432,7 @@ public class PerspectiveExtensionReader extends RegistryReader {
 	 * @param tags the tags to include
 	 */
 	public void setIncludeOnlyTags(String[] tags) {
-		includeOnlyTags = new HashSet<>();
+		includeOnlyTags = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		includeOnlyTags.addAll(Arrays.asList(tags));
 	}
 }

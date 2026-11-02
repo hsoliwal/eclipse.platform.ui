@@ -89,14 +89,14 @@ public class MarkerHelpRegistryReader extends IDERegistryReader {
 	/**
 	 * Processes a help configuration element.
 	 */
-	private void readHelpElement(IConfigurationElement element) {
+	private void readHelpElement(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// read type and match children flag
 		String type = element.getAttribute(ATT_TYPE);
 		boolean matchChildren = Boolean.parseBoolean(element.getAttribute(ATT_MATCH_CHILDREN));
 
 		// read attributes and values
-		currentAttributeNames = new ArrayList<>();
-		currentAttributeValues = new ArrayList<>();
+		currentAttributeNames = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		currentAttributeValues = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		readElementChildren(element);
 		String[] attributeNames = currentAttributeNames
 				.toArray(new String[currentAttributeNames.size()]);
@@ -112,13 +112,13 @@ public class MarkerHelpRegistryReader extends IDERegistryReader {
 	/**
 	 * Processes a resolution configuration element.
 	 */
-	private void readResolutionElement(IConfigurationElement element) {
+	private void readResolutionElement(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// read type
 		String type = element.getAttribute(ATT_TYPE);
 
 		// read attributes and values
-		currentAttributeNames = new ArrayList<>();
-		currentAttributeValues = new ArrayList<>();
+		currentAttributeNames = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		currentAttributeValues = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		readElementChildren(element);
 		String[] attributeNames = currentAttributeNames
 				.toArray(new String[currentAttributeNames.size()]);

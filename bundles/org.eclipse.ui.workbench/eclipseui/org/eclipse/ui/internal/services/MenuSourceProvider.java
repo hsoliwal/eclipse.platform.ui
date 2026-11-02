@@ -49,7 +49,7 @@ public final class MenuSourceProvider extends AbstractSourceProvider {
 	 * The menu ids that are currently showing, as known by this source provider.
 	 * This value may be <code>null</code>.
 	 */
-	private final Set menuIds = new HashSet();
+	private final Set menuIds = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Adds all of the given menu identifiers as being shown.
@@ -57,12 +57,12 @@ public final class MenuSourceProvider extends AbstractSourceProvider {
 	 * @param menuIds The ids of the menu that is now showing; must not be
 	 *                <code>null</code>.
 	 */
-	public void addShowingMenus(final Set menuIds, final ISelection localSelection, final ISelection localEditorInput) {
+	public void addShowingMenus(final Set menuIds, final ISelection localSelection, final ISelection localEditorInput) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.menuIds.addAll(menuIds);
 		if (DEBUG) {
-			logDebuggingInfo("Menu ids changed to " + this.menuIds); //$NON-NLS-1$
+			logDebuggingInfo("Menu ids changed to " + this.menuIds); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		Map m = new HashMap();
+		Map m = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		m.put(ISources.ACTIVE_MENU_NAME, this.menuIds);
 		if (selection != localSelection) {
 			selection = localSelection;
@@ -87,7 +87,7 @@ public final class MenuSourceProvider extends AbstractSourceProvider {
 
 	@Override
 	public Map getCurrentState() {
-		final Map state = new HashMap();
+		final Map state = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		state.put(ISources.ACTIVE_MENU_NAME, menuIds);
 		state.put(ISources.ACTIVE_MENU_SELECTION_NAME,
 				selection == null ? IEvaluationContext.UNDEFINED_VARIABLE : selection);
@@ -107,13 +107,13 @@ public final class MenuSourceProvider extends AbstractSourceProvider {
 	 * @param menuIds The ids of the menu that is no longer shown; must not be
 	 *                <code>null</code>.
 	 */
-	public void removeShowingMenus(final Set menuIds, final ISelection localSelection,
+	public void removeShowingMenus(final Set menuIds, final ISelection localSelection, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ISelection localEditorInput) {
 		this.menuIds.removeAll(menuIds);
 		if (DEBUG) {
-			logDebuggingInfo("Menu ids changed to " + this.menuIds); //$NON-NLS-1$
+			logDebuggingInfo("Menu ids changed to " + this.menuIds); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		Map m = new HashMap();
+		Map m = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		m.put(ISources.ACTIVE_MENU_NAME, this.menuIds);
 		if (selection != localSelection) {
 			selection = localSelection;

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/bin/ninja",
+    "-C",
+    "/tmp/eclipse-m3-20261018/toolchain/xvfb-source/build",
+    "-j4",
+    "hw/vfb/Xvfb"
+  ],
+  "exit_code": 0,
+  "seconds": 52.717778600999736,
+  "source_package": "xorg-server2:21.1.12-1ubuntu1.8",
+  "declared_meson_project": {
+    "version": "21.1.11",
+    "descriptive_name": "xserver",
+    "subproject_dir": "subprojects",
+    "subprojects": []
+  },
+  "binary": "/tmp/eclipse-m3-20261018/toolchain/xvfb-source/build/hw/vfb/Xvfb",
+  "bytes": 2017400,
+  "sha256": "51f61b4e406918b7c3fe5d2da4b3591b1ceee9dbc08bd60509db84368539efab"
+}

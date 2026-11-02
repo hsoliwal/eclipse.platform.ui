@@ -63,7 +63,7 @@ public abstract class AbstractColumnLayout extends Layout {
 	 * Key used to restore the layout data in the columns data-slot
 	 * @since 3.5
 	 */
-	protected static final String LAYOUT_DATA = Policy.JFACE + ".LAYOUT_DATA"; //$NON-NLS-1$
+	protected static final String LAYOUT_DATA = Policy.JFACE + ".LAYOUT_DATA"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private boolean inupdateMode = false;
 
@@ -107,7 +107,7 @@ public abstract class AbstractColumnLayout extends Layout {
 	public void setColumnData(Widget column, ColumnLayoutData data) {
 
 		if (column.getData(LAYOUT_DATA) == null) {
-			column.addListener(SWT.Resize, resizeListener);
+			column.addListener(SWT.Resize, resizeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 
 		column.setData(LAYOUT_DATA, data);
@@ -125,7 +125,7 @@ public abstract class AbstractColumnLayout extends Layout {
 	 *            the height hint
 	 * @return Point where x is the width and y is the height
 	 */
-	private Point computeTableTreeSize(Scrollable scrollable, int wHint,
+	private Point computeTableTreeSize(Scrollable scrollable, int wHint, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int hHint) {
 		Point result = scrollable.computeSize(wHint, hHint);
 
@@ -134,7 +134,7 @@ public abstract class AbstractColumnLayout extends Layout {
 			width += scrollable.getVerticalBar().getSize().x;
 		}
 		int size = getColumnCount(scrollable);
-		for (int i = 0; i < size; ++i) {
+		for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ColumnLayoutData layoutData = getLayoutData(scrollable, i);
 			if (layoutData instanceof ColumnPixelData col) {
 				width += col.width;
@@ -156,7 +156,7 @@ public abstract class AbstractColumnLayout extends Layout {
 	 * Layout the scrollable based on the supplied width and area. Only increase
 	 * the size of the scrollable if increase is <code>true</code>.
 	 */
-	private void layoutTableTree(final Scrollable scrollable, final int width,
+	private void layoutTableTree(final Scrollable scrollable, final int width, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Rectangle area, final boolean increase) {
 		final int numberOfColumns = getColumnCount(scrollable);
 		final int[] widths = new int[numberOfColumns];
@@ -168,7 +168,7 @@ public abstract class AbstractColumnLayout extends Layout {
 		int totalWeight = 0;
 
 		// First calc space occupied by fixed columns
-		for (int i = 0; i < numberOfColumns; i++) {
+		for (int i = 0; i < numberOfColumns; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ColumnLayoutData col = getLayoutData(scrollable, i);
 			if (col instanceof ColumnPixelData cpd) {
 				int pixels = cpd.width;
@@ -193,9 +193,9 @@ public abstract class AbstractColumnLayout extends Layout {
 		}
 
 		boolean recalculate;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			recalculate = false;
-			for (int i = 0; i < numberOfWeightColumns; i++) {
+			for (int i = 0; i < numberOfWeightColumns; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int colIndex = weightColumnIndices[i];
 				ColumnWeightData cw = (ColumnWeightData) getLayoutData(
 						scrollable, colIndex);
@@ -241,7 +241,7 @@ public abstract class AbstractColumnLayout extends Layout {
 		return computeTableTreeSize(getControl(composite), wHint, hHint);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void layout(Composite composite, boolean flushCache) {
 		Rectangle area = composite.getClientArea();
 		Scrollable table = getControl(composite);

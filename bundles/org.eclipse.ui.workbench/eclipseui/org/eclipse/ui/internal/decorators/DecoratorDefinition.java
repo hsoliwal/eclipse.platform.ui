@@ -214,7 +214,7 @@ public abstract class DecoratorDefinition implements IPluginContribution {
 			// Internal decorator might be null so be prepared
 			IBaseLabelProvider currentDecorator = internalGetLabelProvider();
 			if (currentDecorator != null) {
-				currentDecorator.addListener(listener);
+				currentDecorator.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			}
 		} catch (CoreException exception) {
 			handleCoreException(exception);

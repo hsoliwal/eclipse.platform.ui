@@ -50,7 +50,7 @@ public class SubdirectoryOrSameNameSchedulingRule implements ISchedulingRule {
 		if (rule == this || rule instanceof IResource) {
 			return true;
 		} else if (rule instanceof MultiRule) {
-			for (ISchedulingRule child : ((MultiRule)rule).getChildren()) {
+			for (ISchedulingRule child : ((MultiRule)rule).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (this.contains(child)) {
 					return true;
 				}
@@ -67,7 +67,7 @@ public class SubdirectoryOrSameNameSchedulingRule implements ISchedulingRule {
 		} else if (rule instanceof IResource) {
 			return true;
 		}  else if (rule instanceof MultiRule) {
-			for (ISchedulingRule child : ((MultiRule)rule).getChildren()) {
+			for (ISchedulingRule child : ((MultiRule)rule).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (this.isConflicting(child)) {
 					return true;
 				}

@@ -41,7 +41,7 @@ public class TarFile implements AutoCloseable {
 	/**
 	 * Create a new TarFile for the given file.
 	 */
-	public TarFile(File file) throws TarException, IOException {
+	public TarFile(File file) throws TarException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.file = file;
 
 		InputStream in = new FileInputStream(file);
@@ -96,7 +96,7 @@ public class TarFile implements AutoCloseable {
 	 *
 	 * @return enumeration of all files in the archive
 	 */
-	public Enumeration<TarEntry> entries() {
+	public Enumeration<TarEntry> entries() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new Enumeration<>() {
 			@Override
 			public boolean hasMoreElements() {
@@ -121,7 +121,7 @@ public class TarFile implements AutoCloseable {
 	 *
 	 * @return an input stream for the given file
 	 */
-	public InputStream getInputStream(TarEntry entry) throws TarException, IOException {
+	public InputStream getInputStream(TarEntry entry) throws TarException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(entryStream == null || !entryStream.skipToEntry(entry)) {
 			if (internalEntryStream != null) {
 				internalEntryStream.close();

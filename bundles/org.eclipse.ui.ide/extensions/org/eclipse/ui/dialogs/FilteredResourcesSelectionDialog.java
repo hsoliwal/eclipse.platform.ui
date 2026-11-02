@@ -179,7 +179,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 	 *                  resource type bit masks defined in
 	 *                  {@link IResource#getType()}
 	 */
-	public FilteredResourcesSelectionDialog(Shell shell, boolean multi, IContainer container, int typesMask) {
+	public FilteredResourcesSelectionDialog(Shell shell, boolean multi, IContainer container, int typesMask) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(shell, multi);
 
 		setSelectionHistory(new ResourceSelectionHistory());
@@ -249,7 +249,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		if (text == null || text.isEmpty()) {
 			getShell().setText(title);
 		} else {
-			getShell().setText(title + " - " + text); //$NON-NLS-1$
+			getShell().setText(title + " - " + text); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -267,7 +267,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		return settings;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void storeDialog(IDialogSettings settings) {
 		super.storeDialog(settings);
 
@@ -288,7 +288,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void restoreDialog(IDialogSettings settings) {
 		super.restoreDialog(settings);
 
@@ -318,7 +318,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		applyFilter();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void fillViewMenu(IMenuManager menuManager) {
 		super.fillViewMenu(menuManager);
 
@@ -327,7 +327,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		this.groupResourcesByLocationAction = new GroupResourcesByLocationAction();
 		menuManager.add(this.groupResourcesByLocationAction);
 
-		workingSetFilterActionGroup = new WorkingSetFilterActionGroup(getShell(), event -> {
+		workingSetFilterActionGroup = new WorkingSetFilterActionGroup(getShell(), event -> { //FLLDCIM: MARK — T06  LAMBDA
 			String property = event.getProperty();
 
 			if (WorkingSetFilterActionGroup.CHANGE_WORKING_SET.equals(property)) {
@@ -374,9 +374,9 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			return null;
 		}
 
-		List<Object> resultToReturn = new ArrayList<>();
+		List<Object> resultToReturn = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object element : result) {
+		for (Object element : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource) {
 				resultToReturn.add((element));
 			}
@@ -385,7 +385,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		return resultToReturn.toArray();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int open() {
 		if (getInitialPattern() == null) {
 			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -437,7 +437,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		super.applyFilter();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Comparator<IResource> getItemsComparator() {
 		final String pattern;
 		if (latestFilter != null) {
@@ -517,7 +517,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			// Don't compare file names again, so subtract 1
 			int c12 = p1.segmentCount() - 1;
 			int c22 = p2.segmentCount() - 1;
-			for (int i = 0; i < c12 && i < c22; i++) {
+			for (int i = 0; i < c12 && i < c22; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				comparability = collator.compare(p1.segment(i), p2.segment(i));
 				if (comparability != 0) {
 					return comparability;
@@ -535,7 +535,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 	 *         no such character found.
 	 */
 	private char getFirstFileNameChar(String pattern) {
-		for (int i = 0; i < pattern.length(); i++) {
+		for (int i = 0; i < pattern.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch = pattern.charAt(i);
 			if (ch != '*') {
 				return ch;
@@ -557,7 +557,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 	 * @return the "distance" of the passed in IResource from the search container
 	 * @since 3.6
 	 */
-	private int pathDistance(IContainer item) {
+	private int pathDistance(IContainer item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Container search path: e.g. /a/b/c
 		IPath containerPath = searchContainer.getFullPath();
 		// itemPath: distance:
@@ -586,7 +586,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		return Integer.MAX_VALUE / 4 + containerSegmentCount - matching;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void fillContentProvider(AbstractContentProvider contentProvider, ItemsFilter itemsFilter,
 			IProgressMonitor progressMonitor) throws CoreException {
 		if (itemsFilter instanceof ResourceFilter) {
@@ -598,7 +598,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 					progressMonitor);
 
 			if (visitor.visit(container.createProxy())) {
-				for (IResource member : members) {
+				for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (member.isAccessible()) {
 						member.accept(visitor, IResource.NONE);
 					}
@@ -666,7 +666,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 	 * resource full path for duplicates. It uses the Platform UI label decorator
 	 * for providing extra resource info.
 	 */
-	private class ResourceItemLabelProvider extends LabelProvider
+	private class ResourceItemLabelProvider extends LabelProvider //FLLDCIM: MARK — T24  IMPLEMENTS
 			implements ILabelProviderListener, IStyledLabelProvider {
 
 		// Need to keep our own list of listeners
@@ -679,7 +679,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		 */
 		public ResourceItemLabelProvider() {
 			super();
-			provider.addListener(this);
+			provider.addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 
 		@Override
@@ -697,7 +697,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 				return super.getText(element);
 			}
 
-			StringBuilder str = new StringBuilder(res.getName());
+			StringBuilder str = new StringBuilder(res.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (!parentIsRoot(res)) {
 				str.append(" - "); //$NON-NLS-1$
 				str.append(res.getParent().getFullPath().makeRelative().toString());
@@ -706,7 +706,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			return str.toString();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public StyledString getStyledText(Object element) {
 			if (!(element instanceof IResource resource)) {
 				return new StyledString(super.getText(element));
@@ -744,7 +744,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			return str;
 		}
 
-		private StyledString styleResourceExtensionMatch(IResource resource, String matchingString, Styler styler) {
+		private StyledString styleResourceExtensionMatch(IResource resource, String matchingString, Styler styler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			StyledString str = new StyledString(resource.getName());
 			String resourceExtension = resource.getFileExtension();
 			if (resourceExtension == null) {
@@ -755,17 +755,17 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 				return str;
 			}
 
-			resourceExtension = '.' + resourceExtension;
+			resourceExtension = '.' + resourceExtension; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int resourceExtensionIndex = resource.getName().length() - resourceExtension.length();
 			String matchingExtension = matchingString.substring(matchingExtensionIndex, matchingString.length());
-			for (Position markPosition : getMatchPositions(resourceExtension, matchingExtension)) {
+			for (Position markPosition : getMatchPositions(resourceExtension, matchingExtension)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				str.setStyle(resourceExtensionIndex + markPosition.offset, markPosition.length, styler);
 			}
 			return str;
 		}
 
-		private List<Position> getMatchPositions(String string, String matching) {
-			List<Position> positions = new ArrayList<>();
+		private List<Position> getMatchPositions(String string, String matching) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			List<Position> positions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (matching.isEmpty() || string.isEmpty()) {
 				return positions;
 			}
@@ -791,7 +791,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			// Try to match string parts against the pattern regions firstly
 			int currentIndex = 0;
 			boolean regionsDontMatch = false;
-			for (String region : regions) {
+			for (String region : regions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (region.isEmpty()) {
 					continue;
 				}
@@ -839,8 +839,8 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		@Override
 		public void labelProviderChanged(LabelProviderChangedEvent event) {
 			Object[] l = listeners.getListeners();
-			for (int i = 0; i < listeners.size(); i++) {
-				((ILabelProviderListener) l[i]).labelProviderChanged(event);
+			for (int i = 0; i < listeners.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				((ILabelProviderListener) l[i]).labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			}
 		}
 
@@ -849,7 +849,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 	/**
 	 * A label provider for details of ResourceItem objects.
 	 */
-	private class ResourceItemDetailsLabelProvider extends ResourceItemLabelProvider {
+	private class ResourceItemDetailsLabelProvider extends ResourceItemLabelProvider { //FLLDCIM: MARK — T24  IMPLEMENTS
 		@Override
 		public Image getImage(Object element) {
 			if (!(element instanceof final IResource resource)) {
@@ -883,8 +883,8 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		@Override
 		public void labelProviderChanged(LabelProviderChangedEvent event) {
 			Object[] l = super.listeners.getListeners();
-			for (int i = 0; i < super.listeners.size(); i++) {
-				((ILabelProviderListener) l[i]).labelProviderChanged(event);
+			for (int i = 0; i < super.listeners.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				((ILabelProviderListener) l[i]).labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			}
 		}
 	}
@@ -892,7 +892,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 	/**
 	 * Viewer filter which filters resources due to current working set
 	 */
-	private static class CustomWorkingSetFilter extends ViewerFilter {
+	private static class CustomWorkingSetFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 		private final ResourceWorkingSetFilter resourceWorkingSetFilter = new ResourceWorkingSetFilter();
 
 		/**
@@ -915,7 +915,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 	 * visit resources it updates progress monitor and adds matched resources to
 	 * ContentProvider instance.
 	 */
-	private static class ResourceProxyVisitor implements IResourceProxyVisitor {
+	private static class ResourceProxyVisitor implements IResourceProxyVisitor { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 		private final AbstractContentProvider proxyContentProvider;
 
@@ -934,7 +934,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			this.progressMonitor = progressMonitor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(IResourceProxy proxy) {
 
 			if (progressMonitor.isCanceled()) {
@@ -1021,7 +1021,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 		 * @param showDerived     flag which determine showing derived elements
 		 * @since 3.6
 		 */
-		private ResourceFilter(IContainer container, IContainer searchContainer, boolean showDerived, int typeMask) {
+		private ResourceFilter(IContainer container, IContainer searchContainer, boolean showDerived, int typeMask) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			this(container, showDerived, typeMask);
 
 			final String stringPattern = patternMatcher.getInitialPattern();
@@ -1053,16 +1053,16 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 						// bug 552418 - make the search always "root less", so that users don't need to
 						// type the initial "*/"
 						if (!newContainerPattern.startsWith(Character.toString(IPath.SEPARATOR))) {
-							newContainerPattern = IPath.SEPARATOR + newContainerPattern;
+							newContainerPattern = IPath.SEPARATOR + newContainerPattern; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
-						newContainerPattern = '*' + newContainerPattern;
+						newContainerPattern = '*' + newContainerPattern; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					this.containerPattern = new SearchPattern(SearchPattern.RULE_EXACT_MATCH
 							| SearchPattern.RULE_PREFIX_MATCH | SearchPattern.RULE_PATTERN_MATCH);
 					this.containerPattern.setPattern(newContainerPattern);
 				}
 				if (isMatchPrefix(stringPattern)) {
-					filenamePattern = '>' + filenamePattern;
+					filenamePattern = '>' + filenamePattern; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				patternMatcher.setPattern(filenamePattern);
 			} else {
@@ -1125,7 +1125,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 					&& (this.showDerived || !resource.isDerived());
 		}
 
-		private boolean matchName(IResource resource) {
+		private boolean matchName(IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String name = resource.getName();
 			if (nameMatches(name)) {
 				if (containerPattern != null) {
@@ -1208,7 +1208,7 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 
 	}
 
-	private static class FilterResourcesByLocation extends ViewerFilter {
+	private static class FilterResourcesByLocation extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		private boolean enabled;
 
@@ -1221,8 +1221,8 @@ public class FilteredResourcesSelectionDialog extends FilteredItemsSelectionDial
 			if (!this.enabled) {
 				return elements;
 			}
-			Map<IPath, IResource> bestResourceForPath = new LinkedHashMap<>();
-			for (Object item : elements) {
+			Map<IPath, IResource> bestResourceForPath = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+			for (Object item : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item instanceof IResource currentResource) {
 					IResource otherResource = bestResourceForPath.get(currentResource.getLocation());
 					if (otherResource == null || otherResource.getFullPath().segmentCount() > currentResource

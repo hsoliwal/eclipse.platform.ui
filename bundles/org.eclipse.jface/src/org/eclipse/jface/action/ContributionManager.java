@@ -47,7 +47,7 @@ public abstract class ContributionManager implements IContributionManager {
 	/**
 	 * The list of contribution items.
 	 */
-	private final List<IContributionItem> contributions = new ArrayList<>();
+	private final List<IContributionItem> contributions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Indicates whether the widgets are in sync with the contributions.
@@ -100,18 +100,18 @@ public abstract class ContributionManager implements IContributionManager {
 	 * @exception IllegalArgumentException
 	 *                if there is no group with the given name
 	 */
-	private void addToGroup(String groupName, IContributionItem item,
+	private void addToGroup(String groupName, IContributionItem item, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean append) {
 		int i;
 		Iterator<IContributionItem> items = contributions.iterator();
-		for (i = 0; items.hasNext(); i++) {
+		for (i = 0; items.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem o = items.next();
 			if (o.isGroupMarker()) {
 				String id = o.getId();
 				if (id != null && id.equalsIgnoreCase(groupName)) {
 					i++;
 					if (append) {
-						for (; items.hasNext(); i++) {
+						for (; items.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IContributionItem ci = items
 									.next();
 							if (ci.isGroupMarker()) {
@@ -127,7 +127,7 @@ public abstract class ContributionManager implements IContributionManager {
 				}
 			}
 		}
-		throw new IllegalArgumentException("Group not found: " + groupName);//$NON-NLS-1$
+		throw new IllegalArgumentException("Group not found: " + groupName);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -169,21 +169,21 @@ public abstract class ContributionManager implements IContributionManager {
 		}
 
 		System.out.println(this.toString());
-		System.out.println("   Number of elements: " + size);//$NON-NLS-1$
+		System.out.println("   Number of elements: " + size);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int sum = 0;
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (contributions.get(i).isVisible()) {
 				sum++;
 			}
 		}
-		System.out.println("   Number of visible elements: " + sum);//$NON-NLS-1$
-		System.out.println("   Is dirty: " + isDirty()); //$NON-NLS-1$
+		System.out.println("   Number of visible elements: " + sum);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		System.out.println("   Is dirty: " + isDirty()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public IContributionItem find(String id) {
 		Iterator<IContributionItem> e = contributions.iterator();
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = e.next();
 			String itemId = item.getId();
 			if (itemId != null && itemId.equalsIgnoreCase(id)) {
@@ -218,7 +218,7 @@ public abstract class ContributionManager implements IContributionManager {
 	 *
 	 * @since 2.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContributionManagerOverrides getOverrides() {
 		if (overrides == null) {
 			overrides = new IContributionManagerOverrides() {
@@ -272,7 +272,7 @@ public abstract class ContributionManager implements IContributionManager {
 	 * @return <code>int</code> the index or -1 if the item is not found
 	 */
 	public int indexOf(String id) {
-		for (int i = 0; i < contributions.size(); i++) {
+		for (int i = 0; i < contributions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = contributions.get(i);
 			String itemId = item.getId();
 			if (itemId != null && itemId.equalsIgnoreCase(id)) {
@@ -307,7 +307,7 @@ public abstract class ContributionManager implements IContributionManager {
 	public void insert(int index, IContributionItem item) {
 		if (index > contributions.size()) {
 			throw new IndexOutOfBoundsException(
-					"inserting " + item.getId() + " at " + index); //$NON-NLS-1$ //$NON-NLS-2$
+					"inserting " + item.getId() + " at " + index); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (allowItem(item)) {
 			contributions.add(index, item);
@@ -324,7 +324,7 @@ public abstract class ContributionManager implements IContributionManager {
 	public void insertAfter(String ID, IContributionItem item) {
 		IContributionItem ci = find(ID);
 		if (ci == null) {
-			throw new IllegalArgumentException("can't find ID" + ID);//$NON-NLS-1$
+			throw new IllegalArgumentException("can't find ID" + ID);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		int ix = contributions.indexOf(ci);
 		if (ix >= 0) {
@@ -345,7 +345,7 @@ public abstract class ContributionManager implements IContributionManager {
 	public void insertBefore(String ID, IContributionItem item) {
 		IContributionItem ci = find(ID);
 		if (ci == null) {
-			throw new IllegalArgumentException("can't find ID " + ID);//$NON-NLS-1$
+			throw new IllegalArgumentException("can't find ID " + ID);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		int ix = contributions.indexOf(ci);
 		if (ix >= 0) {
@@ -363,7 +363,7 @@ public abstract class ContributionManager implements IContributionManager {
 			return true;
 		}
 		if (hasDynamicItems()) {
-			for (IContributionItem item : contributions) {
+			for (IContributionItem item : contributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item.isDirty()) {
 					return true;
 				}
@@ -444,7 +444,7 @@ public abstract class ContributionManager implements IContributionManager {
 	public void removeAll() {
 		IContributionItem[] items = getItems();
 		contributions.clear();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			itemRemoved(item);
 		}
 		dynamicItems = 0;
@@ -468,7 +468,7 @@ public abstract class ContributionManager implements IContributionManager {
 	 * @return <code>true</code> if the given identifier can be;
 	 * @since 3.0
 	 */
-	public boolean replaceItem(final String identifier,
+	public boolean replaceItem(final String identifier, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IContributionItem replacementItem) {
 		if (identifier == null) {
 			return false;
@@ -489,12 +489,12 @@ public abstract class ContributionManager implements IContributionManager {
 		itemAdded(replacementItem); // throws NPE if (replacementItem == null)
 
 		// Go through and remove duplicates.
-		for (int i = contributions.size() - 1; i > index; i--) {
+		for (int i = contributions.size() - 1; i > index; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = contributions.get(i);
 			if ((item != null) && (identifier.equals(item.getId()))) {
 				if (Policy.TRACE_TOOLBAR) {
 					System.out
-							.println("Removing duplicate on replace: " + identifier); //$NON-NLS-1$
+							.println("Removing duplicate on replace: " + identifier); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				contributions.remove(i);
 				itemRemoved(item);
@@ -536,7 +536,7 @@ public abstract class ContributionManager implements IContributionManager {
 	 */
 	protected void internalSetItems(IContributionItem[] items) {
 		contributions.clear();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (allowItem(item)) {
 				contributions.add(item);
 			}

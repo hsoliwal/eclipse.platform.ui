@@ -74,7 +74,7 @@ public class ComboFieldEditor extends FieldEditor {
 		if (table == null) {
 			return false;
 		}
-		for (String[] array : table) {
+		for (String[] array : table) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (array == null || array.length < 2) {
 				return false;
 			}
@@ -148,15 +148,15 @@ public class ComboFieldEditor extends FieldEditor {
 	/*
 	 * Lazily create and return the Combo control.
 	 */
-	private Combo getComboBoxControl(Composite parent) {
+	private Combo getComboBoxControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCombo == null) {
 			fCombo = new Combo(parent, SWT.READ_ONLY);
 			fCombo.setFont(parent.getFont());
-			for (int i = 0; i < fEntryNamesAndValues.length; i++) {
+			for (int i = 0; i < fEntryNamesAndValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCombo.add(fEntryNamesAndValues[i][0], i);
 			}
 
-			fCombo.addSelectionListener(widgetSelectedAdapter(evt -> {
+			fCombo.addSelectionListener(widgetSelectedAdapter(evt -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				String oldValue = fValue;
 				String name = fCombo.getText();
 				fValue = getValueForName(name);
@@ -171,7 +171,7 @@ public class ComboFieldEditor extends FieldEditor {
 	 * Given the name (label) of an entry, return the corresponding value.
 	 */
 	private String getValueForName(String name) {
-		for (String[] entry : fEntryNamesAndValues) {
+		for (String[] entry : fEntryNamesAndValues) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(entry[0])) {
 				return entry[1];
 			}
@@ -184,7 +184,7 @@ public class ComboFieldEditor extends FieldEditor {
 	 */
 	private void updateComboForValue(String value) {
 		fValue = value;
-		for (String[] fEntryNamesAndValue : fEntryNamesAndValues) {
+		for (String[] fEntryNamesAndValue : fEntryNamesAndValues) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (value.equals(fEntryNamesAndValue[1])) {
 				fCombo.setText(fEntryNamesAndValue[0]);
 				return;

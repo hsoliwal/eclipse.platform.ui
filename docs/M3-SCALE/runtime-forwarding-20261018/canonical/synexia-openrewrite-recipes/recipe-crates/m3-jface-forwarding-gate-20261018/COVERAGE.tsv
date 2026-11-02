@@ -1,0 +1,11 @@
+gate	status	evidence	scope
+Final canonical recipe	PASS: 15 tests, 0 failures/errors/skips	evidence/final-sdk.json	5 exact receiver outputs; 10 shared Text admission/refusal tests
+Rules compatibility with final Text	PASS: 5 tests, 0 failures/errors/skips	evidence/compatibility/rules/receipt.json	Unchanged public Rules crate and 2 identical runtime outputs
+Native GTK3 forwarding	PASS: 1 test, 0 failures/errors/skips	evidence/native/	Exact named M3TreeForwardingTest method, real SWT/JFace/Commands/native backend
+Original native leaf fixture	FAILURE PRESERVED	evidence/native/	Existing leaf expectation contradicted established SWT leaf contract; all assertions retained by correction
+Original metadata owner	EXPECTED RED: 6 of 8 tests fail	evidence/metadata-red.json	Historical owner SHA256 fbf1ea9e... recorded without converting failures to acceptance
+Typed parser attempt for Java25 fixture	REFUSAL PRESERVED	evidence/fixture-sdk.json	Real Java21 parser rejects upstream unnamed-lambda syntax
+POSIX literal-backslash target alias	EXPECTED RED PRESERVED	evidence/backslash-alias-red.json	Final owner refuses target alias; Windows native separators remain valid
+Actual initialized 12-module composition	NOT_RUN	Separate composition recipe and verifier	Must validate real Git worktrees and clean exact gitlinks
+Full Tycho/PDE SDK	NOT_RUN	Separate full target-platform build	Not established by the bounded native method
+Entire Eclipse runtime in M3	NOT_IMPLEMENTED	Separate owners remain	This gate reuses existing SWT/JFace owners and qualifies the selected integration

@@ -74,7 +74,7 @@ public final class CommandLegacyActionWrapper extends AbstractAction {
 	 * property change event mechanism.
 	 */
 	private final class CommandListener implements ICommandListener {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void commandChanged(final CommandEvent commandEvent) {
 			final Command baseCommand = commandEvent.getCommand();
 
@@ -177,7 +177,7 @@ public final class CommandLegacyActionWrapper extends AbstractAction {
 		this.serviceLocator = serviceLocator;
 
 		// TODO Needs to listen to command, state, binding and image changes.
-		command.getCommand().addCommandListener(commandListener);
+		command.getCommand().addCommandListener(commandListener); //FLLDCIM: MARK — T26 COMMAND_STATE CALL
 	}
 
 	@Override
@@ -338,7 +338,7 @@ public final class CommandLegacyActionWrapper extends AbstractAction {
 		// TODO Binding. This is hopefully not essential.
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setActionDefinitionId(final String id) {
 		// Get the old values.
 		final boolean oldChecked = isChecked();
@@ -356,7 +356,7 @@ public final class CommandLegacyActionWrapper extends AbstractAction {
 		final ICommandService commandService = serviceLocator.getService(ICommandService.class);
 		final Command newBaseCommand = commandService.getCommand(id);
 		command = new ParameterizedCommand(newBaseCommand, null);
-		newBaseCommand.addCommandListener(commandListener);
+		newBaseCommand.addCommandListener(commandListener); //FLLDCIM: MARK — T26 COMMAND_STATE CALL
 
 		// Get the new values.
 		final boolean newChecked = isChecked();

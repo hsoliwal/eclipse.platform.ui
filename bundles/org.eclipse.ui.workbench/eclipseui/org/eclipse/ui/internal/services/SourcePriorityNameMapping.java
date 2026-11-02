@@ -63,7 +63,7 @@ public final class SourcePriorityNameMapping implements ISources {
 	 * The map of source priorities indexed by name. This value is never
 	 * <code>null</code>.
 	 */
-	private static final Map sourcePrioritiesByName = new HashMap();
+	private static final Map sourcePrioritiesByName = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	static {
 		addMapping(ACTIVE_ACTION_SETS_NAME, ACTIVE_ACTION_SETS);
@@ -128,7 +128,7 @@ public final class SourcePriorityNameMapping implements ISources {
 	 * @return The bit mask of all the sources required for this expression;
 	 *         <code>0</code> if none.
 	 */
-	public static int computeSourcePriority(final Expression expression) {
+	public static int computeSourcePriority(final Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int sourcePriority = ISources.WORKBENCH;
 
 		if (expression == null) {
@@ -144,7 +144,7 @@ public final class SourcePriorityNameMapping implements ISources {
 
 		// Add all of the reference variables.
 		final String[] sourceNames = info.getAccessedVariableNames();
-		for (final String sourceName : sourceNames) {
+		for (final String sourceName : sourceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sourcePriority |= getMapping(sourceName);
 		}
 

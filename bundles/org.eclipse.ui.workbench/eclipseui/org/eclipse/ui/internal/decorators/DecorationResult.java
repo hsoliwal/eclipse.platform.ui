@@ -62,7 +62,7 @@ public class DecorationResult {
 	 * @return <code>true</code> if there are some non-null overlays
 	 */
 	private boolean hasOverlays(ImageDescriptor[] imageDescriptors) {
-		for (ImageDescriptor imageDescriptor : imageDescriptors) {
+		for (ImageDescriptor imageDescriptor : imageDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (imageDescriptor != null) {
 				return true;
 			}
@@ -95,17 +95,17 @@ public class DecorationResult {
 	 *
 	 * @return String
 	 */
-	public String decorateWithText(String text) {
+	public String decorateWithText(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (prefixes.isEmpty() && suffixes.isEmpty()) {
 			return text;
 		}
 
-		StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		ListIterator prefixIterator = prefixes.listIterator();
 
-		while (prefixIterator.hasNext()) {
+		while (prefixIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.append(prefixIterator.next());
 		}
 
@@ -113,7 +113,7 @@ public class DecorationResult {
 
 		ListIterator suffixIterator = suffixes.listIterator();
 
-		while (suffixIterator.hasNext()) {
+		while (suffixIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.append(suffixIterator.next());
 		}
 

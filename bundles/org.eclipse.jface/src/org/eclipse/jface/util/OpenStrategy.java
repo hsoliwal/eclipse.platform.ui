@@ -239,16 +239,16 @@ public class OpenStrategy {
 	 * single-click/double-click strategies.
 	 */
 	private void addListener(Control c) {
-		c.addListener(SWT.MouseEnter, eventHandler);
-		c.addListener(SWT.MouseExit, eventHandler);
-		c.addListener(SWT.MouseMove, eventHandler);
-		c.addListener(SWT.MouseDown, eventHandler);
-		c.addListener(SWT.MouseUp, eventHandler);
-		c.addListener(SWT.KeyDown, eventHandler);
-		c.addListener(SWT.Selection, eventHandler);
-		c.addListener(SWT.DefaultSelection, eventHandler);
-		c.addListener(SWT.Collapse, eventHandler);
-		c.addListener(SWT.Expand, eventHandler);
+		c.addListener(SWT.MouseEnter, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.MouseExit, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.MouseMove, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.MouseDown, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.MouseUp, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.KeyDown, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.Selection, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.DefaultSelection, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.Collapse, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		c.addListener(SWT.Expand, eventHandler); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/*
@@ -258,7 +258,7 @@ public class OpenStrategy {
 		if (e.item != null && e.item.isDisposed()) {
 			return;
 		}
-		for (SelectionListener l : selectionEventListeners) {
+		for (SelectionListener l : selectionEventListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.widgetSelected(e);
 		}
 	}
@@ -267,7 +267,7 @@ public class OpenStrategy {
 	 * Fire the default selection event to all selectionEventListeners
 	 */
 	private void fireDefaultSelectionEvent(SelectionEvent e) {
-		for (SelectionListener l : selectionEventListeners) {
+		for (SelectionListener l : selectionEventListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.widgetDefaultSelected(e);
 		}
 	}
@@ -279,7 +279,7 @@ public class OpenStrategy {
 		if (e.item != null && e.item.isDisposed()) {
 			return;
 		}
-		for (SelectionListener l : postSelectionEventListeners) {
+		for (SelectionListener l : postSelectionEventListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.widgetSelected(e);
 		}
 	}
@@ -291,13 +291,13 @@ public class OpenStrategy {
 		if (e.item != null && e.item.isDisposed()) {
 			return;
 		}
-		for (IOpenEventListener l : openEventListeners) {
+		for (IOpenEventListener l : openEventListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			l.handleOpen(e);
 		}
 	}
 
 	//Initialize event handler.
-	private void initializeHandler(final Display display) {
+	private void initializeHandler(final Display display) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		eventHandler = new Listener() {
 			boolean timerStarted = false;
 
@@ -321,7 +321,7 @@ public class OpenStrategy {
 
 			boolean expandOccurred = false;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void handleEvent(final Event e) {
 				if (e.type == SWT.DefaultSelection) {
 					SelectionEvent event = new SelectionEvent(e);
@@ -361,7 +361,7 @@ public class OpenStrategy {
 						long time = System.currentTimeMillis();
 						int diff = (int) (time - startTime);
 						if (diff <= TIME) {
-							display.timerExec(diff * 2 / 3, runnable[0]);
+							display.timerExec(diff * 2 / 3, runnable[0]); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						} else {
 							timerStarted = false;
 							setSelection(mouseMoveEvent);
@@ -370,7 +370,7 @@ public class OpenStrategy {
 					startTime = System.currentTimeMillis();
 					if (!timerStarted) {
 						timerStarted = true;
-						display.timerExec(TIME * 2 / 3, runnable[0]);
+						display.timerExec(TIME * 2 / 3, runnable[0]); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					}
 					break;
 				case SWT.MouseDown:
@@ -429,7 +429,7 @@ public class OpenStrategy {
 					// want to delay any selection until the last arrowDown/Up occurs.  This
 					// handles the case where the user presses arrowDown/Up successively.
 					// We only want to open an editor for the last selected item.
-					display.asyncExec(() -> {
+					display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (arrowKeyDown) {
 							postSelectionEvent.setEvent(e);
 							throttledPostSelection.throttledExec();
@@ -449,7 +449,7 @@ public class OpenStrategy {
 				selectionPendent = null;
 			}
 
-			void setSelection(Event e) {
+			void setSelection(Event e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (e == null) {
 					return;
 				}

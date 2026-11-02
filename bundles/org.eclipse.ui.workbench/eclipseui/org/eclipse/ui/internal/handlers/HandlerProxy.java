@@ -64,7 +64,7 @@ import org.eclipse.ui.services.IEvaluationService;
  */
 public final class HandlerProxy extends AbstractHandlerWithState implements IElementUpdater {
 
-	private static Map<IConfigurationElement, HandlerProxy> CEToProxyMap = new HashMap<>();
+	private static Map<IConfigurationElement, HandlerProxy> CEToProxyMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private static final String PROP_ENABLED = "enabled"; //$NON-NLS-1$
 
@@ -162,7 +162,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 	 *                              <code>enabledWhenExpression</code> is
 	 *                              <code>null</code>.
 	 */
-	public HandlerProxy(final String commandId, final IConfigurationElement configurationElement,
+	public HandlerProxy(final String commandId, final IConfigurationElement configurationElement, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String handlerAttributeName, final Expression enabledWhenExpression,
 			final IEvaluationService evaluationService) {
 		if (configurationElement == null) {
@@ -194,7 +194,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 	}
 
 	public static void updateStaleCEs(IConfigurationElement[] replacements) {
-		for (IConfigurationElement replacement : replacements) {
+		for (IConfigurationElement replacement : replacements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			HandlerProxy proxy = CEToProxyMap.get(replacement);
 			if (proxy != null) {
 				proxy.configurationElement = replacement;
@@ -207,7 +207,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 				PROP_ENABLED);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setEnabled(Object evaluationContext) {
 		if (!(evaluationContext instanceof IEvaluationContext context)) {
 			return;
@@ -237,7 +237,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 
 	private IPropertyChangeListener getEnablementListener() {
 		if (enablementListener == null) {
-			enablementListener = event -> {
+			enablementListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 				if (event.getProperty() == PROP_ENABLED) {
 					setProxyEnabled(
 							event.getNewValue() == null ? false : ((Boolean) event.getNewValue()).booleanValue());
@@ -286,7 +286,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isEnabled() {
 		if (enabledWhenExpression != null) {
 			// proxyEnabled reflects the enabledWhen clause
@@ -331,7 +331,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 	 * @return <code>true</code> if the handler is now non-null; <code>false</code>
 	 *         otherwise.
 	 */
-	private boolean loadHandler() {
+	private boolean loadHandler() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (handler == null) {
 			// Load the handler.
 			try {
@@ -339,7 +339,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 					handler = adapt(configurationElement.createExecutableExtension(handlerAttributeName));
 					handler.addHandlerListener(getHandlerListener());
 					if (handler instanceof IObjectWithState) {
-						for (String id : getStateIds()) {
+						for (String id : getStateIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							((IObjectWithState) handler).addState(id, getState(id));
 						}
 					}
@@ -349,7 +349,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 				}
 
 			} catch (final InjectionException e) {
-				final String message = "The proxied handler '" //$NON-NLS-1$
+				final String message = "The proxied handler '" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ getConfigurationElementAttribute() + "' could not be injected"; //$NON-NLS-1$
 				final IStatus status = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, 0, message, e);
 				WorkbenchPlugin.log(message, status);
@@ -357,7 +357,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 				loadException = e;
 
 			} catch (final CoreException e) {
-				final String message = "The proxied handler for '" //$NON-NLS-1$
+				final String message = "The proxied handler for '" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ configurationElement.getAttribute(handlerAttributeName) + "' could not be loaded"; //$NON-NLS-1$
 				IStatus status = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, 0, message, e);
 				WorkbenchPlugin.log(message, status);
@@ -384,7 +384,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 
 	private IHandlerListener getHandlerListener() {
 		if (handlerListener == null) {
-			handlerListener = handlerEvent -> fireHandlerChanged(new HandlerEvent(HandlerProxy.this,
+			handlerListener = handlerEvent -> fireHandlerChanged(new HandlerEvent(HandlerProxy.this, //FLLDCIM: MARK — T26  LAMBDA
 					handlerEvent.isEnabledChanged(), handlerEvent.isHandledChanged()));
 		}
 		return handlerListener;
@@ -414,7 +414,7 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 	private String getConfigurationElementAttribute() {
 		String attribute = configurationElement.getAttribute(handlerAttributeName);
 		if (attribute == null) {
-			for (IConfigurationElement configElement : configurationElement.getChildren(handlerAttributeName)) {
+			for (IConfigurationElement configElement : configurationElement.getChildren(handlerAttributeName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String childAttribute = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_CLASS);
 				if (childAttribute != null) {
 					return childAttribute;

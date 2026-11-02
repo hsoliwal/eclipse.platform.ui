@@ -144,28 +144,28 @@ public abstract class RegistryPersistence implements IDisposable, IWorkbenchRegi
 	 * @param extraAttributeValue The value of the extra attribute to be logged; may
 	 *                            be <code>null</code>.
 	 */
-	protected static final void addWarning(final List<IStatus> warningsToLog, final String message,
+	protected static final void addWarning(final List<IStatus> warningsToLog, final String message, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IConfigurationElement element, final String id, final String extraAttributeName,
 			final String extraAttributeValue) {
 		String statusMessage = message;
 		if (element != null) {
-			statusMessage = statusMessage + ": plug-in='" + element.getContributor().getName() + '\''; //$NON-NLS-1$
+			statusMessage = statusMessage + ": plug-in='" + element.getContributor().getName() + '\''; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (id != null) {
 			if (element != null) {
-				statusMessage = statusMessage + ',';
+				statusMessage = statusMessage + ','; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				statusMessage = statusMessage + ':';
+				statusMessage = statusMessage + ':'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
-			statusMessage = statusMessage + " id='" + id + '\''; //$NON-NLS-1$
+			statusMessage = statusMessage + " id='" + id + '\''; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (extraAttributeName != null) {
 			if ((element != null) || (id != null)) {
-				statusMessage = statusMessage + ',';
+				statusMessage = statusMessage + ','; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				statusMessage = statusMessage + ':';
+				statusMessage = statusMessage + ':'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
-			statusMessage = statusMessage + ' ' + extraAttributeName + "='" //$NON-NLS-1$
+			statusMessage = statusMessage + ' ' + extraAttributeName + "='" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ extraAttributeValue + '\'';
 		}
 
@@ -328,15 +328,15 @@ public abstract class RegistryPersistence implements IDisposable, IWorkbenchRegi
 	 * @return The array of parameters found for this configuration element;
 	 *         <code>null</code> if none can be found.
 	 */
-	protected static final ParameterizedCommand readParameters(final IConfigurationElement configurationElement,
+	protected static final ParameterizedCommand readParameters(final IConfigurationElement configurationElement, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final List<IStatus> warningsToLog, final Command command) {
 		final IConfigurationElement[] parameterElements = configurationElement.getChildren(TAG_PARAMETER);
 		if ((parameterElements == null) || (parameterElements.length == 0)) {
 			return new ParameterizedCommand(command, null);
 		}
 
-		final Collection<Parameterization> parameters = new ArrayList<>();
-		for (final IConfigurationElement parameterElement : parameterElements) {
+		final Collection<Parameterization> parameters = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (final IConfigurationElement parameterElement : parameterElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Read out the id.
 			final String id = parameterElement.getAttribute(ATT_ID);
 			if ((id == null) || (id.isEmpty())) {
@@ -351,7 +351,7 @@ public abstract class RegistryPersistence implements IDisposable, IWorkbenchRegi
 			try {
 				final IParameter[] commandParameters = command.getParameters();
 				if (parameters != null) {
-					for (final IParameter currentParameter : commandParameters) {
+					for (final IParameter currentParameter : commandParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (Objects.equals(currentParameter.getId(), id)) {
 							parameter = currentParameter;
 							break;
@@ -452,7 +452,7 @@ public abstract class RegistryPersistence implements IDisposable, IWorkbenchRegi
 	 *         <code>configurationElement</code>, if any; otherwise,
 	 *         <code>null</code>.
 	 */
-	protected static final Expression readWhenElement(final IConfigurationElement parentElement,
+	protected static final Expression readWhenElement(final IConfigurationElement parentElement, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String whenElementName, final String id, final List<IStatus> warningsToLog) {
 		// Check to see if we have an when expression.
 		final IConfigurationElement[] whenElements = parentElement.getChildren(whenElementName);
@@ -514,7 +514,7 @@ public abstract class RegistryPersistence implements IDisposable, IWorkbenchRegi
 	protected RegistryPersistence() {
 		registryChangeListener = event -> {
 			if (isChangeImportant(event)) {
-				Display.getDefault().asyncExec(this::read);
+				Display.getDefault().asyncExec(this::read); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		};
 	}

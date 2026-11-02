@@ -77,9 +77,9 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 
 	private String defaultPerspectiveId;
 
-	private final ArrayList<IPerspectiveDescriptor> perspToDelete = new ArrayList<>();
+	private final ArrayList<IPerspectiveDescriptor> perspToDelete = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final ArrayList<IPerspectiveDescriptor> perspToRevert = new ArrayList<>();
+	private final ArrayList<IPerspectiveDescriptor> perspToRevert = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private Table perspectivesTable;
 
@@ -159,7 +159,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	 *
 	 * @param composite the parent composite
 	 */
-	protected void createOpenPerspButtonGroup(Composite composite) {
+	protected void createOpenPerspButtonGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font font = composite.getFont();
 
@@ -175,15 +175,15 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 		openSameWindowButton.setText(OPM_SAME_WINDOW);
 		openSameWindowButton.setSelection(IPreferenceConstants.OPM_ACTIVE_PAGE == openPerspMode);
 		openSameWindowButton.setFont(font);
-		openSameWindowButton
-				.addSelectionListener(widgetSelectedAdapter(e -> openPerspMode = IPreferenceConstants.OPM_ACTIVE_PAGE));
+		openSameWindowButton //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				.addSelectionListener(widgetSelectedAdapter(e -> openPerspMode = IPreferenceConstants.OPM_ACTIVE_PAGE)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		openNewWindowButton = new Button(buttonComposite, SWT.RADIO);
 		openNewWindowButton.setText(OPM_NEW_WINDOW);
 		openNewWindowButton.setSelection(IPreferenceConstants.OPM_NEW_WINDOW == openPerspMode);
 		openNewWindowButton.setFont(font);
-		openNewWindowButton
-				.addSelectionListener(widgetSelectedAdapter(e -> openPerspMode = IPreferenceConstants.OPM_NEW_WINDOW));
+		openNewWindowButton //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				.addSelectionListener(widgetSelectedAdapter(e -> openPerspMode = IPreferenceConstants.OPM_NEW_WINDOW)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 	}
 
@@ -194,7 +194,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	 * @param parent the parent for the button parent
 	 * @return Composite that the buttons are created in.
 	 */
-	protected Composite createCustomizePerspective(Composite parent) {
+	protected Composite createCustomizePerspective(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font font = parent.getFont();
 
@@ -219,7 +219,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 
 		// Add perspectivesTable.
 		perspectivesTable = new Table(perspectivesComponent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		perspectivesTable.addSelectionListener(widgetSelectedAdapter(e -> updateButtons()));
+		perspectivesTable.addSelectionListener(widgetSelectedAdapter(e -> updateButtons())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		perspectivesTable.setFont(font);
 
 		data = new GridData(GridData.FILL_BOTH);
@@ -229,8 +229,8 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 
 		// Populate the perspectivesTable
 		IPerspectiveDescriptor[] persps = perspectiveRegistry.getPerspectives();
-		perspectives = new ArrayList<>(persps.length);
-		for (int i = 0; i < persps.length; i++) {
+		perspectives = new ArrayList<>(persps.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < persps.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			perspectives.add(i, persps[i]);
 		}
 		perspectives.sort(comparator);
@@ -267,7 +267,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	 *                      button, and <code>false</code> otherwise
 	 * @return Button The created button.
 	 */
-	protected Button createVerticalButton(Composite parent, String label, boolean defaultButton) {
+	protected Button createVerticalButton(Composite parent, String label, boolean defaultButton) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Button button = new Button(parent, SWT.PUSH);
 
 		button.setText(label);
@@ -275,7 +275,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 		GridData data = setButtonLayoutData(button);
 		data.horizontalAlignment = GridData.FILL;
 
-		button.addSelectionListener(widgetSelectedAdapter(event -> verticalButtonPressed(event.widget)));
+		button.addSelectionListener(widgetSelectedAdapter(event -> verticalButtonPressed(event.widget))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		button.setToolTipText(label);
 		if (defaultButton) {
 			Shell shell = parent.getShell();
@@ -293,7 +293,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	 * @param parent the parent composite to contain the button bar
 	 * @return the button bar control
 	 */
-	protected Control createVerticalButtonBar(Composite parent) {
+	protected Control createVerticalButtonBar(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create composite.
 		Composite composite = new Composite(parent, SWT.NULL);
 
@@ -338,7 +338,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * The default button has been pressed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performDefaults() {
 		// Project perspective preferences
 		IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
@@ -384,7 +384,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 		}
 		PerspectiveDescriptor[] descriptors = new PerspectiveDescriptor[perspectives.size()];
 		perspectives.toArray(descriptors);
-		for (int i = 0; i < descriptors.length; i++) {
+		for (int i = 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			PerspectiveDescriptor descriptor = descriptors[i];
 			if (descriptor.getId().equals(perspectiveId)) {
 				return i;
@@ -422,7 +422,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * Apply the user's changes if any
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		// Set the default perspective
 		if (!Objects.equals(defaultPerspectiveId, perspectiveRegistry.getDefaultPerspective())) {
@@ -432,11 +432,11 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 		// Don't bother figuring out which window a perspective may be open in,
 		// the number of windows will be small.
 
-		for (IPerspectiveDescriptor perspective : perspToDelete) {
+		for (IPerspectiveDescriptor perspective : perspToDelete) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-			for (IWorkbenchWindow window : windows) {
+			for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkbenchPage[] pages = window.getPages();
-				for (IWorkbenchPage page : pages) {
+				for (IWorkbenchPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					page.closePerspective(perspective, true, false);
 				}
 			}
@@ -444,7 +444,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 		}
 
 		// Revert perspectives
-		for (IPerspectiveDescriptor perspective : perspToRevert) {
+		for (IPerspectiveDescriptor perspective : perspToRevert) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			perspectiveRegistry.revertPerspective(perspective);
 		}
 
@@ -464,7 +464,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	/**
 	 * Update the button enablement state.
 	 */
-	protected void updateButtons() {
+	protected void updateButtons() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get selection.
 		int index = perspectivesTable.getSelectionIndex();
 
@@ -492,7 +492,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	protected void updatePerspectivesTable() {
 		// Populate the table with the items
 		perspectivesTable.removeAll();
-		for (int i = 0; i < perspectives.size(); i++) {
+		for (int i = 0; i < perspectives.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			PerspectiveDescriptor persp = (PerspectiveDescriptor) perspectives.get(i);
 			newPerspectivesTableItem(persp, i, false);
 		}
@@ -502,7 +502,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	 * Create a new tableItem using given perspective, and set image for the new
 	 * item.
 	 */
-	protected TableItem newPerspectivesTableItem(IPerspectiveDescriptor persp, int index, boolean selected) {
+	protected TableItem newPerspectivesTableItem(IPerspectiveDescriptor persp, int index, boolean selected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ImageDescriptor image = persp.getImageDescriptor();
 
@@ -529,7 +529,7 @@ public class PerspectivesPreferencePage extends PreferencePage implements IWorkb
 	 *
 	 * @param button the button that was pressed
 	 */
-	protected void verticalButtonPressed(Widget button) {
+	protected void verticalButtonPressed(Widget button) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get selection.
 		int index = perspectivesTable.getSelectionIndex();
 

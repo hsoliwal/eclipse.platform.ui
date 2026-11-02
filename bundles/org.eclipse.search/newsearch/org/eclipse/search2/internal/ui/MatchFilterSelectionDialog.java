@@ -218,7 +218,7 @@ public class MatchFilterSelectionDialog extends StatusDialog {
 			}
 		});
 
-		fLimitElementsField.addModifyListener(_ -> performLimitTextModified());
+		fLimitElementsField.addModifyListener(unused -> performLimitTextModified());
 		fLimitElementsCheckbox.setSelection(fLimitElementCount != -1);
 		fLimitElementsField.setText(String.valueOf(fLastLimit));
 		fLimitElementsField.setEnabled(fLimitElementsCheckbox.getSelection());

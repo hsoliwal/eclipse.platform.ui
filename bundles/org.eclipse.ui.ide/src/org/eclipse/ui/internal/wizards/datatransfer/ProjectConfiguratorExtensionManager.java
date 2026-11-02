@@ -43,21 +43,21 @@ import org.osgi.framework.Bundle;
  */
 public class ProjectConfiguratorExtensionManager {
 
-	private static final String EXTENSION_POINT_ID = IDEWorkbenchPlugin.IDE_WORKBENCH + ".projectConfigurators"; //$NON-NLS-1$
+	private static final String EXTENSION_POINT_ID = IDEWorkbenchPlugin.IDE_WORKBENCH + ".projectConfigurators"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private final IConfigurationElement[] extensions;
 	private final ExpressionConverter expressionConverter;
-	private final Map<IConfigurationElement, ProjectConfigurator> configuratorsByExtension = new HashMap<>();
+	private final Map<IConfigurationElement, ProjectConfigurator> configuratorsByExtension = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Each instance of this class will have it's own internal registry, that will load (maximum) once each extension class,
 	 * depending on whether the extension has been active for one case handled by this Manager.
 	 */
-	public ProjectConfiguratorExtensionManager() {
+	public ProjectConfiguratorExtensionManager() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.extensions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		// Force Eclipse configurator to be 1st
 		int eclipseConfiguratorIndex = 0;
-		while (eclipseConfiguratorIndex < this.extensions.length && !this.extensions[eclipseConfiguratorIndex]
+		while (eclipseConfiguratorIndex < this.extensions.length && !this.extensions[eclipseConfiguratorIndex] //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.getAttribute("class").equals(EclipseProjectConfigurator.class.getName())) { //$NON-NLS-1$
 			eclipseConfiguratorIndex++;
 		}
@@ -77,9 +77,9 @@ public class ProjectConfiguratorExtensionManager {
 	 *
 	 * @return The active connectors for given container, order is important: top-priority are 1st
 	 */
-	private List<ProjectConfigurator> getAllActiveProjectConfiguratorsUntyped(Object container) {
-		List<ProjectConfigurator> res = new ArrayList<>();
-		for (IConfigurationElement extension : this.extensions) {
+	private List<ProjectConfigurator> getAllActiveProjectConfiguratorsUntyped(Object container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ProjectConfigurator> res = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement extension : this.extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean addIt = false;
 			String bundleOrFragmentId = extension.getContributor().getName();
 			Bundle contributingBundle = Platform.getBundle(bundleOrFragmentId);
@@ -103,16 +103,16 @@ public class ProjectConfiguratorExtensionManager {
 							addIt = expression.evaluate(context).equals(EvaluationResult.TRUE);
 						} catch (CoreException ex) {
 							IDEWorkbenchPlugin.log(
-									"Could not evaluate expression for " + extension.getContributor().getName(), ex); //$NON-NLS-1$
+									"Could not evaluate expression for " + extension.getContributor().getName(), ex); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					} else {
 						IDEWorkbenchPlugin
-						.log("Could not evaluate xpression for " + extension.getContributor().getName() //$NON-NLS-1$
+						.log("Could not evaluate xpression for " + extension.getContributor().getName() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ ": there must be exactly one child of 'activeWhen'"); //$NON-NLS-1$
 					}
 					break;
 				default:
-					IDEWorkbenchPlugin.log("Only one 'activeWhen' is authorized on extension point " //$NON-NLS-1$
+					IDEWorkbenchPlugin.log("Only one 'activeWhen' is authorized on extension point " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ EXTENSION_POINT_ID + ", for extension contributed by " + //$NON-NLS-1$
 							extension.getContributor().getName());
 					break;
@@ -168,8 +168,8 @@ public class ProjectConfiguratorExtensionManager {
 	 */
 	public static List<String> getAllExtensionLabels() {
 		IConfigurationElement[] extensions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		List<String> res = new ArrayList<>(extensions.length);
-		for (IConfigurationElement extension : extensions) {
+		List<String> res = new ArrayList<>(extensions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res.add(extension.getAttribute("label")); //$NON-NLS-1$
 		}
 		return res;
@@ -181,12 +181,12 @@ public class ProjectConfiguratorExtensionManager {
 	 */
 	public static String getLabel(ProjectConfigurator configurator) {
 		IConfigurationElement[] extensions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		for (IConfigurationElement extension : extensions) {
+		for (IConfigurationElement extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (configurator.getClass().getName().equals(extension.getAttribute("class"))) { //$NON-NLS-1$
 				return extension.getAttribute("label"); //$NON-NLS-1$
 			}
 		}
-		return "Missing label for " + configurator.getClass().getName(); //$NON-NLS-1$
+		return "Missing label for " + configurator.getClass().getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

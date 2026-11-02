@@ -34,13 +34,13 @@ import org.eclipse.ui.internal.ide.actions.LTKLauncher;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class MoveResourceAction extends CopyResourceAction {
+public class MoveResourceAction extends CopyResourceAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The id of this action.
 	 */
 	@SuppressWarnings("hiding")
-	public static final String ID = PlatformUI.PLUGIN_ID
+	public static final String ID = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ ".MoveResourceAction"; //$NON-NLS-1$
 
 	/**
@@ -108,11 +108,11 @@ public class MoveResourceAction extends CopyResourceAction {
 	@Override
 	protected void runOperation(IResource[] resources, IContainer destination) {
 		//Initialize the destinations
-		destinations = new ArrayList<>();
+		destinations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IResource[] copiedResources = operation.copyResources(resources,
 				destination);
 
-		for (IResource copiedResource : copiedResources) {
+		for (IResource copiedResource : copiedResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			destinations.add(destination.getFullPath().append(
 					copiedResource.getName()));
 		}

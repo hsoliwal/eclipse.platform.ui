@@ -60,7 +60,7 @@ public class ActionBars extends SubActionBars {
 		return toolbarManager;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void updateActionBars() {
 		getStatusLineManager().update(false);
 

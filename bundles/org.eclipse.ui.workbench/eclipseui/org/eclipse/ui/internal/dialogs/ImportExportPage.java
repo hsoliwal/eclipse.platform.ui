@@ -85,7 +85,7 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 		 * @param parent Composite on which the tree viewer is to be created
 		 * @return Comoposite with all widgets
 		 */
-		protected Composite createControl(Composite parent) {
+		protected Composite createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Font font = parent.getFont();
 
 			// create composite for page.
@@ -109,7 +109,7 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 		/**
 		 * Create the categorized tree viewer.
 		 */
-		private void createFilteredTree(Composite parent) {
+		private void createFilteredTree(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Create a FilteredTree for the categories and wizards
 			FilteredTree filteredTree = new FilteredTree(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER,
 					new WizardPatternFilter(), true);
@@ -118,10 +118,10 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 			filteredTree.setQuickSelectionMode(true);
 
 			viewer.setContentProvider(new WizardContentProvider());
-			viewer.setLabelProvider(new WorkbenchLabelProvider());
+			viewer.setLabelProvider(new WorkbenchLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			viewer.setComparator(DataTransferWizardCollectionComparator.INSTANCE);
 
-			ArrayList<IWizardCategory> inputArray = new ArrayList<>();
+			ArrayList<IWizardCategory> inputArray = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean expandTop = false;
 
 			if (wizardCategories != null) {
@@ -142,9 +142,9 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 			AdaptableList input = new AdaptableList(inputArray);
 
 			// filter wizard list according to capabilities that are enabled
-			viewer.addFilter(new WizardActivityFilter());
+			viewer.addFilter(new WizardActivityFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
-			viewer.setInput(input);
+			viewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		/**
@@ -185,7 +185,7 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 		setTitle(WorkbenchMessages.Select);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Font font = parent.getFont();
 
@@ -309,17 +309,17 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 	 * expanded last time this page was used. If a category that was previously
 	 * expanded no longer exists then it is ignored.
 	 */
-	protected void expandPreviouslyExpandedCategories(String setting, IWizardCategory wizardCategories,
+	protected void expandPreviouslyExpandedCategories(String setting, IWizardCategory wizardCategories, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			TreeViewer viewer) {
 		String[] expandedCategoryPaths = getDialogSettings().getArray(setting);
 		if (expandedCategoryPaths == null || expandedCategoryPaths.length == 0) {
 			return;
 		}
 
-		List<IWizardCategory> categoriesToExpand = new ArrayList<>(expandedCategoryPaths.length);
+		List<IWizardCategory> categoriesToExpand = new ArrayList<>(expandedCategoryPaths.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (wizardCategories != null) {
-			for (String expandedCategoryPath : expandedCategoryPaths) {
+			for (String expandedCategoryPath : expandedCategoryPaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWizardCategory category = wizardCategories.findCategory(IPath.fromOSString(expandedCategoryPath));
 				if (category != null) {
 					categoriesToExpand.add(category);
@@ -338,7 +338,7 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 	 * time this page was used. If a category or wizard that was previously selected
 	 * no longer exists then it is ignored.
 	 */
-	protected void selectPreviouslySelected(String setting, IWizardCategory wizardCategories, final TreeViewer viewer) {
+	protected void selectPreviouslySelected(String setting, IWizardCategory wizardCategories, final TreeViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String selectedId = getDialogSettings().get(setting);
 		if (selectedId == null) {
 			return;
@@ -369,8 +369,8 @@ public abstract class ImportExportPage extends WorkbenchWizardSelectionPage {
 	 */
 	protected void storeExpandedCategories(String setting, TreeViewer viewer) {
 		Object[] expandedElements = viewer.getExpandedElements();
-		List<String> expandedElementPaths = new ArrayList<>(expandedElements.length);
-		for (Object expandedElement : expandedElements) {
+		List<String> expandedElementPaths = new ArrayList<>(expandedElements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object expandedElement : expandedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expandedElement instanceof IWizardCategory) {
 				expandedElementPaths.add(((IWizardCategory) expandedElement).getPath().toString());
 			}

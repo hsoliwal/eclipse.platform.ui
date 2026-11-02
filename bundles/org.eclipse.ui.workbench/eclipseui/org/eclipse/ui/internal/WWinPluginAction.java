@@ -37,7 +37,7 @@ import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
  * additional method (init) whose purpose is to initialize the delegate with the
  * window in which the action is intended to run.
  */
-public class WWinPluginAction extends PluginAction implements IActionSetContributionItem {
+public class WWinPluginAction extends PluginAction implements IActionSetContributionItem { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * The help listener assigned to this action, or <code>null</code> if none.
 	 */
@@ -49,7 +49,7 @@ public class WWinPluginAction extends PluginAction implements IActionSetContribu
 
 	private RetargetAction retargetAction;
 
-	private static ArrayList<WWinPluginAction> staticActionList = new ArrayList<>(50);
+	private static ArrayList<WWinPluginAction> staticActionList = new ArrayList<>(50); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Constructs a new <code>WWinPluginAction</code> object.
@@ -59,7 +59,7 @@ public class WWinPluginAction extends PluginAction implements IActionSetContribu
 	 * @param id            the identifier
 	 * @param style         the style
 	 */
-	public WWinPluginAction(IConfigurationElement actionElement, IWorkbenchWindow window, String id, int style) {
+	public WWinPluginAction(IConfigurationElement actionElement, IWorkbenchWindow window, String id, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(actionElement, id, style);
 		this.window = window;
 
@@ -75,7 +75,7 @@ public class WWinPluginAction extends PluginAction implements IActionSetContribu
 			} else {
 				retargetAction = new RetargetAction(id, label, style);
 			}
-			retargetAction.addPropertyChangeListener(event -> {
+			retargetAction.addPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 				if (event.getProperty().equals(IAction.ENABLED)) {
 					Object val1 = event.getNewValue();
 					if (val1 instanceof Boolean) {
@@ -112,7 +112,7 @@ public class WWinPluginAction extends PluginAction implements IActionSetContribu
 		}
 		addToActionList(this);
 
-		super.setHelpListener(e -> {
+		super.setHelpListener(e -> { //FLLDCIM: MARK — T14  LAMBDA
 			HelpListener listener = null;
 			if (retargetAction != null) {
 				listener = retargetAction.getHelpListener();
@@ -135,7 +135,7 @@ public class WWinPluginAction extends PluginAction implements IActionSetContribu
 		staticActionList.add(action);
 		Shell shell = action.window.getShell();
 		if (shell != null) {
-			shell.addDisposeListener(x -> action.dispose());
+			shell.addDisposeListener(x -> action.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 	}
 
@@ -151,7 +151,7 @@ public class WWinPluginAction extends PluginAction implements IActionSetContribu
 	 */
 	public static void refreshActionList() {
 		Iterator<WWinPluginAction> iter = staticActionList.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WWinPluginAction action = iter.next();
 			if ((action.getDelegate() == null) && action.isOkToCreateDelegate()) {
 				action.createDelegate();
@@ -265,10 +265,10 @@ public class WWinPluginAction extends PluginAction implements IActionSetContribu
 
 	@Override
 	public String toString() {
-		return "WWinPluginAction [" //$NON-NLS-1$
+		return "WWinPluginAction [" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "id=" + getId() //$NON-NLS-1$
 				+ ", enabled=" + isEnabled() + //$NON-NLS-1$
-				(actionSetId != null ? ", actionSet=" + actionSetId : "") //$NON-NLS-1$ //$NON-NLS-2$
+				(actionSetId != null ? ", actionSet=" + actionSetId : "") //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "]"; //$NON-NLS-1$
 	}
 }

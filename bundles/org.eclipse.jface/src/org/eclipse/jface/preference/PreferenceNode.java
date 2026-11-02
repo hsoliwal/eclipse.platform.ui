@@ -122,7 +122,7 @@ public class PreferenceNode implements IPreferenceNode {
 	@Override
 	public void add(IPreferenceNode node) {
 		if (subNodes == null) {
-			subNodes = new ArrayList<>();
+			subNodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		subNodes.add(node);
 	}
@@ -172,7 +172,7 @@ public class PreferenceNode implements IPreferenceNode {
 			return null;
 		}
 		int size = subNodes.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPreferenceNode node = subNodes.get(i);
 			if (id.equals(node.getId())) {
 				return node;

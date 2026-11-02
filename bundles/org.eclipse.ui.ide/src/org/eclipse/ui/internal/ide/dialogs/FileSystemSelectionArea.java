@@ -47,7 +47,7 @@ public class FileSystemSelectionArea {
 	/**
 	 * Create the contents of the receiver in composite.
 	 */
-	public void createContents(Composite composite) {
+	public void createContents(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fileSystemTitle = new Label(composite, SWT.NONE);
 		fileSystemTitle.setText(FileSystemMessages.FileSystemSelection_title);
@@ -56,7 +56,7 @@ public class FileSystemSelectionArea {
 		fileSystems = new ComboViewer(composite, SWT.READ_ONLY);
 		fileSystems.getControl().setFont(composite.getFont());
 
-		fileSystems.setLabelProvider(new LabelProvider() {
+		fileSystems.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object element) {
 				return ((FileSystemConfiguration) element).getLabel();
@@ -65,7 +65,7 @@ public class FileSystemSelectionArea {
 
 		fileSystems.setContentProvider(ArrayContentProvider.getInstance());
 
-		fileSystems.setInput(FileSystemSupportRegistry.getInstance()
+		fileSystems.setInput(FileSystemSupportRegistry.getInstance() //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				.getConfigurations());
 		fileSystems.setSelection(new StructuredSelection(
 				FileSystemSupportRegistry.getInstance()

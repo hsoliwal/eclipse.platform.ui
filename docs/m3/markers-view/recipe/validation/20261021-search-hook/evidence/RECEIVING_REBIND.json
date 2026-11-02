@@ -1,0 +1,24 @@
+{
+  "schema": "synexia.ui.scoped-descriptor-receiving-ref-rebind.v1",
+  "status": "PASS_EXACT_DESCRIPTOR_PREIMAGE_AT_FRESH_RECEIVING_HEAD",
+  "observed_UTC": "2026-10-21 01:16:39 UTC",
+  "repository": "hsoliwal/eclipse.platform.ui",
+  "ref": "refs/heads/m3/jface-viewport-20261019",
+  "head": "e6d4268625d2b46ff3b0639803d4239d18b4908c",
+  "tree": "da0eb75f43f904b2ca51bbbd81cdcc39e8f90176",
+  "prior_prepared_head": "39c657ea05697ddff9ac19df93208cb50501dfc0",
+  "target": "docs/m3/markers-view/recipe/META-INF/rewrite/m3-markers-view.yml",
+  "raw_UTF8_exact_roundtrip_to_retained_preimage": true,
+  "preimage_bytes": 8907,
+  "preimage_sha256": "6dd1cb2cfca34a8a5a19ce30e97f99f6535f35411e2558158d127d4822b053e2",
+  "preparation_plan_sha256": "fd5930e0428fd7587b128a76d2f00d4d6690f8625852390b91425fcb465854a6",
+  "preservation_PR22": {
+    "state": "closed",
+    "merged": true,
+    "merged_at": "2026-10-21T01:12:02Z",
+    "merge_commit": "d9c56ce0e26517c41c9e0875008cd74c28c2fa45"
+  },
+  "current_commit_message": "Merge pull request #23 from hsoliwal/fix/m3-viewport-ab-snapshot-safety-20261020\n\nfix(viewer): preserve A/B snapshots and reject destructive reruns",
+  "claims": "Exact descriptor preimage only. Other current Java sources and A/B helper changes are not requalified by this read. Immutable old preparation and historical receipts remain unchanged.",
+  "writes_to_receiving_repository": false
+}

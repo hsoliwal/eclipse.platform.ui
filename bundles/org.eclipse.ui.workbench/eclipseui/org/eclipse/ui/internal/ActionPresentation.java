@@ -36,9 +36,9 @@ import org.eclipse.ui.internal.registry.IActionSetDescriptor;
 public class ActionPresentation {
 	private final WorkbenchWindow window;
 
-	private final Map<IActionSetDescriptor, SetRec> mapDescToRec = new HashMap<>(3);
+	private final Map<IActionSetDescriptor, SetRec> mapDescToRec = new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<IActionSetDescriptor, SetRec> invisibleBars = new HashMap<>(3);
+	private final Map<IActionSetDescriptor, SetRec> invisibleBars = new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private static class SetRec {
 		public SetRec(IActionSet set, SubActionBars bars) {
@@ -66,12 +66,12 @@ public class ActionPresentation {
 	 */
 	public void clearActionSets() {
 		// Get all of the action sets -- both visible and invisible.
-		final List<IActionSetDescriptor> oldList = new ArrayList<>();
+		final List<IActionSetDescriptor> oldList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		oldList.addAll(mapDescToRec.keySet());
 		oldList.addAll(invisibleBars.keySet());
 
 		Iterator<IActionSetDescriptor> iter = oldList.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IActionSetDescriptor desc = iter.next();
 			removeActionSet(desc);
 		}
@@ -104,16 +104,16 @@ public class ActionPresentation {
 	 *
 	 * @param newArray the list of visible action set
 	 */
-	public void setActionSets(IActionSetDescriptor[] newArray) {
+	public void setActionSets(IActionSetDescriptor[] newArray) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Convert array to list.
-		Set<IActionSetDescriptor> newList = new HashSet<>();
+		Set<IActionSetDescriptor> newList = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		newList.addAll(Arrays.asList(newArray));
-		List<IActionSetDescriptor> oldList = new ArrayList<>(mapDescToRec.keySet());
+		List<IActionSetDescriptor> oldList = new ArrayList<>(mapDescToRec.keySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Remove obsolete actions.
 		Iterator<IActionSetDescriptor> iter = oldList.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IActionSetDescriptor desc = iter.next();
 			if (!newList.contains(desc)) {
 				SetRec rec = mapDescToRec.get(desc);
@@ -131,9 +131,9 @@ public class ActionPresentation {
 		}
 
 		// Add new actions.
-		List<PluginActionSet> sets = new ArrayList<>();
+		List<PluginActionSet> sets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IActionSetDescriptor desc : newArray) {
+		for (IActionSetDescriptor desc : newArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!mapDescToRec.containsKey(desc)) {
 				try {
 					SetRec rec;
@@ -175,7 +175,7 @@ public class ActionPresentation {
 					}
 					mapDescToRec.put(desc, rec);
 				} catch (CoreException e) {
-					WorkbenchPlugin.log("Unable to create ActionSet: " + desc.getId(), e);//$NON-NLS-1$
+					WorkbenchPlugin.log("Unable to create ActionSet: " + desc.getId(), e);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -189,7 +189,7 @@ public class ActionPresentation {
 		PluginActionSetBuilder.processActionSets(sets, window);
 
 		Iterator<PluginActionSet> setIterator = sets.iterator();
-		while (setIterator.hasNext()) {
+		while (setIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			PluginActionSet set = setIterator.next();
 			set.getBars().activate();
 		}
@@ -204,7 +204,7 @@ public class ActionPresentation {
 	 * @since 3.1
 	 */
 	private boolean containsRegistration(Object[] existingRegistrations, IActionSetDescriptor set) {
-		for (Object existingRegistration : existingRegistrations) {
+		for (Object existingRegistration : existingRegistrations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (existingRegistration == set) {
 				return true;
 			}
@@ -219,7 +219,7 @@ public class ActionPresentation {
 		Collection<SetRec> setRecCollection = mapDescToRec.values();
 		IActionSet result[] = new IActionSet[setRecCollection.size()];
 		int i = 0;
-		for (Iterator<SetRec> iterator = setRecCollection.iterator(); iterator.hasNext(); i++) {
+		for (Iterator<SetRec> iterator = setRecCollection.iterator(); iterator.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i] = (iterator.next()).set;
 		}
 		return result;

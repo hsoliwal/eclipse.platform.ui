@@ -78,7 +78,7 @@ public class StatusAdapter implements IAdaptable {
 	 */
 	public void addAdapter(Class adapter, Object object) {
 		if (adapters == null) {
-			adapters = new HashMap();
+			adapters = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		adapters.put(adapter, object);
 	}
@@ -133,7 +133,7 @@ public class StatusAdapter implements IAdaptable {
 	 */
 	public void setProperty(QualifiedName key, Object value) {
 		if (properties == null) {
-			properties = new HashMap();
+			properties = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		properties.put(key, value);
 	}

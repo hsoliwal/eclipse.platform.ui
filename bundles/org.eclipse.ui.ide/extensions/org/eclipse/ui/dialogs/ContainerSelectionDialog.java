@@ -108,12 +108,12 @@ public class ContainerSelectionDialog extends SelectionDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IIDEHelpContextIds.CONTAINER_SELECTION_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// create composite
 		Composite area = (Composite) super.createDialogArea(parent);
 
-		Listener listener = _ -> {
+		Listener listener = unused -> {
 			if (statusMessage != null && validator != null) {
 				String errorMsg = validator.isValid(group.getContainerFullPath());
 				if (errorMsg == null || errorMsg.equals(EMPTY_STRING)) {
@@ -148,7 +148,7 @@ public class ContainerSelectionDialog extends SelectionDialog {
 	@Override
 	protected void okPressed() {
 
-		List<IPath> chosenContainerPathList = new ArrayList<>();
+		List<IPath> chosenContainerPathList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IPath returnValue = group.getContainerFullPath();
 		if (returnValue != null) {
 			chosenContainerPathList.add(returnValue);

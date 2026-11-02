@@ -39,7 +39,7 @@ public class GroupsContribution extends MarkersContribution {
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IContributionItem[] getContributionItems() {
 		ExtendedMarkersView view = getView();
 		if (view == null) {
@@ -55,7 +55,7 @@ public class GroupsContribution extends MarkersContribution {
 		Iterator<MarkerGroup> groupsIterator = groups.iterator();
 		IContributionItem[] items = new IContributionItem[groups.size() + 1];
 
-		for (int i = 0; i < items.length - 1; i++) {
+		for (int i = 0; i < items.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final MarkerGroup group = groupsIterator.next();
 			items[i] = getContributionItem(group);
 		}
@@ -69,7 +69,7 @@ public class GroupsContribution extends MarkersContribution {
 	 *
 	 * @return IContributionItem
 	 */
-	private IContributionItem getContributionItem(final MarkerGroup group) {
+	private IContributionItem getContributionItem(final MarkerGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new ContributionItem() {
 
 			@Override
@@ -77,7 +77,7 @@ public class GroupsContribution extends MarkersContribution {
 				MenuItem item = new MenuItem(menu, SWT.RADIO);
 				item.setText(group == null ? MarkerMessages.ProblemView_None : group.getMarkerField().getName());
 				ExtendedMarkersView view = getView();
-				item.addListener(SWT.Selection, getMenuItemListener(group, view));
+				item.addListener(SWT.Selection, getMenuItemListener(group, view)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 				if (view != null) {
 					if (group == null) {

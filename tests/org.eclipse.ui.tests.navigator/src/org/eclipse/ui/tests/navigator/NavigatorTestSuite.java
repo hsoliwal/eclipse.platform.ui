@@ -25,6 +25,7 @@ import org.eclipse.ui.tests.navigator.resources.CloseUnrelatedProjectsActionTest
 import org.eclipse.ui.tests.navigator.resources.FoldersAsProjectsContributionTest;
 import org.eclipse.ui.tests.navigator.resources.NestedResourcesTests;
 import org.eclipse.ui.tests.navigator.resources.PathComparatorTest;
+import org.eclipse.ui.tests.navigator.resources.ResourceDeltaThreadingTest;
 import org.eclipse.ui.tests.navigator.resources.ResourceMgmtActionProviderTests;
 
 import org.junit.platform.suite.api.Suite;
@@ -38,6 +39,7 @@ import org.junit.platform.suite.api.SelectClasses;
 		FirstClassM1Tests.class, LinkHelperTest.class, ShowInTest.class, ResourceTransferTest.class,
 		EvaluationCacheTest.class, ResourceMgmtActionProviderTests.class,
 		NestedResourcesTests.class, PathComparatorTest.class, FoldersAsProjectsContributionTest.class,
+		ResourceDeltaThreadingTest.class,
 		GoBackForwardsTest.class, CopyPasteActionTest.class,
 		CloseUnrelatedProjectsActionTest.class,
 		// DnDTest.class, // DnDTest.testSetDragOperation() fails

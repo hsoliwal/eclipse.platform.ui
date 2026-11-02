@@ -134,7 +134,7 @@ import org.eclipse.swt.widgets.ToolItem;
 	public class StatusLineLayout extends Layout {
 		private final StatusLineLayoutData DEFAULT_DATA = new StatusLineLayoutData();
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Point computeSize(Composite composite, int wHint, int hHint,
 				boolean changed) {
 
@@ -146,7 +146,7 @@ import org.eclipse.swt.widgets.ToolItem;
 			int totalWidth = 0;
 			int maxHeight = 0;
 			int totalCnt = 0;
-			for (Control w : children) {
+			for (Control w : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean useWidth = true;
 				if (w == fProgressBarComposite && !fProgressIsVisible) {
 					useWidth = false;
@@ -175,7 +175,7 @@ import org.eclipse.swt.widgets.ToolItem;
 			return new Point(totalWidth, maxHeight);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void layout(Composite composite, boolean flushCache) {
 
 			if (composite == null) {
@@ -200,7 +200,7 @@ import org.eclipse.swt.widgets.ToolItem;
 
 			int h = rect.height;
 			int totalWidth = -GAP;
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Control w = children[i];
 				if (w == fProgressBarComposite && !fProgressIsVisible) {
 					continue;
@@ -231,7 +231,7 @@ import org.eclipse.swt.widgets.ToolItem;
 			}
 
 			// Take space away from the contributions first.
-			for (int i = count - 1; i >= 0 && diff < 0; --i) {
+			for (int i = count - 1; i >= 0 && diff < 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int min = Math.min(ws[i], -diff);
 				ws[i] -= min;
 				diff += min + GAP;
@@ -239,7 +239,7 @@ import org.eclipse.swt.widgets.ToolItem;
 
 			int x = rect.x;
 			int y = rect.y;
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Control w = children[i];
 				/*
 				 * Workaround for Linux Motif: Even if the progress bar and
@@ -270,7 +270,7 @@ import org.eclipse.swt.widgets.ToolItem;
 	 * @param style
 	 *            the style used to create this widget
 	 */
-	public StatusLine(Composite parent, int style) {
+	public StatusLine(Composite parent, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent, style);
 
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
@@ -280,7 +280,7 @@ import org.eclipse.swt.widgets.ToolItem;
 			}
 		});
 
-		addDisposeListener(e -> handleDispose());
+		addDisposeListener(e -> handleDispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
 		// StatusLineManager skips over the standard status line widgets
 		// in its update method. There is thus a dependency
@@ -297,7 +297,7 @@ import org.eclipse.swt.widgets.ToolItem;
 		fMessageLabel.setMenu(menu);
 		copyMenuItem = new MenuItem(menu, SWT.PUSH);
 		copyMenuItem.setText(JFaceResources.getString("copy")); //$NON-NLS-1$
-		copyMenuItem.addSelectionListener(widgetSelectedAdapter(e -> {
+		copyMenuItem.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			String text = fMessageLabel.getText();
 			if (text != null && text.length() > 0) {
 				text = LegacyActionTools.removeMnemonics(text);
@@ -316,8 +316,8 @@ import org.eclipse.swt.widgets.ToolItem;
 		fCancelButton.setImage(fgStopImage.createImage());
 		fCancelButton.setToolTipText(JFaceResources
 				.getString("Cancel_Current_Operation")); //$NON-NLS-1$
-		fCancelButton.addSelectionListener(widgetSelectedAdapter(e -> setCanceled(true)));
-		fCancelButton.addDisposeListener(e -> {
+		fCancelButton.addSelectionListener(widgetSelectedAdapter(e -> setCanceled(true))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		fCancelButton.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			Image i = fCancelButton.getImage();
 			if ((i != null) && (!i.isDisposed())) {
 				i.dispose();
@@ -352,7 +352,7 @@ import org.eclipse.swt.widgets.ToolItem;
 	 *            general users should use the UNKNOWN value if they don't know
 	 *            the total amount of work units.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void beginTask(String name, int totalWork) {
 		final long timestamp = System.currentTimeMillis();
 		fStartTime = timestamp;
@@ -364,7 +364,7 @@ import org.eclipse.swt.widgets.ToolItem;
 		// the task is running. Fixes bug 32198 for the non-animated case.
 		Runnable timer = () -> StatusLine.this.startTask(timestamp, animated);
 		inUIThread(() -> {
-			fProgressBar.getDisplay().timerExec(DELAY_PROGRESS, timer);
+			fProgressBar.getDisplay().timerExec(DELAY_PROGRESS, timer); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (!animated) {
 				fProgressBar.beginTask(totalWork);
 			}
@@ -376,7 +376,7 @@ import org.eclipse.swt.widgets.ToolItem;
 		if (Display.getCurrent() != null) {
 			r.run();
 		} else {
-			getDisplay().asyncExec(() -> {
+			getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (!isDisposed()) {
 					r.run();
 				}
@@ -544,7 +544,7 @@ import org.eclipse.swt.widgets.ToolItem;
 	public void setFont(Font font) {
 		super.setFont(font);
 		Control[] children = getChildren();
-		for (Control element : children) {
+		for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			element.setFont(font);
 		}
 	}
@@ -641,7 +641,7 @@ import org.eclipse.swt.widgets.ToolItem;
 	 *            the name (or description) of the subtask
 	 * @see IProgressMonitor#subTask(String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void subTask(String name) {
 
 		String newName;
@@ -668,7 +668,7 @@ import org.eclipse.swt.widgets.ToolItem;
 	 * Trims the message to be displayable in the status line. This just pulls
 	 * out the first line of the message. Allows null.
 	 */
-	String trim(String message) {
+	String trim(String message) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (message == null) {
 			return null;
 		}
@@ -692,7 +692,7 @@ import org.eclipse.swt.widgets.ToolItem;
 	/**
 	 * Updates the message label widget.
 	 */
-	protected void updateMessageLabel() {
+	protected void updateMessageLabel() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fMessageLabel != null && !fMessageLabel.isDisposed()) {
 			Display display = fMessageLabel.getDisplay();
 			if ((fErrorText != null && !fErrorText.isEmpty()) || fErrorImage != null) {

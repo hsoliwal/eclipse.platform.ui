@@ -72,7 +72,7 @@ public class OpenLocalFileAction extends Action implements IWorkbenchWindowActio
 	public void selectionChanged(IAction action, ISelection selection) {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		FileDialog dialog =  new FileDialog(workbenchWindow.getShell(), SWT.OPEN | SWT.MULTI | SWT.SHEET);
 		dialog.setText(IDEWorkbenchMessages.OpenLocalFileAction_title);
@@ -84,8 +84,8 @@ public class OpenLocalFileAction extends Action implements IWorkbenchWindowActio
 			filterPath =  dialog.getFilterPath();
 
 			int numberOfFilesNotFound =  0;
-			StringBuilder notFound =  new StringBuilder();
-			for (String name : names) {
+			StringBuilder notFound =  new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IFileStore fileStore =  EFS.getLocalFileSystem().getStore(IPath.fromOSString(filterPath));
 				fileStore =  fileStore.getChild(name);
 				IFileInfo fetchInfo = fileStore.fetchInfo();

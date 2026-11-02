@@ -104,7 +104,7 @@ public abstract class EditingSupport {
 			cellEditor.setValue(value);
 		} catch (AssertionFailedException e) {
 			String valueType = value == null ? "null" : value.getClass().getName(); //$NON-NLS-1$
-			Assert.isTrue(false, "Failed to initialize cell editor " + cellEditor.getClass().getName() //$NON-NLS-1$
+			Assert.isTrue(false, "Failed to initialize cell editor " + cellEditor.getClass().getName() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " at column index " + cell.getColumnIndex() //$NON-NLS-1$
 					+ " for element " + cell.getElement() //$NON-NLS-1$
 					+ " with value of type " + valueType //$NON-NLS-1$

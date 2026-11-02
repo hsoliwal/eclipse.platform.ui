@@ -47,11 +47,11 @@ public class EclipseProjectConfigurator implements ProjectConfigurator {
 	@Override
 	public Set<File> findConfigurableLocations(File root, boolean skipDotFolders, IProgressMonitor monitor) {
 		Set<File> projectFiles = new LinkedHashSet<>();
-		Set<String> visitedDirectories = new HashSet<>();
+		Set<String> visitedDirectories = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		WizardProjectsImportPage.collectProjectFilesFromDirectory(projectFiles, root, visitedDirectories, true,
 				skipDotFolders, monitor);
 		Set<File> res = new LinkedHashSet<>();
-		for (File projectFile : projectFiles) {
+		for (File projectFile : projectFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res.add(projectFile.getParentFile());
 		}
 		return res;

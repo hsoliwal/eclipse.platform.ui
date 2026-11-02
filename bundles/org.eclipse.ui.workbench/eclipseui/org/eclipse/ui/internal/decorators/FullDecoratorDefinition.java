@@ -48,7 +48,7 @@ class FullDecoratorDefinition extends DecoratorDefinition {
 	 *
 	 * @return Returns a ILabelDecorator
 	 */
-	protected ILabelDecorator internalGetDecorator() throws CoreException {
+	protected ILabelDecorator internalGetDecorator() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (labelProviderCreationFailed) {
 			return null;
 		}
@@ -63,7 +63,7 @@ class FullDecoratorDefinition extends DecoratorDefinition {
 							try {
 								decorator = (ILabelDecorator) WorkbenchPlugin.createExtension(definingElement,
 										DecoratorDefinition.ATT_CLASS);
-								decorator.addListener(WorkbenchPlugin.getDefault().getDecoratorManager());
+								decorator.addListener(WorkbenchPlugin.getDefault().getDecoratorManager()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 							} catch (CoreException exception) {
 								exceptions[0] = exception;
 							}

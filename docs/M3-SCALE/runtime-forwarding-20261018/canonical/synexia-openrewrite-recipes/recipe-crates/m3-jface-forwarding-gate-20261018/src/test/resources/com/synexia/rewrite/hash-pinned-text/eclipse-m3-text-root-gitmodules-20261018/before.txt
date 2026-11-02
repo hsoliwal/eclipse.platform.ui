@@ -1,0 +1,3 @@
+[submodule "eclipse.platform.ui"]
+	path = eclipse.platform.ui
+	url = https://github.com/eclipse-platform/eclipse.platform.ui.git

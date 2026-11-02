@@ -99,9 +99,9 @@ public class StringConverter {
 	 * @throws DataFormatException thrown if request string could not seperated
 	 */
 	public static String[] asArray(String value) throws DataFormatException {
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		StringTokenizer stok = new StringTokenizer(value);
-		while (stok.hasMoreTokens()) {
+		while (stok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(stok.nextToken());
 		}
 		String result[] = new String[list.size()];
@@ -154,7 +154,7 @@ public class StringConverter {
 			return false;
 		}
 		throw new DataFormatException(
-				"Value " + value + "doesn't represent a boolean"); //$NON-NLS-2$//$NON-NLS-1$
+				"Value " + value + "doesn't represent a boolean"); //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class StringConverter {
 	 * @exception DataFormatException if the given value does not represent font
 	 *                                data
 	 */
-	public static FontData asFontData(String value) throws DataFormatException {
+	public static FontData asFontData(String value) throws DataFormatException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (value == null) {
 			throw new DataFormatException(
 					"Null doesn't represent a valid font data"); //$NON-NLS-1$
@@ -273,14 +273,14 @@ public class StringConverter {
 			int heightIndex = value.lastIndexOf(SEPARATOR);
 			if (heightIndex == -1) {
 				throw new DataFormatException(
-						"No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$
+						"No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			height = StringConverter.asInt(value.substring(heightIndex + 1,
 					length));
 			int faceIndex = value.lastIndexOf(SEPARATOR, heightIndex - 1);
 			if (faceIndex == -1) {
 				throw new DataFormatException(
-						"No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$
+						"No correct font data format \"" + value + "\""); //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			String s = value.substring(faceIndex + 1, heightIndex);
 			if (BOLD_ITALIC.equals(s)) {
@@ -292,7 +292,7 @@ public class StringConverter {
 			} else if (REGULAR.equals(s)) {
 				style = SWT.NORMAL;
 			} else {
-				throw new DataFormatException("Unknown face name \"" + s + "\""); //$NON-NLS-2$//$NON-NLS-1$
+				throw new DataFormatException("Unknown face name \"" + s + "\""); //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			name = value.substring(0, faceIndex);
 		} catch (NoSuchElementException e) {
@@ -311,9 +311,9 @@ public class StringConverter {
 		if (prop == null || prop.trim().isEmpty()) {
 			return new String[0];
 		}
-		ArrayList<String> list = new ArrayList<>();
+		ArrayList<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		StringTokenizer tokens = new StringTokenizer(prop, separator);
-		while (tokens.hasMoreTokens()) {
+		while (tokens.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token = tokens.nextToken().trim();
 			if (!token.isEmpty()) {
 				list.add(token);
@@ -331,8 +331,8 @@ public class StringConverter {
 	 */
 	public static FontData[] asFontDataArray(String value) {
 		String[] strings = getArrayFromList(value, FONT_SEPARATOR);
-		ArrayList<FontData> data = new ArrayList<>(strings.length);
-		for (String string : strings) {
+		ArrayList<FontData> data = new ArrayList<>(strings.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String string : strings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				data.add(StringConverter.asFontData(string));
 			} catch (DataFormatException e) {
@@ -490,7 +490,7 @@ public class StringConverter {
 	 * @exception DataFormatException if the given value does not represent a
 	 *                                rectangle
 	 */
-	public static Rectangle asRectangle(String value)
+	public static Rectangle asRectangle(String value) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws DataFormatException {
 		if (value == null) {
 			throw new DataFormatException(
@@ -545,7 +545,7 @@ public class StringConverter {
 	 * @exception DataFormatException if the given value does not represent an RGB
 	 *                                color value
 	 */
-	public static RGB asRGB(String value) throws DataFormatException {
+	public static RGB asRGB(String value) throws DataFormatException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (value == null) {
 			throw new DataFormatException("Null doesn't represent a valid RGB"); //$NON-NLS-1$
 		}
@@ -699,8 +699,8 @@ public class StringConverter {
 	 * @since 3.0
 	 */
 	public static String asString(FontData[] value) {
-		StringBuilder buffer = new StringBuilder();
-		for (int i = 0; i < value.length; i++) {
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < value.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buffer.append(asString(value[i]));
 			if (i != value.length - 1) {
 				buffer.append(FONT_SEPARATOR);
@@ -715,9 +715,9 @@ public class StringConverter {
 	 * @param value The font data.
 	 * @return The string representation of the font data object.
 	 */
-	public static String asString(FontData value) {
+	public static String asString(FontData value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(value);
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append(value.getName());
 		buffer.append(SEPARATOR);
 		int style = value.getStyle();
@@ -751,7 +751,7 @@ public class StringConverter {
 	 */
 	public static String asString(Point value) {
 		Assert.isNotNull(value);
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append(value.x);
 		buffer.append(',');
 		buffer.append(value.y);
@@ -772,7 +772,7 @@ public class StringConverter {
 	 */
 	public static String asString(Rectangle value) {
 		Assert.isNotNull(value);
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append(value.x);
 		buffer.append(',');
 		buffer.append(value.y);
@@ -797,7 +797,7 @@ public class StringConverter {
 	 */
 	public static String asString(RGB value) {
 		Assert.isNotNull(value);
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append(value.red);
 		buffer.append(',');
 		buffer.append(value.green);
@@ -827,12 +827,12 @@ public class StringConverter {
 	 * @param s the source string
 	 * @return the string with all whitespace characters removed
 	 */
-	public static String removeWhiteSpaces(String s) {
+	public static String removeWhiteSpaces(String s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//check for no whitespace (common case)
 		boolean found = false;
 		int wsIndex = -1;
 		int size = s.length();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			found = Character.isWhitespace(s.charAt(i));
 			if (found) {
 				wsIndex = i;
@@ -843,8 +843,8 @@ public class StringConverter {
 			return s;
 		}
 
-		StringBuilder result = new StringBuilder(s.substring(0, wsIndex));
-		for (int i = wsIndex + 1; i < size; i++) {
+		StringBuilder result = new StringBuilder(s.substring(0, wsIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = wsIndex + 1; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch = s.charAt(i);
 			if (!Character.isWhitespace(ch)) {
 				result.append(ch);
@@ -861,10 +861,10 @@ public class StringConverter {
 	 * @return The string representation of the font data object.
 	 * @deprecated use asString(FontData)
 	 */
-	@Deprecated(forRemoval = true, since = "2026-03")
+	@Deprecated(forRemoval = true, since = "2026-03") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static String asDisplayableString(FontData value) {
 		Assert.isNotNull(value);
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append(value.getName());
 		buffer.append(SEPARATOR);
 		int style = value.getStyle();

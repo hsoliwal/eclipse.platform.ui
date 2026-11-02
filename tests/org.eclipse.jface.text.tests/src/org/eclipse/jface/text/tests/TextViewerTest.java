@@ -169,7 +169,7 @@ public class TextViewerTest {
 		// first run in UI Thread, forward exceptions
 		r.run();
 		// then run in non-UI Thread
-		Job job = Job.create("Check in non-UI Thread", _ -> {
+		Job job = Job.create("Check in non-UI Thread", unused -> {
 			try {
 				r.run();
 				return Status.OK_STATUS;

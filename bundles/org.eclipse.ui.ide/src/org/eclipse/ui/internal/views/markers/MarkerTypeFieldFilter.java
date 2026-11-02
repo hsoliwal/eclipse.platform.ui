@@ -40,7 +40,7 @@ public class MarkerTypeFieldFilter extends CompatibilityFieldFilter {
 
 	private static final String TAG_TYPES_DELIMITER = ":"; //$NON-NLS-1$
 	private static final String TAG_SELECTED_TYPES = "selectedTypes"; //$NON-NLS-1$
-	Collection<MarkerType> selectedTypes = new HashSet<>();
+	Collection<MarkerType> selectedTypes = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private MarkerContentGenerator contentGenerator;
 
 
@@ -88,8 +88,8 @@ public class MarkerTypeFieldFilter extends CompatibilityFieldFilter {
 		}
 
 		Iterator<MarkerType> selected = selectedTypes.iterator();
-		StringBuilder settings = new StringBuilder();
-		while (selected.hasNext()) {
+		StringBuilder settings = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		while (selected.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType markerType = selected.next();
 			settings.append(markerType.getId());
 			settings.append(TAG_TYPES_DELIMITER);
@@ -97,7 +97,7 @@ public class MarkerTypeFieldFilter extends CompatibilityFieldFilter {
 		memento.putString(TAG_SELECTED_TYPES, settings.toString());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void loadSettings(IMemento memento) {
 		String types = memento.getString(TAG_SELECTED_TYPES);
 		if (types == null) {
@@ -107,7 +107,7 @@ public class MarkerTypeFieldFilter extends CompatibilityFieldFilter {
 		selectedTypes.clear();
 		int start = 0;
 		int nextSpace = types.indexOf(TAG_TYPES_DELIMITER, 0);
-		while (nextSpace > 0) {
+		while (nextSpace > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String typeId = types.substring(start, nextSpace);
 			start = nextSpace + 1;
 			nextSpace = types.indexOf(TAG_TYPES_DELIMITER, start);
@@ -119,7 +119,7 @@ public class MarkerTypeFieldFilter extends CompatibilityFieldFilter {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void loadLegacySettings(IMemento memento, MarkerContentGenerator generator) {
 		setContentGenerator(generator);
 		// new selection list attribute
@@ -130,9 +130,9 @@ public class MarkerTypeFieldFilter extends CompatibilityFieldFilter {
 			selectedTypes.clear();
 
 			// get the complete list of types
-			List<MarkerType> newTypes = new ArrayList<>();
+			List<MarkerType> newTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			StringTokenizer stringTokenizer = new StringTokenizer(setting);
-			while (stringTokenizer.hasMoreTokens()) {
+			while (stringTokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = stringTokenizer.nextToken(TAG_TYPES_DELIMITER);
 				String status = null;
 				if (stringTokenizer.hasMoreTokens()) {
@@ -164,14 +164,14 @@ public class MarkerTypeFieldFilter extends CompatibilityFieldFilter {
 	void setContentGenerator(MarkerContentGenerator generator) {
 		contentGenerator = generator;
 		// Set the initial selection to be everything
-		selectedTypes = new HashSet<>();
+		selectedTypes = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		selectedTypes.addAll(generator.getMarkerTypes());
 	}
 
 	@Override
 	public void populateWorkingCopy(MarkerFieldFilter copy) {
 		super.populateWorkingCopy(copy);
-		((MarkerTypeFieldFilter) copy).selectedTypes = new HashSet<>(selectedTypes);
+		((MarkerTypeFieldFilter) copy).selectedTypes = new HashSet<>(selectedTypes); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		((MarkerTypeFieldFilter) copy).contentGenerator = contentGenerator;
 	}
 }

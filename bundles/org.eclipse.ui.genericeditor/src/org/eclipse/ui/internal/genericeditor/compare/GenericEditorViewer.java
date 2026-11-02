@@ -57,7 +57,7 @@ public class GenericEditorViewer extends Viewer {
 
 		// use the same font as the TextMergeViewer
 		sourceViewer.getTextWidget().setFont(JFaceResources.getFont(TextMergeViewer.class.getName()));
-		sourceViewer.getTextWidget().addDisposeListener(_ -> disconnect());
+		sourceViewer.getTextWidget().addDisposeListener(unused -> disconnect());
 	}
 
 	@Override

@@ -154,7 +154,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 		 */
 		protected boolean locked = false;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void beginTask(String name, int totalWork) {
 			if (progressIndicator.isDisposed()) {
 				return;
@@ -318,7 +318,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 	 */
 	private void asyncSetOperationCancelButtonEnabled(final boolean b) {
 		if (getShell() != null) {
-			getShell().getDisplay().asyncExec(() -> setOperationCancelButtonEnabled(b));
+			getShell().getDisplay().asyncExec(() -> setOperationCancelButtonEnabled(b)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
@@ -377,7 +377,7 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 		shell.setCursor(shell.getDisplay().getSystemCursor(SWT.CURSOR_WAIT));
 		// Add a listener to set the message properly when the dialog becomes
 		// visible
-		shell.addListener(SWT.Show, event -> shell.getDisplay().asyncExec(() -> setMessage(message, true)));
+		shell.addListener(SWT.Show, event -> shell.getDisplay().asyncExec(() -> setMessage(message, true))); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	@Override
@@ -399,13 +399,13 @@ public class ProgressMonitorDialog extends IconAndMessageDialog implements
 		if (arrowCursor == null) {
 			Cursor cursor = new Cursor(cancel.getDisplay(), SWT.CURSOR_ARROW);
 			arrowCursor = cursor;
-			cancel.addDisposeListener(e -> cursor.dispose());
+			cancel.addDisposeListener(e -> cursor.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 		cancel.setCursor(arrowCursor);
 		setOperationCancelButtonEnabled(enableCancelButton);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		setMessage(DEFAULT_TASKNAME, false);
 		createMessageArea(parent);

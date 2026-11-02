@@ -71,12 +71,12 @@ abstract class AbstractResourceManager extends ResourceManager {
 	 */
 	protected abstract <R> void deallocate(Object resource, DeviceResourceDescriptor<R> descriptor);
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final <R> R create(DeviceResourceDescriptor<R> descriptor) throws DeviceResourceException {
 
 		// Lazily allocate the map
 		if (map == null) {
-			map = new HashMap<>();
+			map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 
 		// Get the current reference count
@@ -97,7 +97,7 @@ abstract class AbstractResourceManager extends ResourceManager {
 		return resource;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final <R> void destroy(DeviceResourceDescriptor<R> descriptor) {
 		// If the map is empty (null) then there are no resources to dispose
 		if (map == null) {

@@ -158,7 +158,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 	 * @param obj the object who default we are looking for
 	 * @return Object or <code>null</code>
 	 */
-	private Object getDefault(String key, Object obj) {
+	private Object getDefault(String key, Object obj) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEclipsePreferences defaults = getDefaultPreferences();
 		if (obj instanceof String) {
 			return defaults.get(key, STRING_DEFAULT_DEFAULT);
@@ -215,7 +215,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 	 *                       included and <code>false</code> otherwise
 	 * @return IEclipsePreferences[]
 	 */
-	public IEclipsePreferences[] getPreferenceNodes(boolean includeDefault) {
+	public IEclipsePreferences[] getPreferenceNodes(boolean includeDefault) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// if the user didn't specify a search order, then return the scope that
 		// this store was created on. (and optionally the default)
 		if (searchContexts == null) {
@@ -231,7 +231,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 			length++;
 		}
 		IEclipsePreferences[] preferences = new IEclipsePreferences[length];
-		for (int i = 0; i < searchContexts.length; i++) {
+		for (int i = 0; i < searchContexts.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			preferences[i] = searchContexts[i].getNode(nodeQualifier);
 		}
 		if (includeDefault) {
@@ -265,7 +265,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 
 		// Assert that the default was not included (we automatically add it to
 		// the end)
-		for (IScopeContext scope : scopes) {
+		for (IScopeContext scope : scopes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (scope.equals(defaultContext)) {
 				Assert.isTrue(false, JFaceResources.getString("ScopedPreferenceStore_DefaultAddedError")); //$NON-NLS-1$
 			}
@@ -280,7 +280,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 		return internalGet(name, true) != null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {
 		// important: create intermediate array to protect against listeners
 		// being added/removed during the notification
@@ -289,7 +289,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 			return;
 		}
 		final PropertyChangeEvent event = new PropertyChangeEvent(this, name, oldValue, newValue);
-		for (Object listener : listeners) {
+		for (Object listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPropertyChangeListener propertyChangeListener = (IPropertyChangeListener) listener;
 			SafeRunner.run(new SafeRunnable(JFaceResources.getString("PreferenceStore.changeError")) { //$NON-NLS-1$
 				@Override
@@ -473,7 +473,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 		getDefaultPreferences().putBoolean(name, value);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setToDefault(String name) {
 
 		String oldValue = getString(name);
@@ -494,7 +494,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setValue(String name, double value) {
 		double oldValue = getDouble(name);
 		if (oldValue == value) {
@@ -514,7 +514,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setValue(String name, float value) {
 		float oldValue = getFloat(name);
 		if (oldValue == value) {
@@ -534,7 +534,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setValue(String name, int value) {
 		int oldValue = getInt(name);
 		if (oldValue == value) {
@@ -554,7 +554,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setValue(String name, long value) {
 		long oldValue = getLong(name);
 		if (oldValue == value) {
@@ -585,7 +585,7 @@ public class ScopedPreferenceStore extends EventManager implements IPersistentPr
 		dirty = true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setValue(String name, boolean value) {
 		boolean oldValue = getBoolean(name);
 		if (oldValue == value) {

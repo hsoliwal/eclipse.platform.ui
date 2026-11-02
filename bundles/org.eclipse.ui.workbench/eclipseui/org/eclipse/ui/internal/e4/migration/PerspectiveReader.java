@@ -53,8 +53,8 @@ public class PerspectiveReader extends MementoReader {
 
 	List<InfoReader> getInfos() {
 		IMemento[] infoMems = getInfoMems();
-		List<InfoReader> infos = new ArrayList<>(infoMems.length);
-		for (IMemento infoMem : infoMems) {
+		List<InfoReader> infos = new ArrayList<>(infoMems.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMemento infoMem : infoMems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			infos.add(new InfoReader(infoMem));
 		}
 		return infos;
@@ -77,8 +77,8 @@ public class PerspectiveReader extends MementoReader {
 
 	Map<String, ViewLayoutReader> getViewLayouts() {
 		IMemento[] viewLayoutMems = getChildren(IWorkbenchConstants.TAG_VIEW_LAYOUT_REC);
-		Map<String, ViewLayoutReader> viewLayouts = new HashMap<>(viewLayoutMems.length);
-		for (IMemento memento : viewLayoutMems) {
+		Map<String, ViewLayoutReader> viewLayouts = new HashMap<>(viewLayoutMems.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IMemento memento : viewLayoutMems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ViewLayoutReader viewLayout = new ViewLayoutReader(memento);
 			viewLayouts.put(viewLayout.getViewId(), viewLayout);
 		}
@@ -115,28 +115,28 @@ public class PerspectiveReader extends MementoReader {
 	 * @return map of fast view bar's ID and side
 	 */
 	Map<String, Integer> getFastViewBars() {
-		Map<String, Integer> bars = new HashMap<>();
-		for (IMemento bar : getFastViewBarMems()) {
+		Map<String, Integer> bars = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IMemento bar : getFastViewBarMems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			bars.put(bar.getString(IWorkbenchConstants.TAG_ID), bar.getInteger(IWorkbenchConstants.TAG_FAST_VIEW_SIDE));
 		}
 		return bars;
 	}
 
-	private List<String> getFastViewIds() {
-		List<String> fastViewIds = new ArrayList<>();
+	private List<String> getFastViewIds() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<String> fastViewIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IMemento fastViews = getChild(IWorkbenchConstants.TAG_FAST_VIEWS);
 		if (fastViews != null) {
-			for (IMemento view : fastViews.getChildren(IWorkbenchConstants.TAG_VIEW)) {
+			for (IMemento view : fastViews.getChildren(IWorkbenchConstants.TAG_VIEW)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fastViewIds.add(view.getString(IWorkbenchConstants.TAG_ID));
 			}
 		}
 
 		IMemento[] fastViewBarArr = getFastViewBarMems();
-		for (IMemento fastViewBar : fastViewBarArr) {
+		for (IMemento fastViewBar : fastViewBarArr) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento fastViewsInBar = fastViewBar.getChild(IWorkbenchConstants.TAG_FAST_VIEWS);
 			if (fastViewsInBar != null) {
-				for (IMemento view : fastViewsInBar.getChildren(IWorkbenchConstants.TAG_VIEW)) {
+				for (IMemento view : fastViewsInBar.getChildren(IWorkbenchConstants.TAG_VIEW)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fastViewIds.add(view.getString(IWorkbenchConstants.TAG_ID));
 				}
 			}
@@ -145,10 +145,10 @@ public class PerspectiveReader extends MementoReader {
 	}
 
 	List<String> getDefaultFastViewBarViewIds() {
-		List<String> fastViewIds = new ArrayList<>();
+		List<String> fastViewIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMemento fastViews = getChild(IWorkbenchConstants.TAG_FAST_VIEWS);
 		if (fastViews != null) {
-			for (IMemento view : fastViews.getChildren(IWorkbenchConstants.TAG_VIEW)) {
+			for (IMemento view : fastViews.getChildren(IWorkbenchConstants.TAG_VIEW)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fastViewIds.add(view.getString(IWorkbenchConstants.TAG_ID));
 			}
 		}
@@ -176,19 +176,19 @@ public class PerspectiveReader extends MementoReader {
 
 	private List<String> getChildrenIds(String tag) {
 		IMemento[] idMemArr = getChildren(tag);
-		List<String> idList = new ArrayList<>(idMemArr.length);
-		for (IMemento idMem : idMemArr) {
+		List<String> idList = new ArrayList<>(idMemArr.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMemento idMem : idMemArr) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			idList.add(idMem.getString(IWorkbenchConstants.TAG_ID));
 		}
 		return idList;
 	}
 
 	List<DetachedWindowReader> getDetachedWindows() {
-		List<DetachedWindowReader> readers = new ArrayList<>();
+		List<DetachedWindowReader> readers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMemento layout = getLayout();
 		if (layout != null) {
 			IMemento[] mems = layout.getChildren(IWorkbenchConstants.TAG_DETACHED_WINDOW);
-			for (IMemento mem : mems) {
+			for (IMemento mem : mems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				readers.add(new DetachedWindowReader(mem));
 			}
 		}
@@ -256,10 +256,10 @@ public class PerspectiveReader extends MementoReader {
 
 		List<PageReader> getPages() {
 			IMemento folder = getFolder();
-			List<PageReader> pages = new ArrayList<>();
+			List<PageReader> pages = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (folder != null) {
 				IMemento[] pageMems = folder.getChildren(IWorkbenchConstants.TAG_PAGE);
-				for (IMemento pageMem : pageMems) {
+				for (IMemento pageMem : pageMems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					pages.add(new PageReader(pageMem));
 				}
 			}
@@ -283,7 +283,7 @@ public class PerspectiveReader extends MementoReader {
 		String getId() {
 			String id = getOriginalId();
 			if (isCustom()) {
-				id = getBasicPerspectiveId() + "." + id; //$NON-NLS-1$
+				id = getBasicPerspectiveId() + "." + id; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return id;
 		}

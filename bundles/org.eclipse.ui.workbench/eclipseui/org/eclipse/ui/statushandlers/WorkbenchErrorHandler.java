@@ -42,7 +42,7 @@ public class WorkbenchErrorHandler extends AbstractStatusHandler {
 
 	private WorkbenchStatusDialogManager statusDialogManager;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void handle(final StatusAdapter statusAdapter, int style) {
 		statusAdapter.setProperty(WorkbenchStatusDialogManager.HINT, Integer.valueOf(style));
 		if (((style & StatusManager.SHOW) == StatusManager.SHOW)
@@ -67,7 +67,7 @@ public class WorkbenchErrorHandler extends AbstractStatusHandler {
 				try {
 					// Checking isDisposed() here isn't enough due to race conditions
 					// since we are in a worker thread.
-					PlatformUI.getWorkbench().getDisplay().asyncExec(uiRunnable);
+					PlatformUI.getWorkbench().getDisplay().asyncExec(uiRunnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				} catch (SWTException e) {
 					if (e.code == SWT.ERROR_DEVICE_DISPOSED) {
 						// platform is being shut down, just log
@@ -98,7 +98,7 @@ public class WorkbenchErrorHandler extends AbstractStatusHandler {
 
 		if (block) {
 			Shell shell;
-			while ((shell = getStatusDialogShell()) != null && !shell.isDisposed()) {
+			while ((shell = getStatusDialogShell()) != null && !shell.isDisposed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!shell.getDisplay().readAndDispatch()) {
 					shell.getDisplay().sleep();
 				}

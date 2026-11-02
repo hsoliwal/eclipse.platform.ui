@@ -113,7 +113,7 @@ public class MarkerViewUtil {
 	 *         <code>false</code> if not
 	 * @since 3.13
 	 */
-	public static boolean showMarkers(IWorkbenchPage page, IMarker[] markers, boolean showView) {
+	public static boolean showMarkers(IWorkbenchPage page, IMarker[] markers, boolean showView) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (null == markers || 0 == markers.length || null == markers[0]) {
 			return false;
@@ -154,8 +154,8 @@ public class MarkerViewUtil {
 			return markers;
 		}
 
-		ArrayList<IMarker> markersOfView = new ArrayList<>();
-		for (IMarker marker : markers) {
+		ArrayList<IMarker> markersOfView = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (null != marker && viewId.equals(getViewId(marker))) {
 				markersOfView.add(marker);
 			}

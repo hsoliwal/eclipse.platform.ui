@@ -53,7 +53,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 
 	private static class CategoryEntry extends TypesEntry {
 
-		private final Collection<MarkerTypeEntry> children = new ArrayList<>();
+		private final Collection<MarkerTypeEntry> children = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private final String name;
 
 		/**
@@ -75,7 +75,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 		@Override
 		public void addElementsMatching(Collection<MarkerType> selectedTypes, Collection<TypesEntry> entries) {
 			Iterator<MarkerTypeEntry> childIterator = children.iterator();
-			while (childIterator.hasNext()) {
+			while (childIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				childIterator.next().addElementsMatching(selectedTypes, entries);
 			}
 		}
@@ -196,16 +196,16 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 
 	}
 
-	private static Collection<MarkerTypeEntry> EMPTY_COLLECTION = new HashSet<>();
+	private static Collection<MarkerTypeEntry> EMPTY_COLLECTION = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-	private final HashMap<MarkerFieldFilterGroup, List<TypesEntry>> models = new HashMap<>(0);
+	private final HashMap<MarkerFieldFilterGroup, List<TypesEntry>> models = new HashMap<>(0); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private CheckboxTreeViewer typesViewer;
 
 	@Override
 	public void apply(MarkerFieldFilter filter) {
-		Collection<MarkerType> selectedTypes = new ArrayList<>();
-		for (Object checkedElement : typesViewer.getCheckedElements()) {
+		Collection<MarkerType> selectedTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object checkedElement : typesViewer.getCheckedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (checkedElement instanceof MarkerTypeEntry) {
 				selectedTypes.add(((MarkerTypeEntry) checkedElement).getMarkerType());
 			}
@@ -219,7 +219,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 		// Nothing to set at the group level
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createContents(Composite parent) {
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		GridLayout layout = new GridLayout();
@@ -244,7 +244,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 		final ITreeContentProvider typesContentProvider = getTypesContentProvider();
 		typesViewer.getControl().setLayoutData(gridData);
 		typesViewer.setContentProvider(typesContentProvider);
-		typesViewer.setLabelProvider(new LabelProvider() {
+		typesViewer.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object element) {
 				return ((TypesEntry) element).getLabel();
@@ -256,7 +256,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 				return ((TypesEntry) e1).getLabel().compareTo(((TypesEntry) e2).getLabel());
 			}
 		});
-		typesViewer.addCheckStateListener(new ICheckStateListener() {
+		typesViewer.addCheckStateListener(new ICheckStateListener() { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				Object element = event.getElement();
@@ -273,7 +273,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 			private void setChildrenChecked(Object element, boolean checked) {
 				Object[] children = typesContentProvider.getChildren(element);
 				if (children.length > 0) {
-					for (Object child : children) {
+					for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typesViewer.setChecked(child, checked);
 					}
 				}
@@ -288,7 +288,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 					return;
 				}
 
-				for (Object child : typesContentProvider.getChildren(parentType)) {
+				for (Object child : typesContentProvider.getChildren(parentType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// At least one different
 					if (typesViewer.getChecked(child) != checked) {
 						typesViewer.setGrayChecked(parentType, true);
@@ -312,12 +312,12 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 
 		Button selectAllButton = new Button(buttonComposite, SWT.PUSH);
 		selectAllButton.setText(MarkerMessages.filtersDialog_selectAllTypes);
-		selectAllButton.addSelectionListener(getSelectAllButtonListener(typesContentProvider, true));
+		selectAllButton.addSelectionListener(getSelectAllButtonListener(typesContentProvider, true)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		setButtonLayoutData(selectAllButton);
 
 		Button deselectAllButton = new Button(buttonComposite, SWT.PUSH);
 		deselectAllButton.setText(MarkerMessages.filtersDialog_deselectAllTypes);
-		deselectAllButton.addSelectionListener(getSelectAllButtonListener(typesContentProvider, false));
+		deselectAllButton.addSelectionListener(getSelectAllButtonListener(typesContentProvider, false)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		setButtonLayoutData(deselectAllButton);
 	}
 
@@ -342,7 +342,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 		return new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				for (Object element : typesContentProvider.getElements(typesViewer.getInput())) {
+				for (Object element : typesContentProvider.getElements(typesViewer.getInput())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					typesViewer.setSubtreeChecked(element, checked);
 				}
 			}
@@ -354,14 +354,14 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 	 *
 	 * @return List of TypesEntry
 	 */
-	protected List<TypesEntry> elementsForGroup(MarkerFieldFilterGroup group) {
+	protected List<TypesEntry> elementsForGroup(MarkerFieldFilterGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (models.containsKey(group)) {
 			return models.get(group);
 		}
 		Iterator<MarkerType> roots = group.getAllTypes().iterator();
-		List<TypesEntry> markerNodes = new ArrayList<>();
-		HashMap<String, CategoryEntry> categories = new HashMap<>();
-		while (roots.hasNext()) {
+		List<TypesEntry> markerNodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		HashMap<String, CategoryEntry> categories = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		while (roots.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType markerType = roots.next();
 			String categoryName = MarkerSupportRegistry.getInstance().getCategory(markerType.getId());
 			if (categoryName == null) {
@@ -387,12 +387,12 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 	 * Find the type entries for group that correspond to it's current selection
 	 * and add them to the checked or grey checked lists as appropriate.
 	 */
-	private void findTypeEntries(MarkerFieldFilterGroup group,
+	private void findTypeEntries(MarkerFieldFilterGroup group, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<TypesEntry> entries, Collection<TypesEntry> greyEntries) {
 		Iterator<TypesEntry> elements = elementsForGroup(group).iterator();
 
 		Collection<MarkerType> selectedTypes = ((MarkerTypeFieldFilter) group.getFilter(getField())).getSelectedTypes();
-		while (elements.hasNext()) {
+		while (elements.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypesEntry entry = elements.next();
 			entry.addElementsMatching(selectedTypes, entries);
 			if (entry.hasChildren()) {// Is it a category?
@@ -401,7 +401,7 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 					entries.add(entry);
 				} else {// See if we need to gray check it
 					Iterator<MarkerTypeEntry> iterator = children.iterator();
-					while (iterator.hasNext()) {
+					while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (entries.contains(iterator.next())) {
 							greyEntries.add(entry);
 							break;
@@ -417,8 +417,8 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 	 *
 	 * @return ITreeContentProvider
 	 */
-	private ITreeContentProvider getTypesContentProvider() {
-		return new ITreeContentProvider() {
+	private ITreeContentProvider getTypesContentProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return new ITreeContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 
 			@Override
 			public void dispose() {
@@ -459,10 +459,10 @@ public class TypesConfigurationArea extends GroupFilterConfigurationArea {
 
 	@Override
 	public void initializeFromGroup(MarkerFieldFilterGroup group) {
-		typesViewer.setInput(group);
-		typesViewer.refresh();
-		Collection<TypesEntry> checked = new HashSet<>();
-		Collection<TypesEntry> greyed = new HashSet<>();
+		typesViewer.setInput(group); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		typesViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		Collection<TypesEntry> checked = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Collection<TypesEntry> greyed = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		findTypeEntries(group, checked, greyed);
 		checked.addAll(greyed);
 		typesViewer.setCheckedElements(checked.toArray());

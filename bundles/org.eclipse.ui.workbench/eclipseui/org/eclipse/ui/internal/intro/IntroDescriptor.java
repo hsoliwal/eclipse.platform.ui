@@ -44,7 +44,7 @@ public class IntroDescriptor implements IIntroDescriptor, IPluginContribution {
 
 		if (configElement.getAttribute(IWorkbenchRegistryConstants.ATT_CLASS) == null) {
 			throw new CoreException(new Status(IStatus.ERROR, configElement.getContributor().getName(), 0,
-					"Invalid extension (Missing class name): " + getId(), //$NON-NLS-1$
+					"Invalid extension (Missing class name): " + getId(), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					null));
 		}
 	}

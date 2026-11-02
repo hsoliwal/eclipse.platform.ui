@@ -54,7 +54,7 @@ public class TriggerPointAdvisorRegistry {
 	 *
 	 * @return the advisors
 	 */
-	public TriggerPointAdvisorDescriptor[] getAdvisors() {
+	public TriggerPointAdvisorDescriptor[] getAdvisors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(PlatformUI.PLUGIN_ID,
 				IWorkbenchRegistryConstants.PL_ACTIVITYSUPPORT);
 		if (point == null) {
@@ -64,10 +64,10 @@ public class TriggerPointAdvisorRegistry {
 		IExtension[] extensions = point.getExtensions();
 		extensions = RegistryReader.orderExtensions(extensions);
 
-		ArrayList<TriggerPointAdvisorDescriptor> list = new ArrayList<>(extensions.length);
-		for (IExtension extension : extensions) {
+		ArrayList<TriggerPointAdvisorDescriptor> list = new ArrayList<>(extensions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement[] elements = extension.getConfigurationElements();
-			for (IConfigurationElement element : elements) {
+			for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getName().equals(IWorkbenchRegistryConstants.TAG_TRIGGERPOINTADVISOR)) {
 					try {
 						TriggerPointAdvisorDescriptor descriptor = new TriggerPointAdvisorDescriptor(element);
@@ -90,7 +90,7 @@ public class TriggerPointAdvisorRegistry {
 	 * @param productId the product id
 	 * @return the advisor
 	 */
-	public TriggerPointAdvisorDescriptor getAdvisorForProduct(String productId) {
+	public TriggerPointAdvisorDescriptor getAdvisorForProduct(String productId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(PlatformUI.PLUGIN_ID,
 				IWorkbenchRegistryConstants.PL_ACTIVITYSUPPORT);
 		if (point == null) {
@@ -106,7 +106,7 @@ public class TriggerPointAdvisorRegistry {
 		}
 
 		TriggerPointAdvisorDescriptor[] advisors = getAdvisors();
-		for (TriggerPointAdvisorDescriptor advisor : advisors) {
+		for (TriggerPointAdvisorDescriptor advisor : advisors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (advisor.getId().equals(targetIntroId)) {
 				return advisor;
 			}
@@ -118,10 +118,10 @@ public class TriggerPointAdvisorRegistry {
 	/**
 	 * @return the advisor id
 	 */
-	private String getAdvisorForProduct(String targetProductId, IExtension[] extensions) {
-		for (IExtension extension : extensions) {
+	private String getAdvisorForProduct(String targetProductId, IExtension[] extensions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement[] elements = extension.getConfigurationElements();
-			for (IConfigurationElement element : elements) {
+			for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getName().equals(IWorkbenchRegistryConstants.TAG_ADVISORPRODUCTBINDING)) {
 					String advisorId = element.getAttribute(IWorkbenchRegistryConstants.ATT_ADVISORID);
 					String productId = element.getAttribute(IWorkbenchRegistryConstants.ATT_PRODUCTID);

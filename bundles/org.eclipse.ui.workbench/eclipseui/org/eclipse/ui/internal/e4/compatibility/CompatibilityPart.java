@@ -66,7 +66,7 @@ import org.eclipse.ui.internal.util.Util;
 import org.eclipse.ui.part.IWorkbenchPartOrientation;
 import org.osgi.service.event.EventHandler;
 
-public abstract class CompatibilityPart implements ISelectionChangedListener {
+public abstract class CompatibilityPart implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public static final String COMPATIBILITY_EDITOR_URI = "bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor"; //$NON-NLS-1$
 
@@ -127,7 +127,7 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 		}
 	};
 
-	private final ISelectionChangedListener postListener = e -> {
+	private final ISelectionChangedListener postListener = e -> { //FLLDCIM: MARK — T04  LAMBDA
 		ESelectionService selectionService = part.getContext().get(ESelectionService.class);
 		selectionService.setPostSelection(e.getSelection());
 	};
@@ -145,7 +145,7 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 
 	public abstract WorkbenchPartReference getReference();
 
-	protected boolean createPartControl(final IWorkbenchPart legacyPart, Composite parent) {
+	protected boolean createPartControl(final IWorkbenchPart legacyPart, Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.legacyPart = legacyPart;
 		IWorkbenchPartSite site = null;
 		try {
@@ -190,12 +190,12 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 		if (site != null) {
 			ISelectionProvider selectionProvider = site.getSelectionProvider();
 			if (selectionProvider != null) {
-				selectionProvider.addSelectionChangedListener(this);
+				selectionProvider.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 				if (selectionProvider instanceof IPostSelectionProvider) {
-					((IPostSelectionProvider) selectionProvider).addPostSelectionChangedListener(postListener);
+					((IPostSelectionProvider) selectionProvider).addPostSelectionChangedListener(postListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				} else {
-					selectionProvider.addSelectionChangedListener(postListener);
+					selectionProvider.addSelectionChangedListener(postListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				}
 				ESelectionService selectionService = part.getContext().get(ESelectionService.class);
 				selectionService.setSelection(selectionProvider.getSelection());
@@ -204,17 +204,17 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 		return true;
 	}
 
-	@Focus
+	@Focus //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void delegateSetFocus() {
 		if (focusDelegatingInProgress) {
 			if (Policy.DEBUG_FOCUS) {
-				Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Ignored attempt to set focus during set focus for: " + this, //$NON-NLS-1$
+				Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Ignored attempt to set focus during set focus for: " + this, //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						null);
 			}
 			return;
 		}
 		if (Policy.DEBUG_FOCUS) {
-			Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Starting set focus for: " + this, null); //$NON-NLS-1$
+			Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Starting set focus for: " + this, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		focusDelegatingInProgress = true;
 		try {
@@ -226,19 +226,19 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 			wrapped.setFocus();
 		} catch (Exception e) {
 			if (logger != null) {
-				String msg = "Error setting focus to : " + part.getClass().getName(); //$NON-NLS-1$
-				msg += ' ' + part.getLocalizedLabel();
+				String msg = "Error setting focus to : " + part.getClass().getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				msg += ' ' + part.getLocalizedLabel(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				logger.error(e, msg);
 			}
 		} finally {
 			focusDelegatingInProgress = false;
 		}
 		if (Policy.DEBUG_FOCUS) {
-			Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Done with set focus for: " + this, null); //$NON-NLS-1$
+			Activator.trace(Policy.DEBUG_FOCUS_FLAG, "Done with set focus for: " + this, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private void invalidate() {
+	private void invalidate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPartSite site = null;
 		if (wrapped != null) {
 			site = wrapped.getSite();
@@ -304,7 +304,7 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 		return reference.createPart();
 	}
 
-	boolean handlePartInitException(PartInitException e) {
+	boolean handlePartInitException(PartInitException e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		WorkbenchPlugin.log("Unable to create part", e); //$NON-NLS-1$
 		WorkbenchPartReference reference = getReference();
 		IWorkbenchPartSite site = reference.getSite();
@@ -331,7 +331,7 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 		return true;
 	}
 
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void create() {
 		eventBroker.subscribe(UIEvents.UIElement.TOPIC_WIDGET, widgetSetHandler);
 		eventBroker.subscribe(UIEvents.Contribution.TOPIC_OBJECT, objectSetHandler);
@@ -378,7 +378,7 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 			part.setDirty(saveable.isDirty());
 		}
 
-		wrapped.addPropertyListener((source, propId) -> {
+		wrapped.addPropertyListener((source, propId) -> { //FLLDCIM: MARK — T06  LAMBDA
 			switch (propId) {
 			case IWorkbenchPartConstants.PROP_TITLE:
 				part.setLabel(computeLabel());
@@ -473,16 +473,16 @@ public abstract class CompatibilityPart implements ISelectionChangedListener {
 
 	protected void clearMenuItems() {
 		// in the workbench, view menus are re-created on startup
-		for (MMenu menu : part.getMenus()) {
+		for (MMenu menu : part.getMenus()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			menu.getChildren().clear();
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
 		// WARNING: don't call part.toString() here because model can to try to
 		// prints us and cause stack overflow
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append("CompatibilityPart ["); //$NON-NLS-1$
 		if (part != null) {
 			builder.append("partId="); //$NON-NLS-1$

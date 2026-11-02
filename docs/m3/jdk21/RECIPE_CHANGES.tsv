@@ -1,0 +1,332 @@
+step	path	changed_lines
+manifest	bundles/org.eclipse.core.filebuffers/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.core.filebuffers/.classpath	1
+prefs	bundles/org.eclipse.core.filebuffers/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.core.filebuffers/src/org/eclipse/core/filebuffers/manipulation/FileBufferOperationRunner.java	1
+java	bundles/org.eclipse.core.filebuffers/src/org/eclipse/core/internal/filebuffers/ResourceTextFileBufferManager.java	1
+manifest	bundles/org.eclipse.ltk.core.refactoring/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.ltk.core.refactoring/.classpath	1
+prefs	bundles/org.eclipse.ltk.core.refactoring/.settings/org.eclipse.jdt.core.prefs	3
+manifest	bundles/org.eclipse.ltk.ui.refactoring/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.ltk.ui.refactoring/.classpath	1
+prefs	bundles/org.eclipse.ltk.ui.refactoring/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/internal/ui/refactoring/actions/RenameResourceHandler.java	1
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/internal/ui/refactoring/history/SortableRefactoringHistoryControl.java	1
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/internal/ui/refactoring/scripting/CreateRefactoringScriptWizardPage.java	1
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/internal/ui/refactoring/scripting/RefactoringScriptLocationControl.java	2
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/internal/ui/refactoring/TextEditChangePreviewViewer.java	1
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/ui/refactoring/resource/MoveResourcesWizard.java	1
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/ui/refactoring/resource/RenameResourceWizard.java	1
+java	bundles/org.eclipse.ltk.ui.refactoring/src/org/eclipse/ltk/ui/refactoring/TextStatusContextViewer.java	1
+manifest	bundles/org.eclipse.search.core/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.search.core/.classpath	1
+prefs	bundles/org.eclipse.search.core/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.search.core/search/org/eclipse/search/internal/core/text/TextSearchVisitor.java	1
+manifest	bundles/org.eclipse.search/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.search/.classpath	1
+prefs	bundles/org.eclipse.search/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.search/newsearch/org/eclipse/search/ui/text/AbstractTextSearchResult.java	4
+java	bundles/org.eclipse.search/newsearch/org/eclipse/search2/internal/ui/MatchFilterSelectionDialog.java	1
+java	bundles/org.eclipse.search/newsearch/org/eclipse/search2/internal/ui/SearchHistorySelectionDialog.java	2
+java	bundles/org.eclipse.search/search/org/eclipse/search/internal/ui/SearchDialog.java	2
+java	bundles/org.eclipse.search/search/org/eclipse/search/internal/ui/text/FileSearchQuery.java	1
+java	bundles/org.eclipse.search/search/org/eclipse/search/internal/ui/text/ReplaceConfigurationPage.java	1
+java	bundles/org.eclipse.search/search/org/eclipse/search/internal/ui/text/TextSearchPage.java	2
+manifest	bundles/org.eclipse.text.quicksearch/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.text.quicksearch/.classpath	1
+prefs	bundles/org.eclipse.text.quicksearch/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.text.quicksearch/src/org/eclipse/text/quicksearch/internal/ui/QuickSearchDialog.java	7
+manifest	bundles/org.eclipse.ui.editors/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.ui.editors/.classpath	1
+prefs	bundles/org.eclipse.ui.editors/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/editors/text/AnnotationsConfigurationBlock.java	2
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/editors/text/codemining/annotation/AnnotationCodeMiningProvider.java	2
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/editors/text/HyperlinkDetectorsConfigurationBlock.java	3
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/editors/text/LinkedModeConfigurationBlock.java	2
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/editors/text/SelectResourcesDialog.java	1
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/editors/text/TextEditorDefaultsPreferencePage.java	3
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/texteditor/LineNumberColumn.java	11
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/internal/texteditor/stickyscroll/StickyScrollingControl.java	1
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/texteditor/MarkerUtilities.java	1
+java	bundles/org.eclipse.ui.editors/src/org/eclipse/ui/texteditor/ResourceMarkerAnnotationModel.java	1
+manifest	bundles/org.eclipse.ui.genericeditor/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.ui.genericeditor/.classpath	1
+prefs	bundles/org.eclipse.ui.genericeditor/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/AutoEditStrategyRegistry.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/CharacterPairMatcherRegistry.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/compare/GenericEditorViewer.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/ContentAssistProcessorRegistry.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/hover/TextHoverRegistry.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/IconsRegistry.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/preferences/GenericEditorPreferencePage.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/PresentationReconcilerRegistry.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/QuickAssistProcessorRegistry.java	1
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/ReconcilerRegistry.java	3
+java	bundles/org.eclipse.ui.genericeditor/src/org/eclipse/ui/internal/genericeditor/TextDoubleClickStrategyRegistry.java	1
+manifest	bundles/org.eclipse.ui.ide.application/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.ui.ide.application/.classpath	1
+prefs	bundles/org.eclipse.ui.ide.application/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.ui.ide.application/src/org/eclipse/ui/internal/ide/application/IDEWorkbenchWindowAdvisor.java	1
+manifest	bundles/org.eclipse.ui.ide/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.ui.ide/.classpath	1
+prefs	bundles/org.eclipse.ui.ide/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/actions/RenameResourceAction.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/ContainerSelectionDialog.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/MarkerResolutionSelectionDialog.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/NewFolderDialog.java	2
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/ProjectLocationMoveDialog.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/ProjectLocationSelectionDialog.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/ResourceListSelectionDialog.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/ResourceSelectionDialog.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/SaveAsDialog.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/WizardExportResourcesPage.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/WizardNewFileCreationPage.java	2
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/WizardNewLinkPage.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java	1
+java	bundles/org.eclipse.ui.ide/extensions/org/eclipse/ui/dialogs/WizardResourceImportPage.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/ide/dialogs/PathVariableSelectionDialog.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/actions/OpenWorkspaceAction.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/ChooseWorkspaceDialog.java	3
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/ChooseWorkspaceWithSettingsDialog.java	3
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/CleanDialog.java	6
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/CreateLinkedResourceGroup.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/LinkedResourceEditor.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/OpenFilesystemQuickAccessComputer.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/PathVariableDialog.java	2
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ProjectContentsLocationArea.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ProjectNaturesPage.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ProjectReferencePage.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ResourceFilterGroup.java	7
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/ResourceWorkingSetPage.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/dialogs/WelcomeEditor.java	2
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/DirectoryProposalContentAssist.java	2
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/FeatureSelectionDialog.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/handlers/ShowInSystemExplorerHandler.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/IDEWorkbenchErrorHandler.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/misc/ProjectReferenceGraph.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/ide/registry/MarkerHelpRegistry.java	3
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/helpers/EmptyWorkspaceHelper.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ExtendedMarkersView.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/FiltersConfigurationDialog.java	3
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/FiltersContribution.java	2
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/MarkerEntry.java	2
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/QuickFixPage.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/SortFieldContribution.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ViewerColumnsDialog.java	3
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/ArchiveFileManipulations.java	2
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/SmartImportJob.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/SmartImportRootWizardPage.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/WizardFileSystemResourceImportPage1.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/wizards/datatransfer/WizardProjectsImportPage.java	2
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/views/markers/internal/DialogMarkerProperties.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/views/markers/internal/MarkerTypesModel.java	1
+java	bundles/org.eclipse.ui.ide/src/org/eclipse/ui/wizards/datatransfer/WizardExternalProjectImportPage.java	1
+manifest	bundles/org.eclipse.ui.navigator.resources/META-INF/MANIFEST.MF	1
+classpath	bundles/org.eclipse.ui.navigator.resources/.classpath	1
+prefs	bundles/org.eclipse.ui.navigator.resources/.settings/org.eclipse.jdt.core.prefs	3
+java	bundles/org.eclipse.ui.navigator.resources/src/org/eclipse/ui/internal/navigator/resources/actions/WorkingSetActionProvider.java	1
+java	bundles/org.eclipse.ui.navigator.resources/src/org/eclipse/ui/internal/navigator/workingsets/WorkingSetsContentProvider.java	1
+manifest	examples/org.eclipse.e4.ui.examples.e4editor/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.e4.ui.examples.e4editor/.classpath	1
+prefs	examples/org.eclipse.e4.ui.examples.e4editor/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.e4.ui.examples.job/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.e4.ui.examples.job/.classpath	1
+prefs	examples/org.eclipse.e4.ui.examples.job/.settings/org.eclipse.jdt.core.prefs	3
+java	examples/org.eclipse.e4.ui.examples.job/src/org/eclipse/e4/ui/examples/jobs/views/JobsView.java	1
+manifest	examples/org.eclipse.ui.examples.javaeditor/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.javaeditor/.classpath	1
+prefs	examples/org.eclipse.ui.examples.javaeditor/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.ui.examples.job/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.job/.classpath	1
+prefs	examples/org.eclipse.ui.examples.job/.settings/org.eclipse.jdt.core.prefs	3
+java	examples/org.eclipse.ui.examples.job/src/org/eclipse/ui/examples/jobs/actions/ForegroundAction.java	1
+java	examples/org.eclipse.ui.examples.job/src/org/eclipse/ui/examples/jobs/BusyShowWhileDialog.java	2
+java	examples/org.eclipse.ui.examples.job/src/org/eclipse/ui/examples/jobs/views/JobsView.java	13
+java	examples/org.eclipse.ui.examples.job/src/org/eclipse/ui/examples/jobs/views/LazyTreeView.java	2
+java	examples/org.eclipse.ui.examples.job/src/org/eclipse/ui/examples/jobs/views/ProgressServiceView.java	4
+manifest	examples/org.eclipse.ui.examples.markerHelp/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.markerHelp/.classpath	1
+prefs	examples/org.eclipse.ui.examples.markerHelp/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.ui.examples.multipageeditor/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.multipageeditor/.classpath	1
+prefs	examples/org.eclipse.ui.examples.multipageeditor/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.ui.examples.navigator/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.navigator/.classpath	1
+prefs	examples/org.eclipse.ui.examples.navigator/.settings/org.eclipse.jdt.core.prefs	3
+java	examples/org.eclipse.ui.examples.navigator/src/org/eclipse/ui/examples/navigator/PropertiesContentProvider.java	1
+manifest	examples/org.eclipse.ui.examples.perspective/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.perspective/.classpath	1
+prefs	examples/org.eclipse.ui.examples.perspective/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.ui.examples.propertysheet/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.propertysheet/.classpath	1
+prefs	examples/org.eclipse.ui.examples.propertysheet/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.ui.examples.readmetool/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.readmetool/.classpath	1
+prefs	examples/org.eclipse.ui.examples.readmetool/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.ui.examples.undo/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.undo/.classpath	1
+prefs	examples/org.eclipse.ui.examples.undo/.settings/org.eclipse.jdt.core.prefs	3
+java	examples/org.eclipse.ui.examples.undo/Eclipse UI Examples Undo/org/eclipse/ui/examples/undo/views/BoxView.java	1
+java	examples/org.eclipse.ui.examples.undo/Eclipse UI Examples Undo/org/eclipse/ui/examples/undo/views/UndoHistoryView.java	2
+manifest	examples/org.eclipse.ui.examples.uriSchemeHandler/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.uriSchemeHandler/.classpath	1
+prefs	examples/org.eclipse.ui.examples.uriSchemeHandler/.settings/org.eclipse.jdt.core.prefs	3
+manifest	examples/org.eclipse.ui.examples.views.properties.tabbed.article/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.examples.views.properties.tabbed.article/.classpath	1
+prefs	examples/org.eclipse.ui.examples.views.properties.tabbed.article/.settings/org.eclipse.jdt.core.prefs	3
+java	examples/org.eclipse.ui.examples.views.properties.tabbed.article/src/org/eclipse/ui/examples/views/properties/tabbed/article/views/LabelSection.java	1
+java	examples/org.eclipse.ui.examples.views.properties.tabbed.article/src/org/eclipse/ui/examples/views/properties/tabbed/article/views/SizeSection.java	1
+manifest	examples/org.eclipse.ui.forms.examples/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.forms.examples/.classpath	1
+prefs	examples/org.eclipse.ui.forms.examples/.settings/org.eclipse.jdt.core.prefs	3
+java	examples/org.eclipse.ui.forms.examples/src/org/eclipse/ui/forms/examples/internal/rcp/ErrorMessagesPage.java	1
+java	examples/org.eclipse.ui.forms.examples/src/org/eclipse/ui/forms/examples/internal/rcp/TypeOneDetailsPage.java	1
+java	examples/org.eclipse.ui.forms.examples/src/org/eclipse/ui/forms/examples/views/FormView.java	1
+manifest	examples/org.eclipse.ui.genericeditor.examples/META-INF/MANIFEST.MF	1
+classpath	examples/org.eclipse.ui.genericeditor.examples/.classpath	1
+prefs	examples/org.eclipse.ui.genericeditor.examples/.settings/org.eclipse.jdt.core.prefs	3
+manifest	tests/org.eclipse.core.filebuffers.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.core.filebuffers.tests/.classpath	1
+prefs	tests/org.eclipse.core.filebuffers.tests/.settings/org.eclipse.jdt.core.prefs	3
+manifest	tests/org.eclipse.e4.ui.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.e4.ui.tests/.classpath	1
+prefs	tests/org.eclipse.e4.ui.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/tests/application/ESelectionServiceTest.java	1
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/tests/application/UIEventsTest.java	1
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/tests/workbench/ImageURLModifierTrackerTest.java	1
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/tests/workbench/ModelAssemblerTests.java	1
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/tests/workbench/SampleToolControl.java	1
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/tests/workbench/SampleView.java	1
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/tests/workbench/SWTPartRendererTest.java	1
+java	tests/org.eclipse.e4.ui.tests/src/org/eclipse/e4/ui/workbench/renderers/swt/TabStateHandlerTest.java	1
+manifest	tests/org.eclipse.jface.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.jface.tests/.classpath	1
+prefs	tests/org.eclipse.jface.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/dialogs/ProgressMonitorDialogTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/dialogs/TitleAreaDialogTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/images/LazyResourceManagerTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/images/UrlImageDescriptorTest.java	3
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/labelProviders/ColumnLabelProviderLambdaTest.java	2
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/labelProviders/DecoratingStyledCellLabelProviderTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/labelProviders/LabelProviderLambdaTest.java	2
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/labelProviders/LabelProviderTest.java	4
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/preferences/BooleanFieldEditorTest.java	2
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/preferences/StringFieldEditorTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/resources/FontRegistryTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/interactive/LazyDeferredVirtualTableView.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/SimpleTreeViewerTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/SimpleVirtualLazyTreeViewerTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/widgets/AbstractFactoryTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/window/WindowTest.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/wizards/TheTestWizardPage.java	1
+java	tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/wizards/WizardTest.java	4
+manifest	tests/org.eclipse.jface.text.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.jface.text.tests/.classpath	1
+prefs	tests/org.eclipse.jface.text.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/codemining/CodeMiningProjectionViewerTest.java	2
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/codemining/CodeMiningTest.java	3
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/contentassist/AsyncContentAssistTest.java	1
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/MultiSelectionTest.java	2
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/source/AnnotationRulerColumnTest.java	1
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/source/inlined/LineContentBoundsDrawingTest.java	1
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/TextViewerTest.java	1
+java	tests/org.eclipse.jface.text.tests/src/org/eclipse/jface/text/tests/TextViewerUndoManagerTest.java	1
+manifest	tests/org.eclipse.ltk.core.refactoring.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ltk.core.refactoring.tests/.classpath	1
+prefs	tests/org.eclipse.ltk.core.refactoring.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.ltk.core.refactoring.tests/src/org/eclipse/ltk/core/refactoring/tests/participants/CancelingParticipantTests.java	1
+java	tests/org.eclipse.ltk.core.refactoring.tests/src/org/eclipse/ltk/core/refactoring/tests/participants/FailingParticipantTests.java	1
+manifest	tests/org.eclipse.ltk.ui.refactoring.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ltk.ui.refactoring.tests/.classpath	1
+prefs	tests/org.eclipse.ltk.ui.refactoring.tests/.settings/org.eclipse.jdt.core.prefs	3
+manifest	tests/org.eclipse.search.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.search.tests/.classpath	1
+prefs	tests/org.eclipse.search.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.search.tests/src/org/eclipse/search/tests/filesearch/FileSearchTests.java	1
+java	tests/org.eclipse.search.tests/src/org/eclipse/search/tests/ResourceHelper.java	1
+manifest	tests/org.eclipse.text.quicksearch.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.text.quicksearch.tests/.classpath	1
+prefs	tests/org.eclipse.text.quicksearch.tests/.settings/org.eclipse.jdt.core.prefs	3
+manifest	tests/org.eclipse.ui.editors.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.editors.tests/.classpath	1
+prefs	tests/org.eclipse.ui.editors.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.ui.editors.tests/src/org/eclipse/jface/text/tests/codemining/CodeMiningTest.java	2
+java	tests/org.eclipse.ui.editors.tests/src/org/eclipse/ui/editors/tests/FileDocumentProviderTest.java	1
+java	tests/org.eclipse.ui.editors.tests/src/org/eclipse/ui/editors/tests/MarkerAnnotationOrderTest.java	1
+java	tests/org.eclipse.ui.editors.tests/src/org/eclipse/ui/editors/tests/StatusEditorTest.java	2
+java	tests/org.eclipse.ui.editors.tests/src/org/eclipse/ui/editors/tests/TextNavigationTest.java	1
+java	tests/org.eclipse.ui.editors.tests/src/org/eclipse/ui/internal/texteditor/stickyscroll/StickyLinesProviderRegistryTest.java	1
+manifest	tests/org.eclipse.ui.genericeditor.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.genericeditor.tests/.classpath	1
+prefs	tests/org.eclipse.ui.genericeditor.tests/.settings/org.eclipse.jdt.core.prefs	3
+manifest	tests/org.eclipse.ui.tests.harness/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.tests.harness/.classpath	1
+prefs	tests/org.eclipse.ui.tests.harness/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.ui.tests.harness/src/org/eclipse/ui/tests/harness/util/Mocks.java	1
+java	tests/org.eclipse.ui.tests.harness/src/org/eclipse/ui/tests/harness/util/SWTEventHelper.java	1
+manifest	tests/org.eclipse.ui.tests.navigator/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.tests.navigator/.classpath	1
+prefs	tests/org.eclipse.ui.tests.navigator/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.ui.tests.navigator/src/org/eclipse/ui/tests/navigator/extension/TestContentProvider.java	1
+java	tests/org.eclipse.ui.tests.navigator/src/org/eclipse/ui/tests/navigator/M12Tests.java	1
+java	tests/org.eclipse.ui.tests.navigator/src/org/eclipse/ui/tests/navigator/PipelineChainTest.java	1
+java	tests/org.eclipse.ui.tests.navigator/src/org/eclipse/ui/tests/navigator/resources/NestedResourcesTests.java	4
+java	tests/org.eclipse.ui.tests.navigator/src/org/eclipse/ui/tests/navigator/SorterTest.java	1
+manifest	tests/org.eclipse.ui.tests.performance/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.tests.performance/.classpath	1
+prefs	tests/org.eclipse.ui.tests.performance/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.ui.tests.performance/src/org/eclipse/ui/tests/performance/ProgressReportingTest.java	1
+java	tests/org.eclipse.ui.tests.performance/src/org/eclipse/ui/tests/performance/ProjectExplorerPerformanceTest.java	7
+manifest	tests/org.eclipse.ui.tests.pluginchecks/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.tests.pluginchecks/.classpath	1
+prefs	tests/org.eclipse.ui.tests.pluginchecks/.settings/org.eclipse.jdt.core.prefs	3
+manifest	tests/org.eclipse.ui.tests.rcp/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.tests.rcp/.classpath	1
+prefs	tests/org.eclipse.ui.tests.rcp/.settings/org.eclipse.jdt.core.prefs	3
+manifest	tests/org.eclipse.ui.tests.views.properties.tabbed/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.tests.views.properties.tabbed/.classpath	1
+prefs	tests/org.eclipse.ui.tests.views.properties.tabbed/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.ui.tests.views.properties.tabbed/src/org/eclipse/ui/tests/views/properties/tabbed/text/TextTestsSectionDescriptor2.java	1
+manifest	tests/org.eclipse.ui.tests/META-INF/MANIFEST.MF	1
+classpath	tests/org.eclipse.ui.tests/.classpath	1
+prefs	tests/org.eclipse.ui.tests/.settings/org.eclipse.jdt.core.prefs	3
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/activities/DynamicTest.java	2
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/IEditorRegistryTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/IWorkbenchPageTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/IWorkingSetManagerTest.java	2
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/MockPart.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/MockViewPart.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/ModeledPageLayoutTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/SelectionListenerFactoryTest.java	9
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/UIJobTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/workbenchpart/LifecycleView.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/workbenchpart/MenuContributionHarness.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/workbenchpart/OverriddenTitleTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/workbenchpart/RawIViewPartTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/workbenchpart/TitleTestEditor.java	4
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/workbenchpart/TitleTestView.java	4
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/api/workbenchpart/ViewPartTitleTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/concurrency/NestedSyncExecDeadlockTest.java	2
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/concurrency/NoFreezeWhileWaitingForRuleTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/concurrency/SyncExecWhileUIThreadWaitsForLock.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/concurrency/TestBug105491.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/concurrency/TestBug108162.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/concurrency/TestBug98621.java	2
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/contexts/MockViewPart5.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/datatransfer/ExportArchiveFileOperationTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/datatransfer/ImportExistingProjectsWizardTest.java	3
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/datatransfer/SmartImportTests.java	3
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/decorators/DecoratorTestPart.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/manual/BrokenUpdatePreferencePage.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/manual/TestBackgroundSaveEditor.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/manual/ViewWithSaveables.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/menus/MenuPopulationTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/multieditor/TiledEditor.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/multipageeditor/MultiPageEditorSelectionTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/propertysheet/MultiInstancePropertySheetTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/services/EvaluationServiceTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/statushandlers/StatusDialogManagerTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/statushandlers/SupportTrayTest.java	1
+java	tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/WorkspaceLockTest.java	1

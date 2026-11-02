@@ -207,7 +207,7 @@ public class ResourceAndContainerGroup implements Listener {
 	 * @param heightHint
 	 *            height hint for the container selection widget group
 	 */
-	protected void createContents(Composite parent, String resourceLabelString,
+	protected void createContents(Composite parent, String resourceLabelString, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int heightHint) {
 
 		Font font = parent.getFont();
@@ -246,8 +246,8 @@ public class ResourceAndContainerGroup implements Listener {
 
 		// resource name entry field
 		resourceNameField = new Text(nameGroup, SWT.BORDER);
-		resourceNameField.addListener(SWT.Modify, this);
-		resourceNameField.addFocusListener(new FocusAdapter() {
+		resourceNameField.addListener(SWT.Modify, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		resourceNameField.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusLost(FocusEvent e) {
 				handleResourceNameFocusLostEvent();
@@ -308,7 +308,7 @@ public class ResourceAndContainerGroup implements Listener {
 	public String getResource() {
 		String resource = resourceNameField.getText();
 		if (useResourceExtension()) {
-			return resource + '.' + resourceExtension;
+			return resource + '.' + resourceExtension; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return resource;
 	}
@@ -338,7 +338,7 @@ public class ResourceAndContainerGroup implements Listener {
 		String resource = resourceNameField.getText();
 		if ((resourceExtension != null) && (resourceExtension.length() > 0)
 				&& (resource.length() > 0)
-				&& !resource.endsWith('.' + resourceExtension)) {
+				&& !resource.endsWith('.' + resourceExtension)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return true;
 		}
 		return false;
@@ -354,7 +354,7 @@ public class ResourceAndContainerGroup implements Listener {
 	 */
 	private void handleResourceNameFocusLostEvent() {
 		if (useResourceExtension()) {
-			setResource(resourceNameField.getText() + '.' + resourceExtension);
+			setResource(resourceNameField.getText() + '.' + resourceExtension); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -450,7 +450,7 @@ public class ResourceAndContainerGroup implements Listener {
 	 *
 	 * @return <code>boolean</code> indicating validity of the container name
 	 */
-	protected boolean validateContainer() {
+	protected boolean validateContainer() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath path = containerGroup.getContainerFullPath();
 		if (path == null) {
 			problemType = PROBLEM_CONTAINER_EMPTY;
@@ -467,7 +467,7 @@ public class ResourceAndContainerGroup implements Listener {
 		}
 		// path is invalid if any prefix is occupied by a file
 		IWorkspaceRoot root = workspace.getRoot();
-		while (path.segmentCount() > 1) {
+		while (path.segmentCount() > 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root.getFile(path).exists()) {
 				problemType = PROBLEM_PATH_OCCUPIED;
 				problemMessage = NLS.bind(
@@ -513,7 +513,7 @@ public class ResourceAndContainerGroup implements Listener {
 	 *            the path to validate
 	 * @return <code>boolean</code> indicating validity of the resource path
 	 */
-	protected boolean validateFullResourcePath(IPath resourcePath) {
+	protected boolean validateFullResourcePath(IPath resourcePath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
 		IStatus result = workspace.validatePath(resourcePath.toString(),
@@ -544,7 +544,7 @@ public class ResourceAndContainerGroup implements Listener {
 	 *
 	 * @return <code>boolean</code> indicating validity of the resource name
 	 */
-	protected boolean validateResourceName() {
+	protected boolean validateResourceName() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String resourceName = getResource();
 
 		if (resourceName.isEmpty()) {

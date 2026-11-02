@@ -62,11 +62,11 @@ public class CyclePageHandler extends FilteredTableBaseHandler {
 		this.pageSwitcher = pageSwitcher;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object getInput(WorkbenchPage page) {
-		List<FilteredTableItem> rows = new ArrayList<>();
+		List<FilteredTableItem> rows = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object viewPage : pageSwitcher.getPages()) {
+		for (Object viewPage : pageSwitcher.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FilteredTableItem item = new FilteredTableItem();
 			ImageDescriptor imageDescriptor = pageSwitcher.getImageDescriptor(viewPage);
 			if (imageDescriptor != null) {
@@ -78,7 +78,7 @@ public class CyclePageHandler extends FilteredTableBaseHandler {
 			item.putData(K_PAGE, viewPage);
 			String name = pageSwitcher.getName(viewPage);
 			if (name.length() > TEXT_LIMIT) {
-				name = name.substring(0, TEXT_LIMIT) + "..."; //$NON-NLS-1$
+				name = name.substring(0, TEXT_LIMIT) + "..."; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			item.setText(name);
 			rows.add(item);
@@ -129,7 +129,7 @@ public class CyclePageHandler extends FilteredTableBaseHandler {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setDialogLocation(final Shell dialog, IWorkbenchPart activePart) {
 		if (dialog == null) {
 			return;

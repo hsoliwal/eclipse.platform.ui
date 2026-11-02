@@ -11,6 +11,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *     Stefan Winkler <stefan@winklerweb.net> - Bug 537099
+ *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  *******************************************************************************/
 package org.eclipse.ui.internal.views.markers;
 
@@ -94,7 +95,7 @@ public class CachedMarkerBuilder {
 		return view;
 	}
 
-	void restoreState(IMemento m) {
+	void restoreState(IMemento m) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (m == null) {
 			setDefaultCategoryGroup(getGenerator());
 		} else {
@@ -212,12 +213,16 @@ public class CachedMarkerBuilder {
 	 * @return int
 	 */
 	static int getTotalMarkerCount(Markers markers) {
+		M3MarkerLanes lanes = markers.m3;
+		if (lanes != null) {
+			return lanes.size();
+		}
 		MarkerSupportItem[] elements = markers.getElements();
 		if (elements.length == 0 || elements[0].isConcrete()) {
 			return elements.length;
 		}
 		int length = 0;
-		for (MarkerSupportItem markerSupportItem : elements) {
+		for (MarkerSupportItem markerSupportItem : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			length += markerSupportItem.getChildren().length;
 		}
 
@@ -231,6 +236,16 @@ public class CachedMarkerBuilder {
 	 */
 	boolean isBuilding() {
 		return building || markerListener.isReceivingChange();
+	}
+
+	/**
+	 * Whether a clean rebuild is running, without the change listener's receiving flag that
+	 * {@link #isBuilding()} adds: the delta path asks from inside resourceChanged (M3MarkerDeltas).
+	 *
+	 * @return whether a clean rebuild is running
+	 */
+	boolean m3Building() {
+		return building;
 	}
 
 	/**
@@ -254,7 +269,7 @@ public class CachedMarkerBuilder {
 	 */
 	void refreshContents(IWorkbenchSiteProgressService service) {
 		try {
-			service.busyCursorWhile(monitor -> {
+			service.busyCursorWhile(monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				SortingJob job = new SortingJob(CachedMarkerBuilder.this);
 				job.run(monitor);
 			});
@@ -415,7 +430,8 @@ public class CachedMarkerBuilder {
 	 *
 	 * schedules marker update job
 	 */
-	MarkerUpdateJob scheduleUpdateJob(long delay, boolean clean, boolean[] newChangeFlags) {
+	MarkerUpdateJob scheduleUpdateJob(long delay, boolean clean, boolean[] newChangeFlags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		M3MarkerDeltas.supersede(this);
 
 		setBuilding(true);
 		updateChangeFlags(newChangeFlags);
@@ -511,7 +527,7 @@ public class CachedMarkerBuilder {
 	 * @return String
 	 */
 	static String getMementoPreferenceName(String viewId) {
-		return CachedMarkerBuilder.class.getName() + viewId;
+		return CachedMarkerBuilder.class.getName() + viewId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -565,7 +581,7 @@ public class CachedMarkerBuilder {
 	}
 
 	void updateChangeFlags(boolean[] newChangeFlags) {
-		for (int i = 0; i < newChangeFlags.length; i++) {
+		for (int i = 0; i < newChangeFlags.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			this.changeFlags[i] = this.changeFlags[i] | newChangeFlags[i];
 		}
 	}
@@ -574,8 +590,8 @@ public class CachedMarkerBuilder {
 	 * The WorkingSet listener, since marker filters can be scoped to
 	 * workingsets; listen for changes to them.
 	 */
-	private class WorkingSetListener implements IPropertyChangeListener{
-		@Override
+	private class WorkingSetListener implements IPropertyChangeListener{ //FLLDCIM: MARK — T06  IMPLEMENTS
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void propertyChange(PropertyChangeEvent event) {
 			boolean needsUpdate=false;
 			if (event
@@ -583,7 +599,7 @@ public class CachedMarkerBuilder {
 					.equals(
 							IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE)) {
 				Iterator<MarkerFieldFilterGroup> iterator = generator.getEnabledFilters().iterator();
-				while (iterator.hasNext()) {
+				while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MarkerFieldFilterGroup group = iterator.next();
 					if (group.getScope() == MarkerFieldFilterGroup.ON_WORKING_SET) {
 						IWorkingSet wSet = group.getWorkingSet();
@@ -596,7 +612,7 @@ public class CachedMarkerBuilder {
 			}
 			if (event.getProperty().equals(IWorkingSetManager.CHANGE_WORKING_SET_REMOVE)) {
 				Iterator<MarkerFieldFilterGroup> iterator = generator.getAllFilters().iterator();
-				while (iterator.hasNext()) {
+				while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MarkerFieldFilterGroup group = iterator.next();
 					if (group.getScope() == MarkerFieldFilterGroup.ON_WORKING_SET) {
 						IWorkingSet wSet = group.getWorkingSet();
@@ -609,6 +625,9 @@ public class CachedMarkerBuilder {
 				}
 			}
 			if (needsUpdate) {
+				if (M3MarkerDeltas.scopeChanged(CachedMarkerBuilder.this)) {
+					return;
+				}
 				scheduleUpdate();
 			}
 		}

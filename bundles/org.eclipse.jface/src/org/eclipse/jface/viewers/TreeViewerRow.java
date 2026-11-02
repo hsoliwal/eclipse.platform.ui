@@ -132,7 +132,7 @@ public class TreeViewerRow extends ViewerRow {
 		}
 	}
 
-	private ViewerRow getRowBelow(boolean sameLevel) {
+	private ViewerRow getRowBelow(boolean sameLevel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Tree tree = item.getParent();
 
 		// This means we have top-level item
@@ -172,7 +172,7 @@ public class TreeViewerRow extends ViewerRow {
 		return null;
 	}
 
-	private ViewerRow getRowAbove(boolean sameLevel) {
+	private ViewerRow getRowAbove(boolean sameLevel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Tree tree = item.getParent();
 
 		// This means we have top-level item
@@ -218,14 +218,14 @@ public class TreeViewerRow extends ViewerRow {
 	private TreeItem findLastVisibleItem(TreeItem parentItem) {
 		TreeItem rv = parentItem;
 
-		while (rv.getExpanded() && rv.getItemCount() > 0) {
+		while (rv.getExpanded() && rv.getItemCount() > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rv = rv.getItem(rv.getItemCount() - 1);
 		}
 
 		return rv;
 	}
 
-	private TreeItem findNextItem(TreeItem item) {
+	private TreeItem findNextItem(TreeItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TreeItem rv = null;
 		Tree tree = item.getParent();
 		TreeItem parentItem = item.getParentItem();
@@ -259,12 +259,12 @@ public class TreeViewerRow extends ViewerRow {
 	@Override
 	public TreePath getTreePath() {
 		int depth = 0;
-		for (TreeItem i = item; i != null; i = i.getParentItem()) {
+		for (TreeItem i = item; i != null; i = i.getParentItem()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			depth++;
 		}
 		Object[] segments = new Object[depth];
 		TreeItem tItem = item;
-		for (int i = depth - 1; i >= 0; i--) {
+		for (int i = depth - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object segment = tItem.getData();
 			Assert.isNotNull(segment);
 			segments[i] = segment;
@@ -292,7 +292,7 @@ public class TreeViewerRow extends ViewerRow {
 	public int getVisualIndex(int creationIndex) {
 		int[] order = item.getParent().getColumnOrder();
 
-		for (int i = 0; i < order.length; i++) {
+		for (int i = 0; i < order.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (order[i] == creationIndex) {
 				return i;
 			}

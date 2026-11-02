@@ -62,7 +62,7 @@ class MarkerResourceUtil {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
 		if (enabledFilters==null||enabledFilters.isEmpty()) {
-			HashSet<IResource> set = new HashSet<>(1);
+			HashSet<IResource> set = new HashSet<>(1); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			set.add(root);
 			return set;
 		}
@@ -80,7 +80,7 @@ class MarkerResourceUtil {
 	 *
 	 * @return set
 	 */
-	static Set<IResource> trim2ParentResources(IWorkspaceRoot root, Set<IResource> resourceSet) {
+	static Set<IResource> trim2ParentResources(IWorkspaceRoot root, Set<IResource> resourceSet) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resourceSet.isEmpty() || resourceSet.size() == 1) {
 			return resourceSet;
 		}
@@ -89,10 +89,10 @@ class MarkerResourceUtil {
 			resourceSet.add(root);
 			return resourceSet;
 		}
-		for (Object clone : resourceSet.toArray()) {
+		for (Object clone : resourceSet.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = (IResource) clone;
 			Iterator<IResource> iterator = resourceSet.iterator();
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resToRemove = iterator.next();
 				if (resToRemove.equals(root)) {
 					resourceSet.clear();
@@ -118,21 +118,21 @@ class MarkerResourceUtil {
 	 *
 	 * @return set
 	 */
-	static Set<IResource> getResourcesFiltersOred(Collection<MarkerFieldFilterGroup> enabledFilters,
+	static Set<IResource> getResourcesFiltersOred(Collection<MarkerFieldFilterGroup> enabledFilters, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource[] selectedResources, IWorkspaceRoot root) {
 		if (enabledFilters==null||enabledFilters.isEmpty()) {
-			HashSet<IResource> set = new HashSet<>(1);
+			HashSet<IResource> set = new HashSet<>(1); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			set.add(root);
 			return set;
 		}
-		Set<IResource> resourceSet = new HashSet<>();
+		Set<IResource> resourceSet = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<MarkerFieldFilterGroup> filtersIterator = enabledFilters.iterator();
-		while (filtersIterator.hasNext()) {
+		while (filtersIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilterGroup group = filtersIterator.next();
 			Set<IResource> set = getResourcesForFilter(group, selectedResources, root);
 			resourceSet.addAll(set);
 			if (resourceSet.contains(root)) {
-				set = new HashSet<>(1);
+				set = new HashSet<>(1); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				set.add(root);
 				return set;
 			}
@@ -143,9 +143,9 @@ class MarkerResourceUtil {
 	/**
 	 * Get the resources indicated by the filter's scope.
 	 */
-	static Set<IResource> getResourcesForFilter(MarkerFieldFilterGroup group,
+	static Set<IResource> getResourcesForFilter(MarkerFieldFilterGroup group, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource[] selectedResources, IWorkspaceRoot root) {
-		HashSet<IResource> resourceSet = new HashSet<>();
+		HashSet<IResource> resourceSet = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		switch (group.getScope()) {
 		case MarkerFieldFilterGroup.ON_ANY: {
 			resourceSet.add(root);
@@ -192,8 +192,8 @@ class MarkerResourceUtil {
 	 * @return Collection of IProject
 	 */
 	static Collection<IProject> getProjectsAsCollection(Object[] elements) {
-		HashSet<IProject> projects = new HashSet<>();
-		for (Object element : elements) {
+		HashSet<IProject> projects = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource) {
 				projects.add(((IResource) element).getProject());
 			} else {
@@ -213,13 +213,13 @@ class MarkerResourceUtil {
 	 * @return collection of all nested child projects (does not include the parent
 	 *         projects themselves)
 	 */
-	static Collection<IProject> getNestedChildProjects(Collection<IProject> parentProjects) {
+	static Collection<IProject> getNestedChildProjects(Collection<IProject> parentProjects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parentProjects == null || parentProjects.isEmpty()) {
 			return Set.of();
 		}
-		Set<IProject> nestedChildren = new HashSet<>();
+		Set<IProject> nestedChildren = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.exists() || !project.isAccessible()) {
 				continue;
 			}
@@ -228,7 +228,7 @@ class MarkerResourceUtil {
 				continue;
 			}
 			// Check if this project is nested under any of the parent projects
-			for (IProject parentProject : parentProjects) {
+			for (IProject parentProject : parentProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parentProject.equals(project)) {
 					continue; // Skip the project itself
 				}
@@ -250,7 +250,7 @@ class MarkerResourceUtil {
 			ResourceTraversal[] traversals = resourceMapping.getTraversals(
 					ResourceMappingContext.LOCAL_CONTEXT,
 					new NullProgressMonitor());
-			for (ResourceTraversal traversal : traversals) {
+			for (ResourceTraversal traversal : traversals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				java.util.Collections.addAll(resourceCollection, traversal.getResources());
 			}
 		} catch (CoreException e) {
@@ -269,7 +269,7 @@ class MarkerResourceUtil {
 	 * 		Try to adapt to an IFile
 	 * 		Finally try adapting to a ResourceMapping
 	 */
-	static Object adapt2ResourceElement(Object object) {
+	static Object adapt2ResourceElement(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource = null;
 		if (object instanceof IAdaptable) {
 			ITaskListResourceAdapter adapter = Adapters.adapt(object, ITaskListResourceAdapter.class);
@@ -307,9 +307,9 @@ class MarkerResourceUtil {
 	 * marker typeIds
 	 */
 	static HashSet<MarkerType> getAllSubTypes(String[] typeIds) {
-		HashSet<MarkerType> set = new HashSet<>();
+		HashSet<MarkerType> set = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		MarkerTypesModel typesModel = MarkerTypesModel.getInstance();
-		for (String typeId : typeIds) {
+		for (String typeId : typeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType type = typesModel.getType(typeId);
 			set.add(type);
 			set.addAll(Arrays.asList(type.getAllSubTypes()));
@@ -331,16 +331,16 @@ class MarkerResourceUtil {
 	 * marker typeIds
 	 */
 	static HashSet<MarkerType> getMutuallyExclusiveSupers(String[] typeIds) {
-		HashSet<MarkerType> set = new HashSet<>();
+		HashSet<MarkerType> set = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		MarkerTypesModel typesModel = MarkerTypesModel.getInstance();
-		for (String typeId : typeIds) {
+		for (String typeId : typeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType type = typesModel.getType(typeId);
 			set.add(type);
 		}
-		for (String typeId : typeIds) {
+		for (String typeId : typeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType type = typesModel.getType(typeId);
 			MarkerType[] subs = type.getAllSubTypes();
-			HashSet<MarkerType> subsOnly = new HashSet<>(Arrays.asList(subs));
+			HashSet<MarkerType> subsOnly = new HashSet<>(Arrays.asList(subs)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			subsOnly.remove(type);
 			set.removeAll(subsOnly);
 		}
@@ -352,9 +352,9 @@ class MarkerResourceUtil {
 	 * typeIds
 	 */
 	private static String[] toTypeStrings(Collection<MarkerType> collection) {
-		HashSet<String> ids = new HashSet<>();
+		HashSet<String> ids = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<MarkerType> iterator = collection.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType type = iterator.next();
 			ids.add(type.getId());
 		}

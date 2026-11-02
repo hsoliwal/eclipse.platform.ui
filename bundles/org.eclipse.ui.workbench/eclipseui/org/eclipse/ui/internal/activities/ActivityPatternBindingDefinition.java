@@ -27,16 +27,16 @@ public final class ActivityPatternBindingDefinition {
 
 	private static final int HASH_INITIAL = ActivityPatternBindingDefinition.class.getName().hashCode();
 
-	static Map<String, Collection<ActivityPatternBindingDefinition>> activityPatternBindingDefinitionsByActivityId(
+	static Map<String, Collection<ActivityPatternBindingDefinition>> activityPatternBindingDefinitionsByActivityId( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<ActivityPatternBindingDefinition> activityPatternBindingDefinitions) {
 		if (activityPatternBindingDefinitions == null) {
 			throw new NullPointerException();
 		}
 
-		Map<String, Collection<ActivityPatternBindingDefinition>> map = new HashMap<>();
+		Map<String, Collection<ActivityPatternBindingDefinition>> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Iterator<ActivityPatternBindingDefinition> iterator = activityPatternBindingDefinitions.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActivityPatternBindingDefinition activityPatternBindingDefinition = iterator.next();
 			String activityId = activityPatternBindingDefinition.getActivityId();
 
@@ -44,7 +44,7 @@ public final class ActivityPatternBindingDefinition {
 				Collection<ActivityPatternBindingDefinition> activityPatternBindingDefinitions2 = map.get(activityId);
 
 				if (activityPatternBindingDefinitions2 == null) {
-					activityPatternBindingDefinitions2 = new ArrayList<>();
+					activityPatternBindingDefinitions2 = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					map.put(activityId, activityPatternBindingDefinitions2);
 				}
 
@@ -83,7 +83,7 @@ public final class ActivityPatternBindingDefinition {
 		this.isEqualityPattern = isEqualityPattern;
 	}
 
-	public int compareTo(Object object) {
+	public int compareTo(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ActivityPatternBindingDefinition castedObject = (ActivityPatternBindingDefinition) object;
 		int compareTo = Util.compare(activityId, castedObject.activityId);
 
@@ -146,7 +146,7 @@ public final class ActivityPatternBindingDefinition {
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(activityId);
 			stringBuffer.append(',');

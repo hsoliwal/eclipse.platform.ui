@@ -67,7 +67,7 @@ public class WorkbenchLabelProvider extends LabelProvider
 	 * when it changes, since many workbench adapters derive their icon from the
 	 * file associations in the registry.
 	 */
-	private final IPropertyListener editorRegistryListener = (source, propId) -> {
+	private final IPropertyListener editorRegistryListener = (source, propId) -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (propId == IEditorRegistry.PROP_CONTENTS) {
 			fireLabelProviderChanged(new LabelProviderChangedEvent(WorkbenchLabelProvider.this));
 		}

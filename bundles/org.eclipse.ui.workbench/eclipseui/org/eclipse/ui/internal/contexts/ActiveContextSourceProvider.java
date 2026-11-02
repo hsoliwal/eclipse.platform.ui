@@ -54,7 +54,7 @@ public final class ActiveContextSourceProvider extends AbstractSourceProvider im
 			final Map currentState = getCurrentState();
 
 			if (DEBUG) {
-				logDebuggingInfo("Contexts changed to " //$NON-NLS-1$
+				logDebuggingInfo("Contexts changed to " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ currentState.get(ISources.ACTIVE_CONTEXT_NAME));
 			}
 
@@ -69,7 +69,7 @@ public final class ActiveContextSourceProvider extends AbstractSourceProvider im
 
 	@Override
 	public Map getCurrentState() {
-		final Map currentState = new TreeMap();
+		final Map currentState = new TreeMap(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 		final Collection activeContextIds = contextService.getActiveContextIds();
 		currentState.put(ISources.ACTIVE_CONTEXT_NAME, activeContextIds);
 		return currentState;

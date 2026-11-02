@@ -44,7 +44,7 @@ class DelegateProgressMonitorInUIThreadAndPreservingFocus implements IProgressMo
 				r.run();
 			}
 		} else {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (!delegate.isDisposed()) {
 					r.run();
 				}
@@ -87,7 +87,7 @@ class DelegateProgressMonitorInUIThreadAndPreservingFocus implements IProgressMo
 		inUIThread(delegate::done);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void beginTask(String name, int totalWork) {
 		inUIThread(() -> {
 			Point initialSelection = null;

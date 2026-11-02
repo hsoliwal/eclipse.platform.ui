@@ -182,24 +182,24 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 		return singleton;
 	}
 
-	private final Map<String, ProblemFilter> registeredFilters = new HashMap<>();
+	private final Map<String, ProblemFilter> registeredFilters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, MarkerGroup> markerGroups = new HashMap<>();
+	private final Map<String, MarkerGroup> markerGroups = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, String> categories = new HashMap<>();
+	private final Map<String, String> categories = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, TableComparator> hierarchyOrders = new HashMap<>();
+	private final Map<String, TableComparator> hierarchyOrders = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private MarkerType rootType;
 
-	private final Map<String, ContentGeneratorDescriptor> generators = new HashMap<>();
+	private final Map<String, ContentGeneratorDescriptor> generators = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, MarkerField> fields = new HashMap<>();
+	private final Map<String, MarkerField> fields = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Create a new instance of the receiver and read the registry.
 	 */
-	private MarkerSupportRegistry() {
+	private MarkerSupportRegistry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionTracker tracker = PlatformUI.getWorkbench().getExtensionTracker();
 		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(IDEWorkbenchPlugin.IDE_WORKBENCH,
 				MARKER_SUPPORT);
@@ -208,11 +208,11 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 		}
 		IExtension[] extensions = point.getExtensions();
 		// initial population
-		Map<String, Collection<MarkerGroupingEntry>> groupingEntries = new HashMap<>();
-		Map<String, Collection<IConfigurationElement>> generatorExtensions = new HashMap<>();
-		Map<String, MarkerGroupingEntry> entryIDsToEntries = new HashMap<>();
-		Set<AttributeMarkerGrouping> attributeMappings = new HashSet<>();
-		for (IExtension extension : extensions) {
+		Map<String, Collection<MarkerGroupingEntry>> groupingEntries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<String, Collection<IConfigurationElement>> generatorExtensions = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<String, MarkerGroupingEntry> entryIDsToEntries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Set<AttributeMarkerGrouping> attributeMappings = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processExtension(tracker, extension, groupingEntries,
 					entryIDsToEntries, attributeMappings, generatorExtensions);
 		}
@@ -236,14 +236,14 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 *            the markerContentGenerator extensions keyed on group id
 	 * @see #postProcessExtensions(Map, Map, Collection, Map)
 	 */
-	private void processExtension(IExtensionTracker tracker, IExtension extension,
+	private void processExtension(IExtensionTracker tracker, IExtension extension, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Map<String, Collection<MarkerGroupingEntry>> groupIDsToEntries,
 			Map<String, MarkerGroupingEntry> entryIDsToEntries,
 			Collection<AttributeMarkerGrouping> attributeMappings,
 			Map<String, Collection<IConfigurationElement>> generatorExtensions) {
 		IConfigurationElement[] elements = extension.getConfigurationElements();
 
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getName().equals(PROBLEM_FILTER)) {
 				ProblemFilter filter = newFilter(element);
 				registeredFilters.put(filter.getId(), filter);
@@ -263,7 +263,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 				String groupName = element.getAttribute(MARKER_GROUPING);
 				Collection<MarkerGroupingEntry> entries = groupIDsToEntries.get(groupName);
 				if (entries == null) {
-					entries = new HashSet<>();
+					entries = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				}
 
 				entries.add(entry);
@@ -284,7 +284,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 			if (element.getName().equals(MARKER_CATEGORY)) {
 				String[] markerTypes = getMarkerTypes(element);
 				String categoryName = element.getAttribute(MarkerSupportInternalUtilities.ATTRIBUTE_NAME);
-				for (String markerType : markerTypes) {
+				for (String markerType : markerTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					categories.put(markerType, categoryName);
 				}
 				tracker.registerObject(extension, categoryName, IExtensionTracker.REF_STRONG);
@@ -295,7 +295,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 				String generatorName = element.getAttribute(ATTRIBUTE_GENERATOR_ID);
 				Collection<IConfigurationElement> extensionCollection = generatorExtensions.get(generatorName);
 				if (extensionCollection == null) {
-					extensionCollection = new ArrayList<>();
+					extensionCollection = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 
 				extensionCollection.add(element);
@@ -365,7 +365,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 */
 	private void postProcessContentGenerators(Map<String, Collection<IConfigurationElement>> generatorExtensions) {
 		Iterator<ContentGeneratorDescriptor> generatorIterator = generators.values().iterator();
-		while (generatorIterator.hasNext()) {
+		while (generatorIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ContentGeneratorDescriptor generatorDesc = generatorIterator.next();
 			generatorDesc.initializeFromConfigurationElement(this);
 			Collection<IConfigurationElement> extensions = generatorExtensions.get(generatorDesc.getId());
@@ -380,15 +380,15 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 * Process the grouping entries into thier required grouping entries.
 	 */
 	private void processGroupingEntries(Map<String, Collection<MarkerGroupingEntry>> groupingEntries) {
-		for (Entry<String, Collection<MarkerGroupingEntry>> entry : groupingEntries.entrySet()) {
+		for (Entry<String, Collection<MarkerGroupingEntry>> entry : groupingEntries.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String nextGroupId = entry.getKey();
 			MarkerGroup group = markerGroups.get(nextGroupId);
 			if (group != null) {
-				for (MarkerGroupingEntry markerGroupingEntry : entry.getValue()) {
+				for (MarkerGroupingEntry markerGroupingEntry : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					markerGroupingEntry.setGroup(group);
 				}
 			} else {
-				for (MarkerGroupingEntry markerGroupingEntry : entry.getValue()) {
+				for (MarkerGroupingEntry markerGroupingEntry : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IDEWorkbenchPlugin.log(NLS.bind("markerGroupingEntry {0} defines invalid group {1}", //$NON-NLS-1$
 							new String[] { markerGroupingEntry.getId(), nextGroupId }));
 				}
@@ -399,10 +399,10 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	/**
 	 * Process the attribute mappings into thier required grouping entries.
 	 */
-	private void processAttributeMappings(Map<String, MarkerGroupingEntry> entryIDsToEntries,
+	private void processAttributeMappings(Map<String, MarkerGroupingEntry> entryIDsToEntries, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<AttributeMarkerGrouping> attributeMappings) {
 		Iterator<AttributeMarkerGrouping> mappingsIterator = attributeMappings.iterator();
-		while (mappingsIterator.hasNext()) {
+		while (mappingsIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AttributeMarkerGrouping attributeGrouping = mappingsIterator.next();
 			String defaultEntryId = attributeGrouping.getDefaultGroupingEntry();
 			if (defaultEntryId != null) {
@@ -417,7 +417,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 			}
 			IConfigurationElement[] mappings = attributeGrouping.getElement().getChildren(ATTRIBUTE_MAPPING);
 
-			for (IConfigurationElement mapping : mappings) {
+			for (IConfigurationElement mapping : mappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String entryId = mapping.getAttribute(MARKER_GROUPING_ENTRY);
 
 				MarkerGroupingEntry entry = entryIDsToEntries.get(entryId);
@@ -441,7 +441,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 		IConfigurationElement[] types = element
 				.getChildren(MARKER_TYPE_REFERENCE);
 		String[] ids = new String[types.length];
-		for (int i = 0; i < ids.length; i++) {
+		for (int i = 0; i < ids.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ids[i] = types[i].getAttribute(MarkerSupportInternalUtilities.ATTRIBUTE_ID);
 		}
 		return ids;
@@ -449,10 +449,10 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
-		Map<String, Collection<MarkerGroupingEntry>> groupIDsToEntries = new HashMap<>();
-		Map<String, MarkerGroupingEntry> entryIDsToEntries = new HashMap<>();
-		Map<String, Collection<IConfigurationElement>> generatorExtensions = new HashMap<>();
-		Set<AttributeMarkerGrouping> attributeMappings = new HashSet<>();
+		Map<String, Collection<MarkerGroupingEntry>> groupIDsToEntries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<String, MarkerGroupingEntry> entryIDsToEntries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<String, Collection<IConfigurationElement>> generatorExtensions = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Set<AttributeMarkerGrouping> attributeMappings = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		processExtension(tracker, extension, groupIDsToEntries,	entryIDsToEntries, attributeMappings, generatorExtensions);
 		postProcessExtensions(groupIDsToEntries, entryIDsToEntries,	attributeMappings, generatorExtensions);
 	}
@@ -463,9 +463,9 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 * @return Collection of ProblemFilter
 	 */
 	public Collection<ProblemFilter> getRegisteredFilters() {
-		Collection<ProblemFilter> filteredFilters = new ArrayList<>();
+		Collection<ProblemFilter> filteredFilters = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<ProblemFilter> registeredIterator = registeredFilters.values().iterator();
-		while (registeredIterator.hasNext()) {
+		while (registeredIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ProblemFilter next = registeredIterator.next();
 			if (next.isFilteredOutByActivity()) {
 				continue;
@@ -482,7 +482,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 *         MarkerView#ON_SELECTED_AND_CHILDREN
 	 *         MarkerView#ON_ANY_IN_SAME_CONTAINER
 	 */
-	private int getScopeValue(IConfigurationElement element) {
+	private int getScopeValue(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String scope = element.getAttribute(SCOPE);
 		if (scope == null) {
 			return -1;
@@ -533,7 +533,7 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 *            the filter element
 	 * @return ProblemFilter
 	 */
-	private ProblemFilter newFilter(IConfigurationElement element) {
+	private ProblemFilter newFilter(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ProblemFilter filter = new ProblemFilter(element.getAttribute(MarkerSupportInternalUtilities.ATTRIBUTE_NAME));
 
 		filter.createContributionFrom(element);
@@ -565,8 +565,8 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 			filter.setSelectBySeverity(false);
 		}
 
-		List<MarkerType> selectedTypes = new ArrayList<>();
-		for (IConfigurationElement type : element.getChildren(SELECTED_TYPE)) {
+		List<MarkerType> selectedTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement type : element.getChildren(SELECTED_TYPE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String markerId = type.getAttribute(MARKER_ID);
 			if (markerId != null) {
 				MarkerType markerType = filter.getMarkerType(markerId);
@@ -586,10 +586,10 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 		return filter;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void removeExtension(IExtension extension, Object[] objects) {
 
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof ProblemFilter) {
 				registeredFilters.remove(object);
 				continue;
@@ -638,13 +638,13 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 * collection is empty remove the key as well.
 	 */
 	private void removeValues(String value, Map<String, String> cache) {
-		Collection<String> keysToRemove = new ArrayList<>();
-		for (Entry<String, String> entry : cache.entrySet()) {
+		Collection<String> keysToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Entry<String, String> entry : cache.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getValue().equals(value)) {
 				keysToRemove.add(entry.getKey());
 			}
 		}
-		for (String toRemove : keysToRemove) {
+		for (String toRemove : keysToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cache.remove(toRemove);
 		}
 	}
@@ -711,9 +711,9 @@ public class MarkerSupportRegistry implements IExtensionChangeHandler {
 	 * @return TableSorter or <code>null</code>.
 	 */
 	private TableComparator findSorterInChildren(String typeName, MarkerType type) {
-		for (MarkerType markerSubType : type.getAllSubTypes()) {
+		for (MarkerType markerSubType : type.getAllSubTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType[] subtypes = markerSubType.getAllSubTypes();
-			for (MarkerType subtype : subtypes) {
+			for (MarkerType subtype : subtypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TableComparator sorter = findSorterInChildren(typeName, subtype);
 				if (sorter != null) {
 					return sorter;

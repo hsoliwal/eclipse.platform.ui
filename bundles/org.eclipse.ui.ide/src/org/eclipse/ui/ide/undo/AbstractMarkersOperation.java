@@ -67,7 +67,7 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 	 * @param name
 	 *            the name used to describe the operation
 	 */
-	AbstractMarkersOperation(IMarker[] markers,
+	AbstractMarkersOperation(IMarker[] markers, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMarkerSnapshot[] markerDescriptions, Map<String, Object> attributes, String name) {
 		super(name);
 		Map<String, Object> typedAttributes = attributes;
@@ -81,8 +81,8 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 		if (attributes != null && markers != null) {
 			if (markers.length > 1) {
 				this.attributes = new Map[markers.length];
-				for (int i = 0; i < markers.length; i++) {
-					Map<String, Object> copiedAttributes = new HashMap<>();
+				for (int i = 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					Map<String, Object> copiedAttributes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					copiedAttributes.putAll(typedAttributes);
 					this.attributes[i] = copiedAttributes;
 				}
@@ -112,7 +112,7 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 		}
 		int markerWork = work / markers.length;
 		markerDescriptions = new IMarkerSnapshot[markers.length];
-		for (int i = 0; i < markers.length; i++) {
+		for (int i = 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			markerDescriptions[i] = ResourceSnapshotFactory.fromMarker(markers[i]);
 			markers[i].delete();
 			monitor.worked(markerWork);
@@ -140,7 +140,7 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 		markers = new IMarker[markerDescriptions.length];
 
 		// Recreate the markers from the descriptions
-		for (int i = 0; i < markerDescriptions.length; i++) {
+		for (int i = 0; i < markerDescriptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			markers[i] = markerDescriptions[i].createMarker();
 			monitor.worked(markerWork);
 		}
@@ -160,7 +160,7 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	protected void updateMarkers(int work, IProgressMonitor monitor,
+	protected void updateMarkers(int work, IProgressMonitor monitor, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean mergeAttributes) throws CoreException {
 		if (attributes == null || markers == null
 				|| attributes.length != markers.length || markers.length == 0) {
@@ -168,13 +168,13 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 			return;
 		}
 		int markerWork = work / markers.length;
-		for (int i = 0; i < markers.length; i++) {
+		for (int i = 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mergeAttributes) {
 				Map<String, Object> oldAttributes = markers[i].getAttributes();
 				int increment = markerWork / attributes[i].size();
-				Map<String, Object> replacedAttributes = new HashMap<>();
+				Map<String, Object> replacedAttributes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-				for (Iterator<String> iter = attributes[i].keySet().iterator(); iter
+				for (Iterator<String> iter = attributes[i].keySet().iterator(); iter //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						.hasNext();) {
 					String key = iter.next();
 					Object val = attributes[i].get(key);
@@ -214,13 +214,13 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 		if (markers == null) {
 			if (markerDescriptions != null) {
 				newResources = new IResource[markerDescriptions.length];
-				for (int i = 0; i < markerDescriptions.length; i++) {
+				for (int i = 0; i < markerDescriptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newResources[i] = markerDescriptions[i].getResource();
 				}
 			}
 		} else {
 			newResources = new IResource[markers.length];
-			for (int i = 0; i < markers.length; i++) {
+			for (int i = 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newResources[i] = markers[i].getResource();
 			}
 		}
@@ -238,18 +238,18 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 	 * addition to the workspace context assigned by this method.
 	 */
 
-	private void addUndoContexts() {
+	private void addUndoContexts() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] types = null;
 		if (markers == null) {
 			if (markerDescriptions != null) {
 				types = new String[markerDescriptions.length];
-				for (int i = 0; i < markerDescriptions.length; i++) {
+				for (int i = 0; i < markerDescriptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					types[i] = markerDescriptions[i].getType();
 				}
 			}
 		} else {
 			types = new String[markers.length];
-			for (int i = 0; i < markers.length; i++) {
+			for (int i = 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					types[i] = markers[i].getType();
 				} catch (CoreException e) {
@@ -263,7 +263,7 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 			MarkerType taskType= MarkerTypesModel.getInstance().getType(IMarker.TASK);
 			MarkerType problemType= MarkerTypesModel.getInstance().getType(IMarker.PROBLEM);
 
-			for (String currentType : types) {
+			for (String currentType : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// Marker type could be null if marker did not exist.
 				// This shouldn't happen, but can.
 				// See https://bugs.eclipse.org/bugs/show_bug.cgi?id=158129
@@ -308,7 +308,7 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 		if (markers == null || markers.length == 0) {
 			return false;
 		}
-		for (IMarker marker : markers) {
+		for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!marker.exists()) {
 				return false;
 			}
@@ -429,7 +429,7 @@ abstract class AbstractMarkersOperation extends AbstractWorkspaceOperation {
 	@Override
 	protected ISchedulingRule getExecuteSchedulingRule() {
 		ISchedulingRule[] ruleArray = new ISchedulingRule[resources.length];
-		for (int i = 0; i < resources.length; i++) {
+		for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ruleArray[i] = getWorkspaceRuleFactory().markerRule(resources[i]);
 		}
 		return MultiRule.combine(ruleArray);

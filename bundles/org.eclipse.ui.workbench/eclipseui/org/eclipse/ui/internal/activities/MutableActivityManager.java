@@ -62,29 +62,29 @@ import org.eclipse.ui.services.IEvaluationService;
 public final class MutableActivityManager extends AbstractActivityManager
 		implements IMutableActivityManager, Cloneable {
 
-	private final Map<String, Activity> activitiesById = new HashMap<>();
+	private final Map<String, Activity> activitiesById = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private Map<String, Set<IActivityRequirementBinding>> activityRequirementBindingsByActivityId = new HashMap<>();
+	private Map<String, Set<IActivityRequirementBinding>> activityRequirementBindingsByActivityId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private Map<String, ActivityDefinition> activityDefinitionsById = new HashMap<>();
+	private Map<String, ActivityDefinition> activityDefinitionsById = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private Map<String, Set<IActivityPatternBinding>> activityPatternBindingsByActivityId = new HashMap<>();
+	private Map<String, Set<IActivityPatternBinding>> activityPatternBindingsByActivityId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final IActivityRegistry activityRegistry;
 
-	private final Map<String, Category> categoriesById = new HashMap<>();
+	private final Map<String, Category> categoriesById = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private Map<String, Set<ICategoryActivityBinding>> categoryActivityBindingsByCategoryId = new HashMap<>();
+	private Map<String, Set<ICategoryActivityBinding>> categoryActivityBindingsByCategoryId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private Map<String, CategoryDefinition> categoryDefinitionsById = new HashMap<>();
+	private Map<String, CategoryDefinition> categoryDefinitionsById = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private Set<String> definedActivityIds = new HashSet<>();
+	private Set<String> definedActivityIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-	private Set<String> definedCategoryIds = new HashSet<>();
+	private Set<String> definedCategoryIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-	private Set<String> enabledActivityIds = new HashSet<>();
+	private Set<String> enabledActivityIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-	private final Map<String, Identifier> identifiersById = new HashMap<>();
+	private final Map<String, Identifier> identifiersById = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Avoid endless circular referencing of re-adding activity to evaluation
@@ -105,7 +105,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 
 	private final IActivityRegistryListener activityRegistryListener = activityRegistryEvent -> readRegistry(false);
 
-	private final Map<ActivityDefinition, IEvaluationReference> refsByActivityDefinition = new HashMap<>();
+	private final Map<ActivityDefinition, IEvaluationReference> refsByActivityDefinition = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final IEventBroker eventBroker;
 
@@ -221,11 +221,11 @@ public final class MutableActivityManager extends AbstractActivityManager
 	}
 
 	private void getRequiredActivityIds(Set<String> activityIds, Set<String> requiredActivityIds) {
-		for (String activityId : activityIds) {
+		for (String activityId : activityIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IActivity activity = getActivity(activityId);
-			Set<String> childActivityIds = new HashSet<>();
+			Set<String> childActivityIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			Set<IActivityRequirementBinding> activityRequirementBindings = activity.getActivityRequirementBindings();
-			for (IActivityRequirementBinding activityRequirementBinding : activityRequirementBindings) {
+			for (IActivityRequirementBinding activityRequirementBinding : activityRequirementBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				childActivityIds.add(activityRequirementBinding.getRequiredActivityId());
 			}
 			childActivityIds.removeAll(requiredActivityIds);
@@ -235,7 +235,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 	}
 
 	private void notifyActivities(Map<String, ActivityEvent> activityEventsByActivityId) {
-		for (Entry<String, ActivityEvent> entry : activityEventsByActivityId.entrySet()) {
+		for (Entry<String, ActivityEvent> entry : activityEventsByActivityId.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String activityId = entry.getKey();
 			ActivityEvent activityEvent = entry.getValue();
 			Activity activity = activitiesById.get(activityId);
@@ -247,7 +247,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 	}
 
 	private void notifyCategories(Map<String, CategoryEvent> categoryEventsByCategoryId) {
-		for (Entry<String, CategoryEvent> entry : categoryEventsByCategoryId.entrySet()) {
+		for (Entry<String, CategoryEvent> entry : categoryEventsByCategoryId.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String categoryId = entry.getKey();
 			CategoryEvent categoryEvent = entry.getValue();
 			Category category = categoriesById.get(categoryId);
@@ -259,7 +259,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 	}
 
 	private void notifyIdentifiers(Map<String, IdentifierEvent> identifierEventsByIdentifierId) {
-		for (Entry<String, IdentifierEvent> entry : identifierEventsByIdentifierId.entrySet()) {
+		for (Entry<String, IdentifierEvent> entry : identifierEventsByIdentifierId.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String identifierId = entry.getKey();
 			IdentifierEvent identifierEvent = entry.getValue();
 			Identifier identifier = identifiersById.get(identifierId);
@@ -270,14 +270,14 @@ public final class MutableActivityManager extends AbstractActivityManager
 		}
 	}
 
-	private void readRegistry(boolean setDefaults) {
+	private void readRegistry(boolean setDefaults) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		clearExpressions();
-		Collection<ActivityDefinition> activityDefinitions = new ArrayList<>();
+		Collection<ActivityDefinition> activityDefinitions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		activityDefinitions.addAll(activityRegistry.getActivityDefinitions());
-		Map<String, ActivityDefinition> activityDefinitionsById = new HashMap<>(
+		Map<String, ActivityDefinition> activityDefinitionsById = new HashMap<>( //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				ActivityDefinition.activityDefinitionsById(activityDefinitions, false));
 
-		for (Iterator<ActivityDefinition> iterator = activityDefinitionsById.values().iterator(); iterator.hasNext();) {
+		for (Iterator<ActivityDefinition> iterator = activityDefinitionsById.values().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActivityDefinition activityDefinition = iterator.next();
 			String name = activityDefinition.getName();
 
@@ -286,12 +286,12 @@ public final class MutableActivityManager extends AbstractActivityManager
 			}
 		}
 
-		Collection<CategoryDefinition> categoryDefinitions = new ArrayList<>();
+		Collection<CategoryDefinition> categoryDefinitions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		categoryDefinitions.addAll(activityRegistry.getCategoryDefinitions());
-		Map<String, CategoryDefinition> categoryDefinitionsById = new HashMap<>(
+		Map<String, CategoryDefinition> categoryDefinitionsById = new HashMap<>( //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				CategoryDefinition.categoryDefinitionsById(categoryDefinitions, false));
 
-		for (Iterator<CategoryDefinition> iterator = categoryDefinitionsById.values().iterator(); iterator.hasNext();) {
+		for (Iterator<CategoryDefinition> iterator = categoryDefinitionsById.values().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CategoryDefinition categoryDefinition = iterator.next();
 			String name = categoryDefinition.getName();
 
@@ -303,16 +303,16 @@ public final class MutableActivityManager extends AbstractActivityManager
 		Map<String, Collection<ActivityRequirementBindingDefinition>> activityRequirementBindingDefinitionsByActivityId = ActivityRequirementBindingDefinition
 				.activityRequirementBindingDefinitionsByActivityId(
 						activityRegistry.getActivityRequirementBindingDefinitions());
-		Map<String, Set<IActivityRequirementBinding>> activityRequirementBindingsByActivityId = new HashMap<>();
+		Map<String, Set<IActivityRequirementBinding>> activityRequirementBindingsByActivityId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (Entry<String, Collection<ActivityRequirementBindingDefinition>> entry : activityRequirementBindingDefinitionsByActivityId
+		for (Entry<String, Collection<ActivityRequirementBindingDefinition>> entry : activityRequirementBindingDefinitionsByActivityId //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.entrySet()) {
 			String parentActivityId = entry.getKey();
 			if (activityDefinitionsById.containsKey(parentActivityId)) {
 				Collection<ActivityRequirementBindingDefinition> activityRequirementBindingDefinitions = entry
 						.getValue();
 				if (activityRequirementBindingDefinitions != null) {
-					for (ActivityRequirementBindingDefinition activityRequirementBindingDefinition : activityRequirementBindingDefinitions) {
+					for (ActivityRequirementBindingDefinition activityRequirementBindingDefinition : activityRequirementBindingDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String childActivityId = activityRequirementBindingDefinition.getRequiredActivityId();
 
 						if (activityDefinitionsById.containsKey(childActivityId)) {
@@ -322,7 +322,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 									.get(parentActivityId);
 
 							if (activityRequirementBindings == null) {
-								activityRequirementBindings = new HashSet<>();
+								activityRequirementBindings = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 								activityRequirementBindingsByActivityId.put(parentActivityId,
 										activityRequirementBindings);
 							}
@@ -336,15 +336,15 @@ public final class MutableActivityManager extends AbstractActivityManager
 
 		Map<String, Collection<ActivityPatternBindingDefinition>> activityPatternBindingDefinitionsByActivityId = ActivityPatternBindingDefinition
 				.activityPatternBindingDefinitionsByActivityId(activityRegistry.getActivityPatternBindingDefinitions());
-		Map<String, Set<IActivityPatternBinding>> activityPatternBindingsByActivityId = new HashMap<>();
+		Map<String, Set<IActivityPatternBinding>> activityPatternBindingsByActivityId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (Entry<String, Collection<ActivityPatternBindingDefinition>> entry : activityPatternBindingDefinitionsByActivityId
+		for (Entry<String, Collection<ActivityPatternBindingDefinition>> entry : activityPatternBindingDefinitionsByActivityId //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.entrySet()) {
 			String activityId = entry.getKey();
 			if (activityDefinitionsById.containsKey(activityId)) {
 				Collection<ActivityPatternBindingDefinition> activityPatternBindingDefinitions = entry.getValue();
 				if (activityPatternBindingDefinitions != null) {
-					for (ActivityPatternBindingDefinition activityPatternBindingDefinition : activityPatternBindingDefinitions) {
+					for (ActivityPatternBindingDefinition activityPatternBindingDefinition : activityPatternBindingDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String pattern = activityPatternBindingDefinition.getPattern();
 
 						if (pattern != null && pattern.length() != 0) {
@@ -354,7 +354,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 									.get(activityId);
 
 							if (activityPatternBindings == null) {
-								activityPatternBindings = new HashSet<>();
+								activityPatternBindings = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 								activityPatternBindingsByActivityId.put(activityId, activityPatternBindings);
 							}
 
@@ -368,15 +368,15 @@ public final class MutableActivityManager extends AbstractActivityManager
 		Map<String, Collection<CategoryActivityBindingDefinition>> categoryActivityBindingDefinitionsByCategoryId = CategoryActivityBindingDefinition
 				.categoryActivityBindingDefinitionsByCategoryId(
 						activityRegistry.getCategoryActivityBindingDefinitions());
-		Map<String, Set<ICategoryActivityBinding>> categoryActivityBindingsByCategoryId = new HashMap<>();
+		Map<String, Set<ICategoryActivityBinding>> categoryActivityBindingsByCategoryId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (Entry<String, Collection<CategoryActivityBindingDefinition>> entry : categoryActivityBindingDefinitionsByCategoryId
+		for (Entry<String, Collection<CategoryActivityBindingDefinition>> entry : categoryActivityBindingDefinitionsByCategoryId //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.entrySet()) {
 			String categoryId = entry.getKey();
 			if (categoryDefinitionsById.containsKey(categoryId)) {
 				Collection<CategoryActivityBindingDefinition> categoryActivityBindingDefinitions = entry.getValue();
 				if (categoryActivityBindingDefinitions != null) {
-					for (CategoryActivityBindingDefinition categoryActivityBindingDefinition : categoryActivityBindingDefinitions) {
+					for (CategoryActivityBindingDefinition categoryActivityBindingDefinition : categoryActivityBindingDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String activityId = categoryActivityBindingDefinition.getActivityId();
 
 						if (activityDefinitionsById.containsKey(activityId)) {
@@ -386,7 +386,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 									.get(categoryId);
 
 							if (categoryActivityBindings == null) {
-								categoryActivityBindings = new HashSet<>();
+								categoryActivityBindings = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 								categoryActivityBindingsByCategoryId.put(categoryId, categoryActivityBindings);
 							}
 
@@ -403,7 +403,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 		this.categoryActivityBindingsByCategoryId = categoryActivityBindingsByCategoryId;
 		this.categoryDefinitionsById = categoryDefinitionsById;
 		boolean definedActivityIdsChanged = false;
-		Set<String> definedActivityIds = new HashSet<>(activityDefinitionsById.keySet());
+		Set<String> definedActivityIds = new HashSet<>(activityDefinitionsById.keySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		Set<String> previouslyDefinedActivityIds = null;
 		if (!definedActivityIds.equals(this.definedActivityIds)) {
@@ -413,7 +413,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 		}
 
 		boolean definedCategoryIdsChanged = false;
-		Set<String> definedCategoryIds = new HashSet<>(categoryDefinitionsById.keySet());
+		Set<String> definedCategoryIds = new HashSet<>(categoryDefinitionsById.keySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		Set<String> previouslyDefinedCategoryIds = null;
 		if (!definedCategoryIds.equals(this.definedCategoryIds)) {
@@ -422,7 +422,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 			definedCategoryIdsChanged = true;
 		}
 
-		Set<String> enabledActivityIds = new HashSet<>(this.enabledActivityIds);
+		Set<String> enabledActivityIds = new HashSet<>(this.enabledActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		getRequiredActivityIds(this.enabledActivityIds, enabledActivityIds);
 		boolean enabledActivityIdsChanged = false;
 
@@ -458,24 +458,24 @@ public final class MutableActivityManager extends AbstractActivityManager
 		}
 
 		if (setDefaults) {
-			setEnabledActivityIds(new HashSet<>(activityRegistry.getDefaultEnabledActivities()));
+			setEnabledActivityIds(new HashSet<>(activityRegistry.getDefaultEnabledActivities())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 	}
 
 	private void clearExpressions() {
 		IEvaluationService evaluationService = PlatformUI.getWorkbench().getService(IEvaluationService.class);
 		Iterator<IEvaluationReference> i = refsByActivityDefinition.values().iterator();
-		while (i.hasNext()) {
+		while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEvaluationReference ref = i.next();
 			evaluationService.removeEvaluationListener(ref);
 		}
 		refsByActivityDefinition.clear();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	synchronized public void setEnabledActivityIds(Set<String> enabledActivityIds) {
-		enabledActivityIds = new HashSet<>(enabledActivityIds);
-		Set<String> requiredActivityIds = new HashSet<>(enabledActivityIds);
+		enabledActivityIds = new HashSet<>(enabledActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<String> requiredActivityIds = new HashSet<>(enabledActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		getRequiredActivityIds(enabledActivityIds, requiredActivityIds);
 		enabledActivityIds = requiredActivityIds;
 		Set<String> deltaActivityIds = null;
@@ -489,11 +489,11 @@ public final class MutableActivityManager extends AbstractActivityManager
 			activityManagerChanged = true;
 
 			// break out the additions to the current set
-			Set<String> additions = new HashSet<>(enabledActivityIds);
+			Set<String> additions = new HashSet<>(enabledActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			additions.removeAll(previouslyEnabledActivityIds);
 
 			// and the removals
-			Set<String> removals = new HashSet<>(previouslyEnabledActivityIds);
+			Set<String> removals = new HashSet<>(previouslyEnabledActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			removals.removeAll(enabledActivityIds);
 
 			// remove from each set the expression-activities
@@ -502,7 +502,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 
 			// merge the two sets into one delta - these are the changes that
 			// need to be made after taking expressions into account
-			deltaActivityIds = new HashSet<>(additions);
+			deltaActivityIds = new HashSet<>(additions); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			deltaActivityIds.addAll(removals);
 
 			if (deltaActivityIds.size() > 0) {
@@ -527,7 +527,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 	/**
 	 * Updates all the listeners to changes in the state.
 	 */
-	private void updateListeners(boolean activityManagerChanged, Map<String, ActivityEvent> activityEventsByActivityId,
+	private void updateListeners(boolean activityManagerChanged, Map<String, ActivityEvent> activityEventsByActivityId, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Set<String> deltaActivityIds, Set<String> previouslyEnabledActivityIds) {
 		// don't update identifiers if the enabled activity set has not changed
 		if (activityManagerChanged) {
@@ -549,21 +549,21 @@ public final class MutableActivityManager extends AbstractActivityManager
 	}
 
 	private void addExpressionEnabledActivity(String id) {
-		Set<String> previouslyEnabledActivityIds = new HashSet<>(this.enabledActivityIds);
+		Set<String> previouslyEnabledActivityIds = new HashSet<>(this.enabledActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		this.enabledActivityIds.add(id);
 
 		updateExpressionEnabledActivities(id, previouslyEnabledActivityIds);
 	}
 
 	private void removeExpressionEnabledActivity(String id) {
-		Set<String> previouslyEnabledActivityIds = new HashSet<>(this.enabledActivityIds);
+		Set<String> previouslyEnabledActivityIds = new HashSet<>(this.enabledActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		this.enabledActivityIds.remove(id);
 
 		updateExpressionEnabledActivities(id, previouslyEnabledActivityIds);
 	}
 
 	private void updateExpressionEnabledActivities(String id, Set<String> previouslyEnabledActivityIds) {
-		Set<String> deltaActivityIds = new HashSet<>();
+		Set<String> deltaActivityIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		deltaActivityIds.add(id);
 		Map<String, ActivityEvent> activityEventsByActivityId = updateActivities(deltaActivityIds);
 
@@ -578,7 +578,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 	 */
 	private void removeExpressionControlledActivities(Set<String> delta) {
 
-		for (Iterator<String> i = delta.iterator(); i.hasNext();) {
+		for (Iterator<String> i = delta.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = i.next();
 			IActivity activity = activitiesById.get(id);
 			Expression expression = activity.getExpression();
@@ -590,9 +590,9 @@ public final class MutableActivityManager extends AbstractActivityManager
 	}
 
 	private Map<String, ActivityEvent> updateActivities(Collection<String> activityIds) {
-		Map<String, ActivityEvent> activityEventsByActivityId = new TreeMap<>();
+		Map<String, ActivityEvent> activityEventsByActivityId = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 
-		for (String activityId : activityIds) {
+		for (String activityId : activityIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Activity activity = activitiesById.get(activityId);
 
 			if (activity != null) {
@@ -607,7 +607,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 		return activityEventsByActivityId;
 	}
 
-	private final IPropertyChangeListener enabledWhenListener = event -> {
+	private final IPropertyChangeListener enabledWhenListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (addingEvaluationListener || isDisposed()) {
 			return;
 		}
@@ -627,7 +627,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 
 	private final ITriggerPointAdvisor advisor;
 
-	private ActivityEvent updateActivity(Activity activity) {
+	private ActivityEvent updateActivity(Activity activity) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Set<IActivityRequirementBinding> activityRequirementBindings = activityRequirementBindingsByActivityId
 				.get(activity.getId());
 		boolean activityRequirementBindingsChanged = activity.setActivityRequirementBindings(
@@ -687,9 +687,9 @@ public final class MutableActivityManager extends AbstractActivityManager
 	}
 
 	private Map<String, CategoryEvent> updateCategories(Collection<String> categoryIds) {
-		Map<String, CategoryEvent> categoryEventsByCategoryId = new TreeMap<>();
+		Map<String, CategoryEvent> categoryEventsByCategoryId = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 
-		for (String categoryId : categoryIds) {
+		for (String categoryId : categoryIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Category category = categoriesById.get(categoryId);
 
 			if (category != null) {
@@ -704,7 +704,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 		return categoryEventsByCategoryId;
 	}
 
-	private CategoryEvent updateCategory(Category category) {
+	private CategoryEvent updateCategory(Category category) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Set<ICategoryActivityBinding> categoryActivityBindings = categoryActivityBindingsByCategoryId
 				.get(category.getId());
 		boolean categoryActivityBindingsChanged = category.setCategoryActivityBindings(
@@ -727,9 +727,9 @@ public final class MutableActivityManager extends AbstractActivityManager
 		return updateIdentifier(identifier, definedActivityIds);
 	}
 
-	private IdentifierEvent updateIdentifier(Identifier identifier, Set<String> changedActivityIds) {
+	private IdentifierEvent updateIdentifier(Identifier identifier, Set<String> changedActivityIds) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id = identifier.getId();
-		Set<String> activityIds = new HashSet<>();
+		Set<String> activityIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		boolean enabled = false;
 
@@ -750,11 +750,11 @@ public final class MutableActivityManager extends AbstractActivityManager
 				return new IdentifierEvent(identifier, activityIdsChanged, enabledChanged);
 			}
 		} else {
-			Set<String> activityIdsToUpdate = new HashSet<>(changedActivityIds);
+			Set<String> activityIdsToUpdate = new HashSet<>(changedActivityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			if (identifier.getActivityIds() != null) {
 				activityIdsToUpdate.addAll(identifier.getActivityIds());
 			}
-			for (String activityId : activityIdsToUpdate) {
+			for (String activityId : activityIdsToUpdate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Activity activity = (Activity) getActivity(activityId);
 
 				if (activity.isMatch(id)) {
@@ -782,9 +782,9 @@ public final class MutableActivityManager extends AbstractActivityManager
 
 	private Map<String, IdentifierEvent> updateIdentifiers(Collection<String> identifierIds,
 			Set<String> changedActivityIds) {
-		Map<String, IdentifierEvent> identifierEventsByIdentifierId = new TreeMap<>();
+		Map<String, IdentifierEvent> identifierEventsByIdentifierId = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 
-		for (String identifierId : identifierIds) {
+		for (String identifierId : identifierIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Identifier identifier = identifiersById.get(identifierId);
 
 			if (identifier != null) {
@@ -821,15 +821,15 @@ public final class MutableActivityManager extends AbstractActivityManager
 	 * @return the job
 	 * @since 3.1
 	 */
-	private Job getUpdateJob() {
+	private Job getUpdateJob() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (deferredIdentifierJob == null) {
-			deferredIdentifierJob = Job.create("Activity Identifier Update", (IJobFunction) monitor -> { //$NON-NLS-1$
-				final Map<String, IdentifierEvent> identifierEventsByIdentifierId = new HashMap<>();
+			deferredIdentifierJob = Job.create("Activity Identifier Update", (IJobFunction) monitor -> { //$NON-NLS-1$ //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
+				final Map<String, IdentifierEvent> identifierEventsByIdentifierId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-				while (!deferredIdentifiers.isEmpty()) {
+				while (!deferredIdentifiers.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Identifier identifier = deferredIdentifiers.remove(0);
-					Set<String> activityIds = new HashSet<>();
-					for (String activityId : definedActivityIds) {
+					Set<String> activityIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+					for (String activityId : definedActivityIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Activity activity = (Activity) getActivity(activityId);
 
 						if (activity.isMatch(identifier.getId())) {
@@ -844,7 +844,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 					}
 				}
 				if (!identifierEventsByIdentifierId.isEmpty()) {
-					UIJob notifyJob = UIJob.create("Activity Identifier Update UI", //$NON-NLS-1$
+					UIJob notifyJob = UIJob.create("Activity Identifier Update UI", //$NON-NLS-1$ //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 							(ICoreRunnable) m -> notifyIdentifiers(identifierEventsByIdentifierId));
 					notifyJob.setSystem(true);
 					notifyJob.schedule();
@@ -860,7 +860,7 @@ public final class MutableActivityManager extends AbstractActivityManager
 	protected void fireActivityManagerChanged(ActivityManagerEvent activityManagerEvent) {
 		super.fireActivityManagerChanged(activityManagerEvent);
 		if (eventBroker != null) {
-			PlatformUI.getWorkbench().getDisplay()
+			PlatformUI.getWorkbench().getDisplay() //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					.asyncExec(() -> eventBroker.send(UIEvents.UILifeCycle.ACTIVITIES_CHANGED, null));
 		}
 	}

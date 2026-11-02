@@ -37,13 +37,13 @@ import org.eclipse.ui.part.FileEditorInput;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenFileAction extends OpenSystemEditorAction {
+public class OpenFileAction extends OpenSystemEditorAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The id of this action.
 	 */
 	@SuppressWarnings("hiding")
-	public static final String ID = PlatformUI.PLUGIN_ID + ".OpenFileAction";//$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".OpenFileAction";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The editor to open.

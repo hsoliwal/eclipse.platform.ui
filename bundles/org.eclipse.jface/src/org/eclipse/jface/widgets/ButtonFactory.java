@@ -129,7 +129,7 @@ public final class ButtonFactory extends AbstractControlFactory<ButtonFactory, B
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public ButtonFactory onSelect(Consumer<SelectionEvent> consumer) {
-		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer)));
+		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return this;
 	}
 }

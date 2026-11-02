@@ -63,20 +63,20 @@ public class PreferenceTransferElement extends WorkbenchAdapter implements IPlug
 	 *
 	 * @return a preference filter
 	 */
-	public IPreferenceFilter getFilter() {
+	public IPreferenceFilter getFilter() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (filter == null) {
 			IConfigurationElement[] mappingConfigurations = PreferenceTransferRegistryReader
 					.getMappings(configurationElement);
 			int size = mappingConfigurations.length;
-			Set<String> scopes = new HashSet<>(size);
-			Map<String, Map<String, PreferenceFilterEntry[]>> mappingsMap = new HashMap<>(size);
-			for (int i = 0; i < size; i++) {
+			Set<String> scopes = new HashSet<>(size); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			Map<String, Map<String, PreferenceFilterEntry[]>> mappingsMap = new HashMap<>(size); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String scope = PreferenceTransferRegistryReader.getScope(mappingConfigurations[i]);
 				scopes.add(scope);
 
 				Map<String, PreferenceFilterEntry[]> mappings;
 				if (!mappingsMap.containsKey(scope)) {
-					mappings = new HashMap<>(size);
+					mappings = new HashMap<>(size); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					mappingsMap.put(scope, mappings);
 				} else {
 					mappings = mappingsMap.get(scope);

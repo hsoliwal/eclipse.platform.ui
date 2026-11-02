@@ -205,7 +205,7 @@ public class CodeMiningTest {
 		}.waitForCondition(fViewer.getControl().getDisplay(), 3000));
 		DisplayHelper.sleep(fViewer.getControl().getDisplay(), 500);
 		AtomicInteger events = new AtomicInteger();
-		fViewer.addViewportListener(_ ->
+		fViewer.addViewportListener(unused ->
 			events.incrementAndGet());
 		TextViewerTest.ctrlHome(fViewer);
 		Assertions.assertTrue(new DisplayHelper() {
@@ -632,7 +632,7 @@ public class CodeMiningTest {
 			starty= lineBounds.y;
 		}
 
-		Image image= new Image(widget.getDisplay(), (_, _, _) -> {
+		Image image= new Image(widget.getDisplay(), (unused, unused2, unused3) -> {
 		}, (widget.getSize().x), (widget.getSize().y));
 		try {
 			GC gc= new GC(widget);
@@ -676,7 +676,7 @@ public class CodeMiningTest {
 			secondLineBounds= widget.getTextBounds(lineOffset, lineOffset + lineLength);
 		}
 
-		Image image= new Image(widget.getDisplay(), (_, _, _) -> {
+		Image image= new Image(widget.getDisplay(), (unused, unused2, unused3) -> {
 		}, (widget.getSize().x), (widget.getSize().y));
 		GC gc = new GC(widget);
 		gc.copyArea(image, 0, 0);

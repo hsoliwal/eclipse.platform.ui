@@ -255,7 +255,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 * @param multi indicates whether dialog allows to select more than one position
 	 *              in its list of items
 	 */
-	public FilteredItemsSelectionDialog(Shell shell, boolean multi) {
+	public FilteredItemsSelectionDialog(Shell shell, boolean multi) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(shell);
 		this.multi = multi;
 		filterHistoryJob = new FilterHistoryJob();
@@ -374,7 +374,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	public void setDetailsLabelProvider(ILabelProvider detailsLabelProvider) {
 		this.detailsLabelProvider = detailsLabelProvider;
 		if (details != null) {
-			details.setLabelProvider(detailsLabelProvider);
+			details.setLabelProvider(detailsLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		}
 	}
 
@@ -397,7 +397,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 *
 	 * @param settings settings used to restore dialog
 	 */
-	protected void restoreDialog(IDialogSettings settings) {
+	protected void restoreDialog(IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean toggleStatusLine = true;
 
 		if (settings.get(SHOW_STATUS_LINE) != null) {
@@ -421,7 +421,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean close() {
 		this.filterJob.cancel();
 		this.refreshCacheJob.cancel();
@@ -468,7 +468,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 *
 	 * @return Label the label of the header
 	 */
-	private Label createHeader(Composite parent) {
+	private Label createHeader(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite header = new Composite(parent, SWT.NONE);
 
 		GridLayout layout = new GridLayout();
@@ -480,7 +480,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		Label headerLabel = new Label(header, SWT.NONE);
 		headerLabel.setText((getMessage() != null && getMessage().trim().length() > 0) ? getMessage()
 				: WorkbenchMessages.FilteredItemsSelectionDialog_patternLabel);
-		headerLabel.addTraverseListener(e -> {
+		headerLabel.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 				e.detail = SWT.TRAVERSE_NONE;
 				pattern.setFocus();
@@ -500,7 +500,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 *
 	 * @return Label
 	 */
-	private Label createLabels(Composite parent) {
+	private Label createLabels(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite labels = new Composite(parent, SWT.NONE);
 
 		GridLayout layout = new GridLayout();
@@ -512,7 +512,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		Label listLabel = new Label(labels, SWT.NONE);
 		listLabel.setText(WorkbenchMessages.FilteredItemsSelectionDialog_listLabel);
 
-		listLabel.addTraverseListener(e -> {
+		listLabel.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 				e.detail = SWT.TRAVERSE_NONE;
 				tableViewer.getTable().setFocus();
@@ -529,7 +529,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		return listLabel;
 	}
 
-	private void createViewMenu(Composite parent) {
+	private void createViewMenu(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		toolBar = new ToolBar(parent, SWT.FLAT);
 		toolItem = new ToolItem(toolBar, SWT.PUSH, 0);
 
@@ -537,7 +537,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		data.horizontalAlignment = GridData.END;
 		toolBar.setLayoutData(data);
 
-		toolBar.addMouseListener(new MouseAdapter() {
+		toolBar.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDown(MouseEvent e) {
 				showViewMenu();
@@ -546,7 +546,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 		toolItem.setImage(WorkbenchImages.getImage(IWorkbenchGraphicConstants.IMG_LCL_VIEW_MENU));
 		toolItem.setToolTipText(WorkbenchMessages.FilteredItemsSelectionDialog_menu);
-		toolItem.addSelectionListener(widgetSelectedAdapter(e -> showViewMenu()));
+		toolItem.addSelectionListener(widgetSelectedAdapter(e -> showViewMenu())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		menuManager = new MenuManager();
 
@@ -592,12 +592,12 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 * @param menuManager the context menu manager
 	 * @since 3.5
 	 */
-	protected void fillContextMenu(IMenuManager menuManager) {
+	protected void fillContextMenu(IMenuManager menuManager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> selectedElements = tableViewer.getStructuredSelection().toList();
 
 		Object item = null;
 
-		for (Iterator<?> it = selectedElements.iterator(); it.hasNext();) {
+		for (Iterator<?> it = selectedElements.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item = it.next();
 			if (item instanceof ItemsListSeparator || !isHistoryElement(item)) {
 				return;
@@ -619,7 +619,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 		contextMenuManager = new MenuManager();
 		contextMenuManager.setRemoveAllWhenShown(true);
-		contextMenuManager.addMenuListener(this::fillContextMenu);
+		contextMenuManager.addMenuListener(this::fillContextMenu); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 
 		final Table table = tableViewer.getTable();
 		Menu menu = contextMenuManager.createContextMenu(table);
@@ -634,7 +634,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 */
 	protected abstract Control createExtendedContentArea(Composite parent);
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite dialogArea = (Composite) super.createDialogArea(parent);
 
@@ -672,8 +672,8 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			}
 		});
 		tableViewer.setContentProvider(contentProvider);
-		tableViewer.setLabelProvider(getItemsListLabelProvider());
-		tableViewer.setInput(new Object[0]);
+		tableViewer.setLabelProvider(getItemsListLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		tableViewer.setInput(new Object[0]); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		tableViewer.setItemCount(contentProvider.getNumberOfElements());
 		gd = new GridData(GridData.FILL_BOTH);
 		applyDialogFont(tableViewer.getTable());
@@ -682,9 +682,9 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 		createPopupMenu();
 
-		pattern.addModifyListener(e -> applyFilter());
+		pattern.addModifyListener(e -> applyFilter()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
-		pattern.addKeyListener(new KeyAdapter() {
+		pattern.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_DOWN) {
@@ -695,15 +695,15 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			}
 		});
 
-		tableViewer.addSelectionChangedListener(event -> {
+		tableViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			StructuredSelection selection = (StructuredSelection) event.getSelection();
 			handleSelected(selection);
 		});
 
-		tableViewer.addDoubleClickListener(event -> handleDoubleClick());
+		tableViewer.addDoubleClickListener(event -> handleDoubleClick()); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
-		tableViewer.getTable().addKeyListener(new KeyAdapter() {
-			@Override
+		tableViewer.getTable().addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent e) {
 
 				if (e.keyCode == SWT.DEL) {
@@ -713,7 +713,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 					Object item = null;
 					boolean isSelectedHistory = true;
 
-					for (Iterator<?> it = selectedElements.iterator(); it.hasNext();) {
+					for (Iterator<?> it = selectedElements.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						item = it.next();
 						if (item instanceof ItemsListSeparator || !isHistoryElement(item)) {
 							isSelectedHistory = false;
@@ -760,7 +760,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		details.setContentProvider(new IContentProvider() {
 			// intentionally empty
 		});
-		details.setLabelProvider(getDetailsLabelProvider());
+		details.setLabelProvider(getDetailsLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		applyDialogFont(content);
 
@@ -825,7 +825,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 *
 	 * @param selection the new selection
 	 */
-	protected void handleSelected(StructuredSelection selection) {
+	protected void handleSelected(StructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status = new Status(IStatus.OK, PlatformUI.PLUGIN_ID, IStatus.OK, EMPTY_STRING, null);
 
 		Object[] lastSelection = currentSelection;
@@ -849,7 +849,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			Object item = null;
 			IStatus tempStatus = null;
 
-			for (Object o : items) {
+			for (Object o : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (o instanceof ItemsListSeparator) {
 					continue;
 				}
@@ -902,14 +902,14 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	/**
 	 * Refreshes the dialog - has to be called in UI thread.
 	 */
-	public void refresh() {
+	public void refresh() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (tableViewer != null && !tableViewer.getTable().isDisposed()) {
 
 			List<Object> lastRefreshSelection = ((StructuredSelection) tableViewer.getSelection()).toList();
 			tableViewer.getTable().deselectAll();
 
 			tableViewer.setItemCount(contentProvider.getNumberOfElements());
-			tableViewer.refresh();
+			tableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 			if (tableViewer.getTable().getItemCount() > 0) {
 				if (isShownForTheFirstTime) {
@@ -1000,16 +1000,16 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		refreshProgressMessageJob.scheduleProgressRefresh(null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void computeResult() {
 
 		List<?> selectedElements = tableViewer.getStructuredSelection().toList();
 
-		List<Object> objectsToReturn = new ArrayList<>();
+		List<Object> objectsToReturn = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Object item = null;
 
-		for (Iterator<?> it = selectedElements.iterator(); it.hasNext();) {
+		for (Iterator<?> it = selectedElements.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item = it.next();
 
 			if (!(item instanceof ItemsListSeparator)) {
@@ -1083,14 +1083,14 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 *
 	 * @return the current selection
 	 */
-	protected StructuredSelection getSelectedItems() {
+	protected StructuredSelection getSelectedItems() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		StructuredSelection selection = (StructuredSelection) tableViewer.getStructuredSelection();
 
 		List<?> selectedItems = selection.toList();
 		Object itemToRemove = null;
 
-		for (Iterator<?> it = selection.iterator(); it.hasNext();) {
+		for (Iterator<?> it = selection.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object item = it.next();
 			if (item instanceof ItemsListSeparator) {
 				itemToRemove = item;
@@ -1102,7 +1102,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			return new StructuredSelection(selectedItems);
 		}
 		// Create a new selection without the collision
-		List<?> newItems = new ArrayList<>(selectedItems);
+		List<?> newItems = new ArrayList<>(selectedItems); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		newItems.remove(itemToRemove);
 		return new StructuredSelection(newItems);
 
@@ -1132,7 +1132,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 * list. When new filter is different than previous one it will cause
 	 * refiltering.
 	 */
-	protected void applyFilter() {
+	protected void applyFilter() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ItemsFilter newFilter = createFilter();
 
@@ -1184,7 +1184,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 * @param items items to be removed
 	 */
 	private void removeSelectedItems(List<?> items) {
-		for (Object item : items) {
+		for (Object item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			removeHistoryItem(item);
 		}
 		refreshWithLastSelection = false;
@@ -1329,7 +1329,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 * @see org.eclipse.ui.dialogs.FilteredItemsSelectionDialog.RefreshJob
 	 * @see org.eclipse.ui.dialogs.FilteredItemsSelectionDialog.RefreshCacheJob
 	 */
-	private class RefreshJob extends UIJob {
+	private class RefreshJob extends UIJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 		/**
 		 * Creates a new instance of the class.
@@ -1366,7 +1366,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 	 * <code>GranualProgressMonitor</code> and use it to to get progress message and
 	 * to decide about break of cyclical refresh.
 	 */
-	private class RefreshProgressMessageJob extends UIJob {
+	private class RefreshProgressMessageJob extends UIJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 		private volatile GranualProgressMonitor progressMonitor;
 
@@ -1490,7 +1490,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		return PlatformUI.getPreferenceStore().getBoolean(IWorkbenchPreferenceConstants.USE_COLORED_LABELS);
 	}
 
-	private class ItemsListLabelProvider extends StyledCellLabelProvider implements ILabelProviderListener {
+	private class ItemsListLabelProvider extends StyledCellLabelProvider implements ILabelProviderListener { //FLLDCIM: MARK — T24  IMPLEMENTS
 		private ILabelProvider provider;
 
 		private ILabelDecorator selectionDecorator;
@@ -1513,10 +1513,10 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 			setOwnerDrawEnabled(showColoredLabels() && provider instanceof IStyledLabelProvider);
 
-			provider.addListener(this);
+			provider.addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			if (selectionDecorator != null) {
-				selectionDecorator.addListener(this);
+				selectionDecorator.addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			}
 		}
 
@@ -1535,7 +1535,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			selectionDecorator = newSelectionDecorator;
 
 			if (selectionDecorator != null) {
-				selectionDecorator.addListener(this);
+				selectionDecorator.addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			}
 		}
 
@@ -1560,7 +1560,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			provider.dispose();
 
 			provider = newProvider;
-			provider.addListener(this);
+			provider.addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			setOwnerDrawEnabled(showColoredLabels() && provider instanceof IStyledLabelProvider);
 		}
@@ -1575,7 +1575,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 		private boolean isSelected(Object element) {
 			if (element != null && currentSelection != null) {
-				for (Object entry : currentSelection) {
+				for (Object entry : currentSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (element.equals(entry)) {
 						return true;
 					}
@@ -1608,7 +1608,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			return string;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void update(ViewerCell cell) {
 			Object element = cell.getElement();
 
@@ -1629,7 +1629,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			super.update(cell);
 		}
 
-		private String getSeparatorLabel(String separatorLabel) {
+		private String getSeparatorLabel(String separatorLabel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Rectangle rect = tableViewer.getTable().getBounds();
 
 			int borderWidth = tableViewer.getTable().computeTrim(0, 0, 0, 0).width;
@@ -1646,15 +1646,15 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 			gc.dispose();
 
-			StringBuilder dashes = new StringBuilder();
+			StringBuilder dashes = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int chars = (((width - fMessageLength) / fSeparatorWidth) / 2) - 2;
-			for (int i = 0; i < chars; i++) {
+			for (int i = 0; i < chars; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				dashes.append('-');
 			}
 
-			StringBuilder result = new StringBuilder();
+			StringBuilder result = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			result.append(dashes);
-			result.append(" " + separatorLabel + " "); //$NON-NLS-1$//$NON-NLS-2$
+			result.append(" " + separatorLabel + " "); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			result.append(dashes);
 			return result.toString().trim();
 		}
@@ -1725,8 +1725,8 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 		@Override
 		public void labelProviderChanged(LabelProviderChangedEvent event) {
-			for (ILabelProviderListener l : listeners) {
-				l.labelProviderChanged(event);
+			for (ILabelProviderListener l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				l.labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			}
 		}
 	}
@@ -1839,7 +1839,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			worked = worked + work;
 		}
 
-		private String getMessage() {
+		private String getMessage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (done) {
 				return ""; //$NON-NLS-1$
 			}
@@ -1882,7 +1882,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			setSystem(true);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected IStatus run(IProgressMonitor monitor) {
 
 			this.itemsFilter = filter;
@@ -1963,7 +1963,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		/**
 		 * Main method for the job.
 		 */
-		private void internalRun(GranualProgressMonitor monitor) throws CoreException {
+		private void internalRun(GranualProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				if (monitor.isCanceled()) {
 					return;
@@ -1991,14 +1991,14 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		 * @param monitor for monitoring progress
 		 * @throws CoreException Something went wrong.
 		 */
-		protected void filterContent(GranualProgressMonitor monitor) throws CoreException {
+		protected void filterContent(GranualProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			if (lastCompletedFilter != null && lastCompletedFilter.isSubFilter(this.itemsFilter)) {
 
 				int length = lastCompletedResult.size() / 500;
 				monitor.beginTask(WorkbenchMessages.FilteredItemsSelectionDialog_cacheSearchJob_taskName, length);
 
-				for (int pos = 0; pos < lastCompletedResult.size(); pos++) {
+				for (int pos = 0; pos < lastCompletedResult.size(); pos++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					Object item = lastCompletedResult.get(pos);
 					if (monitor.isCanceled()) {
@@ -2060,7 +2060,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 		private final String infoNodeName;
 
-		private SelectionHistory(String rootNodeName, String infoNodeName) {
+		private SelectionHistory(String rootNodeName, String infoNodeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			historyList = Collections.synchronizedSet(new LinkedHashSet<>() {
 
@@ -2143,7 +2143,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			}
 
 			IMemento[] mementoElements = historyMemento.getChildren(infoNodeName);
-			for (IMemento mementoElement : mementoElements) {
+			for (IMemento mementoElement : mementoElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object object = restoreItemFromMemento(mementoElement);
 				if (object != null) {
 					historyList.add(object);
@@ -2161,7 +2161,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			IMemento historyMemento = memento.createChild(rootNodeName);
 
 			Object[] items = getHistoryItems();
-			for (Object item : items) {
+			for (Object item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMemento elementMemento = historyMemento.createChild(infoNodeName);
 				storeItemToMemento(item, elementMemento);
 			}
@@ -2325,7 +2325,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		 *         item, <code>false</code> if item's name is shorter than prefix or
 		 *         sequences of characters don't match.
 		 */
-		public boolean matchesRawNamePattern(Object item) {
+		public boolean matchesRawNamePattern(Object item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String prefix = patternMatcher.getPattern();
 			String text = getElementName(item);
 
@@ -2338,7 +2338,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			if (textLength < prefixLength) {
 				return false;
 			}
-			for (int i = prefixLength - 1; i >= 0; i--) {
+			for (int i = prefixLength - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.toLowerCase(prefix.charAt(i)) != Character.toLowerCase(text.charAt(i))) {
 					return false;
 				}
@@ -2452,10 +2452,10 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		 * Creates new instance of <code>ContentProvider</code>.
 		 */
 		public ContentProvider() {
-			this.items = Collections.synchronizedSet(new HashSet<>(2048));
-			this.duplicates = Collections.synchronizedSet(new HashSet<>(256));
-			this.lastFilteredItems = new ArrayList<>();
-			this.lastSortedItems = Collections.synchronizedList(new ArrayList<>(2048));
+			this.items = Collections.synchronizedSet(new HashSet<>(2048)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			this.duplicates = Collections.synchronizedSet(new HashSet<>(256)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			this.lastFilteredItems = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			this.lastSortedItems = Collections.synchronizedList(new ArrayList<>(2048)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		/**
@@ -2515,10 +2515,10 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		 *
 		 * @param itemsFilter the filter to match
 		 */
-		public void addHistoryItems(ItemsFilter itemsFilter) {
+		public void addHistoryItems(ItemsFilter itemsFilter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (this.selectionHistory != null) {
 				Object[] items = this.selectionHistory.getHistoryItems();
-				for (Object item : items) {
+				for (Object item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (itemsFilter == filter) {
 						if (itemsFilter != null) {
 							if (itemsFilter.matchItem(item)) {
@@ -2711,7 +2711,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		 *
 		 * @param monitor         progress monitor
 		 */
-		public void reloadCache(boolean checkDuplicates, IProgressMonitor monitor) {
+		public void reloadCache(boolean checkDuplicates, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			reset = false;
 			currentlyCompletingFilter = filter;
 
@@ -2734,13 +2734,13 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			}
 		}
 
-		private void checkDuplicates(IProgressMonitor monitor) {
+		private void checkDuplicates(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			synchronized (lastFilteredItems) {
 				SubMonitor subMonitor = SubMonitor.convert(monitor,
 						WorkbenchMessages.FilteredItemsSelectionDialog_cacheRefreshJob_checkDuplicates,
 						lastFilteredItems.size());
-				HashMap<String, Object> helperMap = new HashMap<>();
-				for (Object item : lastFilteredItems) {
+				HashMap<String, Object> helperMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+				for (Object item : lastFilteredItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (reset || subMonitor.isCanceled()) {
 						return;
 					}
@@ -2769,7 +2769,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		 * @param monitor progress monitor, can be <code>null</code>
 		 * @return an array of filtered items
 		 */
-		protected Object[] getFilteredItems(Object parent, IProgressMonitor monitor) {
+		protected Object[] getFilteredItems(Object parent, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int ticks = 100;
 			if (monitor == null) {
 				monitor = new NullProgressMonitor();
@@ -2790,7 +2790,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 
 			// filter the elements using provided ViewerFilters
 			if (filters != null && filteredElements != null) {
-				for (Object f : filters) {
+				for (Object f : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					filteredElements = ((ViewerFilter) f).filter(tableViewer, parent, filteredElements);
 					monitor.worked(ticks);
 				}
@@ -2801,12 +2801,12 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 				return new Object[0];
 			}
 
-			ArrayList<Object> preparedElements = new ArrayList<>();
+			ArrayList<Object> preparedElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			int i = 0;
 			boolean hasHistory = false;
 			int reportEvery = filteredElements.length / ticks;
 
-			for (; i < filteredElements.length; i++) {
+			for (; i < filteredElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object item = filteredElements[i];
 				if (filter != null && filter.getPattern().equals(getElementName(item))) {
 					if (isHistoryElement(item)) {
@@ -2831,7 +2831,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			}
 
 			// add separators
-			for (; i < filteredElements.length; i++) {
+			for (; i < filteredElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object item = filteredElements[i];
 				if (hasHistory && !isHistoryElement(item)) {
 					setSeparatorLabel(WorkbenchMessages.FilteredItemsSelectionDialog_separatorLabel);
@@ -2861,7 +2861,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 		 */
 		public void addFilter(ViewerFilter filter) {
 			if (filters == null) {
-				filters = new ArrayList<>();
+				filters = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			filters.add(filter);
 			// currently filters are only added when dialog is restored
@@ -2989,7 +2989,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 				return;
 			}
 			Object input = getInput();
-			for (Object obj : objs) {
+			for (Object obj : objs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (obj.equals(input)) {
 					refresh();
 					break;
@@ -3014,7 +3014,7 @@ public abstract class FilteredItemsSelectionDialog extends SelectionStatusDialog
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(Object o1, Object o2) {
 			// find perfect matches
 			if (filterPattern != null) {

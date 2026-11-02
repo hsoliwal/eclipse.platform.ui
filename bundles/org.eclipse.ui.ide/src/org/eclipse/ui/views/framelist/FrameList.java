@@ -54,7 +54,7 @@ public class FrameList extends EventManager {
 		Frame frame = source.getFrame(IFrameSource.CURRENT_FRAME, 0);
 		frame.setParent(this);
 		frame.setIndex(0);
-		frames = new ArrayList<>();
+		frames = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		frames.add(frame);
 		current = 0;
 	}
@@ -89,7 +89,7 @@ public class FrameList extends EventManager {
 	 * @see IPropertyChangeListener#propertyChange
 	 */
 	protected void firePropertyChange(PropertyChangeEvent event) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((IPropertyChangeListener) listener).propertyChange(event);
 		}
 	}
@@ -154,7 +154,7 @@ public class FrameList extends EventManager {
 	 * @param frame the frame to add
 	 */
 	public void gotoFrame(Frame frame) {
-		for (int i = frames.size(); --i > current;) {
+		for (int i = frames.size(); --i > current;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			frames.remove(i);
 		}
 		frame.setParent(this);

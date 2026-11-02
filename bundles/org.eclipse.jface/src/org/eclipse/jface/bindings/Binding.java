@@ -189,7 +189,7 @@ public abstract class Binding {
 	 *            The type of binding. This should be either <code>SYSTEM</code>
 	 *            or <code>USER</code>.
 	 */
-	protected Binding(final ParameterizedCommand command,
+	protected Binding(final ParameterizedCommand command, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String schemeId, final String contextId, final String locale,
 			final String platform, final String windowManager, final int type) {
 		if (schemeId == null) {
@@ -206,10 +206,10 @@ public abstract class Binding {
 		}
 
 		this.command = command;
-		this.schemeId = schemeId.intern();
-		this.contextId = contextId.intern();
-		this.locale = (locale == null) ? null : locale.intern();
-		this.platform = (platform == null) ? null : platform.intern();
+		this.schemeId = schemeId.intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
+		this.contextId = contextId.intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
+		this.locale = (locale == null) ? null : locale.intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
+		this.platform = (platform == null) ? null : platform.intern(); //FLLDCIM: MARK — M13 TOKEN_INTERNER CALL
 		this.type = type;
 	}
 
@@ -249,7 +249,7 @@ public abstract class Binding {
 	 * @return <code>true</code> if the object is a binding with equivalent
 	 *         values for all of its properties; <code>false</code> otherwise.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final boolean equals(final Object object) {
 		if (this == object) {
 			return true;
@@ -360,7 +360,7 @@ public abstract class Binding {
 	 *
 	 * @return The hash code for this key binding.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final int hashCode() {
 		if (hashCode == HASH_CODE_NOT_COMPUTED) {
 			hashCode = HASH_INITIAL;
@@ -388,7 +388,7 @@ public abstract class Binding {
 	 *
 	 * @return The string representation; never <code>null</code>.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
 		if (string == null) {
 

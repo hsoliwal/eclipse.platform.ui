@@ -76,7 +76,7 @@ public class LargeFileLimitsPreferenceHandler {
 
 		@Override
 		public String toString() {
-			return '(' + editorId + ',' + fileSize + ')';
+			return '(' + editorId + ',' + fileSize + ')'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -84,7 +84,7 @@ public class LargeFileLimitsPreferenceHandler {
 	 * Value of the preference that indicates a dialog should prompt the user to
 	 * choose an editor, with which to open the large document.
 	 */
-	public static final String PROMPT_EDITOR_PREFERENCE_VALUE = IPreferenceConstants.LARGE_FILE_LIMITS + "_prompt"; //$NON-NLS-1$
+	public static final String PROMPT_EDITOR_PREFERENCE_VALUE = IPreferenceConstants.LARGE_FILE_LIMITS + "_prompt"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/**
 	 * Identifier of the preference page that allows the user to view and set file
 	 * limit associations.
@@ -93,10 +93,10 @@ public class LargeFileLimitsPreferenceHandler {
 
 	private static final IPreferenceStore PREFERENCE_STORE = PrefUtil.getInternalPreferenceStore();
 
-	private static final String DISABLED_EXTENSIONS_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_disabled"; //$NON-NLS-1$
-	private static final String CONFIGURED_EXTENSIONS_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_types"; //$NON-NLS-1$
-	private static final String DEFAULT_VALUE_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_default_value"; //$NON-NLS-1$
-	private static final String DEFAULT_VALUE_ENABLED_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_default_enabled"; //$NON-NLS-1$
+	private static final String DISABLED_EXTENSIONS_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_disabled"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String CONFIGURED_EXTENSIONS_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_types"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String DEFAULT_VALUE_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_default_value"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String DEFAULT_VALUE_ENABLED_KEY = IPreferenceConstants.LARGE_FILE_LIMITS + "_default_enabled"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String EXTENSION_SEPARATOR = "."; //$NON-NLS-1$
 	private static final String PREFERENCE_EXTENSIONS_SEPARATOR = ","; //$NON-NLS-1$
@@ -121,8 +121,8 @@ public class LargeFileLimitsPreferenceHandler {
 	public LargeFileLimitsPreferenceHandler(PromptForEditor promptForEditor) {
 		this.promptForEditor = promptForEditor;
 		initLegacyPreference();
-		preferencesCache = new HashMap<>();
-		preferencesListener = e -> {
+		preferencesCache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		preferencesListener = e -> { //FLLDCIM: MARK — T06  LAMBDA
 			String property = e.getProperty();
 			// invalidate the cache on any related preferences change
 			if (property.startsWith(IPreferenceConstants.LARGE_FILE_LIMITS)) {
@@ -149,7 +149,7 @@ public class LargeFileLimitsPreferenceHandler {
 	public static void restoreDefaults() {
 		PREFERENCE_STORE.setToDefault(DEFAULT_VALUE_KEY);
 		PREFERENCE_STORE.setToDefault(DEFAULT_VALUE_ENABLED_KEY);
-		List<String> extensions = new ArrayList<>();
+		List<String> extensions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Collections.addAll(extensions, getDisabledExtensionTypes());
 		Collections.addAll(extensions, getConfiguredExtensionTypes());
 		extensions.forEach(e -> PREFERENCE_STORE.setToDefault(getPreferenceNameForExtension(e)));
@@ -234,14 +234,14 @@ public class LargeFileLimitsPreferenceHandler {
 			} catch (Exception e) {
 				// Path does not exist?
 				Status warning = Status
-						.warning("Exception occurred while checking large file editor for " + editorInput, e); //$NON-NLS-1$
+						.warning("Exception occurred while checking large file editor for " + editorInput, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				WorkbenchPlugin.log(warning);
 			}
 		}
 		return Optional.empty();
 	}
 
-	private Optional<String> getEditorForPath(IPath inputPath) {
+	private Optional<String> getEditorForPath(IPath inputPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean legacyPreferenceApplies = isLargeDocumentFromLegacy(inputPath);
 		if (legacyPreferenceApplies) {
 			IEditorDescriptor editor = getLegacyAlternateEditor();
@@ -320,7 +320,7 @@ public class LargeFileLimitsPreferenceHandler {
 		}
 	}
 
-	FileLimit getLimitForLargeFile(IPath path) {
+	FileLimit getLimitForLargeFile(IPath path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FileLimit applicableFileLimit = null;
 
 		try {
@@ -331,7 +331,7 @@ public class LargeFileLimitsPreferenceHandler {
 				long fileSize = file.length();
 
 				long maxBound = 0;
-				for (FileLimit fileLimit : fileLimits) {
+				for (FileLimit fileLimit : fileLimits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					long limit = fileLimit.fileSize;
 					if (fileSize > limit && limit > maxBound) {
 						maxBound = limit;
@@ -340,7 +340,7 @@ public class LargeFileLimitsPreferenceHandler {
 				}
 			}
 		} catch (Exception e) {
-			WorkbenchPlugin.log("Exception occurred while checking large file editor for path " + path, e); //$NON-NLS-1$
+			WorkbenchPlugin.log("Exception occurred while checking large file editor for path " + path, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return applicableFileLimit;
 	}
@@ -348,8 +348,8 @@ public class LargeFileLimitsPreferenceHandler {
 	private void replaceLimitForLargeFile(IPath path, FileLimit oldLimit, FileLimit newLimit) {
 		try {
 			List<FileLimit> fileLimits = getFileLimits(path, preferencesCache);
-			List<FileLimit> newLimits = new ArrayList<>();
-			for (FileLimit fileLimit : fileLimits) {
+			List<FileLimit> newLimits = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (FileLimit fileLimit : fileLimits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean toReplace = equals(oldLimit, fileLimit);
 				if (!toReplace) {
 					newLimits.add(fileLimit);
@@ -358,14 +358,14 @@ public class LargeFileLimitsPreferenceHandler {
 			newLimits.add(newLimit);
 			setFileLimitsForPath(path, newLimits);
 		} catch (Exception e) {
-			WorkbenchPlugin.log("Exception occurred while replacing large file editor preference for path " + path, e); //$NON-NLS-1$
+			WorkbenchPlugin.log("Exception occurred while replacing large file editor preference for path " + path, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private static void addedConfiguredExtensionType(IPath inputPath) {
 		String extension = inputPath.getFileExtension();
 		String[] configuredExtensionTypes = getConfiguredExtensionTypes();
-		List<String> newExtensionTypes = new ArrayList<>();
+		List<String> newExtensionTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		newExtensionTypes.addAll(Arrays.asList(configuredExtensionTypes));
 		if (!newExtensionTypes.contains(extension)) {
 			newExtensionTypes.add(extension);
@@ -400,7 +400,7 @@ public class LargeFileLimitsPreferenceHandler {
 	 */
 	private static List<FileLimit> getFileLimits(IPath path, Map<String, List<FileLimit>> preferencesCache) {
 		String fileExtension = path.getFileExtension();
-		List<FileLimit> preferenceValues = new ArrayList<>();
+		List<FileLimit> preferenceValues = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fileExtension != null) {
 			preferenceValues = preferencesCache.get(fileExtension);
 			if (preferenceValues == null) {
@@ -411,8 +411,8 @@ public class LargeFileLimitsPreferenceHandler {
 		return preferenceValues;
 	}
 
-	public static List<FileLimit> getLargeFilePreferenceValues(String fileExtension) {
-		List<FileLimit> preferenceValues = new ArrayList<>();
+	public static List<FileLimit> getLargeFilePreferenceValues(String fileExtension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<FileLimit> preferenceValues = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String[] disabled = getDisabledExtensionTypes();
 		boolean isDisabled = Arrays.asList(disabled).contains(fileExtension);
 		if (!isDisabled) {
@@ -464,7 +464,7 @@ public class LargeFileLimitsPreferenceHandler {
 
 	private static List<FileLimit> getPreferenceValues(String preferenceName) {
 		String largeFilePreference = PREFERENCE_STORE.getString(preferenceName);
-		List<FileLimit> preferenceValues = new ArrayList<>();
+		List<FileLimit> preferenceValues = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (largeFilePreference != null && !largeFilePreference.isEmpty()) {
 			String[] values = splitPreferenceValues(preferenceName, largeFilePreference);
 			preferenceValues = parsePreferenceValues(preferenceName, values);
@@ -484,9 +484,9 @@ public class LargeFileLimitsPreferenceHandler {
 		return values;
 	}
 
-	private static List<FileLimit> parsePreferenceValues(String preferenceName, String[] preferenceValues) {
-		List<FileLimit> fileLimits = new ArrayList<>();
-		for (int i = 0; i < preferenceValues.length; i += 2) {
+	private static List<FileLimit> parsePreferenceValues(String preferenceName, String[] preferenceValues) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<FileLimit> fileLimits = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < preferenceValues.length; i += 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String sizeString = preferenceValues[i + 0];
 			String editorId = preferenceValues[i + 1];
 			try {
@@ -504,8 +504,8 @@ public class LargeFileLimitsPreferenceHandler {
 	}
 
 	private static void setPreferenceValues(String preferenceName, List<FileLimit> fileLimits) {
-		StringBuilder preferenceValue = new StringBuilder();
-		for (int i = 0; i < fileLimits.size(); ++i) {
+		StringBuilder preferenceValue = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < fileLimits.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FileLimit fileLimit = fileLimits.get(i);
 			preferenceValue.append(fileLimit.fileSize);
 			preferenceValue.append(PREFERENCE_VALUE_SEPARATOR);
@@ -518,7 +518,7 @@ public class LargeFileLimitsPreferenceHandler {
 	}
 
 	private static String getPreferenceNameForExtension(String fileExtension) {
-		String preferenceName = IPreferenceConstants.LARGE_FILE_LIMITS + EXTENSION_SEPARATOR + fileExtension;
+		String preferenceName = IPreferenceConstants.LARGE_FILE_LIMITS + EXTENSION_SEPARATOR + fileExtension; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return preferenceName;
 	}
 
@@ -587,7 +587,7 @@ public class LargeFileLimitsPreferenceHandler {
 			return result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite contents = (Composite) super.createDialogArea(parent);
 
@@ -599,7 +599,7 @@ public class LargeFileLimitsPreferenceHandler {
 					extension, fileSize);
 			rememberSelectionButton.setText(buttonText);
 			rememberSelectionButton.setSelection(rememberSelection);
-			rememberSelectionButton.addSelectionListener(new SelectionAdapter() {
+			rememberSelectionButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					rememberSelection = rememberSelectionButton.getSelection();
@@ -609,7 +609,7 @@ public class LargeFileLimitsPreferenceHandler {
 			Shell shell = parent.getShell();
 			Link preferencePageLink = new Link(preferenceGroup, SWT.NONE);
 			preferencePageLink.setText(WorkbenchMessages.LargeFileAssociation_Dialog_configureFileAssociationsLink);
-			preferencePageLink.addSelectionListener(new SelectionAdapter() {
+			preferencePageLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					openPreferencePage(shell);

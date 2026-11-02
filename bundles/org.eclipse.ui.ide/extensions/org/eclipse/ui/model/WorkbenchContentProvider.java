@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Control;
  * This class may be instantiated, or subclassed by clients.
  * </p>
  */
-public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
+public class WorkbenchContentProvider extends BaseWorkbenchContentProvider //FLLDCIM: MARK — M22  IMPLEMENTS
 		implements IResourceChangeListener {
 	private Viewer viewer;
 
@@ -66,7 +66,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 		super.dispose();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void inputChanged(Viewer newViewer, Object oldInput, Object newInput) {
 		super.inputChanged(newViewer, oldInput, newInput);
 
@@ -109,7 +109,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 	 *
 	 * @param delta delta to process; not <code>null</code>
 	 */
-	protected void processDelta(IResourceDelta delta) {
+	protected void processDelta(IResourceDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Control ctrl = viewer.getControl();
 		if (ctrl == null || ctrl.isDisposed()) {
@@ -117,7 +117,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 		}
 
 
-		final Collection<Runnable> runnables = new ArrayList<>();
+		final Collection<Runnable> runnables = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		processDelta(delta, runnables);
 
 		if (runnables.isEmpty()) {
@@ -128,7 +128,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 		if (ctrl.getDisplay().getThread() == Thread.currentThread()) {
 			runUpdates(runnables);
 		} else {
-			ctrl.getDisplay().asyncExec(() -> {
+			ctrl.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				//Abort if this happens after disposes
 				Control ctrl1 = viewer.getControl();
 				if (ctrl1 == null || ctrl1.isDisposed()) {
@@ -146,7 +146,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 	 */
 	private void runUpdates(Collection<Runnable> runnables) {
 		Iterator<Runnable> runnableIterator = runnables.iterator();
-		while(runnableIterator.hasNext()){
+		while(runnableIterator.hasNext()){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			runnableIterator.next().run();
 		}
 
@@ -155,7 +155,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 	/**
 	 * Process a resource delta. Add any runnables
 	 */
-	private void processDelta(IResourceDelta delta, Collection<Runnable> runnables) {
+	private void processDelta(IResourceDelta delta, Collection<Runnable> runnables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//he widget may have been destroyed
 		// by the time this is run. Check for this and do nothing if so.
 		Control ctrl = viewer.getControl();
@@ -173,7 +173,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 		// The case is: folder A renamed to existing file B, answering yes to
 		// overwrite B.
 		IResourceDelta[] affectedChildren = delta.getAffectedChildren(IResourceDelta.CHANGED);
-		for (IResourceDelta affectedChild : affectedChildren) {
+		for (IResourceDelta affectedChild : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((affectedChild.getFlags() & IResourceDelta.TYPE) != 0) {
 				runnables.add(getRefreshRunnable(resource));
 				return;
@@ -206,7 +206,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 		}
 
 		// Handle changed children .
-		for (IResourceDelta affectedChild : affectedChildren) {
+		for (IResourceDelta affectedChild : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processDelta(affectedChild, runnables);
 		}
 
@@ -243,7 +243,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 		int numMovedTo = 0;
 		if (addedChildren.length > 0) {
 			addedObjects = new Object[addedChildren.length];
-			for (int i = 0; i < addedChildren.length; i++) {
+			for (int i = 0; i < addedChildren.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addedObjects[i] = addedChildren[i].getResource();
 				if ((addedChildren[i].getFlags() & IResourceDelta.MOVED_FROM) != 0) {
 					++numMovedFrom;
@@ -256,7 +256,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 		// Handle removed children. Issue one update for all removals.
 		if (removedChildren.length > 0) {
 			removedObjects = new Object[removedChildren.length];
-			for (int i = 0; i < removedChildren.length; i++) {
+			for (int i = 0; i < removedChildren.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removedObjects[i] = removedChildren[i].getResource();
 				if ((removedChildren[i].getFlags() & IResourceDelta.MOVED_TO) != 0) {
 					++numMovedTo;
@@ -292,7 +292,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 					}
 				}
 			} else {
-				((StructuredViewer) viewer).refresh(resource);
+				((StructuredViewer) viewer).refresh(resource); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		};
 		runnables.add(addAndRemove);
@@ -302,7 +302,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider
 	 * @return Runnable
 	 */
 	private Runnable getRefreshRunnable(final IResource resource) {
-		return () -> ((StructuredViewer) viewer).refresh(resource);
+		return () -> ((StructuredViewer) viewer).refresh(resource); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 		/**

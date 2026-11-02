@@ -1,0 +1,17 @@
+{
+  "publicProtectedDescriptorsEqual": true,
+  "preExistingClassCount": 83,
+  "apiSha256": "40f0a87530badbd150cacaebfc77459b17d66e3cdb8fa560899050a1115737e6",
+  "donorSourceCount": 5,
+  "donorClassCount": 15,
+  "packageNormalizedBytecodeEqual": true,
+  "normalizedBytecodeSha256": "ed2bbac3aeb03334c4962bb03ee002da5edf5bddd006c77c41930719c3e6e492",
+  "commandsReceiverOnlyChangedBehavior": "two private map constructor allocations; generic Java API signatures preserved",
+  "javaVersion": "21.0.12.1+1",
+  "javacDonorFlags": [
+    "--release",
+    "21",
+    "-Xlint:all",
+    "-Werror"
+  ]
+}

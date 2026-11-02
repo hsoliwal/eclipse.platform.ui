@@ -141,7 +141,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		 */
 		protected void addFilter(ViewerFilter filter) {
 			viewerFilter = filter;
-			getViewer().addFilter(filter);
+			getViewer().addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 			if (filterText != null) {
 				// Keep the field empty so the viewer filter narrows the pages; the
@@ -172,7 +172,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 
 	IWorkingCopyManager workingCopyManager;
 
-	private final Collection<Job> updateJobs = new ArrayList<>();
+	private final Collection<Job> updateJobs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * The preference page history.
@@ -219,7 +219,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		return node;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TreeViewer createTreeViewer(Composite parent) {
 		int styleBits = SWT.SINGLE;
 		TreeViewer tree;
@@ -233,11 +233,11 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		}
 
 		setContentAndLabelProviders(tree);
-		tree.setInput(getPreferenceManager());
+		tree.setInput(getPreferenceManager()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
-		tree.addFilter(new CapabilityFilter());
+		tree.addFilter(new CapabilityFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
-		tree.addSelectionChangedListener(this::handleTreeSelectionChanged);
+		tree.addSelectionChangedListener(this::handleTreeSelectionChanged); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		super.addListeners(tree);
 		return tree;
@@ -263,9 +263,9 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 	 */
 	protected void setContentAndLabelProviders(TreeViewer treeViewer) {
 		if (hasAtMostOnePage()) {
-			treeViewer.setLabelProvider(new PreferenceLabelProvider());
+			treeViewer.setLabelProvider(new PreferenceLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		} else {
-			treeViewer.setLabelProvider(new PreferenceBoldLabelProvider(filteredTree));
+			treeViewer.setLabelProvider(new PreferenceBoldLabelProvider(filteredTree)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		}
 		IContributionService cs = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 				.getService(IContributionService.class);
@@ -293,7 +293,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		// Do nothing by default
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createTreeAreaContents(Composite parent) {
 		Composite leftArea = new Composite(parent, SWT.NONE);
 		leftArea.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
@@ -360,33 +360,33 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		return control;
 	}
 
-	protected void addButtonsToHelpControl(Control control) {
+	protected void addButtonsToHelpControl(Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite parent = control.getParent();
 		if (control instanceof ToolBar toolBar) {
 			ToolItem importButton = new ToolItem(toolBar, SWT.PUSH);
 			importImage = WorkbenchImages.getImageDescriptor(IWorkbenchGraphicConstants.IMG_PREF_IMPORT).createImage();
 			importButton.setImage(importImage);
 			importButton.setToolTipText(WorkbenchMessages.Preference_import);
-			importButton.addListener(SWT.Selection, e -> openImportWizard(parent));
+			importButton.addListener(SWT.Selection, e -> openImportWizard(parent)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			ToolItem exportButton = new ToolItem(toolBar, SWT.PUSH);
 			exportImage = WorkbenchImages.getImageDescriptor(IWorkbenchGraphicConstants.IMG_PREF_EXPORT).createImage();
 			exportButton.setImage(exportImage);
 			exportButton.setToolTipText(WorkbenchMessages.Preference_export);
-			exportButton.addListener(SWT.Selection, e -> openExportWizard(parent));
+			exportButton.addListener(SWT.Selection, e -> openExportWizard(parent)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		} else if (control instanceof Link) {
 			Composite linkParent = control.getParent();
 			Link importLink = new Link(linkParent, SWT.WRAP | SWT.NO_FOCUS);
 			((GridLayout) parent.getLayout()).numColumns++;
 			importLink.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-			importLink.setText(" <a>" + WorkbenchMessages.Preference_import + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$
-			importLink.addListener(SWT.Selection, e -> openImportWizard(parent));
+			importLink.setText(" <a>" + WorkbenchMessages.Preference_import + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			importLink.addListener(SWT.Selection, e -> openImportWizard(parent)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			Link exportLink = new Link(linkParent, SWT.WRAP | SWT.NO_FOCUS);
 			((GridLayout) parent.getLayout()).numColumns++;
 			exportLink.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-			exportLink.setText(" <a>" + WorkbenchMessages.Preference_export + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$
-			exportLink.addListener(SWT.Selection, e -> openExportWizard(parent));
+			exportLink.setText(" <a>" + WorkbenchMessages.Preference_export + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			exportLink.addListener(SWT.Selection, e -> openExportWizard(parent)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 	}
 
@@ -400,7 +400,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		}
 	}
 
-	private void openExportWizard(Composite parent) {
+	private void openExportWizard(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PreferencesExportWizard exportWizard = new PreferencesExportWizard();
 		exportWizard.init(PlatformUI.getWorkbench(), null);
 		WizardDialog wizardDialog = new WizardDialog(parent.getShell(), exportWizard);
@@ -460,7 +460,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		return workingCopyManager;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 		super.okPressed();
 
@@ -476,7 +476,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 				if (msg == null) {
 					msg = WorkbenchMessages.FilteredPreferenceDialog_PreferenceSaveFailed;
 				}
-				StatusUtil.handleStatus(WorkbenchMessages.PreferencesExportDialog_ErrorDialogTitle + ": " + msg, e, //$NON-NLS-1$
+				StatusUtil.handleStatus(WorkbenchMessages.PreferencesExportDialog_ErrorDialogTitle + ": " + msg, e, //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						StatusManager.SHOW);
 			}
 		}
@@ -495,7 +495,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 	 *
 	 * @return Control
 	 */
-	Control getContainerToolBar(Composite composite) {
+	Control getContainerToolBar(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final ToolBarManager historyManager = new ToolBarManager(SWT.HORIZONTAL | SWT.FLAT);
 		historyManager.createControl(composite);
@@ -508,14 +508,14 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 				return WorkbenchImages.getImageDescriptor(IWorkbenchGraphicConstants.IMG_LCL_VIEW_MENU);
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				MenuManager manager = new MenuManager();
 				manager.add(new Action() {
 					@Override
 					public void run() {
 
-						sash.addFocusListener(new FocusAdapter() {
+						sash.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 							@Override
 							public void focusGained(FocusEvent e) {
 								sash.setBackground(sash.getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION));
@@ -567,7 +567,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 	private boolean keyScrollingEnabled = false;
 	private Listener keyScrollingFilter = null;
 
-	void activeKeyScrolling() {
+	void activeKeyScrolling() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (keyScrollingFilter == null) {
 			Composite pageParent = getPageContainer().getParent();
 			if (!(pageParent instanceof final ScrolledComposite sc)) {
@@ -609,9 +609,9 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 				event.doit = false;
 			};
 			Display display = PlatformUI.getWorkbench().getDisplay();
-			display.addFilter(SWT.KeyDown, keyScrollingFilter);
-			display.addFilter(SWT.Traverse, keyScrollingFilter);
-			sc.addDisposeListener(e -> removeKeyScrolling());
+			display.addFilter(SWT.KeyDown, keyScrollingFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+			display.addFilter(SWT.Traverse, keyScrollingFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+			sc.addDisposeListener(e -> removeKeyScrolling()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		}
 		keyScrollingEnabled = true;
 	}
@@ -656,7 +656,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		return super.close();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createTitleArea(Composite parent) {
 
 		GridLayout parentLayout = (GridLayout) parent.getLayout();
@@ -681,7 +681,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 
 	@Override
 	protected void selectSavedItem() {
-		getTreeViewer().setInput(getPreferenceManager());
+		getTreeViewer().setInput(getPreferenceManager()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		super.selectSavedItem();
 		if (getTreeViewer().getTree().getItemCount() > 1) {
 			// unfortunately super will force focus to the list but we want the
@@ -713,7 +713,7 @@ public abstract class FilteredPreferenceDialog extends PreferenceDialog implemen
 		control.setFont(dialogFont);
 		if (control instanceof Composite) {
 			Control[] children = ((Composite) control).getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				applyDialogFont(element, dialogFont);
 			}
 		}

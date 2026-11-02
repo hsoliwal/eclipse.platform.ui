@@ -30,7 +30,7 @@ public class MarkerHelpAdapterFactory implements IAdapterFactory {
 
 	private static final Class<?>[] classes = new Class[] { IContextProvider.class };
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 		if (!(adaptableObject instanceof final ExtendedMarkersView view)) {
 			return null;
@@ -54,7 +54,7 @@ public class MarkerHelpAdapterFactory implements IAdapterFactory {
 
 				//TODO this needs to be migrated to the ide plug-in
 				if (contextId == null) {
-					contextId = PlatformUI.PLUGIN_ID + ".problem_view_context";//$NON-NLS-1$
+					contextId = PlatformUI.PLUGIN_ID + ".problem_view_context";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 
 				return HelpSystem.getContext(contextId);

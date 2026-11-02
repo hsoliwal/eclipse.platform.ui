@@ -66,7 +66,7 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 
 	private IntegerFieldEditor recentFilesEditor;
 
-	private final IPropertyChangeListener validityChangeListener = event -> {
+	private final IPropertyChangeListener validityChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 			updateValidState();
 		}
@@ -78,7 +78,7 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 
 	private ComboFieldEditor multiPageEditorTabPositionComboField;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		Composite composite = createComposite(parent);
 
@@ -184,7 +184,7 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 		multiPageEditorTabPositionComboField.loadDefault();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		IPreferenceStore store = getPreferenceStore();
 		multiPageEditorTabPositionComboField.store();
@@ -236,7 +236,7 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 	 * Create a composite that contains entry fields specifying editor reuse
 	 * preferences.
 	 */
-	protected void createEditorReuseGroup(Composite composite) {
+	protected void createEditorReuseGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		editorReuseGroup = new Composite(composite, SWT.LEFT);
 		editorReuseGroup.setLayout(GridLayoutFactory.fillDefaults().numColumns(3).spacing(0, 0).create());
 		editorReuseGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
@@ -247,7 +247,7 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 
 		IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
 		reuseEditors.setSelection(store.getBoolean(IPreferenceConstants.REUSE_EDITORS_BOOLEAN));
-		reuseEditors.addSelectionListener(widgetSelectedAdapter(e -> {
+		reuseEditors.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			reuseEditorsThreshold.getLabelControl(editorReuseThresholdGroup).setEnabled(reuseEditors.getSelection());
 			reuseEditorsThreshold.getTextControl(editorReuseThresholdGroup).setEnabled(reuseEditors.getSelection());
 		}));
@@ -279,7 +279,7 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 		reuseEditorsThreshold.load();
 		reuseEditorsThreshold.getLabelControl(editorReuseThresholdGroup).setEnabled(reuseEditors.getSelection());
 		reuseEditorsThreshold.getTextControl(editorReuseThresholdGroup).setEnabled(reuseEditors.getSelection());
-		reuseEditorsThreshold.setPropertyChangeListener(validityChangeListener);
+		reuseEditorsThreshold.setPropertyChangeListener(validityChangeListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 
 		LabelFactory.newLabel(SWT.NONE).text(WorkbenchMessages.WorkbenchPreference_reuseEditors_closing)
 				.create(editorReuseGroup);
@@ -289,7 +289,7 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 	 * Create a composite that contains entry fields specifying editor history
 	 * preferences.
 	 */
-	protected void createEditorHistoryGroup(Composite composite) {
+	protected void createEditorHistoryGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite groupComposite = new Composite(composite, SWT.LEFT);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
@@ -310,6 +310,6 @@ public class EditorsPreferencePage extends PreferencePage implements IWorkbenchP
 		recentFilesEditor.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
 		recentFilesEditor.setValidRange(0, EditorHistory.MAX_SIZE);
 		recentFilesEditor.load();
-		recentFilesEditor.setPropertyChangeListener(validityChangeListener);
+		recentFilesEditor.setPropertyChangeListener(validityChangeListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 	}
 }

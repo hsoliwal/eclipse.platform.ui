@@ -51,7 +51,7 @@ public class PropertyDialog extends FilteredPreferenceDialog {
 	 * @param element        the adaptable element
 	 * @return the property dialog
 	 */
-	public static PropertyDialog createDialogOn(Shell shell, final String propertyPageId, Object element) {
+	public static PropertyDialog createDialogOn(Shell shell, final String propertyPageId, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		PropertyPageManager pageManager = new PropertyPageManager();
 		String title = "";//$NON-NLS-1$
@@ -102,16 +102,16 @@ public class PropertyDialog extends FilteredPreferenceDialog {
 	 * @param element the element / IStructuredSelection
 	 * @return the name of the element
 	 */
-	private static String getName(Object element) {
+	private static String getName(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] elements;
 		if (element instanceof IStructuredSelection) {
 			elements = ((IStructuredSelection) element).toArray();
 		} else {
 			elements = new Object[] { element };
 		}
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		// Print at most 3 entries...
-		for (int i = 0; i < elements.length; i++) {
+		for (int i = 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			element = elements[i];
 			if (i > 2) {
 				sb.append(" ..."); //$NON-NLS-1$

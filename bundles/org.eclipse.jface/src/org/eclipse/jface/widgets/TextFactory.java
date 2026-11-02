@@ -136,7 +136,7 @@ public final class TextFactory extends AbstractControlFactory<TextFactory, Text>
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public TextFactory onSelect(Consumer<SelectionEvent> consumer) {
-		addProperty(t -> t.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer)));
+		addProperty(t -> t.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return this;
 	}
 
@@ -154,7 +154,7 @@ public final class TextFactory extends AbstractControlFactory<TextFactory, Text>
 	 * @see ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
 	 */
 	public TextFactory onModify(ModifyListener listener) {
-		addProperty(t -> t.addModifyListener(listener));
+		addProperty(t -> t.addModifyListener(listener)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		return this;
 	}
 
@@ -172,7 +172,7 @@ public final class TextFactory extends AbstractControlFactory<TextFactory, Text>
 	 * @see VerifyListener#verifyText(org.eclipse.swt.events.VerifyEvent)
 	 */
 	public TextFactory onVerify(VerifyListener listener) {
-		addProperty(l -> l.addVerifyListener(listener));
+		addProperty(l -> l.addVerifyListener(listener)); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		return this;
 	}
 }

@@ -155,7 +155,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 		setDialogSettings(section);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addPages() {
 		super.addPages();
 
@@ -201,7 +201,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 	 * @return the created project resource, or <code>null</code> if the
 	 *         project was not created
 	 */
-	private IProject createNewProject() {
+	private IProject createNewProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (newProject != null) {
 			return newProject;
 		}
@@ -229,7 +229,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 		}
 
 		// create the new project operation
-		IRunnableWithProgress op = monitor -> {
+		IRunnableWithProgress op = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			CreateProjectOperation op1 = new CreateProjectOperation(description,
 					ResourceMessages.NewProject_windowTitle);
 			try {
@@ -397,7 +397,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 	 * @see IPreferenceConstants#OPM_ACTIVE_PAGE
 	 * @see IWorkbenchPreferenceConstants#NO_NEW_PERSPECTIVE
 	 */
-	public static void updatePerspective(IConfigurationElement configElement) {
+	public static void updatePerspective(IConfigurationElement configElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Do not change perspective if the configuration element is
 		// not specified.
 		if (configElement == null) {
@@ -442,7 +442,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 				Set<String> idActivities = identifier.getActivityIds();
 
 				if (!idActivities.isEmpty()) {
-					Set<String> enabledIds = new HashSet<>(activityManager.getEnabledActivityIds());
+					Set<String> enabledIds = new HashSet<>(activityManager.getEnabledActivityIds()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 					if (enabledIds.addAll(idActivities)) {
 						workbenchActivitySupport.setEnabledActivityIds(enabledIds);
@@ -450,7 +450,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 				}
 			}
 		} else {
-			IDEWorkbenchPlugin.log("Unable to find persective " //$NON-NLS-1$
+			IDEWorkbenchPlugin.log("Unable to find persective " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ finalPerspId
 					+ " in BasicNewProjectResourceWizard.updatePerspective"); //$NON-NLS-1$
 			return;
@@ -459,12 +459,12 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 		// gather the preferred perspectives
 		// always consider the final perspective (and those derived from it)
 		// to be preferred
-		ArrayList<String> preferredPerspIds = new ArrayList<>();
+		ArrayList<String> preferredPerspIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addPerspectiveAndDescendants(preferredPerspIds, finalPerspId);
 		String preferred = configElement.getAttribute(PREFERRED_PERSPECTIVES);
 		if (preferred != null) {
 			StringTokenizer tok = new StringTokenizer(preferred, " \t\n\r\f,"); //$NON-NLS-1$
-			while (tok.hasMoreTokens()) {
+			while (tok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addPerspectiveAndDescendants(preferredPerspIds, tok.nextToken());
 			}
 		}
@@ -516,7 +516,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 	 */
 	private static void addPerspectiveAndDescendants(List<String> perspectiveIds, String id) {
 		IPerspectiveRegistry registry = PlatformUI.getWorkbench().getPerspectiveRegistry();
-		for (IPerspectiveDescriptor perspective : registry.getPerspectives()) {
+		for (IPerspectiveDescriptor perspective : registry.getPerspectives()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// @issue illegal ref to workbench internal class;
 			// consider adding getOriginalId() as API on IPerspectiveDescriptor
 			PerspectiveDescriptor descriptor = ((PerspectiveDescriptor) perspective);
@@ -538,7 +538,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 	 * @return <code>true</code> if it's OK to switch, <code>false</code>
 	 *         otherwise
 	 */
-	private static boolean confirmPerspectiveSwitch(IWorkbenchWindow window,
+	private static boolean confirmPerspectiveSwitch(IWorkbenchWindow window, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPerspectiveDescriptor finalPersp) {
 		IPreferenceStore store = IDEWorkbenchPlugin.getDefault()
 				.getPreferenceStore();
@@ -559,7 +559,7 @@ public class BasicNewProjectResourceWizard extends BasicNewResourceWizard
 					new String[] { finalPersp.getLabel(), desc });
 		}
 
-		LinkedHashMap<String, Integer> buttonLabelToId = new LinkedHashMap<>();
+		LinkedHashMap<String, Integer> buttonLabelToId = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		buttonLabelToId.put(ResourceMessages.NewProject_perspSwitchButtonLabel, IDialogConstants.YES_ID);
 		buttonLabelToId.put(IDialogConstants.NO_LABEL, IDialogConstants.NO_ID);
 		MessageDialogWithToggle dialog = MessageDialogWithToggle.open(MessageDialog.QUESTION, window.getShell(),

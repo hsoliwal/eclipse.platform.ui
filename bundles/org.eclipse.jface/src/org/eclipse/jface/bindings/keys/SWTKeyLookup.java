@@ -38,19 +38,19 @@ public final class SWTKeyLookup implements IKeyLookup {
 	 * The look-up table for modifier keys. This is a map of formal name (<code>String</code>)
 	 * to integer value (<code>Integer</code>).
 	 */
-	private final Map<String, Integer> modifierKeyTable = new HashMap<>();
+	private final Map<String, Integer> modifierKeyTable = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The look-up table for formal names. This is a map of integer value (<code>Integer</code>)
 	 * to formal name (<code>String</code>).
 	 */
-	private final Map<Integer, String> nameTable = new HashMap<>();
+	private final Map<Integer, String> nameTable = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The look-up table for natural keys. This is a map of formal name (<code>String</code>)
 	 * to integer value (<code>Integer</code>).
 	 */
-	private final Map<String, Integer> naturalKeyTable = new HashMap<>();
+	private final Map<String, Integer> naturalKeyTable = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Constructs a new look-up class. This should only be done by the look-up
@@ -58,7 +58,7 @@ public final class SWTKeyLookup implements IKeyLookup {
 	 *
 	 * @see KeyLookupFactory
 	 */
-	SWTKeyLookup() {
+	SWTKeyLookup() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Integer alt = Integer.valueOf(SWT.ALT);
 		final Integer command = Integer.valueOf(SWT.COMMAND);
 		final Integer ctrl = Integer.valueOf(SWT.CTRL);
@@ -275,7 +275,7 @@ public final class SWTKeyLookup implements IKeyLookup {
 	public final int formalKeyLookup(final String name) {
 		final Integer value = naturalKeyTable.get(name);
 		if (value == null) {
-			throw new IllegalArgumentException("Unrecognized formal key name: " //$NON-NLS-1$
+			throw new IllegalArgumentException("Unrecognized formal key name: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ name);
 		}
 		return value.intValue();
@@ -285,7 +285,7 @@ public final class SWTKeyLookup implements IKeyLookup {
 	public final Integer formalKeyLookupInteger(final String name) {
 		final Integer value = naturalKeyTable.get(name);
 		if (value == null) {
-			throw new IllegalArgumentException("Unrecognized formal key name: " //$NON-NLS-1$
+			throw new IllegalArgumentException("Unrecognized formal key name: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ name);
 		}
 		return value;
@@ -304,7 +304,7 @@ public final class SWTKeyLookup implements IKeyLookup {
 	public final String formalNameLookup(final int key) {
 		final String value = nameTable.get(Integer.valueOf(key));
 		if (value == null) {
-			return Util.ZERO_LENGTH_STRING + ((char) key);
+			return Util.ZERO_LENGTH_STRING + ((char) key); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return value;
 	}

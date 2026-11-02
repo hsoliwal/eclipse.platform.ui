@@ -51,7 +51,7 @@ public final class ContextManagerLegacyWrapper
 		/**
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final int compare(final String object1, final String object2) {
 			final String contextId1 = object1;
 			final String contextId2 = object2;
@@ -63,7 +63,7 @@ public final class ContextManagerLegacyWrapper
 			context = contextManager.getContext(contextId1);
 			try {
 				parentId = context.getParentId();
-				while (parentId != null) {
+				while (parentId != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					depth1++;
 					context = contextManager.getContext(parentId);
 					parentId = context.getParentId();
@@ -77,7 +77,7 @@ public final class ContextManagerLegacyWrapper
 			context = contextManager.getContext(contextId2);
 			try {
 				parentId = context.getParentId();
-				while (parentId != null) {
+				while (parentId != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					depth2++;
 					context = contextManager.getContext(parentId);
 					parentId = context.getParentId();
@@ -154,7 +154,7 @@ public final class ContextManagerLegacyWrapper
 		}
 
 		if (contextManagerListeners == null) {
-			contextManagerListeners = new ArrayList<>();
+			contextManagerListeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		if (!contextManagerListeners.contains(contextManagerListener)) {
@@ -162,7 +162,7 @@ public final class ContextManagerLegacyWrapper
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void contextManagerChanged(org.eclipse.core.commands.contexts.ContextManagerEvent contextManagerEvent) {
 		final String contextId = contextManagerEvent.getContextId();
 		final boolean definedContextsChanged;
@@ -172,7 +172,7 @@ public final class ContextManagerLegacyWrapper
 			previouslyDefinedContextIds = null;
 		} else {
 			definedContextsChanged = true;
-			previouslyDefinedContextIds = new HashSet<>();
+			previouslyDefinedContextIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			previouslyDefinedContextIds.addAll(contextManager.getDefinedContextIds());
 			if (contextManagerEvent.isContextDefined()) {
 				previouslyDefinedContextIds.remove(contextId);
@@ -193,7 +193,7 @@ public final class ContextManagerLegacyWrapper
 		}
 
 		if (contextManagerListeners != null) {
-			for (IContextManagerListener contextManagerListener : contextManagerListeners) {
+			for (IContextManagerListener contextManagerListener : contextManagerListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				contextManagerListener.contextManagerChanged(contextManagerEvent);
 			}
 		}

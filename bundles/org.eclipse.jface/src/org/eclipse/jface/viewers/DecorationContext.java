@@ -32,7 +32,7 @@ public class DecorationContext implements IDecorationContext {
 	 */
 	public static final IDecorationContext DEFAULT_CONTEXT = new DecorationContext();
 
-	private final Map<String, Object> properties = new HashMap<>();
+	private final Map<String, Object> properties = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Create a decoration context.

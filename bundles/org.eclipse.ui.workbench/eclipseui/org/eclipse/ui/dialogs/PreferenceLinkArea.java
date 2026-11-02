@@ -62,7 +62,7 @@ public class PreferenceLinkArea extends Object {
 			result = MessageFormat.format(message, node.getLabelText());
 
 			// Only add the selection listener if the node is found
-			pageLink.addSelectionListener(widgetSelectedAdapter(e -> pageContainer.openPage(pageId, pageData)));
+			pageLink.addSelectionListener(widgetSelectedAdapter(e -> pageContainer.openPage(pageId, pageData))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 		pageLink.setText(result);
 
@@ -77,7 +77,7 @@ public class PreferenceLinkArea extends Object {
 		Iterator<IPreferenceNode> iterator = PlatformUI.getWorkbench().getPreferenceManager().getElements(
 				PreferenceManager.PRE_ORDER)
 				.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPreferenceNode next = iterator.next();
 			if (next.getId().equals(pageId)) {
 				return next;

@@ -45,7 +45,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
  */
 public final class ContextService implements IContextService {
 
-	private final HashMap<IContextActivation, UpdateExpression> activationToRat = new HashMap<>();
+	private final HashMap<IContextActivation, UpdateExpression> activationToRat = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The central authority for determining which context we should use.
@@ -110,7 +110,7 @@ public final class ContextService implements IContextService {
 			this.expression = expression;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean changed(IEclipseContext context) {
 			if (!updating) {
 				return false;
@@ -132,7 +132,7 @@ public final class ContextService implements IContextService {
 				}
 			} catch (CoreException e) {
 				// contextService.deactivateContext(contextId);
-				WorkbenchPlugin.log("Failed to update " + contextId, e); //$NON-NLS-1$
+				WorkbenchPlugin.log("Failed to update " + contextId, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return updating;
 		}
@@ -198,7 +198,7 @@ public final class ContextService implements IContextService {
 		try {
 			deferUpdates(true);
 			final Iterator<?> activationItr = activations.iterator();
-			while (activationItr.hasNext()) {
+			while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IContextActivation activation = (IContextActivation) activationItr.next();
 				deactivateContext(activation);
 			}

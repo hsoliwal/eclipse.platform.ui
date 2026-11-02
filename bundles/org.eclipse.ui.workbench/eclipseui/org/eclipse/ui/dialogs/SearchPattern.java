@@ -214,7 +214,7 @@ public class SearchPattern {
 	 * @param text the text to match
 	 * @return true if search pattern was matched with text
 	 */
-	public boolean matches(String text) {
+	public boolean matches(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (matchRule) {
 		case RULE_BLANK_MATCH:
 			return true;
@@ -244,7 +244,7 @@ public class SearchPattern {
 		}
 	}
 
-	private void initializePatternAndMatchRule(String pattern) {
+	private void initializePatternAndMatchRule(String pattern) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pattern.length() == 0) {
 			matchRule = RULE_BLANK_MATCH;
 			stringPattern = pattern;
@@ -268,7 +268,7 @@ public class SearchPattern {
 		if (pattern.indexOf('*') != -1 || pattern.indexOf('?') != -1) {
 			matchRule = RULE_PATTERN_MATCH;
 			if (substringSearch && !matchPrefix && first != ANY_STRING) {
-				stringPattern = ANY_STRING + stringPattern;
+				stringPattern = ANY_STRING + stringPattern; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if (!matchSuffix && last != ANY_STRING) {
 				stringPattern += ANY_STRING;
@@ -298,7 +298,7 @@ public class SearchPattern {
 		if (textLength < prefixLength) {
 			return false;
 		}
-		for (int i = prefixLength - 1; i >= 0; i--) {
+		for (int i = prefixLength - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Character.toLowerCase(prefix.charAt(i)) != Character.toLowerCase(text.charAt(i))) {
 				return false;
 			}
@@ -483,7 +483,7 @@ public class SearchPattern {
 	 * @return true if a sub-pattern matches the subpart of the given name, false
 	 *         otherwise
 	 */
-	private boolean camelCaseMatch(String pattern, int patternStart, int patternEnd, String name, int nameStart,
+	private boolean camelCaseMatch(String pattern, int patternStart, int patternEnd, String name, int nameStart, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int nameEnd) {
 		if (name == null) {
 			return false; // null name cannot match
@@ -521,7 +521,7 @@ public class SearchPattern {
 		int iName = nameStart;
 
 		// Main loop starts from the 2nd characters...
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			iPattern++;
 			iName++;
@@ -531,7 +531,7 @@ public class SearchPattern {
 				if (!this.matchSuffix) {
 					return true;
 				}
-				for (int i = iName; i < nameEnd; i++) {
+				for (int i = iName; i < nameEnd; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isNameCharAllowed(name.charAt(i))) {
 						// There is another uppercase further in the name, but the pattern doesn't allow
 						// this
@@ -560,7 +560,7 @@ public class SearchPattern {
 
 			// patternChar is uppercase, so let's find the next patternChar-matching uppercase in
 			// name
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (iName == nameEnd) {
 					// We have exhausted name (and not pattern), so it's not a match
 					return false;
@@ -657,7 +657,7 @@ public class SearchPattern {
 	 * @param matchRule     The match rule
 	 * @return Optimized valid match rule or -1 if an incompatibility was detected.
 	 */
-	private int validateMatchRule(String stringPattern, int matchRule) {
+	private int validateMatchRule(String stringPattern, int matchRule) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Verify Pattern match rule
 		int starIndex = stringPattern.indexOf('*');
@@ -680,7 +680,7 @@ public class SearchPattern {
 			// Verify sting pattern validity
 			int length = stringPattern.length();
 			boolean validCamelCase = true;
-			for (int i = 0; i < length && validCamelCase; i++) {
+			for (int i = 0; i < length && validCamelCase; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char ch = stringPattern.charAt(i);
 				validCamelCase = isValidCamelCaseChar(ch);
 			}

@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.jface_3.37.0.v20250522-1428.jar",
+    "sha256": "2fed376ee7bec427299fe51fe1d863e35683dc8c92da7acc70938ce692e06e57"
+  },
+  {
+    "path": "/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar",
+    "sha256": "ee5b087aac353d507f80e586d5fc9adb62d510e327f252d707aa6c710d82fe33"
+  },
+  {
+    "path": "/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar",
+    "sha256": "d0838fc451335237203145ed5c08e7931236c351f0b86ee0bed418fe8b83fb1b"
+  },
+  {
+    "path": "/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar",
+    "sha256": "bb20b4d03ebebab03cbdf60bbfed92be0f7365646fd246cb252fe6dbb3ebd448"
+  },
+  {
+    "path": "/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar",
+    "sha256": "9164f40fd0b424caf21ca6518186d2af82691f2a8de452f8a7d290b955280a21"
+  }
+]

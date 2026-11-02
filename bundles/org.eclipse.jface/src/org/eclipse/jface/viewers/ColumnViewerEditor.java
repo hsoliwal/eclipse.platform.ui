@@ -140,7 +140,7 @@ public abstract class ColumnViewerEditor {
 					.setEnableEditorActivationWithKeyboard(true);
 		}
 		this.feature = feature;
-		this.disposeListener = e -> {
+		this.disposeListener = e -> { //FLLDCIM: MARK — T01  LAMBDA
 			if( viewer.isCellEditorActive() ) {
 				cancelEditing();
 			}
@@ -148,7 +148,7 @@ public abstract class ColumnViewerEditor {
 		initCellEditorListener();
 	}
 
-	private void initCellEditorListener() {
+	private void initCellEditorListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		cellEditorListener = new ICellEditorListener() {
 			@Override
 			public void editorValueChanged(boolean oldValidState,
@@ -168,7 +168,7 @@ public abstract class ColumnViewerEditor {
 		};
 	}
 
-	private boolean activateCellEditor(final ColumnViewerEditorActivationEvent activationEvent) {
+	private boolean activateCellEditor(final ColumnViewerEditorActivationEvent activationEvent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ViewerColumn part = viewer.getViewerColumn(cell.getColumnIndex());
 		Object element = cell.getElement();
@@ -188,7 +188,7 @@ public abstract class ColumnViewerEditor {
 				}
 
 				if (editorActivationListener != null && !editorActivationListener.isEmpty()) {
-					for (ColumnViewerEditorActivationListener ls : editorActivationListener) {
+					for (ColumnViewerEditorActivationListener ls : editorActivationListener) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ls.beforeEditorActivated(activationEvent);
 
 						// Was the activation canceled ?
@@ -200,7 +200,7 @@ public abstract class ColumnViewerEditor {
 
 				updateFocusCell(cell, activationEvent);
 
-				cellEditor.addListener(cellEditorListener);
+				cellEditor.addListener(cellEditorListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				part.getEditingSupport().initializeCellEditorValue(cellEditor,
 						cell);
 
@@ -227,7 +227,7 @@ public abstract class ColumnViewerEditor {
 							}
 						};
 					}
-					control.addFocusListener(focusListener);
+					control.addFocusListener(focusListener); //FLLDCIM: MARK — T15 FOCUS CALL
 				}
 
 				mouseListener = new MouseAdapter() {
@@ -247,7 +247,7 @@ public abstract class ColumnViewerEditor {
 
 				if (activationTime != 0
 						&& (feature & KEEP_EDITOR_ON_DOUBLE_CLICK) == 0) {
-					control.addMouseListener(mouseListener);
+					control.addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				}
 
 				if (tabeditingListener == null) {
@@ -260,15 +260,15 @@ public abstract class ColumnViewerEditor {
 					};
 				}
 
-				control.addTraverseListener(tabeditingListener);
+				control.addTraverseListener(tabeditingListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 
 				if (editorActivationListener != null && !editorActivationListener.isEmpty()) {
-					for (ColumnViewerEditorActivationListener ls : editorActivationListener) {
+					for (ColumnViewerEditorActivationListener ls : editorActivationListener) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ls.afterEditorActivated(activationEvent);
 					}
 				}
 
-				this.cell.getItem().addDisposeListener(disposeListener);
+				this.cell.getItem().addDisposeListener(disposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
 				return true;
 			}
@@ -296,7 +296,7 @@ public abstract class ColumnViewerEditor {
 	 * Applies the current value and deactivates the currently active cell
 	 * editor.
 	 */
-	void applyEditorValue() {
+	void applyEditorValue() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// avoid re-entering
 		if (!inEditorDeactivation) {
 			try {
@@ -307,7 +307,7 @@ public abstract class ColumnViewerEditor {
 							cell);
 					tmp.eventType = ColumnViewerEditorDeactivationEvent.EDITOR_SAVED;
 					if (editorActivationListener != null && !editorActivationListener.isEmpty()) {
-						for (ColumnViewerEditorActivationListener ls : editorActivationListener) {
+						for (ColumnViewerEditorActivationListener ls : editorActivationListener) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ls.beforeEditorDeactivated(tmp);
 						}
 					}
@@ -341,7 +341,7 @@ public abstract class ColumnViewerEditor {
 					c.deactivate(tmp);
 
 					if (editorActivationListener != null && !editorActivationListener.isEmpty()) {
-						for (ColumnViewerEditorActivationListener ls : editorActivationListener) {
+						for (ColumnViewerEditorActivationListener ls : editorActivationListener) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ls.afterEditorDeactivated(tmp);
 						}
 					}
@@ -362,7 +362,7 @@ public abstract class ColumnViewerEditor {
 	/**
 	 * Cancel editing
 	 */
-	void cancelEditing() {
+	void cancelEditing() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// avoid re-entering
 		if (!inEditorDeactivation) {
 			try {
@@ -372,7 +372,7 @@ public abstract class ColumnViewerEditor {
 							cell);
 					tmp.eventType = ColumnViewerEditorDeactivationEvent.EDITOR_CANCELED;
 					if (editorActivationListener != null && !editorActivationListener.isEmpty()) {
-						for (ColumnViewerEditorActivationListener ls : editorActivationListener) {
+						for (ColumnViewerEditorActivationListener ls : editorActivationListener) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ls.beforeEditorDeactivated(tmp);
 						}
 					}
@@ -403,13 +403,13 @@ public abstract class ColumnViewerEditor {
 					oldEditor.deactivate(tmp);
 
 					if (editorActivationListener != null && !editorActivationListener.isEmpty()) {
-						for (ColumnViewerEditorActivationListener ls : editorActivationListener) {
+						for (ColumnViewerEditorActivationListener ls : editorActivationListener) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ls.afterEditorDeactivated(tmp);
 						}
 					}
 
 					if( ! this.cell.getItem().isDisposed() ) {
-						this.cell.getItem().addDisposeListener(disposeListener);
+						this.cell.getItem().addDisposeListener(disposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 					}
 
 					this.cellEditor = null;
@@ -425,7 +425,7 @@ public abstract class ColumnViewerEditor {
 	/**
 	 * Enable the editor by mouse down
 	 */
-	void handleEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
+	void handleEditorActivationEvent(ColumnViewerEditorActivationEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Only activate if the event isn't tagged as canceled
 		if (!event.cancel
@@ -520,7 +520,7 @@ public abstract class ColumnViewerEditor {
 	 * @param event
 	 *            the traverse event
 	 */
-	protected void processTraverseEvent(int columnIndex, ViewerRow row,
+	protected void processTraverseEvent(int columnIndex, ViewerRow row, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			TraverseEvent event) {
 
 		ViewerCell cell2edit = null;
@@ -558,7 +558,7 @@ public abstract class ColumnViewerEditor {
 		}
 	}
 
-	private ViewerCell searchCellAboveBelow(ViewerRow row, ColumnViewer viewer,
+	private ViewerCell searchCellAboveBelow(ViewerRow row, ColumnViewer viewer, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int columnIndex, boolean above) {
 		ViewerCell rv = null;
 
@@ -591,7 +591,7 @@ public abstract class ColumnViewerEditor {
 				&& column.getEditingSupport().canEdit(cell.getElement());
 	}
 
-	private ViewerCell searchPreviousCell(ViewerRow row,
+	private ViewerCell searchPreviousCell(ViewerRow row, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ViewerCell currentCell, ViewerCell originalCell, ColumnViewer viewer) {
 		ViewerCell rv = null;
 		ViewerCell previousCell;
@@ -639,7 +639,7 @@ public abstract class ColumnViewerEditor {
 	}
 
 
-	private ViewerCell searchNextCell(ViewerRow row, ViewerCell currentCell,
+	private ViewerCell searchNextCell(ViewerRow row, ViewerCell currentCell, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ViewerCell originalCell, ColumnViewer viewer) {
 		ViewerCell rv = null;
 
@@ -697,7 +697,7 @@ public abstract class ColumnViewerEditor {
 			// Already on the top most-row, return left-most cell
 			return row.getCell(row.getCreationIndex(0));
 		}
-		while (rowAbove != null) {
+		while (rowAbove != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			topMostRow = rowAbove;
 			rowAbove = rowAbove.getNeighbor(ViewerRow.ABOVE, false);
 		}
@@ -718,7 +718,7 @@ public abstract class ColumnViewerEditor {
 			// Already on the bottom most-row, return right-most cell
 			return row.getCell(row.getCreationIndex(row.getColumnCount() - 1));
 		}
-		while (rowBelow != null) {
+		while (rowBelow != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			bottomMostRow = rowBelow;
 			rowBelow = rowBelow.getNeighbor(ViewerRow.BELOW, false);
 		}

@@ -150,7 +150,7 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -197,14 +197,14 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		listViewer.getTable().setLayoutData(data);
 
-		listViewer.setLabelProvider(labelProvider);
+		listViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		listViewer.setContentProvider(contentProvider);
 		listViewer.setComparator(new WorkbenchViewerComparator());
 
-		listViewer.addFilter(new WorkingSetFilter(getSupportedWorkingSetIds()));
+		listViewer.addFilter(new WorkingSetFilter(getSupportedWorkingSetIds())); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
-		listViewer.addSelectionChangedListener(event -> handleSelectionChanged());
-		listViewer.addDoubleClickListener(event -> {
+		listViewer.addSelectionChangedListener(event -> handleSelectionChanged()); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		listViewer.addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			Object obj = listViewer.getStructuredSelection().getFirstElement();
 			listViewer.setCheckedElements(new Object[] { obj });
 			buttonWindowSet.setSelection(false);
@@ -212,7 +212,7 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 			buttonSelectedSets.setSelection(true);
 			okPressed();
 		});
-		listViewer.addCheckStateListener(event -> {
+		listViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			// implicitly select the third radio button
 			buttonWindowSet.setSelection(false);
 			buttonNoSet.setSelection(false);
@@ -223,7 +223,7 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 
 		addSelectionButtons(composite);
 
-		listViewer.setInput(Arrays.asList(WorkbenchPlugin.getDefault().getWorkingSetManager().getWorkingSets()));
+		listViewer.setInput(Arrays.asList(WorkbenchPlugin.getDefault().getWorkingSetManager().getWorkingSets())); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		List initialElementSelections = getInitialElementSelections();
 		if (multiSelect) {
 			listViewer.setCheckedElements(initialElementSelections.toArray());
@@ -298,7 +298,7 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 		if (buttonWindowSet.getSelection()) {
 			IWorkingSet[] windowSet = new IWorkingSet[] { workbenchWindow.getActivePage().getAggregateWorkingSet() };
@@ -342,9 +342,9 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 	 * @return the name
 	 */
 	private String getAggregateIdForSets(IWorkingSet[] typedResult) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("Aggregate:"); //$NON-NLS-1$
-		for (IWorkingSet element : typedResult) {
+		for (IWorkingSet element : typedResult) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buffer.append(element.getName()).append(':');
 		}
 		return buffer.toString();
@@ -357,7 +357,7 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 		IWorkingSetManager manager = WorkbenchPlugin.getDefault().getWorkingSetManager();
 		Iterator<IWorkingSet> iterator = getAddedWorkingSets().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.removeWorkingSet((iterator.next()));
 		}
 	}
@@ -366,7 +366,7 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 	 * Rolls back changes to working sets.
 	 */
 	private void restoreChangedWorkingSets() {
-		for (IWorkingSet editedWorkingSet : getEditedWorkingSets().keySet()) {
+		for (IWorkingSet editedWorkingSet : getEditedWorkingSets().keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet originalWorkingSet = getEditedWorkingSets().get(editedWorkingSet);
 
 			if (!editedWorkingSet.getName().equals(originalWorkingSet.getName())) {
@@ -385,11 +385,11 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 		IWorkingSetManager manager = WorkbenchPlugin.getDefault().getWorkingSetManager();
 		Iterator<IWorkingSet> iterator = getRemovedWorkingSets().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.addWorkingSet((iterator.next()));
 		}
 		iterator = getRemovedMRUWorkingSets().iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.addRecentWorkingSet((iterator.next()));
 		}
 	}
@@ -407,7 +407,7 @@ public class WorkingSetSelectionDialog extends AbstractWorkingSetDialog {
 
 	@Override
 	protected void availableWorkingSetsChanged() {
-		listViewer.setInput(PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets());
+		listViewer.setInput(PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		super.availableWorkingSetsChanged();
 	}
 

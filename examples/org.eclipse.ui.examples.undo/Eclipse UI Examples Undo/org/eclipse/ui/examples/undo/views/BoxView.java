@@ -259,7 +259,7 @@ public class BoxView extends ViewPart {
 			boxes.draw(event.gc);
 		});
 
-		paintCanvas.addDisposeListener(_ -> {
+		paintCanvas.addDisposeListener(unused -> {
 			// dispose the gc
 			gc.dispose();
 			// dispose listeners

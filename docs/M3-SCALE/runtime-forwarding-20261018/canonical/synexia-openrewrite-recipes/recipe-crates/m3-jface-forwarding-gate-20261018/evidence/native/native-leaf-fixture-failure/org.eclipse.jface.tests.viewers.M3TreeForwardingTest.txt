@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: org.eclipse.jface.tests.viewers.M3TreeForwardingTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.232 s <<< FAILURE! -- in org.eclipse.jface.tests.viewers.M3TreeForwardingTest
+org.eclipse.jface.tests.viewers.M3TreeForwardingTest.testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings -- Time elapsed: 2.058 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: array lengths differ, expected: <2> but was: <1>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertArrayEquals.assertArraysHaveSameLength(AssertArrayEquals.java:428)
+	at org.junit.jupiter.api.AssertArrayEquals.assertArrayEquals(AssertArrayEquals.java:335)
+	at org.junit.jupiter.api.AssertArrayEquals.assertArrayEquals(AssertArrayEquals.java:159)
+	at org.junit.jupiter.api.AssertArrayEquals.assertArrayEquals(AssertArrayEquals.java:155)
+	at org.junit.jupiter.api.Assertions.assertArrayEquals(Assertions.java:1456)
+	at org.eclipse.jface.tests.viewers.VirtualLazyTreeViewerTest.testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings(VirtualLazyTreeViewerTest.java:165)
+	at org.eclipse.jface.tests.viewers.M3TreeForwardingTest.testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings(M3TreeForwardingTest.java:32)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+

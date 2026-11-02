@@ -35,7 +35,7 @@ public interface IProgressConstants2 extends IProgressConstants {
 	/**
 	 * Common prefix for properties defined in this interface.
 	 */
-	String PROPERTY_PREFIX = PlatformUI.PLUGIN_ID + ".workbench.progress"; //$NON-NLS-1$
+	String PROPERTY_PREFIX = PlatformUI.PLUGIN_ID + ".workbench.progress"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * This property is used to associate a <code>ParameterizedCommand</code> with a

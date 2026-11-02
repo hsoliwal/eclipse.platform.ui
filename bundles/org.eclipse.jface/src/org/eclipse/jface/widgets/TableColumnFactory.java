@@ -89,7 +89,7 @@ public final class TableColumnFactory extends AbstractItemFactory<TableColumnFac
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public TableColumnFactory onSelect(Consumer<SelectionEvent> consumer) {
-		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer)));
+		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return this;
 	}
 

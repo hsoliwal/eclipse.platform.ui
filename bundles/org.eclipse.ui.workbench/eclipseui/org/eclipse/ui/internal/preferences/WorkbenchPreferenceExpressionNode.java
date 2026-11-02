@@ -45,8 +45,8 @@ public class WorkbenchPreferenceExpressionNode extends PreferenceNode implements
 	public IPreferenceNode[] getSubNodes() {
 		IPreferenceNode[] prefNodes = super.getSubNodes();
 		int size = prefNodes.length;
-		List<IPreferenceNode> list = new ArrayList<>(size);
-		for (int i = 0; i < size; i++) {
+		List<IPreferenceNode> list = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPreferenceNode prefNode = getNodeExpression(prefNodes[i]);
 			if (prefNode != null) {
 				list.add(prefNode);

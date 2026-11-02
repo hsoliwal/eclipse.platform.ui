@@ -83,17 +83,17 @@ public final class OpenResourceHandler extends Action implements IHandler,
 		listenerList = null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final Object execute(final ExecutionEvent event)
 			throws ExecutionException {
-		final List<IFile> files = new ArrayList<>();
+		final List<IFile> files = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (event.getParameter(PARAM_ID_FILE_PATH) == null) {
 			// Prompt the user for the resource to open.
 			Object[] result = queryFileResource();
 
 			if (result != null) {
-				for (Object fileResource : result) {
+				for (Object fileResource : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fileResource instanceof IFile) {
 						files.add((IFile) fileResource);
 					}
@@ -125,7 +125,7 @@ public final class OpenResourceHandler extends Action implements IHandler,
 			}
 
 			try {
-				for (IFile iFile : files) {
+				for (IFile iFile : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IDE.openEditor(page, iFile, true);
 				}
 			} catch (final PartInitException e) {
@@ -146,7 +146,7 @@ public final class OpenResourceHandler extends Action implements IHandler,
 	 *
 	 * @return the resource that should be opened.
 	 */
-	private final Object[] queryFileResource() {
+	private final Object[] queryFileResource() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IWorkbenchWindow window = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow();
 		if (window == null) {

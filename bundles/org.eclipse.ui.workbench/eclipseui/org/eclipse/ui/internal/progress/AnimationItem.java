@@ -67,11 +67,11 @@ public abstract class AnimationItem {
 	 *
 	 * @param parent the parent composite
 	 */
-	public void createControl(Composite parent) {
+	public void createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Control animationItem = createAnimationItem(parent);
 
-		animationItem.addMouseListener(new MouseListener() {
+		animationItem.addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				ProgressManagerUtil.openProgressView(AnimationItem.this.window);
@@ -87,7 +87,7 @@ public abstract class AnimationItem {
 				// Do nothing
 			}
 		});
-		animationItem.addDisposeListener(e -> AnimationManager.getInstance().removeItem(AnimationItem.this));
+		animationItem.addDisposeListener(e -> AnimationManager.getInstance().removeItem(AnimationItem.this)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		AnimationManager.getInstance().addItem(this);
 	}
 

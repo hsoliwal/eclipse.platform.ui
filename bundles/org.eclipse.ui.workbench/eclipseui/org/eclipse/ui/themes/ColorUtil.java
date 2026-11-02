@@ -43,7 +43,7 @@ public final class ColorUtil {
 	private static RGB process(String value) {
 		Field[] fields = getFields();
 		try {
-			for (Field field : fields) {
+			for (Field field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (field.getName().equals(value)) {
 					return getSystemColor(field.getInt(null));
 				}
@@ -61,13 +61,13 @@ public final class ColorUtil {
 	 * @return the fields
 	 * @since 3.3
 	 */
-	private static Field[] getFields() {
+	private static Field[] getFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (cachedFields == null) {
 			Class<SWT> clazz = SWT.class;
 			Field[] allFields = clazz.getDeclaredFields();
-			ArrayList<Field> applicableFields = new ArrayList<>(allFields.length);
+			ArrayList<Field> applicableFields = new ArrayList<>(allFields.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (Field field : allFields) {
+			for (Field field : allFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (field.getType() == Integer.TYPE && Modifier.isStatic(field.getModifiers())
 						&& Modifier.isPublic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())
 						&& field.getName().startsWith("COLOR")) { //$NON-NLS-1$
@@ -167,7 +167,7 @@ public final class ColorUtil {
 	 */
 	public static RGB[] getColorValues(String[] rawValues) {
 		RGB[] values = new RGB[rawValues.length];
-		for (int i = 0; i < rawValues.length; i++) {
+		for (int i = 0; i < rawValues.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			values[i] = getColorValue(rawValues[i]);
 		}
 		return values;

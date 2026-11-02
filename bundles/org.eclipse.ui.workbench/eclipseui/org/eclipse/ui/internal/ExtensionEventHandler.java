@@ -45,13 +45,13 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 
 	private final Workbench workbench;
 
-	private final List<?> changeList = new ArrayList<>(10);
+	private final List<?> changeList = new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public ExtensionEventHandler(Workbench workbench) {
 		this.workbench = workbench;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void registryChanged(IRegistryChangeEvent event) {
 		try {
 			IExtensionDelta delta[] = event.getExtensionDeltas(WorkbenchPlugin.PI_WORKBENCH);
@@ -65,8 +65,8 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 			if (display == null) {
 				return;
 			}
-			ArrayList<IExtensionDelta> appearList = new ArrayList<>(5);
-			ArrayList<IExtensionDelta> revokeList = new ArrayList<>(5);
+			ArrayList<IExtensionDelta> appearList = new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			ArrayList<IExtensionDelta> revokeList = new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			String id = null;
 			int numPerspectives = 0;
 			int numActionSetPartAssoc = 0;
@@ -74,7 +74,7 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 			// push action sets and perspectives to the top because incoming
 			// actionSetPartAssociations and perspectiveExtensions may depend upon
 			// them for their bindings.
-			for (IExtensionDelta extensionDelta : delta) {
+			for (IExtensionDelta extensionDelta : delta) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				id = extensionDelta.getExtensionPoint().getSimpleIdentifier();
 				if (extensionDelta.getKind() == IExtensionDelta.ADDED) {
 					if (id.equals(IWorkbenchRegistryConstants.PL_ACTION_SETS)) {
@@ -101,7 +101,7 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 			}
 			Iterator<IExtensionDelta> iter = appearList.iterator();
 			IExtensionDelta extDelta = null;
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				extDelta = iter.next();
 				extPt = extDelta.getExtensionPoint();
 				ext = extDelta.getExtension();
@@ -126,7 +126,7 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 
 	private void asyncAppear(Display display, final IExtensionPoint extpt, final IExtension ext) {
 		Runnable run = () -> appear(extpt, ext);
-		display.syncExec(run);
+		display.syncExec(run); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	private void appear(IExtensionPoint extPt, IExtension ext) {
@@ -144,7 +144,7 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 	private void loadFontDefinitions(IExtension ext) {
 		ThemeRegistryReader reader = new ThemeRegistryReader();
 		reader.setRegistry((ThemeRegistry) WorkbenchPlugin.getDefault().getThemeRegistry());
-		for (IConfigurationElement configElement : ext.getConfigurationElements()) {
+		for (IConfigurationElement configElement : ext.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reader.readElement(configElement);
 		}
 
@@ -155,11 +155,11 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 	}
 
 	// TODO: confirm
-	private void loadThemes(IExtension ext) {
+	private void loadThemes(IExtension ext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ThemeRegistryReader reader = new ThemeRegistryReader();
 		ThemeRegistry registry = (ThemeRegistry) WorkbenchPlugin.getDefault().getThemeRegistry();
 		reader.setRegistry(registry);
-		for (IConfigurationElement configElement : ext.getConfigurationElements()) {
+		for (IConfigurationElement configElement : ext.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			reader.readElement(configElement);
 		}
 
@@ -177,21 +177,21 @@ class ExtensionEventHandler implements IRegistryChangeListener {
 		registry.addData(data);
 	}
 
-	private void resetCurrentPerspective(Display display) {
+	private void resetCurrentPerspective(Display display) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (changeList.isEmpty()) {
 			return;
 		}
 
-		final StringBuilder message = new StringBuilder(
+		final StringBuilder message = new StringBuilder( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				ExtensionEventHandlerMessages.ExtensionEventHandler_following_changes);
 
-		for (Object element : changeList) {
+		for (Object element : changeList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			message.append(element);
 		}
 
 		message.append(ExtensionEventHandlerMessages.ExtensionEventHandler_need_to_reset);
 
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			Shell parentShell = null;
 			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 			if (window == null) {

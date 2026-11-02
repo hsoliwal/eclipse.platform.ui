@@ -112,7 +112,7 @@ public final class ActivityManagerEvent {
 	 *                                     if enabledActivityIdsChanged is
 	 *                                     <code>true</code>.
 	 */
-	public ActivityManagerEvent(IActivityManager activityManager, boolean definedActivityIdsChanged,
+	public ActivityManagerEvent(IActivityManager activityManager, boolean definedActivityIdsChanged, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean definedCategoryIdsChanged, boolean enabledActivityIdsChanged,
 			final Set<String> previouslyDefinedActivityIds, final Set<String> previouslyDefinedCategoryIds,
 			final Set<String> previouslyEnabledActivityIds) {

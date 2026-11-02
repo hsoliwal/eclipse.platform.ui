@@ -1,0 +1,30 @@
+{
+  "schema": "M3_VIEWER_UPSTREAM_RECONCILIATION_V1",
+  "time_utc": "2026-10-21T09:35:03.085801+00:00",
+  "old_revision": "8a6d6d03abb6f091c7cf4c5c465bb8b577d9fbc3",
+  "current_revision": "67cd89ec3ea55e6bf13811666ffe90fe2c6adc08",
+  "production_owner_changed": false,
+  "delta_owner_changed": false,
+  "test_change": "AtomicReference and BooleanSupplier import ordering only, preserved in current template",
+  "prior_sdk_and_receiver": "history/pr27-8a6d6d03-sdk",
+  "baseline_runtime_reuse": "Exact production source owners unchanged; baseline test fixture differs only in import order",
+  "current_targets": [
+    {
+      "path": "bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3/M3Viewers.java",
+      "before_sha256": "29bcec643ebefc7da119385bb82267e2bd875fbf0cee010cdbabc2d4afc49785",
+      "after_sha256": "f42674dd6abf4f4c174895d491099dfdd3ad348820f88c10094a273eb3528029",
+      "before_git_blob": "f40b526fbf5cc6ad85dbd5a66a22fd9a520cbf6b",
+      "after_git_blob": "c2d9383a5c7d5e459885b90176b8692da0aa2842",
+      "bytes": 10509
+    },
+    {
+      "path": "tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewersTest.java",
+      "before_sha256": "c2bfffa4b7ffdfb23c2ca6f59f28e6d0540ab53cf4889a346272ae2f59a7d1f4",
+      "after_sha256": "c18fd0863b5b67e3f01a74421b343a072ce4bf084ef40c9cba5879f0648ad10a",
+      "before_git_blob": "f53130c4347b8140226127074ce4b895e6f646b8",
+      "after_git_blob": "fd50ef06701863322e25220f87b2d877a4f6dfc0",
+      "bytes": 14896
+    }
+  ],
+  "current_contract_sha256": "97c9078f9fcdfdf5559041e2b00a1b75a61df5ade3dd3d9760fe5e5a339e6b98"
+}

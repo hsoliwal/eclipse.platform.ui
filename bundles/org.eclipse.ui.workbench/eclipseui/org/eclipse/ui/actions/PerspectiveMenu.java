@@ -114,7 +114,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
 	 *
 	 * @since 3.1
 	 */
-	private final Map<String, IAction> actions = new HashMap<>();
+	private final Map<String, IAction> actions = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The action for that allows the user to choose any perspective to open.
@@ -141,10 +141,10 @@ public abstract class PerspectiveMenu extends ContributionItem {
 		openOtherAction.setActionDefinitionId(IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 		if (getParent() instanceof MenuManager) {
-			((MenuManager) getParent()).addMenuListener(menuListener);
+			((MenuManager) getParent()).addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		}
 
 		if (!dirty) {
@@ -159,7 +159,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
 			item.setText(NO_TARGETS_MSG);
 			item.setEnabled(false);
 		} else {
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.fill(menu, index++);
 			}
 		}
@@ -175,7 +175,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
 	 *                be <code>null</code>.
 	 * @since 3.1
 	 */
-	private final void fillMenu(final MenuManager manager) {
+	private final void fillMenu(final MenuManager manager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Clear out the manager so that we have a blank slate.
 		manager.removeAll();
 
@@ -187,8 +187,8 @@ public abstract class PerspectiveMenu extends ContributionItem {
 		 * Convert the perspective descriptors to actions, and filter out actions using
 		 * the activity/capability mechanism.
 		 */
-		final List<IAction> actions = new ArrayList<>(persps.size());
-		for (IPerspectiveDescriptor descriptor : persps) {
+		final List<IAction> actions = new ArrayList<>(persps.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPerspectiveDescriptor descriptor : persps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IAction action = getAction(descriptor.getId());
 			if (action != null) {
 				if (WorkbenchActivityHelper.filterItem(action)) {
@@ -199,7 +199,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
 		}
 
 		// Go through and add each of the actions to the menu manager.
-		for (IAction action : actions) {
+		for (IAction action : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			manager.add(action);
 		}
 
@@ -241,8 +241,8 @@ public abstract class PerspectiveMenu extends ContributionItem {
 	 *
 	 * @return a list of <code>IPerspectiveDescriptor</code> items
 	 */
-	private ArrayList<IPerspectiveDescriptor> getPerspectiveShortcuts() {
-		ArrayList<IPerspectiveDescriptor> list = new ArrayList<>();
+	private ArrayList<IPerspectiveDescriptor> getPerspectiveShortcuts() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IPerspectiveDescriptor> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IWorkbenchPage page = window.getActivePage();
 		if (page == null) {
@@ -251,7 +251,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
 
 		String[] ids = page.getPerspectiveShortcuts();
 
-		for (String perspectiveId : ids) {
+		for (String perspectiveId : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPerspectiveDescriptor desc = reg.findPerspectiveWithId(perspectiveId);
 			if (desc != null && !list.contains(desc)) {
 				if (WorkbenchActivityHelper.filterItem(desc)) {
@@ -277,17 +277,17 @@ public abstract class PerspectiveMenu extends ContributionItem {
 	 * @return an <code>ArrayList</code> of perspective items
 	 *         <code>IPerspectiveDescriptor</code>
 	 */
-	protected ArrayList<IPerspectiveDescriptor> getPerspectiveItems() {
+	protected ArrayList<IPerspectiveDescriptor> getPerspectiveItems() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Allow the user to see all the perspectives they have selected via Customize
 		 * Perspective. Bugzilla bug #23445
 		 */
 		ArrayList<IPerspectiveDescriptor> shortcuts = getPerspectiveShortcuts();
-		ArrayList<IPerspectiveDescriptor> list = new ArrayList<>(shortcuts.size());
+		ArrayList<IPerspectiveDescriptor> list = new ArrayList<>(shortcuts.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Add perspective shortcuts from the active perspective
 		int size = shortcuts.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!list.contains(shortcuts.get(i))) {
 				list.add(shortcuts.get(i));
 			}
@@ -360,7 +360,7 @@ public abstract class PerspectiveMenu extends ContributionItem {
 			handlerService.executeCommand(IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE, null);
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			StatusManager.getManager().handle(new Status(IStatus.WARNING, WorkbenchPlugin.PI_WORKBENCH,
-					"Failed to execute " + IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE, e)); //$NON-NLS-1$
+					"Failed to execute " + IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE, e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

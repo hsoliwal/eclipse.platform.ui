@@ -90,9 +90,9 @@ public class WelcomeItem {
 	/**
 	 * Returns true is a link (action or help) is present at the given character location
 	 */
-	public boolean isLinkAt(int offset) {
+	public boolean isLinkAt(int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check if there is a link at the offset
-		for (int[] helpRange : helpRanges) {
+		for (int[] helpRange : helpRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (offset >= helpRange[0]
 					&& offset < helpRange[0] + helpRange[1]) {
 				return true;
@@ -100,7 +100,7 @@ public class WelcomeItem {
 		}
 
 		// Check if there is an action link at the offset
-		for (int[] actionRange : actionRanges) {
+		for (int[] actionRange : actionRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (offset >= actionRange[0]
 					&& offset < actionRange[0] + actionRange[1]) {
 				return true;
@@ -114,7 +114,7 @@ public class WelcomeItem {
 	 */
 	public void logActionLinkError(String actionPluginId, String actionClass) {
 		IDEWorkbenchPlugin
-				.log(IDEWorkbenchMessages.WelcomeItem_unableToLoadClass + actionPluginId + " " + actionClass); //$NON-NLS-1$
+				.log(IDEWorkbenchMessages.WelcomeItem_unableToLoadClass + actionPluginId + " " + actionClass); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class WelcomeItem {
 	/**
 	 * Run an action
 	 */
-	private void runAction(String pluginId, String className) {
+	private void runAction(String pluginId, String className) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Bundle pluginBundle = Platform.getBundle(pluginId);
 		if (pluginBundle == null) {
 			logActionLinkError(pluginId, className);
@@ -158,9 +158,9 @@ public class WelcomeItem {
 	/**
 	 * Triggers the link at the given offset (if there is one)
 	 */
-	public void triggerLinkAt(int offset) {
+	public void triggerLinkAt(int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check if there is a help link at the offset
-		for (int i = 0; i < helpRanges.length; i++) {
+		for (int i = 0; i < helpRanges.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (offset >= helpRanges[i][0]
 					&& offset < helpRanges[i][0] + helpRanges[i][1]) {
 				// trigger the link
@@ -170,7 +170,7 @@ public class WelcomeItem {
 		}
 
 		// Check if there is an action link at the offset
-		for (int i = 0; i < actionRanges.length; i++) {
+		for (int i = 0; i < actionRanges.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (offset >= actionRanges[i][0]
 					&& offset < actionRanges[i][0] + actionRanges[i][1]) {
 				// trigger the link

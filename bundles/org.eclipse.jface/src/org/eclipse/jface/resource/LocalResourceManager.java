@@ -58,7 +58,7 @@ public final class LocalResourceManager extends AbstractResourceManager {
 	public LocalResourceManager(ResourceManager parentRegistry, Control owner) {
 		this(parentRegistry);
 
-		owner.addDisposeListener(e -> LocalResourceManager.this.dispose());
+		owner.addDisposeListener(e -> LocalResourceManager.this.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	@Override

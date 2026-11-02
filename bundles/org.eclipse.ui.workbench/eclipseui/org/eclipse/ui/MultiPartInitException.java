@@ -64,7 +64,7 @@ public class MultiPartInitException extends WorkbenchException {
 	}
 
 	private static int findFirstException(PartInitException[] exceptions) {
-		for (int i = 0; i < exceptions.length; i++) {
+		for (int i = 0; i < exceptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (exceptions[i] != null) {
 				return i;
 			}

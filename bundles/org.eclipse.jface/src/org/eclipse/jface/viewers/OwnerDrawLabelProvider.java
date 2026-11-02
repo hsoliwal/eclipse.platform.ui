@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Listener;
 public abstract class OwnerDrawLabelProvider extends CellLabelProvider {
 
 	static class OwnerDrawListener implements Listener {
-		Set<ViewerColumn> enabledColumns = new HashSet<>();
+		Set<ViewerColumn> enabledColumns = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		int enabledGlobally = 0;
 		private final ColumnViewer viewer;
 
@@ -45,7 +45,7 @@ public abstract class OwnerDrawLabelProvider extends CellLabelProvider {
 			this.viewer = viewer;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void handleEvent(Event event) {
 			ViewerColumn column = viewer.getViewerColumn(event.index);
 			if (column != null && (enabledGlobally > 0 || enabledColumns.contains(column))) {
@@ -94,9 +94,9 @@ public abstract class OwnerDrawLabelProvider extends CellLabelProvider {
 		if (listener == null) {
 			listener = new OwnerDrawListener(viewer);
 			control.setData(OWNER_DRAW_LABEL_PROVIDER_LISTENER, listener);
-			control.addListener(SWT.MeasureItem, listener);
-			control.addListener(SWT.EraseItem, listener);
-			control.addListener(SWT.PaintItem, listener);
+			control.addListener(SWT.MeasureItem, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+			control.addListener(SWT.EraseItem, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+			control.addListener(SWT.PaintItem, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 		return listener;
 	}
@@ -180,7 +180,7 @@ public abstract class OwnerDrawLabelProvider extends CellLabelProvider {
 	 * @see SWT#COLOR_LIST_SELECTION
 	 * @see SWT#COLOR_LIST_SELECTION_TEXT
 	 */
-	protected void erase(Event event, Object element) {
+	protected void erase(Event event, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Rectangle bounds = event.getBounds();
 		if ((event.detail & SWT.SELECTED) != 0) {
@@ -244,7 +244,7 @@ public abstract class OwnerDrawLabelProvider extends CellLabelProvider {
 	 *
 	 * @since 3.4
 	 */
-	protected void setOwnerDrawEnabled(ColumnViewer viewer,
+	protected void setOwnerDrawEnabled(ColumnViewer viewer, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ViewerColumn column, boolean enabled) {
 		if (enabled) {
 			OwnerDrawListener listener = getOrCreateOwnerDrawListener(viewer);

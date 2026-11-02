@@ -84,7 +84,7 @@ class QuickFixWizard extends Wizard {
 		addPage(quickFixPage);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		Optional<IMarkerResolution> resolution = quickFixPage.getSelectedMarkerResolution();
 		if (!resolution.isPresent()) {
@@ -94,7 +94,7 @@ class QuickFixWizard extends Wizard {
 		if (markers.length == 0) {
 			return true; // for backward compatibility
 		}
-		IRunnableWithProgress finishRunnable = monitor -> processResolution(resolution.get(), markers, monitor);
+		IRunnableWithProgress finishRunnable = monitor -> processResolution(resolution.get(), markers, monitor); //FLLDCIM: MARK — T09  LAMBDA
 		try {
 			getContainer().run(false, true, finishRunnable);
 		} catch (InvocationTargetException | InterruptedException e) {
@@ -114,7 +114,7 @@ class QuickFixWizard extends Wizard {
 	 * @param markers    the array of markers to resolve
 	 * @param monitor    progress callback
 	 */
-	private void processResolution(final IMarkerResolution resolution, final IMarker[] markers,
+	private void processResolution(final IMarkerResolution resolution, final IMarker[] markers, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProgressMonitor monitor) {
 		monitor.beginTask(MarkerMessages.MarkerResolutionDialog_Fixing, markers.length);
 		ensureRepaint();
@@ -122,7 +122,7 @@ class QuickFixWizard extends Wizard {
 			((WorkbenchMarkerResolution) resolution).run(markers, monitor);
 		} else {
 			Translation translation = new Translation();
-			for (IMarker marker : markers) {
+			for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ensureRepaint();
 				if (monitor.isCanceled()) {
 					return;
@@ -140,7 +140,7 @@ class QuickFixWizard extends Wizard {
 	private void ensureRepaint() {
 		final Display display = getShell().getDisplay();
 		boolean dispatch = true;
-		while (dispatch) {
+		while (dispatch) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dispatch = display.readAndDispatch();
 		}
 	}

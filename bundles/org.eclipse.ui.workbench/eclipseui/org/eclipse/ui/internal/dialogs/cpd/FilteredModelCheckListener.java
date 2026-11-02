@@ -39,7 +39,7 @@ final class FilteredModelCheckListener implements CheckListener {
 		boolean update = false;
 
 		// Force an update on all parents.
-		while (item != null) {
+		while (item != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			update = update || filter.select(null, null, item);
 			if (update) {
 				viewer.update(item, null);

@@ -25,7 +25,7 @@ import org.eclipse.ui.views.markers.MarkerItem;
  * any of the values shown in their columns (description, resource, path,
  * location, type, ...).
  */
-class MarkerPatternFilter extends PatternFilter {
+class MarkerPatternFilter extends PatternFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private final ExtendedMarkersView view;
 
@@ -46,6 +46,8 @@ class MarkerPatternFilter extends PatternFilter {
 	public void setPattern(String patternString) {
 		this.patternString = patternString;
 		super.setPattern(patternString);
+		// M3 mode: the search text is a lane of the view's model, recomputed before the refresh that follows
+		M3MarkerDeltas.textChanged(view, isFilterEmpty() ? null : this);
 	}
 
 	/**
@@ -77,6 +79,32 @@ class MarkerPatternFilter extends PatternFilter {
 		return isLeafMatch(null, item);
 	}
 
+	/** The visible fields of the view, in the view's order (M3 lanes: the plan of the lane-native match). */
+	MarkerField[] visibleFields() {
+		return view.getVisibleFields();
+	}
+
+	/**
+	 * Whether one column value matches the current pattern (M3 lanes: once per
+	 * distinct label, M3TextMatch).
+	 */
+	boolean matchesText(String value) {
+		return value != null && wordMatches(value);
+	}
+
+	/**
+	 * Whether the item matches through one of the given fields (M3 lanes: the
+	 * visible fields without a lane, on a facade).
+	 */
+	boolean matchesAny(MarkerItem item, MarkerField[] fields) {
+		for (MarkerField field : fields) {
+			if (matches(field, item)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	protected boolean isLeafMatch(Viewer viewer, Object element) {
 		if (isFilterEmpty()) {
@@ -87,7 +115,7 @@ class MarkerPatternFilter extends PatternFilter {
 			// through isParentMatch(...) as long as any of their markers match
 			return false;
 		}
-		for (MarkerField field : view.getVisibleFields()) {
+		for (MarkerField field : view.getVisibleFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (matches(field, item)) {
 				return true;
 			}

@@ -88,7 +88,7 @@ public class PageSite implements IPageSite, INestable {
 	 *
 	 * @param parentViewSite the parent view site
 	 */
-	public PageSite(final IViewSite parentViewSite) {
+	public PageSite(final IViewSite parentViewSite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(parentViewSite);
 		parentSite = parentViewSite;
 		subActionBars = new SubActionBars(parentViewSite.getActionBars(), this);
@@ -110,7 +110,7 @@ public class PageSite implements IPageSite, INestable {
 	/**
 	 * Initialize the slave services for this site.
 	 */
-	private void initializeDefaultServices() {
+	private void initializeDefaultServices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		serviceLocator.registerService(IWorkbenchLocationService.class,
 				new WorkbenchLocationService(IServiceScopes.PAGESITE_SCOPE, getWorkbenchWindow().getWorkbench(),
 						getWorkbenchWindow(), parentSite, null, this, 3));
@@ -137,16 +137,16 @@ public class PageSite implements IPageSite, INestable {
 	/**
 	 * Disposes of the menu extender contributions.
 	 */
-	protected void dispose() {
+	protected void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (menuExtenders != null) {
-			HashSet<MenuManager> managers = new HashSet<>(menuExtenders.size());
-			for (PopupMenuExtender menuExtender : menuExtenders) {
+			HashSet<MenuManager> managers = new HashSet<>(menuExtenders.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (PopupMenuExtender menuExtender : menuExtenders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				PopupMenuExtender ext = menuExtender;
 				managers.add(ext.getManager());
 				ext.dispose();
 			}
 			if (managers.size() > 0) {
-				for (Iterator<MenuManager> iterator = managers.iterator(); iterator.hasNext();) {
+				for (Iterator<MenuManager> iterator = managers.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MenuManager mgr = iterator.next();
 					mgr.dispose();
 				}
@@ -216,7 +216,7 @@ public class PageSite implements IPageSite, INestable {
 	@Override
 	public void registerContextMenu(String menuID, MenuManager menuMgr, ISelectionProvider selProvider) {
 		if (menuExtenders == null) {
-			menuExtenders = new ArrayList<>(1);
+			menuExtenders = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		PartSite.registerContextMenu(menuID, menuMgr, selProvider, false, parentSite.getPart(), e4Context,
 				menuExtenders);

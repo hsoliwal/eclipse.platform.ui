@@ -45,7 +45,7 @@ public final class FormalKeyFormatter extends AbstractKeyFormatter {
 		return KeySequence.KEY_STROKE_DELIMITER;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int[] sortModifierKeys(final int modifierKeys) {
 		final IKeyLookup lookup = KeyLookupFactory.getDefault();
 		final int[] sortedKeys = new int[4];

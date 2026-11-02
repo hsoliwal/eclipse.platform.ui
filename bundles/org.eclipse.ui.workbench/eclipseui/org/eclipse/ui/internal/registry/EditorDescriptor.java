@@ -119,7 +119,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 	 * @param filename the external editor full path and filename
 	 * @return the editor descriptor
 	 */
-	public static EditorDescriptor createForProgram(String filename) {
+	public static EditorDescriptor createForProgram(String filename) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (filename == null) {
 			throw new IllegalArgumentException();
 		}
@@ -156,7 +156,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 	 * @return org.eclipse.swt.program.Program
 	 */
 	private static Program findProgram(String programName) {
-		for (Program program : Program.getPrograms()) {
+		for (Program program : Program.getPrograms()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (program.getName().equals(programName)) {
 				return program;
 			}
@@ -170,7 +170,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 	 *
 	 * @return the action bar contributor, or <code>null</code>
 	 */
-	public IEditorActionBarContributor createActionBarContributor() {
+	public IEditorActionBarContributor createActionBarContributor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Handle case for predefined editor descriptors, like the
 		// one for IEditorRegistry.SYSTEM_INPLACE_EDITOR_ID, which
 		// don't have a configuration element.
@@ -190,7 +190,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 			contributor = (IEditorActionBarContributor) WorkbenchPlugin.createExtension(configurationElement,
 					IWorkbenchRegistryConstants.ATT_CONTRIBUTOR_CLASS);
 		} catch (CoreException e) {
-			WorkbenchPlugin.log("Unable to create editor contributor: " + //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to create editor contributor: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					id, e.getStatus());
 		}
 		return contributor;
@@ -267,7 +267,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 	 *
 	 * @return the image descriptor
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ImageDescriptor getImageDescriptor() {
 		ImageDescriptor tempDescriptor = null;
 		synchronized (imageDescLock) {
@@ -414,7 +414,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 	 * @return <code>true</code> if the values are valid, <code>false</code>
 	 *         otherwise
 	 */
-	protected boolean loadValues(IMemento memento) {
+	protected boolean loadValues(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		editorName = memento.getString(IWorkbenchConstants.TAG_LABEL);
 		imageFilename = memento.getString(IWorkbenchConstants.TAG_IMAGE);
 		className = memento.getString(IWorkbenchConstants.TAG_CLASS);
@@ -440,7 +440,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 			}
 		}
 		if (openMode != OPEN_EXTERNAL && openMode != OPEN_INTERNAL && openMode != OPEN_INPLACE) {
-			WorkbenchPlugin.log("Ignoring editor descriptor with invalid openMode: " + this); //$NON-NLS-1$
+			WorkbenchPlugin.log("Ignoring editor descriptor with invalid openMode: " + this); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return false;
 		}
 
@@ -454,7 +454,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 	/**
 	 * Save the object values in a IMemento
 	 */
-	protected void saveValues(IMemento memento) {
+	protected void saveValues(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		memento.putString(IWorkbenchConstants.TAG_LABEL, getLabel());
 		memento.putString(IWorkbenchConstants.TAG_IMAGE, getImageFilename());
 		memento.putString(IWorkbenchConstants.TAG_CLASS, getClassName());
@@ -585,7 +585,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 	 */
 	@Override
 	public String toString() {
-		return "EditorDescriptor(id=" + getId() + ", label=" + getLabel() + ")"; //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-1$
+		return "EditorDescriptor(id=" + getId() + ", label=" + getLabel() + ")"; //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -608,7 +608,7 @@ public final class EditorDescriptor implements IEditorDescriptor, Serializable, 
 						matchingStrategy = (IEditorMatchingStrategy) WorkbenchPlugin.createExtension(
 								configurationElement, IWorkbenchRegistryConstants.ATT_MATCHING_STRATEGY);
 					} catch (CoreException e) {
-						WorkbenchPlugin.log("Error creating editor management policy for editor id " + getId(), e); //$NON-NLS-1$
+						WorkbenchPlugin.log("Error creating editor management policy for editor id " + getId(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}

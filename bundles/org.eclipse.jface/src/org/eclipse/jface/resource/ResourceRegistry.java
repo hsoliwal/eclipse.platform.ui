@@ -68,7 +68,7 @@ public abstract class ResourceRegistry extends EventManager {
 		if (myListeners.length > 0) {
 			PropertyChangeEvent event = new PropertyChangeEvent(this, name,
 					oldValue, newValue);
-			for (Object myListener : myListeners) {
+			for (Object myListener : myListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					((IPropertyChangeListener) myListener)
 							.propertyChange(event);

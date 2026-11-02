@@ -1,0 +1,12 @@
+----------
+1. WARNING in /tmp/eclipse-m3-20261018/commands-authoring/target/qualified-candidate/bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java (at line 31)
+	boolean live(int slot) { return true; }
+	                 ^^^^
+The value of the parameter slot is not used
+----------
+2. WARNING in /tmp/eclipse-m3-20261018/commands-authoring/target/qualified-candidate/bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java (at line 32)
+	void accessed(int slot) { }
+	                  ^^^^
+The value of the parameter slot is not used
+----------
+2 problems (2 warnings)

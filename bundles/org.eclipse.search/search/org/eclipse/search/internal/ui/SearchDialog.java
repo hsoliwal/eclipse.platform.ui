@@ -343,7 +343,7 @@ public class SearchDialog extends ExtendedDialogWindow
 				super.create();
 				final CheckboxTableViewer viewer= getViewer();
 				final Button okButton= this.getOkButton();
-				viewer.addCheckStateListener(_ -> okButton.setEnabled(viewer.getCheckedElements().length > 0));
+				viewer.addCheckStateListener(unused -> okButton.setEnabled(viewer.getCheckedElements().length > 0));
 				SelectionListener listener = new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
@@ -428,7 +428,7 @@ public class SearchDialog extends ExtendedDialogWindow
 			final CTabItem item = new CTabItem(folder, SWT.NONE);
 			item.setData("descriptor", descriptor); //$NON-NLS-1$
 			item.setText(descriptor.getLabel());
-			item.addDisposeListener(_ -> {
+			item.addDisposeListener(unused -> {
 				item.setData("descriptor", null); //$NON-NLS-1$
 				if (item.getImage() != null) {
 					item.getImage().dispose();

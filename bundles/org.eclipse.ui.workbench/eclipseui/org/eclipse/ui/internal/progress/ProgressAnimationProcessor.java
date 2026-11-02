@@ -35,9 +35,9 @@ class ProgressAnimationProcessor implements IAnimationProcessor {
 		manager = animationManager;
 	}
 
-	List<AnimationItem> items = new ArrayList<>();
+	List<AnimationItem> items = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	public void startAnimationLoop(IProgressMonitor monitor) {
+	public void startAnimationLoop(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Create an off-screen image to draw on, and a GC to draw with.
 		// Both are disposed after the animation.
@@ -48,11 +48,11 @@ class ProgressAnimationProcessor implements IAnimationProcessor {
 			return;
 		}
 
-		while (manager.isAnimated() && !monitor.isCanceled()) {
+		while (manager.isAnimated() && !monitor.isCanceled()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Do nothing while animation is happening
 		}
 
-		for (ProgressAnimationItem animationItem : getAnimationItems()) {
+		for (ProgressAnimationItem animationItem : getAnimationItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			animationItem.animationDone();
 		}
 
@@ -82,7 +82,7 @@ class ProgressAnimationProcessor implements IAnimationProcessor {
 
 	@Override
 	public void animationStarted() {
-		for (AnimationItem animationItem : getAnimationItems()) {
+		for (AnimationItem animationItem : getAnimationItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			animationItem.animationStart();
 		}
 
@@ -106,7 +106,7 @@ class ProgressAnimationProcessor implements IAnimationProcessor {
 
 	@Override
 	public void animationFinished() {
-		for (AnimationItem animationItem : getAnimationItems()) {
+		for (AnimationItem animationItem : getAnimationItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			animationItem.animationDone();
 		}
 

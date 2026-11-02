@@ -107,7 +107,7 @@ public abstract class AbstractFilteredViewerComposite<T extends ViewerFilter> ex
 	 * @param parent the parent
 	 * @param style  SWT style bits used to create the control
 	 */
-	protected void createControl(Composite parent, int style) {
+	protected void createControl(Composite parent, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
@@ -151,10 +151,10 @@ public abstract class AbstractFilteredViewerComposite<T extends ViewerFilter> ex
 	 *
 	 * @param parent <code>Composite</code> of the filter text
 	 */
-	protected void createFilterText(Composite parent) {
+	protected void createFilterText(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		filterText = doCreateFilterText(parent);
 
-		filterText.addFocusListener(new FocusAdapter() {
+		filterText.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusGained(FocusEvent e) {
 				/*
@@ -162,7 +162,7 @@ public abstract class AbstractFilteredViewerComposite<T extends ViewerFilter> ex
 				 * using mouse to give focus to text.
 				 */
 				Display display = filterText.getDisplay();
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					if (!filterText.isDisposed()) {
 						if (getInitialText().equals(filterText.getText().trim())) {
 							filterText.selectAll();
@@ -180,7 +180,7 @@ public abstract class AbstractFilteredViewerComposite<T extends ViewerFilter> ex
 			}
 		});
 
-		filterText.addMouseListener(new MouseAdapter() {
+		filterText.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDown(MouseEvent e) {
 				if (filterText.getText().equals(initialText)) {
@@ -192,7 +192,7 @@ public abstract class AbstractFilteredViewerComposite<T extends ViewerFilter> ex
 			}
 		});
 
-		filterText.addModifyListener(e -> textChanged());
+		filterText.addModifyListener(e -> textChanged()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		filterText.setLayoutData(gridData);

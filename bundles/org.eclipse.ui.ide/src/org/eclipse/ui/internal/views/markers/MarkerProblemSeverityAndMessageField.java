@@ -46,7 +46,7 @@ public class MarkerProblemSeverityAndMessageField extends
 	 *
 	 * @return Image or <code>null</code>
 	 */
-	private Image getImage(MarkerItem item) {
+	private Image getImage(MarkerItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		MarkerSupportItem supportItem = (MarkerSupportItem) item;
 

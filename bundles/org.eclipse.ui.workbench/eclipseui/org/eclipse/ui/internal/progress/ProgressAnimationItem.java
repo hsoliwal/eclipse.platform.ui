@@ -104,11 +104,11 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 		};
 	}
 
-	void doAction() {
+	void doAction() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		JobTreeElement[] jobTreeElements = FinishedJobs.getInstance().getKeptElements();
 		// search from end (youngest)
-		for (int i = jobTreeElements.length - 1; i >= 0; i--) {
+		for (int i = jobTreeElements.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (jobTreeElements[i] instanceof JobInfo ji) {
 				Job job = ji.getJob();
 				if (job != null) {
@@ -143,7 +143,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 	/**
 	 * @return <code>true</code> if Action or Command is executed
 	 */
-	private boolean execute(JobInfo ji, Job job) {
+	private boolean execute(JobInfo ji, Job job) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Object prop = job.getProperty(IProgressConstants.ACTION_PROPERTY);
 		if (prop instanceof IAction action && action.isEnabled()) {
@@ -189,7 +189,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 		return null;
 	}
 
-	private void refresh() {
+	private void refresh() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Abort the refresh if we are in the process of shutting down
 		if (!PlatformUI.isWorkbenchRunning()) {
@@ -203,7 +203,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 			JobInfo[] jobInfos = ProgressManager.getInstance().getJobInfos(false);
 			int percentSum = 0;
 			int percentCount = 0;
-			for (JobInfo jobInfo : jobInfos) {
+			for (JobInfo jobInfo : jobInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (jobInfo != null && !(jobInfo.isBlocked() || jobInfo.getJob().getState() == Job.WAITING)) {
 					int percentDone = jobInfo.getPercentDone();
 					if (percentDone >= 0) {
@@ -224,7 +224,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 
 		JobTreeElement[] jobTreeElements = FinishedJobs.getInstance().getKeptElements();
 		// search from end (youngest)
-		for (int i = jobTreeElements.length - 1; i >= 0; i--) {
+		for (int i = jobTreeElements.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (jobTreeElements[i] instanceof JobInfo ji) {
 				Job job = ji.getJob();
 				if (job != null) {
@@ -269,7 +269,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 		return changed;
 	}
 
-	private void initButton(Image im, final String tt) {
+	private void initButton(Image im, final String tt) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isLayoutRequired = isImageSizeChanged(im, toolButton.getImage());
 		toolButton.setImage(im);
 		toolButton.setToolTipText(tt);
@@ -288,7 +288,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 		toolbar.getAccessible().addAccessibleListener(currentAccessibleListener);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createAnimationItem(Composite parent) {
 
 		if (okImage == null) {
@@ -300,7 +300,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 		}
 
 		top = new Composite(parent, SWT.NULL);
-		top.addDisposeListener(e -> {
+		top.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 			FinishedJobs.getInstance().removeListener(ProgressAnimationItem.this);
 			noneImage.dispose();
 			okImage.dispose();
@@ -324,7 +324,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 
 		bar = new ProgressIndicator(top, flags);
 		bar.setVisible(false);
-		bar.addMouseListener(mouseListener);
+		bar.addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 		GridData gd;
 		int hh = 12;
@@ -342,7 +342,7 @@ public class ProgressAnimationItem extends AnimationItem implements FinishedJobs
 		toolbar.setVisible(false);
 
 		toolButton = new ToolItem(toolbar, SWT.NONE);
-		toolButton.addSelectionListener(widgetSelectedAdapter(e -> doAction()));
+		toolButton.addSelectionListener(widgetSelectedAdapter(e -> doAction())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		if (isCarbon) {
 			new Label(top, SWT.NONE).setLayoutData(new GridData(4, 4));

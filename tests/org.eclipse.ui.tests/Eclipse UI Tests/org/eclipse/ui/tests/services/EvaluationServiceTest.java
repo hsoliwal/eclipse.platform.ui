@@ -631,7 +631,7 @@ public class EvaluationServiceTest {
 		processEvents();
 
 		final ArrayList<PartSelection> selection = new ArrayList<>();
-		IPropertyChangeListener listener = _ -> {
+		IPropertyChangeListener listener = unused -> {
 			IEvaluationContext state = service.getCurrentState();
 			try {
 				ISelection sel = null;

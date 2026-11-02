@@ -75,7 +75,7 @@ public class TableColumnLayout extends AbstractColumnLayout {
 	@Override
 	protected void setColumnWidths(Scrollable tableTree, int[] widths) {
 		TableColumn[] columns = ((Table) tableTree).getColumns();
-		for (int i = 0; i < widths.length; i++) {
+		for (int i = 0; i < widths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			columns[i].setWidth(widths[i]);
 		}
 	}

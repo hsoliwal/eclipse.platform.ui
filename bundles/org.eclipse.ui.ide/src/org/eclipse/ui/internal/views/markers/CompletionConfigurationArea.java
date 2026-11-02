@@ -48,14 +48,14 @@ public class CompletionConfigurationArea extends FilterConfigurationArea {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createContents(Composite parent) {
 
 		parent.setLayout(new GridLayout(2, false));
 
 		completeButton = new Button(parent, SWT.CHECK);
 		completeButton.setText(MarkerMessages.filtersDialog_statusComplete);
-		completeButton.addSelectionListener(new SelectionAdapter() {
+		completeButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateCompletion(CompletionFieldFilter.COMPLETED,
@@ -66,7 +66,7 @@ public class CompletionConfigurationArea extends FilterConfigurationArea {
 
 		incompleteButton = new Button(parent, SWT.CHECK);
 		incompleteButton.setText(MarkerMessages.filtersDialog_statusIncomplete);
-		incompleteButton.addSelectionListener(new SelectionAdapter() {
+		incompleteButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateCompletion(CompletionFieldFilter.NOT_COMPLETED,

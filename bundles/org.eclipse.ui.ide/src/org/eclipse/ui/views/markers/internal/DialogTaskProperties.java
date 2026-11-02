@@ -59,7 +59,7 @@ public class DialogTaskProperties extends DialogMarkerProperties {
 		setType(IMarker.TASK);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createAttributesArea(Composite parent) {
 		createSeperator(parent);
 		super.createAttributesArea(parent);
@@ -77,13 +77,13 @@ public class DialogTaskProperties extends DialogMarkerProperties {
 		priorityCombo = new Combo(composite, SWT.READ_ONLY);
 		priorityCombo.setItems(PRIORITY_HIGH, PRIORITY_NORMAL, PRIORITY_LOW);
 		// Prevent Esc and Return from closing the dialog when the combo is active.
-		priorityCombo.addTraverseListener(e -> {
+		priorityCombo.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			if (e.detail == SWT.TRAVERSE_ESCAPE
 					|| e.detail == SWT.TRAVERSE_RETURN) {
 				e.doit = false;
 			}
 		});
-		priorityCombo.addSelectionListener(new SelectionAdapter() {
+		priorityCombo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (getMarker() == null) {
@@ -99,7 +99,7 @@ public class DialogTaskProperties extends DialogMarkerProperties {
 		GridData gridData = new GridData();
 		gridData.horizontalIndent = convertHorizontalDLUsToPixels(20);
 		completedCheckbox.setLayoutData(gridData);
-		completedCheckbox.addSelectionListener(new SelectionAdapter() {
+		completedCheckbox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (getMarker() == null) {

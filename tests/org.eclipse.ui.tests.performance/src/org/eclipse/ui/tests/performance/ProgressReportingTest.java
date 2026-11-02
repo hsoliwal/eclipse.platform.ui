@@ -152,7 +152,7 @@ public class ProgressReportingTest {
 		openTestWindow();
 		setRunInBackground(true);
 		runAsyncTest(() -> {
-			Job.create("Test Job", _ -> {
+			Job.create("Test Job", unused -> {
 				int i = 0;
 				while (i < ITERATIONS) {
 					i++;

@@ -67,7 +67,7 @@ public class TarInputStream extends FilterInputStream
 	 */
 	private long headerChecksum(byte[] header) {
 		long sum = 0;
-		for(int i = 0; i < 512; i++) {
+		for(int i = 0; i < 512; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sum += header[i] & 0xff;
 		}
 		return sum;
@@ -78,12 +78,12 @@ public class TarInputStream extends FilterInputStream
 	 *
 	 * @return false if the entry has already been passed
 	 */
-	boolean skipToEntry(TarEntry entry) throws TarException, IOException {
+	boolean skipToEntry(TarEntry entry) throws TarException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long bytestoskip = entry.filepos - bytesread;
 		if(bytestoskip < 0) {
 			return false;
 		}
-		while(bytestoskip > 0) {
+		while(bytestoskip > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			long ret = in.skip(bytestoskip);
 			if(ret < 0) {
 				throw new IOException("early end of stream"); //$NON-NLS-1$
@@ -104,13 +104,13 @@ public class TarInputStream extends FilterInputStream
 	 *
 	 * @return true if this header has a valid checksum
 	 */
-	private boolean isValidTarHeader(byte[] header) {
+	private boolean isValidTarHeader(byte[] header) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		long fileChecksum, calculatedChecksum;
 		int pos, i;
 
 		pos = 148;
-		StringBuilder checksumString = new StringBuilder();
-		for(i = 0; i < 8; i++) {
+		StringBuilder checksumString = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for(i = 0; i < 8; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(header[pos + i] == ' ') {
 				continue;
 			}
@@ -133,7 +133,7 @@ public class TarInputStream extends FilterInputStream
 		}
 
 		// Blank out the checksum.
-		for(i = 0; i < 8; i++) {
+		for(i = 0; i < 8; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			header[pos + i] = ' ';
 		}
 		calculatedChecksum = headerChecksum(header);
@@ -147,7 +147,7 @@ public class TarInputStream extends FilterInputStream
 	 *
 	 * @return the next entry in the tar file
 	 */
-	TarEntry getNextEntryInternal() throws TarException, IOException {
+	TarEntry getNextEntryInternal() throws TarException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		byte[] header = new byte[512];
 		int pos = 0;
 		int i;
@@ -158,7 +158,7 @@ public class TarInputStream extends FilterInputStream
 			return entryReturn;
 		}
 
-		while(nextEntry > 0) {
+		while(nextEntry > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			long ret = in.skip(nextEntry);
 			if(ret < 0) {
 				throw new IOException("early end of stream"); //$NON-NLS-1$
@@ -168,7 +168,7 @@ public class TarInputStream extends FilterInputStream
 		}
 
 		int bytestoread = 512;
-		while(bytestoread > 0) {
+		while(bytestoread > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int ret = super.read(header, 512 - bytestoread, bytestoread);
 			if( ret < 0 ) {
 				throw new IOException("early end of stream"); //$NON-NLS-1$
@@ -193,18 +193,18 @@ public class TarInputStream extends FilterInputStream
 			throw new TarException("not in tar format"); //$NON-NLS-1$
 		}
 
-		while (pos < 100 && header[pos] != 0) {
+		while (pos < 100 && header[pos] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pos++;
 		}
 		String name = new String(header, 0, pos, StandardCharsets.UTF_8);
 		// Prepend the prefix here.
 		pos = 345;
 		if(header[pos] != 0) {
-			while (pos < 500 && header[pos] != 0) {
+			while (pos < 500 && header[pos] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pos++;
 			}
 			String prefix = new String(header, 345, pos - 345, StandardCharsets.UTF_8);
-			name = prefix + "/" + name; //$NON-NLS-1$
+			name = prefix + "/" + name; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		TarEntry entry;
@@ -219,8 +219,8 @@ public class TarInputStream extends FilterInputStream
 		}
 
 		pos = 100;
-		StringBuilder mode = new StringBuilder();
-		for(i = 0; i < 8; i++) {
+		StringBuilder mode = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for(i = 0; i < 8; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(header[pos + i] == 0) {
 				break;
 			}
@@ -240,8 +240,8 @@ public class TarInputStream extends FilterInputStream
 		}
 
 		pos = 100 + 24;
-		StringBuilder size = new StringBuilder();
-		for(i = 0; i < 12; i++) {
+		StringBuilder size = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for(i = 0; i < 12; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(header[pos + i] == 0) {
 				break;
 			}
@@ -277,7 +277,7 @@ public class TarInputStream extends FilterInputStream
 	 *
 	 * @return the next entry in the tar file
 	 */
-	public TarEntry getNextEntry() throws TarException, IOException {
+	public TarEntry getNextEntry() throws TarException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TarEntry entry = getNextEntryInternal();
 
 		if(entry != null && entry.getName().equals("././@LongLink")) { //$NON-NLS-1$
@@ -286,7 +286,7 @@ public class TarInputStream extends FilterInputStream
 			// the real pathname.
 			byte[] longNameData = new byte[(int) entry.getSize()];
 			int readBytesOfEntry = 0;
-			while (readBytesOfEntry < longNameData.length) {
+			while (readBytesOfEntry < longNameData.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int cur = read(longNameData, readBytesOfEntry, longNameData.length - readBytesOfEntry);
 				if (cur < 0) {
 					throw new IOException("early end of stream"); //$NON-NLS-1$
@@ -295,7 +295,7 @@ public class TarInputStream extends FilterInputStream
 			}
 
 			int pos = 0;
-			while (pos < longNameData.length && longNameData[pos] != 0) {
+			while (pos < longNameData.length && longNameData[pos] != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pos++;
 			}
 			longLinkName = new String(longNameData, 0, pos, StandardCharsets.UTF_8);

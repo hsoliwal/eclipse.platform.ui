@@ -33,8 +33,8 @@ public class CopyMarkerDescriptionHandler extends MarkerViewHandler {
 	static String createMarkersReport(final IMarker[] markers) {
 		final String NEWLINE = System.lineSeparator();
 
-		final StringBuilder report = new StringBuilder();
-		for (int i = 0; i < markers.length; i++) {
+		final StringBuilder report = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
 				report.append(NEWLINE);
 			}

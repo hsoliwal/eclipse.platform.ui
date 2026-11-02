@@ -137,7 +137,7 @@ public class DynamicToolBarContributionItem extends WorkbenchWindowControlContri
 		return loadedDynamicContribution;
 	}
 
-	private void createContributionItem() {
+	private void createContributionItem() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		loadedDynamicContribution = (WorkbenchWindowControlContribution) Util.safeLoadExecutableExtension(
 				dynamicAddition, IWorkbenchRegistryConstants.ATT_CLASS, WorkbenchWindowControlContribution.class);

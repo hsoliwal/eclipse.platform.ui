@@ -49,7 +49,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	/**
 	 * The original creation order of the contribution items.
 	 */
-	private final ArrayList<IContributionItem> cbItemsCreationOrder = new ArrayList<>();
+	private final ArrayList<IContributionItem> cbItemsCreationOrder = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * MenuManager for cool bar pop-up menu, or null if none.
@@ -115,7 +115,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 * @return The contribution list provided with extraneous separators removed;
 	 *         this value is never <code>null</code>, but may be empty.
 	 */
-	private ArrayList<IContributionItem> adjustContributionList(ArrayList<IContributionItem> contributionList) {
+	private ArrayList<IContributionItem> adjustContributionList(ArrayList<IContributionItem> contributionList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContributionItem item;
 		// Fist remove a separator if it is the first element of the list
 		if (!contributionList.isEmpty()) {
@@ -126,10 +126,10 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 
 			ListIterator<IContributionItem> iterator = contributionList.listIterator();
 			// collapse consecutive separators
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item = iterator.next();
 				if (item.isSeparator()) {
-					while (iterator.hasNext()) {
+					while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						item = iterator.next();
 						if (item.isSeparator()) {
 							iterator.remove();
@@ -152,7 +152,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean allowItem(IContributionItem itemToAdd) {
 		/*
 		 * We will allow as many null entries as they like, though there should be none.
@@ -171,7 +171,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 
 		// Cycle through the current list looking for duplicates.
 		IContributionItem[] currentItems = getItems();
-		for (IContributionItem currentItem : currentItems) {
+		for (IContributionItem currentItem : currentItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// We ignore null entries.
 			if (currentItem == null) {
 				continue;
@@ -200,7 +200,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 */
 	private void collapseSeparators(ListIterator<IContributionItem> iterator) {
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = iterator.next();
 			if (!item.isSeparator()) {
 				iterator.previous();
@@ -243,13 +243,13 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 * not clean up references between this cool bar manager and its associated
 	 * contribution items. Use <code>removeAll</code> for that purpose.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (coolBarExist()) {
 			coolBar.dispose();
 			coolBar = null;
 		}
 		IContributionItem[] items = getItems();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Disposes of the contribution item.
 			// If Contribution Item is a toolbar then it will dispose of
 			// all the nested
@@ -305,7 +305,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 			return null;
 		}
 
-		for (CoolItem coolItem : items) {
+		for (CoolItem coolItem : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem data = (IContributionItem) coolItem.getData();
 			if (data != null && data.equals(item)) {
 				return coolItem;
@@ -375,7 +375,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 */
 	private ArrayList<IContributionItem> getItemList() {
 		IContributionItem[] cbItems = getItems();
-		ArrayList<IContributionItem> list = new ArrayList<>(cbItems.length);
+		ArrayList<IContributionItem> list = new ArrayList<>(cbItems.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.addAll(Arrays.asList(cbItems));
 		return list;
 	}
@@ -397,7 +397,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	private int getNumRows(IContributionItem[] items) {
 		int numRows = 1;
 		boolean separatorFound = false;
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.isSeparator()) {
 				separatorFound = true;
 			}
@@ -420,14 +420,14 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 *
 	 * @see org.eclipse.jface.action.ContributionManager#itemAdded(org.eclipse.jface.action.IContributionItem)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void itemAdded(IContributionItem item) {
 		Assert.isNotNull(item);
 		super.itemAdded(item);
 		int insertedAt = indexOf(item);
 		boolean replaced = false;
 		final int size = cbItemsCreationOrder.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem created = cbItemsCreationOrder.get(i);
 			if (created.getId() != null && created.getId().equals(item.getId())) {
 				cbItemsCreationOrder.set(i, item);
@@ -465,7 +465,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 * @param ignoreCurrentItem Whether the current item in the iterator should be
 	 *                          considered (as well as subsequent items).
 	 */
-	private void nextRow(ListIterator<IContributionItem> iterator, boolean ignoreCurrentItem) {
+	private void nextRow(ListIterator<IContributionItem> iterator, boolean ignoreCurrentItem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IContributionItem currentElement = null;
 		if (!ignoreCurrentItem && iterator.hasPrevious()) {
@@ -479,7 +479,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 		}
 
 		// Find next separator
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = iterator.next();
 			if (item.isSeparator()) {
 				// we we find a separator, collapse any consecutive
@@ -520,7 +520,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 * the visual order.
 	 * </p>
 	 */
-	public void refresh() {
+	public void refresh() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!coolBarExist()) {
 			return;
 		}
@@ -544,8 +544,8 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 		// Traverse through all cool items in the coolbar add them to a new
 		// data structure
 		// in the correct order
-		ArrayList<IContributionItem> displayedItems = new ArrayList<>(coolBar.getItemCount());
-		for (int i = 0; i < coolItems.length; i++) {
+		ArrayList<IContributionItem> displayedItems = new ArrayList<>(coolBar.getItemCount()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < coolItems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CoolItem coolItem = coolItems[i];
 			if (coolItem.getData() instanceof IContributionItem) {
 				IContributionItem cbItem = (IContributionItem) coolItem.getData();
@@ -555,20 +555,20 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 
 		// Add separators to the displayed Items data structure
 		int offset = 0;
-		for (int i = 1; i < wrapIndicies.length; i++) {
+		for (int i = 1; i < wrapIndicies.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int insertAt = wrapIndicies[i] + offset;
 			displayedItems.add(insertAt, new Separator(USER_SEPARATOR));
 			offset++;
 		}
 
 		// Determine which rows are invisible
-		ArrayList<Integer> existingVisibleRows = new ArrayList<>(4);
+		ArrayList<Integer> existingVisibleRows = new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ListIterator<IContributionItem> rowIterator = contributionList.listIterator();
 		collapseSeparators(rowIterator);
 		int numRow = 0;
-		while (rowIterator.hasNext()) {
+		while (rowIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Scan row
-			while (rowIterator.hasNext()) {
+			while (rowIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IContributionItem cbItem = rowIterator.next();
 				if (displayedItems.contains(cbItem)) {
 					existingVisibleRows.add(Integer.valueOf(numRow));
@@ -588,8 +588,8 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 			row = existingRows.next().intValue();
 		}
 
-		HashMap<IContributionItem, Integer> itemLocation = new HashMap<>();
-		for (ListIterator<IContributionItem> locationIterator = displayedItems.listIterator(); locationIterator
+		HashMap<IContributionItem, Integer> itemLocation = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (ListIterator<IContributionItem> locationIterator = displayedItems.listIterator(); locationIterator //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.hasNext();) {
 			IContributionItem item = locationIterator.next();
 			if (item.isSeparator()) {
@@ -606,7 +606,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 		}
 
 		// Insert the contribution items in their correct location
-		for (ListIterator<IContributionItem> iterator = displayedItems.listIterator(); iterator.hasNext();) {
+		for (ListIterator<IContributionItem> iterator = displayedItems.listIterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem cbItem = iterator.next();
 			if (cbItem.isSeparator()) {
 				coolItemIndex = 0;
@@ -633,7 +633,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 * @param index            the index to locate this item
 	 * @param contributionList the current list of conrtributions
 	 */
-	private void relocate(IContributionItem cbItem, int index, ArrayList<IContributionItem> contributionList,
+	private void relocate(IContributionItem cbItem, int index, ArrayList<IContributionItem> contributionList, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			HashMap<IContributionItem, Integer> itemLocation) {
 
 		if ((itemLocation.get(cbItem) == null)) {
@@ -650,7 +650,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 		// bypass any separators at the begining
 		collapseSeparators(iterator);
 		int currentRow = -1;
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			currentRow++;
 			if (currentRow == targetRow) {
@@ -659,7 +659,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 				insertAt = iterator.nextIndex();
 				// first check the position of the current element (item)
 				// then get the next element
-				while (iterator.hasNext()) {
+				while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IContributionItem item = iterator.next();
 					Integer itemRow = itemLocation.get(item);
 					if (item.isSeparator()) {
@@ -707,7 +707,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 * the order in which the contribution items where added.
 	 */
 	public void resetItemOrder() {
-		for (ListIterator<IContributionItem> iterator = cbItemsCreationOrder.listIterator(); iterator.hasNext();) {
+		for (ListIterator<IContributionItem> iterator = cbItemsCreationOrder.listIterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem item = iterator.next();
 			// if its a user separator then do not include in original order.
 			if ((item.getId() != null) && (item.getId().equals(USER_SEPARATOR))) {
@@ -736,7 +736,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 		// dispose of all the cool items on the cool bar manager
 		if (coolBar != null) {
 			CoolItem[] coolItems = coolBar.getItems();
-			for (CoolItem coolItem : coolItems) {
+			for (CoolItem coolItem : coolItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				dispose(coolItem);
 			}
 		}
@@ -760,7 +760,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	 *
 	 * @see org.eclipse.jface.action.IContributionManager#update(boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(boolean force) {
 		if ((!isDirty() && !force) || (!coolBarExist())) {
 			return;
@@ -785,8 +785,8 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 			 * should stay because they mark line breaks in a cool bar.
 			 */
 			final IContributionItem[] items = getItems();
-			final List<IContributionItem> visibleItems = new ArrayList<>(items.length);
-			for (final IContributionItem item : items) {
+			final List<IContributionItem> visibleItems = new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (final IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isChildVisible(item)) {
 					visibleItems.add(item);
 				}
@@ -798,8 +798,8 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 			 * items are also removed.
 			 */
 			CoolItem[] coolItems = coolBar.getItems();
-			final ArrayList<CoolItem> coolItemsToRemove = new ArrayList<>(coolItems.length);
-			for (CoolItem coolItem : coolItems) {
+			final ArrayList<CoolItem> coolItemsToRemove = new ArrayList<>(coolItems.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (CoolItem coolItem : coolItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Object data = coolItem.getData();
 				if ((data == null) || (!visibleItems.contains(data))
 						|| ((data instanceof IContributionItem) && ((IContributionItem) data).isDynamic())) {
@@ -808,7 +808,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 			}
 
 			// Dispose of any items in the list to be removed.
-			for (int i = coolItemsToRemove.size() - 1; i >= 0; i--) {
+			for (int i = coolItemsToRemove.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CoolItem coolItem = coolItemsToRemove.get(i);
 				if (!coolItem.isDisposed()) {
 					Control control = coolItem.getControl();
@@ -827,7 +827,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 			int sourceIndex = 0;
 			int destinationIndex = 0;
 			final Iterator<IContributionItem> visibleItemItr = visibleItems.iterator();
-			while (visibleItemItr.hasNext()) {
+			while (visibleItemItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				sourceItem = visibleItemItr.next();
 
 				// Retrieve the corresponding contribution item from SWT's
@@ -866,14 +866,14 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 				}
 				sourceItem.fill(coolBar, destinationIndex);
 				final int newItems = coolBar.getItemCount() - start;
-				for (int i = 0; i < newItems; i++) {
+				for (int i = 0; i < newItems; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					coolBar.getItem(destinationIndex++).setData(sourceItem);
 				}
 				changed = true;
 			}
 
 			// Remove any old widgets not accounted for.
-			for (int i = coolItems.length - 1; i >= sourceIndex; i--) {
+			for (int i = coolItems.length - 1; i >= sourceIndex; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final CoolItem item = coolItems[i];
 				if (!item.isDisposed()) {
 					Control control = item.getControl();
@@ -890,7 +890,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 			updateWrapIndices();
 
 			// Update the sizes.
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.update(SIZE);
 			}
 
@@ -913,12 +913,12 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	/**
 	 * Sets the tab order of the coolbar to the visual order of its items.
 	 */
-	/* package */void updateTabOrder() {
+	/* package */void updateTabOrder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (coolBar != null) {
 			CoolItem[] items = coolBar.getItems();
 			if (items != null) {
-				ArrayList<Control> children = new ArrayList<>(items.length);
-				for (CoolItem item : items) {
+				ArrayList<Control> children = new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (CoolItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((item.getControl() != null) && (!item.getControl().isDisposed())) {
 						children.add(item.getControl());
 					}
@@ -938,7 +938,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 	/**
 	 * Updates the indices at which the cool bar should wrap.
 	 */
-	private void updateWrapIndices() {
+	private void updateWrapIndices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IContributionItem[] items = getItems();
 		final int numRows = getNumRows(items) - 1;
 
@@ -948,7 +948,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 		int j = 0;
 		CoolItem[] coolItems = (coolBar == null) ? null : coolBar.getItems();
 
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CoolItem coolItem = findCoolItem(coolItems, item);
 			if (item.isSeparator()) {
 				foundSeparator = true;
@@ -967,7 +967,7 @@ public class CoolBarManager extends ContributionManager implements ICoolBarManag
 		final int[] oldIndices = coolBar.getWrapIndices();
 		boolean shouldUpdate = false;
 		if (oldIndices.length == wrapIndices.length) {
-			for (int i = 0; i < oldIndices.length; i++) {
+			for (int i = 0; i < oldIndices.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (oldIndices[i] != wrapIndices[i]) {
 					shouldUpdate = true;
 					break;

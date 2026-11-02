@@ -55,7 +55,7 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 
 	private final IExtensionRegistry extensionRegistry;
 
-	ExtensionActivityRegistry(IExtensionRegistry extensionRegistry) {
+	ExtensionActivityRegistry(IExtensionRegistry extensionRegistry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (extensionRegistry == null) {
 			throw new NullPointerException();
 		}
@@ -97,7 +97,7 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 	 */
 	private ActivityDefinition getActivityDefinitionById(String id) {
 		int size = extensionActivityDefinitions.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActivityDefinition activityDef = extensionActivityDefinitions.get(i);
 			if (activityDef.getId().equals(id)) {
 				return activityDef;
@@ -106,39 +106,39 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 		return null;
 	}
 
-	private void load() {
+	private void load() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (extensionActivityRequirementBindingDefinitions == null) {
-			extensionActivityRequirementBindingDefinitions = new ArrayList<>();
+			extensionActivityRequirementBindingDefinitions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
 			extensionActivityRequirementBindingDefinitions.clear();
 		}
 
 		if (extensionActivityDefinitions == null) {
-			extensionActivityDefinitions = new ArrayList<>();
+			extensionActivityDefinitions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
 			extensionActivityDefinitions.clear();
 		}
 
 		if (extensionActivityPatternBindingDefinitions == null) {
-			extensionActivityPatternBindingDefinitions = new ArrayList<>();
+			extensionActivityPatternBindingDefinitions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
 			extensionActivityPatternBindingDefinitions.clear();
 		}
 
 		if (extensionCategoryActivityBindingDefinitions == null) {
-			extensionCategoryActivityBindingDefinitions = new ArrayList<>();
+			extensionCategoryActivityBindingDefinitions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
 			extensionCategoryActivityBindingDefinitions.clear();
 		}
 
 		if (extensionCategoryDefinitions == null) {
-			extensionCategoryDefinitions = new ArrayList<>();
+			extensionCategoryDefinitions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
 			extensionCategoryDefinitions.clear();
 		}
 
 		if (extensionDefaultEnabledActivities == null) {
-			extensionDefaultEnabledActivities = new ArrayList<>();
+			extensionDefaultEnabledActivities = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
 			extensionDefaultEnabledActivities.clear();
 		}
@@ -146,7 +146,7 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 		IConfigurationElement[] configurationElements = extensionRegistry
 				.getConfigurationElementsFor(Persistence.PACKAGE_FULL);
 
-		for (IConfigurationElement configurationElement : configurationElements) {
+		for (IConfigurationElement configurationElement : configurationElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = configurationElement.getName();
 
 			switch (name) {
@@ -175,7 +175,7 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 
 		// merge enablement overrides from plugin_customization.ini
 		IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
-		for (ActivityDefinition activityDef : extensionActivityDefinitions) {
+		for (ActivityDefinition activityDef : extensionActivityDefinitions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = activityDef.getId();
 			String preferenceKey = createPreferenceKey(id);
 			if ("".equals(store.getDefaultString(preferenceKey))) { //$NON-NLS-1$
@@ -192,27 +192,27 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 
 		// Removal of all defaultEnabledActivites which target to expression
 		// controlled activities.
-		for (int i = 0; i < extensionDefaultEnabledActivities.size();) {
+		for (int i = 0; i < extensionDefaultEnabledActivities.size();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = extensionDefaultEnabledActivities.get(i);
 			ActivityDefinition activityDef = getActivityDefinitionById(id);
 			if (activityDef != null && activityDef.getEnabledWhen() != null) {
 				extensionDefaultEnabledActivities.remove(i);
 				StatusManager.getManager().handle(new Status(IStatus.WARNING, PlatformUI.PLUGIN_ID,
-						"Default enabled activity declarations will be ignored (id: " + id + ")")); //$NON-NLS-1$ //$NON-NLS-2$
+						"Default enabled activity declarations will be ignored (id: " + id + ")")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				i++;
 			}
 		}
 
 		// remove all requirement bindings that reference expression-bound activities
-		for (Iterator<ActivityRequirementBindingDefinition> i = extensionActivityRequirementBindingDefinitions.iterator(); i
+		for (Iterator<ActivityRequirementBindingDefinition> i = extensionActivityRequirementBindingDefinitions.iterator(); i //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.hasNext();) {
 			ActivityRequirementBindingDefinition bindingDef = i.next();
 			ActivityDefinition activityDef = getActivityDefinitionById(bindingDef.getRequiredActivityId());
 			if (activityDef != null && activityDef.getEnabledWhen() != null) {
 				i.remove();
 				StatusManager.getManager().handle(new Status(IStatus.WARNING, PlatformUI.PLUGIN_ID,
-						"Expression activity cannot have requirements (id: " + activityDef.getId() + ")")); //$NON-NLS-1$ //$NON-NLS-2$
+						"Expression activity cannot have requirements (id: " + activityDef.getId() + ")")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				continue;
 			}
 
@@ -220,7 +220,7 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 			if (activityDef != null && activityDef.getEnabledWhen() != null) {
 				i.remove();
 				StatusManager.getManager().handle(new Status(IStatus.WARNING, PlatformUI.PLUGIN_ID,
-						"Expression activity cannot be required (id: " + activityDef.getId() + ")")); //$NON-NLS-1$ //$NON-NLS-2$
+						"Expression activity cannot be required (id: " + activityDef.getId() + ")")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -228,34 +228,34 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 
 		if (!extensionActivityRequirementBindingDefinitions.equals(super.activityRequirementBindingDefinitions)) {
 			activityRequirementBindingDefinitions = Collections
-					.unmodifiableList(new ArrayList<>(extensionActivityRequirementBindingDefinitions));
+					.unmodifiableList(new ArrayList<>(extensionActivityRequirementBindingDefinitions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			activityRegistryChanged = true;
 		}
 
 		if (!extensionActivityDefinitions.equals(super.activityDefinitions)) {
-			activityDefinitions = Collections.unmodifiableList(new ArrayList<>(extensionActivityDefinitions));
+			activityDefinitions = Collections.unmodifiableList(new ArrayList<>(extensionActivityDefinitions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			activityRegistryChanged = true;
 		}
 
 		if (!extensionActivityPatternBindingDefinitions.equals(super.activityPatternBindingDefinitions)) {
 			activityPatternBindingDefinitions = Collections
-					.unmodifiableList(new ArrayList<>(extensionActivityPatternBindingDefinitions));
+					.unmodifiableList(new ArrayList<>(extensionActivityPatternBindingDefinitions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			activityRegistryChanged = true;
 		}
 
 		if (!extensionCategoryActivityBindingDefinitions.equals(super.categoryActivityBindingDefinitions)) {
 			categoryActivityBindingDefinitions = Collections
-					.unmodifiableList(new ArrayList<>(extensionCategoryActivityBindingDefinitions));
+					.unmodifiableList(new ArrayList<>(extensionCategoryActivityBindingDefinitions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			activityRegistryChanged = true;
 		}
 
 		if (!extensionCategoryDefinitions.equals(super.categoryDefinitions)) {
-			categoryDefinitions = Collections.unmodifiableList(new ArrayList<>(extensionCategoryDefinitions));
+			categoryDefinitions = Collections.unmodifiableList(new ArrayList<>(extensionCategoryDefinitions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			activityRegistryChanged = true;
 		}
 
 		if (!extensionDefaultEnabledActivities.equals(super.defaultEnabledActivities)) {
-			defaultEnabledActivities = Collections.unmodifiableList(new ArrayList<>(extensionDefaultEnabledActivities));
+			defaultEnabledActivities = Collections.unmodifiableList(new ArrayList<>(extensionDefaultEnabledActivities)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			activityRegistryChanged = true;
 		}
 
@@ -271,7 +271,7 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 	 * @return String a preference key representing the activity.
 	 */
 	private String createPreferenceKey(String activityId) {
-		return PREFIX + activityId;
+		return PREFIX + activityId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void readDefaultEnablement(IConfigurationElement configurationElement) {
@@ -294,7 +294,7 @@ final class ExtensionActivityRegistry extends AbstractActivityRegistry {
 		}
 	}
 
-	private void readActivityDefinition(IConfigurationElement configurationElement) {
+	private void readActivityDefinition(IConfigurationElement configurationElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ActivityDefinition activityDefinition = Persistence.readActivityDefinition(
 				new ConfigurationElementMemento(configurationElement), getNamespace(configurationElement));
 

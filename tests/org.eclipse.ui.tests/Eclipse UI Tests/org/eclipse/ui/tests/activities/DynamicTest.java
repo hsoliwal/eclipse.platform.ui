@@ -415,11 +415,11 @@ public class DynamicTest {
 		// fired
 		final AtomicBoolean activityChanged = new AtomicBoolean(false);
 		final AtomicBoolean categoryChanged = new AtomicBoolean(false);
-		activity.addActivityListener(_ -> {
+		activity.addActivityListener(unused -> {
 			System.err.println("activityChanged");
 			activityChanged.set(true);
 		});
-		category.addCategoryListener(_ -> {
+		category.addCategoryListener(unused -> {
 			System.err.println("categoryChanged");
 			categoryChanged.set(true);
 

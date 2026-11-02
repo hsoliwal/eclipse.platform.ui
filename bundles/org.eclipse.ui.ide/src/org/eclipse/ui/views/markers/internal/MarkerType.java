@@ -46,7 +46,7 @@ public class MarkerType {
 	 * @return never null
 	 */
 	public MarkerType[] getAllSupertypes() {
-		ArrayList<MarkerType> result = new ArrayList<>();
+		ArrayList<MarkerType> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getAllSupertypes(result);
 		return result.toArray(new MarkerType[result.size()]);
 	}
@@ -55,7 +55,7 @@ public class MarkerType {
 	 * Appends all this type's supertypes to the given list.
 	 */
 	private void getAllSupertypes(ArrayList<MarkerType> result) {
-		for (MarkerType sup : getSupertypes()) {
+		for (MarkerType sup : getSupertypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!result.contains(sup)) {
 				result.add(sup);
 				sup.getAllSupertypes(result);
@@ -99,7 +99,7 @@ public class MarkerType {
 	}
 
 	private void addSubTypes(Set<MarkerType> set, MarkerType superType) {
-		for (MarkerType subType : model.getSubtypes(superType.id)) {
+		for (MarkerType subType : model.getSubtypes(superType.id)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (set.add(subType)) {
 				addSubTypes(set, subType);
 			}
@@ -117,8 +117,8 @@ public class MarkerType {
 	 * @return this type's direct supertypes, never null.
 	 */
 	public MarkerType[] getSupertypes() {
-		ArrayList<MarkerType> result = new ArrayList<>();
-		for (String supertypeId : supertypeIds) {
+		ArrayList<MarkerType> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String supertypeId : supertypeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType sup = model.getType(supertypeId);
 			if (sup != null) {
 				result.add(sup);
@@ -140,7 +140,7 @@ public class MarkerType {
 		if (id.equals(superType.getId())) {
 			return true;
 		}
-		for (String supertypeId : supertypeIds) {
+		for (String supertypeId : supertypeIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType sup = model.getType(supertypeId);
 			if (sup != null && sup.isSubtypeOf(superType)) {
 				return true;

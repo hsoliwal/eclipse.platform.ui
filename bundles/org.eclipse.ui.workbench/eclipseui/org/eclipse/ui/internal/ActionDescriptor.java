@@ -114,7 +114,7 @@ public class ActionDescriptor implements IPluginContribution {
 	 * @param targetType    the type of action
 	 * @param target        the target object
 	 */
-	public ActionDescriptor(IConfigurationElement actionElement, int targetType, Object target) {
+	public ActionDescriptor(IConfigurationElement actionElement, int targetType, Object target) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Load attributes.
 		id = actionElement.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 		pluginId = actionElement.getContributor().getName();
@@ -135,7 +135,7 @@ public class ActionDescriptor implements IPluginContribution {
 
 		// Verify input.
 		if (label == null) {
-			WorkbenchPlugin.log("Invalid action declaration (label == null): " + id); //$NON-NLS-1$
+			WorkbenchPlugin.log("Invalid action declaration (label == null): " + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			label = WorkbenchMessages.ActionDescriptor_invalidLabel;
 		}
 
@@ -186,7 +186,7 @@ public class ActionDescriptor implements IPluginContribution {
 			if (helpContextId.indexOf('.') == -1) {
 				// For backward compatibility we auto qualify the id if it is not
 				// qualified)
-				fullID = actionElement.getContributor().getName() + "." + helpContextId;//$NON-NLS-1$
+				fullID = actionElement.getContributor().getName() + "." + helpContextId;//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(action, fullID);
 		}
@@ -235,7 +235,7 @@ public class ActionDescriptor implements IPluginContribution {
 	 * Creates an instance of PluginAction. Depending on the target part, subclasses
 	 * of this class may be created.
 	 */
-	private PluginAction createAction(int targetType, IConfigurationElement actionElement, Object target,
+	private PluginAction createAction(int targetType, IConfigurationElement actionElement, Object target, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String style) {
 		int actionStyle = IAction.AS_UNSPECIFIED;
 		if (style != null) {
@@ -270,7 +270,7 @@ public class ActionDescriptor implements IPluginContribution {
 		case T_POPUP:
 			return new ObjectPluginAction(actionElement, id, actionStyle);
 		default:
-			WorkbenchPlugin.log("Unknown Action Type: " + targetType);//$NON-NLS-1$
+			WorkbenchPlugin.log("Unknown Action Type: " + targetType);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 	}
@@ -337,7 +337,7 @@ public class ActionDescriptor implements IPluginContribution {
 	 */
 	@Override
 	public String toString() {
-		return "ActionDescriptor(" + id + ")";//$NON-NLS-2$//$NON-NLS-1$
+		return "ActionDescriptor(" + id + ")";//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -355,7 +355,7 @@ public class ActionDescriptor implements IPluginContribution {
 			try {
 				action.setAccelerator(Integer.parseInt(acceleratorText));
 			} catch (NumberFormatException e) {
-				WorkbenchPlugin.log("Invalid accelerator declaration for action: " + id, e); //$NON-NLS-1$
+				WorkbenchPlugin.log("Invalid accelerator declaration for action: " + id, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else {
 			action.setAccelerator(Action.convertAccelerator(acceleratorText));

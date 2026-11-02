@@ -266,7 +266,7 @@ class HyperlinkDetectorsConfigurationBlock implements IPreferenceConfigurationBl
 			}
 		});
 
-		fHyperlinkDefaultKeyModifierText.addModifyListener(_ -> handleHyperlinkDefaultKeyModifierModified());
+		fHyperlinkDefaultKeyModifierText.addModifyListener(unused -> handleHyperlinkDefaultKeyModifierModified());
 
 		addFiller(composite, 2);
 
@@ -374,7 +374,7 @@ class HyperlinkDetectorsConfigurationBlock implements IPreferenceConfigurationBl
 			}
 		});
 
-		fHyperlinkKeyModifierText.addModifyListener(_ -> handleHyperlinkKeyModifierModified());
+		fHyperlinkKeyModifierText.addModifyListener(unused -> handleHyperlinkKeyModifierModified());
 
 		return composite;
 	}
@@ -424,7 +424,7 @@ class HyperlinkDetectorsConfigurationBlock implements IPreferenceConfigurationBl
 		textControl.setLayoutData(gd);
 		textControl.setTextLimit(textLimit);
 
-		textControl.addModifyListener(_ -> {
+		textControl.addModifyListener(unused -> {
 			String value= textControl.getText();
 			if (key != null) {
 				fStore.setValue(key, value);

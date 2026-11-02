@@ -143,16 +143,16 @@ public class CopyResourcesOperation extends
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	protected void copy(IProgressMonitor monitor, IAdaptable uiInfo)
+	protected void copy(IProgressMonitor monitor, IAdaptable uiInfo) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException {
 
 		SubMonitor subMonitor = SubMonitor.convert(monitor,
 				resources.length + (resourceDescriptions != null ? resourceDescriptions.length : 0));
 		subMonitor.setTaskName(UndoMessages.AbstractResourcesOperation_CopyingResourcesProgress);
-		List<IResource> resourcesAtDestination = new ArrayList<>();
-		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>();
+		List<IResource> resourcesAtDestination = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < resources.length; i++) {
+		for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Copy the resources and record the overwrites that would
 			// be restored if this operation were reversed
 			IResourceSnapshot<? extends IResource>[] overwrites;
@@ -165,7 +165,7 @@ public class CopyResourcesOperation extends
 
 		// Are there any previously overwritten resources to restore now?
 		if (resourceDescriptions != null) {
-			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) {
+			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resourceDescription != null) {
 					resourceDescription.createResource(subMonitor.split(1));
 				}
@@ -203,16 +203,16 @@ public class CopyResourcesOperation extends
 		monitor.done();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateResourceChangeDescriptionFactory(
 			IResourceChangeDescriptionFactory factory, int operation) {
 		boolean update = false;
 		if (operation == UNDO) {
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				update = true;
 				factory.delete(resource);
 			}
-			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) {
+			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resourceDescription != null) {
 					update = true;
 					IResource resource = resourceDescription.createResourceHandle();
@@ -220,7 +220,7 @@ public class CopyResourcesOperation extends
 				}
 			}
 		} else {
-			for (int i = 0; i < resources.length; i++) {
+			for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				update = true;
 				IResource resource = resources[i];
 				factory.copy(resource, getDestinationPath(resource, i));
@@ -233,7 +233,7 @@ public class CopyResourcesOperation extends
 	 * This implementation computes the ability to delete the original copy and
 	 * restore any overwritten resources.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus computeUndoableStatus(IProgressMonitor monitor) {
 		IStatus status = super.computeUndoableStatus(monitor);
 		if (!status.isOK()) {
@@ -246,7 +246,7 @@ public class CopyResourcesOperation extends
 			markInvalid();
 			return getErrorStatus(UndoMessages.CopyResourcesOperation_NotAllowedDueToDataLoss);
 		}
-		for (IResourceSnapshot<? extends IResource> snapshotResourceDescription : snapshotResourceDescriptions) {
+		for (IResourceSnapshot<? extends IResource> snapshotResourceDescription : snapshotResourceDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!snapshotResourceDescription.verifyExistence(true)) {
 				markInvalid();
 				return getErrorStatus(UndoMessages.CopyResourcesOperation_NotAllowedDueToDataLoss);
@@ -274,7 +274,7 @@ public class CopyResourcesOperation extends
 	private void setOriginalResources(IResource[] originals) {
 		originalResources = originals;
 		snapshotResourceDescriptions = new IResourceSnapshot<?>[originals.length];
-		for (int i = 0; i < originals.length; i++) {
+		for (int i = 0; i < originals.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			snapshotResourceDescriptions[i] = ResourceSnapshotFactory.fromResource(originals[i]);
 		}
 	}

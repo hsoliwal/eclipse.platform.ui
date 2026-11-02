@@ -72,7 +72,7 @@ public class FileFolderSelectionDialog extends ElementTreeSelectionDialog {
 	/**
 	 * Content provider for IFileStore objects.
 	 */
-	private static class FileContentProvider implements ITreeContentProvider {
+	private static class FileContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		private static final Object[] EMPTY = new Object[0];
 
 		private IFileStoreFilter fileFilter;
@@ -165,7 +165,7 @@ public class FileFolderSelectionDialog extends ElementTreeSelectionDialog {
 			this.acceptFolders = acceptFolders;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus validate(Object[] selection) {
 			int nSelected = selection.length;
 			String pluginId = IDEWorkbenchPlugin.IDE_WORKBENCH;
@@ -174,7 +174,7 @@ public class FileFolderSelectionDialog extends ElementTreeSelectionDialog {
 				return new Status(IStatus.ERROR, pluginId, IStatus.ERROR,
 						IDEResourceInfoUtils.EMPTY_STRING, null);
 			}
-			for (Object currentSelection : selection) {
+			for (Object currentSelection : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (currentSelection instanceof IFileStore file) {
 					if (!acceptFolders && file.isDirectory()) {
 						return new Status(IStatus.ERROR, pluginId,

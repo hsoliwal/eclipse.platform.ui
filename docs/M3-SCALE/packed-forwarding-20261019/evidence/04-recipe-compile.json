@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/workspace/scratch/b37f6ba1283f/memory-residency-20261013/toolchain/apache-maven-3.9.9/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=/workspace/scratch/0b39bc8b80ec/proof/m2",
+    "-f",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/pom.xml",
+    "-Dcanonical.classpath=/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/annotations",
+    "test-compile"
+  ],
+  "exit": 0,
+  "logSha256": "5198e1db9518efab49dc6a500ca30b0fd333a381ca28a2489c5990641ff958fd"
+}

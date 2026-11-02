@@ -92,7 +92,7 @@ public class BasicNewFileResourceWizard extends BasicNewResourceWizard {
 		setDefaultPageImageDescriptor(desc);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		IFile file = mainPage.createNewFile();
 		if (file == null) {

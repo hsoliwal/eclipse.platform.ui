@@ -91,7 +91,7 @@ public class LinkedResourceDecorator implements ILightweightLabelDecorator {
 	 * @param decoration  The decoration we are adding to
 	 * @see org.eclipse.jface.viewers.ILightweightLabelDecorator#decorate(Object, IDecoration)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void decorate(Object element, IDecoration decoration) {
 
 		if (!(element instanceof IResource resource)) {

@@ -49,11 +49,11 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 		String actionSetId;
 	}
 
-	private final ArrayList<ActionSetDescriptor> children = new ArrayList<>();
+	private final ArrayList<ActionSetDescriptor> children = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final Map<String, ArrayList<String>> mapPartToActionSetIds = new HashMap<>();
+	private final Map<String, ArrayList<String>> mapPartToActionSetIds = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, ArrayList<IActionSetDescriptor>> mapPartToActionSets = new HashMap<>();
+	private final Map<String, ArrayList<IActionSetDescriptor>> mapPartToActionSets = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final IContextService contextService;
 
@@ -119,7 +119,7 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 		// get the action set ids for this part
 		ArrayList<String> actionSets = mapPartToActionSetIds.get(partId);
 		if (actionSets == null) {
-			actionSets = new ArrayList<>();
+			actionSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			mapPartToActionSetIds.put(partId, actionSets);
 		}
 		actionSets.add(actionSetId);
@@ -136,7 +136,7 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 	 */
 	public IActionSetDescriptor findActionSet(String id) {
 
-		for (IActionSetDescriptor desc : children) {
+		for (IActionSetDescriptor desc : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getId().equals(id)) {
 				return desc;
 			}
@@ -159,7 +159,7 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 	 * @param partId the part id
 	 * @return a list of action sets
 	 */
-	public IActionSetDescriptor[] getActionSetsFor(String partId) {
+	public IActionSetDescriptor[] getActionSetsFor(String partId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// check the resolved map first
 		ArrayList<IActionSetDescriptor> actionSets = mapPartToActionSets.get(partId);
 		if (actionSets != null) {
@@ -173,15 +173,15 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 		}
 
 		// resolve to action sets
-		actionSets = new ArrayList<>(actionSetIds.size());
+		actionSets = new ArrayList<>(actionSetIds.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String actionSetId : actionSetIds) {
+		for (String actionSetId : actionSetIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			IActionSetDescriptor actionSet = findActionSet(actionSetId);
 			if (actionSet != null) {
 				actionSets.add(actionSet);
 			} else {
-				WorkbenchPlugin.log("Unable to associate action set with part: " + //$NON-NLS-1$
+				WorkbenchPlugin.log("Unable to associate action set with part: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						partId + ". Action set " + actionSetId + " not found."); //$NON-NLS-2$ //$NON-NLS-1$
 			}
 		}
@@ -195,11 +195,11 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 	 * Reads the registry.
 	 */
 	private void readFromRegistry() {
-		for (IExtension extension : getActionSetExtensionPoint().getExtensions()) {
+		for (IExtension extension : getActionSetExtensionPoint().getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addActionSets(PlatformUI.getWorkbench().getExtensionTracker(), extension);
 		}
 
-		for (IExtension extension : getActionSetPartAssociationExtensionPoint().getExtensions()) {
+		for (IExtension extension : getActionSetPartAssociationExtensionPoint().getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addActionSetPartAssociations(PlatformUI.getWorkbench().getExtensionTracker(), extension);
 		}
 	}
@@ -215,11 +215,11 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 		}
 	}
 
-	private void addActionSetPartAssociations(IExtensionTracker tracker, IExtension extension) {
-		for (IConfigurationElement element : extension.getConfigurationElements()) {
+	private void addActionSetPartAssociations(IExtensionTracker tracker, IExtension extension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IConfigurationElement element : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getName().equals(IWorkbenchRegistryConstants.TAG_ACTION_SET_PART_ASSOCIATION)) {
 				String actionSetId = element.getAttribute(IWorkbenchRegistryConstants.ATT_TARGET_ID);
-				for (IConfigurationElement child : element.getChildren()) {
+				for (IConfigurationElement child : element.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (child.getName().equals(IWorkbenchRegistryConstants.TAG_PART)) {
 						String partId = child.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 						if (partId != null) {
@@ -231,7 +231,7 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 
 						}
 					} else {
-						WorkbenchPlugin.log("Unable to process element: " + //$NON-NLS-1$
+						WorkbenchPlugin.log("Unable to process element: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								child.getName() + " in action set part associations extension: " + //$NON-NLS-1$
 								extension.getUniqueIdentifier());
 					}
@@ -243,8 +243,8 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 		mapPartToActionSets.clear();
 	}
 
-	private void addActionSets(IExtensionTracker tracker, IExtension extension) {
-		for (IConfigurationElement element : extension.getConfigurationElements()) {
+	private void addActionSets(IExtensionTracker tracker, IExtension extension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IConfigurationElement element : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getName().equals(IWorkbenchRegistryConstants.TAG_ACTION_SET)) {
 				try {
 					ActionSetDescriptor desc = new ActionSetDescriptor(element);
@@ -273,8 +273,8 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 		}
 	}
 
-	private void removeActionSetPartAssociations(Object[] objects) {
-		for (Object object : objects) {
+	private void removeActionSetPartAssociations(Object[] objects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof ActionSetPartAssociation association) {
 				String actionSetId = association.actionSetId;
 				ArrayList<String> actionSets = mapPartToActionSetIds.get(association.partId);
@@ -292,8 +292,8 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 
 	}
 
-	private void removeActionSets(Object[] objects) {
-		for (Object object : objects) {
+	private void removeActionSets(Object[] objects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IActionSetDescriptor desc) {
 				removeActionSet(desc);
 
@@ -301,7 +301,7 @@ public class ActionSetRegistry implements IExtensionChangeHandler {
 				// TODO: this is expensive. We should consider another map from
 				// actionsets
 				// to parts.
-				for (Iterator<ArrayList<String>> j = mapPartToActionSetIds.values().iterator(); j.hasNext();) {
+				for (Iterator<ArrayList<String>> j = mapPartToActionSetIds.values().iterator(); j.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ArrayList<String> list = j.next();
 					list.remove(desc.getId());
 					if (list.isEmpty()) {

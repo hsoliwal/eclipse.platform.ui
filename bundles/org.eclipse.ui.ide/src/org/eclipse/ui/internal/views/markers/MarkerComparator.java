@@ -47,7 +47,7 @@ class MarkerComparator implements Comparator<MarkerItem> {
 	private static final String DESCENDING_FIELDS = "DESCENDING_FIELDS"; //$NON-NLS-1$
 
 	// The fields with reversed direction
-	HashSet<MarkerField> descendingFields = new HashSet<>();
+	HashSet<MarkerField> descendingFields = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Create a new instance of the receiver categorised by categoryField
@@ -100,7 +100,7 @@ class MarkerComparator implements Comparator<MarkerItem> {
 	 * @return int
 	 */
 	public int compareFields(MarkerItem item0, MarkerItem item1) {
-		for (MarkerField field : fields) {
+		for (MarkerField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int value = field.compare(item0, item1);
 			if (value != 0) {
 				if (descendingFields.contains(field)) {
@@ -134,7 +134,7 @@ class MarkerComparator implements Comparator<MarkerItem> {
 	/**
 	 * Set field to be the first sort field.
 	 */
-	void setPrimarySortField(MarkerField field) {
+	void setPrimarySortField(MarkerField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fields[0] == field) {
 			reversePriority(field);
 			return;
@@ -143,7 +143,7 @@ class MarkerComparator implements Comparator<MarkerItem> {
 		MarkerField[] newFields = new MarkerField[fields.length];
 
 		newFields[0] = field;
-		for (int i = 0; i < newFields.length; i++) {
+		for (int i = 0; i < newFields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fields[i] == field) {
 				continue;
 			}
@@ -156,7 +156,7 @@ class MarkerComparator implements Comparator<MarkerItem> {
 	/**
 	 * Restore the receiver's state from memento.
 	 */
-	void restore(IMemento memento) {
+	void restore(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (memento == null) {
 			return;
 		}
@@ -165,7 +165,7 @@ class MarkerComparator implements Comparator<MarkerItem> {
 		if (primaryField == null || primaryField.equals(MarkerSupportInternalUtilities.getId(fields[0]))) {
 			return;
 		}
-		for (int i = 1; i < fields.length; i++) {
+		for (int i = 1; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (MarkerSupportInternalUtilities.getId(fields[i]).equals(primaryField)) {
 				setPrimarySortField(fields[i]);
 				break;
@@ -173,8 +173,8 @@ class MarkerComparator implements Comparator<MarkerItem> {
 		}
 		IMemento[] descending = memento.getChildren(DESCENDING_FIELDS);
 
-		for (MarkerField field : fields) {
-			for (IMemento currentMemento : descending) {
+		for (MarkerField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IMemento currentMemento : descending) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (currentMemento.getID().equals(MarkerSupportInternalUtilities.getId(field))) {
 					descendingFields.add(field);
 					continue;
@@ -191,7 +191,7 @@ class MarkerComparator implements Comparator<MarkerItem> {
 			memento.putString(PRIMARY_SORT_FIELD_TAG, MarkerSupportInternalUtilities.getId(fields[0]));
 		}
 		Iterator<MarkerField> descendingIterator = descendingFields.iterator();
-		while (descendingIterator.hasNext()) {
+		while (descendingIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			memento.createChild(DESCENDING_FIELDS, (MarkerSupportInternalUtilities.getId(descendingIterator.next())));
 		}
 	}

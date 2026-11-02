@@ -29,9 +29,9 @@ import org.eclipse.ui.internal.registry.RegistryReader;
 public class DecoratorRegistryReader extends RegistryReader {
 
 	// The registry values are the ones read from the registry
-	private final Collection<DecoratorDefinition> values = new ArrayList<>();
+	private final Collection<DecoratorDefinition> values = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final Collection<String> ids = new HashSet<>();
+	private final Collection<String> ids = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Constructor for DecoratorRegistryReader.
@@ -64,7 +64,7 @@ public class DecoratorRegistryReader extends RegistryReader {
 	 *
 	 * @return DecoratorDefinition
 	 */
-	DecoratorDefinition getDecoratorDefinition(IConfigurationElement element) {
+	DecoratorDefinition getDecoratorDefinition(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 		if (ids.contains(id)) {
@@ -116,7 +116,7 @@ public class DecoratorRegistryReader extends RegistryReader {
 	 * Logs a registry error when the configuration element is unknown.
 	 */
 	protected void logDuplicateId(IConfigurationElement element) {
-		logError(element, "Duplicate id found: " + element.getAttribute(IWorkbenchRegistryConstants.ATT_ID));//$NON-NLS-1$
+		logError(element, "Duplicate id found: " + element.getAttribute(IWorkbenchRegistryConstants.ATT_ID));//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

@@ -79,7 +79,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 	private final ServiceLocator serviceLocator;
 	private ExpressionContext legacyContext;
 	private final MenuPersistence persistence;
-	private final Map<AbstractContributionFactory, Object> factoriesToContributions = new HashMap<>();
+	private final Map<AbstractContributionFactory, Object> factoriesToContributions = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private final EModelService modelService;
 
 	public WorkbenchMenuService(ServiceLocator serviceLocator, IEclipseContext e4Context) {
@@ -109,11 +109,11 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		return location.getScheme().startsWith("toolbar"); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addContributionFactory(final AbstractContributionFactory factory) {
 		MenuLocationURI location = new MenuLocationURI(factory.getLocation());
 		if (location.getPath() == null || location.getPath().isEmpty()) {
-			WorkbenchPlugin.log("WorkbenchMenuService.addContributionFactory: Invalid menu URI: " + location); //$NON-NLS-1$
+			WorkbenchPlugin.log("WorkbenchMenuService.addContributionFactory: Invalid menu URI: " + location); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 
@@ -133,7 +133,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		MMenuContribution menuContribution = MenuFactoryImpl.eINSTANCE.createMenuContribution();
 		menuContribution.getPersistedState().put(org.eclipse.e4.ui.workbench.IWorkbench.PERSIST_STATE,
 				Boolean.FALSE.toString());
-		menuContribution.setElementId(factory.getNamespace() + ":" + factory.hashCode()); //$NON-NLS-1$
+		menuContribution.setElementId(factory.getNamespace() + ":" + factory.hashCode()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if ("org.eclipse.ui.popup.any".equals(location.getPath())) { //$NON-NLS-1$
 			menuContribution.setParentId("popup"); //$NON-NLS-1$
@@ -145,7 +145,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 			query = "after=additions"; //$NON-NLS-1$
 		}
 		menuContribution.setPositionInParent(query);
-		menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
+		menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String filter = ContributionsAnalyzer.MC_MENU;
 		if ("popup".equals(location.getScheme())) { //$NON-NLS-1$
 			filter = ContributionsAnalyzer.MC_POPUP;
@@ -164,10 +164,10 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		MToolBarContribution toolBarContribution = MenuFactoryImpl.eINSTANCE.createToolBarContribution();
 		toolBarContribution.getPersistedState().put(org.eclipse.e4.ui.workbench.IWorkbench.PERSIST_STATE,
 				Boolean.FALSE.toString());
-		toolBarContribution.setElementId(factory.getNamespace() + ":" + factory.hashCode()); //$NON-NLS-1$
+		toolBarContribution.setElementId(factory.getNamespace() + ":" + factory.hashCode()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		toolBarContribution.setParentId(parentId);
 		toolBarContribution.setPositionInParent(position);
-		toolBarContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
+		toolBarContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		ContextFunction generator = new ContributionFactoryGenerator(factory, 1);
 		toolBarContribution.getTransientData().put(ToolBarContributionRecord.FACTORY, generator);
@@ -193,7 +193,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 
 	}
 
-	protected IWorkbenchWindow getWindow() {
+	protected IWorkbenchWindow getWindow() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (serviceLocator == null) {
 			return null;
 		}
@@ -228,7 +228,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		populateContributionManager(model, mgr, location);
 	}
 
-	public void populateContributionManager(MApplicationElement model, ContributionManager mgr, String location) {
+	public void populateContributionManager(MApplicationElement model, ContributionManager mgr, String location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuLocationURI uri = new MenuLocationURI(location);
 
 		// Now handle registering dynamic additions by querying E4 model
@@ -270,11 +270,11 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 				renderer.processContents((MElementContainer<MUIElement>) ((Object) mToolBar));
 			}
 		} else {
-			WorkbenchPlugin.log("populateContributionManager: Unhandled manager: " + mgr); //$NON-NLS-1$
+			WorkbenchPlugin.log("populateContributionManager: Unhandled manager: " + mgr); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	protected MToolBar getToolbarModel(MApplicationElement model, ToolBarManager toolbarManager,
+	protected MToolBar getToolbarModel(MApplicationElement model, ToolBarManager toolbarManager, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			MenuLocationURI location) {
 		final IRendererFactory factory = e4Context.get(IRendererFactory.class);
 		final AbstractPartRenderer obj = factory.getRenderer(MenuFactoryImpl.eINSTANCE.createToolBar(), null);
@@ -283,7 +283,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		}
 		MToolBar mToolBar = renderer.getToolBarModel(toolbarManager);
 		if (mToolBar != null) {
-			String tag = "toolbar:" + location.getPath(); //$NON-NLS-1$
+			String tag = "toolbar:" + location.getPath(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!mToolBar.getTags().contains(tag)) {
 				mToolBar.getTags().add(tag);
 			}
@@ -294,7 +294,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 			mToolBar = MenuFactoryImpl.eINSTANCE.createToolBar();
 			mToolBar.setElementId(location.getPath());
 			mToolBar.getTags().add(ContributionsAnalyzer.MC_TOOLBAR);
-			String tag = "toolbar:" + location.getPath(); //$NON-NLS-1$
+			String tag = "toolbar:" + location.getPath(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			mToolBar.getTags().add(tag);
 			addToolbar(model, mToolBar, ((MContext) model).getContext());
 		}
@@ -307,7 +307,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 	private void addToolbar(MApplicationElement model, MToolBar tb, IEclipseContext ctx) {
 		ArrayList<MToolBar> toolbars = (ArrayList<MToolBar>) model.getTransientData().get(POPULATED_TOOL_BARS);
 		if (toolbars == null) {
-			toolbars = new ArrayList<>();
+			toolbars = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			model.getTransientData().put(POPULATED_TOOL_BARS, toolbars);
 		}
 		if (toolbars.contains(tb)) {
@@ -321,7 +321,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 	private void addMenu(MApplicationElement model, MMenu menu, IEclipseContext ctx) {
 		ArrayList<MMenu> menus = (ArrayList<MMenu>) model.getTransientData().get(POPULATED_MENUS);
 		if (menus == null) {
-			menus = new ArrayList<>();
+			menus = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			model.getTransientData().put(POPULATED_MENUS, menus);
 		}
 		if (menus.contains(menu)) {
@@ -332,7 +332,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		((Notifier) menu).eAdapters().add(ctx.get(UIEventPublisher.class));
 	}
 
-	protected MMenu getMenuModel(MApplicationElement model, MenuManager menuManager, MenuLocationURI location) {
+	protected MMenu getMenuModel(MApplicationElement model, MenuManager menuManager, MenuLocationURI location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final IRendererFactory factory = e4Context.get(IRendererFactory.class);
 		final AbstractPartRenderer obj = factory.getRenderer(((WorkbenchWindow) getWindow()).getModel().getMainMenu(),
@@ -344,9 +344,9 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		if (mMenu != null) {
 			final String tag;
 			if ("popup".equals(location.getScheme())) { //$NON-NLS-1$
-				tag = "popup:" + location.getPath(); //$NON-NLS-1$
+				tag = "popup:" + location.getPath(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				tag = "menu:" + location.getPath(); //$NON-NLS-1$
+				tag = "menu:" + location.getPath(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			if (!mMenu.getTags().contains(tag)) {
 				mMenu.getTags().add(tag);
@@ -363,10 +363,10 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 			final String tag;
 			if ("popup".equals(location.getScheme())) { //$NON-NLS-1$
 				mMenu.getTags().add(ContributionsAnalyzer.MC_POPUP);
-				tag = "popup:" + location.getPath(); //$NON-NLS-1$
+				tag = "popup:" + location.getPath(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				mMenu.getTags().add(ContributionsAnalyzer.MC_MENU);
-				tag = "menu:" + location.getPath(); //$NON-NLS-1$
+				tag = "menu:" + location.getPath(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			mMenu.getTags().add(tag);
 			mMenu.setLabel(menuManager.getMenuText());
@@ -389,11 +389,11 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		} else if (mgr instanceof ToolBarManager toolbar) {
 			releaseContributionManager(toolbar);
 		} else {
-			WorkbenchPlugin.log("releaseContributions: Unhandled manager: " + mgr); //$NON-NLS-1$
+			WorkbenchPlugin.log("releaseContributions: Unhandled manager: " + mgr); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private void releaseContributionManager(ToolBarManager toolbarManager) {
+	private void releaseContributionManager(ToolBarManager toolbarManager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IRendererFactory factory = e4Context.get(IRendererFactory.class);
 		final AbstractPartRenderer obj = factory.getRenderer(MenuFactoryImpl.eINSTANCE.createToolBar(), null);
 		if (!(obj instanceof ToolBarManagerRenderer renderer)) {
@@ -420,7 +420,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		mToolBar.getTransientData().remove(ModelUtils.CONTAINING_PARENT);
 	}
 
-	private void releaseContributionManager(MenuManager menuManager) {
+	private void releaseContributionManager(MenuManager menuManager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IRendererFactory factory = e4Context.get(IRendererFactory.class);
 		final AbstractPartRenderer obj = factory.getRenderer(((WorkbenchWindow) getWindow()).getModel().getMainMenu(),
 				null);
@@ -451,14 +451,14 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 	/**
 	 * Disposes contributions created by service for given part. See bug 537046.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void clearContributions(PartSite site, MPart part) {
 		List<MToolBar> toolbars = getContributedToolbars(part);
 		IEclipseContext context = part.getContext();
 		IRendererFactory rendererFactory = context.get(IRendererFactory.class);
 		IActionBars actionBars = site.getActionBars();
 		if (toolbars != null) {
-			for (MToolBar mToolBar : toolbars) {
+			for (MToolBar mToolBar : toolbars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((Notifier) mToolBar).eAdapters().clear();
 				AbstractPartRenderer apr = rendererFactory.getRenderer(mToolBar, null);
 				if (apr instanceof ToolBarManagerRenderer tbmr) {
@@ -474,7 +474,7 @@ public class WorkbenchMenuService implements IMenuService, IMenuServiceWorkaroun
 		}
 		List<MMenu> menus = getContributedMenus(part);
 		if (menus != null) {
-			for (MMenu mMenu : menus) {
+			for (MMenu mMenu : menus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((Notifier) mMenu).eAdapters().clear();
 				AbstractPartRenderer apr = rendererFactory.getRenderer(mMenu, null);
 				if (apr instanceof MenuManagerRenderer tbmr) {

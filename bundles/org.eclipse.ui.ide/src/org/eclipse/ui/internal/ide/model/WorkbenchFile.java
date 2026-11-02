@@ -44,7 +44,7 @@ public class WorkbenchFile extends WorkbenchResource {
 	 *	considering the passed open status as well iff appropriate for the type of
 	 *	passed resource
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ImageDescriptor getBaseImage(IResource resource) {
 		IContentType contentType = null;
 		// do we need to worry about checking here?

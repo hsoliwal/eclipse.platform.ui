@@ -1,0 +1,18 @@
+JFace M3 forwarding gate
+Copyright 2026 Hitesh Soliwal and Contributors to the Synexia Project
+
+Canonical first-party recipe, required gate, and proof code: Apache License 2.0.
+The original and adapted Eclipse AllViewersTests.java, VirtualLazyTreeViewerTest.java,
+root pom.xml and JFace bundle manifest retain Eclipse Public License 2.0 provenance
+from the exact UI revision recorded in SOURCE_PINS.json. Existing contributor
+notices are preserved. The foreign-crate refusal fixture contains the same EPL
+source bytes solely as a parser/admission proof input.
+The metadata admission fixtures also preserve original and adapted Commands
+.classpath and compiler preferences, and the JFace test manifest, under EPL-2.0.
+
+The original shared text kernel is retained byte-for-byte as historical proof
+input from hsoliwal/com.synexia commit 140c263a90f9803b9c46103c63355a286e0515f0;
+its corrected production source carries canonical Synexia SPDX attribution.
+The native packet preserves its own pinned upstream source and toolchain license
+provenance in proof/native and evidence/native. Binary dependencies are not copied
+into this crate. Full Apache-2.0 and EPL-2.0 license texts accompany this notice.

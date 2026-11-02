@@ -21,7 +21,7 @@ package org.eclipse.ui;
  *
  * @see IWorkbenchPart#addPropertyListener
  */
-public interface IPropertyListener {
+public interface IPropertyListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 	/**
 	 * Indicates that a property has changed.
 	 *

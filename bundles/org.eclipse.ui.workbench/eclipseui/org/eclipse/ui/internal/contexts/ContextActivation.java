@@ -101,7 +101,7 @@ final class ContextActivation extends EvaluationResultCache implements IContextA
 
 	@Override
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		buffer.append("ContextActivation(contextId="); //$NON-NLS-1$
 		buffer.append(contextId);

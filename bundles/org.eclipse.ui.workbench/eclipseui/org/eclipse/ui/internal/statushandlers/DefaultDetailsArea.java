@@ -99,7 +99,7 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 		return area;
 	}
 
-	protected Composite createArea(Composite parent) {
+	protected Composite createArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		parent = new Composite(parent, SWT.NONE);
 		parent.setLayout(new GridLayout());
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -116,11 +116,11 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 		IBindingService binding = PlatformUI.getWorkbench().getService(IBindingService.class);
 		// find bindings for copy action
 		final TriggerSequence ts[] = binding.getActiveBindingsFor(ActionFactory.COPY.getCommandId());
-		text.addKeyListener(new KeyListener() {
+		text.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
-			ArrayList<KeyStroke> keyList = new ArrayList<>();
+			ArrayList<KeyStroke> keyList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent e) {
 				// get the character. reverse the ctrl modifier if necessary
 				char character = e.character;
@@ -138,7 +138,7 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 				keyList.add(ks);
 				KeySequence sequence = KeySequence.getInstance(keyList);
 				boolean partialMatch = false;
-				for (TriggerSequence triggerSequence : ts) {
+				for (TriggerSequence triggerSequence : ts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (triggerSequence.equals(sequence)) {
 						copyToClipboard();
 						keyList.clear();
@@ -147,7 +147,7 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 					if (triggerSequence.startsWith(sequence, false)) {
 						partialMatch = true;
 					}
-					for (int j = 0; j < triggerSequence.getTriggers().length; j++) {
+					for (int j = 0; j < triggerSequence.getTriggers().length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (triggerSequence.getTriggers()[j].equals(ks)) {
 							partialMatch = true;
 						}
@@ -163,7 +163,7 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 				// no op
 			}
 		});
-		text.addSelectionListener(new SelectionListener() {
+		text.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -188,9 +188,9 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 		return parent;
 	}
 
-	private void setStatusAdapter(StatusAdapter adapter) {
-		StringBuilder content = new StringBuilder();
-		TreeMap<Integer, int[]> indents = new TreeMap<>();
+	private void setStatusAdapter(StatusAdapter adapter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder content = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		TreeMap<Integer, int[]> indents = new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 		populateList(content, indents, adapter.getStatus(), 0);
 		if (!isMulti()) {
 			Long timestamp = (Long) adapter.getProperty(IStatusAdapterConstants.TIMESTAMP_PROPERTY);
@@ -207,7 +207,7 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 			content.setLength(content.length() - separator.length());
 		}
 		// setLineIndent lays out all preceding lines, a listener only lays out visible ones
-		text.addLineStyleListener(event -> {
+		text.addLineStyleListener(event -> { //FLLDCIM: MARK — T29 STYLEDTEXT_LANE CALL
 			Entry<Integer, int[]> entry = indents.floorEntry(event.lineOffset);
 			if (entry != null) {
 				event.indent = entry.getValue()[0];
@@ -218,12 +218,12 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 		adjustHeight(text);
 	}
 
-	private void adjustHeight(StyledText text) {
+	private void adjustHeight(StyledText text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int lineCount = text.getLineCount();
 		int lineHeight = text.getLineHeight();
 		int startPos = text.getLocation().y;
 		Composite c = text.getParent();
-		while (c != null) {
+		while (c != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			startPos += c.getLocation().y;
 			c = c.getParent();
 		}
@@ -246,10 +246,10 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 	/**
 	 * Creates DND source for the list
 	 */
-	private void createDNDSource() {
+	private void createDNDSource() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DragSource ds = new DragSource(text, DND.DROP_COPY);
 		ds.setTransfer(TextTransfer.getInstance());
-		ds.addDragListener(new DragSourceListener() {
+		ds.addDragListener(new DragSourceListener() { //FLLDCIM: MARK — T25 DND CALL
 			@Override
 			public void dragFinished(DragSourceEvent event) {
 			}
@@ -267,11 +267,11 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 		});
 	}
 
-	private void createCopyAction(final Composite parent) {
+	private void createCopyAction(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Menu menu = new Menu(parent.getShell(), SWT.POP_UP);
 		copyAction = new MenuItem(menu, SWT.PUSH);
 		copyAction.setText(JFaceResources.getString("copy")); //$NON-NLS-1$
-		copyAction.addSelectionListener(new SelectionAdapter() {
+		copyAction.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -286,7 +286,7 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 		}
 	}
 
-	private void populateList(StringBuilder content, TreeMap<Integer, int[]> indents, IStatus status, int nesting) {
+	private void populateList(StringBuilder content, TreeMap<Integer, int[]> indents, IStatus status, int nesting) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!status.matches(mask) && !(handleOkStatuses && status.isOK())) {
 			return;
 		}
@@ -305,7 +305,7 @@ public class DefaultDetailsArea extends AbstractStatusAreaProvider {
 			appendNewLine(content, indents, message, nesting);
 		}
 
-		for (IStatus child : status.getChildren()) {
+		for (IStatus child : status.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			populateList(content, indents, child, nesting + 1);
 		}
 	}

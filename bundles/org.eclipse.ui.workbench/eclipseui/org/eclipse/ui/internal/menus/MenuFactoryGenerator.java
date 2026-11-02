@@ -49,10 +49,10 @@ public class MenuFactoryGenerator {
 		return location.getScheme().startsWith("toolbar"); //$NON-NLS-1$
 	}
 
-	public void mergeIntoModel(ArrayList<MMenuContribution> menuContributions,
+	public void mergeIntoModel(ArrayList<MMenuContribution> menuContributions, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ArrayList<MToolBarContribution> toolBarContributions) {
 		if (location.getPath() == null || location.getPath().isEmpty()) {
-			WorkbenchPlugin.log("MenuFactoryGenerator.mergeIntoModel: Invalid menu URI: " + location); //$NON-NLS-1$
+			WorkbenchPlugin.log("MenuFactoryGenerator.mergeIntoModel: Invalid menu URI: " + location); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 		if (inToolbar()) {
@@ -84,7 +84,7 @@ public class MenuFactoryGenerator {
 			query = "after=additions"; //$NON-NLS-1$
 		}
 		menuContribution.setPositionInParent(query);
-		menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
+		menuContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String filter = ContributionsAnalyzer.MC_MENU;
 		if ("popup".equals(location.getScheme())) { //$NON-NLS-1$
 			filter = ContributionsAnalyzer.MC_POPUP;
@@ -106,7 +106,7 @@ public class MenuFactoryGenerator {
 		}
 		toolBarContribution.setParentId(parentId);
 		toolBarContribution.setPositionInParent(position);
-		toolBarContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$
+		toolBarContribution.getTags().add("scheme:" + location.getScheme()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		ContextFunction generator = new ContributionFactoryGenerator(configElement, 1);
 		toolBarContribution.getTransientData().put(ToolBarContributionRecord.FACTORY, generator);

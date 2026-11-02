@@ -1,0 +1,13 @@
+Native JFace forwarding proof
+Copyright 2026 Hitesh Soliwal and Contributors to the Synexia Project
+
+First-party Maven configuration, display/test orchestration, packaging code and
+proof documentation are provided under Apache License 2.0. The original and
+corrected Eclipse test sources remain governed by their retained Eclipse Public
+License 2.0 and contributor notices in the containing recipe crate. Referenced
+upstream sources, Java dependencies, X.Org sources and native libraries retain
+their original licenses. Their binaries and external source trees are not copied
+into this packet. SHA256/Git identities and raw tool observations are recorded as
+evidence; they are not substitute implementations or test results.
+
+The containing crate supplies the full Apache-2.0 and EPL-2.0 license texts.

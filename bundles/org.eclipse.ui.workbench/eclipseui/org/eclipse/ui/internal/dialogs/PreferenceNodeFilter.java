@@ -23,9 +23,9 @@ import org.eclipse.jface.viewers.ViewerFilter;
 /**
  * The PreferenceNodeFilter is a filter that only matches a set of ids.
  */
-public class PreferenceNodeFilter extends ViewerFilter {
+public class PreferenceNodeFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
-	Collection ids = new HashSet();
+	Collection ids = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Create a new instance of the receiver on a list of filteredIds.
@@ -54,7 +54,7 @@ public class PreferenceNodeFilter extends ViewerFilter {
 			return true;
 		}
 
-		for (IPreferenceNode subNode : node.getSubNodes()) {
+		for (IPreferenceNode subNode : node.getSubNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (checkNodeAndChildren(subNode)) {
 				return true;
 			}

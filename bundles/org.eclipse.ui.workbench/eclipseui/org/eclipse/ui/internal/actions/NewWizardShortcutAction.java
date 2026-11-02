@@ -77,7 +77,7 @@ public class NewWizardShortcutAction extends Action implements IPluginContributi
 		return wizardElement;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		// create instance of target wizard
 

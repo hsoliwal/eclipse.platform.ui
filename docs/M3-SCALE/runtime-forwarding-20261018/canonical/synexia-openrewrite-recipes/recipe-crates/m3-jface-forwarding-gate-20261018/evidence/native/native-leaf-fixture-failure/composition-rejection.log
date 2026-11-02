@@ -1,0 +1,8 @@
+Exception in thread "main" java.io.IOException: failure or error exists in selected XML reports
+	at M3EclipseComposition.require(M3EclipseComposition.java:398)
+	at M3EclipseComposition.checkReport(M3EclipseComposition.java:308)
+	at M3EclipseComposition$1.visitFile(M3EclipseComposition.java:277)
+	at M3EclipseComposition$1.visitFile(M3EclipseComposition.java:257)
+	at java.base/java.nio.file.Files.walkFileTree(Files.java:2799)
+	at M3EclipseComposition.verifyReports(M3EclipseComposition.java:257)
+	at M3EclipseComposition.main(M3EclipseComposition.java:87)

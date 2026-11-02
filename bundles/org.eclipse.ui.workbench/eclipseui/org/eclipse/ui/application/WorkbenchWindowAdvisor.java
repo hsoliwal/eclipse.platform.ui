@@ -161,7 +161,7 @@ public class WorkbenchWindowAdvisor {
 	 * Subclasses may override.
 	 * </p>
 	 */
-	public void openIntro() {
+	public void openIntro() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// TODO: Refactor this into an IIntroManager.openIntro(IWorkbenchWindow) call
 
 		// introOpened flag needs to be global

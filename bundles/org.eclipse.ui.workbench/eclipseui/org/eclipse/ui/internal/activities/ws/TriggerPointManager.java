@@ -35,9 +35,9 @@ import org.eclipse.ui.internal.registry.IWorkbenchRegistryConstants;
  */
 public class TriggerPointManager implements ITriggerPointManager, IExtensionChangeHandler {
 
-	private final HashMap<String, AbstractTriggerPoint> triggerMap = new HashMap<>();
+	private final HashMap<String, AbstractTriggerPoint> triggerMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	public TriggerPointManager() {
+	public TriggerPointManager() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		triggerMap.put(ITriggerPointManager.UNKNOWN_TRIGGER_POINT_ID, new AbstractTriggerPoint() {
 
@@ -71,7 +71,7 @@ public class TriggerPointManager implements ITriggerPointManager, IExtensionChan
 
 		IExtensionPoint point = getExtensionPointFilter();
 		IExtension[] extensions = point.getExtensions();
-		for (IExtension extension : extensions) {
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addExtension(tracker, extension);
 		}
 	}
@@ -88,7 +88,7 @@ public class TriggerPointManager implements ITriggerPointManager, IExtensionChan
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof RegistryTriggerPoint) {
 				triggerMap.remove(((RegistryTriggerPoint) object).getId());
 			}
@@ -98,7 +98,7 @@ public class TriggerPointManager implements ITriggerPointManager, IExtensionChan
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
 		IConfigurationElement[] elements = extension.getConfigurationElements();
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getName().equals(IWorkbenchRegistryConstants.TAG_TRIGGERPOINT)) {
 				String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 				if (id == null) {

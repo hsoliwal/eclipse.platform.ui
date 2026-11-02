@@ -136,7 +136,7 @@ import org.eclipse.swt.widgets.Display;
 		this.display = display;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void beginTask(final String name, final int totalWork) {
 		if (taskStarted) {
 			if (LOG_BEGIN_TASK) {
@@ -149,13 +149,13 @@ import org.eclipse.swt.widgets.Display;
 		}
 		if (LOG_BEGIN_TASK) {
 			taskStartedStack = new IllegalStateException(
-					"beginTask(" + name + ", " + totalWork + ") was called here previously"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					"beginTask(" + name + ", " + totalWork + ") was called here previously"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		taskStarted = true;
 		synchronized (this) {
 			collector = null;
 		}
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			currentTask = name;
 			getWrappedProgressMonitor().beginTask(name, totalWork);
 		});
@@ -179,7 +179,7 @@ import org.eclipse.swt.widgets.Display;
 	private void createCollector(String taskName, String subTask, double work) {
 		collector = new Collector(taskName, subTask, work,
 				getWrappedProgressMonitor());
-		display.asyncExec(collector);
+		display.asyncExec(collector); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	@Override
@@ -195,7 +195,7 @@ import org.eclipse.swt.widgets.Display;
 		synchronized (this) {
 			collector = null;
 		}
-		display.asyncExec(() -> getWrappedProgressMonitor().done());
+		display.asyncExec(() -> getWrappedProgressMonitor().done()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
 	@Override
@@ -241,7 +241,7 @@ import org.eclipse.swt.widgets.Display;
 			return;
 		}
 
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			pm.clearBlocked();
 			Dialog.getBlockedHandler().clearBlocked();
 		});
@@ -257,7 +257,7 @@ import org.eclipse.swt.widgets.Display;
 			return;
 		}
 
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			pm.setBlocked(reason);
 			//Do not give a shell as we want it to block until it opens.
 			Dialog.getBlockedHandler().showBlocked(pm, reason, currentTask);

@@ -1109,7 +1109,7 @@ public class StatusDialogManagerTest {
 
 		final StatusAdapter statusAdapter = createStatusAdapter("Oops");
 		AtomicReference<StatusAdapter[]> reported = new AtomicReference<>();
-		INotificationListener listener = (_, adapters) -> {
+		INotificationListener listener = (unused, adapters) -> {
 			reported.set(adapters);
 		};
 

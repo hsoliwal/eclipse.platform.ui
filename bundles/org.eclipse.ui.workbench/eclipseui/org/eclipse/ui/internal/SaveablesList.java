@@ -71,15 +71,15 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	private final ListenerList<ISaveablesLifecycleListener> listeners = new ListenerList<>();
 
 	// event source (mostly ISaveablesSource) -> Set of Saveable
-	private final Map<Object, Set<Saveable>> modelMap = new LinkedHashMap<>();
+	private final Map<Object, Set<Saveable>> modelMap = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	// reference counting map
-	private final Map<Saveable, Integer> modelRefCounts = new LinkedHashMap<>();
+	private final Map<Saveable, Integer> modelRefCounts = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	// lists contain "equal" saveables as many times as we have counted them above
-	private final Map<Saveable, List<Saveable>> equalKeys = new IdentityHashMap<>();
+	private final Map<Saveable, List<Saveable>> equalKeys = new IdentityHashMap<>(); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
 
-	private final Set<ISaveablesSource> nonPartSources = new HashSet<>();
+	private final Set<ISaveablesSource> nonPartSources = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Returns the list of open models managed by this model manager.
@@ -87,9 +87,9 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 * @return a list of models
 	 */
 	public Saveable[] getOpenModels() {
-		Set<Saveable> allDistinctModels = new HashSet<>();
+		Set<Saveable> allDistinctModels = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<Set<Saveable>> saveables = modelMap.values().iterator();
-		while (saveables.hasNext()) {
+		while (saveables.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			allDistinctModels.addAll(saveables.next());
 		}
 
@@ -97,7 +97,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	// returns true if this model has not yet been in getModels()
-	private boolean addModel(Object source, Saveable model) {
+	private boolean addModel(Object source, Saveable model) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (model == null) {
 			logWarning("Ignored attempt to add invalid saveable", source, model); //$NON-NLS-1$
 			return false;
@@ -105,7 +105,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 		boolean result = false;
 		Set<Saveable> modelsForSource = modelMap.get(source);
 		if (modelsForSource == null) {
-			modelsForSource = new HashSet<>();
+			modelsForSource = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			modelMap.put(source, modelsForSource);
 		}
 		if (modelsForSource.add(model)) {
@@ -121,7 +121,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 *
 	 * @return true if the ref count of the given key is now 1
 	 */
-	private boolean incrementRefCount(Map<Saveable, Integer> referenceMap, Saveable key) {
+	private boolean incrementRefCount(Map<Saveable, Integer> referenceMap, Saveable key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean result = false;
 		Integer refCount = referenceMap.get(key);
 		if (refCount == null) {
@@ -144,7 +144,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	private void rememberRefKey(Saveable key) {
-		ArrayList<Saveable> equals = new ArrayList<>();
+		ArrayList<Saveable> equals = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		equals.add(key);
 		equalKeys.put(key, equals);
 	}
@@ -166,7 +166,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 *
 	 * @return true if the ref count of the given key was 1
 	 */
-	private boolean decrementRefCount(Saveable key) {
+	private boolean decrementRefCount(Saveable key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean result = false;
 		Integer refCount = modelRefCounts.get(key);
 		final Saveable keyToDecrement = key;
@@ -177,7 +177,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 			}
 		}
 		if (refCount == null) {
-			Assert.isTrue(false, keyToDecrement + ": " + keyToDecrement.getName()); //$NON-NLS-1$
+			Assert.isTrue(false, keyToDecrement + ": " + keyToDecrement.getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		int refCountValue = refCount.intValue();
 		if (refCountValue == 1) {
@@ -214,13 +214,13 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 * @param key object to find known, previously equal one
 	 * @return fixed key or given key
 	 */
-	private Saveable fixKeyIfKnown(Saveable key) {
+	private Saveable fixKeyIfKnown(Saveable key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Collection<Saveable> keys = equalKeys.get(key);
 		if (keys == null) {
 			return key;
 		}
 		Saveable goodKey = null;
-		for (Saveable saveable : keys) {
+		for (Saveable saveable : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Integer refCount = modelRefCounts.get(saveable);
 			if (refCount != null) {
 				goodKey = saveable;
@@ -244,7 +244,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	private void decrementRefKeys(Saveable key) {
 		List<Saveable> keys = equalKeys.get(key);
 		if (keys != null) {
-			for (int i = 0; i < keys.size(); i++) {
+			for (int i = 0; i < keys.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (keys.get(i) == key) {
 					keys.remove(i);
 					break;
@@ -261,7 +261,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	private Saveable findExistingRefKey(Saveable key) {
 		Saveable existingKey = null;
 		Set<Saveable> keys = modelRefCounts.keySet();
-		for (Saveable s : keys) {
+		for (Saveable s : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (s.equals(key)) {
 				existingKey = s;
 				break;
@@ -288,7 +288,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	private void logWarning(String message, Object source, Saveable model) {
-		Throwable e = new IllegalStateException("unknown saveable: " + model + " from part: " + source); //$NON-NLS-1$ //$NON-NLS-2$
+		Throwable e = new IllegalStateException("unknown saveable: " + model + " from part: " + source); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		WorkbenchPlugin.log(Status.warning(message, e));
 	}
 
@@ -310,7 +310,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 * This method must be called on the UI thread.
 	 * </p>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void handleLifecycleEvent(SaveablesLifecycleEvent event) {
 		if (!(event.getSource() instanceof IWorkbenchPart)) {
 			// just update the set of non-part sources. No prompting necessary.
@@ -325,9 +325,9 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 			break;
 		case SaveablesLifecycleEvent.PRE_CLOSE:
 			Saveable[] models = event.getSaveables();
-			Map<Saveable, Integer> modelsDecrementing = new HashMap<>();
-			Set<Saveable> modelsClosing = new HashSet<>();
-			for (Saveable model : models) {
+			Map<Saveable, Integer> modelsDecrementing = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			Set<Saveable> modelsClosing = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (Saveable model : models) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				incrementRefCount(modelsDecrementing, model);
 			}
 
@@ -361,8 +361,8 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	private void removeModels(Object source, Saveable[] modelArray) {
-		List<Saveable> removed = new ArrayList<>();
-		for (Saveable model : modelArray) {
+		List<Saveable> removed = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Saveable model : modelArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (removeModel(source, model)) {
 				removed.add(model);
 			}
@@ -374,8 +374,8 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	private void addModels(Object source, Saveable[] modelArray) {
-		List<Saveable> added = new ArrayList<>();
-		for (Saveable model : modelArray) {
+		List<Saveable> added = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Saveable model : modelArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (addModel(source, model)) {
 				added.add(model);
 			}
@@ -387,7 +387,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	private void fireModelLifecycleEvent(SaveablesLifecycleEvent event) {
-		for (ISaveablesLifecycleListener listener : listeners) {
+		for (ISaveablesLifecycleListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.handleLifecycleEvent(event);
 		}
 	}
@@ -425,7 +425,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 			preCloseParts(partsToClose, save, window);
 		}
 		Collection<Save> saveValues = saveOptions.values();
-		for (Save decision : saveValues) {
+		for (Save decision : saveValues) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (decision == Save.CANCEL) {
 				return false;
 			}
@@ -450,11 +450,11 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 		return preCloseParts(partsToClose, addNonPartSources, save, shellProvider, window, null);
 	}
 
-	private Object preCloseParts(List<IWorkbenchPart> partsToClose, boolean addNonPartSources, boolean save,
+	private Object preCloseParts(List<IWorkbenchPart> partsToClose, boolean addNonPartSources, boolean save, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IShellProvider shellProvider, final IWorkbenchWindow window, Map<Saveable, Save> saveOptions) {
 		// reference count (how many occurrences of a model will go away?)
 		PostCloseInfo postCloseInfo = new PostCloseInfo();
-		for (IWorkbenchPart part : partsToClose) {
+		for (IWorkbenchPart part : partsToClose) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			postCloseInfo.partsClosing.add(part);
 			ISaveablePart saveable = SaveableHelper.getSaveable(part);
 			if (saveable != null) {
@@ -470,7 +470,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 				boolean confirm = true;
 				int response = -2;
 				if (saveOptions != null) {
-					for (Saveable saveableKey : saveables) {
+					for (Saveable saveableKey : saveables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Save saveVal = saveOptions.get(saveableKey);
 						if (saveVal == Save.NO) {
 							confirm = true;
@@ -496,15 +496,15 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 				}
 
 			}
-			for (Saveable saveableModel : saveables) {
+			for (Saveable saveableModel : saveables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				incrementRefCount(postCloseInfo.modelsDecrementing, saveableModel);
 			}
 		}
 		fillModelsClosing(postCloseInfo.modelsClosing, postCloseInfo.modelsDecrementing);
 		if (addNonPartSources) {
-			for (ISaveablesSource nonPartSource : getNonPartSources()) {
+			for (ISaveablesSource nonPartSource : getNonPartSources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Saveable[] saveables = nonPartSource.getSaveables();
-				for (Saveable saveable : saveables) {
+				for (Saveable saveable : saveables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (saveable.isDirty()) {
 						postCloseInfo.modelsClosing.add(saveable);
 					}
@@ -524,8 +524,8 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	public Map<IWorkbenchPart, List<Saveable>> getSaveables(List<IWorkbenchPart> parts) {
 		Map<IWorkbenchPart, List<Saveable>> saveablesMap = null;
 		if (parts != null && parts.size() > 0) {
-			saveablesMap = new HashMap<>();
-			for (IWorkbenchPart part : parts) {
+			saveablesMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (IWorkbenchPart part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Saveable[] saveables = getSaveables(part);
 				if (saveables != null && saveables.length > 0) {
 					saveablesMap.put(part, Arrays.asList(saveables));
@@ -543,11 +543,11 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 		return promptForSavingIfNecessary(window, window, modelsClosing, modelsDecrementing, canCancel, null);
 	}
 
-	private boolean promptForSavingIfNecessary(IShellProvider shellProvider, IWorkbenchWindow window,
+	private boolean promptForSavingIfNecessary(IShellProvider shellProvider, IWorkbenchWindow window, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Set<Saveable> modelsClosing, Map<Saveable, Integer> modelsDecrementing, boolean canCancel,
 			Map<Saveable, Save> saveOptionMap) {
-		List<Saveable> modelsToOptionallySave = new ArrayList<>();
-		for (Saveable modelDecrementing : modelsDecrementing.keySet()) {
+		List<Saveable> modelsToOptionallySave = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Saveable modelDecrementing : modelsDecrementing.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modelDecrementing.isDirty() && !modelsClosing.contains(modelDecrementing)) {
 				modelsToOptionallySave.add(modelDecrementing);
 			}
@@ -560,8 +560,8 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 			return true;
 		}
 
-		List<Saveable> modelsToSave = new ArrayList<>();
-		for (Saveable modelClosing : modelsClosing) {
+		List<Saveable> modelsToSave = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Saveable modelClosing : modelsClosing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modelClosing.isDirty()) {
 				modelsToSave.add(modelClosing);
 			}
@@ -571,7 +571,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	private void fillModelsClosing(Set<Saveable> modelsClosing, Map<Saveable, Integer> modelsDecrementing) {
-		for (Entry<Saveable, Integer> entry : modelsDecrementing.entrySet()) {
+		for (Entry<Saveable, Integer> entry : modelsDecrementing.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Saveable model = entry.getKey();
 			if (entry.getValue().equals(modelRefCounts.get(model))) {
 				modelsClosing.add(model);
@@ -582,12 +582,12 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	private boolean promptForSaving(List<Saveable> modelsToSave, final IShellProvider shellProvider,
 			IRunnableContext runnableContext, final boolean canCancel, boolean stillOpenElsewhere,
 			Map<Saveable, Save> saveOptionMap) {
-		List<Saveable> tobeSaved = new ArrayList<>();
+		List<Saveable> tobeSaved = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (saveOptionMap == null || saveOptionMap.isEmpty()) {
 			return promptForSaving(modelsToSave, shellProvider, runnableContext, canCancel, stillOpenElsewhere);
 		}
 		if (modelsToSave.size() > 0) {
-			for (Saveable saveable : modelsToSave) {
+			for (Saveable saveable : modelsToSave) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Save option = saveOptionMap.get(saveable);
 				if (option != null && option == Save.YES) {
 					tobeSaved.add(saveable);
@@ -611,7 +611,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 * @param stillOpenElsewhere whether the models are referenced by open parts
 	 * @return true if the user canceled
 	 */
-	public boolean promptForSaving(List<Saveable> modelsToSave, final IShellProvider shellProvider,
+	public boolean promptForSaving(List<Saveable> modelsToSave, final IShellProvider shellProvider, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IRunnableContext runnableContext, final boolean canCancel, boolean stillOpenElsewhere) {
 		// Save parts, exit the method if cancel is pressed.
 		if (modelsToSave.size() > 0) {
@@ -636,7 +636,7 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 
 				MessageDialog dialog;
 				if (stillOpenElsewhere) {
-					LinkedHashMap<String, Integer> buttonLabelToIdMap = new LinkedHashMap<>();
+					LinkedHashMap<String, Integer> buttonLabelToIdMap = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 					buttonLabelToIdMap.put(WorkbenchMessages.SaveableHelper_Save, IDialogConstants.OK_ID);
 					buttonLabelToIdMap.put(WorkbenchMessages.SaveableHelper_Dont_Save, IDialogConstants.NO_ID);
 					if (canCancel) {
@@ -741,9 +741,9 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 								false);
 					}
 
-					modelsToSave = new ArrayList<>();
+					modelsToSave = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					Object[] objects = dlg.getResult();
-					for (Object object : objects) {
+					for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (object instanceof Saveable) {
 							modelsToSave.add((Saveable) object);
 						}
@@ -782,13 +782,13 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 *                        Clients can use a workbench window for this.
 	 * @return <code>true</code> if the operation was canceled
 	 */
-	public boolean saveModels(final List<Saveable> finalModels, final IShellProvider shellProvider,
+	public boolean saveModels(final List<Saveable> finalModels, final IShellProvider shellProvider, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IRunnableContext runnableContext, final boolean blockUntilSaved) {
-		IRunnableWithProgress progressOp = monitor -> {
+		IRunnableWithProgress progressOp = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			IProgressMonitor monitorWrap = new EventLoopProgressMonitor(monitor);
 			SubMonitor subMonitor = SubMonitor.convert(monitorWrap, WorkbenchMessages.Saving_Modifications,
 					finalModels.size());
-			for (Saveable model : finalModels) {
+			for (Saveable model : finalModels) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// handle case where this model got saved as a result of
 				// saving another
 				if (!model.isDirty()) {
@@ -805,23 +805,23 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	private static class PostCloseInfo {
-		private final List<IWorkbenchPart> partsClosing = new ArrayList<>();
+		private final List<IWorkbenchPart> partsClosing = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final Map<Saveable, Integer> modelsDecrementing = new HashMap<>();
+		private final Map<Saveable, Integer> modelsDecrementing = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		private final Set<Saveable> modelsClosing = new HashSet<>();
+		private final Set<Saveable> modelsClosing = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	public void postClose(Object postCloseInfoObject) {
+	public void postClose(Object postCloseInfoObject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PostCloseInfo postCloseInfo = (PostCloseInfo) postCloseInfoObject;
-		List<Saveable> removed = new ArrayList<>();
-		for (IWorkbenchPart part : postCloseInfo.partsClosing) {
+		List<Saveable> removed = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkbenchPart part : postCloseInfo.partsClosing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<Saveable> saveables = modelMap.get(part);
 			if (saveables != null) {
 				// make a copy to avoid a ConcurrentModificationException - we
 				// will remove from the original set as we iterate
-				saveables = new HashSet<>(saveables);
-				for (Saveable saveable : saveables) {
+				saveables = new HashSet<>(saveables); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (Saveable saveable : saveables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (removeModel(part, saveable)) {
 						removed.add(saveable);
 					}
@@ -869,8 +869,8 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	 * @return never null
 	 */
 	public Object[] testGetSourcesForModel(Saveable model) {
-		List<Object> result = new ArrayList<>();
-		for (Entry<Object, Set<Saveable>> entry : modelMap.entrySet()) {
+		List<Object> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Entry<Object, Set<Saveable>> entry : modelMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<Saveable> values = entry.getValue();
 			if (values.contains(model)) {
 				result.add(entry.getKey());
@@ -888,8 +888,8 @@ public class SaveablesList implements ISaveablesLifecycleListener {
 	}
 
 	public IWorkbenchPart[] getPartsForSaveable(Saveable model) {
-		List<IWorkbenchPart> result = new ArrayList<>();
-		for (Entry<Object, Set<Saveable>> entry : modelMap.entrySet()) {
+		List<IWorkbenchPart> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Entry<Object, Set<Saveable>> entry : modelMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<Saveable> values = entry.getValue();
 			if (values.contains(model) && entry.getKey() instanceof IWorkbenchPart) {
 				result.add((IWorkbenchPart) entry.getKey());

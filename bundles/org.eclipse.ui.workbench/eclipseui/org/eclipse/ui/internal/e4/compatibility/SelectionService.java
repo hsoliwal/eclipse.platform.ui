@@ -46,7 +46,7 @@ import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.handlers.AbstractSaveHandler;
 import org.osgi.service.event.Event;
 
-public class SelectionService implements ISelectionChangedListener, ISelectionService {
+public class SelectionService implements ISelectionChangedListener, ISelectionService { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	@Inject
 	private IEclipseContext context;
@@ -65,8 +65,8 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 
 	private final ListenerList<ISelectionListener> listeners = new ListenerList<>();
 	private final ListenerList<ISelectionListener> postSelectionListeners = new ListenerList<>();
-	private final Map<String, Set<ISelectionListener>> targetedListeners = new HashMap<>();
-	private final Map<String, Set<ISelectionListener>> targetedPostSelectionListeners = new HashMap<>();
+	private final Map<String, Set<ISelectionListener>> targetedListeners = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<String, Set<ISelectionListener>> targetedPostSelectionListeners = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final org.eclipse.e4.ui.workbench.modeling.ISelectionListener listener = (part,
 			selection) -> handleSelectionChanged(part, selection, false);
@@ -80,7 +80,7 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 	private final org.eclipse.e4.ui.workbench.modeling.ISelectionListener targetedPostListener = (part,
 			selection) -> handlePostSelectionChanged(part, selection, true);
 
-	private void handleSelectionChanged(MPart part, Object selection, boolean targeted) {
+	private void handleSelectionChanged(MPart part, Object selection, boolean targeted) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		selection = createCompatibilitySelection(selection);
 		context.set(ISources.ACTIVE_CURRENT_SELECTION_NAME, selection);
 
@@ -110,7 +110,7 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 		}
 	}
 
-	private void handlePostSelectionChanged(MPart part, Object selection, boolean targeted) {
+	private void handlePostSelectionChanged(MPart part, Object selection, boolean targeted) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		selection = createCompatibilitySelection(selection);
 
 		Object client = part.getObject();
@@ -211,7 +211,7 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 		Object wrapperPart = part.getTransientData().get(E4PartWrapper.E4_WRAPPER_KEY);
 		if (wrapperPart instanceof E4PartWrapper wrapper) {
 			try {
-				wrapper.addPropertyListener(AbstractSaveHandler.getDirtyStateTracker());
+				wrapper.addPropertyListener(AbstractSaveHandler.getDirtyStateTracker()); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			} catch (IllegalArgumentException e) {
 				// do nothing.
 			}
@@ -219,28 +219,28 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 		}
 	}
 
-	@Inject
+	@Inject //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void setSelectionService(@Optional ESelectionService selectionService) {
 		if (this.selectionService != null) {
 			this.selectionService.removeSelectionListener(listener);
-			for (String partId : targetedListeners.keySet()) {
+			for (String partId : targetedListeners.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				this.selectionService.removeSelectionListener(partId, targetedListener);
 			}
 
 			this.selectionService.removePostSelectionListener(postListener);
-			for (String partId : targetedPostSelectionListeners.keySet()) {
+			for (String partId : targetedPostSelectionListeners.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				this.selectionService.removePostSelectionListener(partId, targetedPostListener);
 			}
 		}
 
 		if (selectionService != null) {
-			selectionService.addSelectionListener(listener);
-			for (String partId : targetedListeners.keySet()) {
-				selectionService.addSelectionListener(partId, targetedListener);
+			selectionService.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+			for (String partId : targetedListeners.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				selectionService.addSelectionListener(partId, targetedListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			}
 
 			selectionService.addPostSelectionListener(postListener);
-			for (String partId : targetedPostSelectionListeners.keySet()) {
+			for (String partId : targetedPostSelectionListeners.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				selectionService.addPostSelectionListener(partId, targetedPostListener);
 			}
 			this.selectionService = selectionService;
@@ -259,7 +259,7 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 
 	private void notifyListeners(IWorkbenchPart workbenchPart, ISelection selection,
 			ListenerList<ISelectionListener> listenerList) {
-		for (ISelectionListener listener : listenerList) {
+		for (ISelectionListener listener : listenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selection != null || listener instanceof INullSelectionListener) {
 				listener.selectionChanged(workbenchPart, selection);
 			}
@@ -271,7 +271,7 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 		if (id != null) {
 			Set<ISelectionListener> listeners = listenerMap.get(id);
 			if (listeners != null) {
-				for (ISelectionListener listener : listeners) {
+				for (ISelectionListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (selection != null || listener instanceof INullSelectionListener) {
 						listener.selectionChanged(workbenchPart, selection);
 					}
@@ -289,11 +289,11 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 	public void addSelectionListener(String partId, ISelectionListener listener) {
 		Set<ISelectionListener> listeners = targetedListeners.get(partId);
 		if (listeners == null) {
-			listeners = new HashSet<>();
+			listeners = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			targetedListeners.put(partId, listeners);
 		}
 		if (listeners.isEmpty() && selectionService != null) {
-			selectionService.addSelectionListener(partId, this.targetedListener);
+			selectionService.addSelectionListener(partId, this.targetedListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 		listeners.add(listener);
 	}
@@ -307,7 +307,7 @@ public class SelectionService implements ISelectionChangedListener, ISelectionSe
 	public void addPostSelectionListener(String partId, ISelectionListener listener) {
 		Set<ISelectionListener> listeners = targetedPostSelectionListeners.get(partId);
 		if (listeners == null) {
-			listeners = new HashSet<>();
+			listeners = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			targetedPostSelectionListeners.put(partId, listeners);
 		}
 		if (listeners.isEmpty() && selectionService != null) {

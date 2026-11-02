@@ -83,7 +83,7 @@ public abstract class IconAndMessageDialog extends Dialog {
 	 *            The composite to parent from.
 	 * @return Control
 	 */
-	protected Control createMessageArea(Composite composite) {
+	protected Control createMessageArea(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// create composite
 		// create image
 		Image image = getImage();
@@ -111,7 +111,7 @@ public abstract class IconAndMessageDialog extends Dialog {
 		return composite;
 	}
 
-	private String getAccessibleMessageFor(Image image) {
+	private String getAccessibleMessageFor(Image image) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (image.equals(getErrorImage())) {
 			return JFaceResources.getString("error");//$NON-NLS-1$
 		}
@@ -271,7 +271,7 @@ public abstract class IconAndMessageDialog extends Dialog {
 	 *            the SWT image constant
 	 * @return image the image
 	 */
-	private Image getSWTImage(final int imageID) {
+	private Image getSWTImage(final int imageID) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell = getShell();
 		final Display display;
 		if (shell == null || shell.isDisposed()) {
@@ -290,7 +290,7 @@ public abstract class IconAndMessageDialog extends Dialog {
 		}
 
 		final Image[] image = new Image[1];
-		display.syncExec(() -> image[0] = display.getSystemImage(imageID));
+		display.syncExec(() -> image[0] = display.getSystemImage(imageID)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 		return image[0];
 

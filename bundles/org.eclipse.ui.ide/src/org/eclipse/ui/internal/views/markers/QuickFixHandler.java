@@ -68,7 +68,7 @@ public class QuickFixHandler extends MarkerViewHandler {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
 		final ExtendedMarkersView view = getView(event);
@@ -76,11 +76,11 @@ public class QuickFixHandler extends MarkerViewHandler {
 			return this;
 		}
 
-		final Map<IMarkerResolution, Collection<IMarker>> resolutionsMap = new LinkedHashMap<>();
+		final Map<IMarkerResolution, Collection<IMarker>> resolutionsMap = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		final IMarker[] selectedMarkers = view.getSelectedMarkers();
 		final IMarker firstSelectedMarker = selectedMarkers[0];
 
-		IRunnableWithProgress resolutionsRunnable = monitor -> {
+		IRunnableWithProgress resolutionsRunnable = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			monitor.beginTask(MarkerMessages.resolveMarkerAction_computationManyAction, 100);
 
 			IMarker[] allMarkers = view.getAllMarkers();
@@ -90,7 +90,7 @@ public class QuickFixHandler extends MarkerViewHandler {
 			if (resolutions.length > 1) {
 				progressCount= progressCount / resolutions.length;
 			}
-			for (IMarkerResolution markerResolution : resolutions) {
+			for (IMarkerResolution markerResolution : resolutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (markerResolution instanceof WorkbenchMarkerResolution) {
 					IMarker[] other = ((WorkbenchMarkerResolution)markerResolution).findOtherMarkers(allMarkers);
 					if (containsAllButFirst(other, selectedMarkers)) {
@@ -101,7 +101,7 @@ public class QuickFixHandler extends MarkerViewHandler {
 						resolutionsMap.put(markerResolution, markers1);
 					}
 				} else if (selectedMarkers.length == 1) {
-					Collection<IMarker> markers2 = new ArrayList<>(1);
+					Collection<IMarker> markers2 = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					markers2.add(firstSelectedMarker);
 					resolutionsMap.put(markerResolution, markers2);
 				}
@@ -168,8 +168,8 @@ public class QuickFixHandler extends MarkerViewHandler {
 	 * @since 3.7
 	 */
 	private static boolean containsAllButFirst(Object[] extent, Object[] members) {
-		outer: for (int i= 1; i < members.length; i++) {
-			for (Object e : extent) {
+		outer: for (int i= 1; i < members.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object e : extent) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (members[i] == e) {
 					continue outer;
 				}

@@ -47,7 +47,7 @@ public class ExtendedFileEditorsPreferencePage extends FileEditorsPreferencePage
 
 	private IPreferenceStore idePreferenceStore;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Composite createContents(Composite parent) {
 		Composite res = (Composite)super.createContents(parent);
 
@@ -66,7 +66,7 @@ public class ExtendedFileEditorsPreferencePage extends FileEditorsPreferencePage
 		unknownTypeStrategyLabel
 				.setText(IDEWorkbenchMessages.ExtendedFileEditorsPreferencePage_strategyForUnassociatedFiles);
 		ComboViewer viewer = new ComboViewer(defaultStrategyComposite);
-		viewer.setLabelProvider(new LabelProvider() {
+		viewer.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object o) {
 				String id = (String) o;
@@ -74,17 +74,17 @@ public class ExtendedFileEditorsPreferencePage extends FileEditorsPreferencePage
 				if (label != null) {
 					return label;
 				}
-				IDEWorkbenchPlugin.log("Could not resolve unknownEditorStrategy '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				IDEWorkbenchPlugin.log("Could not resolve unknownEditorStrategy '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return NLS.bind(IDEWorkbenchMessages.ExtendedFileEditorsPreferencePage_labelNotResolved, id);
 			}
 		});
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		viewer.setInput(registry.retrieveAllStrategies());
+		viewer.setInput(registry.retrieveAllStrategies()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		this.idePreferenceStore = IDEWorkbenchPlugin.getDefault().getPreferenceStore();
 		viewer.setSelection(
 				new StructuredSelection(this.idePreferenceStore.getString(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY)));
-		viewer.addSelectionChangedListener(
-				event -> idePreferenceStore.setValue(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY,
+		viewer.addSelectionChangedListener( //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+				event -> idePreferenceStore.setValue(IDE.UNASSOCIATED_EDITOR_STRATEGY_PREFERENCE_KEY, //FLLDCIM: MARK — T04  LAMBDA
 						(String) event.getStructuredSelection().getFirstElement()));
 
 		return res;

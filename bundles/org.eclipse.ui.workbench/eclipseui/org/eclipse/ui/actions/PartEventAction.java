@@ -44,7 +44,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * does NOT register itself.
  * </p>
  */
-public abstract class PartEventAction extends Action implements IPartListener {
+public abstract class PartEventAction extends Action implements IPartListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	/**
 	 * The active part, or <code>null</code> if none.

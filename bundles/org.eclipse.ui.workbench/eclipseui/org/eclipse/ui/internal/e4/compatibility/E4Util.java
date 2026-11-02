@@ -40,7 +40,7 @@ public class E4Util {
 
 	public static void unsupported(String msg) throws UnsupportedOperationException {
 		if (DEBUG_E4) {
-			WorkbenchPlugin.log("unsupported: " + msg); //$NON-NLS-1$
+			WorkbenchPlugin.log("unsupported: " + msg); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

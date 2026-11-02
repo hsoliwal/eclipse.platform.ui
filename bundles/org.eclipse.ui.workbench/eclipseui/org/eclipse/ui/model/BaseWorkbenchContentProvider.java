@@ -27,7 +27,7 @@ import org.eclipse.jface.viewers.Viewer;
  * @see IWorkbenchAdapter
  * @since 3.0
  */
-public class BaseWorkbenchContentProvider implements ITreeContentProvider {
+public class BaseWorkbenchContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	/**
 	 * Creates a new workbench content provider.

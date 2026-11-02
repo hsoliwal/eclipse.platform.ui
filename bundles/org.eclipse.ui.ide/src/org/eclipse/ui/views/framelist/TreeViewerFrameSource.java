@@ -42,7 +42,7 @@ public class TreeViewerFrameSource implements IFrameSource {
 	 * so that when the current frame changes, the viewer is updated.
 	 */
 	public void connectTo(FrameList frameList) {
-		frameList.addPropertyChangeListener(TreeViewerFrameSource.this::handlePropertyChange);
+		frameList.addPropertyChangeListener(TreeViewerFrameSource.this::handlePropertyChange); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class TreeViewerFrameSource implements IFrameSource {
 	 */
 	protected void frameChanged(TreeFrame frame) {
 		viewer.getControl().setRedraw(false);
-		viewer.setInput(frame.getInput());
+		viewer.setInput(frame.getInput()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		viewer.setExpandedElements(frame.getExpandedElements());
 		viewer.setSelection(frame.getSelection(), true);
 		viewer.getControl().setRedraw(true);
@@ -104,7 +104,7 @@ public class TreeViewerFrameSource implements IFrameSource {
 	 * @param flags a bit-wise OR of the frame source flag constants
 	 * @return the parent frame, or <code>null</code>
 	 */
-	protected Frame getParentFrame(int flags) {
+	protected Frame getParentFrame(int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object input = viewer.getInput();
 		ITreeContentProvider provider = (ITreeContentProvider) viewer
 				.getContentProvider();

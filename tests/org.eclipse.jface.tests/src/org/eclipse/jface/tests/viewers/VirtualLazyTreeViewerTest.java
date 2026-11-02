@@ -15,12 +15,15 @@
  *******************************************************************************/
 package org.eclipse.jface.tests.viewers;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -36,7 +39,7 @@ public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 	@Override
 	protected StructuredViewer createViewer(Composite parent) {
 		Tree tree = new Tree(parent, SWT.VIRTUAL);
-		tree.addListener(SWT.SetData, _ -> setDataCalls++);
+		tree.addListener(SWT.SetData, unused -> setDataCalls++);
 		fTreeViewer = new TreeViewer(tree);
 		fTreeViewer.setContentProvider(new TestModelLazyTreeContentProvider((TreeViewer) fTreeViewer));
 		return fTreeViewer;
@@ -138,9 +141,56 @@ public class VirtualLazyTreeViewerTest extends TreeViewerTest {
 	public void testChildIsNotDuplicatedWhenCompareEquals() {
 	}
 
-	@Disabled("test is not relevant for lazy tree viewer")
+	@Test
+	public void testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings() throws Exception {
+		try {
+			Tree.class.getMethod("getExpandedItems");
+			Tree.class.getMethod("setExpandedItems", org.eclipse.swt.widgets.TreeItem[].class);
+		} catch (NoSuchMethodException unavailable) {
+			assumeTrue(false, "requires SWT widget-owned expanded-item state");
+		}
+
+		TestElement root = TestElement.createModel(2, 200);
+		TestElement parent = root.getChildAt(150);
+		TestElement child = parent.getChildAt(175);
+		// Expansion requires a nonleaf; keep the 200-sibling model otherwise unchanged.
+		child.basicAddChild();
+		fTreeViewer.setInput(root);
+		processEvents();
+
+		int before = setDataCalls;
+		fTreeViewer.setExpandedElements(parent, child);
+		processEvents();
+		int afterSet = setDataCalls;
+		assertTrue(afterSet - before < 32,
+				"restoring two expansion paths must not request hundreds of cold virtual siblings");
+		assertArrayEquals(new Object[] {parent, child}, fTreeViewer.getExpandedElements());
+		assertEquals(afterSet, setDataCalls,
+				"enumerating expanded elements must use SWT item state without new SetData");
+
+		fTreeViewer.setExpandedElements(child);
+		processEvents();
+		assertFalse(fTreeViewer.getExpandedState(parent));
+		assertTrue(fTreeViewer.getExpandedState(child),
+				"a hidden descendant may retain expanded state below a collapsed ancestor");
+		int hiddenSetData = setDataCalls;
+		assertArrayEquals(new Object[] {child}, fTreeViewer.getExpandedElements());
+		assertEquals(hiddenSetData, setDataCalls,
+				"hidden expanded state enumeration must not traverse cold siblings");
+
+		TreePath childPath = new TreePath(new Object[] {parent, child});
+		fTreeViewer.setExpandedTreePaths(childPath);
+		processEvents();
+		int pathSetData = setDataCalls;
+		assertArrayEquals(new TreePath[] {childPath}, fTreeViewer.getExpandedTreePaths());
+		assertEquals(pathSetData, setDataCalls,
+				"tree-path expansion state must reuse the same SWT-owned item state");
+	}
+
+	@Test
 	@Override
 	public void testExpandCollapseToLevel() {
+		super.testExpandCollapseToLevel();
 	}
 
 	// Temporary overrides for bug 347491

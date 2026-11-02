@@ -117,7 +117,7 @@ public class CellNavigationStrategy {
 	 *         default implementation is taken. E.g. it's fairly impossible to
 	 *         react on PAGE_DOWN requests
 	 */
-	public ViewerCell findSelectedCell(ColumnViewer viewer,
+	public ViewerCell findSelectedCell(ColumnViewer viewer, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ViewerCell currentSelectedCell, Event event) {
 
 		switch (event.keyCode) {

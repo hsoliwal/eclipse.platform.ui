@@ -1,0 +1,80 @@
+[
+  {
+    "group": "org.eclipse.platform",
+    "artifact": "org.eclipse.equinox.preferences",
+    "version": "3.12.100",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.preferences/3.12.100/org.eclipse.equinox.preferences-3.12.100.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar",
+    "bytes": 130382,
+    "sha256": "fd04e81a28ab32b6bb073286eb293c44b760176fcf1e35ef15614d62df820f86",
+    "published_sha1": "31ec4b200952d71e06ef4546dceb8fed08fefd34",
+    "published_sha1_verified": true,
+    "class_count": 59,
+    "bundle_version": "3.12.100.v20251111-0704"
+  },
+  {
+    "group": "org.eclipse.platform",
+    "artifact": "org.eclipse.equinox.bidi",
+    "version": "1.5.400",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.equinox.bidi/1.5.400/org.eclipse.equinox.bidi-1.5.400.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar",
+    "bytes": 55787,
+    "sha256": "78599009dc5a0f02881406798d7e07e25ac222930a985757bca61632867c7abe",
+    "published_sha1": "87c02be645e67f6b5d5b403efc381c9f9e5bc54c",
+    "published_sha1_verified": true,
+    "class_count": 24,
+    "bundle_version": "1.5.400.v20250715-0436"
+  },
+  {
+    "group": "org.eclipse.pde",
+    "artifact": "org.eclipse.pde.api.tools.annotations",
+    "version": "1.4.100",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/pde/org.eclipse.pde.api.tools.annotations/1.4.100/org.eclipse.pde.api.tools.annotations-1.4.100.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar",
+    "bytes": 15374,
+    "sha256": "a8f8e05d485102893593879f5d5afa1be8b216d733ad130e3e7ab4366dde7060",
+    "published_sha1": "1cbbc9ff1f80bc90703c4c1f03d332140a703ab7",
+    "published_sha1_verified": true,
+    "class_count": 5,
+    "bundle_version": "1.4.100.v20260306-2228"
+  },
+  {
+    "group": "org.osgi",
+    "artifact": "org.osgi.service.prefs",
+    "version": "1.1.2",
+    "url": "https://repo.maven.apache.org/maven2/org/osgi/org.osgi.service.prefs/1.1.2/org.osgi.service.prefs-1.1.2.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar",
+    "bytes": 20165,
+    "sha256": "43c7c870710e363405d422da653cce0d798a4537f76e4930f79bceadd3a55345",
+    "published_sha1": "44351FDFB119EE920394C1A27C938288C93C03C8",
+    "published_sha1_verified": true,
+    "class_count": 4,
+    "bundle_version": "1.1.2.202109301733"
+  },
+  {
+    "group": "org.eclipse.platform",
+    "artifact": "org.eclipse.core.jobs",
+    "version": "3.15.900",
+    "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.jobs/3.15.900/org.eclipse.core.jobs-3.15.900.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.core.jobs-3.15.900.jar",
+    "bytes": 120947,
+    "sha256": "941b3c5feeba4ec0a949a8a94ff10283b2505813fa736c9e6345f146ae1b7e8a",
+    "published_sha1": "bd8a76a534cc779ff3947627481091ff675b3d7e",
+    "published_sha1_verified": true,
+    "class_count": 47,
+    "bundle_version": "3.15.900.v20260604-0622"
+  },
+  {
+    "group": "org.junit.platform",
+    "artifact": "junit-platform-console-standalone",
+    "version": "1.14.4",
+    "url": "https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-console-standalone/1.14.4/junit-platform-console-standalone-1.14.4.jar",
+    "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/junit-platform-console-standalone-1.14.4.jar",
+    "bytes": 3178851,
+    "sha256": "7c6968cbcaf4301c729f202b23b7d736c5d88be625fc7d27ad5d746146a8bc28",
+    "published_sha1": "02deb74daae8c2187cfc9fe85392f8421eb004c6",
+    "published_sha1_verified": true,
+    "class_count": 2036,
+    "bundle_version": "1.14.4"
+  }
+]

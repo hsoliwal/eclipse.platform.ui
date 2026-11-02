@@ -85,7 +85,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 
 		// Easy case out if no actions
 		if (currentContribution.actions != null) {
-			for (ActionDescriptor ad : currentContribution.actions) {
+			for (ActionDescriptor ad : currentContribution.actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = ad.getAction().getOverrideActionId();
 				if (id != null) {
 					actionIdOverrides.add(id);
@@ -97,7 +97,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 	/**
 	 * Contributes actions applicable for the current selection.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean contributeObjectActions(final IWorkbenchPart part, IMenuManager menu, ISelectionProvider selProv,
 			List actionIdOverrides) {
 		if (!configRead) {
@@ -118,7 +118,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 			IStructuredSelection newSelection = LegacyResourceSupport.adaptSelection(ssel, getObjectClass());
 			if (newSelection.size() != ssel.size()) {
 				if (Policy.DEBUG_CONTRIBUTIONS) {
-					WorkbenchPlugin.log("Error adapting selection to " + getObjectClass() + //$NON-NLS-1$
+					WorkbenchPlugin.log("Error adapting selection to " + getObjectClass() + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							". Contribution " + getID(config) + " is being ignored"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				return false;
@@ -129,7 +129,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 		final IStructuredSelection selection = ssel;
 
 		// Generate menu.
-		for (ActionDescriptor ad : currentContribution.actions) {
+		for (ActionDescriptor ad : currentContribution.actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!actionIdOverrides.contains(ad.getId())) {
 				currentContribution.contributeMenuAction(ad, menu, true);
 				// Update action for the current selection and part.
@@ -138,7 +138,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 					ISafeRunnable runnable = new ISafeRunnable() {
 						@Override
 						public void handleException(Throwable exception) {
-							WorkbenchPlugin.log("Failed to update action " //$NON-NLS-1$
+							WorkbenchPlugin.log("Failed to update action " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									+ action.getId(), exception);
 						}
 
@@ -158,7 +158,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 	/**
 	 * Contributes menus applicable for the current selection.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean contributeObjectMenus(IMenuManager menu, ISelectionProvider selProv) {
 		if (!configRead) {
 			readConfigElement();
@@ -176,7 +176,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 		}
 
 		// Generate menu.
-		for (IConfigurationElement menuElement : currentContribution.menus) {
+		for (IConfigurationElement menuElement : currentContribution.menus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currentContribution.contributeMenu(menuElement, menu, true);
 		}
 		return true;
@@ -196,7 +196,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 	 * Returns true if name filter is not specified for the contribution or the
 	 * current selection matches the filter.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isApplicableTo(Object object) {
 		if (!configRead) {
 			readConfigElement();
@@ -208,7 +208,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 			Object adapted = LegacyResourceSupport.getAdapter(object, getObjectClass());
 			if (adapted == null) {
 				if (Policy.DEBUG_CONTRIBUTIONS) {
-					WorkbenchPlugin.log("Error adapting " + object.getClass().getName() + //$NON-NLS-1$
+					WorkbenchPlugin.log("Error adapting " + object.getClass().getName() + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							" to " //$NON-NLS-1$
 							+ getObjectClass() + ". Contribution " + getID(config) + " is being ignored"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
@@ -234,7 +234,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 		configRead = true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean readElement(IConfigurationElement element) {
 		String tag = element.getName();
 
@@ -329,7 +329,7 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 		 * @param object the object to test
 		 * @return whether we're applicable
 		 */
-		public boolean isApplicableTo(Object object) {
+		public boolean isApplicableTo(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean result = true;
 			if (visibilityTest != null) {
 				result = result && visibilityTest.isEnabledFor(object);
@@ -368,9 +368,9 @@ public class ObjectActionContributor extends PluginActionBuilder implements IObj
 	 */
 	@Override
 	public String toString() {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		IConfigurationElement[] children = config.getChildren();
-		for (IConfigurationElement element : children) {
+		for (IConfigurationElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String label = element.getAttribute(IWorkbenchRegistryConstants.ATT_LABEL);
 			if (label != null) {
 				buffer.append(label);

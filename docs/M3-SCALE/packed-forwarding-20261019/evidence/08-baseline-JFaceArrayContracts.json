@@ -1,0 +1,12 @@
+{
+  "command": [
+    "java",
+    "-ea",
+    "-Xmx256m",
+    "-cp",
+    "/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/baseline-classes:/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/unsigned-jface.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.swt.gtk.linux.x86_64_3.130.0.v20250528-1759.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.core.commands_3.12.400.v20250312-0643.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.equinox.common_3.20.100.v20250506-0427.jar:/workspace/scratch/b37f6ba1283f/jface-contracts-20261014/deps/org.eclipse.osgi_3.23.100.v20250514-1759.jar:/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/trial-04/annotations",
+    "JFaceArrayContracts"
+  ],
+  "exit": 0,
+  "logSha256": "0446389ce7cf6da62514b58e48858c2d9bc8113f4aad02f5d606821640bed367"
+}

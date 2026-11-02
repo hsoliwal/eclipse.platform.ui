@@ -75,7 +75,7 @@ public class ColumnViewerEditorActivationStrategy {
 	 * @param enable
 	 *            <code>true</code> to enable
 	 */
-	public void setEnableEditorActivationWithKeyboard(boolean enable) {
+	public void setEnableEditorActivationWithKeyboard(boolean enable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (enable) {
 			if (keyboardActivationListener == null) {
 				keyboardActivationListener = new KeyListener() {
@@ -97,7 +97,7 @@ public class ColumnViewerEditorActivationStrategy {
 					}
 
 				};
-				viewer.getControl().addKeyListener(keyboardActivationListener);
+				viewer.getControl().addKeyListener(keyboardActivationListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			}
 		} else if (keyboardActivationListener != null) {
 			viewer.getControl().removeKeyListener(

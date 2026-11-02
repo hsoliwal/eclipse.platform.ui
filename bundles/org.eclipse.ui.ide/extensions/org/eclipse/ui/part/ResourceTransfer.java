@@ -81,7 +81,7 @@ public class ResourceTransfer extends ByteArrayTransfer {
 
 	// Create a unique ID to make sure that different Eclipse
 	// applications use different "types" of <code>ResourceTransfer</code>
-	private static final String TYPE_NAME = "resource-transfer-format:" + System.currentTimeMillis() + ":" + instance.hashCode();//$NON-NLS-2$//$NON-NLS-1$
+	private static final String TYPE_NAME = "resource-transfer-format:" + System.currentTimeMillis() + ":" + instance.hashCode();//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final int TYPEID = registerType(TYPE_NAME);
 
@@ -112,7 +112,7 @@ public class ResourceTransfer extends ByteArrayTransfer {
 		return new String[] { TYPE_NAME };
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void javaToNative(Object data, TransferData transferData) {
 		if (!(data instanceof IResource[] resources)) {
 			return;
@@ -136,7 +136,7 @@ public class ResourceTransfer extends ByteArrayTransfer {
 			dataOut.writeInt(resourceCount);
 
 			// write each resource
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				writeResource(dataOut, resource);
 			}
 
@@ -147,7 +147,7 @@ public class ResourceTransfer extends ByteArrayTransfer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object nativeToJava(TransferData transferData) {
 		/**
 		 * The resource serialization format is:
@@ -166,18 +166,18 @@ public class ResourceTransfer extends ByteArrayTransfer {
 		try {
 			int count = in.readInt();
 			if (count > MAX_RESOURCES_TO_TRANSFER) {
-				String message = "Transfer aborted, too many resources: " + count + "."; //$NON-NLS-1$ //$NON-NLS-2$
+				String message = "Transfer aborted, too many resources: " + count + "."; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (Util.isLinux()) {
 					message += "\nIf you are running in x11vnc environment please consider to switch to vncserver " + //$NON-NLS-1$
 							"+ vncviewer or to run x11vnc without clipboard support " + //$NON-NLS-1$
 							"(use '-noclipboard' and '-nosetclipboard' arguments)."; //$NON-NLS-1$
 				}
 				IDEWorkbenchPlugin.log(message, new IllegalArgumentException(
-						"Maximum limit of resources to transfer is: " + MAX_RESOURCES_TO_TRANSFER)); //$NON-NLS-1$
+						"Maximum limit of resources to transfer is: " + MAX_RESOURCES_TO_TRANSFER)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return null;
 			}
 			IResource[] results = new IResource[count];
-			for (int i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				results[i] = readResource(in);
 			}
 			return results;

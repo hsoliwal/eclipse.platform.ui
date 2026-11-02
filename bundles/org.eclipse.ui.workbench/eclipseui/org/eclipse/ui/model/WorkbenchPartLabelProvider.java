@@ -40,7 +40,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
 public final class WorkbenchPartLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 	private final ResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
-	private final HashMap images = new HashMap();
+	private final HashMap images = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Creates a new label provider for workbench parts.
@@ -49,7 +49,7 @@ public final class WorkbenchPartLabelProvider extends LabelProvider implements I
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage(Object element) {
 		if (element instanceof IWorkbenchPart) {
 			return ((IWorkbenchPart) element).getTitleImage();
@@ -74,21 +74,21 @@ public final class WorkbenchPartLabelProvider extends LabelProvider implements I
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getText(Object element) {
 		if (element instanceof IWorkbenchPart part) {
 			String path = part.getTitleToolTip();
 			if (path == null || path.trim().isEmpty()) {
 				return part.getTitle();
 			}
-			return part.getTitle() + "  [" + path + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+			return part.getTitle() + "  [" + path + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (element instanceof Saveable model) {
 			String path = model.getToolTipText();
 			if (path == null || path.trim().isEmpty()) {
 				return model.getName();
 			}
-			return model.getName() + "  [" + path + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+			return model.getName() + "  [" + path + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		}
 		return null;

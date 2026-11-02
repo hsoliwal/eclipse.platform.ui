@@ -137,7 +137,7 @@ public final class SelectionEnabler {
 	 *         available
 	 * @since 3.0
 	 */
-	private static Class<?> getTextSelectionClass() {
+	private static Class<?> getTextSelectionClass() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (iTextSelectionClass != null) {
 			// tried before and succeeded
 			return iTextSelectionClass;
@@ -192,7 +192,7 @@ public final class SelectionEnabler {
 		return SimpleWildcardTester.testWildcardIgnoreCase(filter, name);
 	}
 
-	private List<SelectionClass> classes = new ArrayList<>();
+	private List<SelectionClass> classes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private ActionExpression enablementExpression;
 
@@ -250,7 +250,7 @@ public final class SelectionEnabler {
 	 * Returns true if given structured selection matches the conditions specified
 	 * in the registry for this action.
 	 */
-	private boolean isEnabledFor(ISelection sel) {
+	private boolean isEnabledFor(ISelection sel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object obj = sel;
 		int count = sel.isEmpty() ? 0 : 1;
 
@@ -282,7 +282,7 @@ public final class SelectionEnabler {
 	 * Returns true if given text selection matches the conditions specified in the
 	 * registry for this action.
 	 */
-	private boolean isEnabledFor(ISelection sel, int count) {
+	private boolean isEnabledFor(ISelection sel, int count) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!verifySelectionCount(count)) {
 			return false;
 		}
@@ -296,7 +296,7 @@ public final class SelectionEnabler {
 		if (classes.isEmpty()) {
 			return true;
 		}
-		for (SelectionClass sc : classes) {
+		for (SelectionClass sc : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (verifyClass(sel, sc.className)) {
 				return true;
 			}
@@ -308,7 +308,7 @@ public final class SelectionEnabler {
 	 * Returns true if given structured selection matches the conditions specified
 	 * in the registry for this action.
 	 */
-	private boolean isEnabledFor(IStructuredSelection ssel) {
+	private boolean isEnabledFor(IStructuredSelection ssel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int count = ssel.size();
 
 		if (!verifySelectionCount(count)) {
@@ -324,7 +324,7 @@ public final class SelectionEnabler {
 		if (classes.isEmpty()) {
 			return true;
 		}
-		for (Object obj : ssel) {
+		for (Object obj : ssel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (obj instanceof IAdaptable element) {
 				if (!verifyElement(element)) {
 					return false;
@@ -344,7 +344,7 @@ public final class SelectionEnabler {
 	 * @return <code>true</code> if the given selection matches the conditions
 	 *         specified in <code>IConfirgurationElement</code>.
 	 */
-	public boolean isEnabledForSelection(ISelection selection) {
+	public boolean isEnabledForSelection(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Optimize it.
 		if (mode == UNKNOWN) {
 			return false;
@@ -395,7 +395,7 @@ public final class SelectionEnabler {
 	 * Parses registry element to extract mode and selection elements that will be
 	 * used for verification.
 	 */
-	private void parseClasses(IConfigurationElement config) {
+	private void parseClasses(IConfigurationElement config) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get enables for.
 		String enablesFor = config.getAttribute(IWorkbenchRegistryConstants.ATT_ENABLES_FOR);
 		if (enablesFor == null) {
@@ -437,8 +437,8 @@ public final class SelectionEnabler {
 		// Get selection block.
 		children = config.getChildren(IWorkbenchRegistryConstants.TAG_SELECTION);
 		if (children.length > 0) {
-			classes = new ArrayList<>();
-			for (IConfigurationElement sel : children) {
+			classes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IConfigurationElement sel : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String cname = sel.getAttribute(IWorkbenchRegistryConstants.ATT_CLASS);
 				String name = sel.getAttribute(IWorkbenchRegistryConstants.ATT_NAME);
 				SelectionClass sclass = new SelectionClass();
@@ -454,11 +454,11 @@ public final class SelectionEnabler {
 	 * direct match fails, implementing interfaces will be tested, then recursively
 	 * all superclasses and their interfaces.
 	 */
-	private boolean verifyClass(Object element, String className) {
+	private boolean verifyClass(Object element, String className) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?> eclass = element.getClass();
 		Class<?> clazz = eclass;
 		boolean match = false;
-		while (clazz != null) {
+		while (clazz != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// test the class itself
 			if (clazz.getName().equals(className)) {
 				match = true;
@@ -466,7 +466,7 @@ public final class SelectionEnabler {
 			}
 			// test all the interfaces it implements
 			Class<?>[] interfaces = clazz.getInterfaces();
-			for (Class<?> currentInterface : interfaces) {
+			for (Class<?> currentInterface : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (currentInterface.getName().equals(className)) {
 					match = true;
 					break;
@@ -485,11 +485,11 @@ public final class SelectionEnabler {
 	 * Verifies if the given element matches one of the selection requirements.
 	 * Element must at least pass the type test, and optionally wildcard name match.
 	 */
-	private boolean verifyElement(IAdaptable element) {
+	private boolean verifyElement(IAdaptable element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (classes.isEmpty()) {
 			return true;
 		}
-		for (SelectionClass sc : classes) {
+		for (SelectionClass sc : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!verifyClass(element, sc.className)) {
 				continue;
 			}
@@ -507,7 +507,7 @@ public final class SelectionEnabler {
 	/**
 	 * Compare selection count with requirements.
 	 */
-	private boolean verifySelectionCount(int count) {
+	private boolean verifySelectionCount(int count) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (count > 0 && mode == NONE) {
 			return false;
 		}

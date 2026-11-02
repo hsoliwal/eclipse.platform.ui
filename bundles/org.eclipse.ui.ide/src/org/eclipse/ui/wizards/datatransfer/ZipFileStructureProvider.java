@@ -40,9 +40,9 @@ public class ZipFileStructureProvider implements IImportStructureProvider {
 
 	private Map<ZipEntry, List<ZipEntry>> children;
 
-	private final Map<IPath, ZipEntry> directoryEntryCache = new HashMap<>();
+	private final Map<IPath, ZipEntry> directoryEntryCache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Set<String> invalidEntries = new HashSet<>();
+	private final Set<String> invalidEntries = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Creates a <code>ZipFileStructureProvider</code>, which will operate
@@ -61,7 +61,7 @@ public class ZipFileStructureProvider implements IImportStructureProvider {
 	protected void addToChildren(ZipEntry parent, ZipEntry child) {
 		List<ZipEntry> childList = children.get(parent);
 		if (childList == null) {
-			childList = new ArrayList<>();
+			childList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			children.put(parent, childList);
 		}
 
@@ -119,7 +119,7 @@ public class ZipFileStructureProvider implements IImportStructureProvider {
 	public InputStream getContents(Object element) {
 		try {
 			if (invalidEntries.contains(((ZipEntry) element).getName())) {
-				throw new IOException("Cannot get content of Entry as it is outside of the target dir: " //$NON-NLS-1$
+				throw new IOException("Cannot get content of Entry as it is outside of the target dir: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ ((ZipEntry) element).getName());
 			}
 			return zipFile.getInputStream((ZipEntry) element);
@@ -165,8 +165,8 @@ public class ZipFileStructureProvider implements IImportStructureProvider {
 	 * Initializes this object's children table based on the contents of
 	 * the specified source file.
 	 */
-	protected void initialize() {
-		children = new HashMap<>(1000);
+	protected void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		children = new HashMap<>(1000); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		IPath zipFileDirPath = IPath.fromOSString(zipFile.getName()).removeLastSegments(1);
 		String canonicalDestinationDirPath = zipFileDirPath.toString();
@@ -178,20 +178,20 @@ public class ZipFileStructureProvider implements IImportStructureProvider {
 			return;
 		}
 		Enumeration<? extends ZipEntry> entries = zipFile.entries();
-		while (entries.hasMoreElements()) {
+		while (entries.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				ZipEntry entry = entries.nextElement();
 				File destinationfile = new File(zipDestinationDir, entry.getName());
 				String canonicalDestinationFile = destinationfile.getCanonicalPath();
 
-				if (!canonicalDestinationFile.startsWith(canonicalDestinationDirPath + File.separator)) {
+				if (!canonicalDestinationFile.startsWith(canonicalDestinationDirPath + File.separator)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					invalidEntries.add(entry.getName());
-					throw new IOException("Entry is outside of the target dir: " + entry.getName()); //$NON-NLS-1$
+					throw new IOException("Entry is outside of the target dir: " + entry.getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else if (!entry.isDirectory()) {
 					IPath path = IPath.fromOSString(entry.getName()).addTrailingSeparator();
 					int pathSegmentCount = path.segmentCount();
 
-					for (int i = 1; i < pathSegmentCount; i++) {
+					for (int i = 1; i < pathSegmentCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						createContainer(path.uptoSegment(i));
 					}
 					createFile(entry);

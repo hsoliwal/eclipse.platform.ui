@@ -232,7 +232,7 @@ public class ResourceTextFileBufferManager extends TextFileBufferManager {
 
 	@Override
 	public void validateState(final IFileBuffer[] fileBuffers, IProgressMonitor monitor, final Object computationContext) throws CoreException {
-		IWorkspaceRunnable runnable= _ -> {
+		IWorkspaceRunnable runnable= unused -> {
 			IFileBuffer[] toValidate= findFileBuffersToValidate(fileBuffers);
 			validationStateAboutToBeChanged(toValidate);
 			try {

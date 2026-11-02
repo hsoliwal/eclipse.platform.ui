@@ -104,7 +104,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	final private Set<Job> managedJobs = ConcurrentHashMap.newKeySet();
 
 	final private Map<Object, Collection<IJobBusyListener>> familyListeners = Collections
-			.synchronizedMap(new LinkedHashMap<>());
+			.synchronizedMap(new LinkedHashMap<>()); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	// list of IJobProgressManagerListener
 	private final ListenerList<IJobProgressManagerListener> listeners = new ListenerList<>();
@@ -136,7 +136,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 */
 	public static final String BLOCKED_JOB_KEY = "LOCKED_JOB"; //$NON-NLS-1$
 
-	final Map<Job, JobMonitor> runnableMonitors = new HashMap<>();
+	final Map<Job, JobMonitor> runnableMonitors = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	// A table that maps families to keys in the Jface image table
 	private final Hashtable<Object, String> imageKeyTable = new Hashtable<>();
@@ -151,7 +151,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	/**
 	 * Modification guarded by {@link #pendingUpdatesMutex}.
 	 */
-	private Map<JobInfo, Set<IJobProgressManagerListener>> pendingJobUpdates = new LinkedHashMap<>();
+	private Map<JobInfo, Set<IJobProgressManagerListener>> pendingJobUpdates = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	/**
 	 * Modification guarded by {@link #pendingUpdatesMutex}.
@@ -161,7 +161,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	/**
 	 * Modification guarded by {@link #pendingUpdatesMutex}.
 	 */
-	private Map<JobInfo, Set<IJobProgressManagerListener>> pendingJobRemoval = new LinkedHashMap<>();
+	private Map<JobInfo, Set<IJobProgressManagerListener>> pendingJobRemoval = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	/**
 	 * Modification guarded by {@link #pendingUpdatesMutex}.
@@ -171,7 +171,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	/**
 	 * Modification guarded by {@link #pendingUpdatesMutex}.
 	 */
-	private Map<JobInfo, Set<IJobProgressManagerListener>> pendingJobAddition = new LinkedHashMap<>();
+	private Map<JobInfo, Set<IJobProgressManagerListener>> pendingJobAddition = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	private static final String IMAGE_KEY = "org.eclipse.ui.progress.images"; //$NON-NLS-1$
 
@@ -377,22 +377,22 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	/**
 	 * Send pending notifications to listeners.
 	 */
-	/* Visible for testing */ public void notifyListeners() {
+	/* Visible for testing */ public void notifyListeners() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		promotePendingJobs();
 		Set<GroupInfo> localPendingGroupUpdates, localPendingGroupRemoval;
 		Map<JobInfo, Set<IJobProgressManagerListener>> localPendingJobUpdates, localPendingJobAddition,
 				localPendingJobRemoval;
 		synchronized (pendingUpdatesMutex) {
 			localPendingJobUpdates = pendingJobUpdates;
-			pendingJobUpdates = new LinkedHashMap<>();
+			pendingJobUpdates = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			localPendingGroupUpdates = pendingGroupUpdates;
 			pendingGroupUpdates = new LinkedHashSet<>();
 			localPendingJobRemoval = pendingJobRemoval;
-			pendingJobRemoval = new LinkedHashMap<>();
+			pendingJobRemoval = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			localPendingGroupRemoval = pendingGroupRemoval;
 			pendingGroupRemoval = new LinkedHashSet<>();
 			localPendingJobAddition = pendingJobAddition;
-			pendingJobAddition = new LinkedHashMap<>();
+			pendingJobAddition = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		}
 
 		localPendingJobAddition.entrySet().forEach(e -> e.getValue().forEach(listener -> listener.addJob(e.getKey())));
@@ -430,7 +430,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 			return;
 		}
 		long now = System.nanoTime();
-		for (Iterator<Entry<Job, Long>> it = pendingJobAdditions.entrySet().iterator(); it.hasNext();) {
+		for (Iterator<Entry<Job, Long>> it = pendingJobAdditions.entrySet().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<Job, Long> entry = it.next();
 			if (now - entry.getValue() < 0) {
 				continue; // still within its grace period
@@ -463,26 +463,26 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 *
 	 * @return the created IJobChangeListener
 	 */
-	private IJobChangeListener createChangeListener() {
+	private IJobChangeListener createChangeListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new JobChangeAdapter() {
 			@Override
 			public void aboutToRun(IJobChangeEvent event) {
 				JobInfo info = progressFor(event.getJob()).getJobInfo();
 				refreshJobInfo(info);
 				Iterator<IJobBusyListener> startListeners = busyListenersForJob(event.getJob()).iterator();
-				while (startListeners.hasNext()) {
+				while (startListeners.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IJobBusyListener next = startListeners.next();
 					next.incrementBusy(event.getJob());
 				}
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void done(IJobChangeEvent event) {
 				if (!PlatformUI.isWorkbenchRunning()) {
 					return;
 				}
 				Iterator<IJobBusyListener> startListeners = busyListenersForJob(event.getJob()).iterator();
-				while (startListeners.hasNext()) {
+				while (startListeners.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IJobBusyListener next = startListeners.next();
 					next.decrementBusy(event.getJob());
 				}
@@ -515,14 +515,14 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 				}
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void scheduled(IJobChangeEvent event) {
 				updateFor(event);
 				if (event.getJob().isUser()) {
 					boolean noDialog = shouldRunInBackground();
 					if (!noDialog) {
 						final IJobChangeEvent finalEvent = event;
-						WorkbenchJob showJob = new WorkbenchJob(ProgressMessages.ProgressManager_showInDialogName) {
+						WorkbenchJob showJob = new WorkbenchJob(ProgressMessages.ProgressManager_showInDialogName) { //FLLDCIM: MARK — T09  ANONYMOUS
 							@Override
 							public IStatus runInUIThread(IProgressMonitor monitor) {
 								showInDialog(null, finalEvent.getJob());
@@ -571,13 +571,13 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 *
 	 * @param info the job going to sleep
 	 */
-	protected void sleepJobInfo(JobInfo info) {
+	protected void sleepJobInfo(JobInfo info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GroupInfo group = info.getGroupInfo();
 		if (group != null) {
 			sleepGroup(group, info);
 		}
 
-		for (IJobProgressManagerListener listener : listeners) {
+		for (IJobProgressManagerListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Is this one the user never sees?
 			if (isNeverDisplaying(info.getJob(), listener.showsDebug())) {
 				continue;
@@ -594,7 +594,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 * Refreshes the group when info is sleeping.
 	 */
 	private void sleepGroup(GroupInfo group, JobInfo info) {
-		for (IJobProgressManagerListener listener : listeners) {
+		for (IJobProgressManagerListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isNeverDisplaying(info.getJob(), listener.showsDebug())) {
 				continue;
 			}
@@ -624,7 +624,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 		return monitorFor(null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IProgressMonitor monitorFor(IProgressMonitor monitor) {
 		// only need a default monitor for operations the UI thread
 		// and only if there is a display
@@ -753,7 +753,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 *
 	 * @param info the added job info
 	 */
-	public void addJobInfo(JobInfo info) {
+	public void addJobInfo(JobInfo info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GroupInfo group = info.getGroupInfo();
 		if (group != null) {
 			refreshGroup(group);
@@ -815,7 +815,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 		if (hideSleeping && isSleeping(job)) {
 			return;
 		}
-		for (IJobProgressManagerListener listener : listeners) {
+		for (IJobProgressManagerListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isNeverDisplaying(job, listener.showsDebug())) {
 				localListeners.add(listener);
 			}
@@ -916,7 +916,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void busyCursorWhile(final IRunnableWithProgress runnable)
 			throws InvocationTargetException, InterruptedException {
 		final ProgressMonitorJobsDialog dialog = new ProgressMonitorJobsDialog(ProgressManagerUtil.getDefaultParent());
@@ -974,7 +974,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 * @return the job that was scheduled to open the dialog
 	 */
 	private Job scheduleProgressMonitorJob(final ProgressMonitorJobsDialog dialog) {
-		final WorkbenchJob updateJob = new WorkbenchJob(ProgressMessages.ProgressManager_openJobName) {
+		final WorkbenchJob updateJob = new WorkbenchJob(ProgressMessages.ProgressManager_openJobName) { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				setUserInterfaceActive(true);
@@ -1035,7 +1035,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	void removeListener(IJobBusyListener listener) {
 		synchronized (familyListeners) {
 			Iterator<Collection<IJobBusyListener>> familyListeners = this.familyListeners.values().iterator();
-			while (familyListeners.hasNext()) {
+			while (familyListeners.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Collection<IJobBusyListener> currentListeners = familyListeners.next();
 				currentListeners.remove(listener);
 
@@ -1052,7 +1052,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 *
 	 * @return Collection of IJobBusyListener
 	 */
-	private Collection<IJobBusyListener> busyListenersForJob(Job job) {
+	private Collection<IJobBusyListener> busyListenersForJob(Job job) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (job.isSystem()) {
 			return Collections.emptyList();
 		}
@@ -1062,7 +1062,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 			}
 
 			Collection<IJobBusyListener> returnValue = new LinkedHashSet<>();
-			for (Entry<Object, Collection<IJobBusyListener>> entry : familyListeners.entrySet()) {
+			for (Entry<Object, Collection<IJobBusyListener>> entry : familyListeners.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (job.belongsTo(entry.getKey())) {
 					Collection<IJobBusyListener> currentListeners = entry.getValue();
 					returnValue.addAll(currentListeners);
@@ -1082,7 +1082,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 		dialog.show(job, shell);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable)
 			throws InvocationTargetException, InterruptedException {
 		final ProgressMonitorJobsDialog dialog;
@@ -1126,7 +1126,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 			final ISchedulingRule rule) throws InvocationTargetException, InterruptedException {
 		final RunnableWithStatus runnableWithStatus = new RunnableWithStatus(context, runnable, rule);
 		final Display display = Display.getDefault();
-		display.syncExec(() -> BusyIndicator.showWhile(display, runnableWithStatus));
+		display.syncExec(() -> BusyIndicator.showWhile(display, runnableWithStatus)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 		IStatus status = runnableWithStatus.getStatus();
 		if (!status.isOK()) {
@@ -1148,7 +1148,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 
 	@Override
 	public void registerIconForFamily(ImageDescriptor icon, Object family) {
-		String key = IMAGE_KEY + imageKeyTable.size();
+		String key = IMAGE_KEY + imageKeyTable.size(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		imageKeyTable.put(family, key);
 		ImageRegistry registry = JFaceResources.getImageRegistry();
 
@@ -1162,7 +1162,7 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	@Override
 	public Image getIconFor(Job job) {
 		Enumeration<Object> families = imageKeyTable.keys();
-		while (families.hasMoreElements()) {
+		while (families.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object next = families.nextElement();
 			if (job.belongsTo(next)) {
 				return JFaceResources.getImageRegistry().get(imageKeyTable.get(next));
@@ -1177,18 +1177,18 @@ public class ProgressManager extends ProgressProvider implements IProgressServic
 	 *
 	 * @param active the state the windows will be set to
 	 */
-	private void setUserInterfaceActive(boolean active) {
+	private void setUserInterfaceActive(boolean active) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		Shell[] shells = workbench.getDisplay().getShells();
 		if (active) {
-			for (Shell shell : shells) {
+			for (Shell shell : shells) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!shell.isDisposed()) {
 					shell.setEnabled(active);
 				}
 			}
 		} else {
 			// Deactivate shells in reverse order.
-			for (int i = shells.length - 1; i >= 0; i--) {
+			for (int i = shells.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!shells[i].isDisposed()) {
 					shells[i].setEnabled(active);
 				}

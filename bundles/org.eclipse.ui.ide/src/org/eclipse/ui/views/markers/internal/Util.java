@@ -105,7 +105,7 @@ public final class Util {
 	 *
 	 * @return String
 	 */
-	public static String getContainerName(IMarker marker) {
+	public static String getContainerName(IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!marker.exists()) {
 			return Util.EMPTY_STRING;
@@ -130,15 +130,15 @@ public final class Util {
 			return Util.EMPTY_STRING;
 		}
 		int len = 0;
-		for (int i = 0; i < n; ++i) {
+		for (int i = 0; i < n; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			len += path.segment(i).length();
 		}
 		// account for /'s
 		if (n > 1) {
 			len += n - 1;
 		}
-		StringBuilder sb = new StringBuilder(len);
-		for (int i = 0; i < n; ++i) {
+		StringBuilder sb = new StringBuilder(len); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < n; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != 0) {
 				sb.append('/');
 			}
@@ -226,7 +226,7 @@ public final class Util {
 	 *
 	 * @return String
 	 */
-	public static String getShortContainerName(IMarker marker) {
+	public static String getShortContainerName(IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!marker.exists()) {
 			return Util.EMPTY_STRING;
@@ -286,7 +286,7 @@ public final class Util {
 	 */
 	public static boolean allConcreteSelection(IStructuredSelection selection) {
 		if (selection != null && selection.size() > 0) {
-			for (Object node : selection) {
+			for (Object node : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (((MarkerNode) node).isConcrete()) {
 					continue;
 				}

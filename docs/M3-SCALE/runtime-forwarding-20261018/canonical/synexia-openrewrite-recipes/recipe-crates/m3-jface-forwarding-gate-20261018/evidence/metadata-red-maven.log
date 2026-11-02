@@ -1,0 +1,218 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------< com.synexia.m3:jface-forwarding-gate-proof >-------------
+[INFO] Building jface-forwarding-gate-proof 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ jface-forwarding-gate-proof ---
+[INFO] Copying 10 resources from resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ jface-forwarding-gate-proof ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 4 source files with javac [debug release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ jface-forwarding-gate-proof ---
+[INFO] Copying 39 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ jface-forwarding-gate-proof ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ jface-forwarding-gate-proof ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+[ERROR] Tests run: 8, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 1.216 s <<< FAILURE! -- in com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest
+[ERROR] com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.scannerRefusesNormalizedTargetAliases -- Time elapsed: 0.825 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: root-gitattributes ==> Expected java.lang.RuntimeException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:39)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3131)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.scannerRefusesNormalizedTargetAliases(M3EclipseTextMetadataAdmissionTest.java:120)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.gitSegmentsRemainRefusedIgnoringCase -- Time elapsed: 0.011 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: root-git-directory ==> Expected java.lang.IllegalStateException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:39)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3131)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.gitSegmentsRemainRefusedIgnoringCase(M3EclipseTextMetadataAdmissionTest.java:109)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.visitorRefusesAliasIntroducedAfterScan -- Time elapsed: 0.018 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected java.lang.RuntimeException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3115)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.visitorRefusesAliasIntroducedAfterScan(M3EclipseTextMetadataAdmissionTest.java:134)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.exactRootMetadataOwnersGenerateAndReplay -- Time elapsed: 0.137 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Exact metadata owner must be admitted: root-gitmodules ==> Unexpected exception thrown: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertDoesNotThrow.createAssertionFailedError(AssertDoesNotThrow.java:84)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:75)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:62)
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3249)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.accepted(M3EclipseTextMetadataAdmissionTest.java:61)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.exactRootMetadataOwnersGenerateAndReplay(M3EclipseTextMetadataAdmissionTest.java:81)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.lambda$context$0(M3EclipseTextMetadataAdmissionTest.java:33)
+	at org.openrewrite.scheduling.RecipeRunCycle.handleError(RecipeRunCycle.java:243)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$1(RecipeRunCycle.java:99)
+	at org.openrewrite.scheduling.RecipeStack.reduce(RecipeStack.java:57)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$2(RecipeRunCycle.java:78)
+	at org.openrewrite.internal.InMemoryLargeSourceSet.lambda$edit$0(InMemoryLargeSourceSet.java:66)
+	at org.openrewrite.internal.ListUtils.map(ListUtils.java:176)
+	at org.openrewrite.internal.InMemoryLargeSourceSet.edit(InMemoryLargeSourceSet.java:65)
+	at org.openrewrite.scheduling.RecipeRunCycle.scanSources(RecipeRunCycle.java:77)
+	at org.openrewrite.RecipeScheduler.runRecipeCycles(RecipeScheduler.java:81)
+	at org.openrewrite.RecipeScheduler.scheduleRun(RecipeScheduler.java:41)
+	at org.openrewrite.Recipe.run(Recipe.java:344)
+	at org.openrewrite.Recipe.run(Recipe.java:340)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.run(M3EclipseTextMetadataAdmissionTest.java:51)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.lambda$accepted$1(M3EclipseTextMetadataAdmissionTest.java:61)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:71)
+	... 7 more
+Caused by: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.targets(M3HashPinnedTextSnapshotRecipe.java:240)
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.getInitialValue(M3HashPinnedTextSnapshotRecipe.java:94)
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.getInitialValue(M3HashPinnedTextSnapshotRecipe.java:40)
+	at org.openrewrite.ScanningRecipe.lambda$getAccumulator$0(ScanningRecipe.java:89)
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1228)
+	at org.openrewrite.Cursor.computeMessageIfAbsent(Cursor.java:285)
+	at org.openrewrite.ScanningRecipe.getAccumulator(ScanningRecipe.java:89)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$1(RecipeRunCycle.java:90)
+	... 20 more
+
+[ERROR] com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.exactJFaceTestManifestGeneratesAndReplays -- Time elapsed: 0.016 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Exact metadata owner must be admitted: jface-test-manifest ==> Unexpected exception thrown: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertDoesNotThrow.createAssertionFailedError(AssertDoesNotThrow.java:84)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:75)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:62)
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3249)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.accepted(M3EclipseTextMetadataAdmissionTest.java:61)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.exactJFaceTestManifestGeneratesAndReplays(M3EclipseTextMetadataAdmissionTest.java:86)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.lambda$context$0(M3EclipseTextMetadataAdmissionTest.java:33)
+	at org.openrewrite.scheduling.RecipeRunCycle.handleError(RecipeRunCycle.java:243)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$1(RecipeRunCycle.java:99)
+	at org.openrewrite.scheduling.RecipeStack.reduce(RecipeStack.java:57)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$2(RecipeRunCycle.java:78)
+	at org.openrewrite.internal.InMemoryLargeSourceSet.lambda$edit$0(InMemoryLargeSourceSet.java:66)
+	at org.openrewrite.internal.ListUtils.map(ListUtils.java:176)
+	at org.openrewrite.internal.InMemoryLargeSourceSet.edit(InMemoryLargeSourceSet.java:65)
+	at org.openrewrite.scheduling.RecipeRunCycle.scanSources(RecipeRunCycle.java:77)
+	at org.openrewrite.RecipeScheduler.runRecipeCycles(RecipeScheduler.java:81)
+	at org.openrewrite.RecipeScheduler.scheduleRun(RecipeScheduler.java:41)
+	at org.openrewrite.Recipe.run(Recipe.java:344)
+	at org.openrewrite.Recipe.run(Recipe.java:340)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.run(M3EclipseTextMetadataAdmissionTest.java:51)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.lambda$accepted$1(M3EclipseTextMetadataAdmissionTest.java:61)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:71)
+	... 7 more
+Caused by: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.targets(M3HashPinnedTextSnapshotRecipe.java:240)
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.getInitialValue(M3HashPinnedTextSnapshotRecipe.java:94)
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.getInitialValue(M3HashPinnedTextSnapshotRecipe.java:40)
+	at org.openrewrite.ScanningRecipe.lambda$getAccumulator$0(ScanningRecipe.java:89)
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1228)
+	at org.openrewrite.Cursor.computeMessageIfAbsent(Cursor.java:285)
+	at org.openrewrite.ScanningRecipe.getAccumulator(ScanningRecipe.java:89)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$1(RecipeRunCycle.java:90)
+	... 20 more
+
+[ERROR] com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.exactCommandJava21MetadataGeneratesAndReplays -- Time elapsed: 0.010 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Exact metadata owner must be admitted: commands-classpath ==> Unexpected exception thrown: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertDoesNotThrow.createAssertionFailedError(AssertDoesNotThrow.java:84)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:75)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:62)
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3249)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.accepted(M3EclipseTextMetadataAdmissionTest.java:61)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.exactCommandJava21MetadataGeneratesAndReplays(M3EclipseTextMetadataAdmissionTest.java:91)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.lambda$context$0(M3EclipseTextMetadataAdmissionTest.java:33)
+	at org.openrewrite.scheduling.RecipeRunCycle.handleError(RecipeRunCycle.java:243)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$1(RecipeRunCycle.java:99)
+	at org.openrewrite.scheduling.RecipeStack.reduce(RecipeStack.java:57)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$2(RecipeRunCycle.java:78)
+	at org.openrewrite.internal.InMemoryLargeSourceSet.lambda$edit$0(InMemoryLargeSourceSet.java:66)
+	at org.openrewrite.internal.ListUtils.map(ListUtils.java:176)
+	at org.openrewrite.internal.InMemoryLargeSourceSet.edit(InMemoryLargeSourceSet.java:65)
+	at org.openrewrite.scheduling.RecipeRunCycle.scanSources(RecipeRunCycle.java:77)
+	at org.openrewrite.RecipeScheduler.runRecipeCycles(RecipeScheduler.java:81)
+	at org.openrewrite.RecipeScheduler.scheduleRun(RecipeScheduler.java:41)
+	at org.openrewrite.Recipe.run(Recipe.java:344)
+	at org.openrewrite.Recipe.run(Recipe.java:340)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.run(M3EclipseTextMetadataAdmissionTest.java:51)
+	at com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest.lambda$accepted$1(M3EclipseTextMetadataAdmissionTest.java:61)
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:71)
+	... 7 more
+Caused by: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.targets(M3HashPinnedTextSnapshotRecipe.java:240)
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.getInitialValue(M3HashPinnedTextSnapshotRecipe.java:94)
+	at com.synexia.rewrite.M3HashPinnedTextSnapshotRecipe.getInitialValue(M3HashPinnedTextSnapshotRecipe.java:40)
+	at org.openrewrite.ScanningRecipe.lambda$getAccumulator$0(ScanningRecipe.java:89)
+	at java.base/java.util.HashMap.computeIfAbsent(HashMap.java:1228)
+	at org.openrewrite.Cursor.computeMessageIfAbsent(Cursor.java:285)
+	at org.openrewrite.ScanningRecipe.getAccumulator(ScanningRecipe.java:89)
+	at org.openrewrite.scheduling.RecipeRunCycle.lambda$scanSources$1(RecipeRunCycle.java:90)
+	... 20 more
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   M3EclipseTextMetadataAdmissionTest.exactCommandJava21MetadataGeneratesAndReplays:91->accepted:61 Exact metadata owner must be admitted: commands-classpath ==> Unexpected exception thrown: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+[ERROR]   M3EclipseTextMetadataAdmissionTest.exactJFaceTestManifestGeneratesAndReplays:86->accepted:61 Exact metadata owner must be admitted: jface-test-manifest ==> Unexpected exception thrown: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+[ERROR]   M3EclipseTextMetadataAdmissionTest.exactRootMetadataOwnersGenerateAndReplay:81->accepted:61 Exact metadata owner must be admitted: root-gitmodules ==> Unexpected exception thrown: java.lang.AssertionError: java.lang.IllegalStateException: invalid hash-pinned text manifest row
+[ERROR]   M3EclipseTextMetadataAdmissionTest.gitSegmentsRemainRefusedIgnoringCase:109 root-git-directory ==> Expected java.lang.IllegalStateException to be thrown, but nothing was thrown.
+[ERROR]   M3EclipseTextMetadataAdmissionTest.scannerRefusesNormalizedTargetAliases:120 root-gitattributes ==> Expected java.lang.RuntimeException to be thrown, but nothing was thrown.
+[ERROR]   M3EclipseTextMetadataAdmissionTest.visitorRefusesAliasIntroducedAfterScan:134 Expected java.lang.RuntimeException to be thrown, but nothing was thrown.
+[INFO] 
+[ERROR] Tests run: 8, Failures: 6, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.082 s
+[INFO] Finished at: 2026-10-18T00:26:36-07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project jface-forwarding-gate-proof: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /tmp/eclipse-m3-20261018/ui-gate-authoring/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

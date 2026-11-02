@@ -90,14 +90,14 @@ public class LegacyHandlerService implements IHandlerService {
 			this.commandId = commandId;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object compute(IEclipseContext context, String contextKey) {
 
 			HashSet<HandlerActivation> activationSet = new LinkedHashSet<>();
 			IEclipseContext current = context;
-			while (current != null) {
+			while (current != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<HandlerActivation> handlerActivations = (List<HandlerActivation>) current
-						.getLocal(LEGACY_H_ID + commandId);
+						.getLocal(LEGACY_H_ID + commandId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (handlerActivations != null) {
 					activationSet.addAll(handlerActivations);
 				}
@@ -114,7 +114,7 @@ public class LegacyHandlerService implements IHandlerService {
 
 			HandlerActivation conflictBest = null;
 			HandlerActivation conflictOther = null;
-			for (HandlerActivation handlerActivation : activationSet) {
+			for (HandlerActivation handlerActivation : activationSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!handlerActivation.participating) {
 					continue;
 				}
@@ -135,10 +135,10 @@ public class LegacyHandlerService implements IHandlerService {
 
 			if (bestActivation != null) {
 				if (bestActivation == conflictBest) {
-					String fullMessage = "Conflicting handlers: {" //$NON-NLS-1$
+					String fullMessage = "Conflicting handlers: {" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ conflictBest + "} vs {" //$NON-NLS-1$
 							+ conflictOther + "} in: " + context; //$NON-NLS-1$
-					String shortMessage = "Conflicting handlers for " + commandId + ": {" //$NON-NLS-1$ //$NON-NLS-2$
+					String shortMessage = "Conflicting handlers for " + commandId + ": {" //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ conflictBest.getHandler() + "} vs {" //$NON-NLS-1$
 							+ conflictOther.getHandler() + "} in: " + context; //$NON-NLS-1$
 					WorkbenchPlugin.log(shortMessage, new IllegalStateException(fullMessage));
@@ -178,31 +178,31 @@ public class LegacyHandlerService implements IHandlerService {
 
 	static void addHandlerActivation(HandlerActivation eActivation) {
 		List<HandlerActivation> handlerActivations = (List<HandlerActivation>) eActivation.context
-				.getLocal(LEGACY_H_ID + eActivation.getCommandId());
+				.getLocal(LEGACY_H_ID + eActivation.getCommandId()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (handlerActivations == null) {
-			handlerActivations = new ArrayList<>();
+			handlerActivations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
 			if (handlerActivations.contains(eActivation)) {
 				return;
 			}
-			handlerActivations = new ArrayList<>(handlerActivations);
+			handlerActivations = new ArrayList<>(handlerActivations); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		handlerActivations.add(eActivation);
 		// setting this so that we trigger invalidations
-		eActivation.context.set(LEGACY_H_ID + eActivation.getCommandId(), handlerActivations);
+		eActivation.context.set(LEGACY_H_ID + eActivation.getCommandId(), handlerActivations); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	static void removeHandlerActivation(HandlerActivation eActivation) {
 		List<HandlerActivation> handlerActivations = (List<HandlerActivation>) eActivation.context
-				.getLocal(LEGACY_H_ID + eActivation.getCommandId());
+				.getLocal(LEGACY_H_ID + eActivation.getCommandId()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (handlerActivations == null) {
-			handlerActivations = new ArrayList<>();
+			handlerActivations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else {
-			handlerActivations = new ArrayList<>(handlerActivations);
+			handlerActivations = new ArrayList<>(handlerActivations); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		handlerActivations.remove(eActivation);
 		// setting this so that we trigger invalidations
-		eActivation.context.set(LEGACY_H_ID + eActivation.getCommandId(), handlerActivations);
+		eActivation.context.set(LEGACY_H_ID + eActivation.getCommandId(), handlerActivations); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IEclipseContext eclipseContext;
@@ -214,7 +214,7 @@ public class LegacyHandlerService implements IHandlerService {
 	 * flush the activations when the registry is re-read. This value is never
 	 * <code>null</code>
 	 */
-	private final Collection<HandlerActivation> handlerActivations = new ArrayList<>();
+	private final Collection<HandlerActivation> handlerActivations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public LegacyHandlerService(IEclipseContext context) {
 		eclipseContext = context;
@@ -243,9 +243,9 @@ public class LegacyHandlerService implements IHandlerService {
 	 * Deactivates all of the activations read from the registry, and then clears
 	 * the collection. This should be called before every read.
 	 */
-	private void clearActivations() {
+	private void clearActivations() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		deactivateHandlers(handlerActivations);
-		for (IHandlerActivation activation : handlerActivations) {
+		for (IHandlerActivation activation : handlerActivations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IHandler handler = activation.getHandler();
 			if (handler != null) {
 				SafeRunner.run(new ISafeRunnable() {
@@ -257,7 +257,7 @@ public class LegacyHandlerService implements IHandlerService {
 
 					@Override
 					public void handleException(Throwable exception) {
-						WorkbenchPlugin.log("Failed to dispose handler for " //$NON-NLS-1$
+						WorkbenchPlugin.log("Failed to dispose handler for " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ activation.getCommandId(), exception);
 					}
 
@@ -346,11 +346,11 @@ public class LegacyHandlerService implements IHandlerService {
 	public void deactivateHandlers(Collection activations) {
 		// set all activations to not be participating first so that they ignore
 		// the upcoming context change events
-		for (Object activation : activations) {
+		for (Object activation : activations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((HandlerActivation) activation).participating = false;
 		}
 
-		for (Object element : activations) {
+		for (Object element : activations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			deactivateHandler((IHandlerActivation) element);
 		}
 	}
@@ -363,7 +363,7 @@ public class LegacyHandlerService implements IHandlerService {
 		return executeCommand(ParameterizedCommand.generateCommand(command, null), event);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object executeCommand(ParameterizedCommand command, Event event)
 			throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException {
 		EHandlerService hs = eclipseContext.get(EHandlerService.class);
@@ -372,7 +372,7 @@ public class LegacyHandlerService implements IHandlerService {
 			// If the log shows an IEclipseContext named "Anonymous" this is an
 			// indication that the context is disposed before we try to execute
 			// the command
-			WorkbenchPlugin.log("IEclipseContext is " + eclipseContext); //$NON-NLS-1$
+			WorkbenchPlugin.log("IEclipseContext is " + eclipseContext); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			WorkbenchPlugin.log("EHandlerService is null", //$NON-NLS-1$
 					new IllegalStateException("EHandlerService must not be null")); //$NON-NLS-1$
 			throw new ExecutionException("No handler service available"); //$NON-NLS-1$
@@ -405,7 +405,7 @@ public class LegacyHandlerService implements IHandlerService {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object executeCommandInContext(ParameterizedCommand command, Event event, IEvaluationContext context)
 			throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException {
 		IHandler handler = command.getCommand().getHandler();
@@ -461,11 +461,11 @@ public class LegacyHandlerService implements IHandlerService {
 
 	private void populateSnapshot(IEvaluationContext context, IEclipseContext staticContext) {
 		IEvaluationContext ctxPtr = context;
-		while (ctxPtr != null && !(ctxPtr instanceof ExpressionContext)) {
+		while (ctxPtr != null && !(ctxPtr instanceof ExpressionContext)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Map<?, ?> vars = getVariables(ctxPtr);
 			if (vars != null) {
 				Iterator<?> i = vars.entrySet().iterator();
-				while (i.hasNext()) {
+				while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Map.Entry<?, ?> entry = (Map.Entry<?, ?>) i.next();
 					if (staticContext.getLocal(entry.getKey().toString()) == null) {
 						staticContext.set(entry.getKey().toString(), entry.getValue());
@@ -520,21 +520,21 @@ public class LegacyHandlerService implements IHandlerService {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IEvaluationContext createContextSnapshot(boolean includeSelection) {
 		IEvaluationContext tmpContext = getCurrentState();
 		IEvaluationContext context = new EvaluationContext(null, IEvaluationContext.UNDEFINED_VARIABLE);
 
 		if (includeSelection) {
-			for (String variable : SELECTION_VARIABLES) {
+			for (String variable : SELECTION_VARIABLES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				copyVariable(context, tmpContext, variable);
 			}
 		}
 
 		ISourceProviderService sp = eclipseContext.get(ISourceProviderService.class);
-		for (ISourceProvider provider : sp.getSourceProviders()) {
+		for (ISourceProvider provider : sp.getSourceProviders()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] names = provider.getProvidedSourceNames();
-			for (String name : names) {
+			for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isSelectionVariable(name)) {
 					copyVariable(context, tmpContext, name);
 				}
@@ -545,7 +545,7 @@ public class LegacyHandlerService implements IHandlerService {
 	}
 
 	private boolean isSelectionVariable(String name) {
-		for (String variable : SELECTION_VARIABLES) {
+		for (String variable : SELECTION_VARIABLES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (variable.equals(name)) {
 				return true;
 			}
@@ -572,11 +572,11 @@ public class LegacyHandlerService implements IHandlerService {
 		readHandlers();
 	}
 
-	private void readHandlers() {
+	private void readHandlers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionRegistry registry = eclipseContext.get(IExtensionRegistry.class);
 		IExtensionPoint extPoint = registry.getExtensionPoint(IWorkbenchRegistryConstants.EXTENSION_HANDLERS);
 		IConfigurationElement[] elements = extPoint.getConfigurationElements();
-		for (IConfigurationElement configElement : elements) {
+		for (IConfigurationElement configElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String commandId = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_COMMAND_ID);
 			if (commandId == null || commandId.isEmpty()) {
 				continue;
@@ -593,7 +593,7 @@ public class LegacyHandlerService implements IHandlerService {
 				final IConfigurationElement[] subChildren = awChildren[0].getChildren();
 				if (subChildren.length != 1) {
 					if (Policy.DEBUG_CMDS) {
-						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect activeWhen element " + commandId, null); //$NON-NLS-1$
+						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect activeWhen element " + commandId, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					continue;
 				}
@@ -603,7 +603,7 @@ public class LegacyHandlerService implements IHandlerService {
 					activeWhen = elementHandler.create(converter, subChildren[0]);
 				} catch (CoreException e) {
 					if (Policy.DEBUG_CMDS) {
-						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect activeWhen element " + commandId, e); //$NON-NLS-1$
+						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect activeWhen element " + commandId, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -614,7 +614,7 @@ public class LegacyHandlerService implements IHandlerService {
 				final IConfigurationElement[] subChildren = ewChildren[0].getChildren();
 				if (subChildren.length != 1) {
 					if (Policy.DEBUG_CMDS) {
-						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect enableWhen element " + commandId, null); //$NON-NLS-1$
+						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect enableWhen element " + commandId, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					continue;
 				}
@@ -624,7 +624,7 @@ public class LegacyHandlerService implements IHandlerService {
 					enabledWhen = elementHandler.create(converter, subChildren[0]);
 				} catch (CoreException e) {
 					if (Policy.DEBUG_CMDS) {
-						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect enableWhen element " + commandId, e); //$NON-NLS-1$
+						Activator.trace(Policy.DEBUG_CMDS_FLAG, "Incorrect enableWhen element " + commandId, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -637,11 +637,11 @@ public class LegacyHandlerService implements IHandlerService {
 		}
 	}
 
-	private void readDefaultHandlers() {
+	private void readDefaultHandlers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionRegistry registry = eclipseContext.get(IExtensionRegistry.class);
 		IExtensionPoint extPoint = registry.getExtensionPoint(IWorkbenchRegistryConstants.EXTENSION_COMMANDS);
 		IConfigurationElement[] elements = extPoint.getConfigurationElements();
-		for (IConfigurationElement configElement : elements) {
+		for (IConfigurationElement configElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 			if (id == null || id.isEmpty()) {
 				continue;

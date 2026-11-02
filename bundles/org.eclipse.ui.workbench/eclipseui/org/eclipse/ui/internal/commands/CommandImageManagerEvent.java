@@ -116,7 +116,7 @@ public final class CommandImageManagerEvent {
 	 */
 	public boolean isCommandIdChanged(final String commandId) {
 		// PERFORMANCE
-		for (String changedCommandId : changedCommandIds) {
+		for (String changedCommandId : changedCommandIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commandId.equals(changedCommandId)) {
 				return true;
 			}

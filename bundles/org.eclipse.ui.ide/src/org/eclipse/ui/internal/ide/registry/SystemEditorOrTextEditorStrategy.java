@@ -41,7 +41,7 @@ public final class SystemEditorOrTextEditorStrategy implements IUnassociatedEdit
 	 */
 	public static final String EXTENSION_ID = "org.eclipse.ui.ide.systemEditorThenTextEditor"; //$NON-NLS-1$
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IEditorDescriptor getEditorDescriptor(String name, IEditorRegistry editorReg) {
 		IEditorDescriptor editorDesc = null;
 		// next check the OS for in-place editor (OLE on Win32)

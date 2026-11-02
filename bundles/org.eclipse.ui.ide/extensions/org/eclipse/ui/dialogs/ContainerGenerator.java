@@ -145,8 +145,8 @@ public class ContainerGenerator {
 	 * @exception CoreException              if the operation fails
 	 * @exception OperationCanceledException if the operation is canceled
 	 */
-	public IContainer generateContainer(IProgressMonitor monitor) throws CoreException {
-		IDEWorkbenchPlugin.getPluginWorkspace().run(monitor1 -> {
+	public IContainer generateContainer(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		IDEWorkbenchPlugin.getPluginWorkspace().run(monitor1 -> { //FLLDCIM: MARK — T09  LAMBDA
 			SubMonitor subMonitor = SubMonitor.convert(monitor1,
 					IDEWorkbenchMessages.ContainerGenerator_progressMessage, containerFullPath.segmentCount());
 			if (generatedContainer != null) {
@@ -162,7 +162,7 @@ public class ContainerGenerator {
 
 			// Create the container for the given path
 			generatedContainer = root;
-			for (int i = 0; i < containerFullPath.segmentCount(); i++) {
+			for (int i = 0; i < containerFullPath.segmentCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String currentSegment = containerFullPath.segment(i);
 				IResource resource = generatedContainer.findMember(currentSegment);
 				if (resource != null) {

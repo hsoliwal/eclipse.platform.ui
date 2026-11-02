@@ -27,7 +27,7 @@ import org.eclipse.ui.model.AdaptableList;
  *
  * @since 3.0
  */
-public class WizardActivityFilter extends ViewerFilter {
+public class WizardActivityFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	private boolean filterPrimaryWizards = false;
 
 	public void setFilterPrimaryWizards(boolean filter) {
@@ -47,12 +47,12 @@ public class WizardActivityFilter extends ViewerFilter {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
 		int size = elements.length;
-		ArrayList<Object> out = new ArrayList<>(size);
+		ArrayList<Object> out = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < size; ++i) {
+		for (int i = 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element = elements[i];
 			if (element instanceof WizardCollectionElement) {
 				Object wizardCollection = WizardCollectionElement.filter(viewer, this,

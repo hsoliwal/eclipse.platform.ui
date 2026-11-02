@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
  */
 public class ControlContributionRegistry {
 
-	private static Map<String, IConfigurationElement> registry = new HashMap<>();
+	private static Map<String, IConfigurationElement> registry = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public static void clear() {
 		registry.clear();

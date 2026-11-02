@@ -51,7 +51,7 @@ public class ContentGeneratorDescriptor {
 	private MarkerField[] initialVisible;
 	private MarkerField[] initialVisibleWithExtensions;
 	private Collection<MarkerGroup> groups;
-	private Collection<IConfigurationElement> generatorExtensions = new ArrayList<>();
+	private Collection<IConfigurationElement> generatorExtensions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private Map<String, MarkerType> allTypesTable;
 
 	/**
@@ -69,7 +69,7 @@ public class ContentGeneratorDescriptor {
 		addGroupsFrom(configurationElement, groupss);
 		// Add the extensions
 		Iterator<IConfigurationElement> extensions = generatorExtensions.iterator();
-		while (extensions.hasNext()) {
+		while (extensions.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addGroupsFrom(extensions.next(), groupss);
 		}
 	}
@@ -89,7 +89,7 @@ public class ContentGeneratorDescriptor {
 	 * Add all of the markerGroups defined in element.
 	 */
 	private void addGroupsFrom(IConfigurationElement element, Collection<MarkerGroup> groupss) {
-		for (IConfigurationElement grouping : element.getChildren(MarkerSupportRegistry.MARKER_GROUPING)) {
+		for (IConfigurationElement grouping : element.getChildren(MarkerSupportRegistry.MARKER_GROUPING)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			groupss.add(MarkerGroup.createMarkerGroup(grouping));
 		}
 	}
@@ -111,7 +111,7 @@ public class ContentGeneratorDescriptor {
 	 */
 	public MarkerField[] getAllFields() {
 		if (allFieldsWithExtensions == null) {
-			List<MarkerField> fields = new ArrayList<>();
+			List<MarkerField> fields = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fields.addAll(Arrays.asList(allFields));
 			getExtensionsDescriptorsStream().map(d -> Arrays.asList(d.getAllFields())).flatMap(Collection::stream)
 					.forEach(fields::add);
@@ -134,14 +134,14 @@ public class ContentGeneratorDescriptor {
 	 *
 	 * @return IConfigurationElement[]
 	 */
-	public IConfigurationElement[] getFilterReferences() {
+	public IConfigurationElement[] getFilterReferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement[] filterGroups = configurationElement.getChildren(ELEMENT_MARKER_FIELD_CONFIGURATION);
 		if (generatorExtensions.isEmpty()) {
 			return filterGroups;
 		}
 		Iterator<IConfigurationElement> extensions = generatorExtensions.iterator();
-		Collection<IConfigurationElement> extendedElements = new ArrayList<>();
-		while (extensions.hasNext()) {
+		Collection<IConfigurationElement> extendedElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (extensions.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement extension = extensions.next();
 			IConfigurationElement[] extensionFilters = extension.getChildren(ELEMENT_MARKER_FIELD_CONFIGURATION);
 			extendedElements.addAll(Arrays.asList(extensionFilters));
@@ -169,7 +169,7 @@ public class ContentGeneratorDescriptor {
 	 */
 	public MarkerField[] getInitialVisible() {
 		if (initialVisibleWithExtensions == null) {
-			List<MarkerField> fields = new ArrayList<>();
+			List<MarkerField> fields = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fields.addAll(Arrays.asList(initialVisible));
 			getExtensionsDescriptorsStream().map(d -> Arrays.asList(d.getInitialVisible())).flatMap(Collection::stream)
 					.forEach(fields::add);
@@ -203,11 +203,11 @@ public class ContentGeneratorDescriptor {
 	 *
 	 * @return Collection of {@link MarkerType}
 	 */
-	public Collection<MarkerType> getMarkerTypes() {
+	public Collection<MarkerType> getMarkerTypes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (markerTypes == null) {
-			markerTypes = new HashSet<>();
+			markerTypes = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IConfigurationElement[] markerTypeElements = configurationElement.getChildren(MarkerSupportRegistry.MARKER_TYPE_REFERENCE);
-			for (IConfigurationElement configElement : markerTypeElements) {
+			for (IConfigurationElement configElement : markerTypeElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String elementName = configElement.getAttribute(MarkerSupportInternalUtilities.ATTRIBUTE_ID);
 
 				String application = configElement.getAttribute(MarkerSupportInternalUtilities.APPLICATION) == null
@@ -265,10 +265,10 @@ public class ContentGeneratorDescriptor {
 	 */
 	public Map<String, MarkerType> getTypesTable() {
 		if (allTypesTable == null) {
-			allTypesTable = new HashMap<>();
+			allTypesTable = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 			Iterator<MarkerType> allIterator = getMarkerTypes().iterator();
-			while (allIterator.hasNext()) {
+			while (allIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MarkerType next = allIterator.next();
 				allTypesTable.put(next.getId(), next);
 			}
@@ -284,13 +284,13 @@ public class ContentGeneratorDescriptor {
 	 *            the MarkerSupportRegistry being used to initialise the
 	 *            receiver.
 	 */
-	public void initializeFromConfigurationElement(
+	public void initializeFromConfigurationElement( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			MarkerSupportRegistry registry) {
 
 		IConfigurationElement[] elements = configurationElement.getChildren(MARKER_FIELD_REFERENCE);
-		Collection<MarkerField> allFieldList = new ArrayList<>();
-		Collection<MarkerField> initialVisibleList = new ArrayList<>();
-		for (IConfigurationElement element : elements) {
+		Collection<MarkerField> allFieldList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Collection<MarkerField> initialVisibleList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerField field = registry.getField(element.getAttribute(MarkerSupportInternalUtilities.ATTRIBUTE_ID));
 			if (field == null) {
 				continue;

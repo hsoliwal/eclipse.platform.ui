@@ -16,8 +16,8 @@ public class LabelProviderTest {
 
 	private static final Car HORCH = new Car("Horch");
 
-	private static Image horchImage = new Image(Display.getDefault(), (_, _, _) -> {}, 50, 10);
-	private static Image defaultImage = new Image(Display.getDefault(), (_, _, _) -> {}, 1, 1);
+	private static Image horchImage = new Image(Display.getDefault(), (unused, unused2, unused3) -> {}, 50, 10);
+	private static Image defaultImage = new Image(Display.getDefault(), (unused, unused2, unused3) -> {}, 1, 1);
 
 	private final Function<Object, String> textFunction = o -> o instanceof Car ? ((Car) o).getMake() : "unknown";
 	private final Function<Object, Image> imageFunction = o -> o instanceof Car ? horchImage : defaultImage;
@@ -85,7 +85,7 @@ public class LabelProviderTest {
 
 	@Test
 	public void typedImageProviderGivesImages() {
-		LabelProvider labelProvider = LabelProvider.createImageProvider((Car _) -> horchImage);
+		LabelProvider labelProvider = LabelProvider.createImageProvider((Car unused) -> horchImage);
 
 		assertEquals(horchImage, labelProvider.getImage(HORCH));
 		assertThrows(ClassCastException.class, () -> labelProvider.getImage(new Object()));
@@ -93,7 +93,7 @@ public class LabelProviderTest {
 
 	@Test
 	public void typedTextImageProviderGivesBoth() {
-		LabelProvider labelProvider = LabelProvider.createTextImageProvider(Car::getMake, _ -> horchImage);
+		LabelProvider labelProvider = LabelProvider.createTextImageProvider(Car::getMake, unused -> horchImage);
 
 		assertEquals("Horch", labelProvider.getText(HORCH));
 		assertEquals(horchImage, labelProvider.getImage(HORCH));

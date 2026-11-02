@@ -114,7 +114,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 
 	private Button autoSaveAllButton;
 
-	private final IPropertyChangeListener validityChangeListener = event -> {
+	private final IPropertyChangeListener validityChangeListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 			updateValidState();
 		}
@@ -123,7 +123,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	/**
 	 * Add another project to the list at the end.
 	 */
-	private void addProject() {
+	private void addProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String[] currentItems = this.buildList.getItems();
 
@@ -175,7 +175,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 * @param composite - the parent to create the list in
 	 * @param enabled - the boolean that indcates if the list will be sensitive initially or not
 	 */
-	private void createBuildOrderList(Composite composite, boolean enabled) {
+	private void createBuildOrderList(Composite composite, boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font font = composite.getFont();
 
@@ -210,7 +210,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 * @param parent the parent composite
 	 * @return the new control
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent,
@@ -286,7 +286,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 * @param composite org.eclipse.swt.widgets.Composite
 	 * @param selected - the boolean that indicates the buttons initial state
 	 */
-	private void createDefaultPathButton(Composite composite, boolean selected) {
+	private void createDefaultPathButton(Composite composite, boolean selected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		defaultOrderInitiallySelected = selected;
 
@@ -299,7 +299,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 				defaultsButtonSelected(defaultOrderButton.getSelection());
 			}
 		};
-		this.defaultOrderButton.addSelectionListener(listener);
+		this.defaultOrderButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -314,7 +314,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 * @param composite the parent of the buttons
 	 * @param enableComposite - boolean that indicates if a composite should be enabled
 	 */
-	private void createListButtons(Composite composite, boolean enableComposite) {
+	private void createListButtons(Composite composite, boolean enableComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Font font = composite.getFont();
 
@@ -343,7 +343,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 				moveSelectionUp();
 			}
 		};
-		upButton.addSelectionListener(listener);
+		upButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		Button downButton = new Button(this.buttonComposite, SWT.CENTER
 				| SWT.PUSH);
@@ -355,7 +355,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 				moveSelectionDown();
 			}
 		};
-		downButton.addSelectionListener(listener);
+		downButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		downButton.setFont(font);
 		setButtonLayoutData(downButton);
 
@@ -368,7 +368,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 				addProject();
 			}
 		};
-		addButton.addSelectionListener(listener);
+		addButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		addButton.setEnabled(enableComposite);
 		addButton.setFont(font);
 		setButtonLayoutData(addButton);
@@ -382,7 +382,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 				removeSelection();
 			}
 		};
-		removeButton.addSelectionListener(listener);
+		removeButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		removeButton.setEnabled(enableComposite);
 		removeButton.setFont(font);
 		setButtonLayoutData(removeButton);
@@ -393,7 +393,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 * Create the field for the maximum number of iterations in the presence
 	 * of cycles.
 	 */
-	private void createMaxIterationsField(Composite composite) {
+	private void createMaxIterationsField(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		maxItersField = new IntegerFieldEditor(
 				"", IDEWorkbenchMessages.BuildOrderPreference_maxIterationsLabel, composite) { //$NON-NLS-1$
 			@Override
@@ -427,7 +427,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 		maxItersField.setValidRange(1, Integer.MAX_VALUE);
 		maxItersField.setPage(this);
 		maxItersField.setPreferenceStore(getPreferenceStore());
-		maxItersField.setPropertyChangeListener(validityChangeListener);
+		maxItersField.setPropertyChangeListener(validityChangeListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 		maxItersField.load();
 	}
 
@@ -482,7 +482,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 			IProject[] foundProjects = projectOrder.projects;
 			defaultBuildOrder = new String[foundProjects.length];
 			int foundSize = foundProjects.length;
-			for (int i = 0; i < foundSize; i++) {
+			for (int i = 0; i < foundSize; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				defaultBuildOrder[i] = foundProjects[i].getName();
 			}
 		}
@@ -503,7 +503,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 */
 	private boolean includes(String[] testArray, String searchElement) {
 
-		for (String currentSearchElement : testArray) {
+		for (String currentSearchElement : testArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (searchElement.equals(currentSearchElement)) {
 				return true;
 			}
@@ -581,7 +581,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 * OK has been pressed. If the default button is pressed then reset the build
 	 * order to false; otherwise set it to the contents of the list.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 
 		String[] buildOrder = null;
@@ -668,7 +668,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 
 		// Only change enablement of buttons. Leave list alone
 		// because you can't scroll it when disabled.
-		for (Control child : this.buttonComposite.getChildren()) {
+		for (Control child : this.buttonComposite.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			child.setEnabled(value);
 		}
 	}
@@ -685,7 +685,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 
 		TreeSet<String> difference = new TreeSet<>();
 
-		for (IProject allProject : allProjects) {
+		for (IProject allProject : allProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!includes(currentlyDisplayed, allProject.getName())) {
 				difference.add(allProject.getName());
 			}
@@ -702,7 +702,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 	 *
 	 * @param composite the Composite the group is created in.
 	 */
-	private void createMaxSimultaneousBuildsGroup(Composite composite) {
+	private void createMaxSimultaneousBuildsGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		maxSimultaneousBuilds = new IntegerFieldEditor(IDEInternalPreferences.MAX_SIMULTANEOUS_BUILD,
 				IDEWorkbenchMessages.WorkbenchPreference_maxSimultaneousBuilds, composite);
 
@@ -722,7 +722,7 @@ public class BuildOrderPreferencePage extends PreferencePage implements
 		IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 		maxSimultaneousBuilds.setStringValue(Integer.toString(description.getMaxConcurrentBuilds()));
 
-		maxSimultaneousBuilds.setPropertyChangeListener(event -> {
+		maxSimultaneousBuilds.setPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			if (event.getProperty().equals(FieldEditor.IS_VALID)) {
 				setValid(maxSimultaneousBuilds.isValid());
 			}

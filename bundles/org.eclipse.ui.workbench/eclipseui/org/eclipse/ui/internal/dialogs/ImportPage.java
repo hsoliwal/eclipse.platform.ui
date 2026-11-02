@@ -30,10 +30,10 @@ import org.eclipse.ui.wizards.IWizardCategory;
  * @since 3.2
  */
 public class ImportPage extends ImportExportPage {
-	private static final String STORE_SELECTED_IMPORT_WIZARD_ID = DIALOG_SETTING_SECTION_NAME
+	private static final String STORE_SELECTED_IMPORT_WIZARD_ID = DIALOG_SETTING_SECTION_NAME //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "STORE_SELECTED_IMPORT_WIZARD_ID"; //$NON-NLS-1$
 
-	private static final String STORE_EXPANDED_IMPORT_CATEGORIES = DIALOG_SETTING_SECTION_NAME
+	private static final String STORE_EXPANDED_IMPORT_CATEGORIES = DIALOG_SETTING_SECTION_NAME //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "STORE_EXPANDED_IMPORT_CATEGORIES"; //$NON-NLS-1$
 
 	protected CategorizedWizardSelectionTree importTree;
@@ -55,8 +55,8 @@ public class ImportPage extends ImportExportPage {
 		IWizardCategory root = WorkbenchPlugin.getDefault().getImportWizardRegistry().getRootCategory();
 		importTree = new CategorizedWizardSelectionTree(root, WorkbenchMessages.ImportWizard_selectWizard);
 		Composite importComp = importTree.createControl(parent);
-		importTree.getViewer().addSelectionChangedListener(event -> listSelectionChanged(event.getSelection()));
-		importTree.getViewer().addDoubleClickListener(this::treeDoubleClicked);
+		importTree.getViewer().addSelectionChangedListener(event -> listSelectionChanged(event.getSelection())); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		importTree.getViewer().addDoubleClickListener(this::treeDoubleClicked); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 		setTreeViewer(importTree.getViewer());
 		return importComp;
 	}

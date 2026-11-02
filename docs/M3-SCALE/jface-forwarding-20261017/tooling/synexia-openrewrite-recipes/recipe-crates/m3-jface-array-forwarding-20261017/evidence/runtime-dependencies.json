@@ -1,0 +1,58 @@
+[
+  {
+    "name": "org.eclipse.osgi_3.24.300.v20260721-1251.jar",
+    "sha256": "4a770aa4a78df653af871073c8b4ddd56884895f5fc71d10c40b4289ac7c8b9f"
+  },
+  {
+    "name": "org.eclipse.jface_3.40.0.v20260710-0650.jar",
+    "sha256": "618096177f82c1dd54ac5ee7c22bef793588f19dd6c7ce2830935e2223b37fb4"
+  },
+  {
+    "name": "org.eclipse.swt_3.135.0.v20260819-1952.jar",
+    "sha256": "f096342961c16043c072550cf0428f7126b0e9796fe10f2d1d8529a5e3ac8db3"
+  },
+  {
+    "name": "org.eclipse.swt.gtk.linux.x86_64_3.135.0.v20260819-1952.jar",
+    "sha256": "0799e4475b8937e05a0f13c6cbeadbf066ca56dd3622bfd8c7a4ba133b2db2e2"
+  },
+  {
+    "name": "org.eclipse.swt.svg_3.133.100.v20260702-1546.jar",
+    "sha256": "8530aa8ad2552510141ea4dfeff44fa21dfe46849fe3871be1bde59eb1446c29"
+  },
+  {
+    "name": "org.eclipse.equinox.common_3.21.0.v20260604-1221.jar",
+    "sha256": "2545ed27d408f19882695703097e5998bf25652bd0dac76a8e6d1391ec228ab7"
+  },
+  {
+    "name": "org.eclipse.core.commands_3.13.0.v20260605-1749.jar",
+    "sha256": "fe916979793d364fcd0a71c15c3fa803d60a8566cff8c64b0eef04918b5b6a65"
+  },
+  {
+    "name": "com.github.weisj.jsvg_2.1.0.jar",
+    "sha256": "a538142d27c57c55066da02a535cc8eee3afd0d37b3daff8eba6344bd0ffc1b6"
+  },
+  {
+    "name": "org.apache.aries.spifly.dynamic.bundle_1.3.7.jar",
+    "sha256": "50446b18eaaa135d1927e283639a63e452c94111c28c2a54419b1b3fa0339afc"
+  },
+  {
+    "name": "org.objectweb.asm_9.10.1.jar",
+    "sha256": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb"
+  },
+  {
+    "name": "org.objectweb.asm.commons_9.10.1.jar",
+    "sha256": "6d0abefb7cbf972ea16edb37ec14835372505063a45f976ab7ea889ed9497895"
+  },
+  {
+    "name": "org.objectweb.asm.util_9.10.1.jar",
+    "sha256": "1bb99d091fba2597dc6d51193e9bbcf0d8447e7ed96bd8f0198b18152f09655c"
+  },
+  {
+    "name": "org.objectweb.asm.tree_9.10.1.jar",
+    "sha256": "3dfb0d5b6a106cd40b5b250e39935fbf2f927f4477546a5369a3ac609cf0506b"
+  },
+  {
+    "name": "org.objectweb.asm.tree.analysis_9.10.1.jar",
+    "sha256": "dede75a21306b65974ecd8f87114ff6970f09fb794157a4ca09ab25c888c2bfc"
+  }
+]

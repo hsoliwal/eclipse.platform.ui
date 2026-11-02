@@ -107,7 +107,7 @@ public abstract class ControlContribution extends ContributionItem {
 		Control control = createControl(parent);
 		if (control == null) {
 			Policy.logException(new IllegalStateException(
-					"createControl(Composite) of " + getClass() //$NON-NLS-1$
+					"createControl(Composite) of " + getClass() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ " returned null, cannot fill toolbar")); //$NON-NLS-1$
 		} else {
 			ti = new ToolItem(parent, SWT.SEPARATOR, index);

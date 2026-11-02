@@ -1,0 +1,155 @@
+path	sha256_16	header_licence	derivation_note
+src/AbstractCellEditor.java	ee9aebeff81e76bf	other copyright header	-
+src/AbstractTreeTableModel.java	a7d1e9c8e0c216bf	other copyright header	-
+src/BarChart.java	aea646355715d61d	EPL-1.0 (IBM header)	-
+src/CopyOfDeferrredTreeViewerBackup.java	4cc4c35a0dc63240	other copyright header	-
+src/CustomTree.java	f703a2dd305c0f4b	no header (user attests sole authorship)	-
+src/DOMTreeModel.java	1fd677fb98cdb75b	no header (user attests sole authorship)	-
+src/DOMTreeWalkerTreeModel.java	293f40a5adc9f60e	other copyright header	-
+src/examples/util/file/ArrayListDocument.java	af94caca411e0f72	EPL-1.0 (IBM header)	-
+src/examples/util/file/DOMTreeModel.java	ec7ae0e4c3e5cfd3	no header (user attests sole authorship)	-
+src/examples/util/filters/FilterAdapter.java	c78b58701713dc43	EPL-1.0 (IBM header)	-
+src/examples/util/filters/IFilter.java	e3472237bdfb8e22	EPL-1.0 (IBM header)	-
+src/examples/util/output/TableStringFormatter.java	f346cdebc2a73eec	EPL-1.0 (IBM header)	-
+src/examples/util/output/Util.java	b849b3c863d04fb6	no header (user attests sole authorship)	-
+src/FileSystemModel.java	895732c39a658595	other copyright header	-
+src/JTreeTable.java	5d659bd17a48af98	other copyright header	-
+src/LinkControlEventSelection.java	54701b205e2a1f71	no header (user attests sole authorship)	-
+src/MergeSort.java	76cf861c63fcae11	other copyright header	-
+src/org/eclipse/jface/viewers/structured/celledit/ICellEditorValidator2.java	9128396cfd44ede2	EPL-1.0 (IBM header)	-
+src/org/eclipse/jface/viewers/structured/celledit/ValidatingTextCellEditor.java	37444ded571caab8	EPL-1.0 (IBM header)	-
+src/org/eclipse/jface/viewers/structured/celledit/ValidatingTextCellEditor2.java	1526744bb116214f	EPL-1.0 (IBM header)	-
+src/org/eclipse/jface/viewers/structured/celledit/ValidatingTextCellEditor2Demo.java	6f8ac2808e8c8357	other copyright header	-
+src/org/eclipse/jface/viewers/structured/celledit/ValidatingTextCellEditorDemo.java	514a0717c121eeb5	other copyright header	-
+src/org/eclipse/jface/viewers/structured/dialogs/BooleanCellEditor.java	5acb935a40d3ff0c	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/dialogs/ColumnFieldModifier.java	55809c16e5b23832	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/dialogs/IFieldModifier.java	f20dc7c72d1eded2	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/dialogs/IntegerCellEditor.java	bc4af565490619cf	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/dialogs/UIFieldStatus.java	58a347c84b57d7bd	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/dialogs/ValidatingFieldModifier.java	241fcab476da4cb1	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/dialogs/ViewerColumnFieldDialog.java	64f2ef780abe5423	no header (user attests sole authorship)	based on values of the variable
+src/org/eclipse/jface/viewers/structured/dialogs/ViewerColumnsDialog.java	6e719cd0bfa711bc	EPL-1.0 (IBM header)	based on values of the variable
+src/org/eclipse/jface/viewers/structured/dialogs/ViewerColumnsDialogSnippet.java	618f893b99fcd918	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/dialogs/ViewerFiltersDialog.java	77c3e5617b2cfb51	EPL-1.0 (IBM header)	-
+src/org/eclipse/jface/viewers/structured/dialogs/ViewerSettingsAndStatusDialog.java	eed78886bd065793	EPL-1.0 (IBM header)	-
+src/org/eclipse/jface/viewers/structured/dialogs/ViewSettingsDialog.java	ae90c975e765ef3b	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/AbstractRegexFilter.java	795d3658ed653069	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/AbstractWildCardFilter.java	e5e74dd2bce5533f	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/IMultiPropertyTextFilter.java	874299386edb5ab7	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/IViewerTextFilter.java	e181a8582fd6d111	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/MultiPropertyTextFilter.java	7e5b21b33187e230	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/RegexFilter.java	7339fcd4f69cdc83	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/ui/ColumnFilterUI.java	0fe352f7ea27de55	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/ui/FilterEditPanel.java	bf295f4a724ee0e8	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/ui/PopUpFilterUI.java	e0f709fc8475da94	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/ui/ViewerFilterUI.java	1186b4b7a6a685ae	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/filters/WildCardFilter.java	703a6cce9a793061	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/ICheckStateProvider.java	9b59de53629db214	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IColorProvider.java	09a9ab0557387347	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IColumnProvider.java	d2808dac6bbed281	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IElementComparer.java	3f2d2f92ccc00915	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IElementMap.java	a60fce9ae401d05c	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IElementProvider.java	4fddcce845efceb0	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IEntryFilter.java	56f7451409dbad69	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IExceptionHandler.java	02f72aa427393768	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IExpandStateProvider.java	1acced5a68e99847	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IFilterStateProvider.java	79017446cda6447f	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IImageProvider.java	9be9ca5cb5e4f02f	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/ILabelProvider.java	23f87e6e0ef746be	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/impl/ArrayMap.java	2384bb46a12e2ce4	no header (user attests sole authorship)	Copied from Apache's AbstractHashedMap; prevents power-of-two collisions.
+src/org/eclipse/jface/viewers/structured/impl/Counter.java	4f3fc1a9a662868c	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/impl/Images.java	f84d2e8b506cb232	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/impl/IndexList.java	28766769b0bc62b1	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/impl/IntHashMap.java	2e6d37fda3640d25	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/impl/LazySortList.java	2310f24019ba5ff3	no header (user attests sole authorship)	derived from the Class
+src/org/eclipse/jface/viewers/structured/impl/LazySortUtil.java	66a9e21bb7d2e6ed	other copyright header	derived from the Class
+src/org/eclipse/jface/viewers/structured/impl/ListStressTest.java	e3f847a0ed64a90d	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/impl/PaggedList.java	34346c2e3b15ff4a	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/ISelectStateProvider.java	d3c2851dc7d20825	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IStyledStringProvider.java	98b4bc1fc101d596	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/ITreePathProvider.java	723ed452c38f5ed5	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IViewer.java	cd8472daec96f6f6	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IViewerConstants.java	949020549427fc70	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IViewerContext.java	29eef8060b7a1b42	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IViewerEntry.java	c16cf8eb61ad53ca	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IViewerLazyTool.java	19e80fe5571e4053	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IViewerStratergy.java	95246cdcbc1c8091	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IViewerUpdater.java	e53381f1b4f65185	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/IVisualIndexProvider.java	6acdf199bc0bcc88	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/Messages.java	179c05e401371a76	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/AbstractStratergy.java	e1077da97446922e	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/CheckedStateProvider.java	8f498be18185f78d	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/ColorProvider.java	0537258eeb253a2a	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/Comparator.java	d756e536bfa46adb	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/ElementFilter.java	548edc29f39527c9	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/EntryFilterUtil.java	405195ac9699fd9b	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/example/TreeViewerExample.java	55a349dea347a603	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/example/TreeViewerFiltersCustomDrawExample.java	dc51d13f81c99fe0	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/ExceptionHandler.java	c4f3fd11a8d50702	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/FilteredTreeElementProvider.java	2f5f57b2f2ed58e3	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/ImageProvider.java	4a0c9df717a82ca1	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/LabelProvider.java	f5ab92bd6c948abf	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/ProxyContext.java	23ea7b013e58ea91	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/ProxyElementProvider.java	c753022dd400a694	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/SortedElementProvider.java	7eb98e15235e672e	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/StyledStringProvider.java	a03ac51d6c104865	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeColumnProvider.java	9b7f07a8bfeb3c27	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeElementMap.java	685ac3426b7ffc4d	EPL-1.0 (IBM header)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeElementProvider.java	4f0ca5236dd63de7	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeExpansionProvider.java	7b4f91acbea2c7c8	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeFilterStateProvider.java	685901d679a860ce	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeIndexProvider.java	c636973e53e9b016	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreePathProvider.java	85de5ec8ed5562a6	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeSelectStateProvider.java	4e5e095816af479c	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeViewer.java	ee4eb9003ded7668	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeViewerContext.java	a3a3e43a7393b4c3	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeViewerLazyTool.java	b02014d0058c495f	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeViewerUpdater.java	e686b3431d410e7a	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeViewerWithPagination.java	8b7ed91dd162bcb7	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeViewerWithViewPort.java	4ed8ee4f7eafb90c	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/tree/TreeViewerWork.java	322d3462c02d69ca	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/TreeUtil.java	d20d4abf4a0b1693	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/ViewerFactory.java	c751510bc37f9105	no header (user attests sole authorship)	-
+src/org/eclipse/jface/viewers/structured/ViewPort.java	84723feba2b3b59b	EPL-1.0 (IBM header)	-
+src/org/eclipse/ui/internal/ide/copy/StringMatcher.java	a021f6d2d74b8041	EPL-1.0 (IBM header)	-
+src/Snippet047VirtualLazyTreeViewer.java	94c231d7ed93e5a5	other copyright header	-
+src/TreeCellEditor.java	4547301f6d5df860	no header (user attests sole authorship)	-
+src/TreeEditorButton.java	05b8b9e593d7c274	no header (user attests sole authorship)	-
+src/TreeTableBarChart.java	5aafd8d2c2519f53	no header (user attests sole authorship)	-
+src/TreeTableExample0.java	f0689456f176e41a	other copyright header	-
+src/TreeTableGradient.java	c29d89109574fb42	EPL-1.0 (IBM header)	-
+src/TreeTableModel.java	bf915652064805af	other copyright header	-
+src/TreeTableModelAdapter.java	575ce2c2c4d3c9ab	other copyright header	-
+src/TreeViewBasedOnNode.java	2006399df73e66b0	no header (user attests sole authorship)	-
+src/treeviewer/Activator.java	de461aafac8b7e9e	EPL-1.0 (IBM header)	-
+src/TreeViewerExpansionsFixed.java	0ab1f0e162ed7091	other copyright header	-
+src/UIJob.java	cca151701aea6c63	no header (user attests sole authorship)	-
+src-filters/examples/eclipse/jface/patternfilters/ArrayMap.java	6869fdebb5dd8807	no header (user attests sole authorship)	Copied from Apache's AbstractHashedMap; prevents power-of-two collisions.
+src-filters/examples/eclipse/jface/patternfilters/ColumnFilter.java	cf360352241d0ae6	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/ColumnsPatternFilter.java	c58945280c219258	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/DynamicColumnsFilter.java	151716aaa0ed8f72	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/DynamicFilterUI.java	04e62cddd91a485a	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/experimental/CustomSashForm.java	304aa87a068c9eb8	no header (user attests sole authorship)	-
+src-filters/examples/eclipse/jface/patternfilters/experimental/DeferrredTreeViewer.java	59e8cc0733e43710	other copyright header	-
+src-filters/examples/eclipse/jface/patternfilters/experimental/LazyTreeColunsFilter.java	fc5317f1df063cc6	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/experimental/TableColumnResizeTableResize.java	6c002ba66e294273	no header (user attests sole authorship)	-
+src-filters/examples/eclipse/jface/patternfilters/experimental/TooltipTableItem.java	ee7d7a50624731a5	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/FilterUI.java	d4fe39938b22dbb3	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/internal/Activator.java	5f560c6d9d0f911b	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/internal/Util.java	1e83c6b1de319246	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/MultiPropertyFilter.java	42fcf44da3910ec1	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/PatternConstants.java	f245fa210ec2f436	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/PatternFilter.java	a3cd277d173da92a	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/PatternFilterEditArea.java	4d1c665d8a7f7868	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/TableColumnsFilter.java	2470da93d5069e77	EPL-1.0 (IBM header)	-
+src-filters/examples/eclipse/jface/patternfilters/TreeColumnsFilter.java	0fb217d1dba0ef4e	EPL-1.0 (IBM header)	-
+src-filters/examples/wordlist/dictionary/Dictionary.java	eeacce74876115d6	EPL-1.0 (IBM header)	-
+src-filters/examples/wordlist/dictionary/ParentDictionary.java	5383fc497e31d2dd	EPL-1.0 (IBM header)	-
+src-filters/examples/wordlist/dictionary/Word.java	143465ca9dd2685d	EPL-1.0 (IBM header)	-
+src-filters/org/eclipse/jface/patternfilters/example/AbstractDemo.java	fc8e0f43228d6f4d	EPL-1.0 (IBM header)	-
+src-filters/org/eclipse/jface/patternfilters/example/DictionaryContentProvider.java	3f32e8d9d34497cb	EPL-1.0 (IBM header)	-
+src-filters/org/eclipse/jface/patternfilters/example/DictionaryLabelProvider.java	39898f8db82f141f	EPL-1.0 (IBM header)	-
+src-filters/org/eclipse/jface/patternfilters/example/LazyTableExample.java	aa4948e5965af789	EPL-1.0 (IBM header)	-
+src-filters/org/eclipse/jface/patternfilters/example/LazyTreeExample.java	b23402b0b099ddb8	EPL-1.0 (IBM header)	-
+src-filters/org/eclipse/jface/patternfilters/example/TableExample.java	9cdc8a6077ca9722	EPL-1.0 (IBM header)	-
+src-filters/org/eclipse/jface/patternfilters/example/TreeExample.java	08ba218941e374d9	EPL-1.0 (IBM header)	-

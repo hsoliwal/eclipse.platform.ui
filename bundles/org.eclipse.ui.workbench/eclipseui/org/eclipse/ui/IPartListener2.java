@@ -33,7 +33,7 @@ import org.eclipse.jface.dialogs.PageChangedEvent;
  *
  * @see IPartService#addPartListener(IPartListener2)
  */
-public interface IPartListener2 {
+public interface IPartListener2 { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	/**
 	 * Notifies this listener that the given part has been activated.

@@ -71,7 +71,7 @@ import org.eclipse.ui.internal.util.BundleUtility;
  *
  * @since 3.2
  */
-public final class ActionDelegateHandlerProxy implements ISelectionListener, ISelectionChangedListener,
+public final class ActionDelegateHandlerProxy implements ISelectionListener, ISelectionChangedListener, //FLLDCIM: MARK — T04  IMPLEMENTS
 		INullSelectionListener, IHandler2, IObjectWithState, IPartListener2 {
 
 	/**
@@ -187,7 +187,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 	 *                              is bound; may be <code>null</code> if this proxy
 	 *                              is not for an {@link IViewActionDelegate}.
 	 */
-	public ActionDelegateHandlerProxy(final IConfigurationElement element, final String delegateAttributeName,
+	public ActionDelegateHandlerProxy(final IConfigurationElement element, final String delegateAttributeName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String actionId, final ParameterizedCommand command, final IWorkbenchWindow window,
 			final String style, final Expression enabledWhenExpression, final String viewId) {
 		if (element == null) {
@@ -251,7 +251,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 		currentSelection = null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(final ExecutionEvent event) {
 		final IAction action = getAction();
 		if (loadDelegate() && (action != null)) {
@@ -282,7 +282,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 		return null;
 	}
 
-	private void updateDelegate(final IAction action, final IEvaluationContext context) {
+	private void updateDelegate(final IAction action, final IEvaluationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (action == null) {
 			return;
 		}
@@ -365,7 +365,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 	public CommandLegacyActionWrapper getAction() {
 		if (action == null) {
 			action = new CommandLegacyActionWrapper(actionId, command, style, window);
-			action.addPropertyChangeListener(event -> {
+			action.addPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 				// TODO Update the state somehow.
 			});
 		}
@@ -395,7 +395,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 	/**
 	 * Initialize the action delegate by calling its lifecycle method.
 	 */
-	private boolean initDelegate() {
+	private boolean initDelegate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IWorkbenchPage page = window.getActivePage();
 		final IWorkbenchPart activePart;
 		final IEditorPart activeEditor;
@@ -424,7 +424,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 				// Do nothing.
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				// Handle IActionDelegate2
 				if (delegate instanceof final IActionDelegate2 delegate2) {
@@ -450,7 +450,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setEnabled(Object evaluationContext) {
 		if (!(evaluationContext instanceof IEvaluationContext context)) {
 			return;
@@ -465,7 +465,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 				}
 			} catch (final CoreException e) {
 				// We will just fall through an let it return false.
-				final StringBuilder message = new StringBuilder(
+				final StringBuilder message = new StringBuilder( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 						"An exception occurred while evaluating the enabledWhen expression for "); //$NON-NLS-1$
 				if (delegate != null) {
 					message.append(delegate);
@@ -513,7 +513,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 	 * @return <code>true</code> if the delegate is now non-null; <code>false</code>
 	 *         otherwise.
 	 */
-	public boolean loadDelegate() {
+	public boolean loadDelegate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Try to load the delegate, if it hasn't been loaded already.
 		if (delegate == null) {
 			/*
@@ -574,7 +574,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 				return false;
 
 			} catch (final CoreException e) {
-				final String message = "The proxied delegate for '" //$NON-NLS-1$
+				final String message = "The proxied delegate for '" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ element.getAttribute(delegateAttributeName) + "' could not be loaded"; //$NON-NLS-1$
 				IStatus status = new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, 0, message, e);
 				WorkbenchPlugin.log(message, status);
@@ -611,7 +611,7 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 	public void removeState(String stateId) {
 	}
 
-	private void selectionChanged(final ISelection selection) {
+	private void selectionChanged(final ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Update selection.
 		currentSelection = selection;
 		if (currentSelection == null) {
@@ -643,9 +643,9 @@ public final class ActionDelegateHandlerProxy implements ISelectionListener, ISe
 		selectionChanged(selection);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
-		final StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buffer.append("ActionDelegateHandlerProxy("); //$NON-NLS-1$
 		buffer.append(getDelegate());
 		if (element != null) {

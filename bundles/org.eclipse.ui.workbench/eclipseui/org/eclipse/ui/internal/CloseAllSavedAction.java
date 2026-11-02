@@ -25,13 +25,13 @@ import org.eclipse.ui.IWorkbenchWindow;
 /**
  * Closes all editors except ones with unsaved changes.
  */
-public class CloseAllSavedAction extends PageEventAction implements IPropertyListener {
+public class CloseAllSavedAction extends PageEventAction implements IPropertyListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	/**
 	 * List of parts (element type: <code>IWorkbenchPart</code>) against which this
 	 * class has outstanding property listeners registered.
 	 */
-	private final List<IWorkbenchPart> partsWithListeners = new ArrayList<>(1);
+	private final List<IWorkbenchPart> partsWithListeners = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Create an instance of this class.
@@ -111,7 +111,7 @@ public class CloseAllSavedAction extends PageEventAction implements IPropertyLis
 			return;
 		}
 		IEditorReference editors[] = page.getEditorReferences();
-		for (IEditorReference editor : editors) {
+		for (IEditorReference editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!editor.isDirty()) {
 				setEnabled(true);
 				return;
@@ -123,7 +123,7 @@ public class CloseAllSavedAction extends PageEventAction implements IPropertyLis
 	@Override
 	public void dispose() {
 		super.dispose();
-		for (IWorkbenchPart part : partsWithListeners) {
+		for (IWorkbenchPart part : partsWithListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			part.removePropertyListener(this);
 		}
 		partsWithListeners.clear();

@@ -1,0 +1,9 @@
+/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/inputs/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TableViewer.java:121: warning: [this-escape] possible 'this' escape before subclass is fully initialized
+		hookControl(table);
+		           ^
+/workspace/scratch/48c1329dbda8/eclipse-m3-20261019/canonical/synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019/proof/inputs/bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/TreeViewer.java:205: warning: [this-escape] possible 'this' escape before subclass is fully initialized
+		hookControl(tree);
+		           ^
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+2 warnings

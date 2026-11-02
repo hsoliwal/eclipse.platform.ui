@@ -374,7 +374,7 @@ public final class IDE {
 	 *
 	 * @since 3.3
 	 */
-	public static IEditorPart openEditor(IWorkbenchPage page, URI uri,
+	public static IEditorPart openEditor(IWorkbenchPage page, URI uri, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String editorId, boolean activate) throws PartInitException {
 		// sanity checks
 		if (page == null) {
@@ -449,8 +449,8 @@ public final class IDE {
 		}
 
 		int length = files.length;
-		ArrayList<IFile> existentFiles = new ArrayList<>(length);
-		for (int i = 0; i < length; i++) {
+		ArrayList<IFile> existentFiles = new ArrayList<>(length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (files[i].exists()) {
 				existentFiles.add(files[i]);
 			}
@@ -805,7 +805,7 @@ public final class IDE {
 	 * @throws PartInitException if no editor can be found
 	 * @since 3.16
 	 */
-	public static IEditorDescriptor getEditorDescriptorForFileStore(IFileStore fileStore, boolean allowInteractive)
+	public static IEditorDescriptor getEditorDescriptorForFileStore(IFileStore fileStore, boolean allowInteractive) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws PartInitException {
 		String name = fileStore.fetchInfo().getName();
 		if (name == null) {
@@ -847,7 +847,7 @@ public final class IDE {
 	 * @since 3.8
 	 */
 	public static IEditorDescriptor overrideDefaultEditorAssociation(IEditorInput editorInput, IContentType contentType, IEditorDescriptor editorDescriptor) {
-		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) {
+		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editorDescriptor = override.overrideDefaultEditor(editorInput, contentType, editorDescriptor);
 		}
 		return editorDescriptor;
@@ -868,7 +868,7 @@ public final class IDE {
 	 * @since 3.8
 	 */
 	private static IEditorDescriptor overrideDefaultEditorAssociation(String fileName, IContentType contentType, IEditorDescriptor editorDescriptor) {
-		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) {
+		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editorDescriptor = override.overrideDefaultEditor(fileName, contentType, editorDescriptor);
 		}
 		return editorDescriptor;
@@ -888,7 +888,7 @@ public final class IDE {
 	 * @since 3.8
 	 */
 	public static IEditorDescriptor[] overrideEditorAssociations(IEditorInput editorInput, IContentType contentType, IEditorDescriptor[] editorDescriptors) {
-		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) {
+		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editorDescriptors = override.overrideEditors(editorInput, contentType, editorDescriptors);
 		}
 		return removeNullEntries(editorDescriptors);
@@ -908,15 +908,15 @@ public final class IDE {
 	 * @since 3.8
 	 */
 	public static IEditorDescriptor[] overrideEditorAssociations(String fileName, IContentType contentType, IEditorDescriptor[] editorDescriptors) {
-		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) {
+		for (IEditorAssociationOverride override : getEditorAssociationOverrides()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editorDescriptors = override.overrideEditors(fileName, contentType, editorDescriptors);
 		}
 		return removeNullEntries(editorDescriptors);
 	}
 
-	private static IEditorDescriptor[] removeNullEntries(IEditorDescriptor[] editorDescriptors) {
+	private static IEditorDescriptor[] removeNullEntries(IEditorDescriptor[] editorDescriptors) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean nullDescriptorFound = false;
-		for (IEditorDescriptor editorDesc : editorDescriptors) {
+		for (IEditorDescriptor editorDesc : editorDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (editorDesc == null) {
 				nullDescriptorFound = true;
 				break;
@@ -925,8 +925,8 @@ public final class IDE {
 		if (!nullDescriptorFound) {
 			return editorDescriptors;
 		}
-		List<IEditorDescriptor> nonNullDescriptors = new ArrayList<>(editorDescriptors.length);
-		for (IEditorDescriptor editorDesc : editorDescriptors) {
+		List<IEditorDescriptor> nonNullDescriptors = new ArrayList<>(editorDescriptors.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IEditorDescriptor editorDesc : editorDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (editorDesc != null) {
 				nonNullDescriptors.add(editorDesc);
 			}
@@ -1098,7 +1098,7 @@ public final class IDE {
 	 *
 	 * @since 3.12
 	 */
-	private static IEditorDescriptor getEditorDescriptor(String name, IEditorRegistry editorReg,
+	private static IEditorDescriptor getEditorDescriptor(String name, IEditorRegistry editorReg, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IEditorDescriptor defaultDescriptor, boolean allowInteractive)
 					throws PartInitException, OperationCanceledException {
 
@@ -1140,7 +1140,7 @@ public final class IDE {
 	 * @since 3.1
 	 * @deprecated Since 3.12, use {@link IDE#getEditorDescriptor(String, boolean, boolean)} instead
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private static IEditorDescriptor getEditorDescriptor(String name,
 			IEditorRegistry editorReg, IEditorDescriptor defaultDescriptor)
 			throws PartInitException {
@@ -1256,7 +1256,7 @@ public final class IDE {
 	 * @exception PartInitException
 	 *                if the editor could not be initialized
 	 */
-	public static IEditorPart openEditor(IWorkbenchPage page, IMarker marker,
+	public static IEditorPart openEditor(IWorkbenchPage page, IMarker marker, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean activate) throws PartInitException {
 		// sanity checks
 		if (page == null || marker == null) {
@@ -1365,7 +1365,7 @@ public final class IDE {
 	 * @see org.eclipse.ui.IWorkbenchPage#openEditor(IEditorInput, String)
 	 * @since 3.6
 	 */
-	public static IEditorPart openInternalEditorOnFileStore(IWorkbenchPage page, IFileStore fileStore) throws PartInitException {
+	public static IEditorPart openInternalEditorOnFileStore(IWorkbenchPage page, IFileStore fileStore) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (page == null) {
 			throw new IllegalArgumentException();
 		}
@@ -1398,7 +1398,7 @@ public final class IDE {
 
 		IEditorRegistry editorReg = PlatformUI.getWorkbench().getEditorRegistry();
 		if (contentTypes != null) {
-			for (IContentType contentType : contentTypes) {
+			for (IContentType contentType : contentTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IEditorDescriptor editorDesc = editorReg.getDefaultEditor(name, contentType);
 				editorDesc = overrideDefaultEditorAssociation(input, contentType, editorDesc);
 				if ((editorDesc != null) && (editorDesc.isInternal())) {
@@ -1411,7 +1411,7 @@ public final class IDE {
 		IEditorDescriptor[] editors = editorReg.getEditors(name);
 		if (editors != null) {
 			editors = overrideEditorAssociations(input, null, editors);
-			for (IEditorDescriptor editor : editors) {
+			for (IEditorDescriptor editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ((editor != null) && (editor.isInternal())) {
 					return page.openEditor(input, editor.getId());
 				}
@@ -1443,7 +1443,7 @@ public final class IDE {
 	 *         <code>false</code> if the operation was canceled by the user or
 	 *         an error occurred while saving
 	 */
-	public static boolean saveAllEditors(final IResource[] resourceRoots,
+	public static boolean saveAllEditors(final IResource[] resourceRoots, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final boolean confirm) {
 
 		if (resourceRoots.length == 0) {
@@ -1532,7 +1532,7 @@ public final class IDE {
 	 *         not found
 	 * @since 3.1
 	 */
-	public static IEditorDescriptor getDefaultEditor(IFile file,
+	public static IEditorDescriptor getDefaultEditor(IFile file, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean determineContentType) {
 		// Try file specific editor.
 		IEditorRegistry editorReg = PlatformUI.getWorkbench()
@@ -1572,15 +1572,15 @@ public final class IDE {
 	 * @return list of resources (element type: <code>IResource</code>),
 	 *         possibly empty
 	 */
-	public static List<IResource> computeSelectedResources(IStructuredSelection originalSelection) {
+	public static List<IResource> computeSelectedResources(IStructuredSelection originalSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<IResource> resources = null;
-		for (Object next : originalSelection) {
+		for (Object next : originalSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = Adapters.adapt(next, IResource.class);
 			if (resource != null) {
 				if (resources == null) {
 					// lazy init to avoid creating empty lists
 					// assume selection contains mostly resources most times
-					resources = new ArrayList<>(originalSelection.size());
+					resources = new ArrayList<>(originalSelection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				resources.add(resource);
 			}
@@ -1601,7 +1601,7 @@ public final class IDE {
 	 *         determined.
 	 * @since 3.1
 	 */
-	public static IContentType getContentType(IFile file) {
+	public static IContentType getContentType(IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			UIStats.start(UIStats.CONTENT_TYPE_LOOKUP, file.getName());
 			IContentDescription contentDescription = file
@@ -1669,7 +1669,7 @@ public final class IDE {
 	 * @return whether the user chose to continue
 	 * @since 3.2
 	 */
-	public static boolean promptToConfirm(final Shell shell,
+	public static boolean promptToConfirm(final Shell shell, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String title, String message, IResourceDelta delta,
 			String[] ignoreModelProviderIds, boolean syncExec) {
 		IStatus status = ResourceChangeValidator.getValidator().validateChange(
@@ -1679,9 +1679,9 @@ public final class IDE {
 		}
 		final IStatus displayStatus;
 		if (status.isMultiStatus()) {
-			List<IStatus> result = new ArrayList<>();
+			List<IStatus> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IStatus[] children = status.getChildren();
-			for (IStatus child : children) {
+			for (IStatus child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isIgnoredStatus(child, ignoreModelProviderIds)) {
 					result.add(child);
 				}
@@ -1740,7 +1740,7 @@ public final class IDE {
 			result[0] = code == 0;
 		};
 		if (syncExec) {
-			shell.getDisplay().syncExec(runnable);
+			shell.getDisplay().syncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		} else {
 			runnable.run();
 		}
@@ -1757,7 +1757,7 @@ public final class IDE {
 	 *
 	 * @since 3.5
 	 */
-	public static void registerAdapters() {
+	public static void registerAdapters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAdapterManager manager = Platform.getAdapterManager();
 		IAdapterFactory factory = new WorkbenchAdapterFactory();
 		manager.registerAdapters(factory, IWorkspace.class);
@@ -1778,13 +1778,13 @@ public final class IDE {
 		manager.registerAdapters(paFactory, IEditorPart.class);
 	}
 
-	private static boolean isIgnoredStatus(IStatus status,
+	private static boolean isIgnoredStatus(IStatus status, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] ignoreModelProviderIds) {
 		if (ignoreModelProviderIds == null) {
 			return false;
 		}
 		if (status instanceof ModelStatus ms) {
-			for (String id : ignoreModelProviderIds) {
+			for (String id : ignoreModelProviderIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ms.getModelProviderId().equals(id)) {
 					return true;
 				}
@@ -1812,14 +1812,14 @@ public final class IDE {
 	 * @exception MultiPartInitException if at least one of the editors could not be initialized
 	 * @since 3.5
 	 */
-	public static IEditorReference[] openEditors(IWorkbenchPage page, IFile[] inputs) throws MultiPartInitException {
+	public static IEditorReference[] openEditors(IWorkbenchPage page, IFile[] inputs) throws MultiPartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((page == null) || (inputs == null)) {
 			throw new IllegalArgumentException();
 		}
 
 		String[] editorDescriptions = new String[inputs.length];
 		IEditorInput[] editorInputs = new IEditorInput[inputs.length];
-		for(int i = 0 ; i < inputs.length; i++) {
+		for(int i = 0 ; i < inputs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editorInputs[i] = new FileEditorInput(inputs[i]);
 			try {
 				editorDescriptions[i] = getEditorDescriptor(inputs[i], true, true).getId();
@@ -1835,14 +1835,14 @@ public final class IDE {
 	private static IEditorAssociationOverride[] getEditorAssociationOverrides() {
 		if (editorAssociationOverrides == null) {
 			EditorAssociationOverrideDescriptor[] descriptors = EditorAssociationOverrideDescriptor.getContributedEditorAssociationOverrides();
-			List<IEditorAssociationOverride> overrides = new ArrayList<>(descriptors.length);
-			for (EditorAssociationOverrideDescriptor descriptor : descriptors) {
+			List<IEditorAssociationOverride> overrides = new ArrayList<>(descriptors.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (EditorAssociationOverrideDescriptor descriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					IEditorAssociationOverride override = descriptor.createOverride();
 					overrides.add(override);
 				} catch (CoreException e) {
 					IDEWorkbenchPlugin
-							.log("Error while creating IEditorAssociationOverride from: " + descriptor.getId(), e); //$NON-NLS-1$
+							.log("Error while creating IEditorAssociationOverride from: " + descriptor.getId(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			editorAssociationOverrides = overrides.toArray(new IEditorAssociationOverride[overrides.size()]);

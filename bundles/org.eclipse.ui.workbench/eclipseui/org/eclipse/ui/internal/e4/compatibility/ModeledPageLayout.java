@@ -78,17 +78,17 @@ public class ModeledPageLayout implements IPageLayout {
 	public static final String HIDDEN_ACTIONSET_PREFIX = "persp.hideActionSetSC:"; //$NON-NLS-1$
 	public static final String HIDDEN_ITEMS_KEY = "persp.hiddenItems"; //$NON-NLS-1$
 	public static final String EDITOR_ONBOARDING = "persp.editorOnboarding"; //$NON-NLS-1$
-	public static final String EDITOR_ONBOARDING_TEXT = EDITOR_ONBOARDING + "Text:"; //$NON-NLS-1$
-	public static final String EDITOR_ONBOARDING_IMAGE = EDITOR_ONBOARDING + "ImageUri:"; //$NON-NLS-1$
-	public static final String EDITOR_ONBOARDING_COMMAND = EDITOR_ONBOARDING + "Command:"; //$NON-NLS-1$
+	public static final String EDITOR_ONBOARDING_TEXT = EDITOR_ONBOARDING + "Text:"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String EDITOR_ONBOARDING_IMAGE = EDITOR_ONBOARDING + "ImageUri:"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String EDITOR_ONBOARDING_COMMAND = EDITOR_ONBOARDING + "Command:"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	public static final String EDITOR_ONBOARDING_COMMAND_SEPARATOR = "$$$"; //$NON-NLS-1$
 
 	public static List<String> getIds(MPerspective model, String tagPrefix) {
 		if (model == null) {
 			return Collections.emptyList();
 		}
-		ArrayList<String> result = new ArrayList<>();
-		for (String tag : model.getTags()) {
+		ArrayList<String> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String tag : model.getTags()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tag.startsWith(tagPrefix)) {
 				result.add(tag.substring(tagPrefix.length()));
 			}
@@ -138,7 +138,7 @@ public class ModeledPageLayout implements IPageLayout {
 		}
 	}
 
-	public ModeledPageLayout(MWindow window, EModelService modelService, EPartService partService,
+	public ModeledPageLayout(MWindow window, EModelService modelService, EPartService partService, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			MPerspective perspModel, IPerspectiveDescriptor descriptor, WorkbenchPage page, boolean createReferences) {
 		// this.window = window;
 		MUIElement winParent = window.getParent();
@@ -156,7 +156,7 @@ public class ModeledPageLayout implements IPageLayout {
 
 		MArea sharedArea = null;
 		List<MUIElement> sharedElements = window.getSharedElements();
-		for (MUIElement element : sharedElements) {
+		for (MUIElement element : sharedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getElementId().equals(getEditorArea())) {
 				sharedArea = (MArea) element;
 				break;
@@ -187,7 +187,7 @@ public class ModeledPageLayout implements IPageLayout {
 		perspModel.getChildren().add(eaRef);
 
 		ActionSetRegistry registry = application.getContext().get(ActionSetRegistry.class);
-		for (IActionSetDescriptor actionSetDescriptor : registry.getActionSets()) {
+		for (IActionSetDescriptor actionSetDescriptor : registry.getActionSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (actionSetDescriptor.isInitiallyVisible()) {
 				addActionSet(actionSetDescriptor.getId());
 			}
@@ -200,17 +200,17 @@ public class ModeledPageLayout implements IPageLayout {
 
 	@Override
 	public void addActionSet(String actionSetId) {
-		perspModel.getTags().add(ACTION_SET_TAG + actionSetId);
+		perspModel.getTags().add(ACTION_SET_TAG + actionSetId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public void addNewWizardShortcut(String id) {
-		perspModel.getTags().add(NEW_WIZARD_TAG + id);
+		perspModel.getTags().add(NEW_WIZARD_TAG + id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public void addPerspectiveShortcut(String id) {
-		perspModel.getTags().add(PERSP_SHORTCUT_TAG + id);
+		perspModel.getTags().add(PERSP_SHORTCUT_TAG + id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -220,12 +220,12 @@ public class ModeledPageLayout implements IPageLayout {
 
 	@Override
 	public void addShowInPart(String id) {
-		perspModel.getTags().add(SHOW_IN_PART_TAG + id);
+		perspModel.getTags().add(SHOW_IN_PART_TAG + id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public void addShowViewShortcut(String id) {
-		perspModel.getTags().add(SHOW_VIEW_TAG + id);
+		perspModel.getTags().add(SHOW_VIEW_TAG + id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -258,7 +258,7 @@ public class ModeledPageLayout implements IPageLayout {
 
 	public void addView(String viewId, int relationship, float ratio, String refId, boolean minimized) {
 		if (minimized) {
-			E4Util.unsupported("addView: use of minimized for " + viewId + " ref " + refId); //$NON-NLS-1$ //$NON-NLS-2$
+			E4Util.unsupported("addView: use of minimized for " + viewId + " ref " + refId); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		addView(viewId, relationship, ratio, refId);
 	}
@@ -359,7 +359,7 @@ public class ModeledPageLayout implements IPageLayout {
 		// perspModel.setFixed(isFixed);
 	}
 
-	public static MStackElement createViewModel(MApplication application, String id, boolean visible,
+	public static MStackElement createViewModel(MApplication application, String id, boolean visible, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			WorkbenchPage page, EPartService partService, boolean createReferences) {
 		EModelService ms = application.getContext().get(EModelService.class);
 		MPartDescriptor partDesc = ms.getPartDescriptor(id);
@@ -385,7 +385,7 @@ public class ModeledPageLayout implements IPageLayout {
 		return null;
 	}
 
-	private MUIElement insertView(String viewId, int relationship, float ratio, String refId, boolean visible,
+	private MUIElement insertView(String viewId, int relationship, float ratio, String refId, boolean visible, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean withStack) {
 
 		// Hide views that are filtered by capabilities
@@ -397,7 +397,7 @@ public class ModeledPageLayout implements IPageLayout {
 
 		if (viewModel != null) {
 			if (withStack) {
-				String stackId = viewId + "MStack"; // Default id...basically unusable //$NON-NLS-1$
+				String stackId = viewId + "MStack"; // Default id...basically unusable //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				MPartStack stack = insertStack(stackId, relationship, ratio, refId, visible && !isFiltered);
 				stack.getChildren().add(viewModel);
 				retVal = stack;
@@ -457,7 +457,7 @@ public class ModeledPageLayout implements IPageLayout {
 		return getLastElement(children.get(children.size() - 1));
 	}
 
-	private MPartStack insertStack(String stackId, int relationship, float ratio, String refId, boolean visible) {
+	private MPartStack insertStack(String stackId, int relationship, float ratio, String refId, boolean visible) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MUIElement refModel = findElement(perspModel, refId);
 		if (refModel == null) {
 			WorkbenchPlugin.log(NLS.bind(WorkbenchMessages.PageLayout_missingRefPart, refId));
@@ -490,7 +490,7 @@ public class ModeledPageLayout implements IPageLayout {
 		return stack;
 	}
 
-	public static void replace(MUIElement relTo, MElementContainer<MUIElement> newParent) {
+	public static void replace(MUIElement relTo, MElementContainer<MUIElement> newParent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (relTo == null || newParent == null) {
 			return;
 		}
@@ -543,17 +543,17 @@ public class ModeledPageLayout implements IPageLayout {
 	}
 
 	public void addHiddenMenuItemId(String id) {
-		page.addHiddenItems(perspModel, HIDDEN_MENU_PREFIX + id);
+		page.addHiddenItems(perspModel, HIDDEN_MENU_PREFIX + id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public void addHiddenToolBarItemId(String id) {
-		page.addHiddenItems(perspModel, HIDDEN_TOOLBAR_PREFIX + id);
+		page.addHiddenItems(perspModel, HIDDEN_TOOLBAR_PREFIX + id); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public void removePlaceholder(String id) {
 		MUIElement refModel = findElement(perspModel, id);
 		if (!(refModel instanceof MPlaceholder)) {
-			E4Util.unsupported("removePlaceholder: failed to find " + id + ": " + refModel); //$NON-NLS-1$ //$NON-NLS-2$
+			E4Util.unsupported("removePlaceholder: failed to find " + id + ": " + refModel); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 
@@ -566,7 +566,7 @@ public class ModeledPageLayout implements IPageLayout {
 		}
 	}
 
-	public void stackView(String id, String refId, boolean visible) {
+	public void stackView(String id, String refId, boolean visible) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MUIElement refModel = refId.equals(getEditorArea()) ? editorStack : findElement(perspModel, refId);
 		if (refModel == null && visible) {
 			addView(id, LEFT, DEFAULT_VIEW_RATIO, refId);
@@ -577,7 +577,7 @@ public class ModeledPageLayout implements IPageLayout {
 			refModel = refModel.getParent();
 		}
 		if (!(refModel instanceof MPartStack)) {
-			E4Util.unsupported("stackView: failed to find " + refId + " for " + id); //$NON-NLS-1$//$NON-NLS-2$
+			E4Util.unsupported("stackView: failed to find " + refId + " for " + id); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 
@@ -610,15 +610,15 @@ public class ModeledPageLayout implements IPageLayout {
 
 	@Override
 	public void setEditorOnboardingText(String text) {
-		perspModel.getTags().add(EDITOR_ONBOARDING_TEXT + text);
+		perspModel.getTags().add(EDITOR_ONBOARDING_TEXT + text); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public void setEditorOnboardingImageUri(String iconUri) {
-		perspModel.getTags().add(EDITOR_ONBOARDING_IMAGE + iconUri);
+		perspModel.getTags().add(EDITOR_ONBOARDING_IMAGE + iconUri); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addEditorOnboardingCommandId(String commandId) {
 		long numberOfOnboardingCommands = perspModel.getTags().stream()
 				.filter(t -> t.startsWith(EDITOR_ONBOARDING_COMMAND)).count();
@@ -636,16 +636,16 @@ public class ModeledPageLayout implements IPageLayout {
 
 		Function<MKeyBinding, String> toCommandText = b -> {
 			try {
-				return b.getCommand().getCommandName() + EDITOR_ONBOARDING_COMMAND_SEPARATOR
+				return b.getCommand().getCommandName() + EDITOR_ONBOARDING_COMMAND_SEPARATOR //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ KeySequence.getInstance(b.getKeySequence()).format();
 			} catch (ParseException e) {
-				return b.getCommand().getCommandName() + EDITOR_ONBOARDING_COMMAND_SEPARATOR + b.getKeySequence();
+				return b.getCommand().getCommandName() + EDITOR_ONBOARDING_COMMAND_SEPARATOR + b.getKeySequence(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		};
 
 		application.getBindingTables().stream().map(MBindingTable::getBindings).flatMap(Collection::stream)
 				.filter(commandWithEqualId).findFirst().map(toCommandText)
-				.ifPresent(text -> perspModel.getTags().add(EDITOR_ONBOARDING_COMMAND + text));
+				.ifPresent(text -> perspModel.getTags().add(EDITOR_ONBOARDING_COMMAND + text)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

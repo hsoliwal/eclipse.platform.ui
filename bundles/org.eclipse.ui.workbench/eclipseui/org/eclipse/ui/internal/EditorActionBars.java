@@ -154,7 +154,7 @@ public class EditorActionBars extends SubActionBars2 {
 	/**
 	 * Dispose the contributions.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (editorContributor != null) {
 			editorContributor.dispose();
@@ -183,17 +183,17 @@ public class EditorActionBars extends SubActionBars2 {
 					if (!succeeded && DEBUG_TOOLBAR_DISPOSAL) {
 						System.out.println("FAILURE WHILE DISPOSING EditorActionBars"); //$NON-NLS-1$
 						System.out.println(
-								"Could not replace " + replacementItem.getId() + " in the contribution manager."); //$NON-NLS-1$ //$NON-NLS-2$
+								"Could not replace " + replacementItem.getId() + " in the contribution manager."); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				} else if (DEBUG_TOOLBAR_DISPOSAL) {
 					System.out.println("FAILURE WHILE DISPOSING EditorActionBars"); //$NON-NLS-1$
 					System.out.println("The manager was not a ContributionManager."); //$NON-NLS-1$
-					System.out.println("It was a " + manager.getClass().getName()); //$NON-NLS-1$
+					System.out.println("It was a " + manager.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} else if (DEBUG_TOOLBAR_DISPOSAL) {
 				System.out.println("FAILURE WHILE DISPOSING EditorActionBars"); //$NON-NLS-1$
 				System.out.println("The coolBarManager was not a SubContributionManager"); //$NON-NLS-1$
-				System.out.println("It was a " + coolBarManager.getClass().getName()); //$NON-NLS-1$
+				System.out.println("It was a " + coolBarManager.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			// Dispose of the replaced item.
@@ -244,7 +244,7 @@ public class EditorActionBars extends SubActionBars2 {
 	 *
 	 * @return the tool bar manager
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IToolBarManager getToolBarManager() {
 
 		// by pass the sub coolBar and use the real cool bar.
@@ -382,7 +382,7 @@ public class EditorActionBars extends SubActionBars2 {
 		}
 		this.enabledAllowed = enabledAllowed;
 		if (coolItemToolBarMgr != null) {
-			for (IContributionItem item : coolItemToolBarMgr.getItems()) {
+			for (IContributionItem item : coolItemToolBarMgr.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item != null) {
 					item.update(IContributionManagerOverrides.P_ENABLED);
 				}
@@ -429,7 +429,7 @@ public class EditorActionBars extends SubActionBars2 {
 	 *                        state. This parameter is ignored if visible is
 	 *                        <code>true</code>.
 	 */
-	private void setVisible(boolean visible, boolean forceVisibility) {
+	private void setVisible(boolean visible, boolean forceVisibility) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (visible) {
 			setEnabledAllowed(true);
 			if (!isVisible()) {
@@ -449,7 +449,7 @@ public class EditorActionBars extends SubActionBars2 {
 		}
 		ICoolBarManager coolBarManager = castedParent.getCoolBarManager();
 		if ((coolItemToolBarMgr != null) && (coolBarManager != null)) {
-			for (IContributionItem item : coolItemToolBarMgr.getItems()) {
+			for (IContributionItem item : coolItemToolBarMgr.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.setVisible(visible || !forceVisibility);
 				coolItemToolBarMgr.markDirty();
 				if (!coolBarManager.isDirty()) {

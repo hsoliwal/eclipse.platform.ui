@@ -61,7 +61,7 @@ public class ViewerActionBuilder extends PluginActionBuilder {
 	 */
 	public void dispose() {
 		if (cache != null) {
-			for (Object contribution : cache) {
+			for (Object contribution : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((BasicContribution) contribution).dispose();
 			}
 			cache = null;
@@ -104,7 +104,7 @@ public class ViewerActionBuilder extends PluginActionBuilder {
 	 * Helper class to collect the menus and actions defined within a contribution
 	 * element.
 	 */
-	private static class ViewerContribution extends BasicContribution implements ISelectionChangedListener {
+	private static class ViewerContribution extends BasicContribution implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 		private final ISelectionProvider selProvider;
 
 		private ActionExpression visibilityTest;
@@ -118,7 +118,7 @@ public class ViewerActionBuilder extends PluginActionBuilder {
 			super();
 			this.selProvider = selProvider;
 			if (selProvider != null) {
-				selProvider.addSelectionChangedListener(this);
+				selProvider.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			}
 		}
 
@@ -171,7 +171,7 @@ public class ViewerActionBuilder extends PluginActionBuilder {
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			if (actions != null) {
-				for (ActionDescriptor action : actions) {
+				for (ActionDescriptor action : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					PluginAction proxy = action.getAction();
 					proxy.selectionChanged(event);
 				}

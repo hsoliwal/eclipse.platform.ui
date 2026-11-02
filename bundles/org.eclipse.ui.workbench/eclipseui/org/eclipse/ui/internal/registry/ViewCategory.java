@@ -28,7 +28,7 @@ public class ViewCategory implements IViewCategory {
 	private final String id;
 	private final String label;
 	private final IPath path;
-	private final List<IViewDescriptor> descriptors = new ArrayList<>();
+	private final List<IViewDescriptor> descriptors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	public ViewCategory(String id, String label) {
 		this.id = id;
@@ -42,7 +42,7 @@ public class ViewCategory implements IViewCategory {
 
 	@Override
 	public IViewDescriptor[] getViews() {
-		Collection<?> allowedViews = WorkbenchActivityHelper.restrictCollection(descriptors, new ArrayList<>());
+		Collection<?> allowedViews = WorkbenchActivityHelper.restrictCollection(descriptors, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return allowedViews.toArray(new IViewDescriptor[allowedViews.size()]);
 	}
 

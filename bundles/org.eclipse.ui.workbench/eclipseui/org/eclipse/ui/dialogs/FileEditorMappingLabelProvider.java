@@ -46,7 +46,7 @@ public class FileEditorMappingLabelProvider extends LabelProvider implements ITa
 	/**
 	 * Images that will require disposal.
 	 */
-	private final List<Image> imagesToDispose = new ArrayList<>();
+	private final List<Image> imagesToDispose = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Creates an instance of this class. The private visibility of this constructor
@@ -59,7 +59,7 @@ public class FileEditorMappingLabelProvider extends LabelProvider implements ITa
 	@Override
 	public void dispose() {
 		super.dispose();
-		for (Image e : imagesToDispose) {
+		for (Image e : imagesToDispose) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			e.dispose();
 		}
 		imagesToDispose.clear();

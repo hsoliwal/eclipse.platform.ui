@@ -222,7 +222,7 @@ public abstract class Window implements IShellProvider {
 	/**
 	 * Internal class for informing this window when fonts change.
 	 */
-	private class FontChangeListener implements IPropertyChangeListener {
+	private class FontChangeListener implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			handleFontChange(event);
@@ -306,7 +306,7 @@ public abstract class Window implements IShellProvider {
 	 * @return <code>true</code> if the window is (or was already) closed, and
 	 *         <code>false</code> if it is still open
 	 */
-	public boolean close() {
+	public boolean close() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// stop listening for font changes
 		if (fontChangeListener != null) {
@@ -344,7 +344,7 @@ public abstract class Window implements IShellProvider {
 	 * @param newShell
 	 *            the shell
 	 */
-	protected void configureShell(Shell newShell) {
+	protected void configureShell(Shell newShell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// The single image version of this code had a comment related to bug
 		// 46624,
@@ -353,8 +353,8 @@ public abstract class Window implements IShellProvider {
 		// The equivalent in the multi-image version seems to be to remove the
 		// disposed images from the array passed to the shell.
 		if (defaultImages != null && defaultImages.length > 0) {
-			ArrayList<Image> nonDisposedImages = new ArrayList<>(defaultImages.length);
-			for (Image defaultImage : defaultImages) {
+			ArrayList<Image> nonDisposedImages = new ArrayList<>(defaultImages.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Image defaultImage : defaultImages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (defaultImage != null && !defaultImage.isDisposed()) {
 					nonDisposedImages.add(defaultImage);
 				}
@@ -470,7 +470,7 @@ public abstract class Window implements IShellProvider {
 	 *
 	 * @return the shell
 	 */
-	protected final Shell createShell() {
+	protected final Shell createShell() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Shell newParent = getParentShell();
 		if(newParent != null &&  newParent.isDisposed()){
@@ -483,7 +483,7 @@ public abstract class Window implements IShellProvider {
 
 		resizeListener = e -> resizeHasOccurred = true;
 
-		newShell.addListener(SWT.Resize, resizeListener);
+		newShell.addListener(SWT.Resize, resizeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		newShell.setData(this);
 
 		//Add a listener
@@ -496,7 +496,7 @@ public abstract class Window implements IShellProvider {
 		if (fontChangeListener == null) {
 			fontChangeListener = new FontChangeListener();
 		}
-		JFaceResources.getFontRegistry().addListener(fontChangeListener);
+		JFaceResources.getFontRegistry().addListener(fontChangeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		return newShell;
 	}
@@ -552,7 +552,7 @@ public abstract class Window implements IShellProvider {
 	 *            <code>getInitialSize</code>.
 	 * @return the initial location of the shell
 	 */
-	protected Point getInitialLocation(Point initialSize) {
+	protected Point getInitialLocation(Point initialSize) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite parent = shell.getParent();
 
 		Monitor monitor = shell.getDisplay().getPrimaryMonitor();
@@ -593,10 +593,10 @@ public abstract class Window implements IShellProvider {
 	 *
 	 * @since 3.1
 	 */
-	private static Shell getModalChild(Shell[] toSearch) {
+	private static Shell getModalChild(Shell[] toSearch) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int modal = SWT.APPLICATION_MODAL | SWT.SYSTEM_MODAL | SWT.PRIMARY_MODAL;
 
-		for (int i = toSearch.length - 1; i >= 0; i--) {
+		for (int i = toSearch.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Shell shell = toSearch[i];
 
 			// Check if this shell has a modal child
@@ -775,7 +775,7 @@ public abstract class Window implements IShellProvider {
 	 *
 	 * @see #create()
 	 */
-	public int open() {
+	public int open() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (shell == null || shell.isDisposed()) {
 			shell = null;
@@ -814,7 +814,7 @@ public abstract class Window implements IShellProvider {
 	private static void runEventLoop(Shell loopShell) {
 		Display display = loopShell.getDisplay();
 
-		while (!loopShell.isDisposed()) {
+		while (!loopShell.isDisposed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				if (!display.readAndDispatch()) {
 					display.sleep();
@@ -913,7 +913,7 @@ public abstract class Window implements IShellProvider {
 	 *
 	 * @since 3.0
 	 */
-	protected Rectangle getConstrainedShellBounds(Rectangle preferredSize) {
+	protected Rectangle getConstrainedShellBounds(Rectangle preferredSize) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Rectangle result = new Rectangle(preferredSize.x, preferredSize.y,
 				preferredSize.width, preferredSize.height);
 
@@ -970,7 +970,7 @@ public abstract class Window implements IShellProvider {
 
 		if (manager != null) {
 			Window[] windows = manager.getWindows();
-			for (Window window : windows) {
+			for (Window window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (window == this) {
 					return;
 				}

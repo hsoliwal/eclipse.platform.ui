@@ -114,7 +114,7 @@ public class BindingPersistence extends PreferencePersistence {
 	 * A look-up map for 2.1.x style <code>string</code> keys on a
 	 * <code>keyBinding</code> element.
 	 */
-	private static final Map<String, Integer> r2_1KeysByName = new HashMap<>();
+	private static final Map<String, Integer> r2_1KeysByName = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	static {
 		final IKeyLookup lookup = KeyLookupFactory.getDefault();
@@ -169,7 +169,7 @@ public class BindingPersistence extends PreferencePersistence {
 	private static final KeySequence convert2_1Sequence(int[] r21KeySequence) {
 		final int r21KeySequenceLength = r21KeySequence.length;
 		final KeyStroke[] keyStrokes = new KeyStroke[r21KeySequenceLength];
-		for (int i = 0; i < r21KeySequenceLength; i++) {
+		for (int i = 0; i < r21KeySequenceLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			keyStrokes[i] = convert2_1Stroke(r21KeySequence[i]);
 		}
 
@@ -212,7 +212,7 @@ public class BindingPersistence extends PreferencePersistence {
 		final int length = stringTokenizer.countTokens();
 		final int[] strokes = new int[length];
 
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			strokes[i] = parse2_1Stroke(stringTokenizer.nextToken());
 		}
 
@@ -226,13 +226,13 @@ public class BindingPersistence extends PreferencePersistence {
 	 * @param string The string to parse; must not be <code>null</code>.
 	 * @return An single integer value representing this key stroke.
 	 */
-	private static final int parse2_1Stroke(final String string) {
+	private static final int parse2_1Stroke(final String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final StringTokenizer stringTokenizer = new StringTokenizer(string, KeyStroke.KEY_DELIMITER, true);
 
 		// Copy out the tokens so we have random access.
 		final int size = stringTokenizer.countTokens();
 		final String[] tokens = new String[size];
-		for (int i = 0; stringTokenizer.hasMoreTokens(); i++) {
+		for (int i = 0; stringTokenizer.hasMoreTokens(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tokens[i] = stringTokenizer.nextToken();
 		}
 
@@ -248,7 +248,7 @@ public class BindingPersistence extends PreferencePersistence {
 			}
 
 			if (value != 0) {
-				for (int i = 0; i < size - 1; i++) {
+				for (int i = 0; i < size - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					token = tokens[i];
 
 					if (i % 2 == 0) {
@@ -324,7 +324,7 @@ public class BindingPersistence extends PreferencePersistence {
 	 *                                  must already have its schemes defined. This
 	 *                                  value must not be <code>null</code>.
 	 */
-	private static final void readActiveScheme(final IConfigurationElement[] configurationElements,
+	private static final void readActiveScheme(final IConfigurationElement[] configurationElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int configurationElementCount, final IMemento preferences, final BindingManager bindingManager) {
 		// A non-default preference.
 		final IPreferenceStore store = PlatformUI.getPreferenceStore();
@@ -343,7 +343,7 @@ public class BindingPersistence extends PreferencePersistence {
 		if (preferences != null) {
 			final IMemento[] preferenceMementos = preferences.getChildren(TAG_ACTIVE_KEY_CONFIGURATION);
 			int preferenceMementoCount = preferenceMementos.length;
-			for (int i = preferenceMementoCount - 1; i >= 0; i--) {
+			for (int i = preferenceMementoCount - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IMemento memento = preferenceMementos[i];
 				String id = memento.getString(ATT_KEY_CONFIGURATION_ID);
 				if (id != null) {
@@ -369,7 +369,7 @@ public class BindingPersistence extends PreferencePersistence {
 		}
 
 		// The registry.
-		for (int i = configurationElementCount - 1; i >= 0; i--) {
+		for (int i = configurationElementCount - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement configurationElement = configurationElements[i];
 
 			String id = configurationElement.getAttribute(ATT_KEY_CONFIGURATION_ID);
@@ -411,14 +411,14 @@ public class BindingPersistence extends PreferencePersistence {
 	 * @param commandService The command service for the workbench; must not be
 	 *                       <code>null</code>.
 	 */
-	private static final void readBindingsFromPreferences(final IMemento preferences,
+	private static final void readBindingsFromPreferences(final IMemento preferences, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final BindingManager bindingManager, final CommandManager commandService) {
-		List<IStatus> warningsToLog = new ArrayList<>(1);
+		List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (preferences != null) {
 			final IMemento[] preferenceMementos = preferences.getChildren(TAG_KEY_BINDING);
 			int preferenceMementoCount = preferenceMementos.length;
-			for (int i = preferenceMementoCount - 1; i >= 0; i--) {
+			for (int i = preferenceMementoCount - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IMemento memento = preferenceMementos[i];
 
 				// Read out the command id.
@@ -519,14 +519,14 @@ public class BindingPersistence extends PreferencePersistence {
 	 * @param commandService            The command service for the workbench; must
 	 *                                  not be <code>null</code>.
 	 */
-	@SuppressWarnings("removal")
+	@SuppressWarnings("removal") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private static final void readBindingsFromRegistry(final IConfigurationElement[] configurationElements,
 			final int configurationElementCount, final BindingManager bindingManager,
 			final CommandManager commandService) {
-		final Collection<KeyBinding> bindings = new ArrayList<>(configurationElementCount);
-		final List<IStatus> warningsToLog = new ArrayList<>(1);
+		final Collection<KeyBinding> bindings = new ArrayList<>(configurationElementCount); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		HashSet<KeyBinding> cocoaTempList = new HashSet<>();
+		HashSet<KeyBinding> cocoaTempList = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		// IViewRegistry viewRegistry =
 		// PlatformUI.getWorkbench().getViewRegistry();
 
@@ -536,7 +536,7 @@ public class BindingPersistence extends PreferencePersistence {
 			sequenceModifiers = getSequenceModifierElements(configurationElements[0]);
 		}
 
-		for (int i = 0; i < configurationElementCount; i++) {
+		for (int i = 0; i < configurationElementCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement configurationElement = configurationElements[i];
 
 			// different extension. update the cache ...
@@ -605,7 +605,7 @@ public class BindingPersistence extends PreferencePersistence {
 
 			KeyBinding binding = modifiedBindings.get(0);
 			if (modifiedBindings.size() > 1) {
-				for (int j = 1; j < modifiedBindings.size(); j++) {
+				for (int j = 1; j < modifiedBindings.size(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					bindings.add(modifiedBindings.get(j));
 				}
 			}
@@ -633,19 +633,19 @@ public class BindingPersistence extends PreferencePersistence {
 				"Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point"); //$NON-NLS-1$
 	}
 
-	private static List<KeyBinding> applyModifiers(KeySequence keySequence, String keySequenceText, String platform,
+	private static List<KeyBinding> applyModifiers(KeySequence keySequence, String keySequenceText, String platform, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IConfigurationElement[] sequenceModifiers, ParameterizedCommand parameterizedCommand, String schemeId,
 			String contextId, String locale, List<IStatus> warningsToLog) {
 
-		List<KeyBinding> bindings = new ArrayList<>();
+		List<KeyBinding> bindings = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IConfigurationElement sequenceModifier : sequenceModifiers) {
+		for (IConfigurationElement sequenceModifier : sequenceModifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			String findSequence = sequenceModifier.getAttribute(ATT_FIND);
 
 			if (keySequenceText.startsWith(findSequence)) {
 				String replaceSequence = sequenceModifier.getAttribute(ATT_REPLACE);
-				String modifiedSequence = replaceSequence + keySequenceText.substring(findSequence.length());
+				String modifiedSequence = replaceSequence + keySequenceText.substring(findSequence.length()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				String platformsString = sequenceModifier.getAttribute(ATT_PLATFORMS);
 
 				String[] platforms = parseCommaSeparatedString(platformsString);
@@ -679,12 +679,12 @@ public class BindingPersistence extends PreferencePersistence {
 		return bindings;
 	}
 
-	private static void getBindingForPlatform(KeySequence keySequence, String platform,
+	private static void getBindingForPlatform(KeySequence keySequence, String platform, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ParameterizedCommand parameterizedCommand, String schemeId, String contextId, String locale,
 			List<KeyBinding> bindings, String modifiedSequence, String[] platforms) throws ParseException {
 
 		int j = 0;
-		for (; j < platforms.length; j++) {
+		for (; j < platforms.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (platforms[j].equals(platform)) {
 				KeyBinding newBinding = new KeyBinding(KeySequence.getInstance(modifiedSequence), parameterizedCommand,
 						schemeId, contextId, locale, platforms[j], null, Binding.SYSTEM);
@@ -700,7 +700,7 @@ public class BindingPersistence extends PreferencePersistence {
 		}
 	}
 
-	private static void addGenericBindings(KeySequence keySequence, ParameterizedCommand parameterizedCommand,
+	private static void addGenericBindings(KeySequence keySequence, ParameterizedCommand parameterizedCommand, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String schemeId, String contextId, String locale, List<KeyBinding> bindings, String modifiedSequence,
 			String[] platforms) throws ParseException {
 
@@ -710,7 +710,7 @@ public class BindingPersistence extends PreferencePersistence {
 
 		String platform = SWT.getPlatform();
 		boolean modifierExists = false;
-		for (String currentPlatform : platforms) {
+		for (String currentPlatform : platforms) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (currentPlatform.equals(platform)) {
 				modifierExists = true;
 				break;
@@ -733,8 +733,8 @@ public class BindingPersistence extends PreferencePersistence {
 	private static IConfigurationElement[] getSequenceModifierElements(IConfigurationElement configurationElement) {
 
 		IExtension extension = configurationElement.getDeclaringExtension();
-		List<IConfigurationElement> modifierElements = new ArrayList<>();
-		for (final IConfigurationElement configElement : extension.getConfigurationElements()) {
+		List<IConfigurationElement> modifierElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (final IConfigurationElement configElement : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (TAG_SEQUENCE_MODIFIER.equals(configElement.getName())) {
 				modifierElements.add(configElement);
 			}
@@ -746,7 +746,7 @@ public class BindingPersistence extends PreferencePersistence {
 		StringTokenizer tokenizer = new StringTokenizer(commaSeparatedString, ", "); //$NON-NLS-1$
 		int count = tokenizer.countTokens();
 		String[] tokens = new String[count];
-		for (int i = 0; i < tokens.length; i++) {
+		for (int i = 0; i < tokens.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tokens[i] = tokenizer.nextToken();
 		}
 		return tokens;
@@ -766,7 +766,7 @@ public class BindingPersistence extends PreferencePersistence {
 
 	}
 
-	private static KeySequence readKeySequence(IConfigurationElement configurationElement, List<IStatus> warningsToLog,
+	private static KeySequence readKeySequence(IConfigurationElement configurationElement, List<IStatus> warningsToLog, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String commandId, String keySequenceText) {
 
 		KeySequence keySequence = null;
@@ -807,7 +807,7 @@ public class BindingPersistence extends PreferencePersistence {
 		if (command == null) {
 			parameterizedCommand = null;
 		} else if (viewParameter != null) {
-			HashMap<String, String> parms = new HashMap<>();
+			HashMap<String, String> parms = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			parms.put(IWorkbenchCommandConstants.VIEWS_SHOW_VIEW_PARM_ID, viewParameter);
 			parameterizedCommand = ParameterizedCommand.generateCommand(command, parms);
 		} else {
@@ -891,19 +891,19 @@ public class BindingPersistence extends PreferencePersistence {
 	 *                                  should be added; must not be
 	 *                                  <code>null</code>.
 	 */
-	private static final void readSchemesFromRegistry(final IConfigurationElement[] configurationElements,
+	private static final void readSchemesFromRegistry(final IConfigurationElement[] configurationElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int configurationElementCount, final BindingManager bindingManager) {
 		// Undefine all the previous handle objects.
 		final HandleObject[] handleObjects = bindingManager.getDefinedSchemes();
 		if (handleObjects != null) {
-			for (HandleObject handleObject : handleObjects) {
+			for (HandleObject handleObject : handleObjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				handleObject.undefine();
 			}
 		}
 
-		final List<IStatus> warningsToLog = new ArrayList<>(1);
+		final List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < configurationElementCount; i++) {
+		for (int i = 0; i < configurationElementCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement configurationElement = configurationElements[i];
 
 			// Read out the attributes.
@@ -947,10 +947,10 @@ public class BindingPersistence extends PreferencePersistence {
 	 * @throws IOException If something happens while trying to write to the
 	 *                     workbench preference store.
 	 */
-	static final void write(final Scheme activeScheme, final Binding[] bindings) throws IOException {
+	static final void write(final Scheme activeScheme, final Binding[] bindings) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Print out debugging information, if requested.
 		if (DEBUG) {
-			Tracing.printTrace("BINDINGS", "Persisting active scheme '" //$NON-NLS-1$ //$NON-NLS-2$
+			Tracing.printTrace("BINDINGS", "Persisting active scheme '" //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ activeScheme.getId() + '\'');
 			Tracing.printTrace("BINDINGS", "Persisting bindings"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -965,7 +965,7 @@ public class BindingPersistence extends PreferencePersistence {
 		}
 		if (bindings != null) {
 			final int bindingsLength = bindings.length;
-			for (int i = 0; i < bindingsLength; i++) {
+			for (int i = 0; i < bindingsLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Binding binding = bindings[i];
 				if (binding.getType() == Binding.USER) {
 					writeBindingToPreferences(xmlMemento, binding);
@@ -1027,7 +1027,7 @@ public class BindingPersistence extends PreferencePersistence {
 	 *                <code>null</code>.
 	 * @param binding The binding to write; must not be <code>null</code>.
 	 */
-	private static final void writeBindingToPreferences(final IMemento parent, final Binding binding) {
+	private static final void writeBindingToPreferences(final IMemento parent, final Binding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IMemento element = parent.createChild(TAG_KEY_BINDING);
 		element.putString(ATT_CONTEXT_ID, binding.getContextId());
 		final ParameterizedCommand parameterizedCommand = binding.getParameterizedCommand();
@@ -1040,7 +1040,7 @@ public class BindingPersistence extends PreferencePersistence {
 		if (parameterizedCommand != null) {
 			final Map<String, String> parameterizations = parameterizedCommand.getParameterMap();
 			final Iterator<Map.Entry<String, String>> parameterizationItr = parameterizations.entrySet().iterator();
-			while (parameterizationItr.hasNext()) {
+			while (parameterizationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Map.Entry<String, String> entry = parameterizationItr.next();
 				final String id = entry.getKey();
 				final String value = entry.getValue();
@@ -1084,7 +1084,7 @@ public class BindingPersistence extends PreferencePersistence {
 		return false;
 	}
 
-	public boolean bindingsNeedUpdating(final IRegistryChangeEvent event) {
+	public boolean bindingsNeedUpdating(final IRegistryChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IExtensionDelta[] acceleratorConfigurationDeltas = event.getExtensionDeltas(PlatformUI.PLUGIN_ID,
 				IWorkbenchRegistryConstants.PL_ACCELERATOR_CONFIGURATIONS);
 		if (acceleratorConfigurationDeltas.length == 0) {
@@ -1129,7 +1129,7 @@ public class BindingPersistence extends PreferencePersistence {
 		reRead();
 	}
 
-	public void reRead() {
+	public void reRead() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Create the extension registry mementos.
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
 		int activeSchemeElementCount = 0;
@@ -1139,7 +1139,7 @@ public class BindingPersistence extends PreferencePersistence {
 
 		// Sort the bindings extension point based on element name.
 		final IConfigurationElement[] bindingsExtensionPoint = registry.getConfigurationElementsFor(EXTENSION_BINDINGS);
-		for (final IConfigurationElement configurationElement : bindingsExtensionPoint) {
+		for (final IConfigurationElement configurationElement : bindingsExtensionPoint) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configurationElement.getName();
 
 			// Check if it is a binding definition.
@@ -1157,7 +1157,7 @@ public class BindingPersistence extends PreferencePersistence {
 
 		// Sort the commands extension point based on element name.
 		final IConfigurationElement[] commandsExtensionPoint = registry.getConfigurationElementsFor(EXTENSION_COMMANDS);
-		for (final IConfigurationElement configurationElement : commandsExtensionPoint) {
+		for (final IConfigurationElement configurationElement : commandsExtensionPoint) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configurationElement.getName();
 
 			// Check if it is a binding definition.
@@ -1183,7 +1183,7 @@ public class BindingPersistence extends PreferencePersistence {
 		 */
 		final IConfigurationElement[] acceleratorConfigurationsExtensionPoint = registry
 				.getConfigurationElementsFor(EXTENSION_ACCELERATOR_CONFIGURATIONS);
-		for (final IConfigurationElement configurationElement : acceleratorConfigurationsExtensionPoint) {
+		for (final IConfigurationElement configurationElement : acceleratorConfigurationsExtensionPoint) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configurationElement.getName();
 
 			// Check if the name matches the accelerator configuration element

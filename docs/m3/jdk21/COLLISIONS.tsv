@@ -1,0 +1,2 @@
+step	path_line	rename
+collision	examples/org.eclipse.ui.examples.job/src/org/eclipse/ui/examples/jobs/BusyShowWhileDialog.java:47	unused -> unused2

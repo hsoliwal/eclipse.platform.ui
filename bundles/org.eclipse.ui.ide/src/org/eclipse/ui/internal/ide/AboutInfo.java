@@ -70,7 +70,7 @@ public final class AboutInfo {
 	 *            the version id (of the feature)
 	 * @return the configuration information for the feature
 	 */
-	public static AboutInfo readFeatureInfo(String featureId, String versionId) {
+	public static AboutInfo readFeatureInfo(String featureId, String versionId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(featureId);
 		Assert.isNotNull(versionId);
 
@@ -95,8 +95,8 @@ public final class AboutInfo {
 			return null;
 		}
 
-		for (IBundleGroupProvider provider : Platform.getBundleGroupProviders()) {
-			for (IBundleGroup group : provider.getBundleGroups()) {
+		for (IBundleGroupProvider provider : Platform.getBundleGroupProviders()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IBundleGroup group : provider.getBundleGroups()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (id.equals(group.getIdentifier()) && versionId.equals(group.getVersion())) {
 					return group;
 				}

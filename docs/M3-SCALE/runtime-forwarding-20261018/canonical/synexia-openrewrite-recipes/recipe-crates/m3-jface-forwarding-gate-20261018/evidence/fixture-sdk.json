@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-f",
+    "/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/recipe-crates/m3-jface-forwarding-gate-20261018/pom.xml",
+    "-Dmaterialize.dir=/tmp/eclipse-m3-20261018/ui-fixture-generated",
+    "test"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 23.003,
+  "log_sha256": "4364f42ed667f683b3187c8afe53656345a11efb6e37da17ae05ec6b5af0769b",
+  "suites": [
+    {
+      "name": "com.synexia.rewrite.M3EclipseTextMetadataAdmissionTest",
+      "tests": "8",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.synexia.rewrite.M3JFaceForwardingGateRecipeTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "3",
+      "skipped": "0"
+    }
+  ]
+}

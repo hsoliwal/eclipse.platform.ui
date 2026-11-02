@@ -51,9 +51,9 @@ public abstract class ViewerRow implements Cloneable {
 	 */
 	public static final int BELOW = 2;
 
-	private static final String KEY_TEXT_LAYOUT = Policy.JFACE + "styled_label_key_"; //$NON-NLS-1$
+	private static final String KEY_TEXT_LAYOUT = Policy.JFACE + "styled_label_key_"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String KEY_TEXT_LAYOUT_0 = Policy.JFACE + "styled_label_key_0"; //$NON-NLS-1$
+	private static final String KEY_TEXT_LAYOUT_0 = Policy.JFACE + "styled_label_key_0"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static String[] cachedDataKeys;
 
@@ -192,7 +192,7 @@ public abstract class ViewerRow implements Cloneable {
 			return 0;
 		}
 
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getBounds(i).contains(point)) {
 				return i;
 			}
@@ -362,7 +362,7 @@ public abstract class ViewerRow implements Cloneable {
 		getItem().setData(getStyleRangesDataKey(columnIndex), styleRanges);
 	}
 
-	private String getStyleRangesDataKey(int columnIndex) {
+	private String getStyleRangesDataKey(int columnIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (columnIndex == 0) {
 			return KEY_TEXT_LAYOUT_0;
 		}
@@ -370,14 +370,14 @@ public abstract class ViewerRow implements Cloneable {
 		if (cachedDataKeys == null) {
 			int size = Math.max(10, columnIndex + 1);
 			cachedDataKeys= new String[size];
-			for (int i = 1; i < cachedDataKeys.length; i++) {
-				cachedDataKeys[i] = KEY_TEXT_LAYOUT + i;
+			for (int i = 1; i < cachedDataKeys.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				cachedDataKeys[i] = KEY_TEXT_LAYOUT + i; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else if (columnIndex >= cachedDataKeys.length) {
 			String[] newCachedDataKeys = new String[columnIndex + 1];
 			System.arraycopy(cachedDataKeys, 0, newCachedDataKeys, 0, cachedDataKeys.length);
-			for (int i = cachedDataKeys.length; i < newCachedDataKeys.length; i++) {
-				newCachedDataKeys[i] = KEY_TEXT_LAYOUT + i;
+			for (int i = cachedDataKeys.length; i < newCachedDataKeys.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				newCachedDataKeys[i] = KEY_TEXT_LAYOUT + i; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			cachedDataKeys = newCachedDataKeys;
 		}

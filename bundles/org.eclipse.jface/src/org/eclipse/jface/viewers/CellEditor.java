@@ -328,7 +328,7 @@ public abstract class CellEditor {
 	 * @see ICellEditorListener#applyEditorValue
 	 */
 	protected void fireApplyEditorValue() {
-		for (ICellEditorListener l : listeners) {
+		for (ICellEditorListener l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -345,7 +345,7 @@ public abstract class CellEditor {
 	 * @see ICellEditorListener#cancelEditor
 	 */
 	protected void fireCancelEditor() {
-		for (ICellEditorListener l : listeners) {
+		for (ICellEditorListener l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -366,7 +366,7 @@ public abstract class CellEditor {
 	 */
 	protected void fireEditorValueChanged(final boolean oldValidState,
 			final boolean newValidState) {
-		for (ICellEditorListener l : listeners) {
+		for (ICellEditorListener l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -383,7 +383,7 @@ public abstract class CellEditor {
 	 *            the id indicating what action's enablement has changed.
 	 */
 	protected void fireEnablementChanged(final String actionId) {
-		for (IPropertyChangeListener l : propertyChangeListeners) {
+		for (IPropertyChangeListener l : propertyChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {

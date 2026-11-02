@@ -1,0 +1,75 @@
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+# SPDX-License-Identifier: Apache-2.0
+name: M3 JFace Selection Source and Model Gate
+on:
+  push:
+    branches:
+      - codex/eclipse-jface-selection-on-36-20261022
+    paths:
+      - 'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/**'
+      - 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/**'
+      - '.github/workflows/m3-jface-selection-source-20261022.yml'
+  pull_request:
+    branches:
+      - codex/eclipse-jface-best-merged-20261022
+    paths:
+      - 'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/**'
+      - 'tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/**'
+      - '.github/workflows/m3-jface-selection-source-20261022.yml'
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  source-and-model:
+    name: Verify exact JFace atoms plus pinned Java21 model (not native SWT)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout the exact Eclipse PR head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Setup Java21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify all source-sealed JFace postimages and original fast lanes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat <<'M3_POSTIMAGES' | sha256sum --check --status
+          b6ca713a0c886912fe38247206e38a2e423caf32bb5ff843764ea93de9c792af  bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewer.java
+          62a94bdf7717b59a10bd341ebae84b3a57149d1792af19ac7755f2538c23d830  bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/StructuredViewerInternals.java
+          615b01136455c2202fd0cc2fd3ef551c7968902ca3919f23fefcb9dc1c9f3a0b  bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/ComboViewer.java
+          2ee741c25d27fb3b04bedafd6ad7c9ba08efff865c3b749b883a6466d534437a  bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3/M3Viewers.java
+          ba85eecc3c7f91bcdb7df8249e009390771bb9b6f68572402d0e411a2fea968a  tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3ViewerDifferential.java
+          c998c56be9bc6033057df3a62e65874cdbaacd6e6bbb0c45820c8e6acf74008e  tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/m3/M3SelectionReceiverTest.java
+          M3_POSTIMAGES
+          observed=$(git hash-object bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3/M3ViewerDelta.java)
+          test "$observed" = 'b68f93b3854e49ad0571905ad274823c9c502bae'
+          grep -q 'public static void applyPreservingSelection' bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3/M3Viewers.java
+      - name: Checkout the pinned canonical Synexia recipe and isolated oracle
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: hsoliwal/com.synexia
+          ref: 48fde6ad83d5889126aa3570deaa247801b95c8e
+          path: canonical
+          persist-credentials: false
+      - name: Refuse queue loss and execute strict Java21 selection model
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          prefix = 'bundles/org.eclipse.jface/src/org/eclipse/jface/viewers/m3/M3Viewers.java'
+          post = Path(prefix).read_bytes()
+          donor = Path('canonical/synexia-openrewrite-recipes/src/main/resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-selection-m3viewers-20261022/pre/postimage.java.txt').read_bytes()
+          marker = b'\tprivate static final class Queue {'
+          assert marker in post and marker in donor
+          assert post[post.index(marker):] == donor[donor.index(marker):], 'M3 queue contract was overwritten'
+          print('PASS: original M3 five-lane append and owner queue preserved')
+          PY
+          bash canonical/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-jface-selection-20261022/evidence/model/verify-isolated.sh

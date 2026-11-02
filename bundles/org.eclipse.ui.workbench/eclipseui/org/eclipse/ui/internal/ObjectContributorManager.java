@@ -101,7 +101,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 */
 	public ObjectContributorManager() {
 		contributors = new Hashtable(5);
-		contributorRecordSet = new HashSet(5);
+		contributorRecordSet = new HashSet(5); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		objectLookup = null;
 		resourceAdapterLookup = null;
 		adaptableLookup = null;
@@ -131,7 +131,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * Adds contributors for the given types to the result list.
 	 */
 	private void addContributorsFor(List types, List result) {
-		for (Iterator<Class> classes = types.iterator(); classes.hasNext();) {
+		for (Iterator<Class> classes = types.iterator(); classes.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class clazz = classes.next();
 			List contributorList = (List) contributors.get(clazz.getName());
 			if (contributorList != null) {
@@ -145,9 +145,9 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * The search order is defined in this class' comment.
 	 */
 	protected final List computeClassOrder(Class extensibleClass) {
-		ArrayList result = new ArrayList(4);
+		ArrayList result = new ArrayList(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Class clazz = extensibleClass;
-		while (clazz != null) {
+		while (clazz != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(clazz);
 			clazz = clazz.getSuperclass();
 		}
@@ -159,9 +159,9 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * <code>classList</code>. The search order is defined in this class' comment.
 	 */
 	protected final List computeInterfaceOrder(List classList) {
-		ArrayList result = new ArrayList(4);
-		Map seen = new HashMap(4);
-		for (Iterator list = classList.iterator(); list.hasNext();) {
+		ArrayList result = new ArrayList(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Map seen = new HashMap(4); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Iterator list = classList.iterator(); list.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class[] interfaces = ((Class) list.next()).getInterfaces();
 			internalComputeInterfaceOrder(interfaces, result, seen);
 		}
@@ -186,7 +186,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 */
 	private void cacheResourceAdapterLookup(Class adapterClass, List results) {
 		if (resourceAdapterLookup == null) {
-			resourceAdapterLookup = new HashMap();
+			resourceAdapterLookup = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		resourceAdapterLookup.put(adapterClass, results);
 	}
@@ -196,7 +196,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 */
 	private void cacheAdaptableLookup(String adapterClass, List results) {
 		if (adaptableLookup == null) {
-			adaptableLookup = new HashMap();
+			adaptableLookup = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		adaptableLookup.put(adapterClass, results);
 	}
@@ -206,7 +206,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 */
 	private void cacheObjectLookup(Class objectClass, List results) {
 		if (objectLookup == null) {
-			objectLookup = new HashMap();
+			objectLookup = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		objectLookup.put(objectClass, results);
 	}
@@ -229,7 +229,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	protected List addContributorsFor(Class objectClass) {
 
 		List classList = computeClassOrder(objectClass);
-		List result = new ArrayList();
+		List result = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addContributorsFor(classList, result);
 		classList = computeInterfaceOrder(classList); // interfaces
 		addContributorsFor(classList, result);
@@ -254,15 +254,15 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * Interfaces will be searched based on their position in the result list.
 	 */
 	private void internalComputeInterfaceOrder(Class[] interfaces, List result, Map seen) {
-		List newInterfaces = new ArrayList(seen.size());
-		for (Class currentInterface : interfaces) {
+		List newInterfaces = new ArrayList(seen.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Class currentInterface : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (seen.get(currentInterface) == null) {
 				result.add(currentInterface);
 				seen.put(currentInterface, currentInterface);
 				newInterfaces.add(currentInterface);
 			}
 		}
-		for (Iterator newList = newInterfaces.iterator(); newList.hasNext();) {
+		for (Iterator newList = newInterfaces.iterator(); newList.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			internalComputeInterfaceOrder(((Class) newList.next()).getInterfaces(), result, seen);
 		}
 	}
@@ -276,7 +276,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * @return whether it is applicable
 	 */
 	public boolean isApplicableTo(IStructuredSelection selection, IObjectContributor contributor) {
-		for (Object element : selection) {
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!contributor.isApplicableTo(element)) {
 				return false;
 			}
@@ -294,7 +294,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 */
 
 	public boolean isApplicableTo(List list, IObjectContributor contributor) {
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!contributor.isApplicableTo(element)) {
 				return false;
 			}
@@ -308,10 +308,10 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * @param contributor the contributor
 	 * @param targetType  the target type
 	 */
-	public void registerContributor(IObjectContributor contributor, String targetType) {
+	public void registerContributor(IObjectContributor contributor, String targetType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List contributorList = (List) contributors.get(targetType);
 		if (contributorList == null) {
-			contributorList = new ArrayList(5);
+			contributorList = new ArrayList(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			contributors.put(targetType, contributorList);
 		}
 		contributorList.add(contributor);
@@ -366,16 +366,16 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		flushLookup();
 	}
 
-	protected List getContributors(Object object) {
+	protected List getContributors(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Determine is the object is a resource
 		Object resource = LegacyResourceSupport.getAdaptedContributorResource(object);
 
 		// Fetch the unique adapters
-		List adapters = new ArrayList(
+		List adapters = new ArrayList( //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				Arrays.asList(Platform.getAdapterManager().computeAdapterTypes(object.getClass())));
 		removeCommonAdapters(adapters, Arrays.asList(object.getClass()));
 
-		List contributors = new ArrayList();
+		List contributors = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Calculate the contributors for this object class
 		addAll(contributors, getObjectContributors(object.getClass()));
@@ -385,7 +385,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		}
 		// Calculate the contributors for each adapter type
 		if (adapters != null) {
-			for (Iterator it = adapters.iterator(); it.hasNext();) {
+			for (Iterator it = adapters.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String adapter = (String) it.next();
 				addAll(contributors, getAdaptableContributors(adapter));
 			}
@@ -395,7 +395,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		// menu order.
 		contributors = removeDups(contributors);
 
-		return contributors.isEmpty() ? Collections.EMPTY_LIST : new ArrayList(contributors);
+		return contributors.isEmpty() ? Collections.EMPTY_LIST : new ArrayList(contributors); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -463,7 +463,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 *
 	 * @since 3.1
 	 */
-	protected List getAdaptableContributors(String adapterType) {
+	protected List getAdaptableContributors(String adapterType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List adaptableList = null;
 		// Lookup the results in the cache first, there are two caches
 		// one that stores non-adapter contributions and the other
@@ -497,10 +497,10 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * @since 3.1
 	 */
 	protected void removeCommonAdapters(List adapters, List results) {
-		for (Iterator it = results.iterator(); it.hasNext();) {
+		for (Iterator it = results.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class clazz = ((Class) it.next());
 			List commonTypes = computeCombinedOrder(clazz);
-			for (Iterator it2 = commonTypes.iterator(); it2.hasNext();) {
+			for (Iterator it2 = commonTypes.iterator(); it2.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Class type = (Class) it2.next();
 				adapters.remove(type.getName());
 			}
@@ -512,9 +512,9 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * The search order is defined in this class' comment.
 	 */
 	protected List computeCombinedOrder(Class inputClass) {
-		List result = new ArrayList(4);
+		List result = new ArrayList(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Class clazz = inputClass;
-		while (clazz != null) {
+		while (clazz != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// add the class
 			result.add(clazz);
 			// add all the interfaces it implements
@@ -528,11 +528,11 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 
 	private List filterOnlyAdaptableContributors(List contributors) {
 		List adaptableContributors = null;
-		for (Iterator it = contributors.iterator(); it.hasNext();) {
+		for (Iterator it = contributors.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IObjectContributor c = (IObjectContributor) it.next();
 			if (c.canAdapt()) {
 				if (adaptableContributors == null) {
-					adaptableContributors = new ArrayList();
+					adaptableContributors = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				adaptableContributors.add(c);
 			}
@@ -542,7 +542,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 
 	@Override
 	public void removeExtension(IExtension source, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof ContributorRecord contributorRecord) {
 				unregisterContributor((contributorRecord).contributor, (contributorRecord).objectClassName);
 				contributorRecordSet.remove(contributorRecord);
@@ -568,10 +568,10 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * @param elements a list of model elements (<code>Object</code>)
 	 * @return the list of interested contributors (<code>IObjectContributor</code>)
 	 */
-	protected List getContributors(List elements) {
+	protected List getContributors(List elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Calculate the common class, interfaces, and adapters registered
 		// via the IAdapterManager.
-		List commonAdapters = new ArrayList();
+		List commonAdapters = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List commonClasses = getCommonClasses(elements, commonAdapters);
 
 		// Get the resource class. It will be null if any of the
@@ -582,14 +582,14 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 
 		// Get the contributors.
 
-		List contributors = new ArrayList();
+		List contributors = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Add the resource contributions to avoid duplication
 		if (resourceClass != null) {
 			addAll(contributors, getResourceContributors(resourceClass));
 		}
 		if (commonClasses != null && !commonClasses.isEmpty()) {
-			for (Object commonClass : commonClasses) {
+			for (Object commonClass : commonClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List results = getObjectContributors((Class) commonClass);
 				addAll(contributors, results);
 			}
@@ -606,7 +606,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 			contributors.addAll(getResourceContributors(resourceMappingClass));
 		}
 		if (!commonAdapters.isEmpty()) {
-			for (Iterator it = commonAdapters.iterator(); it.hasNext();) {
+			for (Iterator it = commonAdapters.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String adapter = (String) it.next();
 				addAll(contributors, getAdaptableContributors(adapter));
 			}
@@ -616,7 +616,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		// menu order.
 		contributors = removeDups(contributors);
 
-		return contributors.isEmpty() ? Collections.EMPTY_LIST : new ArrayList(contributors);
+		return contributors.isEmpty() ? Collections.EMPTY_LIST : new ArrayList(contributors); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -626,7 +626,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * this class.
 	 */
 	private static void addAll(Collection collection, List toAdd) {
-		for (Object element : toAdd) {
+		for (Object element : toAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			collection.add(element);
 		}
 	}
@@ -638,12 +638,12 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		if (list.size() <= 1) {
 			return list;
 		}
-		HashSet set = new HashSet(list);
+		HashSet set = new HashSet(list); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (set.size() == list.size()) {
 			return list;
 		}
-		ArrayList result = new ArrayList(set.size());
-		for (Iterator i = list.iterator(); i.hasNext();) {
+		ArrayList result = new ArrayList(set.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator i = list.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = i.next();
 			if (set.remove(o)) {
 				result.add(o);
@@ -656,7 +656,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * Returns the common denominator class, interfaces, and adapters for the given
 	 * collection of objects.
 	 */
-	private List getCommonClasses(List objects, List commonAdapters) {
+	private List getCommonClasses(List objects, List commonAdapters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (objects == null || objects.isEmpty() || !Platform.isRunning()) {
 			return null;
 		}
@@ -670,7 +670,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 
 			Class clazz = objects.get(0).getClass();
 			commonAdapters.addAll(Arrays.asList(Platform.getAdapterManager().computeAdapterTypes(clazz)));
-			List result = new ArrayList(1);
+			List result = new ArrayList(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			result.add(clazz);
 			return result;
 		}
@@ -683,13 +683,13 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 
 		// Cache of all types found in the selection - this is needed
 		// to compute common adapters.
-		List lastCommonTypes = new ArrayList();
+		List lastCommonTypes = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		boolean classesEmpty = classes.isEmpty();
 		boolean interfacesEmpty = interfaces.isEmpty();
 
 		// Traverse the selection if there is more than one element selected.
-		for (int i = 1; i < objects.size(); i++) {
+		for (int i = 1; i < objects.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Compute all the super classes for the current element
 			List otherClasses = computeClassOrder(objects.get(i).getClass());
 			if (!classesEmpty) {
@@ -705,7 +705,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 
 			// Compute all the adapters provided for the calculated
 			// classes and interfaces for this element.
-			List classesAndInterfaces = new ArrayList(otherClasses);
+			List classesAndInterfaces = new ArrayList(otherClasses); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (otherInterfaces != null) {
 				classesAndInterfaces.addAll(otherInterfaces);
 			}
@@ -727,7 +727,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 			} else {
 				// Remove any adapters of the first element that
 				// are not in the current element's adapter list.
-				for (Iterator it = adapters.iterator(); it.hasNext();) {
+				for (Iterator it = adapters.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String adapter = (String) it.next();
 					if (!otherAdapters.contains(adapter)) {
 						it.remove();
@@ -749,10 +749,10 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 
 		// Once the common classes, interfaces, and adapters are
 		// calculated, let's prune the lists to remove duplicates.
-		ArrayList results = new ArrayList(4);
-		ArrayList superClasses = new ArrayList(4);
+		ArrayList results = new ArrayList(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList superClasses = new ArrayList(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (!classesEmpty) {
-			for (Object clazz : classes) {
+			for (Object clazz : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (clazz != null) {
 					superClasses.add(clazz);
 				}
@@ -785,7 +785,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 			return true;
 		}
 		Class clazz = objects.get(0).getClass();
-		for (int i = 1; i < size; ++i) {
+		for (int i = 1; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!objects.get(i).getClass().equals(clazz)) {
 				return false;
 			}
@@ -793,7 +793,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		return true;
 	}
 
-	private boolean extractCommonClasses(List classes, List otherClasses) {
+	private boolean extractCommonClasses(List classes, List otherClasses) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean classesEmpty = true;
 		if (otherClasses.isEmpty()) {
 			// When no super classes, then it is obvious there
@@ -803,7 +803,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		} else {
 			// Remove any super classes of the first element that
 			// are not in the current element's super classes list.
-			for (int j = 0; j < classes.size(); j++) {
+			for (int j = 0; j < classes.size(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (classes.get(j) != null) {
 					classesEmpty = false; // TODO: should this only be set if item not nulled out?
 					if (!otherClasses.contains(classes.get(j))) {
@@ -816,7 +816,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	}
 
 	private void removeNonCommonAdapters(List adapters, List classes) {
-		for (int i = 0; i < classes.size(); i++) {
+		for (int i = 0; i < classes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o = classes.get(i);
 			if (o != null) {
 				Class clazz = (Class) o;
@@ -834,7 +834,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 		if (!superClasses.isEmpty()) {
 			dropInterfaces = computeInterfaceOrder(superClasses);
 		}
-		for (int j = 0; j < types.size(); j++) {
+		for (int j = 0; j < types.size(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (types.get(j) != null) {
 				if (dropInterfaces != null && !dropInterfaces.contains(types.get(j))) {
 					results.add(types.get(j));
@@ -844,17 +844,17 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	}
 
 	private List computeAdapterOrder(List classList) {
-		Set result = new HashSet(4);
+		Set result = new HashSet(4); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IAdapterManager adapterMgr = Platform.getAdapterManager();
-		for (Iterator list = classList.iterator(); list.hasNext();) {
+		for (Iterator list = classList.iterator(); list.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class clazz = ((Class) list.next());
-			for (String adapter : adapterMgr.computeAdapterTypes(clazz)) {
+			for (String adapter : adapterMgr.computeAdapterTypes(clazz)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!result.contains(adapter)) {
 					result.add(adapter);
 				}
 			}
 		}
-		return new ArrayList(result);
+		return new ArrayList(result); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -862,7 +862,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	 * objects. Do not return a resource class if the objects are resources
 	 * themselves so as to prevent double registration of actions.
 	 */
-	private Class getCommonResourceClass(List objects) {
+	private Class getCommonResourceClass(List objects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (objects == null || objects.isEmpty()) {
 			return null;
 		}
@@ -872,9 +872,9 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 			return null;
 		}
 
-		List testList = new ArrayList(objects.size());
+		List testList = new ArrayList(objects.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < objects.size(); i++) {
+		for (int i = 0; i < objects.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object = objects.get(i);
 
 			if (object instanceof IAdaptable) {
@@ -900,7 +900,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	/**
 	 * Return the ResourceMapping class if the elements all adapt to it.
 	 */
-	private Class getResourceMappingClass(List objects) {
+	private Class getResourceMappingClass(List objects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (objects == null || objects.isEmpty()) {
 			return null;
 		}
@@ -910,7 +910,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 			return null;
 		}
 
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IAdaptable) {
 				if (resourceMappingClass.isInstance(object)) {
 					continue;
@@ -933,7 +933,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	/**
 	 * Returns the common denominator class for the given collection of objects.
 	 */
-	private Class getCommonClass(List objects) {
+	private Class getCommonClass(List objects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (objects == null || objects.isEmpty()) {
 			return null;
 		}
@@ -944,7 +944,7 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 			// try harder
 		}
 
-		for (int i = 1; i < objects.size(); i++) {
+		for (int i = 1; i < objects.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object = objects.get(i);
 			Class newClass = object.getClass();
 			// try the short cut
@@ -967,8 +967,8 @@ public abstract class ObjectContributorManager implements IExtensionChangeHandle
 	private Class getCommonClass(Class class1, Class class2) {
 		List list1 = computeCombinedOrder(class1);
 		List list2 = computeCombinedOrder(class2);
-		for (Object element1 : list1) {
-			for (Object element2 : list2) {
+		for (Object element1 : list1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object element2 : list2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Class candidate1 = (Class) element1;
 				Class candidate2 = (Class) element2;
 				if (candidate1.equals(candidate2)) {

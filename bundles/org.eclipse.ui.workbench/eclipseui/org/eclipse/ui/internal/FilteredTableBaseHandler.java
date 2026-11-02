@@ -147,7 +147,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	/*
 	 * Open a dialog showing all views in the activation order
 	 */
-	public void openDialog(WorkbenchPage page, IWorkbenchPart activePart) {
+	public void openDialog(WorkbenchPage page, IWorkbenchPart activePart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int MAX_ITEMS = 15;
 		Shell shell = null;
 		selection = null;
@@ -173,7 +173,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 			text = new Text(composite, SWT.SEARCH | SWT.ICON_CANCEL);
 			text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 			text.setBackground(getBackground());
-			text.addListener(SWT.DefaultSelection, event -> {
+			text.addListener(SWT.DefaultSelection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				if (event.detail == SWT.ICON_CANCEL) {
 					text.setText(EMPTY_STRING);
 				}
@@ -194,7 +194,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 		labelSeparator = new Label(composite, SWT.HORIZONTAL);
 		Image separatorBgImage = createSeparatorBgImage();
 		labelSeparator.setBackgroundImage(separatorBgImage);
-		labelSeparator.addDisposeListener(e -> separatorBgImage.dispose());
+		labelSeparator.addDisposeListener(e -> separatorBgImage.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		GridData gd_label = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_label.heightHint = 1;
 		labelSeparator.setLayoutData(gd_label);
@@ -212,7 +212,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 
 		if (isFiltered()) {
-			tableViewer.addFilter(getFilter());
+			tableViewer.addFilter(getFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			addModifyListener(text);
 			addKeyListener(text);
 			text.setMessage(WorkbenchMessages.FilteredTableBase_Filter);
@@ -220,7 +220,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 		}
 
 		// gets the input from the concrete subclass
-		tableViewer.setInput(getInput(page));
+		tableViewer.setInput(getInput(page)); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		int tableItemCount = table.getItemCount();
 
@@ -269,14 +269,14 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 
 		if (isFiltered()) {
 			text.setFocus();
-			text.addFocusListener(fAdapter);
+			text.addFocusListener(fAdapter); //FLLDCIM: MARK — T15 FOCUS CALL
 		} else {
 			table.setFocus();
 		}
-		table.addFocusListener(fAdapter);
-		dialog.addFocusListener(fAdapter);
+		table.addFocusListener(fAdapter); //FLLDCIM: MARK — T15 FOCUS CALL
+		dialog.addFocusListener(fAdapter); //FLLDCIM: MARK — T15 FOCUS CALL
 
-		table.addMouseMoveListener(new MouseMoveListener() {
+		table.addMouseMoveListener(new MouseMoveListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			TableItem fLastItem = null;
 
 			@Override
@@ -322,7 +322,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	 * thread
 	 */
 	protected void keepOpen(Display display, Shell dialog) {
-		while (!dialog.isDisposed()) {
+		while (!dialog.isDisposed()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -349,7 +349,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	private final FocusAdapter fAdapter = new FocusAdapter() {
 		@Override
 		public void focusLost(FocusEvent e) {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				// once event complete, if dialog still open..
 				if (dialog.isDisposed()) {
 					return;
@@ -367,7 +367,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	/**
 	 * Sets the dialog's location on the screen.
 	 */
-	protected void setDialogLocation(final Shell dialog, IWorkbenchPart activePart) {
+	protected void setDialogLocation(final Shell dialog, IWorkbenchPart activePart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display = dialog.getDisplay();
 		Rectangle dialogBounds = dialog.getBounds();
 		Rectangle parentBounds = dialog.getParent().getBounds();
@@ -417,12 +417,12 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 		return SWTKeySupport.convertAcceleratorToKeyStroke(accelerator);
 	}
 
-	boolean computeAcceleratorForward(KeyEvent e) {
+	boolean computeAcceleratorForward(KeyEvent e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean acceleratorForward = false;
 		if (commandForward != null) {
 			if (forwardTriggerSequences != null) {
 				final int forwardCount = forwardTriggerSequences.length;
-				for (int i = 0; i < forwardCount; i++) {
+				for (int i = 0; i < forwardCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final TriggerSequence triggerSequence = forwardTriggerSequences[i];
 
 					// Compare the last key stroke of the binding.
@@ -438,12 +438,12 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 		return acceleratorForward;
 	}
 
-	boolean computeAcceleratorBackward(KeyEvent e) {
+	boolean computeAcceleratorBackward(KeyEvent e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean acceleratorBackward = false;
 		if (commandBackward != null) {
 			if (backwardTriggerSequences != null) {
 				final int backwardCount = backwardTriggerSequences.length;
-				for (int i = 0; i < backwardCount; i++) {
+				for (int i = 0; i < backwardCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final TriggerSequence triggerSequence = backwardTriggerSequences[i];
 
 					// Compare the last key stroke of the binding.
@@ -464,10 +464,10 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	 * changes. After the search the first matching result is selected.
 	 */
 	protected void addModifyListener(Text text) {
-		text.addModifyListener(e -> {
+		text.addModifyListener(e -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			String searchText = ((Text) e.widget).getText();
 			setMatcherString(searchText);
-			tableViewer.refresh();
+			tableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (tableViewer.getTable().getColumnCount() > 0) {
 				tableViewer.getTable().select(0);
 			}
@@ -475,9 +475,9 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	}
 
 	/** Add Key Listener to the search text. manage key events on search text */
-	protected void addKeyListener(Text text) {
-		text.addKeyListener(new KeyListener() {
-			@Override
+	protected void addKeyListener(Text text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		text.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent e) {
 				if (computeAcceleratorForward(e)) {
 					moveForward();
@@ -532,13 +532,13 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	/**
 	 * Add Keylistener to the table, user actions can influence the dialog.
 	 */
-	protected void addKeyListener(final Table table, final Shell dialog) {
-		table.addKeyListener(new KeyListener() {
+	protected void addKeyListener(final Table table, final Shell dialog) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		table.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			private boolean firstKey = true;
 
 			private boolean quickReleaseMode = false;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.keyCode;
 				char character = e.character;
@@ -658,7 +658,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	}
 
 	/** closes the given item */
-	private void close(TableItem ti) {
+	private void close(TableItem ti) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// currently works for editors only (Ctrl+E)
 		if (ti.getData() instanceof EditorReference) {
 			int index = table.indexOf(ti);
@@ -668,7 +668,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 			bypassFocusLost = false;
 			// reset focus when closing active editor
 			table.setFocus();
-			tableViewer.setInput(getInput(page));
+			tableViewer.setInput(getInput(page)); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 			if (table.getItemCount() == 0) {
 				cancel(dialog);
@@ -692,7 +692,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	 *              must not be <code>null</code>.
 	 */
 	protected final void addTraverseListener(final Table table) {
-		table.addTraverseListener(event -> event.doit = false);
+		table.addTraverseListener(event -> event.doit = false); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 	}
 
 	/**
@@ -701,7 +701,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	 * @param page         the page
 	 * @param selectedItem the selected item
 	 */
-	protected void activate(IWorkbenchPage page, Object selectedItem) {
+	protected void activate(IWorkbenchPage page, Object selectedItem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedItem != null) {
 			if (selectedItem instanceof MStackElement) {
 				EPartService partService = page.getWorkbenchWindow().getService(EPartService.class);
@@ -755,8 +755,8 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	/**
 	 * Add mouse listener to the table closing it when the mouse is pressed.
 	 */
-	protected void addMouseListener(final Table table, final Shell dialog) {
-		table.addMouseListener(new MouseListener() {
+	protected void addMouseListener(final Table table, final Shell dialog) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		table.addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				ok(dialog, table);
@@ -780,7 +780,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 							Menu menu = new Menu(table);
 							MenuItem mi = new MenuItem(menu, SWT.NONE);
 							mi.setText(WorkbenchMessages.FilteredTableBaseHandler_Close);
-							mi.addListener(SWT.Selection, se -> close(ti));
+							mi.addListener(SWT.Selection, se -> close(ti)); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 							menu.setVisible(true);
 						}
 					}
@@ -821,7 +821,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	/** Returns the text for the given {@link WorkbenchPartReference} */
 	protected String getWorkbenchPartReferenceText(WorkbenchPartReference ref) {
 		if (ref.isDirty()) {
-			return "*" + ref.getTitle(); //$NON-NLS-1$
+			return "*" + ref.getTitle(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return ref.getTitle();
 	}
@@ -831,11 +831,11 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 	 * can override this method to style the table, using a StyledCellLabelProvider.
 	 */
 	protected void setLabelProvider(TableViewerColumn tableViewerColumn) {
-		tableViewerColumn.setLabelProvider(getColumnLabelProvider());
+		tableViewerColumn.setLabelProvider(getColumnLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	/** Default ColumnLabelProvider. The table has only one column */
-	protected ColumnLabelProvider getColumnLabelProvider() {
+	protected ColumnLabelProvider getColumnLabelProvider() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -921,7 +921,7 @@ public abstract class FilteredTableBaseHandler extends AbstractHandler implement
 		String text;
 		Image image;
 		String tooltipText;
-		Map<String, Object> dataMap = new HashMap<>();
+		Map<String, Object> dataMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public void setText(String text) {
 			this.text = text;

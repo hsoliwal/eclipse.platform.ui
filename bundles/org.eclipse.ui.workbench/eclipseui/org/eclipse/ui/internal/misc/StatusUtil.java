@@ -35,14 +35,14 @@ public class StatusUtil {
 	/**
 	 * Answer a flat collection of the passed status and its recursive children
 	 */
-	protected static List<IStatus> flatten(IStatus aStatus) {
-		List<IStatus> result = new ArrayList<>();
+	protected static List<IStatus> flatten(IStatus aStatus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IStatus> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (aStatus.isMultiStatus()) {
-			for (IStatus status : aStatus.getChildren()) {
+			for (IStatus status : aStatus.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (status.isMultiStatus()) {
 					Iterator<IStatus> childStatiiEnum = flatten(status).iterator();
-					while (childStatiiEnum.hasNext()) {
+					while (childStatiiEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						result.add(childStatiiEnum.next());
 					}
 				} else {
@@ -134,12 +134,12 @@ public class StatusUtil {
 	 */
 	public static IStatus newStatus(List<IStatus> children, String message, Throwable exception) {
 
-		List<IStatus> flatStatusCollection = new ArrayList<>();
+		List<IStatus> flatStatusCollection = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<IStatus> iter = children.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IStatus currentStatus = iter.next();
 			Iterator<IStatus> childrenIter = flatten(currentStatus).iterator();
-			while (childrenIter.hasNext()) {
+			while (childrenIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				flatStatusCollection.add(childrenIter.next());
 			}
 		}

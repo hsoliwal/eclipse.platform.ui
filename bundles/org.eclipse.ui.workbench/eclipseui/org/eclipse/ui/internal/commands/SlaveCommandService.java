@@ -51,14 +51,14 @@ import org.eclipse.ui.services.IServiceLocator;
  */
 public class SlaveCommandService implements ICommandService, IUpdateService {
 
-	private final Collection fExecutionListeners = new ArrayList();
+	private final Collection fExecutionListeners = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * The collection of ICallbackReferences added through this service.
 	 *
 	 * @since 3.3
 	 */
-	private final Set fCallbackCache = new HashSet();
+	private final Set fCallbackCache = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private ICommandService fParentService;
 
@@ -119,18 +119,18 @@ public class SlaveCommandService implements ICommandService, IUpdateService {
 		return fParentService.deserialize(serializedParameterizedCommand);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (!fExecutionListeners.isEmpty()) {
 			Object[] array = fExecutionListeners.toArray();
-			for (Object element : array) {
+			for (Object element : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removeExecutionListener((IExecutionListener) element);
 			}
 			fExecutionListeners.clear();
 		}
 		if (!fCallbackCache.isEmpty()) {
 			Object[] array = fCallbackCache.toArray();
-			for (Object element : array) {
+			for (Object element : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				unregisterElement((IElementReference) element);
 			}
 		}
@@ -219,11 +219,11 @@ public class SlaveCommandService implements ICommandService, IUpdateService {
 	public IElementReference registerElementForCommand(ParameterizedCommand command, UIElement element)
 			throws NotDefinedException {
 		if (!command.getCommand().isDefined()) {
-			throw new NotDefinedException("Cannot define a callback for undefined command " //$NON-NLS-1$
+			throw new NotDefinedException("Cannot define a callback for undefined command " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ command.getCommand().getId());
 		}
 		if (element == null) {
-			throw new NotDefinedException("No callback defined for command " //$NON-NLS-1$
+			throw new NotDefinedException("No callback defined for command " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ command.getCommand().getId());
 		}
 
@@ -245,7 +245,7 @@ public class SlaveCommandService implements ICommandService, IUpdateService {
 		fParentService.unregisterElement(elementReference);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Runnable registerElementForUpdate(ParameterizedCommand parameterizedCommand, final MItem item) {
 		UIElement element = new UIElement(fScopingValue) {
 

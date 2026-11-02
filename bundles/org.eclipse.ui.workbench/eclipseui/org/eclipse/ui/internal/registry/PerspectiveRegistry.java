@@ -79,18 +79,18 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 	@Inject
 	Logger logger;
 
-	private final Map<String, PerspectiveDescriptor> descriptors = new HashMap<>();
+	private final Map<String, PerspectiveDescriptor> descriptors = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void postConstruct(MApplication application) {
 		IExtensionPoint point = extensionRegistry.getExtensionPoint("org.eclipse.ui.perspectives"); //$NON-NLS-1$
-		for (IConfigurationElement element : point.getConfigurationElements()) {
+		for (IConfigurationElement element : point.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 			descriptors.put(id, new PerspectiveDescriptor(id, element));
 		}
 
 		List<MUIElement> snippets = application.getSnippets();
-		for (MUIElement snippet : snippets) {
+		for (MUIElement snippet : snippets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (snippet instanceof MPerspective perspective) {
 				String id = perspective.getElementId();
 
@@ -126,7 +126,7 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 	 * untouched, so they are visible to the "Open Perspective" dialog.
 	 */
 	private void registerModelPerspectives() {
-		for (MPerspective perspective : modelService.findElements(application, null, MPerspective.class)) {
+		for (MPerspective perspective : modelService.findElements(application, null, MPerspective.class)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = perspective.getElementId();
 			if (id != null && !descriptors.containsKey(id)) {
 				createDescriptor(perspective);
@@ -134,7 +134,7 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 		}
 	}
 
-	public void createDescriptor(MPerspective perspective) {
+	public void createDescriptor(MPerspective perspective) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String label = perspective.getLocalizedLabel();
 		String originalId = getOriginalId(perspective);
 		PerspectiveDescriptor originalDescriptor = descriptors.get(originalId);
@@ -160,9 +160,9 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 	 * an icon of a missing bundle logs an error per attempt in the platform URL
 	 * layer.
 	 */
-	private boolean isIconAvailable(String iconURI) {
+	private boolean isIconAvailable(String iconURI) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String reference = null;
-		for (String prefix : new String[] { PLATFORM_PLUGIN_PREFIX, PLATFORM_FRAGMENT_PREFIX }) {
+		for (String prefix : new String[] { PLATFORM_PLUGIN_PREFIX, PLATFORM_FRAGMENT_PREFIX }) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (iconURI.startsWith(prefix)) {
 				reference = iconURI.substring(prefix.length()).split("/", 2)[0]; //$NON-NLS-1$
 				break;
@@ -224,7 +224,7 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 	 * Deletes a list of perspectives
 	 */
 	public void deletePerspectives(ArrayList<IPerspectiveDescriptor> perspToDelete) {
-		for (IPerspectiveDescriptor descriptor : perspToDelete) {
+		for (IPerspectiveDescriptor descriptor : perspToDelete) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			deletePerspective(descriptor);
 		}
 	}
@@ -244,7 +244,7 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 
 	@Override
 	public IPerspectiveDescriptor findPerspectiveWithLabel(String label) {
-		for (IPerspectiveDescriptor descriptor : descriptors.values()) {
+		for (IPerspectiveDescriptor descriptor : descriptors.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptor.getLabel().equals(label)) {
 				if (WorkbenchActivityHelper.restrictUseOf(descriptor)) {
 					return null;
@@ -274,7 +274,7 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 		// Pick up perspectives contributed into the model after this registry was
 		// created so the returned list stays in sync with what is available.
 		registerModelPerspectives();
-		Collection<?> descs = WorkbenchActivityHelper.restrictCollection(descriptors.values(), new ArrayList<>());
+		Collection<?> descs = WorkbenchActivityHelper.restrictCollection(descriptors.values(), new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return descs.toArray(new IPerspectiveDescriptor[descs.size()]);
 	}
 
@@ -360,15 +360,15 @@ public class PerspectiveRegistry implements IPerspectiveRegistry, IExtensionChan
 	 * @return the new id
 	 */
 	private String createNewId(String label, PerspectiveDescriptor originalDescriptor) {
-		return originalDescriptor.getOriginalId() + '.' + label;
+		return originalDescriptor.getOriginalId() + '.' + label; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private String getOriginalId(MPerspective p) {
+	private String getOriginalId(MPerspective p) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id = p.getElementId();
 		String label = p.getLabel();
 		if (label == null) {
 			label = ""; //$NON-NLS-1$
-			logger.warn(String.format("Perspective %s has no label. Contributor is %s.", p.getElementId(), //$NON-NLS-1$
+			logger.warn(String.format("Perspective %s has no label. Contributor is %s.", p.getElementId(), //$NON-NLS-1$ //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 					p.getContributorURI()));
 		}
 		int index = id.lastIndexOf('.');

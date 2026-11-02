@@ -33,7 +33,7 @@ import org.eclipse.ui.part.MultiPageEditorPart;
  * <code>IActionDelegate</code> or <code>IObjectActionDelegate</code>.
  * </p>
  */
-public class ObjectPluginAction extends PluginAction implements IPartListener2 {
+public class ObjectPluginAction extends PluginAction implements IPartListener2 { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * The configuration element attribute for the identifier of the action which
 	 * this action is intended to override (i.e., replace).
@@ -110,7 +110,7 @@ public class ObjectPluginAction extends PluginAction implements IPartListener2 {
 		overrideActionId = actionElement.getAttribute(ATT_OVERRIDE_ACTION_ID);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initDelegate() {
 		super.initDelegate();
 		final IActionDelegate actionDelegate = getDelegate();
@@ -139,7 +139,7 @@ public class ObjectPluginAction extends PluginAction implements IPartListener2 {
 	 *
 	 * @param targetPart the new part target
 	 */
-	public void setActivePart(IWorkbenchPart targetPart) {
+	public void setActivePart(IWorkbenchPart targetPart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (activePart != targetPart) {
 			if (activePart != null) {
 				stopPartListening();

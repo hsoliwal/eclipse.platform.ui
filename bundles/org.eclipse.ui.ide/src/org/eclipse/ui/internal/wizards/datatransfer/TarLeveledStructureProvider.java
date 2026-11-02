@@ -42,7 +42,7 @@ public class TarLeveledStructureProvider implements
 
 	private Map<TarEntry, List<TarEntry>> children;
 
-	private final Map<IPath, TarEntry> directoryEntryCache = new HashMap<>();
+	private final Map<IPath, TarEntry> directoryEntryCache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private int stripLevel;
 
@@ -66,7 +66,7 @@ public class TarLeveledStructureProvider implements
 	 * @param pathname The path representing the container
 	 * @return The element represented by this pathname (it may have already existed)
 	 */
-	protected TarEntry createContainer(IPath pathname) {
+	protected TarEntry createContainer(IPath pathname) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TarEntry existingEntry = directoryEntryCache.get(pathname);
 		if (existingEntry != null) {
 			return existingEntry;
@@ -81,7 +81,7 @@ public class TarLeveledStructureProvider implements
 		TarEntry newEntry = new TarEntry(pathname.toString());
 		newEntry.setFileType(TarEntry.DIRECTORY);
 		directoryEntryCache.put(pathname, newEntry);
-		List<TarEntry> childList = new ArrayList<>();
+		List<TarEntry> childList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		children.put(newEntry, childList);
 
 		List<TarEntry> parentChildList = children.get(parent);
@@ -177,7 +177,7 @@ public class TarLeveledStructureProvider implements
 		try (tf) {
 			// autoclose
 		} catch (IOException e) {
-			IDEWorkbenchPlugin.log(DataTransferMessages.ZipImport_couldNotClose
+			IDEWorkbenchPlugin.log(DataTransferMessages.ZipImport_couldNotClose //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ tf.getName(), e);
 			return false;
 		}
@@ -193,12 +193,12 @@ public class TarLeveledStructureProvider implements
 	 * Initializes this object's children table based on the contents of the
 	 * specified source file.
 	 */
-	protected void initialize() {
-		children = new HashMap<>(1000);
+	protected void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		children = new HashMap<>(1000); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		children.put(root, new ArrayList<>());
+		children.put(root, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Enumeration<?> entries = tarFile.entries();
-		while (entries.hasMoreElements()) {
+		while (entries.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TarEntry entry = (TarEntry) entries.nextElement();
 			IPath path = IPath.fromOSString(entry.getName()).addTrailingSeparator();
 
@@ -225,9 +225,9 @@ public class TarLeveledStructureProvider implements
 	/*
 	 * Strip the leading directories from the path
 	 */
-	private String stripPath(String path) {
+	private String stripPath(String path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pathOrig = path;
-		for (int i = 0; i < stripLevel; i++) {
+		for (int i = 0; i < stripLevel; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int firstSep = path.indexOf('/');
 			// If the first character was a seperator we must strip to the next
 			// seperator as well

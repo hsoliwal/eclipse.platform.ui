@@ -26,7 +26,7 @@ import org.eclipse.osgi.util.NLS;
  */
 
 class GroupInfo extends JobTreeElement implements IProgressMonitor {
-	private final List<JobInfo> infos = new ArrayList<>();
+	private final List<JobInfo> infos = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private final Object lock = new Object();
 	private String taskName = ProgressMessages.SubTaskInfo_UndefinedTaskName;
 	boolean isActive;
@@ -99,7 +99,7 @@ class GroupInfo extends JobTreeElement implements IProgressMonitor {
 	 * and the receiver is not being kept then remove it.
 	 */
 	private void updateInProgressManager() {
-		for (JobInfo info : infos) {
+		for (JobInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(info.getJob().getState() == Job.NONE)) {
 				ProgressManager.getInstance().refreshGroup(this);
 				return;
@@ -185,7 +185,7 @@ class GroupInfo extends JobTreeElement implements IProgressMonitor {
 
 	@Override
 	public void cancel() {
-		for (Object jobInfo : getChildren()) {
+		for (Object jobInfo : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((JobInfo) jobInfo).cancel();
 		}
 		// Call the refresh so that this is updated immediately

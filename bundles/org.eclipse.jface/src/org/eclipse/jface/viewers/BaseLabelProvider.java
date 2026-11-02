@@ -66,12 +66,12 @@ public class BaseLabelProvider extends EventManager implements IBaseLabelProvide
 	 */
 	protected void fireLabelProviderChanged(final LabelProviderChangedEvent event) {
 		Object[] listeners = getListeners();
-		for (Object listener : listeners) {
+		for (Object listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ILabelProviderListener l = (ILabelProviderListener) listener;
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
-					l.labelProviderChanged(event);
+					l.labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 				}
 			});
 

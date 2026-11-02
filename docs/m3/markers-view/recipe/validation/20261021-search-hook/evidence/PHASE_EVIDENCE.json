@@ -1,0 +1,56 @@
+[
+  {
+    "phase": "install",
+    "log_bytes": 13343,
+    "log_sha256": "69ae18a76771ee54ee06c2704f3e03677a0cc24e9497fc023510e41391b3ef97",
+    "realm_count": 2,
+    "realm_list_sha256": "94fabed8c4572fb63962fcabdb723d05ae7eab3ea360b8128e59d6ec79572dc8"
+  },
+  {
+    "phase": "dryrun",
+    "log_bytes": 48558,
+    "log_sha256": "9d7389a11edf8037d952ad8747406a76bcf033218af679a4c32298169c2e3453",
+    "realm_count": 117,
+    "realm_list_sha256": "c1decf16ca5fad13b6da5b42d494b6418224d7c2a327d19e869aec26e2a340f3",
+    "project_graph_lines": 44,
+    "project_graph_sha256": "fabaffc91993cd8298b5c147a79e29a00139675d22b871e4ee0900d7d0ae0b0d",
+    "source_explained_unconfigured_descriptor_warning": 1,
+    "patch_bytes": 2448,
+    "patch_sha256": "3ae44e81b011467cfaa5e839f5a7337479cdda49ceaa58ac078b465febe88389",
+    "exact_one_path_and_declared_changed_lines": true
+  },
+  {
+    "phase": "apply",
+    "log_bytes": 48016,
+    "log_sha256": "2761c7f98ee38044562de07774ab49dee861870859560dea4562f52206975319",
+    "realm_count": 117,
+    "realm_list_sha256": "c1decf16ca5fad13b6da5b42d494b6418224d7c2a327d19e869aec26e2a340f3",
+    "project_graph_lines": 44,
+    "project_graph_sha256": "fabaffc91993cd8298b5c147a79e29a00139675d22b871e4ee0900d7d0ae0b0d",
+    "source_explained_unconfigured_descriptor_warning": 1
+  },
+  {
+    "phase": "fixedpoint",
+    "log_bytes": 46909,
+    "log_sha256": "81d73feb962fc3dc896b78aa8d68d3dc48b2192f001f7f3376f3dd5515767360",
+    "realm_count": 117,
+    "realm_list_sha256": "c1decf16ca5fad13b6da5b42d494b6418224d7c2a327d19e869aec26e2a340f3",
+    "project_graph_lines": 44,
+    "project_graph_sha256": "fabaffc91993cd8298b5c147a79e29a00139675d22b871e4ee0900d7d0ae0b0d",
+    "source_explained_unconfigured_descriptor_warning": 1,
+    "fresh_process_zero_patch": true
+  },
+  {
+    "phase": "drift",
+    "log_bytes": 55710,
+    "log_sha256": "a914db89c1c9e4ed7281391147e1479cece5878fa1fd2c3e8316873dcb280efa",
+    "realm_count": 117,
+    "realm_list_sha256": "c1decf16ca5fad13b6da5b42d494b6418224d7c2a327d19e869aec26e2a340f3",
+    "project_graph_lines": 44,
+    "project_graph_sha256": "fabaffc91993cd8298b5c147a79e29a00139675d22b871e4ee0900d7d0ae0b0d",
+    "source_explained_unconfigured_descriptor_warning": 1,
+    "expected_native_exitcode": 1,
+    "exact_intrinsic_source_drift": "source drift: docs/m3/markers-view/recipe/META-INF/rewrite/m3-markers-view.yml",
+    "no_report_or_partial_edit": true
+  }
+]

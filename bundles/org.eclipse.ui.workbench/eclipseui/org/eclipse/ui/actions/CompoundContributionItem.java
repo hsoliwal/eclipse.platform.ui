@@ -48,7 +48,7 @@ public abstract class CompoundContributionItem extends ContributionItem {
 		super(id);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 		if (index == -1) {
 			index = menu.getItemCount();
@@ -58,7 +58,7 @@ public abstract class CompoundContributionItem extends ContributionItem {
 		if (index > menu.getItemCount()) {
 			index = menu.getItemCount();
 		}
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int oldItemCount = menu.getItemCount();
 			if (item.isVisible()) {
 				item.fill(menu, index);
@@ -86,7 +86,7 @@ public abstract class CompoundContributionItem extends ContributionItem {
 
 	private void disposeOldItems() {
 		if (oldItems != null) {
-			for (IContributionItem oldItem : oldItems) {
+			for (IContributionItem oldItem : oldItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				oldItem.dispose();
 			}
 			oldItems = null;
@@ -110,7 +110,7 @@ public abstract class CompoundContributionItem extends ContributionItem {
 			menuMgr.removeMenuListener(menuListener);
 		}
 		if (parent instanceof IMenuManager menuMgr) {
-			menuMgr.addMenuListener(menuListener);
+			menuMgr.addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		}
 		super.setParent(parent);
 	}

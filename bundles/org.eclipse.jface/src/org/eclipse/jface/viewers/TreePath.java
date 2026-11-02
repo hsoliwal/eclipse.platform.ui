@@ -14,7 +14,8 @@
  *******************************************************************************/
 package org.eclipse.jface.viewers;
 
-import org.eclipse.core.runtime.Assert;
+import org.eclipse.jface.internal.m3.M3ViewerArrays;
+
 
 /**
  * A tree path denotes a model element in a tree viewer. Tree path objects have
@@ -45,11 +46,7 @@ public final class TreePath {
 	 *            root element
 	 */
 	public TreePath(Object[] segments) {
-		Assert.isNotNull(segments);
-		for (Object segment : segments) {
-			Assert.isNotNull(segment);
-		}
-		this.segments = segments;
+		this.segments = M3ViewerArrays.validatedPath(segments);
 	}
 
 	/**
@@ -124,15 +121,7 @@ public final class TreePath {
 	 * @return the computed hash code
 	 */
 	public int hashCode(IElementComparer comparer) {
-		int result = 0;
-		for (Object segment : segments) {
-			if (comparer == null) {
-				result += segment.hashCode();
-			} else {
-				result += comparer.hashCode(segment);
-			}
-		}
-		return result;
+		return M3ViewerArrays.pathHash(segments, comparer);
 	}
 
 	/**
@@ -147,22 +136,7 @@ public final class TreePath {
 	 * @return whether the paths are equal
 	 */
 	public boolean equals(TreePath otherPath, IElementComparer comparer) {
-		if (otherPath == null) {
-			return false;
-		}
-		if (segments.length != otherPath.segments.length) {
-			return false;
-		}
-		for (int i = 0; i < segments.length; i++) {
-			if (comparer == null) {
-				if (!segments[i].equals(otherPath.segments[i])) {
-					return false;
-				}
-			} else if (!comparer.equals(segments[i], otherPath.segments[i])) {
-				return false;
-			}
-		}
-		return true;
+		return M3ViewerArrays.pathEquals(segments, otherPath == null ? null : otherPath.segments, comparer);
 	}
 
 	/**
@@ -178,25 +152,7 @@ public final class TreePath {
 	 *         this path
 	 */
 	public boolean startsWith(TreePath treePath, IElementComparer comparer) {
-		int thisSegmentCount = getSegmentCount();
-		int otherSegmentCount = treePath.getSegmentCount();
-		if (otherSegmentCount == thisSegmentCount) {
-			return equals(treePath, comparer);
-		}
-		if (otherSegmentCount > thisSegmentCount) {
-			return false;
-		}
-		for (int i = 0; i < otherSegmentCount; i++) {
-			Object otherSegment = treePath.getSegment(i);
-			if (comparer == null) {
-				if (!otherSegment.equals(segments[i])) {
-					return false;
-				}
-			} else if (!comparer.equals(otherSegment, segments[i])) {
-				return false;
-			}
-		}
-		return true;
+		return M3ViewerArrays.pathStartsWith(segments, treePath.segments, comparer);
 	}
 
 	/**
@@ -205,15 +161,7 @@ public final class TreePath {
 	 * @return a tree path
 	 */
 	public TreePath getParentPath() {
-		int segmentCount = getSegmentCount();
-		if (segmentCount < 1) {
-			return null;
-		} else if (segmentCount == 1) {
-			return EMPTY;
-		}
-		Object[] parentSegments = new Object[segmentCount - 1];
-		System.arraycopy(segments, 0, parentSegments, 0, segmentCount - 1);
-		return new TreePath(parentSegments);
+		return M3ViewerArrays.parentPath(segments);
 	}
 
 	/**
@@ -223,12 +171,6 @@ public final class TreePath {
 	 * @return a tree path
 	 */
 	public TreePath createChildPath(Object newSegment) {
-		int segmentCount = getSegmentCount();
-		Object[] childSegments = new Object[segmentCount + 1];
-		if(segmentCount>0) {
-			System.arraycopy(segments, 0, childSegments, 0, segmentCount);
-		}
-		childSegments[segmentCount] = newSegment;
-		return new TreePath(childSegments);
+		return M3ViewerArrays.childPath(segments, newSegment);
 	}
 }

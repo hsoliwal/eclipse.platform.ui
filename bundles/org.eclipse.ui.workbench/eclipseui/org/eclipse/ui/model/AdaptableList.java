@@ -42,7 +42,7 @@ public class AdaptableList extends WorkbenchAdapter implements IAdaptable {
 	 * <code>IAdaptable</code>.
 	 */
 	public AdaptableList() {
-		children = new ArrayList();
+		children = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class AdaptableList extends WorkbenchAdapter implements IAdaptable {
 	 * @param initialCapacity the initial capacity of the list
 	 */
 	public AdaptableList(int initialCapacity) {
-		children = new ArrayList(initialCapacity);
+		children = new ArrayList(initialCapacity); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**

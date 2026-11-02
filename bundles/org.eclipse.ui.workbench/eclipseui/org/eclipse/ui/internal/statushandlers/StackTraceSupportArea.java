@@ -58,7 +58,7 @@ public class StackTraceSupportArea extends AbstractStatusAreaProvider {
 	 */
 	private List list;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createSupportArea(final Composite parent, StatusAdapter statusAdapter) {
 
 		Label label = new Label(parent, SWT.NONE);
@@ -70,7 +70,7 @@ public class StackTraceSupportArea extends AbstractStatusAreaProvider {
 		gd.grabExcessVerticalSpace = true;
 		gd.widthHint = 250;
 		list.setLayoutData(gd);
-		list.addSelectionListener(new SelectionAdapter() {
+		list.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				list.selectAll();
@@ -87,10 +87,10 @@ public class StackTraceSupportArea extends AbstractStatusAreaProvider {
 	/**
 	 * Creates DND source for the list
 	 */
-	private void createDNDSource() {
+	private void createDNDSource() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DragSource ds = new DragSource(list, DND.DROP_COPY);
 		ds.setTransfer(TextTransfer.getInstance());
-		ds.addDragListener(new DragSourceListener() {
+		ds.addDragListener(new DragSourceListener() { //FLLDCIM: MARK — T25 DND CALL
 			@Override
 			public void dragFinished(DragSourceEvent event) {
 
@@ -110,11 +110,11 @@ public class StackTraceSupportArea extends AbstractStatusAreaProvider {
 		});
 	}
 
-	private void createCopyAction(final Composite parent) {
+	private void createCopyAction(final Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Menu menu = new Menu(parent.getShell(), SWT.POP_UP);
 		MenuItem copyAction = new MenuItem(menu, SWT.PUSH);
 		copyAction.setText("&Copy"); //$NON-NLS-1$
-		copyAction.addSelectionListener(new SelectionAdapter() {
+		copyAction.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Clipboard clipboard = null;
@@ -137,9 +137,9 @@ public class StackTraceSupportArea extends AbstractStatusAreaProvider {
 		if (list == null || list.isDisposed()) {
 			return ""; //$NON-NLS-1$
 		}
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String newLine = System.lineSeparator();
-		for (int i = 0; i < list.getItemCount(); i++) {
+		for (int i = 0; i < list.getItemCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sb.append(list.getItem(i));
 			sb.append(newLine);
 		}
@@ -152,7 +152,7 @@ public class StackTraceSupportArea extends AbstractStatusAreaProvider {
 			return;
 		}
 		list.add(t.toString());
-		for (StackTraceElement stackTraceElement : t.getStackTrace()) {
+		for (StackTraceElement stackTraceElement : t.getStackTrace()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(stackTraceElement.toString());
 		}
 		if (t.getCause() != null) {

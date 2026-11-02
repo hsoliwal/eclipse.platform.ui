@@ -131,7 +131,7 @@ public abstract class BasicNewResourceWizard extends Wizard implements
 	 *
 	 * @see ISetSelectionTarget
 	 */
-	public static void selectAndReveal(IResource resource,
+	public static void selectAndReveal(IResource resource, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IWorkbenchWindow window) {
 		// validate the input
 		if (window == null || resource == null) {
@@ -143,14 +143,14 @@ public abstract class BasicNewResourceWizard extends Wizard implements
 		}
 
 		// get all the view and editor parts
-		List<IWorkbenchPart> parts = new ArrayList<>();
-		for (IWorkbenchPartReference ref : page.getViewReferences()) {
+		List<IWorkbenchPart> parts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkbenchPartReference ref : page.getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part = ref.getPart(false);
 			if (part != null) {
 				parts.add(part);
 			}
 		}
-		for (IWorkbenchPartReference ref : page.getEditorReferences()) {
+		for (IWorkbenchPartReference ref : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ref.getPart(false) != null) {
 				parts.add(ref.getPart(false));
 			}
@@ -158,7 +158,7 @@ public abstract class BasicNewResourceWizard extends Wizard implements
 
 		final ISelection selection = new StructuredSelection(resource);
 		Iterator<?> itr = parts.iterator();
-		while (itr.hasNext()) {
+		while (itr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part = (IWorkbenchPart) itr.next();
 
 			// get the part's ISetSelectionTarget implementation
@@ -167,7 +167,7 @@ public abstract class BasicNewResourceWizard extends Wizard implements
 			if (target != null) {
 				// select and reveal resource
 				final ISetSelectionTarget finalTarget = target;
-				window.getShell().getDisplay().asyncExec(() -> finalTarget.selectReveal(selection));
+				window.getShell().getDisplay().asyncExec(() -> finalTarget.selectReveal(selection)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}

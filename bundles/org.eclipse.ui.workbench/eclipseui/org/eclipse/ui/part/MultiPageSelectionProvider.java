@@ -106,7 +106,7 @@ public class MultiPageSelectionProvider implements IPostSelectionProvider {
 
 	private void fireEventChange(final SelectionChangedEvent event,
 			ListenerList<ISelectionChangedListener> listenersList) {
-		for (final ISelectionChangedListener l : listenersList) {
+		for (final ISelectionChangedListener l : listenersList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new SafeRunnable() {
 				@Override
 				public void run() {

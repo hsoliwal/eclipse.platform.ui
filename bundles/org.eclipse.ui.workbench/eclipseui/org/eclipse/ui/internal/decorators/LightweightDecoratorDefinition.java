@@ -103,7 +103,7 @@ class LightweightDecoratorDefinition extends DecoratorDefinition implements IObj
 	 *
 	 * @return Returns a ILabelDecorator
 	 */
-	protected ILightweightLabelDecorator internalGetDecorator() throws CoreException {
+	protected ILightweightLabelDecorator internalGetDecorator() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (labelProviderCreationFailed) {
 			return null;
 		}
@@ -124,7 +124,7 @@ class LightweightDecoratorDefinition extends DecoratorDefinition implements IObj
 									DecoratorDefinition.ATT_CLASS);
 							DecoratorManager decoratorManager = WorkbenchPlugin.getDefault().getDecoratorManager();
 							if (decoratorManager != null) {
-								decorator.addListener(decoratorManager);
+								decorator.addListener(decoratorManager); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 							}
 						} catch (CoreException exception) {
 							exceptions[0] = exception;
@@ -202,7 +202,7 @@ class LightweightDecoratorDefinition extends DecoratorDefinition implements IObj
 	 *
 	 * @since 3.1
 	 */
-	private int getLocationConstant(String locationDefinition, IConfigurationElement element) {
+	private int getLocationConstant(String locationDefinition, IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Backwards compatibility
 		if (locationDefinition == null) {
@@ -231,7 +231,7 @@ class LightweightDecoratorDefinition extends DecoratorDefinition implements IObj
 	/**
 	 * Decorate the element using the decoration to store the result.
 	 */
-	public void decorate(Object element, IDecoration decoration) {
+	public void decorate(Object element, IDecoration decoration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (!isEnabled()) {
 				return;
@@ -244,14 +244,14 @@ class LightweightDecoratorDefinition extends DecoratorDefinition implements IObj
 
 			if (isAdaptable()) {
 				String[] classes = getObjectClasses();
-				for (String className : classes) {
+				for (String className : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object adapted = LegacyResourceSupport.getAdapter(element, className);
 					if (adapted != null) {
-						currentDecorator.decorate(adapted, decoration);
+						currentDecorator.decorate(adapted, decoration); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 					}
 				}
 			} else if (element != null) {
-				currentDecorator.decorate(element, decoration);
+				currentDecorator.decorate(element, decoration); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			}
 		} catch (CoreException exception) {
 			handleCoreException(exception);

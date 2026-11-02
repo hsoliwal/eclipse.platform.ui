@@ -176,7 +176,7 @@ public class TableViewerRow extends ViewerRow {
 	public int getVisualIndex(int creationIndex) {
 		int[] order = item.getParent().getColumnOrder();
 
-		for (int i = 0; i < order.length; i++) {
+		for (int i = 0; i < order.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (order[i] == creationIndex) {
 				return i;
 			}

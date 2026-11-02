@@ -21,7 +21,7 @@ package org.eclipse.ui;
  *
  * @see IPartService#addPartListener(IPartListener)
  */
-public interface IPartListener {
+public interface IPartListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	/**
 	 * Notifies this listener that the given part has been activated.

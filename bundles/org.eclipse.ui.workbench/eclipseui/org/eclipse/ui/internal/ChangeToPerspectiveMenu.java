@@ -56,7 +56,7 @@ public class ChangeToPerspectiveMenu extends PerspectiveMenu {
 		showActive(true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void run(IPerspectiveDescriptor desc) {
 		IPreferenceStore store = PrefUtil.getInternalPreferenceStore();
 		int mode = store.getInt(IPreferenceConstants.OPEN_PERSP_MODE);
@@ -70,7 +70,7 @@ public class ChangeToPerspectiveMenu extends PerspectiveMenu {
 		ICommandService commandService = getWindow().getService(ICommandService.class);
 
 		Command command = commandService.getCommand(IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE);
-		Map parameters = new HashMap();
+		Map parameters = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		parameters.put(IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE_PARM_ID, desc.getId());
 
 		// Only open a new window if user preference is set and the window
@@ -87,7 +87,7 @@ public class ChangeToPerspectiveMenu extends PerspectiveMenu {
 			handlerService.executeCommand(pCommand, null);
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			StatusManager.getManager().handle(new Status(IStatus.WARNING, WorkbenchPlugin.PI_WORKBENCH,
-					"Failed to execute " + IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE, e)); //$NON-NLS-1$
+					"Failed to execute " + IWorkbenchCommandConstants.PERSPECTIVES_SHOW_PERSPECTIVE, e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 }

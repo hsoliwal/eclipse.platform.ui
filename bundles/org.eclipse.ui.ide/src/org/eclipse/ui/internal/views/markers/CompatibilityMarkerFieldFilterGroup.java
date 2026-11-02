@@ -69,7 +69,7 @@ public class CompatibilityMarkerFieldFilterGroup extends MarkerFieldFilterGroup 
 	protected void calculateFilters() {
 		super.calculateFilters();
 		// Now initialize with the ProblemFilter
-		for (MarkerFieldFilter fieldFilter : fieldFilters) {
+		for (MarkerFieldFilter fieldFilter : fieldFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fieldFilter instanceof CompatibilityFieldFilter) {
 				((CompatibilityFieldFilter) fieldFilter).initialize(problemFilter);
 			}

@@ -47,7 +47,7 @@ public class IDEPerspectivesPreferencePage extends PerspectivesPreferencePage {
 	/**
 	 * Creates the page's UI content.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		// @issue if the product subclasses this page, then it should provide
 		// the help content
@@ -71,7 +71,7 @@ public class IDEPerspectivesPreferencePage extends PerspectivesPreferencePage {
 	 * Creates a composite that contains buttons for selecting the preference
 	 * opening new project selections.
 	 */
-	private void createProjectPerspectiveGroup(Composite composite) {
+	private void createProjectPerspectiveGroup(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite projectComposite = new Composite(composite, SWT.NONE);
 		projectComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

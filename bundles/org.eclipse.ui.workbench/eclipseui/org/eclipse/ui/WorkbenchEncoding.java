@@ -65,12 +65,12 @@ public class WorkbenchEncoding {
 	 *
 	 * @return String
 	 */
-	public static String getWorkbenchDefaultEncoding() {
+	public static String getWorkbenchDefaultEncoding() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (defaultEncoding == null) {
 			String encoding = null;
 			// Check if -Dfile.encoding= startup argument was given to Eclipse's JVM
 			List<String> commandLineArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
-			for (String arg : commandLineArgs) {
+			for (String arg : commandLineArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (arg.startsWith("-Dfile.encoding=")) { //$NON-NLS-1$
 					encoding = arg.substring("-Dfile.encoding=".length()); //$NON-NLS-1$
 					// continue, it can be specified multiple times, last one wins.
@@ -92,8 +92,8 @@ public class WorkbenchEncoding {
 	 *
 	 * @return List of String
 	 */
-	public static List<String> getDefinedEncodings() {
-		List<String> definedEncodings = Collections.synchronizedList(new ArrayList<>());
+	public static List<String> getDefinedEncodings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<String> definedEncodings = Collections.synchronizedList(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		EncodingsRegistryReader reader = new EncodingsRegistryReader(definedEncodings);
 
 		reader.readRegistry(Platform.getExtensionRegistry(), PlatformUI.PLUGIN_ID,
@@ -101,9 +101,9 @@ public class WorkbenchEncoding {
 
 		// Make it an array in case of concurrency issues with Iterators
 		String[] encodings = new String[definedEncodings.size()];
-		List<String> invalid = new ArrayList<>();
+		List<String> invalid = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		definedEncodings.toArray(encodings);
-		for (String encoding : encodings) {
+		for (String encoding : encodings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				if (!Charset.isSupported(encoding)) {
 					invalid.add(encoding);
@@ -113,7 +113,7 @@ public class WorkbenchEncoding {
 			}
 		}
 
-		for (String next : invalid) {
+		for (String next : invalid) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchPlugin.log(NLS.bind(WorkbenchMessages.WorkbenchEncoding_invalidCharset, next));
 			definedEncodings.remove(next);
 

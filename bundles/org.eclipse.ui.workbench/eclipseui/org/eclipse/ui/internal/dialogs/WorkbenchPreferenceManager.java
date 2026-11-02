@@ -51,7 +51,7 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 		// add a listener for keyword deltas. If any occur clear all page caches
 		Platform.getExtensionRegistry().addRegistryChangeListener(event -> {
 			if (event.getExtensionDeltas(PlatformUI.PLUGIN_ID, IWorkbenchRegistryConstants.PL_KEYWORDS).length > 0) {
-				for (IPreferenceNode element : getElements(PreferenceManager.POST_ORDER)) {
+				for (IPreferenceNode element : getElements(PreferenceManager.POST_ORDER)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					((WorkbenchPreferenceNode) element).clearKeywords();
 				}
 			}
@@ -65,7 +65,7 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 
 		// Add the contributions to the manager
 		Iterator iterator = pageContributions.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object next = iterator.next();
 			if (next instanceof WorkbenchPreferenceNode wNode) {
 				addToRoot(wNode);
@@ -84,15 +84,15 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 	private void registerNode(WorkbenchPreferenceNode node) {
 		PlatformUI.getWorkbench().getExtensionTracker().registerObject(
 				node.getConfigurationElement().getDeclaringExtension(), node, IExtensionTracker.REF_WEAK);
-		for (IPreferenceNode subNode : node.getSubNodes()) {
+		for (IPreferenceNode subNode : node.getSubNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			registerNode((WorkbenchPreferenceNode) subNode);
 		}
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
-		for (IConfigurationElement configElement : extension.getConfigurationElements()) {
+		for (IConfigurationElement configElement : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchPreferenceNode node = PreferencePageRegistryReader.createNode(configElement);
 			if (node == null) {
 				continue;
@@ -103,7 +103,7 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 				addToRoot(node);
 			} else {
 				IPreferenceNode parent = null;
-				for (IPreferenceNode element : getElements(PreferenceManager.POST_ORDER)) {
+				for (IPreferenceNode element : getElements(PreferenceManager.POST_ORDER)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (category.equals(element.getId())) {
 						parent = element;
 						break;
@@ -111,7 +111,7 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 				}
 				if (parent == null) {
 					// Could not find the parent - log
-					String message = "Invalid preference category path: " + category + " (bundle: " + node.getPluginId() //$NON-NLS-1$ //$NON-NLS-2$
+					String message = "Invalid preference category path: " + category + " (bundle: " + node.getPluginId() //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ ", page: " + node.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 					WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.WARNING, message, null));
 					addToRoot(node);
@@ -129,7 +129,7 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IPreferenceNode wNode) {
 				wNode.disposeResources();
 				deepRemove(getRoot(), wNode);
@@ -144,7 +144,7 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 	 * @param nodeToRemove the node to remove
 	 * @return whether the node was removed
 	 */
-	private boolean deepRemove(IPreferenceNode parent, IPreferenceNode nodeToRemove) {
+	private boolean deepRemove(IPreferenceNode parent, IPreferenceNode nodeToRemove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parent == nodeToRemove) {
 			if (parent == getRoot()) {
 				removeAll(); // we're removing the root
@@ -156,7 +156,7 @@ public class WorkbenchPreferenceManager extends PreferenceManager implements IEx
 			return true;
 		}
 
-		for (IPreferenceNode subNode : parent.getSubNodes()) {
+		for (IPreferenceNode subNode : parent.getSubNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (deepRemove(subNode, nodeToRemove)) {
 				return true;
 			}

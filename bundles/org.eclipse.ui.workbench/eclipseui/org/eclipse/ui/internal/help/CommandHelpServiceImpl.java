@@ -43,7 +43,7 @@ public class CommandHelpServiceImpl implements ICommandHelpService {
 
 	private final Map<IHandler, String> helpContextIdsByHandler = new WeakHashMap<>();
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getHelpContextId(String commandId, IEclipseContext context) {
 		if (commandId == null || context == null) {
 			return null;
@@ -52,7 +52,7 @@ public class CommandHelpServiceImpl implements ICommandHelpService {
 		Command command = commandService.getCommand(commandId);
 		if (!command.isDefined()) {
 			if (logger != null) {
-				logger.error("The command " + commandId //$NON-NLS-1$
+				logger.error("The command " + commandId //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ " is not defined. Help context ID cannot be determined."); //$NON-NLS-1$
 			}
 			return null;

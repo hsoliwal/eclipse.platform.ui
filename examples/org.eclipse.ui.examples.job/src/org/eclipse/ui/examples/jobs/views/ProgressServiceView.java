@@ -83,7 +83,7 @@ public class ProgressServiceView extends ViewPart {
 		backgroundPrefField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		backgroundPrefField.setSelection(getPreferenceStore().getBoolean(IPreferenceConstants.RUN_IN_BACKGROUND));
 		backgroundPrefField.addSelectionListener(SelectionListener.widgetSelectedAdapter(
-				_ -> getPreferenceStore().setValue(IPreferenceConstants.RUN_IN_BACKGROUND,
+				unused -> getPreferenceStore().setValue(IPreferenceConstants.RUN_IN_BACKGROUND,
 						backgroundPrefField.getSelection())));
 
 		Label hint = new Label(group, SWT.WRAP);
@@ -129,7 +129,7 @@ public class ProgressServiceView extends ViewPart {
 		GridData forkData = new GridData(GridData.FILL_HORIZONTAL);
 		forkData.horizontalSpan = 2;
 		forkField.setLayoutData(forkData);
-		forkField.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> updateEnablement()));
+		forkField.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> updateEnablement()));
 
 		cancelableField = new Button(group, SWT.CHECK);
 		cancelableField.setText("cancelable"); //$NON-NLS-1$
@@ -146,7 +146,7 @@ public class ProgressServiceView extends ViewPart {
 		GridData callFromUIThreadData = new GridData(GridData.FILL_HORIZONTAL);
 		callFromUIThreadData.horizontalSpan = 2;
 		callFromUIThreadField.setLayoutData(callFromUIThreadData);
-		callFromUIThreadField.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> updateEnablement()));
+		callFromUIThreadField.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> updateEnablement()));
 
 		pumpEventsField = new Button(group, SWT.CHECK);
 		pumpEventsField.setText("pump UI events while running"); //$NON-NLS-1$
@@ -161,7 +161,7 @@ public class ProgressServiceView extends ViewPart {
 		GridData runData = new GridData(GridData.FILL_HORIZONTAL);
 		runData.horizontalSpan = 2;
 		run.setLayoutData(runData);
-		run.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> runViaProgressService()));
+		run.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> runViaProgressService()));
 
 		updateEnablement();
 	}

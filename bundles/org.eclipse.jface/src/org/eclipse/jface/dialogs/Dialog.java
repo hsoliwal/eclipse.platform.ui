@@ -217,7 +217,7 @@ public abstract class Dialog extends Window {
 	/**
 	 * Collection of buttons created by the <code>createButton</code> method.
 	 */
-	private HashMap<Integer, Button> buttons = new HashMap<>();
+	private HashMap<Integer, Button> buttons = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Font metrics to use for determining pixel sizes.
@@ -354,7 +354,7 @@ public abstract class Dialog extends Window {
 	 *
 	 * @since 3.0
 	 */
-	public static String shortenText(String textValue, Control control) {
+	public static String shortenText(String textValue, Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (textValue == null) {
 			return null;
 		}
@@ -370,10 +370,10 @@ public abstract class Dialog extends Window {
 		int pivot = length / 2;
 		int start = pivot - (charsToClip/2);
 		int end = pivot + (charsToClip/2) + 1;
-		while (start >= 0 && end < length) {
+		while (start >= 0 && end < length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String s1 = textValue.substring(0, start);
 			String s2 = textValue.substring(end, length);
-			String s = s1 + ELLIPSIS + s2;
+			String s = s1 + ELLIPSIS + s2; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int l = gc.textExtent(s).x;
 			if (l < maxWidth) {
 				gc.dispose();
@@ -422,7 +422,7 @@ public abstract class Dialog extends Window {
 	protected Dialog(Shell parentShell) {
 		this(new SameShellProvider(parentShell));
 		if (parentShell == null && Policy.DEBUG_DIALOG_NO_PARENT) {
-			Policy.getLog().log(Status.info(this.getClass() + " created with no shell")); //$NON-NLS-1$
+			Policy.getLog().log(Status.info(this.getClass() + " created with no shell")); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -643,7 +643,7 @@ public abstract class Dialog extends Window {
 	 *            the parent composite to contain the button bar
 	 * @return the button bar control
 	 */
-	protected Control createButtonBar(Composite parent) {
+	protected Control createButtonBar(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// create a layout with spacing and margins appropriate for the font
 		// size.
 		GridLayout layout = new GridLayout();
@@ -697,7 +697,7 @@ public abstract class Dialog extends Window {
 	 * {@link Display#getDismissalAlignment() platform convention}.
 	 * </p>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initializeBounds() {
 		// UI guidelines:
 		// https://developer.gnome.org/hig/stable/dialogs.html.en#primary-buttons
@@ -729,7 +729,7 @@ public abstract class Dialog extends Window {
 	 */
 	private boolean isContained(Control container, Control control) {
 		Composite parent;
-		while ((parent = control.getParent()) != null) {
+		while ((parent = control.getParent()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent == container) {
 				return true;
 			}
@@ -984,7 +984,7 @@ public abstract class Dialog extends Window {
 
 		boolean returnValue = super.close();
 		if (returnValue) {
-			buttons = new HashMap<>();
+			buttons = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			buttonBar = null;
 			dialogArea = null;
 		}
@@ -1024,7 +1024,7 @@ public abstract class Dialog extends Window {
 		}
 		if (control instanceof Composite) {
 			Control[] children = ((Composite) control).getChildren();
-			for (Control element : children) {
+			for (Control element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				applyDialogFont(element, dialogFont);
 			}
 		}
@@ -1041,7 +1041,7 @@ public abstract class Dialog extends Window {
 		FontData[] controlFontData = control.getFont().getFontData();
 		FontData[] defaultFontData = getDefaultFont(control).getFontData();
 		if (controlFontData.length == defaultFontData.length) {
-			for (int i = 0; i < controlFontData.length; i++) {
+			for (int i = 0; i < controlFontData.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (controlFontData[i].equals(defaultFontData[i])) {
 					continue;
 				}
@@ -1058,7 +1058,7 @@ public abstract class Dialog extends Window {
 	 * @return the default font
 	 */
 	private static Font getDefaultFont(Control control) {
-		String fontName = "DEFAULT_FONT_" + control.getClass().getName(); //$NON-NLS-1$
+		String fontName = "DEFAULT_FONT_" + control.getClass().getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (JFaceResources.getFontRegistry().hasValueFor(fontName)) {
 			return JFaceResources.getFontRegistry().get(fontName);
 		}
@@ -1101,7 +1101,7 @@ public abstract class Dialog extends Window {
 	 * not affect Windows that have a custom size, either programmatically or
 	 * manually applied.
 	 */
-	private void hookZoomChangeListenerForDefaultSizedDialogs() {
+	private void hookZoomChangeListenerForDefaultSizedDialogs() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hasCustomSize = !getShell().getSize().equals(getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
 		boolean isEmpty = getShell().getChildren().length == 0;
 		if (resizeHasOccurred || hasCustomSize || isEmpty || isResizable()) {
@@ -1123,7 +1123,7 @@ public abstract class Dialog extends Window {
 			if (shell == null || shell.isDisposed()) {
 				return;
 			}
-			shell.addListener(SWT.Resize, adaptDefaultSizeListener);
+			shell.addListener(SWT.Resize, adaptDefaultSizeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			shell.removeListener(SWT.Resize, customResizeListener.get());
 			shell.getChildren()[0].removeListener(SWT.ZoomChanged, zoomChangeListener.get());
 		});
@@ -1138,10 +1138,10 @@ public abstract class Dialog extends Window {
 		// We need to detect the zoom change event before the resize triggered by the
 		// zoom change happened, which is why we cannot listen to the zoom change at the
 		// shell but must use one of its children
-		getShell().getChildren()[0].addListener(SWT.ZoomChanged, zoomChangeListener.get());
+		getShell().getChildren()[0].addListener(SWT.ZoomChanged, zoomChangeListener.get()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		// If custom resize happens before first zoom change, the dialog is custom sized
 		// and should not be auto-resized on zoom change
-		getShell().addListener(SWT.Resize, customResizeListener.get());
+		getShell().addListener(SWT.Resize, customResizeListener.get()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -1208,7 +1208,7 @@ public abstract class Dialog extends Window {
 	 *
 	 * @since 3.2
 	 */
-	private void saveDialogBounds(Shell shell) {
+	private void saveDialogBounds(Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings settings = getDialogBoundsSettings();
 		if (settings != null) {
 			Point shellLocation = shell.getLocation();
@@ -1246,7 +1246,7 @@ public abstract class Dialog extends Window {
 	 * @see #getDialogBoundsSettings()
 	 * @see #getDialogBoundsStrategy()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Point getInitialSize() {
 		Point result = super.getInitialSize();
 
@@ -1307,7 +1307,7 @@ public abstract class Dialog extends Window {
 	 * @see #getDialogBoundsSettings()
 	 * @see #getDialogBoundsStrategy()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Point getInitialLocation(Point initialSize) {
 		Point result = super.getInitialLocation(initialSize);
 		if ((getDialogBoundsStrategy() & DIALOG_PERSISTLOCATION)!= 0) {

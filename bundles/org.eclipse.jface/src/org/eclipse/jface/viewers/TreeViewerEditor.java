@@ -137,7 +137,7 @@ public class TreeViewerEditor extends ColumnViewerEditor {
 		return super.getFocusCell();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateFocusCell(ViewerCell focusCell,
 			ColumnViewerEditorActivationEvent event) {
 		// Update the focus cell when we activated the editor with these 2

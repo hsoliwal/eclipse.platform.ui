@@ -27,7 +27,7 @@ public class NotFileInfoMatcher extends CompoundFileInfoMatcher  {
 
 	@Override
 	public boolean matches(IContainer parent, IFileInfo fileInfo) throws CoreException {
-		for (AbstractFileInfoMatcher matcher : matchers) {
+		for (AbstractFileInfoMatcher matcher : matchers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (matcher.matches(parent, fileInfo)) {
 				return false;
 			}

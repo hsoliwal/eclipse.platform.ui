@@ -217,7 +217,7 @@ public class ProblemFilter extends MarkerFilter {
 		severity = DEFAULT_SEVERITY;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void restoreFilterSettings(IDialogSettings settings) {
 
 		super.restoreFilterSettings(settings);
@@ -251,7 +251,7 @@ public class ProblemFilter extends MarkerFilter {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void restoreFilterSettings(IMemento memento) {
 
 		super.restoreFilterSettings(memento);

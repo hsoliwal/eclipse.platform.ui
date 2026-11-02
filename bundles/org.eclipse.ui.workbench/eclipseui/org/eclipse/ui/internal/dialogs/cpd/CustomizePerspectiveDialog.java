@@ -211,9 +211,9 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 	private DisplayItem views;
 
-	Map<String, ActionSet> idToActionSet = new HashMap<>();
+	Map<String, ActionSet> idToActionSet = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final List<ActionSet> actionSets = new ArrayList<>();
+	private final List<ActionSet> actionSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final IWorkbenchWindowConfigurer configurer;
 
@@ -275,7 +275,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		@Override
 		public String toString() {
-			return super.toString() + (item == null ? "" : (" [" + item.getId() + "]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return super.toString() + (item == null ? "" : (" [" + item.getId() + "]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -289,13 +289,13 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		private final List<MenuItem> preview;
 
 		public DynamicContributionItem(String label, IContributionItem item) {
-			super(WorkbenchMessages.HideItems_dynamicItemName + " - " + label, item); //$NON-NLS-1$
-			preview = new ArrayList<>();
+			super(WorkbenchMessages.HideItems_dynamicItemName + " - " + label, item); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			preview = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		public DynamicContributionItem(IContributionItem item) {
 			super(WorkbenchMessages.HideItems_dynamicItemName, item);
-			preview = new ArrayList<>();
+			preview = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		public void addCurrentItem(MenuItem item) {
@@ -397,7 +397,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		public Category(String label) {
 			treeManager.super(label == null ? null : LegacyActionTools.removeMnemonics(removeShortcut(label)));
-			this.contributionItems = new ArrayList<>();
+			this.contributionItems = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		public List<ShortcutItem> getContributionItems() {
@@ -422,7 +422,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		 * of their ShortcutItems.
 		 */
 		public void update() {
-			for (ShortcutItem shortcutItem : contributionItems) {
+			for (ShortcutItem shortcutItem : contributionItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				DisplayItem item = shortcutItem;
 				if (item.getState()) {
 					this.setCheckState(true);
@@ -440,11 +440,11 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		 * @param state The state to set this branch to.
 		 */
 		public void setItemsState(boolean state) {
-			for (ShortcutItem shortcutItem : contributionItems) {
+			for (ShortcutItem shortcutItem : contributionItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				shortcutItem.setCheckState(state);
 			}
 
-			for (TreeItem o : getChildren()) {
+			for (TreeItem o : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Category category = (Category) o;
 				category.setItemsState(state);
 			}
@@ -472,7 +472,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		public ActionSet(ActionSetDescriptor descriptor, boolean active) {
 			this.descriptor = descriptor;
 			this.active = active;
-			this.contributionItems = new ArrayList<>();
+			this.contributionItems = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		public void addItem(DisplayItem item) {
@@ -496,7 +496,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 			boolean wasActive = this.active;
 			this.active = active;
 			if (!active) {
-				for (DisplayItem item : contributionItems) {
+				for (DisplayItem item : contributionItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					item.setCheckState(false);
 				}
 			}
@@ -554,7 +554,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -593,7 +593,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return composite;
 	}
 
-	private Composite createShortCutsPage(Composite parent) {
+	private Composite createShortCutsPage(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 
 		Composite menusComposite = new Composite(parent, SWT.NONE);
@@ -609,7 +609,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		Label sep = new Label(menusComposite, SWT.HORIZONTAL | SWT.SEPARATOR);
 		sep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		SashForm sashComposite = new SashForm(menusComposite, SWT.HORIZONTAL);
+		SashForm sashComposite = new SashForm(menusComposite, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		sashComposite.setLayoutData(data);
 
@@ -629,7 +629,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		menusCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		ComboViewer menusViewer = new ComboViewer(menusCombo);
 		menusViewer.setContentProvider(TreeManager.getTreeContentProvider());
-		menusViewer.setLabelProvider(TreeManager.getLabelProvider());
+		menusViewer.setLabelProvider(TreeManager.getLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		// Categories Tree
 		label = new Label(menusGroup, SWT.WRAP);
@@ -638,11 +638,11 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		final CheckboxTreeViewer menuCategoriesViewer = new CheckboxTreeViewer(menusGroup);
 		menuCategoriesViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		menuCategoriesViewer.setLabelProvider(TreeManager.getLabelProvider());
+		menuCategoriesViewer.setLabelProvider(TreeManager.getLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		menuCategoriesViewer.setContentProvider(TreeManager.getTreeContentProvider());
 		menuCategoriesViewer.setComparator(new WorkbenchViewerComparator());
 		menuCategoriesViewer.setCheckStateProvider(new CategoryCheckProvider());
-		menuCategoriesViewer.addCheckStateListener(event -> {
+		menuCategoriesViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			Category category = (Category) event.getElement();
 			category.setItemsState(event.getChecked());
 			updateCategoryAndParents(menuCategoriesViewer, category);
@@ -675,12 +675,12 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		Table menuTable = menuItemsViewer.getTable();
 		menuTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		menuItemsViewer.setLabelProvider(new ShortcutLabelProvider());
+		menuItemsViewer.setLabelProvider(new ShortcutLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		menuItemsViewer.setCheckStateProvider(TreeManager.getCheckStateProvider());
-		menuItemsViewer.addCheckStateListener(treeManager.getViewerCheckStateListener());
+		menuItemsViewer.addCheckStateListener(treeManager.getViewerCheckStateListener()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 		treeManager.getCheckListener(menuItemsViewer);
 
-		menuItemsViewer.setContentProvider(new TreeManager.TreeItemContentProvider() {
+		menuItemsViewer.setContentProvider(new TreeManager.TreeItemContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public Object[] getChildren(Object parentElement) {
 				if (parentElement instanceof Category) {
@@ -693,27 +693,27 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		// update menuCategoriesViewer, and menuItemsViewer on a change to
 		// menusViewer
-		menusViewer.addSelectionChangedListener(event -> {
+		menusViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			Category category = (Category) event.getStructuredSelection().getFirstElement();
-			menuCategoriesViewer.setInput(category);
-			menuItemsViewer.setInput(category);
+			menuCategoriesViewer.setInput(category); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			menuItemsViewer.setInput(category); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (category.getChildrenCount() != 0) {
 				setSelectionOn(menuCategoriesViewer, category.getChildren().get(0));
 			}
 		});
 
 		// update menuItemsViewer on a change to menuCategoriesViewer
-		menuCategoriesViewer.addSelectionChangedListener(event -> {
+		menuCategoriesViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			Category category = (Category) event.getStructuredSelection().getFirstElement();
-			menuItemsViewer.setInput(category);
+			menuItemsViewer.setInput(category); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		});
 
 		menuTable.setHeaderVisible(true);
 		int[] columnWidths = new int[shortcutMenuColumnWidths.length];
-		for (int i = 0; i < shortcutMenuColumnWidths.length; i++) {
+		for (int i = 0; i < shortcutMenuColumnWidths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			columnWidths[i] = convertHorizontalDLUsToPixels(shortcutMenuColumnWidths[i]);
 		}
-		for (int i = 0; i < shortcutMenuColumnHeaders.length; i++) {
+		for (int i = 0; i < shortcutMenuColumnHeaders.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TableColumn tc = new TableColumn(menuTable, SWT.NONE, i);
 			tc.setResizable(true);
 			tc.setText(shortcutMenuColumnHeaders[i]);
@@ -721,7 +721,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		}
 		sashComposite.setWeights(30, 70);
 
-		menusViewer.setInput(shortcuts);
+		menusViewer.setInput(shortcuts); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		if (shortcuts.getChildrenCount() > 0) {
 			setSelectionOn(menusViewer, shortcuts.getChildren().get(0));
@@ -730,7 +730,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return menusComposite;
 	}
 
-	private Composite createActionSetAvailabilityPage(Composite parent) {
+	private Composite createActionSetAvailabilityPage(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 
 		Composite actionSetsComposite = new Composite(parent, SWT.NONE);
@@ -747,7 +747,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		Label sep = new Label(actionSetsComposite, SWT.HORIZONTAL | SWT.SEPARATOR);
 		sep.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		SashForm sashComposite = new SashForm(actionSetsComposite, SWT.HORIZONTAL);
+		SashForm sashComposite = new SashForm(actionSetsComposite, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		sashComposite.setLayoutData(data);
 
@@ -780,7 +780,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 				return false;
 			}
 		});
-		actionSetsViewer.setInput(actionSets.toArray());
+		actionSetsViewer.setInput(actionSets.toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		Table table = actionSetsViewer.getTable();
 		new TableToolTip(table);
@@ -788,7 +788,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		final ActionSet[] selectedActionSet = { null };
 
 		// Filter to show only branches necessary for the selected action set.
-		final ViewerFilter setFilter = new ViewerFilter() {
+		final ViewerFilter setFilter = new ViewerFilter() { //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				if (selectedActionSet[0] == null) {
@@ -799,11 +799,11 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		};
 
 		// Updates the check state of action sets
-		actionSetsViewer.addCheckStateListener(event -> {
+		actionSetsViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			final ActionSet actionSet = (ActionSet) event.getElement();
 			if (event.getChecked()) {
 				actionSet.setActive(true);
-				for (DisplayItem item : actionSet.contributionItems) {
+				for (DisplayItem item : actionSet.contributionItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					item.setCheckState(true);
 				}
 			} else {
@@ -838,9 +838,9 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		actionSetMenuViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		actionSetMenuViewer.setUseHashlookup(true);
 		actionSetMenuViewer.setContentProvider(TreeManager.getTreeContentProvider());
-		actionSetMenuViewer.setLabelProvider(new GrayOutUnavailableLabelProvider(null));
-		actionSetMenuViewer.addFilter(setFilter);
-		actionSetMenuViewer.setInput(menuItems);
+		actionSetMenuViewer.setLabelProvider(new GrayOutUnavailableLabelProvider(null)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		actionSetMenuViewer.addFilter(setFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		actionSetMenuViewer.setInput(menuItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		Tree tree = actionSetMenuViewer.getTree();
 		new ItemDetailToolTip(this, actionSetMenuViewer, tree, false, true, setFilter);
@@ -861,19 +861,19 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		actionSetToolbarViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		actionSetToolbarViewer.setUseHashlookup(true);
 		actionSetToolbarViewer.setContentProvider(TreeManager.getTreeContentProvider());
-		actionSetToolbarViewer.setLabelProvider(new GrayOutUnavailableLabelProvider(null));
-		actionSetToolbarViewer.addFilter(setFilter);
-		actionSetToolbarViewer.setInput(toolBarItems);
+		actionSetToolbarViewer.setLabelProvider(new GrayOutUnavailableLabelProvider(null)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		actionSetToolbarViewer.addFilter(setFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		actionSetToolbarViewer.setInput(toolBarItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		tree = actionSetToolbarViewer.getTree();
 		new ItemDetailToolTip(this, actionSetToolbarViewer, tree, false, true, setFilter);
 
 		// Updates the menu item and toolbar items tree viewers when the
 		// selection changes
-		actionSetsViewer.addSelectionChangedListener(event -> {
+		actionSetsViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			selectedActionSet[0] = (ActionSet) event.getStructuredSelection().getFirstElement();
-			actionSetMenuViewer.setInput(menuItems);
-			actionSetToolbarViewer.setInput(toolBarItems);
+			actionSetMenuViewer.setInput(menuItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			actionSetToolbarViewer.setInput(toolBarItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		});
 
 		sashComposite.setWeights(30, 70);
@@ -884,7 +884,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	/**
 	 * Creates the page used to allow users to choose menu items to hide.
 	 */
-	private Composite createMenuVisibilityPage(Composite parent) {
+	private Composite createMenuVisibilityPage(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 
 		Composite hideMenuItemsComposite = new Composite(parent, SWT.NONE);
@@ -917,10 +917,10 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		menuStructureViewer1.setCheckStateProvider(TreeManager.getCheckStateProvider());
 
 		// Init with input
-		menuStructureViewer1.setInput(menuItems);
+		menuStructureViewer1.setInput(menuItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Advanced view: action set with filtered menu structure
-		final SashForm advancedComposite = new SashForm(book, SWT.HORIZONTAL);
+		final SashForm advancedComposite = new SashForm(book, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		advancedComposite.setLayoutData(data);
 
@@ -928,10 +928,10 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		final TableViewer actionSetViewer = initActionSetViewer(createActionSetGroup(advancedComposite));
 
 		// Filter to only show action sets which have useful menu items
-		actionSetViewer.addFilter(new ShowUsedActionSetsFilter(menuItems));
+		actionSetViewer.addFilter(new ShowUsedActionSetsFilter(menuItems)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		// Init with input
-		actionSetViewer.setInput(actionSets.toArray());
+		actionSetViewer.setInput(actionSets.toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Filter to only show items in the current action set
 		final ActionSetFilter menuStructureFilterByActionSet = new ActionSetFilter();
@@ -945,10 +945,10 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		treeManager.addListener(new FilteredModelCheckListener(menuStructureFilterByActionSet, menuStructureViewer2));
 
-		menuStructureViewer2.addFilter(menuStructureFilterByActionSet);
+		menuStructureViewer2.addFilter(menuStructureFilterByActionSet); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		// Update filter when a new action set is selected
-		actionSetViewer.addSelectionChangedListener(
+		actionSetViewer.addSelectionChangedListener( //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				new ActionSetSelectionChangedListener(menuStructureViewer2, menuStructureFilterByActionSet));
 
 		// Check state provider to emulate standard SWT
@@ -957,7 +957,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 				new FilteredTreeCheckProvider(TreeManager.getTreeContentProvider(), menuStructureFilterByActionSet));
 
 		// Init input
-		menuStructureViewer2.setInput(menuItems);
+		menuStructureViewer2.setInput(menuItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Override any attempts to set an item to visible
 		// which exists in an unavailable action set
@@ -976,9 +976,9 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		final Button showCommandGroupFilterButton = new Button(hideMenuItemsComposite, SWT.CHECK);
 		showCommandGroupFilterButton.setText(WorkbenchMessages.HideItems_turnOnActionSets);
-		showCommandGroupFilterButton.addSelectionListener(new SelectionAdapter() {
+		showCommandGroupFilterButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				if (showCommandGroupFilterButton.getSelection()) {
 					Object o = ((StructuredSelection) menuStructureViewer1.getSelection()).getFirstElement();
@@ -1015,7 +1015,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	/**
 	 * Creates the page used to allow users to choose menu items to hide.
 	 */
-	private Composite createToolBarVisibilityPage(Composite parent) {
+	private Composite createToolBarVisibilityPage(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData data;
 
 		Composite hideToolbarItemsComposite = new Composite(parent, SWT.NONE);
@@ -1051,10 +1051,10 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		toolbarStructureViewer1.setCheckStateProvider(TreeManager.getCheckStateProvider());
 
 		// Init with input
-		toolbarStructureViewer1.setInput(toolBarItems);
+		toolbarStructureViewer1.setInput(toolBarItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Advanced view: action set with filtered toolbar structure
-		final SashForm advancedComposite = new SashForm(book, SWT.HORIZONTAL);
+		final SashForm advancedComposite = new SashForm(book, SWT.HORIZONTAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		advancedComposite.setLayoutData(data);
 
@@ -1062,10 +1062,10 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		final TableViewer actionSetViewer = initActionSetViewer(createActionSetGroup(advancedComposite));
 
 		// Filter to only show action sets which have useful toolbar items
-		actionSetViewer.addFilter(new ShowUsedActionSetsFilter(toolBarItems));
+		actionSetViewer.addFilter(new ShowUsedActionSetsFilter(toolBarItems)); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		// Init with input
-		actionSetViewer.setInput(actionSets.toArray());
+		actionSetViewer.setInput(actionSets.toArray()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Filter to only show items in the current action set
 		final ActionSetFilter toolbarStructureFilterByActionSet = new ActionSetFilter();
@@ -1077,13 +1077,13 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		toolbarStructureViewer2 = initStructureViewer(toolbarStructureComposite, toolbarStructureFilter,
 				toolbarStructureFilterByActionSet);
 
-		toolbarStructureViewer2.addFilter(toolbarStructureFilterByActionSet);
+		toolbarStructureViewer2.addFilter(toolbarStructureFilterByActionSet); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		treeManager.addListener(
 				new FilteredModelCheckListener(toolbarStructureFilterByActionSet, toolbarStructureViewer2));
 
 		// Update filter when a new action set is selected
-		actionSetViewer.addSelectionChangedListener(
+		actionSetViewer.addSelectionChangedListener( //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				new ActionSetSelectionChangedListener(toolbarStructureViewer2, toolbarStructureFilterByActionSet));
 
 		// Check state provider to emulate standard SWT
@@ -1092,7 +1092,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 				new FilteredTreeCheckProvider(TreeManager.getTreeContentProvider(), toolbarStructureFilterByActionSet));
 
 		// Init input
-		toolbarStructureViewer2.setInput(toolBarItems);
+		toolbarStructureViewer2.setInput(toolBarItems); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		// Override any attempts to set an item to visible
 		// which exists in an unavailable action set
@@ -1111,9 +1111,9 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		final Button showCommandGroupFilterButton = new Button(hideToolbarItemsComposite, SWT.CHECK);
 		showCommandGroupFilterButton.setText(WorkbenchMessages.HideItems_turnOnActionSets);
-		showCommandGroupFilterButton.addSelectionListener(new SelectionAdapter() {
+		showCommandGroupFilterButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void widgetSelected(SelectionEvent e) {
 				if (showCommandGroupFilterButton.getSelection()) {
 					Object o = ((StructuredSelection) toolbarStructureViewer1.getSelection()).getFirstElement();
@@ -1156,7 +1156,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		// List of categories
 		final TableViewer actionSetViewer = new TableViewer(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		actionSetViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
-		actionSetViewer.setLabelProvider(new GrayOutUnavailableLabelProvider(null));
+		actionSetViewer.setLabelProvider(new GrayOutUnavailableLabelProvider(null)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		actionSetViewer.setComparator(new WorkbenchViewerComparator());
 		actionSetViewer.setContentProvider(ArrayContentProvider.getInstance());
 
@@ -1185,8 +1185,8 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		// use an UnavailableContributionItemCheckListener to filter check
 		// events: if it is legal, forward it to the actual checkStateListener,
 		// if not, inform the user
-		ctv.addCheckStateListener(new UnavailableContributionItemCheckListener(this, ctv, checkStateListener));
-		ctv.setLabelProvider(new GrayOutUnavailableLabelProvider(filter));
+		ctv.addCheckStateListener(new UnavailableContributionItemCheckListener(this, ctv, checkStateListener)); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
+		ctv.setLabelProvider(new GrayOutUnavailableLabelProvider(filter)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		new ItemDetailToolTip(this, ctv, ctv.getTree(), true, true, filter);
 		return ctv;
 	}
@@ -1258,7 +1258,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		if (item.actionSet != null && item.actionSet.equals(set)) {
 			return true;
 		}
-		for (TreeItem treeItem : item.getChildren()) {
+		for (TreeItem treeItem : item.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem child = (DisplayItem) treeItem;
 			if (includeInSetStructure(child, set)) {
 				return true;
@@ -1276,7 +1276,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		if (item.getActionSet() != null && item.getChildren().isEmpty()) {
 			return item.getActionSet().isActive();
 		}
-		for (TreeItem treeItem : item.getChildren()) {
+		for (TreeItem treeItem : item.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem child = (DisplayItem) treeItem;
 			if (isAvailable(child)) {
 				return true;
@@ -1290,7 +1290,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	 *         it is available, or has a child which is available thus must be
 	 *         displayed in order to display the child
 	 */
-	static boolean isEffectivelyAvailable(DisplayItem item, ViewerFilter filter) {
+	static boolean isEffectivelyAvailable(DisplayItem item, ViewerFilter filter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isAvailable(item)) {
 			return false;
 		}
@@ -1298,7 +1298,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		if (children.isEmpty()) {
 			return true;
 		}
-		for (TreeItem treeItem : children) {
+		for (TreeItem treeItem : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem child = (DisplayItem) treeItem;
 			if (filter != null && !filter.select(null, null, child)) {
 				continue;
@@ -1307,7 +1307,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 				return true;
 			}
 		}
-		for (TreeItem treeItem : children) {
+		for (TreeItem treeItem : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem child = (DisplayItem) treeItem;
 			if (filter != null && !filter.select(null, null, child)) {
 				continue;
@@ -1323,17 +1323,17 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	 * On a change to availability, updates the appropriate widgets.
 	 */
 	private void actionSetAvailabilityChanged() {
-		actionSetAvailabilityTable.refresh();
-		actionSetMenuViewer.refresh();
-		actionSetToolbarViewer.refresh();
+		actionSetAvailabilityTable.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		actionSetMenuViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		actionSetToolbarViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
-		menuStructureViewer1.refresh();
-		menuStructureViewer2.refresh();
-		toolbarStructureViewer1.refresh();
-		toolbarStructureViewer2.refresh();
+		menuStructureViewer1.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		menuStructureViewer2.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		toolbarStructureViewer1.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		toolbarStructureViewer2.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
-	private void initializeActionSetInput() {
+	private void initializeActionSetInput() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Just get the action sets at this point.
 		ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
 		IActionSetDescriptor[] sets = reg.getActionSets();
@@ -1353,7 +1353,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		IActionSetDescriptor[] actionSetDescriptors = ((WorkbenchPage) window.getActivePage()).getActionSets();
 		List<IActionSetDescriptor> initiallyAvailableActionSets = Arrays.asList(actionSetDescriptors);
 
-		for (IActionSetDescriptor set : sets) {
+		for (IActionSetDescriptor set : sets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActionSetDescriptor actionSetDesc = (ActionSetDescriptor) set;
 			if (WorkbenchActivityHelper.filterItem(actionSetDesc)) {
 				continue;
@@ -1364,7 +1364,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		}
 	}
 
-	private String getToolbarLabel(MUIElement elt) {
+	private String getToolbarLabel(MUIElement elt) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MApplication app = context.get(MApplication.class);
 		String toolbarLabel = CoolBarToTrimManager.getToolbarLabel(app, elt);
 		if (toolbarLabel != null) {
@@ -1395,13 +1395,13 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 				.createFromURLSupplier(true, () -> BundleUtility.find(PlatformUI.PLUGIN_ID, WARNING_ICON));
 	}
 
-	private void initializeNewWizardsMenu(DisplayItem menu, Category parentCategory, IWizardCategory element,
+	private void initializeNewWizardsMenu(DisplayItem menu, Category parentCategory, IWizardCategory element, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<String> activeIds) {
 		Category category = new Category(element.getLabel());
 		parentCategory.addChild(category);
 
 		Object[] wizards = element.getWizards();
-		for (Object wizard2 : wizards) {
+		for (Object wizard2 : wizards) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchWizardElement wizard = (WorkbenchWizardElement) wizard2;
 
 			ShortcutItem item = new ShortcutItem(wizard.getLabel(), wizard);
@@ -1415,7 +1415,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 			category.addShortcutItem(item);
 		}
 		// @issue should not pass in null
-		for (IWizardCategory child : element.getCategories()) {
+		for (IWizardCategory child : element.getCategories()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			initializeNewWizardsMenu(menu, category, child, activeIds);
 		}
 	}
@@ -1428,7 +1428,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		IWizardCategory[] wizardCategories = wizardCollection.getCategories();
 		List<String> activeIDs = Arrays.asList(perspective.getNewWizardShortcuts());
 
-		for (IWizardCategory element : wizardCategories) {
+		for (IWizardCategory element : wizardCategories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (WorkbenchActivityHelper.filterItem(element)) {
 				continue;
 			}
@@ -1436,7 +1436,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		}
 	}
 
-	private void initializePerspectivesMenu(DisplayItem menu) {
+	private void initializePerspectivesMenu(DisplayItem menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Category rootForPerspectives = new Category(WorkbenchMessages.ActionSetDialogInput_perspectiveCategory);
 		shortcuts.addChild(rootForPerspectives);
 
@@ -1445,7 +1445,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		List<String> activeIds = Arrays.asList(perspective.getPerspectiveShortcuts());
 
-		for (IPerspectiveDescriptor perspective : persps) {
+		for (IPerspectiveDescriptor perspective : persps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (WorkbenchActivityHelper.filterItem(perspective)) {
 				continue;
 			}
@@ -1460,7 +1460,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		}
 	}
 
-	private void initializeViewsMenu(DisplayItem menu) {
+	private void initializeViewsMenu(DisplayItem menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Category rootForViews = new Category(WorkbenchMessages.ActionSetDialogInput_viewCategory);
 
 		shortcuts.addChild(rootForViews);
@@ -1469,9 +1469,9 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 		List<String> activeIds = Arrays.asList(perspective.getShowViewShortcuts());
 
-		Map<String, Category> categories = new HashMap<>();
+		Map<String, Category> categories = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (MPartDescriptor descriptor : descriptors) {
+		for (MPartDescriptor descriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			String category = descriptor.getCategory();
 
@@ -1533,7 +1533,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	 * Loads the current perspective's menu structure and also loads which menu
 	 * items are visible and not.
 	 */
-	private void loadMenuAndToolbarStructure() {
+	private void loadMenuAndToolbarStructure() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		customizeActionBars = new CustomizeActionBars(configurer, context);
 
 		// Fill fake action bars with static menu information.
@@ -1541,7 +1541,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 				ActionBarAdvisor.FILL_PROXY | ActionBarAdvisor.FILL_MENU_BAR | ActionBarAdvisor.FILL_COOL_BAR);
 
 		// Populate the action bars with the action sets' data
-		for (ActionSet actionSet : actionSets) {
+		for (ActionSet actionSet : actionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ActionSetDescriptor descriptor = actionSet.descriptor;
 			PluginActionSet pluginActionSet = buildMenusAndToolbarsFor(customizeActionBars, descriptor);
 
@@ -1553,7 +1553,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		// Add actionSet MenuManagers to menu
 		MenuManager menuManager = customizeActionBars.menuManager;
 		IContributionItem[] items = menuManager.getItems();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof ActionSetContributionItem asci) {
 				menuManager.add(asci.getInnerItem());
 			}
@@ -1611,7 +1611,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	 * @return an id, can return null
 	 * @throws IllegalArgumentException if object is not one of the listed types
 	 */
-	public static String getIDFromIContributionItem(Object object) {
+	public static String getIDFromIContributionItem(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (object instanceof ActionContributionItem item) {
 			IAction action = item.getAction();
 			if (action == null) {
@@ -1659,7 +1659,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return null; // couldn't determine the id
 	}
 
-	static String getParamID(DisplayItem object) {
+	static String getParamID(DisplayItem object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (object instanceof ShortcutItem shortcutItem) {
 			if (isNewWizard(shortcutItem)) {
 				ActionContributionItem item = (ActionContributionItem) object.getIContributionItem();
@@ -1703,7 +1703,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return ((ShortcutItem) item).getDescriptor() instanceof MPartDescriptor;
 	}
 
-	private static String getActionSetID(IContributionItem item) {
+	private static String getActionSetID(IContributionItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (item instanceof ActionSetContributionItem) {
 			return ((ActionSetContributionItem) item).getActionSetId();
 		}
@@ -1743,7 +1743,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	private static void makeAllContributionsVisible(IContributionManager manager) {
 		IContributionItem[] items = manager.getItems();
 
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			makeContributionVisible(item);
 		}
 	}
@@ -1771,13 +1771,13 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	private void createMenuEntries(MMenu menu, DisplayItem parent) {
 		DynamicContributionItem dynamicEntry = null;
 
-		Map<IContributionItem, DisplayItem> processedOpaqueItems = new HashMap<>();
-		for (MMenuElement menuItem : menu.getChildren()) {
+		Map<IContributionItem, DisplayItem> processedOpaqueItems = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (MMenuElement menuItem : menu.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dynamicEntry = createMenuEntry(parent, dynamicEntry, menuItem, processedOpaqueItems);
 		}
 	}
 
-	private DynamicContributionItem createMenuEntry(DisplayItem parent, DynamicContributionItem dynamicEntry,
+	private DynamicContributionItem createMenuEntry(DisplayItem parent, DynamicContributionItem dynamicEntry, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			MMenuElement menuItem, Map<IContributionItem, DisplayItem> processedOpaqueItems) {
 		if (!menuItem.isToBeRendered()) {
 			return null;
@@ -1970,7 +1970,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	}
 
 	private boolean isHiddenItem(DisplayItem item, String prefix) {
-		String itemId = prefix + getCommandID(item) + ","; //$NON-NLS-1$
+		String itemId = prefix + getCommandID(item) + ","; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return windowPage.getHiddenItems().contains(itemId);
 	}
 
@@ -1978,14 +1978,14 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	 * Causes a viewer to update the state of a category and all its ancestors.
 	 */
 	private void updateCategoryAndParents(StructuredViewer viewer, Category category) {
-		while (category.getParent() != shortcuts) {
+		while (category.getParent() != shortcuts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			viewer.update(category, null);
 			category = (Category) category.getParent();
 		}
 	}
 
 	private static boolean hasVisibleItems(MToolBar toolBar) {
-		for (MToolBarElement e : toolBar.getChildren()) {
+		for (MToolBarElement e : toolBar.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(e instanceof MToolBarSeparator)) {
 				return true;
 			}
@@ -1993,13 +1993,13 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return false;
 	}
 
-	private DisplayItem createTrimBarEntries(MTrimBar trimBar) {
+	private DisplayItem createTrimBarEntries(MTrimBar trimBar) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// create a root element
 		DisplayItem root = new DisplayItem(null, null);
 		if (trimBar == null) {
 			return root;
 		}
-		for (MTrimElement trimElement : trimBar.getChildren()) {
+		for (MTrimElement trimElement : trimBar.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(trimElement instanceof MToolBar toolBar)) {
 				continue;
 			}
@@ -2028,12 +2028,12 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		if (toolbar == null) {
 			return;
 		}
-		for (MToolBarElement element : toolbar.getChildren()) {
+		for (MToolBarElement element : toolbar.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createToolbarEntry(parent, element);
 		}
 	}
 
-	private void createToolbarEntry(DisplayItem parent, MToolBarElement element) {
+	private void createToolbarEntry(DisplayItem parent, MToolBarElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContributionItem contributionItem = toolbarMngrRenderer.getContribution(element);
 		if (isGroupOrSeparator(element, contributionItem)) {
 			return;
@@ -2099,8 +2099,8 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		Map<String, Object> parameters = null;
 		List<MParameter> modelParms = item.getParameters();
 		if (modelParms != null && !modelParms.isEmpty()) {
-			parameters = new HashMap<>();
-			for (MParameter mParm : modelParms) {
+			parameters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (MParameter mParm : modelParms) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameters.put(mParm.getName(), mParm.getValue());
 			}
 		}
@@ -2109,7 +2109,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return cmd;
 	}
 
-	private String getToolTipText(MItem item) {
+	private String getToolTipText(MItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String text = item.getLocalizedTooltip();
 		if (item instanceof MHandledItem handledItem) {
 			EBindingService bs = context.get(EBindingService.class);
@@ -2126,7 +2126,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 						return null;
 					}
 				}
-				text = text + " (" + sequence.format() + ')'; //$NON-NLS-1$
+				text = text + " (" + sequence.format() + ')'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return text;
 		} else if (OpaqueElementUtil.isOpaqueMenuItem(item)) {
@@ -2158,10 +2158,10 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 
 	private static ArrayList<String> getVisibleIDs(DisplayItem root) {
 		if (root == null) {
-			return new ArrayList<>();
+			return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
-		ArrayList<String> ids = new ArrayList<>(root.getChildrenCount());
-		for (TreeItem treeItem : root.getChildren()) {
+		ArrayList<String> ids = new ArrayList<>(root.getChildrenCount()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TreeItem treeItem : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DisplayItem object = (DisplayItem) treeItem;
 			if (object instanceof ShortcutItem && object.getState()) {
 				ids.add(getParamID(object));
@@ -2170,7 +2170,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return ids;
 	}
 
-	private void getChangedIds(DisplayItem item, List<String> invisible, List<String> visible) {
+	private void getChangedIds(DisplayItem item, List<String> invisible, List<String> visible) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (item instanceof ShortcutItem) {
 			return;
 		}
@@ -2190,7 +2190,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 					}
 				}
 			}
-			for (TreeItem treeItem : item.getChildren()) {
+			for (TreeItem treeItem : item.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getChangedIds((DisplayItem) treeItem, invisible, visible);
 			}
 		} else if (item.isChangedByUser()) {
@@ -2206,9 +2206,9 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	}
 
 	private boolean updateHiddenElements(List<ActionSet> items, String currentHidden, String prefix) {
-		List<String> changedAndVisible = new ArrayList<>();
-		List<String> changedAndInvisible = new ArrayList<>();
-		for (ActionSet actionSet : items) {
+		List<String> changedAndVisible = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> changedAndInvisible = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ActionSet actionSet : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!actionSet.wasChanged()) {
 				continue;
 			}
@@ -2222,29 +2222,29 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 	}
 
 	private boolean updateHiddenElements(DisplayItem items, String currentHidden, String prefix) {
-		List<String> changedAndVisible = new ArrayList<>();
-		List<String> changedAndInvisible = new ArrayList<>();
+		List<String> changedAndVisible = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> changedAndInvisible = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getChangedIds(items, changedAndInvisible, changedAndVisible);
 
 		return updateHiddenElements(currentHidden, prefix, changedAndVisible, changedAndInvisible);
 	}
 
-	private boolean updateHiddenElements(String currentHidden, String prefix, List<String> changedAndVisible,
+	private boolean updateHiddenElements(String currentHidden, String prefix, List<String> changedAndVisible, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<String> changedAndInvisible) {
 		boolean hasChanges = false;
 		// Remove explicitly 'visible' elements from the current list
-		for (String id : changedAndVisible) {
-			String itemId = prefix + id;
-			if (currentHidden.contains(itemId + ",")) { //$NON-NLS-1$
+		for (String id : changedAndVisible) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String itemId = prefix + id; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			if (currentHidden.contains(itemId + ",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				hasChanges = true;
 				windowPage.removeHiddenItems(itemId);
 			}
 		}
 
 		// Add explicitly 'hidden' elements to the current list
-		for (String id : changedAndInvisible) {
-			String itemId = prefix + id;
-			if (!currentHidden.contains(itemId + ",")) { //$NON-NLS-1$
+		for (String id : changedAndInvisible) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String itemId = prefix + id; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			if (!currentHidden.contains(itemId + ",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				hasChanges = true;
 				windowPage.addHiddenItems(itemId);
 			}
@@ -2253,7 +2253,7 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		return hasChanges;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void okPressed() {
 
 		// Shortcuts
@@ -2267,10 +2267,10 @@ public class CustomizePerspectiveDialog extends TrayDialog {
 		boolean requiresUpdate = false;
 
 		// Action Sets
-		ArrayList<ActionSetDescriptor> toAdd = new ArrayList<>();
-		ArrayList<ActionSetDescriptor> toRemove = new ArrayList<>();
+		ArrayList<ActionSetDescriptor> toAdd = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<ActionSetDescriptor> toRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (ActionSet actionSet : actionSets) {
+		for (ActionSet actionSet : actionSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!actionSet.wasChanged()) {
 				continue;
 			}

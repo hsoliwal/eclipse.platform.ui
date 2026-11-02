@@ -40,12 +40,12 @@ public class EditorMenuManager extends SubMenuManager {
 		 */
 		public void updateEnabledAllowed() {
 			// update the items in the map
-			for (IContributionItem item : EditorMenuManager.super.getItems()) {
+			for (IContributionItem item : EditorMenuManager.super.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.update(IContributionManagerOverrides.P_ENABLED);
 			}
 			// update the wrapped menus
 			if (wrappers != null) {
-				for (EditorMenuManager manager : wrappers) {
+				for (EditorMenuManager manager : wrappers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					manager.setEnabledAllowed(enabledAllowed);
 				}
 			}
@@ -139,7 +139,7 @@ public class EditorMenuManager extends SubMenuManager {
 	 * @param forceVisibility whether to change the visibility or just the
 	 *                        enablement state.
 	 */
-	public void setVisible(boolean visible, boolean forceVisibility) {
+	public void setVisible(boolean visible, boolean forceVisibility) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (visible) {
 			if (forceVisibility) {
 				// Make the items visible
@@ -180,7 +180,7 @@ public class EditorMenuManager extends SubMenuManager {
 	@Override
 	protected SubMenuManager wrapMenu(IMenuManager menu) {
 		if (wrappers == null) {
-			wrappers = new ArrayList<>();
+			wrappers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		EditorMenuManager manager = new EditorMenuManager(menu);
 		wrappers.add(manager);
@@ -188,26 +188,26 @@ public class EditorMenuManager extends SubMenuManager {
 	}
 
 	protected IAction[] getAllContributedActions() {
-		HashSet<IAction> set = new HashSet<>();
+		HashSet<IAction> set = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		getAllContributedActions(set);
 		return set.toArray(new IAction[set.size()]);
 	}
 
 	protected void getAllContributedActions(HashSet<IAction> set) {
-		for (IContributionItem item : super.getItems()) {
+		for (IContributionItem item : super.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			getAllContributedActions(set, item);
 		}
 		if (wrappers == null) {
 			return;
 		}
-		for (EditorMenuManager element : wrappers) {
+		for (EditorMenuManager element : wrappers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			element.getAllContributedActions(set);
 		}
 	}
 
 	protected void getAllContributedActions(HashSet<IAction> set, IContributionItem item) {
 		if (item instanceof MenuManager) {
-			for (IContributionItem subItem : ((MenuManager) item).getItems()) {
+			for (IContributionItem subItem : ((MenuManager) item).getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getAllContributedActions(set, subItem);
 			}
 		} else if (item instanceof ActionContributionItem) {

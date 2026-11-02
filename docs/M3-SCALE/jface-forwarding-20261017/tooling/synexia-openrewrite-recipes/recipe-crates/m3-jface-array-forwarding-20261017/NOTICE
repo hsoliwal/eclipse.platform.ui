@@ -1,0 +1,16 @@
+JFace M3 array forwarding qualification, 2026.
+
+The Eclipse JFace originals, templates, generated payloads, M3ViewerArrays extraction,
+and PDE NoExtend annotation retain EPL-2.0, IBM/Eclipse copyright and contributor
+notices. The new kernel credits all five donor files. Eclipse API names remain Eclipse.
+The qualification client JFaceArrayContracts is EPL-2.0.
+
+Existing Synexia hash-pinned recipe engines and the new Maven composition, recipe tests,
+runtime launcher, cost probe and reproduction tooling are Apache-2.0. Synexia/Hitesh
+Soliwal authorship is retained. No OpenJDK implementation, Guava, LeetCode, HackerRank
+or GeeksforGeeks source is copied by this pass. java.util.Arrays is invoked as an API.
+
+The recipe license does not relicense its EPL payload. No private runtime service is
+published or required. No third-party binary is included. Runtime inputs remain pinned
+external Eclipse/P2 artifacts. Local unsigned qualification overlays are not official
+signed Eclipse releases and are not shipping binaries.

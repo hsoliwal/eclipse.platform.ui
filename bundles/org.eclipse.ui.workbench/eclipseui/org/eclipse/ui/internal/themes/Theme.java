@@ -59,7 +59,7 @@ public class Theme extends EventManager implements ITheme {
 
 	private IPropertyChangeListener propertyListener;
 
-	public Theme(IThemeDescriptor descriptor) {
+	public Theme(IThemeDescriptor descriptor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		themeRegistry = ((ThemeRegistry) WorkbenchPlugin.getDefault().getThemeRegistry());
 		this.descriptor = descriptor;
 		IWorkbench workbench = PlatformUI.getWorkbench();
@@ -82,9 +82,9 @@ public class Theme extends EventManager implements ITheme {
 					descriptor.getData());
 		}
 
-		getColorRegistry().addListener(getCascadeListener());
-		getColorRegistry().addListener(this::registryColorChangeEvent);
-		getFontRegistry().addListener(getCascadeListener());
+		getColorRegistry().addListener(getCascadeListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		getColorRegistry().addListener(this::registryColorChangeEvent); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		getFontRegistry().addListener(getCascadeListener()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		PrefUtil.getInternalPreferenceStore().addPropertyChangeListener(getPropertyListener());
 	}
 
@@ -94,7 +94,7 @@ public class Theme extends EventManager implements ITheme {
 	 *
 	 * @param event the color change event
 	 */
-	private void registryColorChangeEvent(PropertyChangeEvent event) {
+	private void registryColorChangeEvent(PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (event.getNewValue() instanceof RGB) {
 			String key = ThemeElementHelper.createPreferenceKey(this, event.getProperty());
 			IPreferenceStore store = PrefUtil.getInternalPreferenceStore();
@@ -125,9 +125,9 @@ public class Theme extends EventManager implements ITheme {
 
 	private static String[] splitPropertyName(String property) {
 		IThemeDescriptor[] descriptors = WorkbenchPlugin.getDefault().getThemeRegistry().getThemes();
-		for (IThemeDescriptor themeDescriptor : descriptors) {
+		for (IThemeDescriptor themeDescriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = themeDescriptor.getId();
-			if (property.startsWith(id + '.')) { // the property starts with
+			if (property.startsWith(id + '.')) { // the property starts with //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 													// a known theme ID -
 													// extract and return it and
 													// the remaining property
@@ -144,11 +144,11 @@ public class Theme extends EventManager implements ITheme {
 	 *
 	 * @return the property change listener
 	 */
-	private IPropertyChangeListener getPropertyListener() {
+	private IPropertyChangeListener getPropertyListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (propertyListener == null) {
-			propertyListener = new IPropertyChangeListener() {
+			propertyListener = new IPropertyChangeListener() { //FLLDCIM: MARK — T06  ANONYMOUS
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void propertyChange(PropertyChangeEvent event) {
 					String[] split = splitPropertyName(event.getProperty());
 					String key = split[1];
@@ -190,7 +190,7 @@ public class Theme extends EventManager implements ITheme {
 				 */
 				private void processDefaultsTo(String key, FontData[] fd) {
 					FontDefinition[] defs = WorkbenchPlugin.getDefault().getThemeRegistry().getFontsFor(getId());
-					for (FontDefinition fontDefinition : defs) {
+					for (FontDefinition fontDefinition : defs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String defaultsTo = fontDefinition.getDefaultsTo();
 						if (defaultsTo != null && defaultsTo.equals(key)) {
 							IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
@@ -211,7 +211,7 @@ public class Theme extends EventManager implements ITheme {
 				 */
 				private void processDefaultsTo(String key, RGB rgb) {
 					ColorDefinition[] defs = WorkbenchPlugin.getDefault().getThemeRegistry().getColorsFor(getId());
-					for (ColorDefinition colorDefinition : defs) {
+					for (ColorDefinition colorDefinition : defs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String defaultsTo = colorDefinition.getDefaultsTo();
 						if (defaultsTo != null && defaultsTo.equals(key)) {
 							IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
@@ -289,7 +289,7 @@ public class Theme extends EventManager implements ITheme {
 	}
 
 	private void firePropertyChange(PropertyChangeEvent event) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((IPropertyChangeListener) listener).propertyChange(event);
 		}
 	}

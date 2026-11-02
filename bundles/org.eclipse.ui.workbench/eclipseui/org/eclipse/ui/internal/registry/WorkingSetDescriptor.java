@@ -72,7 +72,7 @@ public class WorkingSetDescriptor implements IPluginContribution {
 	 *
 	 * @param configElement configuration element to create a descriptor from
 	 */
-	public WorkingSetDescriptor(IConfigurationElement configElement) throws CoreException {
+	public WorkingSetDescriptor(IConfigurationElement configElement) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		this.configElement = configElement;
 		id = configElement.getAttribute(ATT_ID);
@@ -83,15 +83,15 @@ public class WorkingSetDescriptor implements IPluginContribution {
 
 		if (name == null) {
 			throw new CoreException(new Status(IStatus.ERROR, WorkbenchPlugin.PI_WORKBENCH, 0,
-					"Invalid extension (missing class name): " + id, //$NON-NLS-1$
+					"Invalid extension (missing class name): " + id, //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					null));
 		}
 
 		IConfigurationElement[] containsChildren = configElement.getChildren(TAG_APPLICABLE_TYPE);
 		if (containsChildren.length > 0) {
-			List<String> byClassList = new ArrayList<>(containsChildren.length);
-			List<String> byAdapterList = new ArrayList<>(containsChildren.length);
-			for (IConfigurationElement child : containsChildren) {
+			List<String> byClassList = new ArrayList<>(containsChildren.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<String> byAdapterList = new ArrayList<>(containsChildren.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IConfigurationElement child : containsChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String className = child.getAttribute(IWorkbenchRegistryConstants.ATT_CLASS);
 				if (className != null) {
 					byClassList.add(className);
@@ -157,7 +157,7 @@ public class WorkingSetDescriptor implements IPluginContribution {
 			try {
 				page = WorkbenchPlugin.createExtension(configElement, ATT_PAGE_CLASS);
 			} catch (CoreException exception) {
-				WorkbenchPlugin.log("Unable to create working set page: " + //$NON-NLS-1$
+				WorkbenchPlugin.log("Unable to create working set page: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						pageClassName, exception.getStatus());
 			}
 		}
@@ -231,7 +231,7 @@ public class WorkingSetDescriptor implements IPluginContribution {
 			result = (IWorkingSetElementAdapter) WorkbenchPlugin.createExtension(configElement,
 					ATT_ELEMENT_ADAPTER_CLASS);
 		} catch (CoreException exception) {
-			WorkbenchPlugin.log("Unable to create working set element adapter: " + //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to create working set element adapter: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					result, exception.getStatus());
 		}
 		return result;
@@ -251,7 +251,7 @@ public class WorkingSetDescriptor implements IPluginContribution {
 		try {
 			result = (IWorkingSetUpdater) WorkbenchPlugin.createExtension(configElement, ATT_UPDATER_CLASS);
 		} catch (CoreException exception) {
-			WorkbenchPlugin.log("Unable to create working set updater: " + //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to create working set updater: " + //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					updaterClassName, exception.getStatus());
 		}
 		return result;
@@ -313,7 +313,7 @@ public class WorkingSetDescriptor implements IPluginContribution {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append("WorkingSetDescriptor ["); //$NON-NLS-1$
 		builder.append("id="); //$NON-NLS-1$
 		builder.append(id);

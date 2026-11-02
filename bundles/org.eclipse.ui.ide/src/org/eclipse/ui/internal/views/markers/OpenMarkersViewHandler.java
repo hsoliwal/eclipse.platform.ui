@@ -33,7 +33,7 @@ import org.eclipse.ui.views.markers.internal.MarkerMessages;
  */
 public class OpenMarkersViewHandler extends MarkerViewHandler {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ExtendedMarkersView part = getView(event);
 		if (part == null) {

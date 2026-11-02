@@ -59,7 +59,7 @@ public class EditWorkingSetAction extends Action {
 	 *
 	 * @see Action#run
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IWorkingSetManager manager = PlatformUI.getWorkbench().getWorkingSetManager();
 		IWorkingSet workingSet = actionGroup.getWorkingSet();

@@ -103,7 +103,7 @@ public class ProgressInfoItem extends Composite {
 
 	ToolItem actionButton;
 
-	List<Link> taskEntries = new ArrayList<>(0);
+	List<Link> taskEntries = new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private ProgressBar progressBar;
 
@@ -199,7 +199,7 @@ public class ProgressInfoItem extends Composite {
 	/**
 	 * Create the child widgets of the receiver.
 	 */
-	protected void createChildren() {
+	protected void createChildren() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		FormLayout layout = new FormLayout();
 		setLayout(layout);
@@ -218,7 +218,7 @@ public class ProgressInfoItem extends Composite {
 		jobImageLabel.setLayoutData(imageData);
 
 		progressLabel = new Label(this, SWT.NONE);
-		progressLabel.addListener(SWT.Resize, event -> setMainText());
+		progressLabel.addListener(SWT.Resize, event -> setMainText()); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		setMainText();
 
 		actionBar = new ToolBar(this, SWT.FLAT);
@@ -228,11 +228,11 @@ public class ProgressInfoItem extends Composite {
 
 		actionButton = new ToolItem(actionBar, SWT.NONE);
 		actionButton.setToolTipText(ProgressMessages.NewProgressView_CancelJobToolTip);
-		actionButton.addSelectionListener(widgetSelectedAdapter(e -> {
+		actionButton.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			actionButton.setEnabled(false);
 			cancelOrRemove();
 		}));
-		actionBar.addListener(SWT.Traverse, event -> {
+		actionBar.addListener(SWT.Traverse, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (indexListener == null) {
 				return;
 			}
@@ -261,9 +261,9 @@ public class ProgressInfoItem extends Composite {
 				}
 			}
 		};
-		addMouseListener(mouseListener);
-		jobImageLabel.addMouseListener(mouseListener);
-		progressLabel.addMouseListener(mouseListener);
+		addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+		jobImageLabel.addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+		progressLabel.addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 		setLayoutsForNoProgress();
 
@@ -315,7 +315,7 @@ public class ProgressInfoItem extends Composite {
 	 *
 	 * @return Image
 	 */
-	private Image getInfoImage() {
+	private Image getInfoImage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (!info.isJobInfo()) {
 			return JFaceResources.getImage(DEFAULT_JOB_KEY);
@@ -380,7 +380,7 @@ public class ProgressInfoItem extends Composite {
 	 * @param jobInfo job element to get display string for
 	 * @return display string for job
 	 */
-	public String getJobNameAndStatus(JobInfo jobInfo) {
+	public String getJobNameAndStatus(JobInfo jobInfo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Job job = jobInfo.getJob();
 
@@ -449,7 +449,7 @@ public class ProgressInfoItem extends Composite {
 	/**
 	 * Refresh the contents of the receiver.
 	 */
-	void refresh() {
+	void refresh() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Don't refresh if not visible
 		if (isDisposed() || !isShowing) {
@@ -467,7 +467,7 @@ public class ProgressInfoItem extends Composite {
 					// Only do it if there is an indeterminate task
 					// There may be no task so we don't want to create it
 					// until we know for sure
-					for (JobInfo jobInfo : infos) {
+					for (JobInfo jobInfo : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Optional<TaskInfo> optionalInfo = jobInfo.getTaskInfo();
 						if (optionalInfo.isPresent() && optionalInfo.get().totalWork == IProgressMonitor.UNKNOWN) {
 							createProgressBar(SWT.INDETERMINATE);
@@ -497,7 +497,7 @@ public class ProgressInfoItem extends Composite {
 
 		}
 
-		for (int i = 0; i < infos.length; i++) {
+		for (int i = 0; i < infos.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JobInfo jobInfo = infos[i];
 			Optional<TaskInfo> optionalInfo = jobInfo.getTaskInfo();
 			if (optionalInfo.isPresent()) {
@@ -538,7 +538,7 @@ public class ProgressInfoItem extends Composite {
 
 		// Remove completed tasks
 		if (infos.length < taskEntries.size()) {
-			for (int i = infos.length; i < taskEntries.size(); i++) {
+			for (int i = infos.length; i < taskEntries.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				taskEntries.get(i).dispose();
 
 			}
@@ -565,7 +565,7 @@ public class ProgressInfoItem extends Composite {
 	private boolean isCompleted() {
 
 		JobInfo[] infos = getJobInfos();
-		for (JobInfo jobInfo : infos) {
+		for (JobInfo jobInfo : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (jobInfo.getJob().getState() != Job.NONE) {
 				return false;
 			}
@@ -596,7 +596,7 @@ public class ProgressInfoItem extends Composite {
 	 */
 	private boolean isRunning() {
 
-		for (JobInfo jobInfo : getJobInfos()) {
+		for (JobInfo jobInfo : getJobInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int state = jobInfo.getJob().getState();
 			if (state == Job.WAITING || state == Job.RUNNING) {
 				return true;
@@ -632,7 +632,7 @@ public class ProgressInfoItem extends Composite {
 	 * Set the images in the toolbar based on whether the receiver is finished or
 	 * not. Also update tooltips if required.
 	 */
-	private void updateToolBarValues() {
+	private void updateToolBarValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isCompleted()) {
 			actionButton.setImage(JFaceResources.getImage(CLEAR_FINISHED_JOB_KEY));
 			actionButton.setDisabledImage(JFaceResources.getImage(DISABLED_CLEAR_FINISHED_JOB_KEY));
@@ -643,7 +643,7 @@ public class ProgressInfoItem extends Composite {
 
 		}
 
-		for (JobInfo jobInfo : getJobInfos()) {
+		for (JobInfo jobInfo : getJobInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Only disable if there is an unresponsive operation
 			if (jobInfo.isCanceled() && !isCompleted()) {
 				actionButton.setEnabled(false);
@@ -656,7 +656,7 @@ public class ProgressInfoItem extends Composite {
 	/**
 	 * Create the progress bar and apply any style bits from style.
 	 */
-	void createProgressBar(int style) {
+	void createProgressBar(int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FormData buttonData = new FormData();
 		buttonData.top = new FormAttachment(progressLabel, 0);
 		buttonData.right = new FormAttachment(100, IDialogConstants.HORIZONTAL_SPACING * -1);
@@ -686,7 +686,7 @@ public class ProgressInfoItem extends Composite {
 	/**
 	 * Set the text of the link to the taskString.
 	 */
-	void setLinkText(Job linkJob, String taskString, int index) {
+	void setLinkText(Job linkJob, String taskString, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index >= taskEntries.size()) {// Is it new?
 			link = new Link(this, SWT.NONE);
 
@@ -708,9 +708,9 @@ public class ProgressInfoItem extends Composite {
 
 			link.setLayoutData(linkData);
 
-			link.addSelectionListener(widgetSelectedAdapter(e -> executeTrigger()));
+			link.addSelectionListener(widgetSelectedAdapter(e -> executeTrigger())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
-			link.addListener(SWT.Resize, event -> {
+			link.addListener(SWT.Resize, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 				Object text = link.getData(TEXT_KEY);
 				if (text == null) {
@@ -750,7 +750,7 @@ public class ProgressInfoItem extends Composite {
 	/**
 	 * The action/trigger associated with this progress item should be executed.
 	 */
-	public void executeTrigger() {
+	public void executeTrigger() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object data = link.getData(TRIGGER_KEY);
 		if (data instanceof IAction action) {
 			if (action.isEnabled()) {
@@ -831,7 +831,7 @@ public class ProgressInfoItem extends Composite {
 	 *
 	 * @param row the item's index in presentation
 	 */
-	public void setColor(int row) {
+	public void setColor(int row) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		currentIndex = row;
 
 		if (selected) {
@@ -861,7 +861,7 @@ public class ProgressInfoItem extends Composite {
 		progressLabel.setForeground(color);
 
 		Iterator<Link> taskEntryIterator = taskEntries.iterator();
-		while (taskEntryIterator.hasNext()) {
+		while (taskEntryIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			taskEntryIterator.next().setForeground(color);
 		}
 
@@ -879,7 +879,7 @@ public class ProgressInfoItem extends Composite {
 		jobImageLabel.setBackground(color);
 
 		Iterator<Link> taskEntryIterator = taskEntries.iterator();
-		while (taskEntryIterator.hasNext()) {
+		while (taskEntryIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			taskEntryIterator.next().setBackground(color);
 		}
 
@@ -970,7 +970,7 @@ public class ProgressInfoItem extends Composite {
 	}
 
 	/** Called whenever trigger details change */
-	private void hookTriggerCommandEnablement() {
+	private void hookTriggerCommandEnablement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Object data = link.getData(TRIGGER_KEY);
 		if (!(data instanceof ParameterizedCommand) || !PlatformUI.isWorkbenchRunning()) {
 			return;

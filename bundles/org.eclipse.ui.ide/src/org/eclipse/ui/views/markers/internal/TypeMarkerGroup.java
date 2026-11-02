@@ -31,7 +31,7 @@ import org.eclipse.ui.views.markers.MarkerItem;
  */
 public class TypeMarkerGroup extends MarkerGroup {
 
-	private final Map<String, TypesMarkerGroupingEntry> entries=new HashMap<>();
+	private final Map<String, TypesMarkerGroupingEntry> entries=new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	/**
 	 * TypeMarkerField is the MarkerField used for MarkerGroupungs
 	 *
@@ -47,7 +47,7 @@ public class TypeMarkerGroup extends MarkerGroup {
 			super();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getValue(MarkerItem item) {
 
 			if (item.getMarker() != null) {

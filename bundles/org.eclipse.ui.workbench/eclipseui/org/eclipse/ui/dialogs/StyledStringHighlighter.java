@@ -37,7 +37,7 @@ public class StyledStringHighlighter implements IStyledStringHighlighter {
 	private static final String STAR = "*"; //$NON-NLS-1$
 	private static final char TERMINATOR = '<';
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString highlight(String text, String pattern, Styler styler) {
 		if (text == null || text.isEmpty()) {
 			return new StyledString();
@@ -70,14 +70,14 @@ public class StyledStringHighlighter implements IStyledStringHighlighter {
 	 * @param pattern search text with wildcards.
 	 * @return regex
 	 */
-	private static final String transformWildcardToRegex(String pattern) {
+	private static final String transformWildcardToRegex(String pattern) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[] chars = pattern.toCharArray();
 		int len = chars.length;
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean quoting = false;
 		boolean prevStar = false;
 		boolean prevChar = false;
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c = chars[i];
 			boolean isWild = isWildcard(c);
 			if (isWild) {
@@ -129,12 +129,12 @@ public class StyledStringHighlighter implements IStyledStringHighlighter {
 		Pattern pattern = Pattern.compile(filterPattern, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(text);
 
-		while (matcher.find()) {
+		while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int groupCount = matcher.groupCount();
 			if (groupCount == 0) {
 				styledString.setStyle(matcher.start(), matcher.end() - matcher.start(), boldStyler);
 			} else {
-				for (int i = 1; i <= groupCount; i++) {
+				for (int i = 1; i <= groupCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					styledString.setStyle(matcher.start(i), matcher.end(i) - matcher.start(i), boldStyler);
 				}
 			}

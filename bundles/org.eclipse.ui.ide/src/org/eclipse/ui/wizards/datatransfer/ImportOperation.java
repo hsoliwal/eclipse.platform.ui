@@ -61,7 +61,7 @@ import org.eclipse.ui.internal.wizards.datatransfer.TarLeveledStructureProvider;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ImportOperation extends WorkspaceModifyOperation {
+public class ImportOperation extends WorkspaceModifyOperation { //FLLDCIM: MARK — T09  IMPLEMENTS
 	private static final int POLICY_DEFAULT = 0;
 
 	private static final int POLICY_SKIP_CHILDREN = 1;
@@ -84,7 +84,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 
 	private Shell context;
 
-	private final List<IStatus> errorTable = new ArrayList<>();
+	private final List<IStatus> errorTable = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private boolean createVirtualFolder = false;
 
@@ -232,7 +232,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @param policy on of the POLICY constants defined in the
 	 * class.
 	 */
-	void collectExistingReadonlyFiles(IPath sourceStart, List<?> sources, ArrayList<IPath> noOverwrite,
+	void collectExistingReadonlyFiles(IPath sourceStart, List<?> sources, ArrayList<IPath> noOverwrite, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ArrayList<IPath> overwriteReadonly, int policy, IProgressMonitor monitor) {
 		SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -242,7 +242,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 		if (this.source != null) {
 			sourceRootPath = IPath.fromOSString(provider.getFullPath(this.source));
 		}
-		while (sourceIter.hasNext()) {
+		while (sourceIter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object nextSource = sourceIter.next();
 			IPath sourcePath = IPath.fromOSString(provider.getFullPath(nextSource));
 			IPath newDestinationPath;
@@ -299,7 +299,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @return the container resource corresponding to the given path
 	 * @exception CoreException if this method failed
 	 */
-	IContainer createContainersFor(IPath path) throws CoreException {
+	IContainer createContainersFor(IPath path) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IContainer currentFolder = destinationContainer;
 
@@ -315,7 +315,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 			return createFromRoot(path);
 		}
 
-		for (int i = 0; i < segmentCount; i++) {
+		for (int i = 0; i < segmentCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currentFolder = currentFolder.getFolder(IPath.fromOSString(path.segment(i)));
 			if (!currentFolder.exists()) {
 				if (createVirtualFolder) {
@@ -349,7 +349,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 		IContainer currentFolder = ((IWorkspaceRoot) destinationContainer)
 				.getProject(path.segment(0));
 
-		for (int i = 1; i < segmentCount; i++) {
+		for (int i = 1; i < segmentCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currentFolder = currentFolder.getFolder(IPath.fromOSString(path.segment(i)));
 			if (!currentFolder.exists()) {
 				((IFolder) currentFolder).create(false, true, null);
@@ -373,7 +373,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void execute(IProgressMonitor progressMonitor) {
 		SubMonitor subMonitor = SubMonitor.convert(progressMonitor, DataTransferMessages.DataTransfer_importTask, 100);
 		try {
@@ -459,10 +459,10 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @return list of rejected files as absolute paths. Object type IPath.
 	 */
 	ArrayList<IPath> getRejectedFiles(IStatus multiStatus, IFile[] files) {
-		ArrayList<IPath> filteredFiles = new ArrayList<>();
+		ArrayList<IPath> filteredFiles = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IStatus[] status = multiStatus.getChildren();
-		for (int i = 0; i < status.length; i++) {
+		for (int i = 0; i < status.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!status[i].isOK()) {
 				errorTable.add(status[i]);
 				filteredFiles.add(files[i].getFullPath());
@@ -495,7 +495,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @param fileObject the file system object to be imported
 	 * @param policy determines how the file object is imported
 	 */
-	void importFile(Object fileObject, int policy, IProgressMonitor mon) {
+	void importFile(Object fileObject, int policy, IProgressMonitor mon) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor = SubMonitor.convert(mon, 100);
 		IContainer containerResource;
 		try {
@@ -598,7 +598,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	/**
 	 * Reuse the file attributes set in the import.
 	 */
-	private void setResourceAttributes(IFile targetResource, Object fileObject) {
+	private void setResourceAttributes(IFile targetResource, Object fileObject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		long timeStamp = 0;
 		if(fileObject instanceof File) {
@@ -640,10 +640,10 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 *   (element type: <code>Object</code>)
 	 * @exception OperationCanceledException if canceled
 	 */
-	void importFileSystemObjects(List<?> filesToImport, IProgressMonitor monitor) throws CoreException {
+	void importFileSystemObjects(List<?> filesToImport, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor = SubMonitor.convert(monitor, filesToImport.size());
 		Iterator<?> filesEnum = filesToImport.iterator();
-		while (filesEnum.hasNext()) {
+		while (filesEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SubMonitor iterationMonitor = subMonitor.split(1);
 			Object fileSystemObject = filesEnum.next();
 			if (source == null) {
@@ -673,7 +673,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @param policy determines how the folder object and children are imported
 	 * @return the policy to use to import the folder's children
 	 */
-	int importFolder(Object folderObject, int policy, IProgressMonitor monitor) throws CoreException {
+	int importFolder(Object folderObject, int policy, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IContainer containerResource;
 		try {
 			containerResource = getDestinationContainerFor(folderObject);
@@ -773,7 +773,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 		if (childPolicy != POLICY_SKIP_CHILDREN) {
 			List<?> children = provider.getChildren(fileSystemObject);
 			SubMonitor loopMonitor = subMonitor.split(90).setWorkRemaining(children.size());
-			for (Object child : children) {
+			for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				importRecursivelyFrom(child, childPolicy, loopMonitor.split(1));
 			}
 		}
@@ -787,7 +787,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @return <code>true</code> to overwrite, <code>false</code> to not overwrite
 	 * @exception OperationCanceledException if canceled
 	 */
-	boolean queryOverwrite(IPath resourcePath)
+	boolean queryOverwrite(IPath resourcePath) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws OperationCanceledException {
 		String overwriteAnswer = overwriteCallback.queryOverwrite(resourcePath
 				.makeRelative().toString());
@@ -888,7 +888,7 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @param existingFiles existing files to validate
 	 * @return list of rejected files as absolute paths. Object type IPath.
 	 */
-	ArrayList<IPath> validateEdit(List<IPath> existingFiles) {
+	ArrayList<IPath> validateEdit(List<IPath> existingFiles) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (existingFiles.size() > 0) {
 			IFile[] files = existingFiles
@@ -904,16 +904,16 @@ public class ImportOperation extends WorkspaceModifyOperation {
 			if(!status.isOK()){
 				//If just a single status reject them all
 				errorTable.add(status);
-				ArrayList<IPath> filteredFiles = new ArrayList<>();
+				ArrayList<IPath> filteredFiles = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-				for (IFile file : files) {
+				for (IFile file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					filteredFiles.add(file.getFullPath());
 				}
 				return filteredFiles;
 			}
 
 		}
-		return new ArrayList<>();
+		return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -924,8 +924,8 @@ public class ImportOperation extends WorkspaceModifyOperation {
 	 * @param sourceFiles files to validate
 	 */
 	void validateFiles(List<?> sourceFiles, IProgressMonitor monitor) {
-		ArrayList<IPath> noOverwrite = new ArrayList<>();
-		ArrayList<IPath> overwriteReadonly = new ArrayList<>();
+		ArrayList<IPath> noOverwrite = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<IPath> overwriteReadonly = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		collectExistingReadonlyFiles(destinationPath, sourceFiles, noOverwrite, overwriteReadonly, POLICY_DEFAULT,
 				monitor);

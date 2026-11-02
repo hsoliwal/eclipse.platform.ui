@@ -35,7 +35,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ConfigureProjectHandler extends AbstractHandler {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object execute(ExecutionEvent arg0) {
 		IProject project = null;
 		ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
@@ -54,9 +54,9 @@ public class ConfigureProjectHandler extends AbstractHandler {
 		SmartImportWizard wizard = new SmartImportWizard();
 		wizard.setInitialImportSource(file);
 		// inherit workingSets
-		Set<IWorkingSet> workingSets = new HashSet<>();
-		for (IWorkingSet workingSet : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) {
-			for (IAdaptable element : workingSet.getElements()) {
+		Set<IWorkingSet> workingSets = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkingSet workingSet : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IAdaptable element : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (project.getAdapter(element.getClass()) == element) {
 					workingSets.add(workingSet);
 				}

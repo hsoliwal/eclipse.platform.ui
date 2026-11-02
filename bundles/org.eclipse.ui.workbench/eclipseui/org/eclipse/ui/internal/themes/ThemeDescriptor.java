@@ -33,17 +33,17 @@ public class ThemeDescriptor implements IThemeDescriptor {
 
 	private static final String ATT_NAME = "name";//$NON-NLS-1$
 
-	private final Collection<ColorDefinition> colors = new HashSet<>();
+	private final Collection<ColorDefinition> colors = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private String description;
 
-	private final Collection<FontDefinition> fonts = new HashSet<>();
+	private final Collection<FontDefinition> fonts = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private final String id;
 
 	private String name;
 
-	private final Map<String, Object> dataMap = new HashMap<>();
+	private final Map<String, Object> dataMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Create a new ThemeDescriptor

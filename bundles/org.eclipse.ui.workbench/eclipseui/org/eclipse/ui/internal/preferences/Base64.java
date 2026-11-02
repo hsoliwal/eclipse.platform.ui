@@ -34,12 +34,12 @@ class Base64 {
 	 * @param data the encoded byte array
 	 * @return the decoded byte array
 	 */
-	public static byte[] decode(byte[] data) {
+	public static byte[] decode(byte[] data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (data.length == 0) {
 			return data;
 		}
 		int lastRealDataIndex = data.length - 1;
-		while (data[lastRealDataIndex] == equalSign) {
+		while (data[lastRealDataIndex] == equalSign) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			lastRealDataIndex--;
 		}
 		// original data digit is 8 bits long, but base64 digit is 6 bits long
@@ -52,14 +52,14 @@ class Base64 {
 		int allBits = 0;
 		// how many result chunks we can process before getting to pad bytes
 		int resultChunks = (lastRealDataIndex + 1) / 4;
-		for (int i = 0; i < resultChunks; i++) {
+		for (int i = 0; i < resultChunks; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			allBits = 0;
 			// Loop 4 times gathering input bits (4 * 6 = 24)
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < 4; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allBits = (allBits << 6) | decodeDigit(data[dataIndex++]);
 			}
 			// Loop 3 times generating output bits (3 * 8 = 24)
-			for (int j = resultIndex + 2; j >= resultIndex; j--) {
+			for (int j = resultIndex + 2; j >= resultIndex; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[j] = (byte) (allBits & 0xff); // Bottom 8 bits
 				allBits = allBits >>> 8;
 			}
@@ -74,7 +74,7 @@ class Base64 {
 			// Or: 2 bytes of result data
 			allBits = 0;
 			// Loop 3 times gathering input bits
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < 3; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allBits = (allBits << 6) | decodeDigit(data[dataIndex++]);
 			}
 			// NOTE - The code below ends up being equivalent to allBits =
@@ -85,7 +85,7 @@ class Base64 {
 			// The 3rd, missing 8 bits are all 0
 			allBits = allBits >>> 8;
 			// Loop 2 times generating output bits
-			for (int j = resultIndex + 1; j >= resultIndex; j--) {
+			for (int j = resultIndex + 1; j >= resultIndex; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[j] = (byte) (allBits & 0xff); // Bottom 8
 				// bits
 				allBits = allBits >>> 8;
@@ -97,7 +97,7 @@ class Base64 {
 			// Or: 1 byte of result data
 			allBits = 0;
 			// Loop 2 times gathering input bits
-			for (int j = 0; j < 2; j++) {
+			for (int j = 0; j < 2; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allBits = (allBits << 6) | decodeDigit(data[dataIndex++]);
 			}
 			// NOTE - The code below ends up being equivalent to allBits =
@@ -123,7 +123,7 @@ class Base64 {
 	 * @param data digit (character) to convert
 	 * @return value for the digit
 	 */
-	static int decodeDigit(byte data) {
+	static int decodeDigit(byte data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char charData = (char) data;
 		if (charData <= 'Z' && charData >= 'A') {
 			return charData - 'A';
@@ -140,7 +140,7 @@ class Base64 {
 		case '/':
 			return 63;
 		default:
-			throw new IllegalArgumentException("Invalid char to decode: " + data); //$NON-NLS-1$
+			throw new IllegalArgumentException("Invalid char to decode: " + data); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -151,7 +151,7 @@ class Base64 {
 	 * @param data the encoded char array
 	 * @return the byte array that needs to be encoded
 	 */
-	public static byte[] encode(byte[] data) {
+	public static byte[] encode(byte[] data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int sourceChunks = data.length / 3;
 		int len = ((data.length + 2) / 3) * 4;
 		byte[] result = new byte[len];
@@ -160,14 +160,14 @@ class Base64 {
 		int dataIndex = 0;
 		int resultIndex = 0;
 		int allBits = 0;
-		for (int i = 0; i < sourceChunks; i++) {
+		for (int i = 0; i < sourceChunks; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			allBits = 0;
 			// Loop 3 times gathering input bits (3 * 8 = 24)
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < 3; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allBits = (allBits << 8) | (data[dataIndex++] & 0xff);
 			}
 			// Loop 4 times generating output bits (4 * 6 = 24)
-			for (int j = resultIndex + 3; j >= resultIndex; j--) {
+			for (int j = resultIndex + 3; j >= resultIndex; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[j] = (byte) digits[(allBits & 0x3f)]; // Bottom
 				// 6
 				// bits
@@ -183,7 +183,7 @@ class Base64 {
 			allBits = allBits << 8; // 8 bits of zeroes
 			allBits = allBits << 8; // 8 bits of zeroes
 			// Loop 4 times generating output bits (4 * 6 = 24)
-			for (int j = resultIndex + 3; j >= resultIndex; j--) {
+			for (int j = resultIndex + 3; j >= resultIndex; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[j] = (byte) digits[(allBits & 0x3f)]; // Bottom
 				// 6
 				// bits
@@ -199,7 +199,7 @@ class Base64 {
 			// byte
 			allBits = allBits << 8; // 8 bits of zeroes
 			// Loop 4 times generating output bits (4 * 6 = 24)
-			for (int j = resultIndex + 3; j >= resultIndex; j--) {
+			for (int j = resultIndex + 3; j >= resultIndex; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[j] = (byte) digits[(allBits & 0x3f)]; // Bottom
 				// 6
 				// bits

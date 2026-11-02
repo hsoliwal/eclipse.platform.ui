@@ -126,7 +126,7 @@ public abstract class CompositeImageDescriptor extends ImageDescriptor {
 			this.descriptor = Objects.requireNonNull(descriptor);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ImageData getImageData(int zoom) {
 			if (zoom == cachedZoom) {
 				return cached;
@@ -262,7 +262,7 @@ public abstract class CompositeImageDescriptor extends ImageDescriptor {
 	 *            the y position
 	 * @since 3.13
 	 */
-	final protected void drawImage(ImageDataProvider srcProvider, int ox, int oy) {
+	final protected void drawImage(ImageDataProvider srcProvider, int ox, int oy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImageData dst = imageData;
 		ImageData src = getZoomedImageData(srcProvider);
 
@@ -273,13 +273,13 @@ public abstract class CompositeImageDescriptor extends ImageDescriptor {
 			srcMask = src.getTransparencyMask ();
 			if (src.depth == 32) {
 				alphaMask = ~(srcPalette.redMask | srcPalette.greenMask | srcPalette.blueMask);
-				while (alphaMask != 0 && ((alphaMask >>> alphaShift) & 1) == 0) {
+				while (alphaMask != 0 && ((alphaMask >>> alphaShift) & 1) == 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					alphaShift++;
 				}
 			}
 		}
-		for (int srcY = 0, dstY = srcY + autoScaleUp(oy); srcY < src.height; srcY++, dstY++) {
-			for (int srcX = 0, dstX = srcX + autoScaleUp(ox); srcX < src.width; srcX++, dstX++) {
+		for (int srcY = 0, dstY = srcY + autoScaleUp(oy); srcY < src.height; srcY++, dstY++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int srcX = 0, dstX = srcX + autoScaleUp(ox); srcX < src.width; srcX++, dstX++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(0 <= dstX && dstX < dst.width && 0 <= dstY && dstY < dst.height)) {
 					continue;
 				}
@@ -357,7 +357,7 @@ public abstract class CompositeImageDescriptor extends ImageDescriptor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ImageData getImageData(int zoom) {
 		if (!supportsZoomLevel(zoom)) {
 			return null;
@@ -378,7 +378,7 @@ public abstract class CompositeImageDescriptor extends ImageDescriptor {
 		/* Detect minimum transparency */
 		boolean transparency = false;
 		byte[] alphaData = imageData.alphaData;
-		for (byte element : alphaData) {
+		for (byte element : alphaData) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int alpha = element & 0xFF;
 			if (!(alpha == 0 || alpha == 255)) {
 				/* Full alpha channel transparency */
@@ -392,8 +392,8 @@ public abstract class CompositeImageDescriptor extends ImageDescriptor {
 			/* Reduce to 1-bit alpha channel transparency */
 			PaletteData palette = new PaletteData(new RGB(0, 0, 0), new RGB(255, 255, 255));
 			ImageData mask = new ImageData(imageData.width, imageData.height, 1, palette);
-			for (int y = 0; y < mask.height; y++) {
-				for (int x = 0; x < mask.width; x++) {
+			for (int y = 0; y < mask.height; y++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int x = 0; x < mask.width; x++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					mask.setPixel(x, y, imageData.getAlpha(x, y) == 255 ? 1 : 0);
 				}
 			}

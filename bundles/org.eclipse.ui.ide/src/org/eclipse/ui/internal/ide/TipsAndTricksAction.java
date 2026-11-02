@@ -37,7 +37,7 @@ import org.eclipse.ui.internal.WorkbenchImages;
 /**
  * Launch the tips and tricks action.
  */
-public class TipsAndTricksAction extends PartEventAction implements
+public class TipsAndTricksAction extends PartEventAction implements //FLLDCIM: MARK — T20  IMPLEMENTS
 		ActionFactory.IWorkbenchAction {
 
 	/**
@@ -67,7 +67,7 @@ public class TipsAndTricksAction extends PartEventAction implements
 	/**
 	 *	The user has invoked this action
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		if (workbenchWindow == null) {
 			// action has been disposed
@@ -76,8 +76,8 @@ public class TipsAndTricksAction extends PartEventAction implements
 		// Ask the user to select a feature
 		AboutInfo[] featureInfos = IDEWorkbenchPlugin.getDefault()
 				.getFeatureInfos();
-		ArrayList<AboutInfo> tipsAndTricksFeatures = new ArrayList<>(featureInfos.length);
-		for (AboutInfo featureInfo : featureInfos) {
+		ArrayList<AboutInfo> tipsAndTricksFeatures = new ArrayList<>(featureInfos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (AboutInfo featureInfo : featureInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (featureInfo.getTipsAndTricksHref() != null) {
 				tipsAndTricksFeatures.add(featureInfo);
 			}

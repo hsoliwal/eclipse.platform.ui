@@ -109,7 +109,7 @@ public class PreferenceTransferRegistryReader extends RegistryReader {
 	 * Reads the wizards in a registry.
 	 */
 	protected void readPreferenceTransfers() {
-		preferenceTransfers = new ArrayList<>();
+		preferenceTransfers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		readRegistry(registry, WorkbenchPlugin.PI_WORKBENCH, pluginPoint);
 	}
@@ -140,18 +140,18 @@ public class PreferenceTransferRegistryReader extends RegistryReader {
 	 * @return a map that maps nodes to keys for this element or <code>null</code>
 	 *         for all nodes
 	 */
-	public static Map<String, PreferenceFilterEntry[]> getEntry(IConfigurationElement element) {
+	public static Map<String, PreferenceFilterEntry[]> getEntry(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement[] entries = element.getChildren(IWorkbenchRegistryConstants.TAG_ENTRY);
 		if (entries.length == 0) {
 			return null;
 		}
-		Map<String, PreferenceFilterEntry[]> map = new HashMap<>(entries.length);
-		for (IConfigurationElement entry : entries) {
+		Map<String, PreferenceFilterEntry[]> map = new HashMap<>(entries.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IConfigurationElement entry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement[] keys = entry.getChildren(IWorkbenchRegistryConstants.ATT_KEY);
 			PreferenceFilterEntry[] prefFilters = null;
 			if (keys.length > 0) {
 				prefFilters = new PreferenceFilterEntry[keys.length];
-				for (int j = 0; j < keys.length; j++) {
+				for (int j = 0; j < keys.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IConfigurationElement keyElement = keys[j];
 					prefFilters[j] = new PreferenceFilterEntry(
 							keyElement.getAttribute(IWorkbenchRegistryConstants.ATT_NAME),

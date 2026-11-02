@@ -31,7 +31,7 @@ import org.eclipse.ui.internal.ide.registry.SystemEditorOrTextEditorStrategy;
  */
 public class IDEPreferenceInitializer extends AbstractPreferenceInitializer {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void initializeDefaultPreferences() {
 
 		IEclipsePreferences node= DefaultScope.INSTANCE.getNode(IDEWorkbenchPlugin.getDefault().getBundle().getSymbolicName());
@@ -121,6 +121,6 @@ public class IDEPreferenceInitializer extends AbstractPreferenceInitializer {
 	}
 
 	private String getHelpSeparatorKey(String groupId) {
-		return "useSeparator." + IWorkbenchActionConstants.M_HELP + "." + groupId; //$NON-NLS-1$ //$NON-NLS-2$
+		return "useSeparator." + IWorkbenchActionConstants.M_HELP + "." + groupId; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

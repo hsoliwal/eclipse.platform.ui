@@ -471,7 +471,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *                specializes this workbench instance
 	 * @since 3.0
 	 */
-	private Workbench(Display display, final WorkbenchAdvisor advisor, MApplication app, IEclipseContext appContext) {
+	private Workbench(Display display, final WorkbenchAdvisor advisor, MApplication app, IEclipseContext appContext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.advisor = Objects.requireNonNull(advisor);
 		this.display = Objects.requireNonNull(display);
 		this.startupZoom = display.getPrimaryMonitor().getZoom();
@@ -585,7 +585,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *         terminated with a call to {@link IWorkbench#restart
 	 *         IWorkbench.restart}; other values reserved for future use
 	 */
-	public static int createAndRunWorkbench(final Display display, final WorkbenchAdvisor advisor) {
+	public static int createAndRunWorkbench(final Display display, final WorkbenchAdvisor advisor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int[] returnCode = new int[1];
 		Realm.runWithDefault(DisplayRealm.getRealm(display), () -> {
 			boolean showProgress = PrefUtil.getAPIPreferenceStore()
@@ -619,7 +619,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 					public void applicationRunning() {
 						registration[0].unregister(); // unregister ourself
 						// fire part visibility events now that we're up
-						for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
+						for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IWorkbenchPage page = window.getActivePage();
 							if (page != null) {
 								((WorkbenchPage) page).fireInitialPartVisibilityEvents();
@@ -673,7 +673,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				returnCode[0] = workbench.runUI();
 
 				if (AUTOSCALE_ADAPTATION.isMonitorSpecificScalingDisabledForIncompatibility()) {
-					display.asyncExec(() -> {
+					display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						MessageDialog.openError(null, WorkbenchMessages.RescaleAtRuntimeIncompatibilityTitle,
 								NLS.bind(WorkbenchMessages.RescaleAtRuntimeIncompatibilityDescription));
 					});
@@ -705,7 +705,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	}
 
 	private static void setSearchContribution(MApplication app, boolean enabled) {
-		for (MTrimContribution contribution : app.getTrimContributions()) {
+		for (MTrimContribution contribution : app.getTrimContributions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("org.eclipse.ui.ide.application.trimcontribution.QuickAccess".contains(contribution //$NON-NLS-1$
 					.getElementId())) {
 				// allows us to handle the case where someone opens a workspace
@@ -726,7 +726,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return (IApplicationContext) instanceAppContext.getService();
 	}
 
-	static Object getApplication(@SuppressWarnings("unused") String[] args) {
+	static Object getApplication(@SuppressWarnings("unused") String[] args) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Find the name of the application as specified by the PDE JUnit
 		// launcher.
 		// If no application is specified, the 3.0 default workbench application
@@ -762,7 +762,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *
 	 * @return the display
 	 */
-	public static Display createDisplay() {
+	public static Display createDisplay() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// setup the application name used by SWT to lookup resources on some platforms
 		String applicationName = System.getProperty("eclipse.appName", WorkbenchPlugin.getDefault().getAppName()); //$NON-NLS-1$
 		if (applicationName != null) {
@@ -805,12 +805,12 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *
 	 * @since 3.3
 	 */
-	private void createSplashWrapper() {
+	private void createSplashWrapper() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		SafeRunnable run = new SafeRunnable() {
 			Image background = null;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() throws Exception {
 				String splashLoc = System.getProperty("org.eclipse.equinox.launcher.splash.location"); //$NON-NLS-1$
 				background = loadSplashScreenImage(display, splashLoc);
@@ -882,7 +882,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	private static void spinEventQueueToUpdateSplash(final Display display) {
 		if (!display.isDisposed() && display.getThread() == Thread.currentThread()) {
 			int safetyCounter = 0;
-			while (display.readAndDispatch() && safetyCounter++ < 100) {
+			while (display.readAndDispatch() && safetyCounter++ < 100) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// process until the queue is empty or until we hit the safetyCounter limit
 			}
 		}
@@ -907,7 +907,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return background;
 	}
 
-	private static Image getImage(Display display, InputStream input) {
+	private static Image getImage(Display display, InputStream input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Image image = new Image(display, input);
 
 		if (Util.isMac()) {
@@ -936,7 +936,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * @return the splash handler for this application or <code>null</code>
 	 * @since 3.3
 	 */
-	private static AbstractSplashHandler getSplash() {
+	private static AbstractSplashHandler getSplash() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!createSplash) {
 			return null;
 		}
@@ -987,7 +987,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * @since 3.2
 	 */
 	boolean firePreShutdown(final boolean forced) {
-		for (final IWorkbenchListener l : workbenchListeners) {
+		for (final IWorkbenchListener l : workbenchListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final boolean[] result = new boolean[] { false };
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
@@ -1008,7 +1008,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * @since 3.2
 	 */
 	void firePostShutdown() {
-		for (final IWorkbenchListener l : workbenchListeners) {
+		for (final IWorkbenchListener l : workbenchListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -1035,7 +1035,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 */
 	protected void fireWindowOpened(final IWorkbenchWindow window) {
 		Object list[] = getListeners();
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IWindowListener l = (IWindowListener) element;
 			SafeRunner.run(new SafeRunnable() {
 				@Override
@@ -1053,7 +1053,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 */
 	protected void fireWindowClosed(final IWorkbenchWindow window) {
 		Object list[] = getListeners();
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IWindowListener l = (IWindowListener) element;
 			SafeRunner.run(new SafeRunnable() {
 				@Override
@@ -1072,7 +1072,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 */
 	protected void fireWindowActivated(final IWorkbenchWindow window) {
 		Object list[] = getListeners();
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IWindowListener l = (IWindowListener) element;
 			SafeRunner.run(new SafeRunnable() {
 				@Override
@@ -1091,7 +1091,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 */
 	protected void fireWindowDeactivated(final IWorkbenchWindow window) {
 		Object list[] = getListeners();
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IWindowListener l = (IWindowListener) element;
 			SafeRunner.run(new SafeRunnable() {
 				@Override
@@ -1109,7 +1109,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *              allowed to fail
 	 * @return true if the close succeeded, and false otherwise
 	 */
-	private boolean busyClose(final boolean force) {
+	private boolean busyClose(final boolean force) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// notify the advisor of preShutdown and allow it to veto if not forced
 		isClosing = advisor.preShutdown();
 		if (!force && !isClosing) {
@@ -1142,9 +1142,9 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				@Override
 				public void run() {
 					IWorkbenchWindow windows[] = getWorkbenchWindows();
-					for (IWorkbenchWindow window : windows) {
+					for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IWorkbenchPage pages[] = window.getPages();
-						for (IWorkbenchPage page : pages) {
+						for (IWorkbenchPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							isClosing = isClosing && page.closeAllEditors(false);
 						}
 					}
@@ -1164,13 +1164,13 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		}
 
 		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				if (isClosing || force) {
 					E4Util.unsupported("Need to close since no windowManager"); //$NON-NLS-1$
 					MWindow selectedWindow = application.getSelectedElement();
 					WorkbenchWindow selected = null;
-					for (IWorkbenchWindow window : getWorkbenchWindows()) {
+					for (IWorkbenchWindow window : getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						WorkbenchWindow ww = (WorkbenchWindow) window;
 						if (ww.getModel() == selectedWindow) {
 							selected = ww;
@@ -1214,25 +1214,25 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *                 Will also skip saving the model to the disk since that is
 	 *                 done later in shutdown.
 	 */
-	void persist(final boolean shutdown) {
+	void persist(final boolean shutdown) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// persist editors that can be and possibly close the others
 		SafeRunner.run(new SafeRunnable() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				IWorkbenchWindow windows[] = getWorkbenchWindows();
-				for (IWorkbenchWindow window : windows) {
+				for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IWorkbenchPage pages[] = window.getPages();
-					for (IWorkbenchPage page : pages) {
+					for (IWorkbenchPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						List<EditorReference> editorReferences = ((WorkbenchPage) page).getInternalEditorReferences();
-						List<EditorReference> referencesToClose = new ArrayList<>();
-						for (EditorReference reference : editorReferences) {
+						List<EditorReference> referencesToClose = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						for (EditorReference reference : editorReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IEditorPart editor = reference.getEditor(false);
 							if (editor != null && !reference.persist() && shutdown) {
 								referencesToClose.add(reference);
 							}
 						}
 						if (shutdown) {
-							for (EditorReference reference : referencesToClose) {
+							for (EditorReference reference : referencesToClose) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								((WorkbenchPage) page).closeEditor(reference);
 							}
 						}
@@ -1270,11 +1270,11 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 			@Override
 			public void run() {
 				IWorkbenchWindow windows[] = getWorkbenchWindows();
-				for (IWorkbenchWindow window : windows) {
+				for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IWorkbenchPage pages[] = window.getPages();
-					for (IWorkbenchPage page : pages) {
+					for (IWorkbenchPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IViewReference[] references = page.getViewReferences();
-						for (IViewReference reference : references) {
+						for (IViewReference reference : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (reference.getView(false) != null) {
 								((ViewReference) reference).persist();
 							}
@@ -1306,7 +1306,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * Copy the model, clean it up and write it out to workbench.xmi. Called as part
 	 * of persist(false) during auto-save.
 	 */
-	private void persistWorkbenchModel() {
+	private void persistWorkbenchModel() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Job.getJobManager().find(WORKBENCH_AUTO_SAVE_JOB).length > 0) {
 			return;
 		}
@@ -1323,7 +1323,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				cleanUpCopy(appCopy);
 				try {
 					if (!detectWorkbenchCorruption((MApplication) res.getContents().get(0))) {
-						Map<String, Object> options = new HashMap<>();
+						Map<String, Object> options = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 						options.put(E4XMIResource.OPTION_FILTER_PERSIST_STATE, Boolean.TRUE);
 						res.save(options);
 					}
@@ -1358,14 +1358,14 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return saveAllEditors(confirm, false);
 	}
 
-	private boolean saveAllEditors(boolean confirm, boolean closing) {
+	private boolean saveAllEditors(boolean confirm, boolean closing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchWindow[] windows = getWorkbenchWindows();
 		if (windows.length == 0) {
 			return true;
 		}
 
-		Set<IWorkbenchPart> dirtyParts = new HashSet<>();
-		for (IWorkbenchWindow window : windows) {
+		Set<IWorkbenchPart> dirtyParts = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchPage page = (WorkbenchPage) window.getActivePage();
 			if (page != null) {
 				Collections.addAll(dirtyParts, page.getDirtyWorkbenchParts());
@@ -1376,17 +1376,17 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		if (activeWindow == null) {
 			activeWindow = windows[0];
 		}
-		return WorkbenchPage.saveAll(new ArrayList<>(dirtyParts), confirm, closing, true, activeWindow, activeWindow);
+		return WorkbenchPage.saveAll(new ArrayList<>(dirtyParts), confirm, closing, true, activeWindow, activeWindow); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
-	private boolean saveAllParts(boolean confirm, boolean closing) {
+	private boolean saveAllParts(boolean confirm, boolean closing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Code to handle dirtied Editors and E4 parts too.
 		EPartService partService = e4Context.get(EPartService.class);
 		if (partService != null) {
 			Collection<MPart> parts = getDirtyMParts();
 			if (parts != null && parts.size() > 0) {
 				MPart selected = null;
-				for (MPart part : parts) {
+				for (MPart part : parts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					selected = part;
 					break;
 				}
@@ -1413,9 +1413,9 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return saveAllEditors(confirm, closing);
 	}
 
-	private Collection<MPart> getDirtyMParts() {
-		Set<MPart> dirtyParts = new HashSet<>();
-		for (MWindow window : application.getChildren()) {
+	private Collection<MPart> getDirtyMParts() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<MPart> dirtyParts = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (MWindow window : application.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEclipseContext context = window.getContext();
 			if (context != null) {
 				IWorkbenchWindow wwindow = context.get(IWorkbenchWindow.class);
@@ -1473,7 +1473,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return ret[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IWorkbenchWindow getActiveWorkbenchWindow() {
 		// Return null if called from a non-UI thread.
 		// This is not spec'ed behaviour and is misleading, however this is how
@@ -1522,7 +1522,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				activeWindow, false);
 	}
 
-	IWorkbenchWindow createWorkbenchWindow(IAdaptable input, IPerspectiveDescriptor descriptor, MWindow window,
+	IWorkbenchWindow createWorkbenchWindow(IAdaptable input, IPerspectiveDescriptor descriptor, MWindow window, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean newWindow) {
 
 		IEclipseContext windowContext = window.getContext();
@@ -1576,7 +1576,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return result;
 	}
 
-	private void placeNearActiveShell(MWindow window) {
+	private void placeNearActiveShell(MWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getDisplay() == null) {
 			return;
 		}
@@ -1615,7 +1615,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		Monitor bestFittingMonitor = getDisplay().getPrimaryMonitor();
 		int maxIntersectionArea = 0;
 
-		for (Monitor monitor : getDisplay().getMonitors()) {
+		for (Monitor monitor : getDisplay().getMonitors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Rectangle intersection = new Rectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 			intersection.intersect(monitor.getBounds());
 
@@ -1629,7 +1629,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return bestFittingMonitor;
 	}
 
-	private static void moveIntoBounds(Rectangle rectangleToMove, Rectangle bounds) {
+	private static void moveIntoBounds(Rectangle rectangleToMove, Rectangle bounds) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// move into bounds if it's too far to the right
 		if (rectangleToMove.x + rectangleToMove.width > bounds.x + bounds.width) {
 			rectangleToMove.x = bounds.x + bounds.width - rectangleToMove.width;
@@ -1698,8 +1698,8 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 
 	@Override
 	public IWorkbenchWindow[] getWorkbenchWindows() {
-		List<IWorkbenchWindow> windows = new ArrayList<>();
-		for (MWindow window : application.getChildren()) {
+		List<IWorkbenchWindow> windows = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MWindow window : application.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEclipseContext context = window.getContext();
 			if (context != null) {
 				IWorkbenchWindow wwindow = context.get(IWorkbenchWindow.class);
@@ -1726,7 +1726,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *
 	 * @return true if init succeeded.
 	 */
-	private boolean init() {
+	private boolean init() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// setup debug mode if required.
 		if (WorkbenchPlugin.getDefault().isDebugging()) {
 			WorkbenchPlugin.DEBUG = true;
@@ -1939,13 +1939,13 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * IANA-to-CLDR mapping. Such values are dropped.
 	 * </p>
 	 */
-	private static void applyNlExtensions(String nlExtensions) {
+	private static void applyNlExtensions(String nlExtensions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (nlExtensions == null || nlExtensions.isEmpty()) {
 			return;
 		}
 		String body = nlExtensions.startsWith("@") ? nlExtensions.substring(1) : nlExtensions; //$NON-NLS-1$
-		StringBuilder uExtension = new StringBuilder();
-		for (String pair : body.split(";")) { //$NON-NLS-1$
+		StringBuilder uExtension = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String pair : body.split(";")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int eq = pair.indexOf('=');
 			if (eq <= 0) {
 				continue;
@@ -1968,31 +1968,31 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 			return;
 		}
 		String baseTag = Locale.getDefault(Category.FORMAT).stripExtensions().toLanguageTag();
-		Locale newDefault = Locale.forLanguageTag(baseTag + "-u-" + uExtension); //$NON-NLS-1$
+		Locale newDefault = Locale.forLanguageTag(baseTag + "-u-" + uExtension); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		Locale.setDefault(Category.FORMAT, newDefault);
 	}
 
 	/*
 	 * Initializes the workbench fonts with the stored values.
 	 */
-	private void initializeFonts() {
+	private void initializeFonts() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void runWithException() {
 				FontDefinition[] fontDefinitions = WorkbenchPlugin.getDefault().getThemeRegistry().getFonts();
 
 				ThemeElementHelper.populateRegistry(getThemeManager().getCurrentTheme(), fontDefinitions,
 						PrefUtil.getInternalPreferenceStore());
-				final IPropertyChangeListener themeToPreferencesFontSynchronizer = event -> {
+				final IPropertyChangeListener themeToPreferencesFontSynchronizer = event -> { //FLLDCIM: MARK — T06  LAMBDA
 					if (event.getNewValue() instanceof FontData[]) {
 						FontData[] fontData = (FontData[]) event.getNewValue();
 						PrefUtil.getInternalPreferenceStore().setValue(event.getProperty(),
 								PreferenceConverter.getStoredRepresentation(fontData));
 					}
 				};
-				getThemeManager().getCurrentTheme().getFontRegistry().addListener(themeToPreferencesFontSynchronizer);
-				getThemeManager().addPropertyChangeListener(event -> {
+				getThemeManager().getCurrentTheme().getFontRegistry().addListener(themeToPreferencesFontSynchronizer); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+				getThemeManager().addPropertyChangeListener(event -> { //FLLDCIM: MARK — T06  LAMBDA
 					if (IThemeManager.CHANGE_CURRENT_THEME.equals(event.getProperty())) {
 						Object oldValue = event.getOldValue();
 						if (oldValue != null && oldValue instanceof ITheme) {
@@ -2024,7 +2024,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		}
 
 		Image[] images = new Image[windowImages.length];
-		for (int i = 0; i < windowImages.length; ++i) {
+		for (int i = 0; i < windowImages.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			images[i] = windowImages[i].createImage();
 		}
 		Window.setDefaultImages(images);
@@ -2039,7 +2039,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		WorkbenchImages.dispose();
 		Image[] images = Window.getDefaultImages();
 		Window.setDefaultImage(null);
-		for (Image image : images) {
+		for (Image image : images) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			image.dispose();
 		}
 	}
@@ -2048,14 +2048,14 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * Asks the user to restart if the primary monitor zoom differs from the zoom
 	 * at workbench startup.
 	 */
-	void promptForRestartIfZoomChanged(Shell parent) {
+	void promptForRestartIfZoomChanged(Shell parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
 		if (isClosing || parent.isDisposed() || zoomRestartPromptOpen
 				|| !store.getBoolean(IPreferenceConstants.PROMPT_RESTART_ON_ZOOM_CHANGE)
 				|| display.getPrimaryMonitor().getZoom() == startupZoom) {
 			return;
 		}
-		LinkedHashMap<String, Integer> buttons = new LinkedHashMap<>();
+		LinkedHashMap<String, Integer> buttons = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 		buttons.put(WorkbenchMessages.Workbench_RestartButton, IDialogConstants.OK_ID);
 		buttons.put(WorkbenchMessages.Workbench_DontRestartButton, IDialogConstants.CANCEL_ID);
 		MessageDialogWithToggle dialog = new MessageDialogWithToggle(parent,
@@ -2081,11 +2081,11 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return isClosing;
 	}
 
-	private void initializeE4Services() {
+	private void initializeE4Services() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		eventBroker.subscribe(UIEvents.ElementContainer.TOPIC_CHILDREN, event -> {
 			if (application == event.getProperty(UIEvents.EventTags.ELEMENT)) {
 				if (UIEvents.isREMOVE(event)) {
-					for (Object removed : UIEvents.asIterable(event, UIEvents.EventTags.OLD_VALUE)) {
+					for (Object removed : UIEvents.asIterable(event, UIEvents.EventTags.OLD_VALUE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						MWindow window = (MWindow) removed;
 						IEclipseContext windowContext = window.getContext();
 						if (windowContext != null) {
@@ -2145,19 +2145,19 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 			if (UIEvents.isREMOVE(event)) {
 				if (app.getChildren().isEmpty()) {
 					Object oldValue = event.getProperty(UIEvents.EventTags.OLD_VALUE);
-					WorkbenchPlugin.log("The final top level window " + oldValue //$NON-NLS-1$
+					WorkbenchPlugin.log("The final top level window " + oldValue //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ " was just removed", new Exception()); //$NON-NLS-1$
 				}
 			}
 		});
 
-		eventBroker.subscribe(UIEvents.UIModelTopicBase + "/*", event -> { // //$NON-NLS-1$
+		eventBroker.subscribe(UIEvents.UIModelTopicBase + "/*", event -> { // //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			applicationModelChanged = true;
 		});
 
 		boolean found = false;
 		List<MPartDescriptor> currentDescriptors = application.getDescriptors();
-		for (MPartDescriptor desc : currentDescriptors) {
+		for (MPartDescriptor desc : currentDescriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// do we have a matching descriptor?
 			if (desc.getElementId().equals(CompatibilityEditor.MODEL_ELEMENT_ID)) {
 				// In older versions of the workbench, REMOVE_ON_HIDE_TAG was not set on the
@@ -2208,7 +2208,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * @param part    the model part that requires a 3.x part reference
 	 * @param context the part's context
 	 */
-	private void setReference(MPart part, IEclipseContext context) {
+	private void setReference(MPart part, IEclipseContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String uri = part.getContributionURI();
 		if (CompatibilityPart.COMPATIBILITY_EDITOR_URI.equals(uri)) {
 			WorkbenchPage page = getWorkbenchPage(part);
@@ -2298,14 +2298,14 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 
 	private IEclipseContext getWindowContext(MPart part) {
 		MElementContainer<?> parent = (MElementContainer<?>) ((EObject) part).eContainer();
-		while (!(parent instanceof MWindow)) {
+		while (!(parent instanceof MWindow)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent = (MElementContainer<?>) ((EObject) parent).eContainer(); // parent.getParent();
 		}
 
 		return ((MWindow) parent).getContext();
 	}
 
-	private void initializeLazyServices() {
+	private void initializeLazyServices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		e4Context.set(IWorkbenchActivitySupport.class.getName(), new ContextFunction() {
 
 			@Override
@@ -2325,8 +2325,8 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		WorkbenchPlugin.getDefault().initializeContext(e4Context);
 	}
 
-	private final ArrayList<MCommand> commandsToRemove = new ArrayList<>();
-	private final ArrayList<MCategory> categoriesToRemove = new ArrayList<>();
+	private final ArrayList<MCommand> commandsToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final ArrayList<MCategory> categoriesToRemove = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private CommandService initializeCommandService(IEclipseContext appContext) {
 		CommandService service = new CommandService(commandManager, appContext);
@@ -2337,9 +2337,9 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return service;
 	}
 
-	private final Map<String, MBindingContext> bindingContexts = new HashMap<>();
+	private final Map<String, MBindingContext> bindingContexts = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	public MBindingContext getBindingContext(String id) {
+	public MBindingContext getBindingContext(String id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// cache
 		MBindingContext result = bindingContexts.get(id);
 		if (result == null) {
@@ -2349,7 +2349,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				// create
 				result = MCommandsFactory.INSTANCE.createBindingContext();
 				result.setElementId(id);
-				result.setName("Auto::" + id); //$NON-NLS-1$
+				result.setName("Auto::" + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				application.getRootContext().add(result);
 			}
 			if (result != null) {
@@ -2360,7 +2360,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	}
 
 	private MBindingContext searchContexts(String id, List<MBindingContext> rootContext) {
-		for (MBindingContext context : rootContext) {
+		for (MBindingContext context : rootContext) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (context.getElementId().equals(id)) {
 				return context;
 			}
@@ -2378,7 +2378,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 			return;
 		}
 		if (WorkbenchPlugin.getDefault().isDebugging()) {
-			WorkbenchPlugin.log("Defining a binding table: " + id); //$NON-NLS-1$
+			WorkbenchPlugin.log("Defining a binding table: " + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		MBindingTable bt = CommandsFactoryImpl.eINSTANCE.createBindingTable();
 		bt.setBindingContext(getBindingContext(id));
@@ -2389,7 +2389,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * @return true if this BT already exists
 	 */
 	private boolean contains(List<MBindingTable> bindingTables, String id) {
-		for (MBindingTable bt : bindingTables) {
+		for (MBindingTable bt : bindingTables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(bt.getBindingContext().getElementId())) {
 				return true;
 			}
@@ -2402,7 +2402,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * the command-based services, this also parses the registry and hooks up all
 	 * the required listeners.
 	 */
-	private void initializeDefaultServices() {
+	private void initializeDefaultServices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final IContributionService contributionService = new ContributionService(getAdvisor());
 		serviceLocator.registerService(IContributionService.class, contributionService);
@@ -2525,7 +2525,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				// this currently instantiates all players ... sigh
 				sourceProviderService.readRegistry();
 				ISourceProvider[] sourceproviders = sourceProviderService.getSourceProviders();
-				for (ISourceProvider sp : sourceproviders) {
+				for (ISourceProvider sp : sourceproviders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					evaluationService.addSourceProvider(sp);
 					if (!(sp instanceof ActiveContextSourceProvider)) {
 						contextService.addSourceProvider(sp);
@@ -2576,12 +2576,12 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		StartupThreading.runWithoutExceptions(new StartupRunnable() {
 			@Override
 			public void runWithException() {
-				getDisplay().addFilter(SWT.MouseDown, backForwardListener);
+				getDisplay().addFilter(SWT.MouseDown, backForwardListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			}
 		});
 	}
 
-	private Listener createBackForwardListener() {
+	private Listener createBackForwardListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return event -> {
 			String commandId;
 			switch (event.button) {
@@ -2639,7 +2639,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		}
 	}
 
-	private void doOpenFirstTimeWindow() {
+	private void doOpenFirstTimeWindow() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			final IAdaptable input[] = new IAdaptable[1];
 			StartupThreading.runWithoutExceptions(new StartupRunnable() {
@@ -2664,7 +2664,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		}
 	}
 
-	private void runStartupWithProgress(final Runnable runnable) {
+	private void runStartupWithProgress(final Runnable runnable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		AbstractSplashHandler handler = getSplash();
 		IProgressMonitor progressMonitor = null;
@@ -2718,7 +2718,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return close(PlatformUI.RETURN_RESTART, false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean restart(boolean useCurrrentWorkspace) {
 		if (!E4Workbench.canRestart()) {
 			informNoRestart();
@@ -2770,7 +2770,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *         is not set
 	 */
 	private static String buildCommandLine(String workspace) {
-		StringBuilder result = new StringBuilder(512);
+		StringBuilder result = new StringBuilder(512); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		String userData = System.getProperty(IApplicationContext.EXIT_DATA_PROPERTY);
 		if (userData != null && !userData.isBlank()) {
@@ -2819,19 +2819,19 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *
 	 * @return the ids of all plug-ins containing 1 or more startup extensions
 	 */
-	public ContributionInfo[] getEarlyActivatedPlugins() {
+	public ContributionInfo[] getEarlyActivatedPlugins() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionPoint point = registry.getExtensionPoint(PlatformUI.PLUGIN_ID,
 				IWorkbenchRegistryConstants.PL_STARTUP);
 		IExtension[] extensions = point.getExtensions();
-		ArrayList<String> pluginIds = new ArrayList<>(extensions.length);
-		for (IExtension extension : extensions) {
+		ArrayList<String> pluginIds = new ArrayList<>(extensions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = extension.getContributor().getName();
 			if (!pluginIds.contains(id)) {
 				pluginIds.add(id);
 			}
 		}
 		ContributionInfo[] result = new ContributionInfo[pluginIds.size()];
-		for (int i = 0; i < result.length; i++) {
+		for (int i = 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i] = new ContributionInfo(pluginIds.get(i),
 					ContributionInfoMessages.ContributionInfo_EarlyStartupPlugin, null);
 
@@ -2856,10 +2856,10 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 * Starts all plugins that extend the <code> org.eclipse.ui.startup </code>
 	 * extension point, and that the user has not disabled via the preference page.
 	 */
-	private void startPlugins() {
+	private void startPlugins() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Job job = new Job("Executing the early startup extensions") { //$NON-NLS-1$
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected IStatus run(IProgressMonitor monitor) {
 				// bug 55901: don't use getConfigElements directly, for pre-3.0
 				// compat, make sure to allow both missing class
@@ -2871,10 +2871,10 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				if (extensions.length == 0) {
 					return Status.OK_STATUS;
 				}
-				HashSet<String> disabledPlugins = new HashSet<>(Arrays.asList(getDisabledEarlyActivatedPlugins()));
+				HashSet<String> disabledPlugins = new HashSet<>(Arrays.asList(getDisabledEarlyActivatedPlugins())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				SubMonitor subMonitor = SubMonitor.convert(monitor, WorkbenchMessages.Workbench_startingPlugins,
 						extensions.length);
-				for (IExtension extension : extensions) {
+				for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (subMonitor.isCanceled() || !isRunning()) {
 						return Status.CANCEL_STATUS;
 					}
@@ -2920,14 +2920,14 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	 *         values reserved for future use
 	 * @since 3.0
 	 */
-	private int runUI() {
+	private int runUI() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		UIStats.start(UIStats.START_WORKBENCH, "Workbench"); //$NON-NLS-1$
 
 		// deadlock code
 		boolean avoidDeadlock = true;
 
 		String[] commandLineArgs = Platform.getCommandLineArgs();
-		for (String commandLineArg : commandLineArgs) {
+		for (String commandLineArg : commandLineArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (commandLineArg.equalsIgnoreCase("-allowDeadlock")) { //$NON-NLS-1$
 				avoidDeadlock = false;
 			}
@@ -2952,7 +2952,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		// if the -debug command line argument is used and the event loop is being
 		// run while starting the Workbench, log a warning.
 		if (WorkbenchPlugin.getDefault().isDebugging()) {
-			display.asyncExec(() -> {
+			display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (isStarting()) {
 					WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.WARNING,
 							"Event loop should not be run while the Workbench is starting.", //$NON-NLS-1$
@@ -2968,7 +2968,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 
 		try {
 			// react to display close event by closing workbench nicely
-			display.addListener(SWT.Close, closeListener);
+			display.addListener(SWT.Close, closeListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 			// install backstop to catch exceptions thrown out of event loop
 			Window.setExceptionHandler(handler);
@@ -3000,8 +3000,8 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 				// start workspace auto-save
 				final int millisecondInterval = getAutoSaveJobTime();
 				if (millisecondInterval > 0 && workbenchAutoSave) {
-					autoSaveJob = new WorkbenchJob(WORKBENCH_AUTO_SAVE_JOB) {
-						@Override
+					autoSaveJob = new WorkbenchJob(WORKBENCH_AUTO_SAVE_JOB) { //FLLDCIM: MARK — T09  ANONYMOUS
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public IStatus runInUIThread(IProgressMonitor monitor) {
 							if (monitor.isCanceled()) {
 								return Status.CANCEL_STATUS;
@@ -3028,7 +3028,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 					autoSaveJob.schedule(millisecondInterval);
 				}
 
-				display.asyncExec(new Runnable() {
+				display.asyncExec(new Runnable() { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					@Override
 					public void run() {
 						UIStats.end(UIStats.START_WORKBENCH, this, "Workbench"); //$NON-NLS-1$
@@ -3075,7 +3075,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 
 	private boolean activate(String perspectiveId, IWorkbenchPage page, IAdaptable input) {
 		if (page != null) {
-			for (IPerspectiveDescriptor openedPerspective : page.getOpenPerspectives()) {
+			for (IPerspectiveDescriptor openedPerspective : page.getOpenPerspectives()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (openedPerspective.getId().equals(perspectiveId)) {
 					if (page.getInput() == input) {
 						WorkbenchWindow wwindow = (WorkbenchWindow) page.getWorkbenchWindow();
@@ -3090,7 +3090,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IWorkbenchPage showPerspective(String perspectiveId, IWorkbenchWindow targetWindow, IAdaptable input)
 			throws WorkbenchException {
 		Assert.isNotNull(perspectiveId);
@@ -3111,7 +3111,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		}
 	}
 
-	private IWorkbenchPage busyShowPerspective(String perspectiveId, IWorkbenchWindow targetWindow, IAdaptable input)
+	private IWorkbenchPage busyShowPerspective(String perspectiveId, IWorkbenchWindow targetWindow, IAdaptable input) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws WorkbenchException {
 		Assert.isNotNull(perspectiveId);
 		IPerspectiveDescriptor targetPerspective = getPerspectiveRegistry().findPerspectiveWithId(perspectiveId);
@@ -3127,7 +3127,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 			}
 		}
 
-		for (IWorkbenchWindow window : getWorkbenchWindows()) {
+		for (IWorkbenchWindow window : getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPage page = window.getActivePage();
 			if (activate(perspectiveId, page, input)) {
 				return page;
@@ -3156,7 +3156,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	/*
 	 * Shuts down the application.
 	 */
-	private void shutdown() {
+	private void shutdown() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// shutdown application-specific portions first
 		StatusManager statusManager = StatusManager.getManager();
 		try {
@@ -3352,7 +3352,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		}
 	};
 
-	private void updateActiveWorkbenchWindowMenuManager(boolean textOnly) {
+	private void updateActiveWorkbenchWindowMenuManager(boolean textOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final IWorkbenchWindow workbenchWindow = getActiveWorkbenchWindow();
 
@@ -3430,7 +3430,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		final String disabledPlugins = PrefUtil.getInternalPreferenceStore()
 				.getString(IPreferenceConstants.PLUGINS_NOT_ACTIVATED_ON_STARTUP);
 
-		for (IExtensionDelta delta : deltas) {
+		for (IExtensionDelta delta : deltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IExtension extension = delta.getExtension();
 			if (delta.getKind() == IExtensionDelta.REMOVED) {
 				continue;
@@ -3477,7 +3477,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	public void largeUpdateStart() {
 		if (largeUpdates++ == 0) {
 			final IWorkbenchWindow[] windows = getWorkbenchWindows();
-			for (IWorkbenchWindow window : windows) {
+			for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (window instanceof WorkbenchWindow) {
 					((WorkbenchWindow) window).largeUpdateStart();
 				}
@@ -3502,7 +3502,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 
 			// Perform window-specific blocking.
 			final IWorkbenchWindow[] windows = getWorkbenchWindows();
-			for (IWorkbenchWindow window : windows) {
+			for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (window instanceof WorkbenchWindow) {
 					((WorkbenchWindow) window).largeUpdateEnd();
 				}
@@ -3601,7 +3601,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	public void addShowingMenus(final Set menuIds, final ISelection localSelection, final ISelection localEditorInput) {
 		menuSourceProvider.addShowingMenus(menuIds, localSelection, localEditorInput);
 		Map currentState = menuSourceProvider.getCurrentState();
-		for (String key : menuSourceProvider.getProvidedSourceNames()) {
+		for (String key : menuSourceProvider.getProvidedSourceNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			e4Context.set(key, currentState.get(key));
 		}
 	}
@@ -3617,7 +3617,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	public void removeShowingMenus(final Set menuIds, final ISelection localSelection,
 			final ISelection localEditorInput) {
 		menuSourceProvider.removeShowingMenus(menuIds, localSelection, localEditorInput);
-		for (String key : menuSourceProvider.getProvidedSourceNames()) {
+		for (String key : menuSourceProvider.getProvidedSourceNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			e4Context.remove(key);
 		}
 	}
@@ -3643,17 +3643,17 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	/*
 	 * Apply the given filter to the list of saveables
 	 */
-	private List<Saveable> getFilteredSaveables(ISaveableFilter filter, Saveable[] saveables) {
-		List<Saveable> toSave = new ArrayList<>();
+	private List<Saveable> getFilteredSaveables(ISaveableFilter filter, Saveable[] saveables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Saveable> toSave = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (filter == null) {
-			for (Saveable saveable : saveables) {
+			for (Saveable saveable : saveables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (saveable.isDirty()) {
 					toSave.add(saveable);
 				}
 			}
 		} else {
 			SaveablesList saveablesList = (SaveablesList) getService(ISaveablesLifecycleListener.class);
-			for (Saveable saveable : saveables) {
+			for (Saveable saveable : saveables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (saveable.isDirty()) {
 					IWorkbenchPart[] parts = saveablesList.getPartsForSaveable(saveable);
 					if (matchesFilter(filter, saveable, parts)) {
@@ -3689,7 +3689,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 	/*
 	 * Record the workbench UI in a document
 	 */
-	private void persistWorkbenchState() {
+	private void persistWorkbenchState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			XMLMemento memento = XMLMemento.createWriteRoot(IWorkbenchConstants.TAG_WORKBENCH);
 			IStatus status = saveWorkbenchState(memento);
@@ -3782,7 +3782,7 @@ public final class Workbench extends EventManager implements IWorkbench, org.ecl
 		@SuppressWarnings("restriction")
 		public void setRescaleAtRuntimePropertyFromPreference() {
 			if (System.getProperty(SWT_RESCALE_AT_RUNTIME_PROPERTY) != null) {
-				WorkbenchPlugin.log(Status.warning(SWT_RESCALE_AT_RUNTIME_PROPERTY
+				WorkbenchPlugin.log(Status.warning(SWT_RESCALE_AT_RUNTIME_PROPERTY //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ " is configured (e.g., via the INI), but the according preference should be preferred instead." //$NON-NLS-1$
 				));
 			} else {

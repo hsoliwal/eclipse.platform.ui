@@ -46,7 +46,7 @@ public class WelcomeEditorInputFactory implements IElementFactory {
 	 * @param memento a memento containing the state for the object
 	 * @return an object, or <code>null</code> if the element could not be created
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAdaptable createElement(IMemento memento) {
 		// Get the feature id.
 		String versionedFeatureId = memento

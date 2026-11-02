@@ -135,7 +135,7 @@ public abstract class BasicSplashHandler extends AbstractSplashHandler {
 	private Rectangle messageRect;
 	private Rectangle progressRect;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IProgressMonitor getBundleProgressMonitor() {
 		if (monitor == null) {
 			Composite parent = new Composite(getSplash(), Window.getDefaultOrientation());
@@ -238,7 +238,7 @@ public abstract class BasicSplashHandler extends AbstractSplashHandler {
 	 *
 	 * @param r the update runnable
 	 */
-	private void updateUI(final Runnable r) {
+	private void updateUI(final Runnable r) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell splashShell = getSplash();
 		if (splashShell == null || splashShell.isDisposed()) {
 			return;
@@ -258,7 +258,7 @@ public abstract class BasicSplashHandler extends AbstractSplashHandler {
 					r.run();
 				}
 			};
-			display.asyncExec(startupRunnable);
+			display.asyncExec(startupRunnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 }

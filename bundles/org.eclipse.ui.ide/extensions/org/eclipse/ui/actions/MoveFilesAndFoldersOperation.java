@@ -79,11 +79,11 @@ public class MoveFilesAndFoldersOperation extends CopyFilesAndFoldersOperation {
 	 *             created in
 	 *             {@link #getUndoableCopyOrMoveOperation(IResource[], IPath)}
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	protected void copy(IResource[] resources, IPath destination, IProgressMonitor monitor) throws CoreException {
 		SubMonitor subMonitor = SubMonitor.convert(monitor, resources.length);
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SubMonitor iterationMonitor = subMonitor.split(1).setWorkRemaining(100);
 			IPath destinationPath = destination.append(resource.getName());
 			IWorkspace workspace = resource.getWorkspace();
@@ -212,12 +212,12 @@ public class MoveFilesAndFoldersOperation extends CopyFilesAndFoldersOperation {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String validateDestination(IContainer destination,
 			IResource[] sourceResources) {
 		IPath destinationLocation = destination.getLocation();
 
-		for (IResource sourceRessource : sourceResources) {
+		for (IResource sourceRessource : sourceResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// is the source being copied onto itself?
 			if (sourceRessource.getParent().equals(destination)) {
 				return NLS

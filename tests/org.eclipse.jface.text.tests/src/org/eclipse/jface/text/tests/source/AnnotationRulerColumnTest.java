@@ -53,7 +53,7 @@ public class AnnotationRulerColumnTest {
 	@BeforeEach
 	public void setUp() {
 		shell= new Shell();
-		listener= (status, _) -> {
+		listener= (status, unused) -> {
 			if (status.getSeverity() == IStatus.ERROR && "org.eclipse.ui".equals(status.getPlugin())
 					&& "Unhandled event loop exception".equals(status.getMessage())) {
 				errorStatus= status;

@@ -90,11 +90,11 @@ public class ReopenEditorMenu extends ContributionItem {
 	 * @param rtl     should it be right-to-left
 	 * @return a string suitable for an MRU file menu
 	 */
-	public static String calcText(int index, String name, String toolTip, boolean rtl) {
-		StringBuilder sb = new StringBuilder();
+	public static String calcText(int index, String name, String toolTip, boolean rtl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		int mnemonic = index + 1;
-		StringBuilder nm = new StringBuilder();
+		StringBuilder nm = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		nm.append(mnemonic);
 		if (mnemonic <= MAX_MNEMONIC_SIZE) {
 			nm.insert(nm.length() - (Integer.toString(mnemonic)).length(), '&');
@@ -142,7 +142,7 @@ public class ReopenEditorMenu extends ContributionItem {
 
 					// Add first n segments that fit
 					int i = 0;
-					while (i < segmentCount && length < MAX_TEXT_LENGTH) {
+					while (i < segmentCount && length < MAX_TEXT_LENGTH) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String segment = path.segment(i);
 						if (length + segment.length() < MAX_TEXT_LENGTH) {
 							sb.append(segment);
@@ -163,7 +163,7 @@ public class ReopenEditorMenu extends ContributionItem {
 
 					i = segmentCount - 1;
 					// Add last n segments that fit
-					while (i > 0 && length < MAX_TEXT_LENGTH) {
+					while (i > 0 && length < MAX_TEXT_LENGTH) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String segment = path.segment(i);
 						if (length + segment.length() < MAX_TEXT_LENGTH) {
 							sb.append(IPath.SEPARATOR);
@@ -181,17 +181,17 @@ public class ReopenEditorMenu extends ContributionItem {
 		}
 		final String process;
 		if (rtl) {
-			process = sb + " " + nm; //$NON-NLS-1$
+			process = sb + " " + nm; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
-			process = nm + " " + sb; //$NON-NLS-1$
+			process = nm + " " + sb; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		return TextProcessor.process(process, TextProcessor.getDefaultDelimiters() + "[]");//$NON-NLS-1$
+		return TextProcessor.process(process, TextProcessor.getDefaultDelimiters() + "[]");//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
 	 * Fills the given menu with menu items for all windows.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(final Menu menu, int index) {
 		if (window.getActivePage() == null || window.getActivePage().getPerspective() == null) {
 			return;
@@ -218,7 +218,7 @@ public class ReopenEditorMenu extends ContributionItem {
 
 		final int menuIndex[] = new int[] { index };
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final EditorHistoryItem item = historyItems[i];
 			final int historyIndex = i;
 			SafeRunner.run(new SafeRunnable() {
@@ -228,7 +228,7 @@ public class ReopenEditorMenu extends ContributionItem {
 					MenuItem mi = new MenuItem(menu, SWT.PUSH, menuIndex[0]);
 					++menuIndex[0];
 					mi.setText(text);
-					mi.addSelectionListener(widgetSelectedAdapter(e -> open(item)));
+					mi.addSelectionListener(widgetSelectedAdapter(e -> open(item))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				}
 
 				@Override
@@ -247,7 +247,7 @@ public class ReopenEditorMenu extends ContributionItem {
 		new MenuItem(menu, SWT.SEPARATOR);
 		MenuItem miClear = new MenuItem(menu, SWT.PUSH);
 		miClear.setText(WorkbenchMessages.OpenRecentDocumentsClear_text);
-		miClear.addSelectionListener(widgetSelectedAdapter(e -> Arrays.stream(history.getItems()).forEach(history::remove)));
+		miClear.addSelectionListener(widgetSelectedAdapter(e -> Arrays.stream(history.getItems()).forEach(history::remove))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		miClear.setEnabled(nItems > 0);
 	}
 
@@ -262,7 +262,7 @@ public class ReopenEditorMenu extends ContributionItem {
 	/**
 	 * Reopens the editor for the given history item.
 	 */
-	private void open(EditorHistoryItem item) {
+	private void open(EditorHistoryItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPage page = window.getActivePage();
 		if (page != null) {
 			try {

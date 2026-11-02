@@ -54,7 +54,7 @@ public class FileEditorInput extends PlatformObject implements IFileEditorInput,
 	 * @return boolean <code>true</code> if the file has a local implementation.
 	 * @since 3.4
 	 */
-	public static boolean isLocalFile(IFile file){
+	public static boolean isLocalFile(IFile file){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IPath location = file.getLocation();
 		if (location != null) {
@@ -176,7 +176,7 @@ public class FileEditorInput extends PlatformObject implements IFileEditorInput,
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IPath getPath() {
 		IPath location = file.getLocation();
 		if (location != null) {
@@ -210,7 +210,7 @@ public class FileEditorInput extends PlatformObject implements IFileEditorInput,
 
 	@Override
 	public String toString() {
-		return getClass().getName() + "(" + getFile().getFullPath() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return getClass().getName() + "(" + getFile().getFullPath() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/*
@@ -220,7 +220,7 @@ public class FileEditorInput extends PlatformObject implements IFileEditorInput,
 	 *
 	 * @see org.eclipse.core.runtime.PlatformObject#getAdapter(java.lang.Class)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getAdapter(Class<T> adapterType) {
 		if (IWorkbenchAdapter.class.equals(adapterType)) {
 			return adapterType.cast(new IWorkbenchAdapter() {

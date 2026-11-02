@@ -1,0 +1,476 @@
+[
+  {
+    "path": "LICENSES/Apache-2.0.txt",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "gitBlob": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+    "bytes": 11358
+  },
+  {
+    "path": "LICENSES/EPL-2.0.txt",
+    "sha256": "721c2da257578bace3332b14d8ea06643d7d26753e7ef25a837b4e904edc0bf5",
+    "gitBlob": "d3087e4c54047062ddcc0b6ecd606711bb246ab8",
+    "bytes": 14199
+  },
+  {
+    "path": "NOTICE",
+    "sha256": "dd6081cc9c3e89c2ee60cd8c935afec1b07358500ced39b46ea737f198adca52",
+    "gitBlob": "943d644991d1b2b7e23ae9af0e31121d094353e8",
+    "bytes": 1080
+  },
+  {
+    "path": "README.md",
+    "sha256": "c60c387cbabf9bb339a3fc72a05f98e91900528baa98840299bc0783c1b72f8f",
+    "gitBlob": "cfd334d7a4b644f366c1da8379c5f73fa62072b8",
+    "bytes": 7493
+  },
+  {
+    "path": "RECEIPT.json",
+    "sha256": "91f1df4d3a60c884469a32e98b7b942496f7ffdedbe69fac2ecc6d3e93e53bb8",
+    "gitBlob": "df32653da68670e180995548fdc5bfd870f1fb18",
+    "bytes": 14604
+  },
+  {
+    "path": "SOURCE_PINS.json",
+    "sha256": "e7cbfedb84de37cd55c5aafb4dba3fb6c893d6d5b07a5dd3e5ad18a96c5435ce",
+    "gitBlob": "1c22261018219ce42e372c745f837b4d246d3f5c",
+    "bytes": 12390
+  },
+  {
+    "path": "evidence/abi-and-donor-bytecode.json",
+    "sha256": "c61423c0c42a4aede470abe3c23e75eb7ed053e27d610141506f90052556757c",
+    "gitBlob": "e2b1a05d657a73c62b3621d54fb5f5cc48fdd64f",
+    "bytes": 592
+  },
+  {
+    "path": "evidence/api-baseline.txt",
+    "sha256": "40f0a87530badbd150cacaebfc77459b17d66e3cdb8fa560899050a1115737e6",
+    "gitBlob": "ede9f681cc684c9cff337c17adcbfc7209c120fd",
+    "bytes": 82015
+  },
+  {
+    "path": "evidence/api-candidate.txt",
+    "sha256": "40f0a87530badbd150cacaebfc77459b17d66e3cdb8fa560899050a1115737e6",
+    "gitBlob": "ede9f681cc684c9cff337c17adcbfc7209c120fd",
+    "bytes": 82015
+  },
+  {
+    "path": "evidence/baseline-contracts-command.json",
+    "sha256": "9d33a217b466da5e77466bf2bc7bf9ebac819128fc3acd536aab2249f6e88762",
+    "gitBlob": "91e3f804edf8496fbf458719824482aaed9fe50c",
+    "bytes": 680
+  },
+  {
+    "path": "evidence/baseline-contracts.log",
+    "sha256": "27a24d501376e2d5bd8f29427e663c3c313871ca0b79761eda975c9e059d8755",
+    "gitBlob": "d07d900847f01d6190f87e656bbb752665ebb418",
+    "bytes": 2249
+  },
+  {
+    "path": "evidence/baseline-density-command.json",
+    "sha256": "36d5461a38f19f5899a1413f916447a592f3529572e65ca2793c94b2e40aeeca",
+    "gitBlob": "eef4de30bdc30ced98b0dbaab63e487407080644",
+    "bytes": 672
+  },
+  {
+    "path": "evidence/baseline-density.log",
+    "sha256": "3c7aaffa5e7a79bf5d6b935f21083089764918bbf225e7264529a9c660e6d9a9",
+    "gitBlob": "e2d47ce0d5b95dc14fb9f03a8ceb972103ecde1b",
+    "bytes": 5394
+  },
+  {
+    "path": "evidence/candidate-contracts-command.json",
+    "sha256": "045379cd9ce46b6254469f4e7f980f330bd8a91e8fd39d0e5d34920de3ba2c62",
+    "gitBlob": "af82293d372dea7326e5f63d3f6274fce0066516",
+    "bytes": 669
+  },
+  {
+    "path": "evidence/candidate-contracts.log",
+    "sha256": "591be12724389f236b50fca2767d3fff6bc2ce2196e792cee80bc3008f250b28",
+    "gitBlob": "7b933aec84afe07a5b657ce9ab4b44c051961fce",
+    "bytes": 3490
+  },
+  {
+    "path": "evidence/donor-bytecode-after.txt",
+    "sha256": "ed2bbac3aeb03334c4962bb03ee002da5edf5bddd006c77c41930719c3e6e492",
+    "gitBlob": "75b50e8aa1754232290f909af0e57f0a4180037e",
+    "bytes": 135418
+  },
+  {
+    "path": "evidence/donor-bytecode-before.txt",
+    "sha256": "eea2f7406675b1faaa13eb3365bd82817fb57e89aa267bbbebbd5b524bac603b",
+    "gitBlob": "07bd7f6c293117cd980dcd4ea10a676e0dd3089c",
+    "bytes": 134410
+  },
+  {
+    "path": "evidence/donor-javac.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "bytes": 0
+  },
+  {
+    "path": "evidence/ecj-baseline-command.json",
+    "sha256": "32445474f0d7cf3a548766e244216c4d0cfb27db1ca7120cad13aa849da70db4",
+    "gitBlob": "d33ef3cc9e4a786d954dabcf548876b47b5511eb",
+    "bytes": 701
+  },
+  {
+    "path": "evidence/ecj-baseline-sources.args",
+    "sha256": "f93bdee2393a80ca5d059b6efa4c9ddd216ebb3784b98c929f15baef7af5a0c3",
+    "gitBlob": "55d488867e809bdf4c9c24d9befc60875823314d",
+    "bytes": 11346
+  },
+  {
+    "path": "evidence/ecj-baseline.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "bytes": 0
+  },
+  {
+    "path": "evidence/ecj-candidate-command.json",
+    "sha256": "2753baab15e1214b77e1c229acd5f0ea3648cb3f928f7af1845046de46a7f6b9",
+    "gitBlob": "cf1b97f21d22c3a072fc1b8553ca7ff4dacc45a3",
+    "bytes": 724
+  },
+  {
+    "path": "evidence/ecj-candidate-sources.args",
+    "sha256": "87d8d808b758339201af4a25a5a38b3adc1ead3622b7c1c34123a5db64c89d3e",
+    "gitBlob": "532c670ca34804b99652a3402ad451cd260898b4",
+    "bytes": 13751
+  },
+  {
+    "path": "evidence/ecj-candidate.log",
+    "sha256": "8c01be2d9e7452a9a12c41e492d1930142033186b341cad4a1fe947fc63281a7",
+    "gitBlob": "6190172d2ab2e13d2060cbe3d75dda4da79043fa",
+    "bytes": 636
+  },
+  {
+    "path": "evidence/final-owner-compatibility/TEST-com.synexia.rewrite.M3CommandRegistryForwardingRecipeTest.xml",
+    "sha256": "2add4c4827c491df5c77c1056b0d50c83680d79323ba91a1890e51e078c88f98",
+    "gitBlob": "0016e2a7ff74ba0309b34d0b5917a808163da53c",
+    "bytes": 14432
+  },
+  {
+    "path": "evidence/final-owner-compatibility/maven.log",
+    "sha256": "0fd72feadf3bc5d473a001dfbf8a2dea160e0f4ad00c812b686d576542dc7c47",
+    "gitBlob": "5239257011eccd71a724b7c89b6b87e1b5cc77b5",
+    "bytes": 2313
+  },
+  {
+    "path": "evidence/final-owner-compatibility/receipt.json",
+    "sha256": "bb356383d36a3de1f97696485fb8a4decc745212fdcb7fe91ffe6ecf8d214473",
+    "gitBlob": "a88595c7380b1df82a473dd3ce073c3ae748c65b",
+    "bytes": 8008
+  },
+  {
+    "path": "evidence/generated-image.json",
+    "sha256": "44ae9cb4bf7f64d7bfd946c914e5cdb1721d92fe28f40402dcca37ad2e4580dc",
+    "gitBlob": "5dd0e6c6d8e9e210fddad026c38b4b29cd77a477",
+    "bytes": 974
+  },
+  {
+    "path": "evidence/junit/baseline/TEST-org.eclipse.ui.tests.commands.CommandManagerTest.xml",
+    "sha256": "427f3c3c052ab51abd027e69affdbbf3a844a4ab2ec056741e8a4b7677da0977",
+    "gitBlob": "5ac7f1cf07b3cdf33bcbfe7d84f36f19b95001d1",
+    "bytes": 6430
+  },
+  {
+    "path": "evidence/junit/baseline/TEST-org.eclipse.ui.tests.commands.M3CommandRegistryContractTest.xml",
+    "sha256": "69b916115206aa6cdcf343bb5b418184bec65da208580a2e5cf46497a93291bc",
+    "gitBlob": "2b36ca15c75a62aded38e2f5e6501530cd2a9e61",
+    "bytes": 8075
+  },
+  {
+    "path": "evidence/junit/candidate/TEST-org.eclipse.ui.tests.commands.CommandManagerTest.xml",
+    "sha256": "fadf2c3f04a4834b0725874626a5d826becd08f644e7a0509309b3071bb2ac21",
+    "gitBlob": "01072759d3065d57216760e44e09686c6429f89e",
+    "bytes": 6404
+  },
+  {
+    "path": "evidence/junit/candidate/TEST-org.eclipse.ui.tests.commands.M3CommandRegistryContractTest.xml",
+    "sha256": "e06e2146b726e46e4f859cec2ec98a05f75e91e1f5f05ae6b86a79a5724c472e",
+    "gitBlob": "538f2fd25c1d758c2aceaa54d68164e46ec92f3f",
+    "bytes": 8214
+  },
+  {
+    "path": "evidence/junit/refused/TEST-org.eclipse.ui.tests.commands.M3CommandRegistryContractTest.xml",
+    "sha256": "77e444b4712314aedfcb40af1f0d1bcc96443c6ae31b5ddb52583b38096449ac",
+    "gitBlob": "36898f6caf981d289c8801a20314f227c85e7171",
+    "bytes": 7619
+  },
+  {
+    "path": "evidence/junit/sdk/TEST-com.synexia.rewrite.M3CommandRegistryForwardingRecipeTest.xml",
+    "sha256": "2178a3fa73ab6e103225a9be7ca327d4f32421251aa138039ed2132a9bd599db",
+    "gitBlob": "18042a23c7cb7e4c8e3a7c6cf6f2aaaa8d9b56b7",
+    "bytes": 13736
+  },
+  {
+    "path": "evidence/live-source-preflight.json",
+    "sha256": "5cea9f6bfac53ee934dd15f824964dc0c1d4e35800356d8febbf2542b0a61068",
+    "gitBlob": "6aafe689b6ee628969999725408af3394c5c7b38",
+    "bytes": 2366
+  },
+  {
+    "path": "evidence/osgi-0.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "bytes": 0
+  },
+  {
+    "path": "evidence/osgi-1.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "bytes": 0
+  },
+  {
+    "path": "evidence/osgi-2.log",
+    "sha256": "13195e66592a2d3057d3682dc8b7be096af033ab8ea2b802c57127a79a38880c",
+    "gitBlob": "da71fef717d2a58775bb1fa8ba942d2276866dae",
+    "bytes": 132
+  },
+  {
+    "path": "evidence/osgi-probe-command.json",
+    "sha256": "e13769b14d56a3345a6ecbd1d95c997fc175b2c22076775622a37e35ef7ff484",
+    "gitBlob": "e1446ee5fce07d4a397b95275b63e581ee70b5d7",
+    "bytes": 2388
+  },
+  {
+    "path": "evidence/refused-traversal-command.json",
+    "sha256": "5396f9d5807ace46281a9919608eb4a749d5e869ae6495393ee28a08448786d4",
+    "gitBlob": "512d001dc679905e202c3dffa948785f37f446b9",
+    "bytes": 911
+  },
+  {
+    "path": "evidence/refused-traversal.log",
+    "sha256": "90e37a5ba00e7d144e39f1a66a8c719211d524a948a53986c829da953559b7e8",
+    "gitBlob": "d34450855c614035f86a7eeb45dc0a981187df2f",
+    "bytes": 5337
+  },
+  {
+    "path": "evidence/sdk-generation-command.json",
+    "sha256": "23cb2e6a73508d30f72cd082aade1d370d8b8811adb7bbbacc7fd326045465f5",
+    "gitBlob": "464f541e7d06392a5008267085738897f850e2b8",
+    "bytes": 797
+  },
+  {
+    "path": "evidence/sdk-generation.log",
+    "sha256": "b53d8526acf417842f442995fdf552ffff029891de7a0daa3c139551e53a1370",
+    "gitBlob": "0b8fead32bb287fa988e4f950a1cc1dbb073373a",
+    "bytes": 2313
+  },
+  {
+    "path": "inventory/public-donor-lineage.json",
+    "sha256": "b1aa884243510121b282c4a40d3ab9ec9c30616a609ef59164fb3486af56331b",
+    "gitBlob": "a60852a5b1fa23d8603d3cdffad5c4640324768f",
+    "bytes": 3748
+  },
+  {
+    "path": "inventory/publication-archive.json",
+    "sha256": "ccc940f73e799e2de6bd4a66f3ee294f6588cffc1e45dcb47602a471601cd65f",
+    "gitBlob": "70a9c8c7be49f2f99f5f6933a74ae8cf6a4540b3",
+    "bytes": 6453
+  },
+  {
+    "path": "inventory/target-mapping.json",
+    "sha256": "c88614fb940e4875a3def57772968b22916aaed7fbd005185da90434c7fa18d8",
+    "gitBlob": "eb4ba264f009e99064b2f1b4a0e26faf3e426d0f",
+    "bytes": 9980
+  },
+  {
+    "path": "pom.xml",
+    "sha256": "d16144a99289657dd9d74e330503ef76cde3ffc8e0987cf41757982cc4c97eef",
+    "gitBlob": "79f714461939a9850c6d2190b50d9a1dc3e2f526",
+    "bytes": 3267
+  },
+  {
+    "path": "proof/donor-baseline/OrderedSlotMap.java",
+    "sha256": "0cef50b76b48904e836eea23b3b33abb8888eb6fca078d7f941df7ab1a516a13",
+    "gitBlob": "1cd8a99925c3b399f4ed256c73c682c324adf727",
+    "bytes": 4392
+  },
+  {
+    "path": "proof/donor-baseline/PackedHashMap.java",
+    "sha256": "a7060599b2f33bc14c168e9e2394fc3f49526d2f5d7dbb249e3c580ebcdfec9e",
+    "gitBlob": "99d665440d96d94a323a85f9c4bf20347acfb593",
+    "bytes": 8472
+  },
+  {
+    "path": "proof/donor-baseline/SlotArrays.java",
+    "sha256": "ae3fae638766ad6d65867a1762fb664956335c63129ab47c2c2ccfa54c577932",
+    "gitBlob": "4fe0b5517f4f96f38876ebfe1bfd329d66def204",
+    "bytes": 1071
+  },
+  {
+    "path": "proof/donor-baseline/SlotMap.java",
+    "sha256": "16fb80dd4fe51f355894466f8c4d2f80ea7a5b9ffeb01f9eef17af957d49e332",
+    "gitBlob": "3ceabb2f939096e16562940009495484c0cf581f",
+    "bytes": 10668
+  },
+  {
+    "path": "proof/donor-baseline/SlotSpliterators.java",
+    "sha256": "bb7d05da5f98ca92cab8a49a921ecf7085219b74e2f9a7220010211c05072dff",
+    "gitBlob": "dbc4800a6de911557fe34e884a5f3a3a08afb7a7",
+    "bytes": 3409
+  },
+  {
+    "path": "proof/osgi/com/synexia/proof/CommandRegistryOsgiProbe.java",
+    "sha256": "a918f172da2b1e1ba261e78a1afe07cb183e4eb44843a1688b3cb6165402933d",
+    "gitBlob": "c92d31a5bfc4c62cff728854f68cdd123b752cac",
+    "bytes": 5423
+  },
+  {
+    "path": "proof/qualified-source/M3CommandRegistryForwardingRecipeTest.java.txt",
+    "sha256": "4e0204afd50e494e998cb6cb38340ad8ffb2a6a68e1113207ac3993bbc169f70",
+    "gitBlob": "ec459921994470ea289e0a57f664cbe0e16014cd",
+    "bytes": 8311
+  },
+  {
+    "path": "proof/qualified-source/pom.xml.txt",
+    "sha256": "004c8c2fae28b1fdc653ae8e237c0bb6b15c9baf128f8285ece19d9c05d793c4",
+    "gitBlob": "4ea25fc91a5a65aeb79414ad6a90fb2d777e1273",
+    "bytes": 3259
+  },
+  {
+    "path": "proof/runtime-tests/org/eclipse/ui/tests/commands/CommandManagerTest.java",
+    "sha256": "afba01873d97f1c6782105129375452b5c9618c0d90ff236889bda4729a603f7",
+    "gitBlob": "07dadfb37092ba9948d8fa3b7b1bbd82ca2926af",
+    "bytes": 3675
+  },
+  {
+    "path": "proof/runtime-tests/org/eclipse/ui/tests/commands/M3CommandRegistryContractTest.java",
+    "sha256": "02e435f216317f1217460afdbb093cc51d5685eeb8cbdf95dbebd32d6168d034",
+    "gitBlob": "70d9de1d786c1c383a527ddd9da2f5e295597266",
+    "bytes": 15934
+  },
+  {
+    "path": "resources/META-INF/rewrite/m3-eclipse-command-registries-20261018.yml",
+    "sha256": "446be489ff7ba337bdd853bdae6e51dfb74c1d9d0d5b256759d7dec2eb469726",
+    "gitBlob": "d50a03c611b25d9a8ad9d084342a5a92c283bb97",
+    "bytes": 828
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/CommandManager.java.txt",
+    "sha256": "cdfbbe650c4532b420f5b237ed367bb377700f5842b57ea80d9a4387dbe18f45",
+    "gitBlob": "1fe10fbc6891f8a5295d7641d1c41b000ff9f5cd",
+    "bytes": 32811
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/OrderedSlotMap.java.txt",
+    "sha256": "4df22f477ec194168f2d58acc21c543982be8069a26b3b7062377cf92d3b0853",
+    "gitBlob": "1e14d70fe926a3f30f844ad1c2990ab4ffeea6e7",
+    "bytes": 4597
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/PackedHashMap.java.txt",
+    "sha256": "3c7c81bca569a5ca3aac9a391bb52d4ba17df62773587683dd30d5b6fd9ea3d0",
+    "gitBlob": "43515813d65c260d3208d9973c83ef2e1e0184b1",
+    "bytes": 8820
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/SlotArrays.java.txt",
+    "sha256": "1c3308080f8abf2dda559d99c0f53fa0905317d8ebbd10f179dca29c5f687333",
+    "gitBlob": "989908dbf1a9e2a4dc455cd9a41d16f7fd5df832",
+    "bytes": 1363
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/SlotMap.java.txt",
+    "sha256": "b11f111f75d60607841b5b50c711b980db29f712860146c8097025fc5705ff09",
+    "gitBlob": "aad5c91834b3fce7a44cacb39d9d4c4d007a0349",
+    "bytes": 11016
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/SlotSpliterators.java.txt",
+    "sha256": "4326c99f40ea4a09ecf197e15d9c2b5cd058652de2f0ae5833a05d39278c3dc9",
+    "gitBlob": "b2514b2f90f1c406e11653240d290ad87561c96f",
+    "bytes": 3586
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/before-CommandManager.java.txt",
+    "sha256": "6fea6566700e8a78bd776b8fe32c96d7908b61a079765bafb98ee071da2ed410",
+    "gitBlob": "7cf1262abd2a298362424b6b6b461a85054af71c",
+    "bytes": 32669
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-20261018/manifest.tsv",
+    "sha256": "c59c9ff0f849760ae2971f492262560497eafcd3c9dbe7ee3aac077d1a249089",
+    "gitBlob": "db0020f75b48a52894ded8700a57fc3f4814c8eb",
+    "bytes": 1178
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-command-registries-20261018/MANIFEST.MF.txt",
+    "sha256": "96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21",
+    "gitBlob": "fecb415017b94be12c543d9f1ee1f4a86804da58",
+    "bytes": 758
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-command-registries-20261018/before-MANIFEST.MF.txt",
+    "sha256": "9710b78545ff6276a3aefc6e45d04dd6b4c5ac05bdcb3076d3ac0bd22bc13bee",
+    "gitBlob": "e3efe38379488e2f59c33665b514f8879169b941",
+    "bytes": 758
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-command-registries-20261018/before-classpath.xml.txt",
+    "sha256": "14bd863f6f090dd4c5d9de028c15c8ab425306f427391eaa6842f210c6c788c8",
+    "gitBlob": "81fe078c20c05db46a8281fbb1a72875a5322b45",
+    "bytes": 368
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-command-registries-20261018/before-org.eclipse.jdt.core.prefs.txt",
+    "sha256": "b619605232a7de308b39c50fc8795364d46aa9787de776653fbe73bd5ba06681",
+    "gitBlob": "4234feac01411d1730f1e3d501cbbd4970c4e856",
+    "bytes": 36376
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-command-registries-20261018/classpath.xml.txt",
+    "sha256": "e452df62748c2a594efbeffca83797e53b90a2127f100737739ac1a4ccfa1c4c",
+    "gitBlob": "375961e4d6186c871e094278e593739acfe9bf39",
+    "bytes": 368
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-command-registries-20261018/manifest.tsv",
+    "sha256": "0f9b6ca5804cb287af4811abe378f0052a77f183e7850bc902aa87cc564eb33a",
+    "gitBlob": "b72154d093c543e1d530789786b67ee9d1d17336",
+    "bytes": 626
+  },
+  {
+    "path": "resources/com/synexia/rewrite/hash-pinned-text/m3-eclipse-command-registries-20261018/org.eclipse.jdt.core.prefs.txt",
+    "sha256": "67d8e10970b95842d4bf16940992b947948c4a46cb28d06938a5c222917423a8",
+    "gitBlob": "59c9e860108d01e50216ec33981f377ec862a590",
+    "bytes": 36376
+  },
+  {
+    "path": "runtime-pom.xml",
+    "sha256": "300977915c1a8bb07d6eca52e3e15e133321fb7ea1f4dc204b5ac8001aac6533",
+    "gitBlob": "a247fe22e6f4a7d82626fd1d846f38216c7073f1",
+    "bytes": 2462
+  },
+  {
+    "path": "src/test/java/com/synexia/rewrite/M3CommandRegistryForwardingRecipeTest.java",
+    "sha256": "4f007ccd2e04897b360b2a811c51d43e08f108a4a24eee6c4755fc954289a891",
+    "gitBlob": "c6d61c933e7e4eb98ab4544b0129c45a9be36486",
+    "bytes": 8334
+  },
+  {
+    "path": "src/test/resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-refused-order-20261018/HandleObjectManager.java.txt",
+    "sha256": "1e7f3809f967a6db902b24d4b557c3ddc6e1ec85ed6143699c8a8eda50a244e5",
+    "gitBlob": "654d8c9574cc39765d3beea97384647e503d5537",
+    "bytes": 2816
+  },
+  {
+    "path": "src/test/resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-refused-order-20261018/README.txt",
+    "sha256": "c70a086a9b351615464e776ec3d64f7d70768923a6269525d2efb9a9a0c3348c",
+    "gitBlob": "f2c5ef76e9262f9d0e07801870f611eab9160589",
+    "bytes": 389
+  },
+  {
+    "path": "src/test/resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-refused-order-20261018/before-HandleObjectManager.java.txt",
+    "sha256": "fa83cc04bfa8ac2e4ce86243b1f9893fc24e77156c97b5070a443de43ad39ba0",
+    "gitBlob": "4caa87a6d93253ff824df6d489e7ad63641a1c5a",
+    "bytes": 2775
+  },
+  {
+    "path": "src/test/resources/com/synexia/rewrite/hash-pinned-java/m3-eclipse-command-registries-refused-order-20261018/manifest.tsv",
+    "sha256": "f763ea4bc8e4f79705924a899e854a1fcb2f4346137cb8553a9d7e3b14b44c88",
+    "gitBlob": "9b393ce43502265d854e449f66d65cf5ceaa09fe",
+    "bytes": 255
+  }
+]

@@ -75,7 +75,7 @@ public class EvaluationReference extends RunAndTrack implements IEvaluationRefer
 			try {
 				cache = expression.evaluate(context) != EvaluationResult.FALSE;
 			} catch (CoreException e) {
-				String message = "Failed to evaluate: " + expression; //$NON-NLS-1$
+				String message = "Failed to evaluate: " + expression; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				boolean logged = logThrottle.error(message, e);
 				if (!logged && Policy.DEBUG_CMDS) {
 					Activator.trace(Policy.DEBUG_CMDS_FLAG, message, e);

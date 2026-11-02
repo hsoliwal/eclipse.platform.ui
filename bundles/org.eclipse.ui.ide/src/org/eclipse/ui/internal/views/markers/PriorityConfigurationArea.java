@@ -49,14 +49,14 @@ public class PriorityConfigurationArea extends FilterConfigurationArea {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createContents(Composite parent) {
 
 		parent.setLayout(new GridLayout(3,false));
 
 		highButton = new Button(parent, SWT.CHECK);
 		highButton.setText(MarkerMessages.filtersDialog_priorityHigh);
-		highButton.addSelectionListener(new SelectionAdapter() {
+		highButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updatePriorities(PriorityMarkerFieldFilter.PRIORITY_HIGH,
@@ -67,7 +67,7 @@ public class PriorityConfigurationArea extends FilterConfigurationArea {
 
 		normalButton = new Button(parent, SWT.CHECK);
 		normalButton.setText(MarkerMessages.filtersDialog_priorityNormal);
-		normalButton.addSelectionListener(new SelectionAdapter() {
+		normalButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updatePriorities(PriorityMarkerFieldFilter.PRIORITY_NORMAL,
@@ -77,7 +77,7 @@ public class PriorityConfigurationArea extends FilterConfigurationArea {
 
 		lowButton = new Button(parent, SWT.CHECK);
 		lowButton.setText(MarkerMessages.filtersDialog_priorityLow);
-		lowButton.addSelectionListener(new SelectionAdapter() {
+		lowButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updatePriorities(PriorityMarkerFieldFilter.PRIORITY_LOW,

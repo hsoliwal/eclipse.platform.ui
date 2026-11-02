@@ -100,7 +100,7 @@ public class ImageURLModifierTrackerTest {
 	}
 
 	private ServiceRegistration<IImageURLModifier> register(String name, int ranking) {
-		IImageURLModifier modifier = _ -> {
+		IImageURLModifier modifier = unused -> {
 			try {
 				return URI.create("file:/" + name + ".png").toURL();
 			} catch (Exception e) {

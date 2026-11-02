@@ -40,7 +40,7 @@ public abstract class SeverityAndDescriptionFieldFilter extends DescriptionField
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void initialize(Map values) {
 		Object value = values.get(IMarker.SEVERITY);
 		if (value != null && value instanceof Integer) {

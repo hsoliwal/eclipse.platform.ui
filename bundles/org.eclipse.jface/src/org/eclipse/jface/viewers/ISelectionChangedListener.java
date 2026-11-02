@@ -21,7 +21,7 @@ package org.eclipse.jface.viewers;
  * @see ISelectionProvider
  * @see SelectionChangedEvent
  */
-@FunctionalInterface
+@FunctionalInterface //FLLDCIM: MARK — T04  IMPLEMENTS
 public interface ISelectionChangedListener {
 	/**
 	 * Notifies that the selection has changed.

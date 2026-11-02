@@ -70,7 +70,7 @@ public class ZipFileExporter implements IFileExporter {
 	 *  @exception java.io.IOException
 	 *  @exception org.eclipse.core.runtime.CoreException
 	 */
-	private void write(ZipEntry entry, IFile contents) throws IOException, CoreException {
+	private void write(ZipEntry entry, IFile contents) throws IOException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		byte[] readBuffer = new byte[4096];
 
 		// If the contents are being compressed then we get the below for free.
@@ -80,7 +80,7 @@ public class ZipFileExporter implements IFileExporter {
 				int length = 0;
 				CRC32 checksumCalculator = new CRC32();
 				int n;
-				while ((n = contentStream.read(readBuffer)) > 0) {
+				while ((n = contentStream.read(readBuffer)) > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checksumCalculator.update(readBuffer, 0, n);
 					length += n;
 				}
@@ -98,7 +98,7 @@ public class ZipFileExporter implements IFileExporter {
 		outputStream.putNextEntry(entry);
 		try (InputStream contentStream = contents.getContents(false)) {
 			int n;
-			while ((n = contentStream.read(readBuffer)) > 0) {
+			while ((n = contentStream.read(readBuffer)) > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				outputStream.write(readBuffer, 0, n);
 			}
 		}

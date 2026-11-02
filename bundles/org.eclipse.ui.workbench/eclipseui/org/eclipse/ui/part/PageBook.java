@@ -42,7 +42,7 @@ public class PageBook extends Composite {
 	 */
 	public class PageBookLayout extends Layout {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
 			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
 				return new Point(wHint, hHint);
@@ -95,7 +95,7 @@ public class PageBook extends Composite {
 	 *
 	 * @param page the page to show
 	 */
-	public void showPage(Control page) {
+	public void showPage(Control page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (page.isDisposed() || page.getParent() != this) {
 			return;
 		}
@@ -108,7 +108,7 @@ public class PageBook extends Composite {
 
 		// hide old (and all others) *after* new page has been made visible in
 		// order to avoid flashing
-		for (Control child : getChildren()) {
+		for (Control child : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child != page && !child.isDisposed()) {
 				child.setVisible(false);
 			}

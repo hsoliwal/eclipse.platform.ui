@@ -100,11 +100,11 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 		this.owner = owner;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void activate() {
 		activated = true;
 
-		for (Object service : services.values()) {
+		for (Object service : services.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(service instanceof INestable)) {
 				continue;
 			}
@@ -116,17 +116,17 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 
 				@Override
 				public void handleException(Throwable ex) {
-					WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.ERROR, "Error while activating: " + service, ex)); //$NON-NLS-1$
+					WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.ERROR, "Error while activating: " + service, ex)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			});
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void deactivate() {
 		activated = false;
 
-		for (Object service : services.values()) {
+		for (Object service : services.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(service instanceof INestable)) {
 				continue;
 			}
@@ -139,13 +139,13 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 				@Override
 				public void handleException(Throwable ex) {
 					WorkbenchPlugin
-							.log(StatusUtil.newStatus(IStatus.ERROR, "Error while deactivating: " + service, ex)); //$NON-NLS-1$
+							.log(StatusUtil.newStatus(IStatus.ERROR, "Error while deactivating: " + service, ex)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			});
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		disposeServices();
 		if (services.size() > 0) {
@@ -157,7 +157,7 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 		// Check if there was some other leftover and warn about it.
 		if (services.size() > 0) {
 			WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.WARNING,
-					String.format(
+					String.format( //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 							"Services: %s register themselves while disposing (skipping dispose of such services).", //$NON-NLS-1$
 							services),
 					null));
@@ -168,9 +168,9 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 		owner = null;
 	}
 
-	private void disposeServices() {
+	private void disposeServices() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<Entry<Class<?>, Object>> iterator = services.entrySet().iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<Class<?>, Object> entry = iterator.next();
 			if (entry.getValue() instanceof IDisposable) {
 				IDisposable iDisposable = (IDisposable) entry.getValue();
@@ -183,7 +183,7 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 					@Override
 					public void handleException(Throwable ex) {
 						WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.ERROR,
-								"Error while disposing: " + iDisposable.getClass().getName(), ex)); //$NON-NLS-1$
+								"Error while disposing: " + iDisposable.getClass().getName(), ex)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				});
 			}
@@ -191,7 +191,7 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public <T> T getService(final Class<T> key) {
 		IEclipseContext context = e4Context;
 		if (context == null) {
@@ -259,17 +259,17 @@ public final class ServiceLocator implements IDisposable, INestable, IServiceLoc
 		registerService(api, service, true);
 	}
 
-	private void registerService(Class<?> api, Object service, boolean saveInContext) {
+	private void registerService(Class<?> api, Object service, boolean saveInContext) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (api == null) {
 			throw new NullPointerException("The service key cannot be null"); //$NON-NLS-1$
 		}
 
 		if (!api.isInstance(service)) {
 			throw new IllegalArgumentException(
-					"The service '" + service + "' does not implement the given interface: '" + api.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					"The service '" + service + "' does not implement the given interface: '" + api.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (isDisposed()) {
-			IllegalStateException ex = new IllegalStateException("An attempt was made to register service " + service //$NON-NLS-1$
+			IllegalStateException ex = new IllegalStateException("An attempt was made to register service " + service //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " with implementation class " + api + " on a disposed service locator"); //$NON-NLS-1$//$NON-NLS-2$
 			WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.ERROR, ex.getMessage(), ex));
 			return;

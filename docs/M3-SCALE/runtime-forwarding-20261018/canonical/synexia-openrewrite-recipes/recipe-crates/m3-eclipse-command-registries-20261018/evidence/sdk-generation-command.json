@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=/tmp/m3-parser-maven-repository",
+    "-f",
+    "/tmp/eclipse-m3-20261018/commands-authoring/pom.xml",
+    "-Drecipe.owner.root=/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/src/main/java",
+    "-Dcanonical.classpath=/tmp/eclipse-m3-20261018/commands-authoring/target/runtime-baseline/classes:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar",
+    "-Dmaterialize.dir=/tmp/eclipse-m3-20261018/commands-authoring/target/recipe-output",
+    "-Dmaterialize.refused.dir=/tmp/eclipse-m3-20261018/commands-authoring/target/refused-recipe-output",
+    "test"
+  ],
+  "JAVA_HOME": "/tmp/m3-toolchain/jdk-21.0.12.1+1",
+  "exit": 0
+}

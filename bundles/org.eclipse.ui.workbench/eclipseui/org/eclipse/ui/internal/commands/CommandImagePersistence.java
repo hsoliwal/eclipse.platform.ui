@@ -78,13 +78,13 @@ public final class CommandImagePersistence extends RegistryPersistence {
 	 * @param commandService            The command service for the workbench; must
 	 *                                  not be <code>null</code>.
 	 */
-	private static void readImagesFromRegistry(final IConfigurationElement[] configurationElements,
+	private static void readImagesFromRegistry(final IConfigurationElement[] configurationElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int configurationElementCount, final CommandImageManager commandImageManager,
 			final ICommandService commandService) {
 
-		final List<IStatus> warningsToLog = new ArrayList<>(1);
+		final List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < configurationElementCount; i++) {
+		for (int i = 0; i < configurationElementCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement configurationElement = configurationElements[i];
 
 			// Read out the command identifier.
@@ -128,20 +128,20 @@ public final class CommandImagePersistence extends RegistryPersistence {
 				"Warnings while parsing the images from the 'org.eclipse.ui.commandImages' extension point."); //$NON-NLS-1$
 	}
 
-	private static void readImagesFromApplicationModel(final CommandImageManager commandImageManager) {
+	private static void readImagesFromApplicationModel(final CommandImageManager commandImageManager) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		MApplication application = E4Workbench.getServiceContext().get(MApplication.class);
 
-		final List<IStatus> warningsToLog = new ArrayList<>();
+		final List<IStatus> warningsToLog = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (MCommand command : application.getCommands()) {
+		for (MCommand command : application.getCommands()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			if (command.getCommandIconURI() != null) {
 				try {
 					registerImage(command, CommandImageManager.TYPE_DEFAULT, commandImageManager,
 							command.getCommandIconURI());
 				} catch (MalformedURLException e) {
-					addWarning(warningsToLog, "Malformed Icon Url: " + e.getMessage(), null, command.getElementId(), //$NON-NLS-1$
+					addWarning(warningsToLog, "Malformed Icon Url: " + e.getMessage(), null, command.getElementId(), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							"iconUri", //$NON-NLS-1$
 							command.getCommandIconURI());
 				}
@@ -197,7 +197,7 @@ public final class CommandImagePersistence extends RegistryPersistence {
 	/**
 	 * Reads all of the command images from the registry.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void read() {
 		super.read();
 
@@ -209,7 +209,7 @@ public final class CommandImagePersistence extends RegistryPersistence {
 		// Sort the commands extension point based on element name.
 		final IConfigurationElement[] commandImagesExtensionPoint = registry
 				.getConfigurationElementsFor(EXTENSION_COMMAND_IMAGES);
-		for (final IConfigurationElement configurationElement : commandImagesExtensionPoint) {
+		for (final IConfigurationElement configurationElement : commandImagesExtensionPoint) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configurationElement.getName();
 
 			// Check if it is a binding definition.

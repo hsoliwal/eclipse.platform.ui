@@ -40,17 +40,17 @@ public class ThemeRegistryReader extends RegistryReader {
 	 */
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(ThemeRegistryReader.class.getName());
 
-	private final Collection<ThemeElementCategory> categoryDefinitions = new HashSet<>();
+	private final Collection<ThemeElementCategory> categoryDefinitions = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-	private final Collection<ColorDefinition> colorDefinitions = new HashSet<>();
+	private final Collection<ColorDefinition> colorDefinitions = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-	private final Collection<FontDefinition> fontDefinitions = new HashSet<>();
+	private final Collection<FontDefinition> fontDefinitions = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private ThemeDescriptor themeDescriptor = null;
 
 	private ThemeRegistry themeRegistry;
 
-	private final Map<String, String> dataMap = new HashMap<>();
+	private final Map<String, String> dataMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * ThemeRegistryReader constructor comment.
@@ -124,7 +124,7 @@ public class ThemeRegistryReader extends RegistryReader {
 	 * @param element the element to read
 	 * @return the new color
 	 */
-	private ColorDefinition readColor(IConfigurationElement element) {
+	private ColorDefinition readColor(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name = element.getAttribute(IWorkbenchRegistryConstants.ATT_LABEL);
 
 		String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
@@ -197,13 +197,13 @@ public class ThemeRegistryReader extends RegistryReader {
 	 * @param elements the elements to check
 	 * @return the best match, if any
 	 */
-	private IConfigurationElement getBestPlatformMatch(IConfigurationElement[] elements) {
+	private IConfigurationElement getBestPlatformMatch(IConfigurationElement[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IConfigurationElement match = null;
 
 		String osname = Platform.getOS();
 		String wsname = Platform.getWS();
 
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String elementOs = element.getAttribute(IWorkbenchRegistryConstants.ATT_OS);
 			String elementWs = element.getAttribute(IWorkbenchRegistryConstants.ATT_WS);
 
@@ -221,7 +221,7 @@ public class ThemeRegistryReader extends RegistryReader {
 		return match;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean readElement(IConfigurationElement element) {
 		String elementName = element.getName();
 		if (themeDescriptor == null && elementName.equals(IWorkbenchRegistryConstants.TAG_COLORDEFINITION)) {
@@ -302,7 +302,7 @@ public class ThemeRegistryReader extends RegistryReader {
 	 * @param element the element to read
 	 * @return the new font
 	 */
-	private FontDefinition readFont(IConfigurationElement element) {
+	private FontDefinition readFont(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name = element.getAttribute(IWorkbenchRegistryConstants.ATT_LABEL);
 
 		String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
@@ -391,7 +391,7 @@ public class ThemeRegistryReader extends RegistryReader {
 	 * @param element the element to read
 	 * @return the new theme
 	 */
-	protected ThemeDescriptor readTheme(IConfigurationElement element) {
+	protected ThemeDescriptor readTheme(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ThemeDescriptor desc = null;
 
 		String id = element.getAttribute(ThemeDescriptor.ATT_ID);

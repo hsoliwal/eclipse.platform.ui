@@ -145,9 +145,9 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 * here, in addition to using get/setData on the items, because dispose() needs
 	 * to access them, but widgetry has already been disposed at that point.
 	 */
-	private final ArrayList<IEditorPart> nestedEditors = new ArrayList<>(3);
+	private final ArrayList<IEditorPart> nestedEditors = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final List<IServiceLocator> pageSites = new ArrayList<>(3);
+	private final List<IServiceLocator> pageSites = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private IServiceLocator pageContainerSite;
 
@@ -162,7 +162,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 */
 	protected MultiPageEditorPart() {
 		super();
-		propertyChangeListenerToUpdateContainer = event -> {
+		propertyChangeListenerToUpdateContainer = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (isUpdateRequired(event)) {
 				updateContainer();
 			}
@@ -254,7 +254,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 		Composite parent2 = new Composite(getContainer(), getOrientation(editor));
 		parent2.setLayout(new FillLayout());
 		editor.createPartControl(parent2);
-		editor.addPropertyListener((source, propertyId) -> MultiPageEditorPart.this.handlePropertyChange(propertyId));
+		editor.addPropertyListener((source, propertyId) -> MultiPageEditorPart.this.handlePropertyChange(propertyId)); //FLLDCIM: MARK — T06  LAMBDA
 		// create item for page only after createPartControl has succeeded
 		Item item = createItem(index, parent2);
 		// remember the editor, as both data on the item, and in the list of
@@ -289,16 +289,16 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 *
 	 * @since 3.115
 	 */
-	protected CTabFolder createContainer(Composite parent) {
+	protected CTabFolder createContainer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// use SWT.FLAT style so that an extra 1 pixel border is not reserved
 		// inside the folder
 		parent.setLayout(new FillLayout());
 		final CTabFolder newContainer = new CTabFolder(parent, getTabStyle() | SWT.FLAT);
-		newContainer.addSelectionListener(widgetSelectedAdapter(e -> {
+		newContainer.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			int newPageIndex = newContainer.indexOf((CTabItem) e.item);
 			pageChange(newPageIndex);
 		}));
-		newContainer.addTraverseListener(e -> {
+		newContainer.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			switch (e.detail) {
 			case SWT.TRAVERSE_PAGE_NEXT:
 			case SWT.TRAVERSE_PAGE_PREVIOUS:
@@ -306,7 +306,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 				e.doit = true;
 				e.detail = SWT.TRAVERSE_NONE;
 				Control control = newContainer.getParent();
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (control.traverse(detail)) {
 						return;
 					}
@@ -380,7 +380,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 * @param parent The parent in which the editor should be created; must not be
 	 *               <code>null</code>.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 		Composite pageContainer = createPageContainer(parent);
 		this.container = createContainer(pageContainer);
@@ -408,13 +408,13 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 *
 	 * @since 3.4
 	 */
-	protected void initializePageSwitching() {
+	protected void initializePageSwitching() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		new PageSwitcher(this) {
 			@Override
 			public Object[] getPages() {
 				int pageCount = getPageCount();
 				Object[] result = new Object[pageCount];
-				for (int i = 0; i < pageCount; i++) {
+				for (int i = 0; i < pageCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result[i] = Integer.valueOf(i);
 				}
 				return result;
@@ -452,7 +452,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 *
 	 * @since 3.5
 	 */
-	private void initializeSubTabSwitching() {
+	private void initializeSubTabSwitching() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IHandlerService service = getSite().getService(IHandlerService.class);
 		service.activateHandler(COMMAND_NEXT_SUB_TAB, new AbstractHandler() {
 			/**
@@ -535,7 +535,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 * <code>IWorkbenchPart</code> method disposes all nested editors. Subclasses
 	 * may extend.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		IPreferenceStore store = getAPIPreferenceStore();
 		if (propertyChangeListenerToUpdateContainer != null) {
@@ -547,7 +547,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 		}
 
 		pageChangeListeners.clear();
-		for (IEditorPart editor : nestedEditors) {
+		for (IEditorPart editor : nestedEditors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			disposePart(editor);
 		}
 		nestedEditors.clear();
@@ -555,7 +555,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 			((IDisposable) pageContainerSite).dispose();
 			pageContainerSite = null;
 		}
-		for (IServiceLocator sl : pageSites) {
+		for (IServiceLocator sl : pageSites) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (sl instanceof IDisposable) {
 				((IDisposable) sl).dispose();
 			}
@@ -669,7 +669,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 *         <code>addPage(IEditorPart,IEditorInput)</code>
 	 * @since 3.4
 	 */
-	protected final IServiceLocator getPageSite(int pageIndex) {
+	protected final IServiceLocator getPageSite(int pageIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pageIndex == PAGE_CONTAINER_SITE) {
 			return getPageContainerSite();
 		}
@@ -828,7 +828,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	@Override
 	public boolean isDirty() {
 		// use nestedEditors to avoid SWT requests; see bug 12996
-		for (IEditorPart editor : nestedEditors) {
+		for (IEditorPart editor : nestedEditors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (editor.isDirty()) {
 				return true;
 			}
@@ -853,7 +853,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 *
 	 * @param newPageIndex the index of the activated page
 	 */
-	protected void pageChange(int newPageIndex) {
+	protected void pageChange(int newPageIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		deactivateSite(false, false);
 
 		IPartService partService = getSite().getService(IPartService.class);
@@ -879,7 +879,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 					provider.fireSelectionChanged(event);
 					provider.firePostSelectionChanged(event);
 				} else if (Policy.DEBUG_MPE) {
-					Tracing.printTrace(TRACING_COMPONENT, "MultiPageEditorPart " + getTitle() //$NON-NLS-1$
+					Tracing.printTrace(TRACING_COMPONENT, "MultiPageEditorPart " + getTitle() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ " did not propogate selection for " //$NON-NLS-1$
 							+ activeEditor.getTitle());
 				}
@@ -916,7 +916,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 * @see #getPageSite(int)
 	 * @see #PAGE_CONTAINER_SITE
 	 */
-	protected final void deactivateSite(boolean immediate, boolean containerSiteActive) {
+	protected final void deactivateSite(boolean immediate, boolean containerSiteActive) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Deactivate the nested services from the last active service locator.
 		if (activeServiceLocator != null) {
 			activeServiceLocator.deactivate();
@@ -931,7 +931,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 				nestableService.activateKeyBindingService(null);
 			} else {
 				WorkbenchPlugin.log(
-						"MultiPageEditorPart.deactivateSite()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$
+						"MultiPageEditorPart.deactivateSite()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ service.getClass().getName() + " instead."); //$NON-NLS-1$
 			}
 		}
@@ -963,7 +963,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 * @see #createPageContainer(Composite)
 	 * @see #getPageSite(int)
 	 */
-	protected final void activateSite() {
+	protected final void activateSite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (activeServiceLocator != null) {
 			activeServiceLocator.deactivate();
 			activeServiceLocator = null;
@@ -980,7 +980,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 
 			} else {
 				WorkbenchPlugin.log(
-						"MultiPageEditorPart.activateSite()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$
+						"MultiPageEditorPart.activateSite()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ service.getClass().getName() + " instead."); //$NON-NLS-1$
 			}
 			// Activate the services for the new service locator.
@@ -998,7 +998,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 				nestableService.activateKeyBindingService(null);
 			} else {
 				WorkbenchPlugin.log(
-						"MultiPageEditorPart.activateSite()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$
+						"MultiPageEditorPart.activateSite()   Parent key binding service was not an instance of INestableKeyBindingService.  It was an instance of " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ service.getClass().getName() + " instead."); //$NON-NLS-1$
 			}
 
@@ -1041,7 +1041,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 * @see MultiPageEditorPart#addPage(Control)
 	 * @see MultiPageEditorPart#addPage(IEditorPart, IEditorInput)
 	 */
-	public void removePage(int pageIndex) {
+	public void removePage(int pageIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(pageIndex >= 0 && pageIndex < getPageCount());
 		// get editor (if any) before disposing item
 		IEditorPart editor = getEditor(pageIndex);
@@ -1189,9 +1189,9 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 * @since 3.3
 	 */
 	public final IEditorPart[] findEditors(IEditorInput input) {
-		List<IEditorPart> result = new ArrayList<>();
+		List<IEditorPart> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int count = getPageCount();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart editor = getEditor(i);
 			if (editor != null && editor.getEditorInput() != null && editor.getEditorInput().equals(input)) {
 				result.add(editor);
@@ -1210,7 +1210,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	 */
 	public final void setActiveEditor(IEditorPart editorPart) {
 		int count = getPageCount();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorPart editor = getEditor(i);
 			if (editor == editorPart) {
 				setActivePage(i);
@@ -1279,7 +1279,7 @@ public abstract class MultiPageEditorPart extends EditorPart implements IPageCha
 	}
 
 	private void firePageChanged(final PageChangedEvent event) {
-		for (final IPageChangedListener l : pageChangeListeners) {
+		for (final IPageChangedListener l : pageChangeListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {

@@ -1,0 +1,58 @@
+component	pinned_source	status	next_gate
+JFace array foundation	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	5 facades; 13 atoms; 14 verified calls	full Tycho reactor and PDE API/platform CI
+UI bundle org.eclipse.core.commands	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	79 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.core.databinding	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	111 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.core.databinding.beans	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	40 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.core.databinding.observable	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	110 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.core.databinding.property	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	50 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.core.filebuffers	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	38 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.core.commands	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	11 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.emf.xpath	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	5 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.bindings	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	12 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.css.core	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	83 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.css.swt	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	85 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.css.swt.theme	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	6 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.di	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	8 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.dialogs	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	5 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.ide	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	2 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.model.workbench	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	178 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.progress	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	58 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.services	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	12 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.widgets	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	1 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.workbench	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	73 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.workbench.addons.swt	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	26 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.workbench.renderers.swt	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	40 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.workbench.renderers.swt.cocoa	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	8 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.workbench.swt	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	33 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.e4.ui.workbench3	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	6 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.jface	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	422 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.jface.databinding	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	174 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.jface.notifications	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	5 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.jface.text	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	339 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ltk.core.refactoring	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	152 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ltk.ui.refactoring	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	127 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.search	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	114 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.search.core	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	15 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.text	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	160 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.text.quicksearch	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	23 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	3 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.browser	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	49 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.cocoa	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	1 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.editors	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	136 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.forms	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	88 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.genericeditor	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	48 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.ide	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	465 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.ide.application	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	11 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.monitoring	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	18 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.navigator	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	154 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.navigator.resources	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	52 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.views	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	35 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.views.log	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	21 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.views.properties.tabbed	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	40 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.win32	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	2 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.workbench	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	1141 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.ui.workbench.texteditor	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	205 Java files inventoried; not whole-bundle qualified	serial per-file admission
+UI bundle org.eclipse.urischeme	eclipse.platform.ui@8eb63ef686a720207dca77b8e0e2b8fd061bbfe5	25 Java files inventoried; not whole-bundle qualified	serial per-file admission
+Platform runtime/resources/jobs/debug/team	eclipse.platform@69291c18babd233a94b742798b3d1078979bf78c	root inventoried; no production rewrite in this pass	lifecycle, locking, cancellation and resource ownership mapping
+SWT and native widgets	eclipse.platform.swt@678da68f34007af0aab0689aa72bd85fb44b800e	existing viewport owners retained; no widget rewrite here	original control identity; UI thread; disposal; native platform gates
+Synexia viewer/session/plugin owners	com.synexia@892e3f6c51d78bc0948e8a8cf736055b4c70eafa	existing convergence implementations inventoried	admit adapters against each actual Eclipse contract

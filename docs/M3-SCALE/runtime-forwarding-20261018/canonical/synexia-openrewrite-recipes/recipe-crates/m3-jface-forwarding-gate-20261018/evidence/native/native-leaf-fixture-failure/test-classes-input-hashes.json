@@ -1,0 +1,277 @@
+[
+  {
+    "path": "icons/anything.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/binary_co.gif",
+    "bytes": 64,
+    "sha256": "796cb6dfd1e34d09e641aa59b55134afc4804b6a516f8ea5a03db42137cca290"
+  },
+  {
+    "path": "icons/dynamic.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/editor.gif",
+    "bytes": 8,
+    "sha256": "b67fec9f7990df0159179ab556d71bceb0e09f18804f7a7fa1c5b793f4cd4bbc"
+  },
+  {
+    "path": "icons/imagetests/16x16/zoomIn.png",
+    "bytes": 456,
+    "sha256": "a6fda67da283e88605bdbc9d8b7ec8bc67975216c751797af087f60e40ef17e2"
+  },
+  {
+    "path": "icons/imagetests/32x32/zoomIn.png",
+    "bytes": 725,
+    "sha256": "f575aebd50c7981eb081b26725e90d1f75c1b31e13a61a3aeb6ebd50699b224f"
+  },
+  {
+    "path": "icons/imagetests/anything.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/imagetests/binary_co.gif",
+    "bytes": 64,
+    "sha256": "796cb6dfd1e34d09e641aa59b55134afc4804b6a516f8ea5a03db42137cca290"
+  },
+  {
+    "path": "icons/imagetests/dynamic.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/imagetests/editor.gif",
+    "bytes": 8,
+    "sha256": "b67fec9f7990df0159179ab556d71bceb0e09f18804f7a7fa1c5b793f4cd4bbc"
+  },
+  {
+    "path": "icons/imagetests/mockeditorpart1.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/imagetests/mockeditorpart2.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/imagetests/rectangular-114x32.png",
+    "bytes": 286,
+    "sha256": "e5694a79d436a9ca5dea7f057881b4f71fc480528d272b2c782fce5bc6656b9c"
+  },
+  {
+    "path": "icons/imagetests/rectangular-57x16.png",
+    "bytes": 194,
+    "sha256": "150d75b887178886c4d7d58cd385f0dfb590fa57c260f3217442fc7ab77fe651"
+  },
+  {
+    "path": "icons/imagetests/rectangular-86x24.png",
+    "bytes": 268,
+    "sha256": "7c0f96fc7b2bc8a1d81990ce6bad7f67c02253d8b68bdb1ba516d4a00213856f"
+  },
+  {
+    "path": "icons/imagetests/view.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/imagetests/zoomIn.png",
+    "bytes": 456,
+    "sha256": "a6fda67da283e88605bdbc9d8b7ec8bc67975216c751797af087f60e40ef17e2"
+  },
+  {
+    "path": "icons/imagetests/zoomIn@2x.png",
+    "bytes": 725,
+    "sha256": "f575aebd50c7981eb081b26725e90d1f75c1b31e13a61a3aeb6ebd50699b224f"
+  },
+  {
+    "path": "icons/mockeditorpart1.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/mockeditorpart2.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "icons/pack_empty_co.gif",
+    "bytes": 153,
+    "sha256": "846ff00a2658d3429637e1c57fe7e2a86d11edb7d9d39d848c4df52aafb591e7"
+  },
+  {
+    "path": "icons/view.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "org/eclipse/jface/tests/images/anything.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/AbstractTreeViewerTest.class",
+    "bytes": 11992,
+    "sha256": "057e5a15bc29592461b92ca7197212595f2d8404c6a348cafb8de198e9409e6d"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/ITestModelListener.class",
+    "bytes": 231,
+    "sha256": "e44f1984196720838c23c2cb5cfe577618860e08c6668eb51b787ab7b878daa1"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/M3TreeForwardingTest.class",
+    "bytes": 1976,
+    "sha256": "288dede0e4de9f80236b982a0a9d57c68474bd0e341cf618ac00273cae7c8a6c"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredItemViewerTest.class",
+    "bytes": 1183,
+    "sha256": "43b96c7bfb99dac5e39f8072c248f8c157563173a6b446dfaec8026b72258707"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$1.class",
+    "bytes": 1201,
+    "sha256": "93f51ac8b478186fdcf7e02bd1dc3ef41b97fa1867eb48b19bfb0e0612ec0985"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$2.class",
+    "bytes": 738,
+    "sha256": "89f9721214505d750336ad4d8c5d28b4402fad454160f30193e01b1bd219d5b0"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$3.class",
+    "bytes": 1153,
+    "sha256": "8271d205cabab52f53b71c1626412ebc045094b6405acfdb4e65d87ea4563f37"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$4.class",
+    "bytes": 1165,
+    "sha256": "201bf40fc8effa26ed276adf77cbc82f8ed057d8d578fe6463e8f980d3464752"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$5.class",
+    "bytes": 1167,
+    "sha256": "62de3a2549f381617ca9a648b19769ee2697bbd86dd64328df1fccf972b31493"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$6.class",
+    "bytes": 1148,
+    "sha256": "dca6430c03576575b6984943ef8eee9152c367105067e1693a883c844733b2d0"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$TestLabelComparator.class",
+    "bytes": 973,
+    "sha256": "8a0ea3bf353176d3edb5cd4d5bc9426e2d62255fcef905dc8398f5ceba0ff2af"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$TestLabelFilter.class",
+    "bytes": 1132,
+    "sha256": "d170e277399c9b9984bd4ac60c7a163e50e4dee2f5bc8a3393f615f712083bce"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$TestLabelFilter2.class",
+    "bytes": 1132,
+    "sha256": "42b5e347820a13ed26ddd78687b38fb12f12f94f2933586e04f44dcdb3269fd5"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest$TestLabelProvider.class",
+    "bytes": 1518,
+    "sha256": "b3d22846d12a173366cbfdb0cd594dc3aa90fe3e858e22422c62d4fedaf3a5cd"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/StructuredViewerTest.class",
+    "bytes": 12231,
+    "sha256": "1ae2cc66c60c56334999cec62654eaa04cac72a1a0939944e151c4499036ca3a"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/TestElement.class",
+    "bytes": 6439,
+    "sha256": "0d1ffc89eb03ec73c22989d2a8976ac1f04a147238355a3f28ca21a022a5d18b"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/TestModel.class",
+    "bytes": 1264,
+    "sha256": "540b4b2927959bef77b18bbe7503f93ad1a1e66a68b9c051c9e5832ad66391b3"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/TestModelChange.class",
+    "bytes": 1457,
+    "sha256": "964e6a144d512385029c51f61271faa457122fa2c31fab85007a4c93c3d79e63"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/TestModelContentProvider.class",
+    "bytes": 4193,
+    "sha256": "22c13049c6a9cf82747b9cd0b169c8360d4174941de7c2d7b380d8b2bcf4a6c0"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/TestModelLazyTreeContentProvider.class",
+    "bytes": 1595,
+    "sha256": "85e1ee6e1aacff4c6afcc4cd6e75ba88cafdda85fcb0cb22dd157ce08305c276"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/TreeViewerTest$1.class",
+    "bytes": 1156,
+    "sha256": "5b94051d2f20136255fe55111e389556be2abf6a52133e7f9e1a9d371110a44f"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/TreeViewerTest.class",
+    "bytes": 6966,
+    "sha256": "59a0f4aa7e2ccdca0bdafd2fa543473e54b5a5c7b24c6036210c1f396abf4037"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/ViewerTestCase.class",
+    "bytes": 6156,
+    "sha256": "1d536f1e288af3e7a673df20b392bde28f191e54d6a7489925dde53316b11354"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.class",
+    "bytes": 7861,
+    "sha256": "d9ca77de02a550fcfc2302a5265e8a119535dd803c4d3b2da39f2774e5ba489a"
+  },
+  {
+    "path": "org/eclipse/jface/tests/viewers/images/java.gif",
+    "bytes": 96,
+    "sha256": "5c0fde1672e4395d8471ccb2a975480091c6481c7282d7f1bd1baa0e8a5a3dfb"
+  },
+  {
+    "path": "org/eclipse/ui/tests/harness/util/DisplayHelper$1.class",
+    "bytes": 456,
+    "sha256": "3b2d493d8d8ae4f74e0c197859164c703e80fd1af266d54b2f067c8ea542ec80"
+  },
+  {
+    "path": "org/eclipse/ui/tests/harness/util/DisplayHelper$2.class",
+    "bytes": 700,
+    "sha256": "15e6c91f9fb8f6507b717c5b7fbcd1ba4285715e125b6d838fa986ec26c7fdd3"
+  },
+  {
+    "path": "org/eclipse/ui/tests/harness/util/DisplayHelper.class",
+    "bytes": 3777,
+    "sha256": "6ff2ebdd3a398ac810feeefab04baab59745d6ad25938e5ce43a0492b456fa19"
+  },
+  {
+    "path": "org/eclipse/ui/tests/harness/util/DisplayWaiter$1$ThreadChangedException.class",
+    "bytes": 786,
+    "sha256": "8b3ed2663b0535c0190d07b6b11dbe6f18810413251388654adb0afc3653284c"
+  },
+  {
+    "path": "org/eclipse/ui/tests/harness/util/DisplayWaiter$1.class",
+    "bytes": 3469,
+    "sha256": "cde7a87b0ccbc3efa02beace3276dd45e76b83601cd426e81be6c3f51a5682c6"
+  },
+  {
+    "path": "org/eclipse/ui/tests/harness/util/DisplayWaiter$Timeout.class",
+    "bytes": 963,
+    "sha256": "d3af4c7b7a17675f00a1bb722b2e0660d6df08240982ef64a330e081b8ddf171"
+  },
+  {
+    "path": "org/eclipse/ui/tests/harness/util/DisplayWaiter.class",
+    "bytes": 4400,
+    "sha256": "5ccb897fdbc3709554edf37054c37cbcf18f6a72ec7231a27cbe205a78c6f043"
+  }
+]

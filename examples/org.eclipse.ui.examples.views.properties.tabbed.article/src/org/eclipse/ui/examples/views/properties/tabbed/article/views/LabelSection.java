@@ -42,7 +42,7 @@ public class LabelSection
 
 	private ButtonElement buttonElement;
 
-	private final ModifyListener listener = _ -> {
+	private final ModifyListener listener = unused -> {
 		ButtonElementProperties properties = (ButtonElementProperties) Adapters.adapt(buttonElement, IPropertySource.class);
 		properties.setPropertyValue(ButtonElementProperties.PROPERTY_TEXT, labelText.getText());
 	};

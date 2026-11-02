@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Control;
 		textDirection = textDir;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getSegments(SegmentEvent event) {
 		int length = event.lineText.length();
 		if (length > 0) {
@@ -66,7 +66,7 @@ import org.eclipse.swt.widgets.Control;
 		}
 	}
 
-	protected boolean isRTLValue(String stringValue) {
+	protected boolean isRTLValue(String stringValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (stringValue == null || stringValue.isEmpty() || BidiUtils.LEFT_TO_RIGHT.equals(textDirection)) {
 			return false;
 		}
@@ -75,7 +75,7 @@ import org.eclipse.swt.widgets.Control;
 			return true;
 		}
 
-		for (int i = 0; i < stringValue.length(); i++) {
+		for (int i = 0; i < stringValue.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Character.getDirectionality(stringValue.charAt(i)) == Character.DIRECTIONALITY_RIGHT_TO_LEFT
 					|| Character.getDirectionality(stringValue.charAt(i)) == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC
 					|| Character.getDirectionality(stringValue.charAt(i)) == Character.DIRECTIONALITY_ARABIC_NUMBER) {

@@ -27,7 +27,7 @@ public class TodoFiltersContributionParameters extends FiltersContributionParame
 
 	private static Map<String, String> todoMap;
 	static {
-		todoMap = new HashMap<>();
+		todoMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		todoMap.put(MarkerSupportConstants.CONTAINS_KEY, "TODO"); //$NON-NLS-1$
 	}
 

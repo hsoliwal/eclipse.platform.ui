@@ -55,8 +55,8 @@ public class ViewActionBuilder extends PluginActionBuilder {
 			return new ActionDescriptor[0];
 		}
 
-		ArrayList results = new ArrayList();
-		for (Object element : cache) {
+		ArrayList results = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BasicContribution bc = (BasicContribution) element;
 			if (bc.actions != null) {
 				results.addAll(bc.actions);
@@ -78,7 +78,7 @@ public class ViewActionBuilder extends PluginActionBuilder {
 
 	public void dispose() {
 		if (cache != null) {
-			for (Object element : cache) {
+			for (Object element : cache) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((BasicContribution) element).disposeActions();
 			}
 		}

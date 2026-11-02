@@ -125,7 +125,7 @@ public class IWorkbenchPageTest {
 		return logStatus==null?"No message":logStatus.getMessage();
 	}
 
-	ILogListener openAndHideListener = (status, _) -> {
+	ILogListener openAndHideListener = (status, unused) -> {
 		logStatus = status;
 		logCount++;
 	};

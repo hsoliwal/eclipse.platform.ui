@@ -45,7 +45,7 @@ public class MarkerImageProviderRegistry {
 
 	private static final String TAG_PROVIDER = "imageprovider";//$NON-NLS-1$
 
-	private final ArrayList<Descriptor> descriptors = new ArrayList<>();
+	private final ArrayList<Descriptor> descriptors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	static class Descriptor {
 		String id;
@@ -68,7 +68,7 @@ public class MarkerImageProviderRegistry {
 	/**
 	 * Initialize this new MarkerImageProviderRegistry.
 	 */
-	public MarkerImageProviderRegistry() {
+	public MarkerImageProviderRegistry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class MarkerImageReader extends IDERegistryReader {
 			@Override
 			protected boolean readElement(IConfigurationElement element) {
@@ -94,7 +94,7 @@ public class MarkerImageProviderRegistry {
 	 * Creates a descriptor for the marker provider extension
 	 * and add it to the list of providers.
 	 */
-	public void addProvider(IConfigurationElement element) {
+	public void addProvider(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Descriptor desc = new Descriptor();
 		desc.element = element;
 		desc.pluginBundle = Platform.getBundle(element.getContributor().getName());
@@ -116,9 +116,9 @@ public class MarkerImageProviderRegistry {
 	/**
 	 * @see org.eclipse.ui.model.IWorkbenchAdapter#getImageDescriptor(Object)
 	 */
-	public ImageDescriptor getImageDescriptor(IMarker marker) {
+	public ImageDescriptor getImageDescriptor(IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int size = descriptors.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Descriptor desc = descriptors.get(i);
 			try {
 				if (marker.isSubtypeOf(desc.markerType)) {

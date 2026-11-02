@@ -75,7 +75,7 @@ public class ExternalEditor {
 	 * @exception CoreException Throws a CoreException if the external editor could
 	 *                          not be opened.
 	 */
-	public void openWithUserDefinedProgram() throws CoreException {
+	public void openWithUserDefinedProgram() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// We need to determine if the command refers to a program in the plugin
 		// install directory. Otherwise we assume the program is on the path.
 

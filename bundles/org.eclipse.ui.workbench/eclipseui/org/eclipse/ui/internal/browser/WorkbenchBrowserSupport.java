@@ -57,7 +57,7 @@ public class WorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupport {
 
 		@Override
 		public void removeExtension(IExtension source, Object[] objects) {
-			for (Object object : objects) {
+			for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (object == activeSupport) {
 					dispose();
 					// remove ourselves - we'll be added again in initalize if
@@ -122,7 +122,7 @@ public class WorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupport {
 		return !(getActiveSupport() instanceof DefaultWorkbenchBrowserSupport);
 	}
 
-	private void loadActiveSupport() {
+	private void loadActiveSupport() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
 			@Override
 			public void run() {
@@ -148,7 +148,7 @@ public class WorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupport {
 			 * @return the element or <code>null</code>
 			 */
 			private IConfigurationElement findDesiredElement(IConfigurationElement[] elements) {
-				for (IConfigurationElement element : elements) {
+				for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (desiredBrowserSupportId.equals(element.getDeclaringExtension().getUniqueIdentifier())) {
 						return element;
 					}
@@ -161,7 +161,7 @@ public class WorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupport {
 						IWorkbenchRegistryConstants.PL_BROWSER_SUPPORT);
 			}
 
-			private IConfigurationElement getElementToUse(IConfigurationElement[] elements) {
+			private IConfigurationElement getElementToUse(IConfigurationElement[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (elements.length == 0) {
 					return null;
 				}
@@ -170,7 +170,7 @@ public class WorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupport {
 				// find the first default element and
 				// the first non-default element. If non-default
 				// is found, pick it. Otherwise, use default.
-				for (IConfigurationElement element : elements) {
+				for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (element.getName().equals(IWorkbenchRegistryConstants.TAG_SUPPORT)) {
 						String def = element.getAttribute(IWorkbenchRegistryConstants.ATT_DEFAULT);
 						if (def != null && Boolean.parseBoolean(def)) {
@@ -189,7 +189,7 @@ public class WorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupport {
 				return choice;
 			}
 
-			private boolean initializePluggableBrowserSupport(IConfigurationElement element) {
+			private boolean initializePluggableBrowserSupport(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				// Instantiate the browser support
 				try {
 					activeSupport = (AbstractWorkbenchBrowserSupport) WorkbenchPlugin.createExtension(element,
@@ -204,7 +204,7 @@ public class WorkbenchBrowserSupport extends AbstractWorkbenchBrowserSupport {
 							IExtensionTracker.REF_WEAK);
 					return true;
 				} catch (CoreException e) {
-					WorkbenchPlugin.log("Unable to instantiate browser support" + e.getStatus(), e);//$NON-NLS-1$
+					WorkbenchPlugin.log("Unable to instantiate browser support" + e.getStatus(), e);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				return false;
 			}

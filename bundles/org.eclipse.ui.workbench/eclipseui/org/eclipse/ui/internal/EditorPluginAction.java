@@ -23,7 +23,7 @@ import org.eclipse.ui.WorkbenchException;
  * Extends PartPluginAction for usage in editor parts. Objects of this class are
  * created by reading the registry (extension point "editorActions").
  */
-public final class EditorPluginAction extends PartPluginAction {
+public final class EditorPluginAction extends PartPluginAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	private IEditorPart currentEditor;
 
 	/**
@@ -55,7 +55,7 @@ public final class EditorPluginAction extends PartPluginAction {
 	 * Handles editor change by re-registering for selection changes and updating
 	 * IEditorActionDelegate.
 	 */
-	public void editorChanged(IEditorPart part) {
+	public void editorChanged(IEditorPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (currentEditor != null) {
 			unregisterSelectionListener(currentEditor);
 		}

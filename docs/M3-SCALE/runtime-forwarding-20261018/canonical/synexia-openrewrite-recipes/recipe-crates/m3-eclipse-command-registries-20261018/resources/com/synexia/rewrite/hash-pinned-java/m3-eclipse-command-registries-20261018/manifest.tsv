@@ -1,0 +1,6 @@
+bundles/org.eclipse.core.commands/src/org/eclipse/core/commands/CommandManager.java	6fea6566700e8a78bd776b8fe32c96d7908b61a079765bafb98ee071da2ed410	cdfbbe650c4532b420f5b237ed367bb377700f5842b57ea80d9a4387dbe18f45	CommandManager.java.txt
+bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/OrderedSlotMap.java	ABSENT	4df22f477ec194168f2d58acc21c543982be8069a26b3b7062377cf92d3b0853	OrderedSlotMap.java.txt
+bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/PackedHashMap.java	ABSENT	3c7c81bca569a5ca3aac9a391bb52d4ba17df62773587683dd30d5b6fd9ea3d0	PackedHashMap.java.txt
+bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotArrays.java	ABSENT	1c3308080f8abf2dda559d99c0f53fa0905317d8ebbd10f179dca29c5f687333	SlotArrays.java.txt
+bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java	ABSENT	b11f111f75d60607841b5b50c711b980db29f712860146c8097025fc5705ff09	SlotMap.java.txt
+bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotSpliterators.java	ABSENT	4326c99f40ea4a09ecf197e15d9c2b5cd058652de2f0ae5833a05d39278c3dc9	SlotSpliterators.java.txt

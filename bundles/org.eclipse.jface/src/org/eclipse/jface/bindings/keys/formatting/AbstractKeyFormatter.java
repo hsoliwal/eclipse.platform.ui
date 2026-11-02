@@ -68,11 +68,11 @@ public abstract class AbstractKeyFormatter implements IKeyFormatter {
 	 * The keys in the resource bundle. This is used to avoid missing resource
 	 * exceptions when they aren't necessary.
 	 */
-	private static final Set resourceBundleKeys = new HashSet();
+	private static final Set resourceBundleKeys = new HashSet(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	static {
 		final Enumeration keyEnumeration = RESOURCE_BUNDLE.getKeys();
-		while (keyEnumeration.hasMoreElements()) {
+		while (keyEnumeration.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Object element = keyEnumeration.nextElement();
 			resourceBundleKeys.add(element);
 		}
@@ -92,11 +92,11 @@ public abstract class AbstractKeyFormatter implements IKeyFormatter {
 
 	@Override
 	public String format(KeySequence keySequence) {
-		StringBuilder stringBuffer = new StringBuilder();
+		StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		final KeyStroke[] keyStrokes = keySequence.getKeyStrokes();
 		final int keyStrokesLength = keyStrokes.length;
-		for (int i = 0; i < keyStrokesLength; i++) {
+		for (int i = 0; i < keyStrokesLength; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			stringBuffer.append(format(keyStrokes[i]));
 
 			if (i + 1 < keyStrokesLength) {
@@ -107,16 +107,16 @@ public abstract class AbstractKeyFormatter implements IKeyFormatter {
 		return stringBuffer.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String format(final KeyStroke keyStroke) {
 		final String keyDelimiter = getKeyDelimiter();
 
 		// Format the modifier keys, in sorted order.
 		final int modifierKeys = keyStroke.getModifierKeys();
 		final int[] sortedModifierKeys = sortModifierKeys(modifierKeys);
-		final StringBuilder stringBuffer = new StringBuilder();
+		final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (sortedModifierKeys != null) {
-			for (final int modifierKey : sortedModifierKeys) {
+			for (final int modifierKey : sortedModifierKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (modifierKey != KeyStroke.NO_KEY) {
 					stringBuffer.append(format(modifierKey));
 					stringBuffer.append(keyDelimiter);

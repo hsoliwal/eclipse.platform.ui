@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "testClass": "org.eclipse.jface.tests.viewers.M3TreeForwardingTest",
+  "testMethod": "testExpandedStateDelegatesToSwtWithoutWalkingColdVirtualSiblings",
+  "tests": 1,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testTimeSeconds": 1.007,
+  "javaVersion": "25.0.4.1",
+  "swtCommit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+  "uiBaseCommit": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "fixtureSdkOutput": "/tmp/eclipse-m3-20261018/ui-final-generated/tests/org.eclipse.jface.tests/src/org/eclipse/jface/tests/viewers/VirtualLazyTreeViewerTest.java",
+  "fixtureSha256": "96f9ca262513ee4f964016d35682ac8a8641a976d9b1d957dac0968d34ad55c7",
+  "candidateCommandsJarSha256": "4d7573b670652c41d105210deeffde877c9034e2bd2916a6fb7ec4b5cf454c1e",
+  "swtProductionClasses": 826,
+  "jfaceProductionClasses": 622,
+  "unchangedTestClosureClasses": 30,
+  "changedTestFixtureClasses": 1,
+  "requiredProperty": {
+    "org.eclipse.jface.tests.m3Required": true
+  },
+  "nativeBackend": "GTK3 with genuine source-built SWT native libraries under verified Xvfb",
+  "compositionReportsExit": 0,
+  "fullTychoPdeRun": false,
+  "fix": "One real grandchild added to the selected model leaf before setInput. Existing assertions, 200-sibling stress, and all production code remain unchanged.",
+  "redEvidenceDirectory": "evidence/native-leaf-fixture-failure",
+  "greenEvidenceDirectory": "evidence/native-green",
+  "files": [
+    {
+      "path": "pom.xml",
+      "bytes": 3343,
+      "sha256": "fe30f343b23281f9a31223479a7027e81b9d3cfa1ca4b011b19337d8c47f6ca9"
+    },
+    {
+      "path": "run-native-gate.py",
+      "bytes": 5857,
+      "sha256": "390542d0ae5f9cdaba50c3c26551913c96f507e8bf1d95427280e7edd4282014"
+    },
+    {
+      "path": "evidence/native-green/TEST-org.eclipse.jface.tests.viewers.M3TreeForwardingTest.xml",
+      "bytes": 7352,
+      "sha256": "bc984d3d195c38ef37619a0954b73ee35bea0b2585b587e25c734256a6a3e52a"
+    },
+    {
+      "path": "evidence/native-green/composition-reports.log",
+      "bytes": 153,
+      "sha256": "56585207c46cd770f16be06847451d51b40cdd1fee4fb76505d512d5feb663ac"
+    },
+    {
+      "path": "evidence/native-green/corrected-fixture-compile.json",
+      "bytes": 2120,
+      "sha256": "c86dacd000f9506b432b99d10aac4b07a451bb97044197069ad89cc4b49a0309"
+    },
+    {
+      "path": "evidence/native-green/corrected-fixture-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/native-green/native-jface-maven.log",
+      "bytes": 1551,
+      "sha256": "211a41e04bb037aef14424115a43f5e438162d60bab524892c3faffe64ec4cb4"
+    },
+    {
+      "path": "evidence/native-green/native-jface.json",
+      "bytes": 2206,
+      "sha256": "485d916e8e6e8752076a4e72f6693f3eb32aae1b1393a7125fef4ac5b2206adc"
+    },
+    {
+      "path": "evidence/native-green/native-xvfb.log",
+      "bytes": 1174,
+      "sha256": "f172a1b0f5cf2a0d462c51dfc335af1a1dfc8e873cb66f61d018c8b1b35fe416"
+    }
+  ]
+}

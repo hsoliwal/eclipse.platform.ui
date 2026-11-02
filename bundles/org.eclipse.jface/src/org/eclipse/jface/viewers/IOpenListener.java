@@ -17,7 +17,7 @@ package org.eclipse.jface.viewers;
 /**
  * A listener which is notified of open events on viewers.
  */
-@FunctionalInterface
+@FunctionalInterface //FLLDCIM: MARK — T05  IMPLEMENTS
 public interface IOpenListener {
 	/**
 	 * Notifies of an open event.

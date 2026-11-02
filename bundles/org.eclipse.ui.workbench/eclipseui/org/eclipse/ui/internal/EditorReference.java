@@ -64,7 +64,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 	private final IMemento editorState;
 	private final String factoryId;
 
-	public EditorReference(IEclipseContext windowContext, IWorkbenchPage page, MPart part, IEditorInput input,
+	public EditorReference(IEclipseContext windowContext, IWorkbenchPage page, MPart part, IEditorInput input, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			EditorDescriptor descriptor, IMemento editorState) {
 		super(windowContext, page, part);
 		this.input = input;
@@ -125,7 +125,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 		return true;
 	}
 
-	IMemento getEditorState() {
+	IMemento getEditorState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorPart editor = getEditor(false);
 
 		// If the editor hasn't been rendered yet then see if we can grab the
@@ -166,7 +166,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 			Map<String, String> properties = ((IWorkbenchPart3) editor).getPartProperties();
 			if (!properties.isEmpty()) {
 				IMemento propBag = editorMem.createChild(IWorkbenchConstants.TAG_PROPERTIES);
-				for (Map.Entry<String, String> entry : properties.entrySet()) {
+				for (Map.Entry<String, String> entry : properties.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IMemento p = propBag.createChild(IWorkbenchConstants.TAG_PROPERTY, entry.getKey());
 					p.putTextData(entry.getValue());
 				}
@@ -244,7 +244,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 		return createInput(editorMem);
 	}
 
-	public static IEditorInput createInput(IMemento editorMem) throws PartInitException {
+	public static IEditorInput createInput(IMemento editorMem) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String editorId = editorMem.getString(IWorkbenchConstants.TAG_ID);
 
 		IMemento inputMem = editorMem.getChild(IWorkbenchConstants.TAG_INPUT);
@@ -284,7 +284,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 		return (IEditorPart) getPart(restore);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IEditorInput getEditorInput() throws PartInitException {
 		IEditorPart editor = getEditor(false);
 		if (editor != null) {
@@ -307,7 +307,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 		return input;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IWorkbenchPart createPart() throws PartInitException {
 		try {
 			if (descriptor == null) {
@@ -341,7 +341,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 		return new ErrorEditorPart(status);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void initialize(IWorkbenchPart part) throws PartInitException {
 		IConfigurationElement element = descriptor.getConfigurationElement();
 		EditorSite editorSite = new EditorSite(getModel(), part, this, element);
@@ -396,21 +396,21 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 		return null;
 	}
 
-	private static HashMap<String, Set<EditorActionBars>> actionCache = new HashMap<>();
+	private static HashMap<String, Set<EditorActionBars>> actionCache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/*
 	 * Creates the action bars for an editor. Editors of the same type should share
 	 * a single editor action bar, so this implementation may return an existing
 	 * action bar vector.
 	 */
-	private static EditorActionBars createEditorActionBars(WorkbenchPage page, EditorDescriptor desc) {
+	private static EditorActionBars createEditorActionBars(WorkbenchPage page, EditorDescriptor desc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get the editor type.
 		String type = desc.getId();
 
 		// If an action bar already exists for this editor type return it.
 		Set<EditorActionBars> candidates = actionCache.get(type);
 		if (candidates != null) {
-			for (EditorActionBars candidate : candidates) {
+			for (EditorActionBars candidate : candidates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (candidate.getPage() == page) {
 					candidate.addRef();
 					return candidate;
@@ -422,7 +422,7 @@ public class EditorReference extends WorkbenchPartReference implements IEditorRe
 		EditorActionBars actionBars = new EditorActionBars(page, page.getWorkbenchWindow(), type);
 		actionBars.addRef();
 		if (candidates == null) {
-			candidates = new HashSet<>(3);
+			candidates = new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			candidates.add(actionBars);
 			actionCache.put(type, candidates);
 		} else {

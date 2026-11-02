@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/tmp/eclipse-m3-20261018/toolchain/native-bin/Xvfb-local",
+    "-displayfd",
+    "4",
+    "-screen",
+    "0",
+    "1280x1024x24",
+    "-nolisten",
+    "tcp",
+    "-noreset",
+    "-xkbdir",
+    "/tmp/eclipse-m3-20261018/toolchain/native-sysroot/usr/share/X11/xkb"
+  ],
+  "binary_sha256": "51f61b4e406918b7c3fe5d2da4b3591b1ceee9dbc08bd60509db84368539efab",
+  "seconds": 0.07591030299954582,
+  "display_number": "0",
+  "running_after_ready": true,
+  "started": true,
+  "exit_after_cleanup": 0,
+  "tcp_listening_disabled": true,
+  "product_tests_run": false,
+  "source_package": "xorg-server 2:21.1.12-1ubuntu1.8",
+  "meson_declared_version": "21.1.11"
+}

@@ -28,7 +28,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
  * @since 2.0
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class LabelRetargetAction extends RetargetAction {
+public class LabelRetargetAction extends RetargetAction { //FLLDCIM: MARK — T20  IMPLEMENTS
 	private String defaultText;
 
 	private String defaultToolTipText;
@@ -90,7 +90,7 @@ public class LabelRetargetAction extends RetargetAction {
 	/**
 	 * Sets the action handler. Update self.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setActionHandler(IAction handler) {
 		// Run the default behavior.
 		super.setActionHandler(handler);
@@ -162,9 +162,9 @@ public class LabelRetargetAction extends RetargetAction {
 		String str = removeAcceleratorText(newText);
 		// Append our accelerator
 		if (acceleratorText != null) {
-			str = str + '\t' + acceleratorText;
+			str = str + '\t' + acceleratorText; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (str != newText) {
-			str = str + '\t';
+			str = str + '\t'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return str;
 	}
@@ -172,7 +172,7 @@ public class LabelRetargetAction extends RetargetAction {
 	/**
 	 * Updates the images for this action based on the given handler.
 	 */
-	private void updateImages(IAction handler) {
+	private void updateImages(IAction handler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (handler == null) {
 			super.setHoverImageDescriptor(defaultHoverImage);
 			super.setImageDescriptor(defaultImage);

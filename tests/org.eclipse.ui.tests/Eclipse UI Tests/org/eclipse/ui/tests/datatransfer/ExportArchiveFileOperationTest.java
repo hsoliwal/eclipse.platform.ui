@@ -394,7 +394,7 @@ public class ExportArchiveFileOperationTest implements IOverwriteQuery {
 			File file = new File(filePath);
 			try (InputStream fin = new FileInputStream(file)) {
 				// Check if it's a GZIPInputStream.
-				try (InputStream _ = new GZIPInputStream(fin)) {
+				try (InputStream unused = new GZIPInputStream(fin)) {
 					compressed = true;
 				} catch (IOException e) {
 					compressed = false;

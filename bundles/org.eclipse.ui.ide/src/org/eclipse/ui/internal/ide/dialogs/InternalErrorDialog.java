@@ -106,7 +106,7 @@ public class InternalErrorDialog extends MessageDialog {
 	 * Toggles the unfolding of the details area.  This is triggered by
 	 * the user pressing the details button.
 	 */
-	private void toggleDetailsArea() {
+	private void toggleDetailsArea() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point windowSize = getShell().getSize();
 		Point oldSize = getContents().computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
@@ -133,7 +133,7 @@ public class InternalErrorDialog extends MessageDialog {
 	 *
 	 * @param parent the parent composite
 	 */
-	protected void createDropDownText(Composite parent) {
+	protected void createDropDownText(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// create the list
 		text = new Text(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		text.setFont(parent.getFont());
@@ -168,7 +168,7 @@ public class InternalErrorDialog extends MessageDialog {
 	 * @return <code>true</code> if the user presses the OK button,
 	 *    <code>false</code> otherwise
 	 */
-	public static boolean openQuestion(Shell parent, String title,
+	public static boolean openQuestion(Shell parent, String title, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String message, Throwable detail, int defaultIndex) {
 		String[] labels;
 		if (detail == null) {

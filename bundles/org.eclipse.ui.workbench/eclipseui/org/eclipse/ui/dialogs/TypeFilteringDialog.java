@@ -117,12 +117,12 @@ public class TypeFilteringDialog extends SelectionDialog {
 		composite.setData(data);
 		Button selectButton = createButton(buttonComposite, IDialogConstants.SELECT_ALL_ID,
 				WorkbenchMessages.WizardTransferPage_selectAll, false);
-		SelectionListener listener = widgetSelectedAdapter(e -> listViewer.setAllChecked(true));
-		selectButton.addSelectionListener(listener);
+		SelectionListener listener = widgetSelectedAdapter(e -> listViewer.setAllChecked(true)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		selectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		Button deselectButton = createButton(buttonComposite, IDialogConstants.DESELECT_ALL_ID,
 				WorkbenchMessages.WizardTransferPage_deselectAll, false);
-		listener = widgetSelectedAdapter(e -> listViewer.setAllChecked(false));
-		deselectButton.addSelectionListener(listener);
+		listener = widgetSelectedAdapter(e -> listViewer.setAllChecked(false)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		deselectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class TypeFilteringDialog extends SelectionDialog {
 	private void addUserDefinedEntries(List<String> result) {
 		StringTokenizer tokenizer = new StringTokenizer(userDefinedText.getText(), TYPE_DELIMITER);
 		// Allow the *. and . prefix and strip out the extension
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String currentExtension = tokenizer.nextToken().trim();
 			if (!currentExtension.isEmpty()) {
 				if (currentExtension.startsWith("*.")) { //$NON-NLS-1$
@@ -149,11 +149,11 @@ public class TypeFilteringDialog extends SelectionDialog {
 	 * Visually checks the previously-specified elements in this dialog's list
 	 * viewer.
 	 */
-	private void checkInitialSelections() {
+	private void checkInitialSelections() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFileEditorMapping editorMappings[] = ((EditorRegistry) PlatformUI.getWorkbench().getEditorRegistry())
 				.getUnifiedMappings();
-		ArrayList<String> selectedMappings = new ArrayList<>();
-		for (IFileEditorMapping mapping : editorMappings) {
+		ArrayList<String> selectedMappings = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IFileEditorMapping mapping : editorMappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Check for both extension and label matches
 			if (this.initialSelections.contains(mapping.getExtension())) {
 				listViewer.setChecked(mapping, true);
@@ -165,8 +165,8 @@ public class TypeFilteringDialog extends SelectionDialog {
 		}
 		// Now add in the ones not selected to the user defined list
 		Iterator<String> initialIterator = this.initialSelections.iterator();
-		StringBuilder entries = new StringBuilder();
-		while (initialIterator.hasNext()) {
+		StringBuilder entries = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		while (initialIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String nextExtension = initialIterator.next();
 			if (!selectedMappings.contains(nextExtension)) {
 				if (entries.length() != 0) {
@@ -184,7 +184,7 @@ public class TypeFilteringDialog extends SelectionDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IWorkbenchHelpContextIds.TYPE_FILTERING_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		// page group
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -195,7 +195,7 @@ public class TypeFilteringDialog extends SelectionDialog {
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		listViewer.getTable().setLayoutData(data);
 		listViewer.getTable().setFont(parent.getFont());
-		listViewer.setLabelProvider(FileEditorMappingLabelProvider.INSTANCE);
+		listViewer.setLabelProvider(FileEditorMappingLabelProvider.INSTANCE); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		listViewer.setContentProvider(ArrayContentProvider.getInstance());
 		listViewer.setComparator(new ViewerComparator());
 		addSelectionButtons(composite);
@@ -239,10 +239,10 @@ public class TypeFilteringDialog extends SelectionDialog {
 	private IFileEditorMapping[] getInput() {
 		// Filter the mappings to be just those with a wildcard extension
 		if (currentInput == null) {
-			List<IFileEditorMapping> wildcardEditors = new ArrayList<>();
+			List<IFileEditorMapping> wildcardEditors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IFileEditorMapping[] allMappings = ((EditorRegistry) PlatformUI.getWorkbench().getEditorRegistry())
 					.getUnifiedMappings();
-			for (IFileEditorMapping allMapping : allMappings) {
+			for (IFileEditorMapping allMapping : allMappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (allMapping.getName().equals("*")) { //$NON-NLS-1$
 					wildcardEditors.add(allMapping);
 				}
@@ -257,7 +257,7 @@ public class TypeFilteringDialog extends SelectionDialog {
 	 * Initializes this dialog's viewer after it has been laid out.
 	 */
 	private void initializeViewer() {
-		listViewer.setInput(getInput());
+		listViewer.setInput(getInput()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -269,9 +269,9 @@ public class TypeFilteringDialog extends SelectionDialog {
 	protected void okPressed() {
 		// Get the input children.
 		IFileEditorMapping[] children = getInput();
-		List<String> list = new ArrayList<>();
+		List<String> list = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// Build a list of selected children.
-		for (IFileEditorMapping element : children) {
+		for (IFileEditorMapping element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listViewer.getChecked(element)) {
 				list.add(element.getExtension());
 			}

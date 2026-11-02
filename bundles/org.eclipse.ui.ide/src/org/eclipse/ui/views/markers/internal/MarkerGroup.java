@@ -78,7 +78,7 @@ public class MarkerGroup {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public MarkerGroupingEntry testAttribute(IMarker marker) {
 			Object value;
 
@@ -221,7 +221,7 @@ public class MarkerGroup {
 			return MarkerSupportInternalUtilities.getGroupValue(MarkerGroup.this, item);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(MarkerItem item1, MarkerItem item2) {
 			// Elements with markers to the top are higher values
 			if (item1.getMarker() == null) {
@@ -261,7 +261,7 @@ public class MarkerGroup {
 
 	protected MarkerField markerField;
 
-	private final Map<String, Set<EntryMapping>> typesToMappings = new LinkedHashMap<>();
+	private final Map<String, Set<EntryMapping>> typesToMappings = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	private final IConfigurationElement configurationElement;
 
@@ -282,7 +282,7 @@ public class MarkerGroup {
 	/**
 	 * Process the markerContentEntries for the receiver.
 	 */
-	private void processEntries() {
+	private void processEntries() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(configurationElement == null) {
 			return;
 		}
@@ -293,14 +293,14 @@ public class MarkerGroup {
 		IConfigurationElement[] attributeGroupingElements = configurationElement
 				.getChildren(MarkerSupportRegistry.MARKER_ATTRIBUTE_GROUPING);
 
-		Map<String, MarkerGroupingEntry> idsToEntries = new HashMap<>();
-		for (IConfigurationElement markerEntryElement : markerEntryElements) {
+		Map<String, MarkerGroupingEntry> idsToEntries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IConfigurationElement markerEntryElement : markerEntryElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerGroupingEntry entry = new MarkerGroupingEntry(markerEntryElement);
 			entry.setGroup(this);
 			idsToEntries.put(entry.getId(), entry);
 		}
 
-		for (IConfigurationElement attributeGroupingElement : attributeGroupingElements) {
+		for (IConfigurationElement attributeGroupingElement : attributeGroupingElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AttributeMarkerGrouping attributeGrouping = new AttributeMarkerGrouping(attributeGroupingElement);
 
 			String defaultEntryId = attributeGrouping.getDefaultGroupingEntry();
@@ -317,7 +317,7 @@ public class MarkerGroup {
 			IConfigurationElement[] mappings = attributeGrouping.getElement()
 					.getChildren(MarkerSupportRegistry.ATTRIBUTE_MAPPING);
 
-			for (IConfigurationElement mapping : mappings) {
+			for (IConfigurationElement mapping : mappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String entryId = mapping.getAttribute(MarkerSupportRegistry.MARKER_GROUPING_ENTRY);
 
 				MarkerGroupingEntry entry = idsToEntries.get(entryId);
@@ -347,7 +347,7 @@ public class MarkerGroup {
 	 * Add the entry for the markerType.
 	 */
 	private void addEntry(String markerType, EntryMapping entry) {
-		for (MarkerType type : getMarkerTypes(markerType)) {
+		for (MarkerType type : getMarkerTypes(markerType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<EntryMapping> entries = typesToMappings.get(markerType);
 			if (entries == null) {
 				entries = new LinkedHashSet<>();
@@ -374,12 +374,12 @@ public class MarkerGroup {
 	 *
 	 * @return MarkerGroupingEntry
 	 */
-	public MarkerGroupingEntry findGroupValue(String type, IMarker marker) {
+	public MarkerGroupingEntry findGroupValue(String type, IMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Collection<EntryMapping> collection = typesToMappings.get(type);
 		if (collection != null) {
 			EntryMapping defaultMapping = null;
 			Iterator<EntryMapping> mappings = collection.iterator();
-			while (mappings.hasNext()) {
+			while (mappings.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				EntryMapping mapping = mappings.next();
 				if (mapping.hasAttributes()) {
 					MarkerGroupingEntry entry = mapping.testAttribute(marker);
@@ -442,7 +442,7 @@ public class MarkerGroup {
 	 *
 	 * @return MarkerType[]
 	 */
-	private MarkerType[] getMarkerTypes(String markerType) {
+	private MarkerType[] getMarkerTypes(String markerType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MarkerTypesModel model = MarkerTypesModel.getInstance();
 		Collection<MarkerType> types = new LinkedHashSet<>();
 
@@ -486,11 +486,11 @@ public class MarkerGroup {
 	 */
 	public void remove(MarkerGroupingEntry entry) {
 		Iterator<Set<EntryMapping>> entries = typesToMappings.values().iterator();
-		List<EntryMapping> removeCollection = new ArrayList<>();
-		while (entries.hasNext()) {
+		List<EntryMapping> removeCollection = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (entries.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Set<EntryMapping> mappings = entries.next();
 			Iterator<EntryMapping> mappingsIterator = mappings.iterator();
-			while (mappingsIterator.hasNext()) {
+			while (mappingsIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				EntryMapping next = mappingsIterator.next();
 				if (next.groupingEntry.equals(entry)) {
 					removeCollection.add(next);
@@ -515,10 +515,10 @@ public class MarkerGroup {
 	 */
 	public void unmap(AttributeMarkerGrouping attributeMarkerGrouping) {
 		String type = attributeMarkerGrouping.getMarkerType();
-		Collection<EntryMapping> removed = new ArrayList<>();
+		Collection<EntryMapping> removed = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Collection<EntryMapping> entries = typesToMappings.get(type);
 		Iterator<EntryMapping> mappings = entries.iterator();
-		while (mappings.hasNext()) {
+		while (mappings.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EntryMapping mapping = mappings.next();
 			if (mapping instanceof AttributeMapping
 					&& (((AttributeMapping) mapping).grouping == attributeMarkerGrouping)) {

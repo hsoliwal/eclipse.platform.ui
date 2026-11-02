@@ -43,7 +43,7 @@ public class AttributeMarkerGrouping {
 	private final IConfigurationElement element;
 
 	// A list of groups we are associated with for unloading
-	private final Collection<MarkerGroup> groups = new HashSet<>();
+	private final Collection<MarkerGroup> groups = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Create a new instance of the receiver from element.
@@ -104,7 +104,7 @@ public class AttributeMarkerGrouping {
 	 */
 	public void unmap() {
 		Iterator<MarkerGroup> referencedGroups = groups.iterator();
-		while (referencedGroups.hasNext()) {
+		while (referencedGroups.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerGroup group = referencedGroups.next();
 			group.unmap(this);
 		}

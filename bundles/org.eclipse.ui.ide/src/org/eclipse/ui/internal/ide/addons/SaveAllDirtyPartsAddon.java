@@ -68,10 +68,10 @@ public class SaveAllDirtyPartsAddon {
 
 		private boolean noDirtyEditor(IWorkbench workbench) {
 			IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-			for (IWorkbenchWindow window : windows) {
+			for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkbenchPage p = window.getActivePage();
 				if (p != null) {
-					for (IEditorReference editorRef : p.getEditorReferences()) {
+					for (IEditorReference editorRef : p.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (editorRef.isDirty()) {
 							return false;
 						}
@@ -83,7 +83,7 @@ public class SaveAllDirtyPartsAddon {
 	}
 
 	private final class IdleListener implements Listener {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void handleEvent(org.eclipse.swt.widgets.Event event) {
 			// a menu has been hidden, re-schedule the job.
 			if (event.type == SWT.Hide && event.widget instanceof Menu) {
@@ -106,19 +106,19 @@ public class SaveAllDirtyPartsAddon {
 		}
 	}
 
-	private final class AutoSaveJob extends WorkbenchJob {
+	private final class AutoSaveJob extends WorkbenchJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 		private AutoSaveJob(String name) {
 			super(name);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus runInUIThread(IProgressMonitor monitor) {
 			if (isAutoSaveActive) {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				if (workbench != null) {
 					IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-					for (IWorkbenchWindow window : windows) {
+					for (IWorkbenchWindow window : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IWorkbenchPage p = window.getActivePage();
 						// We do not want to save dirty editors when a sub
 						// shell is visible or active (e.g. content assist,
@@ -185,10 +185,10 @@ public class SaveAllDirtyPartsAddon {
 	private void addIdleListenerToWorkbenchDisplay() {
 		Display display = getWorkbenchDisplay();
 		if (display != null && !display.isDisposed()) {
-			display.addFilter(SWT.KeyUp, idleListener);
-			display.addFilter(SWT.MouseUp, idleListener);
-			display.addFilter(SWT.Show, idleListener);
-			display.addFilter(SWT.Hide, idleListener);
+			display.addFilter(SWT.KeyUp, idleListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+			display.addFilter(SWT.MouseUp, idleListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+			display.addFilter(SWT.Show, idleListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+			display.addFilter(SWT.Hide, idleListener); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		}
 	}
 
@@ -202,7 +202,7 @@ public class SaveAllDirtyPartsAddon {
 		}
 	}
 
-	@PreDestroy
+	@PreDestroy //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private void shutdown() {
 		eventBroker.unsubscribe(dirtyHandler);
 		autoSaveJob.cancel();
@@ -210,7 +210,7 @@ public class SaveAllDirtyPartsAddon {
 		final Display display = getWorkbenchDisplay();
 		if (display != null && !display.isDisposed()) {
 			try {
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					removeIdleListenerFromWorkbenchDisplay();
 					// save jov could have been rescheduled by idleListener
 					// before it has been removed
@@ -236,7 +236,7 @@ public class SaveAllDirtyPartsAddon {
 		if (display != null && !display.isDisposed()) {
 			Shell shell = display.getActiveShell();
 			if (shell != null) {
-				for (Shell subShell : shell.getShells()) {
+				for (Shell subShell : shell.getShells()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (subShell.isVisible()) {
 						return true;
 					}

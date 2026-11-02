@@ -46,7 +46,7 @@ public abstract class WorkbenchMarkerResolution implements IMarkerResolution2 {
 	 */
 	public void run(IMarker[] markers, IProgressMonitor monitor) {
 		Translation translation = new Translation();
-		for (IMarker marker : markers) {
+		for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			monitor.subTask(translation.message(marker).orElse("")); //$NON-NLS-1$
 			run(marker);
 		}

@@ -75,10 +75,10 @@ public abstract class IDERegistryReader {
 	protected void logError(IConfigurationElement element, String text) {
 		IExtension extension = element.getDeclaringExtension();
 		String pluginId = extension.getContributor().getName();
-		StringBuilder buf = new StringBuilder();
-		buf.append("Plugin " + pluginId + ", extension " //$NON-NLS-2$//$NON-NLS-1$
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("Plugin " + pluginId + ", extension " //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ extension.getExtensionPointUniqueIdentifier());
-		buf.append("\n" + text);//$NON-NLS-1$
+		buf.append("\n" + text);//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IDEWorkbenchPlugin.log(buf.toString());
 	}
 
@@ -88,7 +88,7 @@ public abstract class IDERegistryReader {
 	protected void logMissingAttribute(IConfigurationElement element,
 			String attributeName) {
 		logError(element,
-				"Required attribute '" + attributeName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$
+				"Required attribute '" + attributeName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -97,14 +97,14 @@ public abstract class IDERegistryReader {
 	protected void logMissingElement(IConfigurationElement element,
 			String elementName) {
 		logError(element,
-				"Required sub element '" + elementName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$
+				"Required sub element '" + elementName + "' not defined");//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
 	 * Logs a registry error when the configuration element is unknown.
 	 */
 	protected void logUnknownElement(IConfigurationElement element) {
-		logError(element, "Unknown extension tag found: " + element.getName());//$NON-NLS-1$
+		logError(element, "Unknown extension tag found: " + element.getName());//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -150,7 +150,7 @@ public abstract class IDERegistryReader {
 	 * Logs an error if the element was not recognized.
 	 */
 	protected void readElements(IConfigurationElement[] elements) {
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!readElement(element)) {
 				logUnknownElement(element);
 			}
@@ -171,7 +171,7 @@ public abstract class IDERegistryReader {
 	 */
 	protected void readRegistry(IExtensionRegistry registry, String pluginId,
 			String extensionPoint) {
-		String pointId = pluginId + "-" + extensionPoint; //$NON-NLS-1$
+		String pointId = pluginId + "-" + extensionPoint; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IExtension[] extensions = extensionPoints.get(pointId);
 		if (extensions == null) {
 			IExtensionPoint point = registry.getExtensionPoint(pluginId,
@@ -183,7 +183,7 @@ public abstract class IDERegistryReader {
 			extensions = orderExtensions(extensions);
 			extensionPoints.put(pointId, extensions);
 		}
-		for (IExtension extension : extensions) {
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			readExtension(extension);
 		}
 	}

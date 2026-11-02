@@ -73,7 +73,7 @@ public class WelcomeParser extends DefaultHandler {
 
 	private WelcomeItem introItem;
 
-	private final ArrayList<WelcomeItem> items = new ArrayList<>();
+	private final ArrayList<WelcomeItem> items = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private String format;
 
@@ -158,23 +158,23 @@ public class WelcomeParser extends DefaultHandler {
 	}
 
 	private class ItemHandler extends WelcomeContentHandler {
-		private final ArrayList<int[]> boldRanges = new ArrayList<>();
+		private final ArrayList<int[]> boldRanges = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		protected ArrayList<int[]> wrapRanges = new ArrayList<>();
+		protected ArrayList<int[]> wrapRanges = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final ArrayList<int[]> actionRanges = new ArrayList<>();
+		private final ArrayList<int[]> actionRanges = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final ArrayList<String> pluginIds = new ArrayList<>();
+		private final ArrayList<String> pluginIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final ArrayList<String> classes = new ArrayList<>();
+		private final ArrayList<String> classes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final ArrayList<int[]> helpRanges = new ArrayList<>();
+		private final ArrayList<int[]> helpRanges = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final ArrayList<String> helpIds = new ArrayList<>();
+		private final ArrayList<String> helpIds = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final ArrayList<String> helpHrefs = new ArrayList<>();
+		private final ArrayList<String> helpHrefs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final StringBuilder text = new StringBuilder();
+		private final StringBuilder text = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		protected int offset = 0;
 
@@ -241,13 +241,13 @@ public class WelcomeParser extends DefaultHandler {
 			}
 		}
 
-		protected WelcomeItem constructWelcomeItem() {
+		protected WelcomeItem constructWelcomeItem() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (isFormatWrapped()) {
 				// replace all line delimiters with a space
-				for (int[] range : wrapRanges) {
+				for (int[] range : wrapRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int start = range[0];
 					int length = range[1];
-					for (int j = start; j < start + length; j++) {
+					for (int j = start; j < start + length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						char ch = text.charAt(j);
 						if (ch == DELIMITER) {
 							text.replace(j, j + 1, " "); //$NON-NLS-1$
@@ -269,13 +269,13 @@ public class WelcomeParser extends DefaultHandler {
 
 		@Override
 		public void characters(char[] ch, int start, int length) {
-			for (int i = 0; i < length; i++) {
+			for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				text.append(ch[start + i]);
 			}
 			offset += length;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void startElement(String namespaceURI, String localName,
 				String qName, Attributes atts) throws SAXException {
 			textStart = offset;

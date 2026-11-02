@@ -1,0 +1,25 @@
+{
+  "phase": "GREEN shared metadata correction",
+  "kernelSha256": "35d09cd5c3fccc281acfdc8b4ba96131f8f54e15c587ae9d5e9556e4d6e1cc30",
+  "command": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=/tmp/m3-parser-maven-repository",
+    "-Drecipe.owner.root=/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes",
+    "-Dtest=M3EclipseTextMetadataAdmissionTest",
+    "test"
+  ],
+  "exit": 0,
+  "wallSeconds": 22.281,
+  "logSha256": "56f897a19876397e9394e5389ea4bc8e5b9e34f153b200ee791fc2a97f8d64d3",
+  "tests": {
+    "tests": "8",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  "failedCases": [],
+  "status": "PASS"
+}

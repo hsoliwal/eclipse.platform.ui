@@ -51,7 +51,7 @@ import org.eclipse.ui.internal.dialogs.PropertyPageContributorManager;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class PropertyDialogAction extends SelectionProviderAction {
+public class PropertyDialogAction extends SelectionProviderAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * Provides the shell in which to open the property dialog.
 	 */

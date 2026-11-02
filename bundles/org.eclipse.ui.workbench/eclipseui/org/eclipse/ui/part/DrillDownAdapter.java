@@ -48,7 +48,7 @@ import org.eclipse.ui.internal.WorkbenchMessages;
  * underlying viewer.
  * </p>
  */
-public class DrillDownAdapter implements ISelectionChangedListener {
+public class DrillDownAdapter implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 	private final TreeViewer fChildTree;
 
 	private final DrillStack fDrillStack;
@@ -148,7 +148,7 @@ public class DrillDownAdapter implements ISelectionChangedListener {
 	/**
 	 * Create the actions for navigation.
 	 */
-	private void createActions() {
+	private void createActions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Only do this once.
 		if (homeAction != null) {
 			return;
@@ -188,7 +188,7 @@ public class DrillDownAdapter implements ISelectionChangedListener {
 		forwardAction.setDisabledImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_FORWARD_DISABLED));
 
 		// Update the buttons when a selection change occurs.
-		fChildTree.addSelectionChangedListener(this);
+		fChildTree.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		updateNavigationButtons();
 	}
 
@@ -223,7 +223,7 @@ public class DrillDownAdapter implements ISelectionChangedListener {
 		Object currentInput = fChildTree.getInput();
 		DrillFrame oFrame = fDrillStack.goBack();
 		Object input = oFrame.getElement();
-		fChildTree.setInput(input);
+		fChildTree.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		expand(oFrame.getExpansion());
 		// if there was a selection, it should have been preserved,
 		// but if not, select the element that was drilled into
@@ -245,7 +245,7 @@ public class DrillDownAdapter implements ISelectionChangedListener {
 		Object currentInput = fChildTree.getInput();
 		DrillFrame oFrame = fDrillStack.goHome();
 		Object input = oFrame.getElement();
-		fChildTree.setInput(input);
+		fChildTree.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		expand(oFrame.getExpansion());
 		// if there was a selection, it should have been preserved,
 		// but if not, select the element that was last drilled into
@@ -298,7 +298,7 @@ public class DrillDownAdapter implements ISelectionChangedListener {
 			fDrillStack.add(new DrillFrame(oldInput, "null", expandedList));//$NON-NLS-1$
 
 			// Install the new state.
-			fChildTree.setInput(newInput);
+			fChildTree.setInput(newInput); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			expand(expandedList);
 			updateNavigationButtons();
 		}

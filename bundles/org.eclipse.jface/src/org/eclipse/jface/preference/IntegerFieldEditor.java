@@ -78,7 +78,7 @@ public class IntegerFieldEditor extends StringFieldEditor {
 				Integer.valueOf(min), Integer.valueOf(max)));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean checkState() {
 
 		Text text = getTextControl();

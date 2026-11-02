@@ -74,7 +74,7 @@ public class OpenWithMenu extends ContributionItem {
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID + ".OpenWithMenu";//$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".OpenWithMenu";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Match both the input and id, so that different types of editor can be opened on the same input.
@@ -164,7 +164,7 @@ public class OpenWithMenu extends ContributionItem {
 	 * @param descriptor the editor descriptor, or null for the system editor
 	 * @param preferredEditor the descriptor of the preferred editor, or <code>null</code>
 	 */
-	private void createMenuItem(Menu menu, final IEditorDescriptor descriptor,
+	private void createMenuItem(Menu menu, final IEditorDescriptor descriptor, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IEditorDescriptor preferredEditor) {
 		// XXX: Would be better to use bold here, but SWT does not support it.
 		final MenuItem menuItem = new MenuItem(menu, SWT.RADIO);
@@ -184,7 +184,7 @@ public class OpenWithMenu extends ContributionItem {
 				break;
 			}
 		};
-		menuItem.addListener(SWT.Selection, listener);
+		menuItem.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class OpenWithMenu extends ContributionItem {
 	 *
 	 * @param menu the menu to add the item to
 	 */
-	private void createOtherMenuItem(final Menu menu) {
+	private void createOtherMenuItem(final Menu menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IFile fileResource = getFileResource();
 		if (fileResource == null) {
 			return;
@@ -216,10 +216,10 @@ public class OpenWithMenu extends ContributionItem {
 				break;
 			}
 		};
-		menuItem.addListener(SWT.Selection, listener);
+		menuItem.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 		final IFile file = getFileResource();
 		if (file == null) {
@@ -244,9 +244,9 @@ public class OpenWithMenu extends ContributionItem {
 
 		//Check that we don't add it twice. This is possible
 		//if the same editor goes to two mappings.
-		List<IEditorDescriptor> alreadyMapped = new ArrayList<>();
+		List<IEditorDescriptor> alreadyMapped = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IEditorDescriptor editor : editors) {
+		for (IEditorDescriptor editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!alreadyMapped.contains(editor)) {
 				createMenuItem(menu, editor, preferredEditor);
 				if (defaultEditor != null && editor.getId().equals(defaultEditor.getId())) {
@@ -310,7 +310,7 @@ public class OpenWithMenu extends ContributionItem {
 	 *
 	 * @since 3.5
 	 */
-	protected void openEditor(IEditorDescriptor editorDescriptor, boolean openUsingDescriptor) {
+	protected void openEditor(IEditorDescriptor editorDescriptor, boolean openUsingDescriptor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFile file = getFileResource();
 		if (file == null) {
 			return;
@@ -338,7 +338,7 @@ public class OpenWithMenu extends ContributionItem {
 	 * @param file the file being edited
 	 * @param markAsSelected <code>true</code> if the item should marked as selected
 	 */
-	private void createDefaultMenuItem(Menu menu, final IFile file, boolean markAsSelected) {
+	private void createDefaultMenuItem(Menu menu, final IFile file, boolean markAsSelected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final MenuItem menuItem = new MenuItem(menu, SWT.RADIO);
 		menuItem.setSelection(markAsSelected);
 		menuItem.setText(IDEWorkbenchMessages.DefaultEditorDescription_name);
@@ -363,6 +363,6 @@ public class OpenWithMenu extends ContributionItem {
 			}
 		};
 
-		menuItem.addListener(SWT.Selection, listener);
+		menuItem.addListener(SWT.Selection, listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 }

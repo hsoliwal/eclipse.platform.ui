@@ -10,10 +10,12 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  *******************************************************************************/
 
 package org.eclipse.ui.internal.views.markers;
 
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Item;
@@ -55,6 +57,25 @@ public class MarkersTreeViewer extends TreeViewer {
 	public void removeAndClearAll() {
 		removeAll(getControl());
 		unmapAllElements();
+	}
+
+	/**
+	 * Runs a window patch of the lane model (M3MarkerDeltas) the way refresh does: the selection is kept, and
+	 * selection listeners hear only of a selection that changed.
+	 *
+	 * @param patch the patch
+	 */
+	void m3PreservingMarkerSelection(Runnable patch) {
+		preservingSelection(patch);
+	}
+
+	/**
+	 * Lane selection mode of the window patch (M3MarkerDeltas, PROBLEMS_VIEW.md 3.2 step 2): the patch set the
+	 * tree's selection from the selection lane and a selected row went away, so the listeners hear of it once, as
+	 * they do after a refresh whose selection changed.
+	 */
+	void m3SelectionPatched() {
+		fireSelectionChanged(new SelectionChangedEvent(this, getSelection()));
 	}
 
 	@Override

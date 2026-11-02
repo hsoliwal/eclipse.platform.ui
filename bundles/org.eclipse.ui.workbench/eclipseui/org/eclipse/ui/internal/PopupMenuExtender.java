@@ -93,7 +93,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	 */
 	private int bitSet = 0;
 
-	private final ArrayList<PluginActionContributionItem> actionContributionCache = new ArrayList<>();
+	private final ArrayList<PluginActionContributionItem> actionContributionCache = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private boolean cleanupNeeded = false;
 
 	private final MPart modelPart;
@@ -129,7 +129,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	 * @param includeEditorInput Whether the editor input should be included when
 	 *                           adding object contributions to this context menu.
 	 */
-	public PopupMenuExtender(final String id, final MenuManager menu, final ISelectionProvider prov,
+	public PopupMenuExtender(final String id, final MenuManager menu, final ISelectionProvider prov, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IWorkbenchPart part, IEclipseContext context, final boolean includeEditorInput) {
 		super();
 		this.menu = menu;
@@ -140,7 +140,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		if (includeEditorInput) {
 			bitSet |= INCLUDE_EDITOR_INPUT;
 		}
-		menu.addMenuListener(this);
+		menu.addMenuListener(this); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		if (!menu.getRemoveAllWhenShown()) {
 			menuWrapper = new SubMenuManager(menu);
 			menuWrapper.setVisible(true);
@@ -151,12 +151,12 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		Platform.getExtensionRegistry().addRegistryChangeListener(this);
 	}
 
-	private void createModelFor(String id) {
+	private void createModelFor(String id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (id == null) {
-			id = getClass().getName() + '.' + System.identityHashCode(this);
+			id = getClass().getName() + '.' + System.identityHashCode(this); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		menuModel = null;
-		for (MMenu item : modelPart.getMenus()) {
+		for (MMenu item : modelPart.getMenus()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(item.getElementId()) && item instanceof MPopupMenu && item.getTags().contains("popup")) { //$NON-NLS-1$
 				menuModel = (MPopupMenu) item;
 				break;
@@ -221,7 +221,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		bitSet &= ~STATIC_ACTION_READ;
 		if (menuModel != null) {
 			List<String> tags = menuModel.getTags();
-			String tag = "popup:" + menuId; //$NON-NLS-1$
+			String tag = "popup:" + menuId; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!tags.contains(tag)) {
 				tags.add(tag);
 			}
@@ -252,7 +252,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	/**
 	 * Contributes items registered for the currently active editor.
 	 */
-	private void addEditorActions(IMenuManager mgr, Set<IObjectActionContributor> alreadyContributed) {
+	private void addEditorActions(IMenuManager mgr, Set<IObjectActionContributor> alreadyContributed) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelectionProvider activeEditor = new ISelectionProvider() {
 
 			@Override
@@ -305,7 +305,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		bitSet &= ~STATIC_ACTION_READ;
 		if (staticActionBuilders != null) {
 			final Iterator<ViewerActionBuilder> staticActionBuilderItr = staticActionBuilders.values().iterator();
-			while (staticActionBuilderItr.hasNext()) {
+			while (staticActionBuilderItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final ViewerActionBuilder staticActionBuilder = staticActionBuilderItr.next();
 				staticActionBuilder.dispose();
 			}
@@ -318,7 +318,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	private void addStaticActions(IMenuManager mgr) {
 		if (staticActionBuilders != null) {
 			final Iterator<ViewerActionBuilder> staticActionBuilderItr = staticActionBuilders.values().iterator();
-			while (staticActionBuilderItr.hasNext()) {
+			while (staticActionBuilderItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final ViewerActionBuilder staticActionBuilder = staticActionBuilderItr.next();
 				staticActionBuilder.contribute(mgr, null, true);
 			}
@@ -328,7 +328,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	/**
 	 * Notifies the listener that the menu is about to be shown.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void menuAboutToShow(IMenuManager mgr) {
 		registerE4Support();
 
@@ -357,7 +357,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 			mgr = menuWrapper;
 			menuWrapper.removeAll();
 		}
-		Set<IObjectActionContributor> contributedItems = new HashSet<>();
+		Set<IObjectActionContributor> contributedItems = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if ((bitSet & INCLUDE_EDITOR_INPUT) != 0) {
 			addEditorActions(mgr, contributedItems);
 		}
@@ -384,7 +384,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	/**
 	 * Notifies the listener that the menu is about to be hidden.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final void menuAboutToHide(final IMenuManager mgr) {
 		gatherContributions(mgr);
 		cleanupNeeded = true;
@@ -397,7 +397,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 				// has been fired.
 				// This is less threatening if the popup: menu
 				// contributions aren't tied to the evaluation service
-				workbench.getDisplay().asyncExec(() -> {
+				workbench.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					final Workbench realWorkbench = (Workbench) workbench;
 					runCleanUp(realWorkbench);
 				});
@@ -416,7 +416,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 
 	private void gatherContributions(final IMenuManager mgr) {
 		final IContributionItem[] items = mgr.getItems();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item instanceof PluginActionContributionItem) {
 				actionContributionCache.add((PluginActionContributionItem) item);
 			} else if (item instanceof IMenuManager) {
@@ -425,12 +425,12 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		}
 	}
 
-	private void cleanUpContributionCache() {
+	private void cleanUpContributionCache() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!actionContributionCache.isEmpty()) {
 			PluginActionContributionItem[] items = actionContributionCache
 					.toArray(new PluginActionContributionItem[actionContributionCache.size()]);
 			actionContributionCache.clear();
-			for (PluginActionContributionItem item : items) {
+			for (PluginActionContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.dispose();
 			}
 		}
@@ -456,7 +456,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	private final void readStaticActions() {
 		if (staticActionBuilders != null) {
 			final Iterator<String> menuIdItr = staticActionBuilders.keySet().iterator();
-			while (menuIdItr.hasNext()) {
+			while (menuIdItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final String menuId = menuIdItr.next();
 				readStaticActionsFor(menuId);
 			}
@@ -466,7 +466,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	/**
 	 * Read static items for a particular menu id, into the context menu.
 	 */
-	private void readStaticActionsFor(final String menuId) {
+	private void readStaticActionsFor(final String menuId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((bitSet & STATIC_ACTION_READ) != 0) {
 			return;
 		}
@@ -480,7 +480,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		}
 
 		if (staticActionBuilders == null) {
-			staticActionBuilders = new HashMap<>();
+			staticActionBuilders = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 
 		ViewerActionBuilder builder = staticActionBuilders.get(menuId);
@@ -520,8 +520,8 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 	 * @param menu     the model menu whose children should have its items unlinked
 	 *                 from their corresponding contribution items
 	 */
-	private void unlink(MenuManagerRenderer renderer, MMenu menu) {
-		for (MMenuElement menuElement : menu.getChildren()) {
+	private void unlink(MenuManagerRenderer renderer, MMenu menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (MMenuElement menuElement : menu.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (OpaqueElementUtil.isOpaqueMenuItem(menuElement)
 					|| OpaqueElementUtil.isOpaqueMenuSeparator(menuElement)) {
 				Object item = OpaqueElementUtil.getOpaqueItem(menuElement);
@@ -544,7 +544,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void registryChanged(final IRegistryChangeEvent event) {
 		Display display = Display.getDefault();
 		if (part != null) {
@@ -553,14 +553,14 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 		// check the delta to see if there are any viewer contribution changes. if so,
 		// null our builder to cause reparsing on the next menu show
 		IExtensionDelta[] deltas = event.getExtensionDeltas();
-		for (IExtensionDelta delta : deltas) {
+		for (IExtensionDelta delta : deltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IExtensionPoint extensionPoint = delta.getExtensionPoint();
 			if (extensionPoint.getContributor().getName().equals(WorkbenchPlugin.PI_WORKBENCH)
 					&& extensionPoint.getSimpleIdentifier().equals(IWorkbenchRegistryConstants.PL_POPUP_MENU)) {
 
 				boolean clearPopups = false;
 				IConfigurationElement[] elements = delta.getExtension().getConfigurationElements();
-				for (IConfigurationElement element : elements) {
+				for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (element.getName().equals(IWorkbenchRegistryConstants.TAG_VIEWER_CONTRIBUTION)) {
 						clearPopups = true;
 						break;
@@ -568,7 +568,7 @@ public class PopupMenuExtender implements IMenuListener2, IRegistryChangeListene
 				}
 
 				if (clearPopups) {
-					display.syncExec(this::clearStaticActions);
+					display.syncExec(this::clearStaticActions); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				}
 			}
 		}

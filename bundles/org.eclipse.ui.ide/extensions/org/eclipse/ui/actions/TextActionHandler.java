@@ -142,7 +142,7 @@ public class TextActionHandler {
 		}
 	}
 
-	private class PropertyChangeListener implements IPropertyChangeListener {
+	private class PropertyChangeListener implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		private final IAction actionHandler;
 
 		protected PropertyChangeListener(IAction actionHandler) {
@@ -171,7 +171,7 @@ public class TextActionHandler {
 					IIDEHelpContextIds.TEXT_DELETE_ACTION);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void runWithEvent(Event event) {
 			if (activeTextControl != null && !activeTextControl.isDisposed()) {
 				Point selection = activeTextControl.getSelection();
@@ -311,12 +311,12 @@ public class TextActionHandler {
 		/**
 		 * Update the state
 		 */
-		public void updateEnabledState() {
+		public void updateEnabledState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (activeTextControl != null && !activeTextControl.isDisposed()) {
 				boolean canPaste = false;
 				if (activeTextControl.getEditable()) {
 					Clipboard clipboard = new Clipboard(activeTextControl.getDisplay());
-					for (TransferData transferData : clipboard.getAvailableTypes()) {
+					for (TransferData transferData : clipboard.getAvailableTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (TextTransfer.getInstance().isSupportedType(transferData)) {
 							canPaste = true;
 							break;
@@ -438,19 +438,19 @@ public class TextActionHandler {
 	 *
 	 * @param textControl the inline <code>Text</code> control
 	 */
-	public void addText(Text textControl) {
+	public void addText(Text textControl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (textControl == null) {
 			return;
 		}
 
-		textControl.addListener(SWT.Activate, textControlListener);
-		textControl.addListener(SWT.Deactivate, textControlListener);
+		textControl.addListener(SWT.Activate, textControlListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		textControl.addListener(SWT.Deactivate, textControlListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 
 		// We really want a selection listener but it is not supported so we
 		// use a key listener and a mouse listener to know when selection changes
 		// may have occurred
-		textControl.addKeyListener(keyAdapter);
-		textControl.addMouseListener(mouseAdapter);
+		textControl.addKeyListener(keyAdapter); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+		textControl.addMouseListener(mouseAdapter); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 		if (textControl.isFocusControl()) {
 			activeTextControl = textControl;
@@ -578,7 +578,7 @@ public class TextActionHandler {
 	 * @param action the <code>IAction</code> to run for the
 	 *    Select All action, or <code>null</code> if not interested.
 	 */
-	public void setSelectAllAction(IAction action) {
+	public void setSelectAllAction(IAction action) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectAllAction == action) {
 			return;
 		}
@@ -643,7 +643,7 @@ public class TextActionHandler {
 	 * Has no function if <em>autoMode</em> is <code>false</code> because the
 	 * actions are explicit set then.
 	 */
-	private void injectTextActionHandles() {
+	private void injectTextActionHandles() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (autoMode) {
 			IAction action = actionBars.getGlobalActionHandler(ActionFactory.CUT.getId());
 			if (action != textCutAction) {

@@ -182,16 +182,16 @@ public class WorkspaceUndoUtil {
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	static IResourceSnapshot<? extends IResource>[] delete(IResource[] resourcesToDelete, IProgressMonitor mon,
+	static IResourceSnapshot<? extends IResource>[] delete(IResource[] resourcesToDelete, IProgressMonitor mon, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IAdaptable uiInfo,
 			boolean deleteContent) throws CoreException {
 		SubMonitor subMonitor = SubMonitor.convert(mon, resourcesToDelete.length);
 
-		final List<CoreException> exceptions = new ArrayList<>();
+		final List<CoreException> exceptions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean forceOutOfSyncDelete = false;
 		IResourceSnapshot<? extends IResource>[] returnedResourceDescriptions = new IResourceSnapshot<?>[resourcesToDelete.length];
 		subMonitor.setTaskName(UndoMessages.AbstractResourcesOperation_DeleteResourcesProgress);
-		for (int i = 0; i < resourcesToDelete.length; ++i) {
+		for (int i = 0; i < resourcesToDelete.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = resourcesToDelete[i];
 			try {
 				returnedResourceDescriptions[i] = delete(resource, subMonitor.split(1), uiInfo,
@@ -313,14 +313,14 @@ public class WorkspaceUndoUtil {
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	static IResourceSnapshot<? extends IResource>[] copy(IResource[] resources, IPath destination,
+	static IResourceSnapshot<? extends IResource>[] copy(IResource[] resources, IPath destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<IResource> resourcesAtDestination,
 			IProgressMonitor monitor, IAdaptable uiInfo, boolean pathIncludesName, boolean createVirtual,
 			boolean createLinks, String relativeToVariable) throws CoreException {
 		SubMonitor subMonitor = SubMonitor.convert(monitor, resources.length);
 		subMonitor.setTaskName(UndoMessages.AbstractResourcesOperation_CopyingResourcesProgress);
-		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>();
-		for (IResource source : resources) {
+		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource source : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SubMonitor iterationProgress = subMonitor.split(1).setWorkRemaining(100);
 			IPath destinationPath;
 			if (pathIncludesName) {
@@ -539,15 +539,15 @@ public class WorkspaceUndoUtil {
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	static IResourceSnapshot<? extends IResource>[] move(IResource[] resources, IPath destination,
+	static IResourceSnapshot<? extends IResource>[] move(IResource[] resources, IPath destination, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<IResource> resourcesAtDestination,
 			List<IPath> reverseDestinations, IProgressMonitor mon, IAdaptable uiInfo, boolean pathIncludesName)
 					throws CoreException {
 
 		SubMonitor subMonitor = SubMonitor.convert(mon, resources.length);
 		subMonitor.setTaskName(UndoMessages.AbstractResourcesOperation_MovingResources);
-		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>();
-		for (IResource resource : resources) {
+		List<IResourceSnapshot<? extends IResource>> overwrittenResources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SubMonitor iterationProgress = subMonitor.split(1);
 			IPath destinationPath;
 			if (pathIncludesName) {
@@ -648,8 +648,8 @@ public class WorkspaceUndoUtil {
 	 * @return The linked resources
 	 */
 	private static IResource[] filterNonLinkedResources(IResource[] resources) {
-		List<IResource> result = new ArrayList<>();
-		for (IResource resource : resources) {
+		List<IResource> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.isLinked()) {
 				result.add(resource);
 			}
@@ -674,13 +674,13 @@ public class WorkspaceUndoUtil {
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	static IResource[] recreate(IResourceSnapshot<? extends IResource>[] resourcesToRecreate,
+	static IResource[] recreate(IResourceSnapshot<? extends IResource>[] resourcesToRecreate, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProgressMonitor monitor, IAdaptable uiInfo) throws CoreException {
 		SubMonitor subMonitor = SubMonitor.convert(monitor, resourcesToRecreate.length);
-		final List<CoreException> exceptions = new ArrayList<>();
+		final List<CoreException> exceptions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IResource[] resourcesToReturn = new IResource[resourcesToRecreate.length];
 		subMonitor.setTaskName(UndoMessages.AbstractResourcesOperation_CreateResourcesProgress);
-		for (int i = 0; i < resourcesToRecreate.length; ++i) {
+		for (int i = 0; i < resourcesToRecreate.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				resourcesToReturn[i] = resourcesToRecreate[i].createResource(subMonitor.split(1));
 			} catch (CoreException e) {
@@ -719,7 +719,7 @@ public class WorkspaceUndoUtil {
 	 * @throws CoreException
 	 *             propagates any CoreExceptions thrown from the resources API
 	 */
-	static IResourceSnapshot<? extends IResource> delete(IResource resourceToDelete,
+	static IResourceSnapshot<? extends IResource> delete(IResource resourceToDelete, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IProgressMonitor monitor, IAdaptable uiInfo,
 			boolean forceOutOfSyncDelete, boolean deleteContent)
 			throws CoreException {
@@ -755,7 +755,7 @@ public class WorkspaceUndoUtil {
 	 * returning a ResourceDescription that can be used to restore the original
 	 * content. Do nothing if the resources are not files.
 	 */
-	private static IResourceSnapshot<IResource> copyOverExistingResource(
+	private static IResourceSnapshot<IResource> copyOverExistingResource( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResource source, IResource existing, IProgressMonitor monitor,
 			IAdaptable uiInfo, boolean deleteSourceFile) throws CoreException {
 		if (!(source instanceof IFile file && existing instanceof IFile existingFile)) {
@@ -806,7 +806,7 @@ public class WorkspaceUndoUtil {
 			return parent;
 		}
 		// Traverse the members and find the first potential leaf
-		for (IResourceSnapshot<? extends IResource> member : members) {
+		for (IResourceSnapshot<? extends IResource> member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member instanceof IContainerSnapshot) {
 				return getFirstLeafFolder(((IContainerSnapshot<? extends IResource>) member));
 			}
@@ -820,7 +820,7 @@ public class WorkspaceUndoUtil {
 	 * that do not yet exist. Return any generated containers, or null if no
 	 * container had to be generated.
 	 */
-	private static IContainer generateContainers(IPath path)
+	private static IContainer generateContainers(IPath path) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws CoreException {
 		IResource container;
 		if (path.segmentCount() == 0) {
@@ -855,7 +855,7 @@ public class WorkspaceUndoUtil {
 	 * Return one of the IDialogConstants constants indicating which of the Yes,
 	 * Yes to All, No, Cancel options has been selected by the user.
 	 */
-	private static int queryDeleteOutOfSync(IResource resource,
+	private static int queryDeleteOutOfSync(IResource resource, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IAdaptable uiInfo) {
 		Shell shell = getShell(uiInfo);
 		final MessageDialog dialog = new MessageDialog(
@@ -876,7 +876,7 @@ public class WorkspaceUndoUtil {
 				return super.getShellStyle() | SWT.SHEET;
 			}
 		};
-		shell.getDisplay().syncExec(dialog::open);
+		shell.getDisplay().syncExec(dialog::open); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		int result = dialog.getReturnCode();
 		if (result == 0) {
 			return IDialogConstants.YES_ID;
@@ -894,7 +894,7 @@ public class WorkspaceUndoUtil {
 	 * Creates and return a result status appropriate for the given list of
 	 * exceptions.
 	 */
-	private static IStatus createResult(List<CoreException> exceptions) {
+	private static IStatus createResult(List<CoreException> exceptions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (exceptions.isEmpty()) {
 			return Status.OK_STATUS;
 		}
@@ -905,7 +905,7 @@ public class WorkspaceUndoUtil {
 		CoreException[] children = exceptions
 				.toArray(new CoreException[exceptionCount]);
 		boolean outOfSync = false;
-		for (CoreException exception : children) {
+		for (CoreException exception : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (exception.getStatus().getCode() == IResourceStatus.OUT_OF_SYNC_LOCAL) {
 				outOfSync = true;
 				break;
@@ -915,7 +915,7 @@ public class WorkspaceUndoUtil {
 				: UndoMessages.AbstractResourcesOperation_deletionExceptionMessage;
 		final MultiStatus multi = new MultiStatus(
 				IDEWorkbenchPlugin.IDE_WORKBENCH, 0, title, null);
-		for (int i = 0; i < exceptionCount; i++) {
+		for (int i = 0; i < exceptionCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CoreException exception = children[i];
 			IStatus status = exception.getStatus();
 			multi.add(new Status(status.getSeverity(), status.getPlugin(),

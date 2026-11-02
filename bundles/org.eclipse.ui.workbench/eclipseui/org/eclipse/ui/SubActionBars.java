@@ -100,7 +100,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 
 	private SubToolBarManager toolBarMgr;
 
-	private final Map<String, String> actionIdByCommandId = new HashMap<>();
+	private final Map<String, String> actionIdByCommandId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Construct a new <code>SubActionBars</code> object. The service locator will
@@ -173,7 +173,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 	/**
 	 * Clear the global action handlers.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void clearGlobalActionHandlers() {
 		if (actionHandlers != null) {
 			actionHandlers.clear();
@@ -184,7 +184,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 			// Clean up the activations.
 			final Iterator<Map.Entry<IServiceLocator, Map<String, IHandlerActivation>>> activationItr = activationsByActionIdByServiceLocator
 					.entrySet().iterator();
-			while (activationItr.hasNext()) {
+			while (activationItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Map.Entry<IServiceLocator, Map<String, IHandlerActivation>> value = activationItr.next();
 				final IServiceLocator locator = value.getKey();
 				final IHandlerService service = locator.getService(IHandlerService.class);
@@ -194,7 +194,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 					service.deactivateHandlers(activations);
 				}
 
-				for (Object activation : activations) {
+				for (Object activation : activations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					((IHandlerActivation) activation).getHandler().dispose();
 				}
 			}
@@ -285,7 +285,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 */
 	protected void firePropertyChange(PropertyChangeEvent event) {
 		Object[] listeners = getListeners();
-		for (Object listener : listeners) {
+		for (Object listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			((IPropertyChangeListener) listener).propertyChange(event);
 		}
 	}
@@ -456,7 +456,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 	 * @param handler  an action which implements the action ID. <code>null</code>
 	 *                 may be passed to deregister a handler.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setGlobalActionHandler(String actionID, IAction handler) {
 		if (actionID == null) {
 			/*
@@ -484,7 +484,7 @@ public class SubActionBars extends EventManager implements IActionBars {
 		if (handler != null) {
 			// Update the action handlers.
 			if (actionHandlers == null) {
-				actionHandlers = new HashMap<>(11);
+				actionHandlers = new HashMap<>(11); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			}
 			actionHandlers.put(actionID, handler);
 
@@ -505,12 +505,12 @@ public class SubActionBars extends EventManager implements IActionBars {
 				Map<String, IHandlerActivation> activationsByActionId = null;
 				if (activationsByActionIdByServiceLocator == null) {
 					activationsByActionIdByServiceLocator = new WeakHashMap<>();
-					activationsByActionId = new HashMap<>();
+					activationsByActionId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					activationsByActionIdByServiceLocator.put(serviceLocator, activationsByActionId);
 				} else {
 					activationsByActionId = activationsByActionIdByServiceLocator.get(serviceLocator);
 					if (activationsByActionId == null) {
-						activationsByActionId = new HashMap<>();
+						activationsByActionId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 						activationsByActionIdByServiceLocator.put(serviceLocator, activationsByActionId);
 					} else if (activationsByActionId.containsKey(actionID)) {
 						final Object value = activationsByActionId.remove(actionID);

@@ -81,7 +81,7 @@ final class HandlerActivation implements IHandlerActivation {
 		return sourcePriority;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean evaluate(IEvaluationContext context) {
 		if (activeWhen == null) {
 			active = true;
@@ -109,7 +109,7 @@ final class HandlerActivation implements IHandlerActivation {
 		active = result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compareTo(Object o) {
 		HandlerActivation activation = (HandlerActivation) o;
 		int difference;
@@ -176,9 +176,9 @@ final class HandlerActivation implements IHandlerActivation {
 		return active;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append("["); //$NON-NLS-1$
 		if (handler != null) {
 			builder.append(handler);

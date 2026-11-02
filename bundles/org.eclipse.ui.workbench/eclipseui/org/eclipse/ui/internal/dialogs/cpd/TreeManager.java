@@ -60,7 +60,7 @@ public class TreeManager {
 	private static ICheckStateListener viewerCheckListener = null;
 	private static ITreeContentProvider treeContentProvider = null;
 
-	private List<CheckListener> listeners = new ArrayList<>();
+	private List<CheckListener> listeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private LocalResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
 
 	/**
@@ -112,7 +112,7 @@ public class TreeManager {
 		}
 	}
 
-	public static class ViewerCheckStateListener implements ICheckStateListener {
+	public static class ViewerCheckStateListener implements ICheckStateListener { //FLLDCIM: MARK — T21  IMPLEMENTS
 		@Override
 		public void checkStateChanged(CheckStateChangedEvent event) {
 			Object checked = event.getElement();
@@ -165,7 +165,7 @@ public class TreeManager {
 	 * completely build the tree structure represented by
 	 * {@link TreeManager.TreeItem}s.
 	 */
-	public static class TreeItemContentProvider implements ITreeContentProvider {
+	public static class TreeItemContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		@Override
 		public Object[] getChildren(Object parentElement) {
 			return ((TreeItem) parentElement).getChildren().toArray();
@@ -253,7 +253,7 @@ public class TreeManager {
 
 		public TreeItem(String label) {
 			this.label = label;
-			this.children = new ArrayList<>();
+			this.children = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		public String getLabel() {
@@ -349,7 +349,7 @@ public class TreeManager {
 
 			// if the new state is 'GRAY'
 			if (newState != CHECKSTATE_GRAY) {
-				for (TreeItem treeItem : changedItem.children) {
+				for (TreeItem treeItem : changedItem.children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TreeItem curItem = treeItem;
 					curItem.internalSetCheckState(newState);
 					curItem.setChangedByUser(changedItem.isChangedByUser());
@@ -368,7 +368,7 @@ public class TreeManager {
 		 * <li>else...parent GRAY</li>
 		 * </ul>
 		 */
-		private void synchParents(TreeItem changedItem) {
+		private void synchParents(TreeItem changedItem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (changedItem.parent == null) {
 				return;
 			}
@@ -377,7 +377,7 @@ public class TreeManager {
 
 			if (newState == CHECKSTATE_GRAY) {
 				// if the new state is 'GRAY' then -ALL- the parents are gray
-				while (changedItem.parent != null && changedItem.parent.checkState != CHECKSTATE_GRAY) {
+				while (changedItem.parent != null && changedItem.parent.checkState != CHECKSTATE_GRAY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					changedItem.parent.internalSetCheckState(CHECKSTATE_GRAY);
 					if (changedItem.isChangedByUser()) {
 						changedItem.parent.setChangedByUser(true);
@@ -390,7 +390,7 @@ public class TreeManager {
 				// some of each
 				boolean checkedFound = newState == CHECKSTATE_CHECKED;
 				boolean uncheckedFound = newState == CHECKSTATE_UNCHECKED;
-				for (Iterator<TreeItem> i = changedItem.parent.children.iterator(); i.hasNext()
+				for (Iterator<TreeItem> i = changedItem.parent.children.iterator(); i.hasNext() //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						&& (!checkedFound || !uncheckedFound);) {
 					TreeItem item = i.next();
 					switch (item.checkState) {
@@ -442,7 +442,7 @@ public class TreeManager {
 
 		@Override
 		public String toString() {
-			return label + ", check=" + getState() + ", changed=" + changedByUser; //$NON-NLS-1$ //$NON-NLS-2$
+			return label + ", check=" + getState() + ", changed=" + changedByUser; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 	}
@@ -451,7 +451,7 @@ public class TreeManager {
 	 * Creates a new {@link TreeManager}.
 	 */
 	public TreeManager() {
-		listeners = new ArrayList<>();
+		listeners = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -502,10 +502,10 @@ public class TreeManager {
 	 * @param viewer the viewer to configure with this TreeManager.
 	 */
 	public void attachAll(CheckboxTreeViewer viewer) {
-		viewer.setLabelProvider(getLabelProvider());
+		viewer.setLabelProvider(getLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		viewer.setCheckStateProvider(getCheckStateProvider());
 		viewer.setContentProvider(getTreeContentProvider());
-		viewer.addCheckStateListener(getViewerCheckStateListener());
+		viewer.addCheckStateListener(getViewerCheckStateListener()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 		getCheckListener(viewer);
 	}
 
@@ -529,10 +529,10 @@ public class TreeManager {
 	 * @param viewer the viewer to configure with this TreeManager.
 	 */
 	public void attachAll(CheckboxTableViewer viewer) {
-		viewer.setLabelProvider(getLabelProvider());
+		viewer.setLabelProvider(getLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		viewer.setCheckStateProvider(getCheckStateProvider());
 		viewer.setContentProvider(getTreeContentProvider());
-		viewer.addCheckStateListener(getViewerCheckStateListener());
+		viewer.addCheckStateListener(getViewerCheckStateListener()); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 		getCheckListener(viewer);
 	}
 
@@ -551,7 +551,7 @@ public class TreeManager {
 	 * @param item The {@link TreeItem} that changed.
 	 */
 	private void fireListeners(TreeItem item) {
-		for (CheckListener checkListener : listeners) {
+		for (CheckListener checkListener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CheckListener listener = checkListener;
 			listener.checkChanged(item);
 		}

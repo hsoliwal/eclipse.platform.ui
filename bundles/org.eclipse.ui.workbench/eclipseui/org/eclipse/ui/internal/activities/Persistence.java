@@ -91,7 +91,7 @@ public final class Persistence {
 		return memento.getString(TAG_ID);
 	}
 
-	static ActivityDefinition readActivityDefinition(IMemento memento, String sourceIdOverride) {
+	static ActivityDefinition readActivityDefinition(IMemento memento, String sourceIdOverride) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String id = memento.getString(TAG_ID);
 		if (id == null) {
@@ -111,7 +111,7 @@ public final class Persistence {
 		return new ActivityDefinition(id, name, sourceId, description);
 	}
 
-	static ActivityPatternBindingDefinition readActivityPatternBindingDefinition(IMemento memento,
+	static ActivityPatternBindingDefinition readActivityPatternBindingDefinition(IMemento memento, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String sourceIdOverride) {
 
 		String activityId = memento.getString(TAG_ACTIVITY_ID);
@@ -149,7 +149,7 @@ public final class Persistence {
 		return new CategoryActivityBindingDefinition(activityId, categoryId, sourceId);
 	}
 
-	static CategoryDefinition readCategoryDefinition(IMemento memento, String sourceIdOverride) {
+	static CategoryDefinition readCategoryDefinition(IMemento memento, String sourceIdOverride) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String id = memento.getString(TAG_ID);
 		if (id == null) {
@@ -188,7 +188,7 @@ public final class Persistence {
 	}
 
 	static public void log(String elementName, String msg, String contributorName, String extensionID) {
-		String msgInContext = elementName + ": " + msg; //$NON-NLS-1$ ;
+		String msgInContext = elementName + ": " + msg; //$NON-NLS-1$ ; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (contributorName != null && extensionID != null) {
 			msgInContext += NLS.bind(fullContextTemplate, contributorName, extensionID);
 		} else if (contributorName != null) {

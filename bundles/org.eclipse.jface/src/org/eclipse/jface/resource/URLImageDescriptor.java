@@ -114,7 +114,7 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 		return null;
 	}
 
-	private static <R> R getZoomedImageSource(URL url, int zoom, Function<URL, R> getImage) {
+	private static <R> R getZoomedImageSource(URL url, int zoom, Function<URL, R> getImage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		URL xUrl = getxURL(url, zoom);
 		if (xUrl != null) {
 			R xdata = getImage.apply(xUrl);
@@ -177,7 +177,7 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 			if (InternalPolicy.DEBUG_LOG_URL_IMAGE_DESCRIPTOR_MISSING_2x) {
 				String path = url.getPath();
 				if (path.endsWith("@2x.png") || path.endsWith("@1.5x.png")) { //$NON-NLS-1$ //$NON-NLS-2$
-					Policy.getLog().log(Status.warning("High-resolution image missing: " + url, e)); //$NON-NLS-1$
+					Policy.getLog().log(Status.warning("High-resolution image missing: " + url, e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return null;
@@ -196,10 +196,10 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 	 */
 	@Override
 	public String toString() {
-		return "URLImageDescriptor(" + url + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "URLImageDescriptor(" + url + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private static URL getxURL(URL url, int zoom) {
+	private static URL getxURL(URL url, int zoom) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String path = url.getPath();
 		int dot = path.lastIndexOf('.');
 		if (dot != -1 && (zoom == 150 || zoom == 200)) {
@@ -210,9 +210,9 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 			}
 			String x = zoom == 150 ? "@1.5x" : "@2x"; //$NON-NLS-1$ //$NON-NLS-2$
 			try {
-				String file = lead + x + tail;
+				String file = lead + x + tail; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (url.getQuery() != null) {
-					file += '?' + url.getQuery();
+					file += '?' + url.getQuery(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				return new URL(url.getProtocol(), url.getHost(), url.getPort(), file);
 			} catch (MalformedURLException e) {
@@ -235,7 +235,7 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 				int desiredHeight = Math.round((zoom / 100f) * currentHeight);
 				String lead = name.substring(0, matcher.start(1));
 				String tail = name.substring(matcher.end(2));
-				return lead + desiredWidth + "x" + desiredHeight + tail; //$NON-NLS-1$
+				return lead + desiredWidth + "x" + desiredHeight + tail; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} catch (RuntimeException e) {
 				// should never happen but if then we can't use the alternative name...
 			}
@@ -248,7 +248,7 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 	 *
 	 * @return {@link String} or <code>null</code> if the file cannot be found
 	 */
-	private static String getFilePath(URL url, boolean logException) {
+	private static String getFilePath(URL url, boolean logException) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (!InternalPolicy.OSGI_AVAILABLE) {
 				return getFilePath(url);
@@ -262,7 +262,7 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 			} else if (InternalPolicy.DEBUG_LOG_URL_IMAGE_DESCRIPTOR_MISSING_2x) {
 				String path = url.getPath();
 				if (path.endsWith("@2x.png") || path.endsWith("@1.5x.png")) { //$NON-NLS-1$ //$NON-NLS-2$
-					Policy.getLog().log(Status.warning("High-resolution image missing: " + url, e)); //$NON-NLS-1$
+					Policy.getLog().log(Status.warning("High-resolution image missing: " + url, e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			return null;
@@ -287,7 +287,7 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 		return url;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image createImage(boolean returnMissingImageOnError, Device device) {
 		long start = 0;
 		if (InternalPolicy.DEBUG_TRACE_URL_IMAGE_DESCRIPTOR) {
@@ -350,7 +350,7 @@ class URLImageDescriptor extends ImageDescriptor implements IAdaptable {
 			if (InternalPolicy.DEBUG_TRACE_URL_IMAGE_DESCRIPTOR) {
 				long time = System.nanoTime() - start;
 				cumulativeTime += time;
-				System.out.println("Accumulated time (ms) to load URLImageDescriptor images: " + cumulativeTime / 1000000); //$NON-NLS-1$
+				System.out.println("Accumulated time (ms) to load URLImageDescriptor images: " + cumulativeTime / 1000000); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}

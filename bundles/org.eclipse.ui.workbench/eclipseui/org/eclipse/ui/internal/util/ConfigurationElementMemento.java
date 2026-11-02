@@ -68,7 +68,7 @@ public final class ConfigurationElementMemento implements IMemento {
 		if (configurationElements != null && configurationElements.length > 0) {
 			IMemento mementos[] = new ConfigurationElementMemento[configurationElements.length];
 
-			for (int i = 0; i < configurationElements.length; i++) {
+			for (int i = 0; i < configurationElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				mementos[i] = new ConfigurationElementMemento(configurationElements[i]);
 			}
 

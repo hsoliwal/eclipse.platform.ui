@@ -52,7 +52,7 @@ public class PerspectiveListenerList extends EventManager {
 			String description) {
 		String label = null;// for debugging
 		if (UIStats.isDebugging(UIStats.NOTIFY_PERSPECTIVE_LISTENERS)) {
-			label = description + perspective.getId();
+			label = description + perspective.getId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			UIStats.start(UIStats.NOTIFY_PERSPECTIVE_LISTENERS, label);
 		}
 		SafeRunner.run(runnable);
@@ -65,7 +65,7 @@ public class PerspectiveListenerList extends EventManager {
 	 * Notifies the listener that a perspective has been activated.
 	 */
 	public void firePerspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor perspective) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPerspectiveListener perspectiveListener = (IPerspectiveListener) listener;
 			fireEvent(new SafeRunnable() {
 				@Override
@@ -82,7 +82,7 @@ public class PerspectiveListenerList extends EventManager {
 	 * @since 3.2
 	 */
 	public void firePerspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor perspective) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof final IPerspectiveListener4 perspectiveListener) {
 				fireEvent(new SafeRunnable() {
 					@Override
@@ -100,7 +100,7 @@ public class PerspectiveListenerList extends EventManager {
 	 * @since 3.1
 	 */
 	public void firePerspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor perspective) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof final IPerspectiveListener3 perspectiveListener) {
 				fireEvent(new SafeRunnable() {
 					@Override
@@ -117,7 +117,7 @@ public class PerspectiveListenerList extends EventManager {
 	 */
 	public void firePerspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor perspective,
 			final String changeId) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPerspectiveListener perspectiveListener = (IPerspectiveListener) listener;
 			fireEvent(new SafeRunnable() {
 				@Override
@@ -135,7 +135,7 @@ public class PerspectiveListenerList extends EventManager {
 	 */
 	public void firePerspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor perspective,
 			final IWorkbenchPartReference partRef, final String changeId) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof final IPerspectiveListener2 perspectiveListener) {
 				fireEvent(new SafeRunnable() {
 					@Override
@@ -153,7 +153,7 @@ public class PerspectiveListenerList extends EventManager {
 	 * @since 3.1
 	 */
 	public void firePerspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor perspective) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof final IPerspectiveListener3 perspectiveListener) {
 				fireEvent(new SafeRunnable() {
 					@Override
@@ -171,7 +171,7 @@ public class PerspectiveListenerList extends EventManager {
 	 * @since 3.1
 	 */
 	public void firePerspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor perspective) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof final IPerspectiveListener3 perspectiveListener) {
 				fireEvent(new SafeRunnable() {
 					@Override
@@ -190,7 +190,7 @@ public class PerspectiveListenerList extends EventManager {
 	 */
 	public void firePerspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor oldPerspective,
 			final IPerspectiveDescriptor newPerspective) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof final IPerspectiveListener3 perspectiveListener) {
 				fireEvent(new SafeRunnable() {
 					@Override

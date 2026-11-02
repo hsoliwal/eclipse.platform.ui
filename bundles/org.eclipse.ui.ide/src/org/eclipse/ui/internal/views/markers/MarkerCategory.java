@@ -74,7 +74,7 @@ class MarkerCategory extends MarkerSupportItem {
 		name = categoryName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	MarkerSupportItem[] getChildren() {
 		MarkerEntry[] myChildren = children;
 		if (myChildren != null) {
@@ -92,7 +92,7 @@ class MarkerCategory extends MarkerSupportItem {
 		int totalSize = getChildrenCount();
 		myChildren = new MarkerEntry[totalSize];
 		System.arraycopy(allMarkers, start, myChildren, 0, totalSize);
-		for (MarkerEntry markerEntry : myChildren) {
+		for (MarkerEntry markerEntry : myChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			markerEntry.setCategory(this);
 		}
 		children = myChildren;
@@ -134,7 +134,7 @@ class MarkerCategory extends MarkerSupportItem {
 		return count;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	String getDescription() {
 		//see Bug 294959
 		//if(refreshing){
@@ -174,12 +174,12 @@ class MarkerCategory extends MarkerSupportItem {
 	 *
 	 * @return int
 	 */
-	int getHighestSeverity() {
+	int getHighestSeverity() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (severity >= 0) {
 			return severity;
 		}
 		severity = 0;// Reset to info
-		for (MarkerSupportItem supportItem : getChildren()) {
+		for (MarkerSupportItem supportItem : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (supportItem.isConcrete()) {
 				int elementSeverity = supportItem.getAttributeValue(IMarker.SEVERITY, -1);
 				if (elementSeverity > severity) {
@@ -218,7 +218,7 @@ class MarkerCategory extends MarkerSupportItem {
 	@Override
 	void clearCache() {
 		shownChildrenCount = null;
-		for (MarkerSupportItem supportItem : getChildren()) {
+		for (MarkerSupportItem supportItem : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			supportItem.clearCache();
 		}
 	}
@@ -249,7 +249,7 @@ class MarkerCategory extends MarkerSupportItem {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		builder.append("MarkerCategory [name="); //$NON-NLS-1$
 		builder.append(name);
 		builder.append(", severity="); //$NON-NLS-1$

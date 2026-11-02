@@ -151,7 +151,7 @@ public class ResourcePropertySource implements IPropertySource {
 		return propertyDescriptors;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getPropertyValue(Object name) {
 		if (name.equals(IBasicPropertyConstants.P_TEXT)) {
 			return element.getName();

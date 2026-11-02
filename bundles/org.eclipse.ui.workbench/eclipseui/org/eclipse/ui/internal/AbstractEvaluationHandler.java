@@ -49,7 +49,7 @@ public abstract class AbstractEvaluationHandler extends AbstractEnabledHandler {
 
 	private IPropertyChangeListener getEnablementListener() {
 		if (enablementListener == null) {
-			enablementListener = event -> {
+			enablementListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 				if (event.getProperty() == PROP_ENABLED) {
 					if (event.getNewValue() instanceof Boolean) {
 						setEnabled(((Boolean) event.getNewValue()).booleanValue());

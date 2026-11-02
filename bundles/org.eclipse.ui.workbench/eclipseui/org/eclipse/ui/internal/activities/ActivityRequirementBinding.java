@@ -88,7 +88,7 @@ public final class ActivityRequirementBinding implements IActivityRequirementBin
 	@Override
 	public String toString() {
 		if (string == null) {
-			final StringBuilder stringBuffer = new StringBuilder();
+			final StringBuilder stringBuffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			stringBuffer.append('[');
 			stringBuffer.append(requiredActivityId);
 			stringBuffer.append(',');

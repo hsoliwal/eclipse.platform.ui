@@ -105,7 +105,7 @@ public class PreferencesImportWizard extends Wizard implements IImportWizard {
 				PreferencesMessages.WizardPreferencesImportRestartDialog_title,
 				PreferencesMessages.WizardPreferencesImportRestartDialog_message, SWT.NONE,
 				PreferencesMessages.WizardPreferencesImportRestartDialog_restart, IDialogConstants.CANCEL_LABEL)) {
-			Display.getDefault().asyncExec(() -> {
+			Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				PlatformUI.getWorkbench().restart();
 			});
 		}

@@ -1,0 +1,164 @@
+{
+  "scope": "Genuine source/toolchain/dependency acquisition, SWT GTK3 native compilation, and local display readiness for current pinned Eclipse source proofs",
+  "date": "2026-10-18",
+  "checkouts": [
+    {
+      "path": "/tmp/eclipse-m3-20261018/forks/eclipse.platform",
+      "repository": "hsoliwal/eclipse.platform",
+      "commit": "69291c18babd233a94b742798b3d1078979bf78c",
+      "working_tree_clean": true
+    },
+    {
+      "path": "/tmp/eclipse-m3-20261018/forks/eclipse.platform.ui",
+      "repository": "hsoliwal/eclipse.platform.ui",
+      "commit": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+      "working_tree_clean": true
+    },
+    {
+      "path": "/tmp/eclipse-m3-20261018/forks/eclipse.platform.swt",
+      "repository": "hsoliwal/eclipse.platform.swt",
+      "commit": "422fb369629ba47fc5c5c6ddf01794b6d7c79f42",
+      "working_tree_clean": true
+    }
+  ],
+  "java21": "/tmp/m3-toolchain/jdk21",
+  "java25": "/tmp/eclipse-m3-20261018/toolchain/jdk25",
+  "maven": "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+  "jars": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps",
+  "swt_native_directory": "/tmp/eclipse-m3-20261018/toolchain/swt-native-gtk3",
+  "swt_native_build_exit_code": 0,
+  "swt_native_libraries_reverified": 7,
+  "xvfb_wrapper": "/tmp/eclipse-m3-20261018/toolchain/native-bin/Xvfb-local",
+  "xvfb_binary_sha256": "51f61b4e406918b7c3fe5d2da4b3591b1ceee9dbc08bd60509db84368539efab",
+  "xvfb_startup_passed": true,
+  "xvfb_after_probe": "stopped cleanly; no persistent display left",
+  "xvfb_runtime_requirement": "Unix display sockets need authorized execution outside the restrictive default sandbox; TCP is disabled with -nolisten tcp",
+  "xvfb_build_scope": "Actual distro-patched source; local Xvfb only with GLX/DRI disabled. This is the display environment for the selected GTK tree gate, not GLX or platform-matrix acceptance.",
+  "xvfb_version_note": "Authenticated xorg-server source package 2:21.1.12-1ubuntu1.8; source Meson project metadata declares 21.1.11, recorded unchanged",
+  "source_trust_note": "Ubuntu-signed archive indexes and exact archive SHA256 verified; inline .dsc maintainer signature not verified because its key is absent",
+  "portability_note": "Build/runtime toolchain paths are host-local; receipts preserve real source, checksums, commands and environment for reproduction. Xvfb embeds its configured keyboard helper path.",
+  "execution_owners": {
+    "native_jface_gate": "/root/composition_verifier",
+    "jobs_bundle_and_rules": "/root",
+    "commands_bundle": "/root/eclipse_fork_inventory"
+  },
+  "not_run_by_this_agent": [
+    "native JFace test methods",
+    "full Tycho target/reactor",
+    "full native platform test suites",
+    "unchanged nine headless tests again on 2026-10-18"
+  ],
+  "receipt_files": [
+    {
+      "path": "jdk25-acquisition.json",
+      "bytes": 1289,
+      "sha256": "afeb151e2c3124adac3088a7168729480b9e1d70f344cc7552edd8dd080700a4"
+    },
+    {
+      "path": "headless-proof/source-blobs.json",
+      "bytes": 1888,
+      "sha256": "75ce83ad6e834c6968659f1c3b8b0e0cedb66de594f814a99f43aee1d4322c1a"
+    },
+    {
+      "path": "eclipse-deps/acquisition.json",
+      "bytes": 2795,
+      "sha256": "81953cd49da8b42750062396cc05f9e5b3b9cc037dd3661c3ba8f463468f37c9"
+    },
+    {
+      "path": "eclipse-deps/additional-acquisition.json",
+      "bytes": 3841,
+      "sha256": "3be2f128c1c480d2d2dc482e4eddd608e7a1472d94d22db05fa94d78d51ae46b"
+    },
+    {
+      "path": "eclipse-deps/ecj-acquisition.json",
+      "bytes": 451,
+      "sha256": "3489a0a125503b475bf8c24c440efe63958a86ffeeb9dc3ffd3a39478c1ef5d4"
+    },
+    {
+      "path": "native-apt/archive-signature-receipt.json",
+      "bytes": 3718,
+      "sha256": "9c18cce80307b08b3b67e7a43961891f69fb0625dd457caa2b3e8e01938325a7"
+    },
+    {
+      "path": "native-apt/package-resolution.json",
+      "bytes": 190564,
+      "sha256": "bc4eb9dc91b0fda838fb05813c34f4c5078c5ac78e3e1df5c0a4ebabf1db839c"
+    },
+    {
+      "path": "native-apt/download-receipt.json",
+      "bytes": 101594,
+      "sha256": "7c9eb991d9c828e64757be42e56ed04ef16c16a54b9b5bc41300bf07492a25a5"
+    },
+    {
+      "path": "native-apt/extraction-receipt.json",
+      "bytes": 192,
+      "sha256": "fd64ffead2d750572b709e536f5eaa3cdc09b198392b543b606f4825e6aa0eef"
+    },
+    {
+      "path": "native-apt/source-index-pins.json",
+      "bytes": 482,
+      "sha256": "023f556d4ec7c6195bb6e9c14ff1aaf0d4f1fe7b0ded6064328fb875747abc91"
+    },
+    {
+      "path": "native-apt/xvfb-dev-resolution.json",
+      "bytes": 5280,
+      "sha256": "5586bc642e0fe3f17a813af1955a5e313ac8da6ac05882efd5dcb13aec51a1ff"
+    },
+    {
+      "path": "native-apt/xvfb-dev-acquisition.json",
+      "bytes": 5255,
+      "sha256": "03bea73ed29fecfd51911a1d70e6fca9ae43628bfc932134b3d2401ee7708bf2"
+    },
+    {
+      "path": "native-wrapper-receipt.json",
+      "bytes": 856,
+      "sha256": "0c9a3e310a1e666d5cf3b8d7be2e928d1d2b06e9347176a8a4bf55fb102022b6"
+    },
+    {
+      "path": "swt-native-gtk3/source-collection.json",
+      "bytes": 9895,
+      "sha256": "df95aaafa1769d9106ca8c34f25955e831cef235f40ebb6749cb03c831c3dc5e"
+    },
+    {
+      "path": "swt-native-gtk3/build-receipt.json",
+      "bytes": 2881,
+      "sha256": "217a269645d759e979773254bdcde3787e5baa51962f99552955843bd0eaa181"
+    },
+    {
+      "path": "xvfb-source/source-acquisition.json",
+      "bytes": 1803,
+      "sha256": "a1c1e590bde22a2e0999f37168e3a68c8699476d4e0c28a3f99f73d1aa88f5ac"
+    },
+    {
+      "path": "xvfb-source/patches.json",
+      "bytes": 10371,
+      "sha256": "b5f9ba1fad61bab4d9e45e3516207388ab810e580b0558721ea08c7d2f959341"
+    },
+    {
+      "path": "xvfb-source/configure-receipt.json",
+      "bytes": 2526,
+      "sha256": "d7d66946fa7efabae3ec8522c81eff746cc70c79f8fe0f99f0a55f6e23c9c53c"
+    },
+    {
+      "path": "xvfb-source/build-receipt.json",
+      "bytes": 634,
+      "sha256": "82540bd1dda715c05a33aa9312cb53c9f50aa93087f06b68c98b5507556b148d"
+    },
+    {
+      "path": "xvfb-local-startup-receipt.json",
+      "bytes": 673,
+      "sha256": "bc5cb81f584a67da11985a9820de7258d5c3c79729d71557738c23b424950725"
+    },
+    {
+      "path": "tycho-inputs/parent-receipt.json",
+      "bytes": 2722,
+      "sha256": "28ead4a52c8ebc6620b565f46999816f8a380c929c0a7bdd58cefbb5bc256881"
+    },
+    {
+      "path": "tycho-inputs/target-receipt.json",
+      "bytes": 34167,
+      "sha256": "b8b9c19b4c9a9e1c76df282d4b28828fb1b1e7d94e888d4aebf8cb615bbc3938"
+    }
+  ],
+  "free_bytes_at_handoff": 1169969152
+}

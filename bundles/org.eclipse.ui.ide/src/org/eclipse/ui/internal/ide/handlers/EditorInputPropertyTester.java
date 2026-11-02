@@ -46,7 +46,7 @@ public class EditorInputPropertyTester extends PropertyTester {
 		}
 		if (input == null) {
 			IDEWorkbenchPlugin
-					.log("IEditorPart (" + editor.getClass() + ") passed in without IEditorInput set.", new NullPointerException()); //$NON-NLS-1$ //$NON-NLS-2$
+					.log("IEditorPart (" + editor.getClass() + ") passed in without IEditorInput set.", new NullPointerException()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return false;
 		}
 		Object obj = Adapters.adapt(input, IResource.class);

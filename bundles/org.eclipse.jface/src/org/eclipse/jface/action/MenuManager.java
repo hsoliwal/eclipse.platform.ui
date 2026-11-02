@@ -227,7 +227,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 	 * Disposes of this menu manager and frees all allocated SWT resources. Notifies
 	 * all contribution items of the dispose.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (menuExist()) {
 			menu.dispose();
@@ -243,7 +243,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 		// remember items for disposal before removing them all
 		IContributionItem[] items = getItems();
 		removeAll();
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.dispose();
 		}
 		markDirty();
@@ -258,7 +258,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 	public void fill(CoolBar parent, int index) {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu parent, int index) {
 		if (menuItem == null || menuItem.isDisposed()) {
 			if (index >= 0) {
@@ -333,7 +333,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 	 * @see IMenuListener#menuAboutToShow
 	 */
 	private void fireAboutToShow(IMenuManager manager) {
-		for (IMenuListener listener : this.listeners) {
+		for (IMenuListener listener : this.listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.menuAboutToShow(manager);
 		}
 	}
@@ -345,7 +345,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 	 * @param manager the menu manager
 	 */
 	private void fireAboutToHide(IMenuManager manager) {
-		for (IMenuListener listener : this.listeners) {
+		for (IMenuListener listener : this.listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof IMenuListener2) {
 				((IMenuListener2) listener).menuAboutToHide(manager);
 			}
@@ -387,7 +387,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 			if (shortCut == null) {
 				return menuText;
 			}
-			return menuText + "\t" + shortCut; //$NON-NLS-1$
+			return menuText + "\t" + shortCut; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return menuText;
 	}
@@ -402,7 +402,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 		return image;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IContributionManagerOverrides getOverrides() {
 		if (overrides == null) {
 			if (parent == null) {
@@ -481,7 +481,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 	 * Initializes the menu control.
 	 */
 	private void initializeMenu() {
-		menu.addMenuListener(new MenuAdapter() {
+		menu.addMenuListener(new MenuAdapter() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuHidden(MenuEvent e) {
 				// ApplicationWindow.resetDescription(e.widget);
@@ -540,7 +540,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 		return this.equals(item);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isVisible() {
 		if (!visible) {
 			return false; // short circuit calculations in this case
@@ -555,7 +555,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 		// visible separators).
 		IContributionItem[] childItems = getItems();
 		boolean visibleChildren = false;
-		for (IContributionItem childItem : childItems) {
+		for (IContributionItem childItem : childItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isChildVisible(childItem) && !childItem.isSeparator()) {
 				visibleChildren = true;
 				break;
@@ -736,14 +736,14 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 	 * @param recursive <code>true</code> means recursively update all submenus, and
 	 *                  <code>false</code> means just this menu
 	 */
-	protected void update(boolean force, boolean recursive) {
+	protected void update(boolean force, boolean recursive) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isDirty() || force) {
 			if (menuExist()) {
 				// clean contains all active items without double separators
 				IContributionItem[] items = getItems();
-				List<IContributionItem> clean = new ArrayList<>(items.length);
+				List<IContributionItem> clean = new ArrayList<>(items.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				IContributionItem separator = null;
-				for (IContributionItem item : items) {
+				for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IContributionItem ci = item;
 					if (!isChildVisible(ci)) {
 						continue;
@@ -766,7 +766,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 				// remove obsolete (removed or non active)
 				Item[] mi = getMenuItems();
 
-				for (Item element : mi) {
+				for (Item element : mi) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object data = element.getData();
 
 					if (data == null || !clean.contains(data)) {
@@ -782,7 +782,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 				int srcIx = 0;
 				int destIx = 0;
 
-				for (IContributionItem src : clean) {
+				for (IContributionItem src : clean) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IContributionItem dest;
 
 					// get corresponding item in SWT widget
@@ -803,7 +803,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 						int start = getMenuItemCount();
 						doItemFill(src, destIx);
 						int newItems = getMenuItemCount() - start;
-						for (int i = 0; i < newItems; i++) {
+						for (int i = 0; i < newItems; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Item item = getMenuItem(destIx++);
 							item.setData(src);
 						}
@@ -828,7 +828,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 				}
 
 				// remove any old menu items not accounted for
-				for (; srcIx < mi.length; srcIx++) {
+				for (; srcIx < mi.length; srcIx++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					mi[srcIx].dispose();
 				}
 
@@ -837,7 +837,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 		} else // I am not dirty. Check if I must recursivly walk down the hierarchy.
 		if (recursive) {
 			IContributionItem[] items = getItems();
-			for (IContributionItem ci : items) {
+			for (IContributionItem ci : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ci instanceof IMenuManager mm) {
 					if (isChildVisible(mm)) {
 						mm.updateAll(force);
@@ -847,11 +847,11 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(String property) {
 		IContributionItem items[] = getItems();
 
-		for (IContributionItem item : items) {
+		for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.update(property);
 		}
 
@@ -876,7 +876,7 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 								if (index == 0) {
 									text = text.substring(1);
 								} else {
-									text = text.substring(0, index) + text.substring(index + 1);
+									text = text.substring(0, index) + text.substring(index + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								}
 							}
 						}
@@ -942,8 +942,8 @@ public class MenuManager extends ContributionManager implements IMenuManager {
 
 	@Override
 	public String toString() {
-		return "MenuManager [" + (menuText != null ? "text=" + menuText + ", " : "") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				+ (id != null ? "id=" + id + ", " : "") + "visible=" + visible + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		return "MenuManager [" + (menuText != null ? "text=" + menuText + ", " : "") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				+ (id != null ? "id=" + id + ", " : "") + "visible=" + visible + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

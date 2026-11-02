@@ -45,7 +45,7 @@ public class PageListenerList extends EventManager {
 	private void fireEvent(SafeRunnable runnable, IPageListener listener, IWorkbenchPage page, String description) {
 		String label = null;// for debugging
 		if (UIStats.isDebugging(UIStats.NOTIFY_PAGE_LISTENERS)) {
-			label = description + page.getLabel();
+			label = description + page.getLabel(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			UIStats.start(UIStats.NOTIFY_PAGE_LISTENERS, label);
 		}
 		SafeRunner.run(runnable);
@@ -58,7 +58,7 @@ public class PageListenerList extends EventManager {
 	 * Notifies the listener that a part has been activated.
 	 */
 	public void firePageActivated(final IWorkbenchPage page) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPageListener pageListener = (IPageListener) listener;
 			fireEvent(new SafeRunnable() {
 				@Override
@@ -73,7 +73,7 @@ public class PageListenerList extends EventManager {
 	 * Notifies the listener that a part has been closed
 	 */
 	public void firePageClosed(final IWorkbenchPage page) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPageListener pageListener = (IPageListener) listener;
 			fireEvent(new SafeRunnable() {
 				@Override
@@ -88,7 +88,7 @@ public class PageListenerList extends EventManager {
 	 * Notifies the listener that a part has been opened.
 	 */
 	public void firePageOpened(final IWorkbenchPage page) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPageListener pageListener = (IPageListener) listener;
 			fireEvent(new SafeRunnable() {
 				@Override

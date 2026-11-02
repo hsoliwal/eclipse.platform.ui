@@ -19,6 +19,9 @@
 
 package org.eclipse.jface.viewers;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -70,7 +73,70 @@ import org.eclipse.swt.widgets.Widget;
 @NoExtend
 public class TreeViewer extends AbstractTreeViewer {
 
-	private static final String VIRTUAL_DISPOSE_KEY = Policy.JFACE
+	private static final MethodHandle SWT_TREE_EXPAND_TO_LEVEL =
+			swtTreeOperation("expandToLevel", int.class); //$NON-NLS-1$
+	private static final MethodHandle SWT_TREE_EXPAND_ITEM_TO_LEVEL =
+			swtTreeOperation("expandToLevel", TreeItem.class, int.class); //$NON-NLS-1$
+	private static final MethodHandle SWT_TREE_COLLAPSE_TO_LEVEL =
+			swtTreeOperation("collapseToLevel", int.class); //$NON-NLS-1$
+	private static final MethodHandle SWT_TREE_COLLAPSE_ITEM_TO_LEVEL =
+			swtTreeOperation("collapseToLevel", TreeItem.class, int.class); //$NON-NLS-1$
+	private static final MethodHandle SWT_TREE_EXPAND_SELECTION_TO_LEVEL =
+			swtTreeOperation("expandSelectionToLevel", int.class); //$NON-NLS-1$
+	private static final MethodHandle SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL =
+			swtTreeOperation("collapseSelectionToLevel", int.class); //$NON-NLS-1$
+	private static final MethodHandle SWT_TREE_GET_EXPANDED_ITEMS =
+			swtTreeQuery("getExpandedItems", TreeItem[].class); //$NON-NLS-1$
+	private static final MethodHandle SWT_TREE_SET_EXPANDED_ITEMS =
+			swtTreeOperation("setExpandedItems", TreeItem[].class); //$NON-NLS-1$
+
+	private static MethodHandle swtTreeOperation(String name, Class<?>... parameterTypes) {
+		try {
+			return MethodHandles.publicLookup().findVirtual(
+					Tree.class, name, MethodType.methodType(void.class, parameterTypes));
+		} catch (NoSuchMethodException | IllegalAccessException unavailable) {
+			return null;
+		}
+	}
+
+	private static MethodHandle swtTreeQuery(
+			String name, Class<?> returnType, Class<?>... parameterTypes) {
+		try {
+			return MethodHandles.publicLookup().findVirtual(
+					Tree.class, name, MethodType.methodType(returnType, parameterTypes));
+		} catch (NoSuchMethodException | IllegalAccessException unavailable) {
+			return null;
+		}
+	}
+
+	private static boolean invokeSwtTreeOperation(MethodHandle operation, Object... arguments) {
+		if (operation == null) {
+			return false;
+		}
+		try {
+			operation.invokeWithArguments(arguments);
+			return true;
+		} catch (RuntimeException | Error failure) {
+			throw failure;
+		} catch (Throwable failure) {
+			throw new IllegalStateException("Unable to invoke SWT Tree bulk operation", failure); //$NON-NLS-1$
+		}
+	}
+
+	private static Object invokeSwtTreeQuery(MethodHandle operation, Object... arguments) {
+		if (operation == null) {
+			return null;
+		}
+		try {
+			return operation.invokeWithArguments(arguments);
+		} catch (RuntimeException | Error failure) {
+			throw failure;
+		} catch (Throwable failure) {
+			throw new IllegalStateException("Unable to invoke SWT Tree state query", failure); //$NON-NLS-1$
+		}
+	}
+
+	private static final String VIRTUAL_DISPOSE_KEY = Policy.JFACE //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ ".DISPOSE_LISTENER"; //$NON-NLS-1$
 
 	/**
@@ -141,7 +207,7 @@ public class TreeViewer extends AbstractTreeViewer {
 
 	@Override
 	protected void addTreeListener(Control c, TreeListener listener) {
-		((Tree) c).addTreeListener(listener);
+		((Tree) c).addTreeListener(listener); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 	}
 
 	@Override
@@ -185,7 +251,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		if( selection.length == 1 ) {
 			int columnCount = tree.getColumnCount();
 
-			for( int i = 0; i < columnCount; i++ ) {
+			for( int i = 0; i < columnCount; i++ ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if( selection[0].getBounds(i).contains(p) ) {
 					return selection[0];
 				}
@@ -243,17 +309,17 @@ public class TreeViewer extends AbstractTreeViewer {
 		return tree;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void hookControl(Control control) {
 		super.hookControl(control);
 		Tree treeControl = (Tree) control;
 
 		if ((treeControl.getStyle() & SWT.VIRTUAL) != 0) {
-			treeControl.addDisposeListener(e -> {
+			treeControl.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				treeIsDisposed = true;
 				unmapAllElements();
 			});
-			treeControl.addListener(SWT.SetData, event -> {
+			treeControl.addListener(SWT.SetData, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 				if (contentProviderIsLazy) {
 					TreeItem item = (TreeItem) event.item;
 					TreeItem parentItem = item.getParentItem();
@@ -288,6 +354,82 @@ public class TreeViewer extends AbstractTreeViewer {
 	@Override
 	protected void removeAll(Control widget) {
 		((Tree) widget).removeAll();
+	}
+
+	@Override
+	boolean internalDelegateExpandToControl(Widget widget, int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = widget instanceof Tree
+				? invokeSwtTreeOperation(SWT_TREE_EXPAND_TO_LEVEL, tree, level)
+				: widget instanceof TreeItem item
+						&& invokeSwtTreeOperation(SWT_TREE_EXPAND_ITEM_TO_LEVEL, tree, item, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	boolean internalDelegateCollapseToControl(Widget widget, int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = widget instanceof Tree
+				? invokeSwtTreeOperation(SWT_TREE_COLLAPSE_TO_LEVEL, tree, level)
+				: widget instanceof TreeItem item
+						&& invokeSwtTreeOperation(SWT_TREE_COLLAPSE_ITEM_TO_LEVEL, tree, item, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	boolean internalDelegateExpandSelectionToControl(int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = invokeSwtTreeOperation(SWT_TREE_EXPAND_SELECTION_TO_LEVEL, tree, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	boolean internalDelegateCollapseSelectionToControl(int level) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		boolean delegated = invokeSwtTreeOperation(SWT_TREE_COLLAPSE_SELECTION_TO_LEVEL, tree, level);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
+	}
+
+	@Override
+	Item[] internalDelegateExpandedItems() {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return null;
+		}
+		Object expanded = invokeSwtTreeQuery(SWT_TREE_GET_EXPANDED_ITEMS, tree);
+		return expanded instanceof TreeItem[] items ? items : null;
+	}
+
+	@Override
+	boolean internalDelegateSetExpandedItems(List<Item> items) {
+		if (!contentProviderIsLazy || (tree.getStyle() & SWT.VIRTUAL) == 0) {
+			return false;
+		}
+		TreeItem[] expanded = items.toArray(TreeItem[]::new);
+		boolean delegated = invokeSwtTreeOperation(SWT_TREE_SET_EXPANDED_ITEMS, tree, expanded);
+		if (delegated) {
+			tree.update();
+		}
+		return delegated;
 	}
 
 	@Override
@@ -393,7 +535,7 @@ public class TreeViewer extends AbstractTreeViewer {
 				return;
 			}
 			Widget[] items = internalFindItems(elementOrTreePath);
-			for (Widget item : items) {
+			for (Widget item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TreeItem treeItem = (TreeItem) item;
 				treeItem.setItemCount(count);
 			}
@@ -424,7 +566,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 *
 	 * @since 3.2
 	 */
-	public void replace(final Object parentElementOrTreePath, final int index,
+	public void replace(final Object parentElementOrTreePath, final int index, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final Object element) {
 		if (checkBusy()) {
 			return;
@@ -447,7 +589,7 @@ public class TreeViewer extends AbstractTreeViewer {
 				}
 				// disassociate any different item that represents the
 				// same element under the same parent (the tree)
-				for (Widget widget : itemsToDisassociate) {
+				for (Widget widget : itemsToDisassociate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (widget instanceof TreeItem itemToDisassociate) {
 						if (itemToDisassociate != item
 								&& itemToDisassociate.getParentItem() == null) {
@@ -466,7 +608,7 @@ public class TreeViewer extends AbstractTreeViewer {
 			}
 		} else {
 			Widget[] parentItems = internalFindItems(parentElementOrTreePath);
-			for (Widget widget : parentItems) {
+			for (Widget widget : parentItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TreeItem parentItem = (TreeItem) widget;
 				if (index < parentItem.getItemCount()) {
 					TreeItem item = parentItem.getItem(index);
@@ -475,7 +617,7 @@ public class TreeViewer extends AbstractTreeViewer {
 					}
 					// disassociate any different item that represents the
 					// same element under the same parent (the tree)
-					for (Widget widgetToDisassociate : itemsToDisassociate) {
+					for (Widget widgetToDisassociate : itemsToDisassociate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (widgetToDisassociate instanceof TreeItem itemToDisassociate) {
 							if (itemToDisassociate != item
 									&& itemToDisassociate.getParentItem() == parentItem) {
@@ -512,13 +654,13 @@ public class TreeViewer extends AbstractTreeViewer {
 	 *
 	 * @return the adjusted selection
 	 */
-	private TreeSelection adjustSelectionForReplace(Item[] selectedItems,
+	private TreeSelection adjustSelectionForReplace(Item[] selectedItems, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			TreeSelection selection, TreeItem item, Object element) {
 		if (item.getData() != null) {
 			// Don't do anything - we are not seeing an instance of bug 185673
 			return selection;
 		}
-		for (Item selectedItem : selectedItems) {
+		for (Item selectedItem : selectedItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item == selectedItem) {
 				// The current item was selected, but its data is null.
 				// The data will be replaced by the given element, so to keep
@@ -554,7 +696,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		return super.isExpandable(element);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object getParentElement(Object element) {
 		boolean oldBusy = isBusy();
 		setBusy(true);
@@ -577,7 +719,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void createChildren(Widget widget, boolean materialize) {
 		if (contentProviderIsLazy) {
 			Object element = widget.getData();
@@ -598,7 +740,7 @@ public class TreeViewer extends AbstractTreeViewer {
 				children = getChildren(widget);
 			}
 			// touch all children to make sure they are materialized
-			for (int i = 0; i < children.length; i++) {
+			for (int i = 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (children[i].getData() == null) {
 					if (materialize) {
 						virtualLazyUpdateWidget(widget, i);
@@ -630,7 +772,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		super.internalAdd(widget, parentElement, childElements);
 	}
 
-	private void virtualMaterializeItem(TreeItem treeItem) {
+	private void virtualMaterializeItem(TreeItem treeItem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (treeItem.getData() != null) {
 			// already materialized
 			return;
@@ -654,7 +796,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void internalRefreshStruct(Widget widget, Object element,
 			boolean updateLabels) {
 		if (contentProviderIsLazy) {
@@ -690,7 +832,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * @param parent the parent of the widget, or <code>null</code> if the widget is the tree
 	 * @param index the index of the widget in the children array of its parent, or 0 if the widget is the tree
 	 */
-	private void virtualRefreshExpandedItems(Widget parent, Widget widget, Object element, int index) {
+	private void virtualRefreshExpandedItems(Widget parent, Widget widget, Object element, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (widget instanceof Tree) {
 			if (element == null) {
 				((Tree) widget).setItemCount(0);
@@ -705,7 +847,7 @@ public class TreeViewer extends AbstractTreeViewer {
 			return;
 		}
 		Item[] items = getChildren(widget);
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Item item = items[i];
 			Object data = item.getData();
 			virtualRefreshExpandedItems(widget, item, data, i);
@@ -716,7 +858,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * To unmap elements correctly, we need to register a dispose listener with
 	 * the item if the tree is virtual.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void mapElement(Object element, final Widget item) {
 		super.mapElement(element, item);
 		// make sure to unmap elements if the tree is virtual
@@ -725,7 +867,7 @@ public class TreeViewer extends AbstractTreeViewer {
 			// because it is reused
 			if (item.getData(VIRTUAL_DISPOSE_KEY) == null) {
 				item.setData(VIRTUAL_DISPOSE_KEY, Boolean.TRUE);
-				item.addDisposeListener(e -> {
+				item.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 					if (!treeIsDisposed) {
 						Object data = item.getData();
 						if (usingElementMap() && data != null) {
@@ -803,7 +945,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 * @param index child index
 	 * @since 3.3
 	 */
-	public void remove(final Object parentOrTreePath, final int index) {
+	public void remove(final Object parentOrTreePath, final int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (checkBusy()) {
 			return;
 		}
@@ -830,7 +972,7 @@ public class TreeViewer extends AbstractTreeViewer {
 				}
 			} else {
 				Widget[] parentItems = internalFindItems(parentOrTreePath);
-				for (Widget parentWidget : parentItems) {
+				for (Widget parentWidget : parentItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TreeItem parentItem = (TreeItem) parentWidget;
 					if (parentItem.isDisposed()) {
 						continue;
@@ -863,7 +1005,7 @@ public class TreeViewer extends AbstractTreeViewer {
 			}
 			if (removedPath != null && oldSelection != null) {
 				boolean removed = false;
-				for (Iterator<TreePath> it = oldSelection.iterator(); it.hasNext();) {
+				for (Iterator<TreePath> it = oldSelection.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TreePath path = it.next();
 					if (path.startsWith(removedPath, getComparer())) {
 						it.remove();
@@ -882,7 +1024,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleTreeExpand(TreeEvent event) {
 		// Fix for Bug 271744 because windows expanding doesn't fire a focus lost
 		if( isCellEditorActive() ) {
@@ -943,7 +1085,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	 *
 	 * @since 3.3
 	 */
-	public void setHasChildren(final Object elementOrTreePath, final boolean hasChildren) {
+	public void setHasChildren(final Object elementOrTreePath, final boolean hasChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (checkBusy()) {
 			return;
 		}
@@ -958,7 +1100,7 @@ public class TreeViewer extends AbstractTreeViewer {
 				return;
 			}
 			Widget[] items = internalFindItems(elementOrTreePath);
-			for (Widget widget : items) {
+			for (Widget widget : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TreeItem item = (TreeItem) widget;
 				if (!hasChildren) {
 					item.setItemCount(0);
@@ -979,7 +1121,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	/**
 	 * Update the widget at index.
 	 */
-	private void virtualLazyUpdateWidget(Widget widget, int index) {
+	private void virtualLazyUpdateWidget(Widget widget, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean oldBusy = isBusy();
 		setBusy(false);
 		try {
@@ -1013,7 +1155,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	/**
 	 * Update the child count
 	 */
-	private void virtualLazyUpdateChildCount(Widget widget, int currentChildCount) {
+	private void virtualLazyUpdateChildCount(Widget widget, int currentChildCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean oldBusy = isBusy();
 		setBusy(false);
 		try {
@@ -1037,7 +1179,7 @@ public class TreeViewer extends AbstractTreeViewer {
 	/**
 	 * Update the item with the current child count.
 	 */
-	private void virtualLazyUpdateHasChildren(Item item, int currentChildCount) {
+	private void virtualLazyUpdateHasChildren(Item item, int currentChildCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean oldBusy = isBusy();
 		setBusy(false);
 		try {
@@ -1093,7 +1235,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		super.setSelection(selection, reveal);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void editElement(Object element, int column) {
 		if( element instanceof TreePath ) {
 			try {
@@ -1119,7 +1261,7 @@ public class TreeViewer extends AbstractTreeViewer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void handleExpandableNodeClicked(Widget w) {
 		if (!(w instanceof Item item)) {
 			return;
@@ -1152,7 +1294,7 @@ public class TreeViewer extends AbstractTreeViewer {
 			item.dispose();
 
 			// create children on parent
-			for (Object element : children) {
+			for (Object element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				createTreeItem(parent, element, -1);
 			}
 

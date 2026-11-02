@@ -54,9 +54,9 @@ public class PreferencesExportWizard extends Wizard implements IExportWizard {
 
 	private static final String EVENT_TOPIC_BASE = "org/eclipse/ui/internal/wizards/preferences/export/"; //$NON-NLS-1$
 
-	public static final String EVENT_EXPORT_BEGIN = EVENT_TOPIC_BASE + "begin"; //$NON-NLS-1$
+	public static final String EVENT_EXPORT_BEGIN = EVENT_TOPIC_BASE + "begin"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String EVENT_EXPORT_END = EVENT_TOPIC_BASE + "end"; //$NON-NLS-1$
+	public static final String EVENT_EXPORT_END = EVENT_TOPIC_BASE + "end"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private WizardPreferencesExportPage1 mainPage;
 

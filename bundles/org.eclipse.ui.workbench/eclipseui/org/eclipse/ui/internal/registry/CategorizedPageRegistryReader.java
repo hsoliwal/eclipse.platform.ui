@@ -80,16 +80,16 @@ public abstract class CategorizedPageRegistryReader extends RegistryReader {
 		 * Initialize the flat category to include the parents' category names and the
 		 * current node's label
 		 */
-		private void initialize() {
+		private void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String category = reader.getCategory(getNode());
 			if (category == null) {
 				return;
 			}
 
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			StringTokenizer stok = new StringTokenizer(category, PREFERENCE_SEPARATOR);
 			Object immediateParent = null;
-			while (stok.hasMoreTokens()) {
+			while (stok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String pathID = stok.nextToken();
 				immediateParent = this.reader.findNode(pathID);
 				if (immediateParent == null) {
@@ -133,8 +133,8 @@ public abstract class CategorizedPageRegistryReader extends RegistryReader {
 	/**
 	 * Process the preference page nodes.
 	 */
-	void processNodes() {
-		topLevelNodes = new ArrayList<>();
+	void processNodes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		topLevelNodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// root nodes (which contain subnodes)
 
 		// Add root nodes to the contributions vector
@@ -144,11 +144,11 @@ public abstract class CategorizedPageRegistryReader extends RegistryReader {
 		CategoryNode[] nodes = createCategoryNodes(getNodes());
 		// flag to indicate that some work was done in the inner loop over the nodes
 		boolean workDone;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// reset the flag
 			workDone = false;
-			List<CategoryNode> deferred = new ArrayList<>();
-			for (CategoryNode categoryNode : nodes) {
+			List<CategoryNode> deferred = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (CategoryNode categoryNode : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object node = categoryNode.getNode();
 
 				String category = getCategory(node);
@@ -159,7 +159,7 @@ public abstract class CategorizedPageRegistryReader extends RegistryReader {
 				// has category
 				tokenizer = new StringTokenizer(category, PREFERENCE_SEPARATOR);
 				Object parent = null;
-				while (tokenizer.hasMoreElements()) {
+				while (tokenizer.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					currentToken = tokenizer.nextToken();
 					Object child = null;
 					if (parent == null) {
@@ -188,7 +188,7 @@ public abstract class CategorizedPageRegistryReader extends RegistryReader {
 		} while (nodes.length > 0 && workDone); // loop while we still have nodes to work on and the list is shrinking
 
 		// log anything left over.
-		for (CategoryNode categoryNode : nodes) {
+		for (CategoryNode categoryNode : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Could not find the parent - log
 			WorkbenchPlugin.log(StatusUtil.newStatus(IStatus.WARNING, invalidCategoryNodeMessage(categoryNode), null));
 			topLevelNodes.add(categoryNode.getNode());
@@ -231,10 +231,10 @@ public abstract class CategorizedPageRegistryReader extends RegistryReader {
 	 */
 	CategoryNode[] createCategoryNodes(Collection<?> nodesToCategorize) {
 		// sort by categories
-		List<CategoryNode> nodes = new ArrayList<>();
+		List<CategoryNode> nodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Iterator<?> nodesIterator = nodesToCategorize.iterator();
-		while (nodesIterator.hasNext()) {
+		while (nodesIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nodes.add(createCategoryNode(this, nodesIterator.next()));
 		}
 

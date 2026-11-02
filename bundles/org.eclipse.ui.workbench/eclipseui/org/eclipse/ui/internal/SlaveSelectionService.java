@@ -30,8 +30,8 @@ public class SlaveSelectionService implements ISelectionService, IDisposable {
 
 	private final ListenerList<ISelectionListener> postListeners = new ListenerList<>(ListenerList.IDENTITY);
 	private final ListenerList<ISelectionListener> listeners = new ListenerList<>(ListenerList.IDENTITY);
-	private final Map<ISelectionListener, String> listenersToPartId = new HashMap<>();
-	private final Map<ISelectionListener, String> postListenersToPartId = new HashMap<>();
+	private final Map<ISelectionListener, String> listenersToPartId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<ISelectionListener, String> postListenersToPartId = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final ISelectionService parentSelectionService;
 
@@ -100,24 +100,24 @@ public class SlaveSelectionService implements ISelectionService, IDisposable {
 		parentSelectionService.removeSelectionListener(partId, listener);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
-		for (Object listener : listeners.getListeners()) {
+		for (Object listener : listeners.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parentSelectionService.removeSelectionListener((ISelectionListener) listener);
 		}
 		listeners.clear();
 
-		for (Object listener : postListeners.getListeners()) {
+		for (Object listener : postListeners.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parentSelectionService.removePostSelectionListener((ISelectionListener) listener);
 		}
 		postListeners.clear();
 
-		for (Entry<ISelectionListener, String> entry : listenersToPartId.entrySet()) {
+		for (Entry<ISelectionListener, String> entry : listenersToPartId.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parentSelectionService.removeSelectionListener(entry.getValue(), entry.getKey());
 		}
 		listenersToPartId.clear();
 
-		for (Entry<ISelectionListener, String> entry : postListenersToPartId.entrySet()) {
+		for (Entry<ISelectionListener, String> entry : postListenersToPartId.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parentSelectionService.removePostSelectionListener(entry.getValue(), entry.getKey());
 		}
 		postListenersToPartId.clear();

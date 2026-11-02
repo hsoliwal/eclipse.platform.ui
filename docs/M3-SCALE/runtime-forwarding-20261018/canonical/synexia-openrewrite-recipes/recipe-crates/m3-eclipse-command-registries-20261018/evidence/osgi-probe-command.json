@@ -1,0 +1,58 @@
+{
+  "steps": [
+    {
+      "argv": [
+        "/tmp/m3-toolchain/jdk-21.0.12.1+1/bin/jar",
+        "--create",
+        "--file",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/org.eclipse.core.commands-m3-proof.jar",
+        "--manifest",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/qualified-candidate/bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+        "-C",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/ecj-candidate",
+        ".",
+        "-C",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/qualified-candidate/bundles/org.eclipse.core.commands",
+        "plugin.properties",
+        "-C",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/qualified-candidate/bundles/org.eclipse.core.commands",
+        "about.html"
+      ],
+      "exit": 0,
+      "log": "evidence/osgi-0.log"
+    },
+    {
+      "argv": [
+        "/tmp/m3-toolchain/jdk-21.0.12.1+1/bin/javac",
+        "--release",
+        "21",
+        "-Xlint:all",
+        "-Werror",
+        "-classpath",
+        "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar",
+        "-d",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/osgi-probe",
+        "/tmp/eclipse-m3-20261018/commands-authoring/proof/osgi/com/synexia/proof/CommandRegistryOsgiProbe.java"
+      ],
+      "exit": 0,
+      "log": "evidence/osgi-1.log"
+    },
+    {
+      "argv": [
+        "/tmp/m3-toolchain/jdk-21.0.12.1+1/bin/java",
+        "-cp",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/osgi-probe:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar",
+        "com.synexia.proof.CommandRegistryOsgiProbe",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/org.eclipse.core.commands-m3-proof.jar",
+        "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar",
+        "/tmp/eclipse-m3-20261018/commands-authoring/target/osgi-storage"
+      ],
+      "exit": 0,
+      "log": "evidence/osgi-2.log"
+    }
+  ],
+  "probeSha256": "a918f172da2b1e1ba261e78a1afe07cb183e4eb44843a1688b3cb6165402933d",
+  "bundleSha256": "4d7573b670652c41d105210deeffde877c9034e2bd2916a6fb7ec4b5cf454c1e",
+  "bundleProducer": "actual ECJ-compiled generated 84-source bundle plus generated manifest and existing bundle resources; direct JAR proof packaging",
+  "tychoClaim": false
+}

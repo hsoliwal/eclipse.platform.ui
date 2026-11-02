@@ -64,7 +64,7 @@ public class SorterTest extends NavigatorTestBase {
 
 		refreshViewer();
 
-		ILogListener ll = (_, _) -> _statusCount++;
+		ILogListener ll = (unused, unused2) -> _statusCount++;
 
 		NavigatorPlugin.getDefault().getLog().addLogListener(ll);
 

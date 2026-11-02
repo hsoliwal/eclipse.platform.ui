@@ -77,7 +77,7 @@ public class MenuHelper {
 		return getIconURI(imageDescriptor, null);
 	}
 
-	static MExpression getVisibleWhen(final IConfigurationElement commandAddition) {
+	static MExpression getVisibleWhen(final IConfigurationElement commandAddition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IConfigurationElement[] visibleConfig = commandAddition
 					.getChildren(IWorkbenchRegistryConstants.TAG_VISIBLE_WHEN);
@@ -98,7 +98,7 @@ public class MenuHelper {
 								ICommandService commandService = getFromContext(context, ICommandService.class);
 								if (service == null || commandService == null) {
 									WorkbenchPlugin.log(
-											"Could not retrieve EHandlerService or ICommandService from context evaluation context for" //$NON-NLS-1$
+											"Could not retrieve EHandlerService or ICommandService from context evaluation context for" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 													+ commandId);
 									return EvaluationResult.FALSE;
 								}
@@ -197,7 +197,7 @@ public class MenuHelper {
 		return element.getAttribute(IWorkbenchRegistryConstants.ATT_TOOLTIP);
 	}
 
-	public static String getIconURI(IConfigurationElement element, String attr) {
+	public static String getIconURI(IConfigurationElement element, String attr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String iconPath = element.getAttribute(attr);
 		if (iconPath == null) {
 			return null;
@@ -214,7 +214,7 @@ public class MenuHelper {
 				return getImageUrl(d);
 			}
 			String extendingPluginId = element.getDeclaringExtension().getContributor().getName();
-			iconPath = "platform:/plugin/" + extendingPluginId + "/" + iconPath; //$NON-NLS-1$//$NON-NLS-2$
+			iconPath = "platform:/plugin/" + extendingPluginId + "/" + iconPath; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		URL url = null;
 		try {
@@ -238,7 +238,7 @@ public class MenuHelper {
 		return element.getAttribute(IWorkbenchRegistryConstants.ATT_COMMAND_ID);
 	}
 
-	public static ItemType getStyle(IConfigurationElement element) {
+	public static ItemType getStyle(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String style = element.getAttribute(IWorkbenchRegistryConstants.ATT_STYLE);
 		if (style == null || style.isEmpty()) {
 			return ItemType.PUSH;
@@ -251,7 +251,7 @@ public class MenuHelper {
 		}
 		if (IWorkbenchRegistryConstants.STYLE_PULLDOWN.equals(style)) {
 			if (Policy.DEBUG_MENUS) {
-				trace("Failed to get style for " + IWorkbenchRegistryConstants.STYLE_PULLDOWN, null); //$NON-NLS-1$
+				trace("Failed to get style for " + IWorkbenchRegistryConstants.STYLE_PULLDOWN, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				// return CommandContributionItem.STYLE_PULLDOWN;
 			}
 		}
@@ -264,9 +264,9 @@ public class MenuHelper {
 	}
 
 	public static Map<String, String> getParameters(IConfigurationElement element) {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, String> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		IConfigurationElement[] parameters = element.getChildren(IWorkbenchRegistryConstants.TAG_PARAMETER);
-		for (IConfigurationElement parameter : parameters) {
+		for (IConfigurationElement parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = parameter.getAttribute(IWorkbenchRegistryConstants.ATT_NAME);
 			String value = parameter.getAttribute(IWorkbenchRegistryConstants.ATT_VALUE);
 			if (name != null && value != null) {
@@ -276,7 +276,7 @@ public class MenuHelper {
 		return map;
 	}
 
-	public static MMenu createMenuAddition(IConfigurationElement menuAddition) {
+	public static MMenu createMenuAddition(IConfigurationElement menuAddition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MMenu element = MenuFactoryImpl.eINSTANCE.createMenu();
 		element.getPersistedState().put(IWorkbench.PERSIST_STATE, Boolean.FALSE.toString());
 		String id = MenuHelper.getId(menuAddition);
@@ -286,7 +286,7 @@ public class MenuHelper {
 		if (text != null && mnemonic != null) {
 			int idx = text.indexOf(mnemonic);
 			if (idx != -1) {
-				text = text.substring(0, idx) + '&' + text.substring(idx);
+				text = text.substring(0, idx) + '&' + text.substring(idx); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		element.setVisibleWhen(getVisibleWhen(menuAddition));
@@ -303,7 +303,7 @@ public class MenuHelper {
 		return subMenu;
 	}
 
-	public static MHandledToolItem createToolItem(MApplication application, CommandContributionItem cci) {
+	public static MHandledToolItem createToolItem(MApplication application, CommandContributionItem cci) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MCommand command = getMCommand(application, cci);
 		if (command != null) {
 			CommandContributionItemParameter data = cci.getData();
@@ -366,7 +366,7 @@ public class MenuHelper {
 	public static MCommand getMCommand(MApplication application, CommandContributionItem contribution) {
 		ParameterizedCommand command = contribution.getCommand();
 		if (command != null) {
-			for (MCommand mcommand : application.getCommands()) {
+			for (MCommand mcommand : application.getCommands()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (mcommand.getElementId().equals(command.getId())) {
 					return mcommand;
 				}
@@ -375,7 +375,7 @@ public class MenuHelper {
 		return null;
 	}
 
-	public static String getIconURI(ImageDescriptor descriptor, IEclipseContext context) {
+	public static String getIconURI(ImageDescriptor descriptor, IEclipseContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (descriptor == null) {
 			return null;
 		}
@@ -413,7 +413,7 @@ public class MenuHelper {
 	 * @param url the url
 	 * @return the rewritten URL
 	 */
-	private static String rewriteDurableURL(String url) {
+	private static String rewriteDurableURL(String url) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Rewrite bundleentry and bundleresource entries as they are
 		// invalidated on -clean or a bundle remove, . These Platform URIs are
 		// of the form:
@@ -429,7 +429,7 @@ public class MenuHelper {
 			String host = uri.getHost();
 			String bundleId = host.substring(0, host.indexOf('.'));
 			Bundle bundle = ctxt.getBundle(Long.parseLong(bundleId));
-			StringBuilder builder = new StringBuilder("platform:/plugin/"); //$NON-NLS-1$
+			StringBuilder builder = new StringBuilder("platform:/plugin/"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			builder.append(bundle.getSymbolicName());
 			builder.append(uri.getPath());
 			return builder.toString();

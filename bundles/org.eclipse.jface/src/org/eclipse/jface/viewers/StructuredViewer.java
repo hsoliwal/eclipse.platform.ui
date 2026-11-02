@@ -44,6 +44,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
@@ -96,12 +97,66 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 */
 	private boolean preserveSelection = true;
 
+	/* Published by hookControl; worker posts never need to read a widget. */
+	private volatile Display m3Display;
+
+	/* The existing M3 queue is viewer-owned; its Runnable only releases it. */
+	private volatile Runnable m3DeltaQueue;
+	private boolean m3Disposed;
+
+	Display m3Display() {
+		return m3Display;
+	}
+
+	Runnable m3DeltaQueue() {
+		return m3DeltaQueue;
+	}
+
+	synchronized Runnable m3InstallDeltaQueue(Runnable queue) {
+		if (m3Disposed) {
+			return null;
+		}
+		if (m3DeltaQueue == null) {
+			m3DeltaQueue = queue;
+		}
+		return m3DeltaQueue;
+	}
+
+	private void m3DisposeDeltaQueue() {
+		Runnable queue;
+		synchronized (this) {
+			m3Disposed = true;
+			queue = m3DeltaQueue;
+			m3DeltaQueue = null;
+		}
+		if (queue != null) {
+			queue.run();
+		}
+	}
+
+	private boolean m3FlushBeforeRefresh() {
+		Control control = getControl();
+		boolean initiallyLive = control != null && !control.isDisposed();
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		return !initiallyLive || !control.isDisposed();
+	}
+
 	/**
 	 * Indicates whether a selection change is in progress on this viewer.
 	 *
 	 * @see #setSelection(ISelection, boolean)
 	 */
 	private boolean inChange;
+
+	/** True only while an M3 caller requests selection preservation. */
+	private boolean m3PreservingSelection;
+
+	/** The active M3 owner, distinct from calls made by its final listeners. */
+	private boolean m3SelectionActive;
+
+	private boolean m3SelectionRequested;
+	private ISelection m3RequestedSelection;
+	private boolean m3RequestedReveal;
 
 	/**
 	 * Used while a selection change is in progress on this viewer to indicates
@@ -189,7 +244,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void setFontsAndColors(Object element){
 
 			if(fontProvider != null){
@@ -211,7 +266,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void applyFontsAndColors(TableItem control) {
 
 			if(colorProvider == null){
@@ -243,7 +298,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			clear();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void applyFontsAndColors(TreeItem control) {
 
 			if(colorProvider == null){
@@ -332,7 +387,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		 *
 		 * @param control control to apply font and color on
 		 */
-		public void applyFontsAndColors(TableItem control) {
+		public void applyFontsAndColors(TableItem control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			if(usedDecorators){
 				//If there is no provider only apply set values
@@ -483,7 +538,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		Control myControl = getControl();
 		final DragSource dragSource = new DragSource(myControl, operations);
 		dragSource.setTransfer(transferTypes);
-		dragSource.addDragListener(listener);
+		dragSource.addDragListener(listener); //FLLDCIM: MARK — T25 DND CALL
 	}
 
 	/**
@@ -506,7 +561,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		Control control = getControl();
 		DropTarget dropTarget = new DropTarget(control, operations);
 		dropTarget.setTransfer(transferTypes);
-		dropTarget.addDropListener(listener);
+		dropTarget.addDropListener(listener); //FLLDCIM: MARK — T25 DND CALL
 	}
 
 	/**
@@ -520,10 +575,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 */
 	public void addFilter(ViewerFilter filter) {
 		if (filters == null) {
-			filters = new ArrayList<>();
+			filters = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		filters.add(filter);
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -533,19 +588,19 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param elements
 	 *            the array to check
 	 */
-	protected void assertElementsNotNull(Object... elements) {
+	protected void assertElementsNotNull(Object... elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(elements);
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isNotNull(element);
 		}
 
 		if (InternalPolicy.DEBUG_LOG_EQUAL_VIEWER_ELEMENTS
 				&& elements.length > 1) {
 			CustomHashtable elementSet = newHashtable(elements.length * 2);
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object old = elementSet.put(element, element);
 				if (old != null) {
-					String message = "Sibling elements in viewer must not be equal:\n  " //$NON-NLS-1$
+					String message = "Sibling elements in viewer must not be equal:\n  " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ old + ",\n  " + element; //$NON-NLS-1$
 					Policy.getLog().log(Status.warning(message));
 					return;
@@ -564,7 +619,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param item
 	 *            the widget
 	 */
-	protected void associate(Object element, Item item) {
+	protected void associate(Object element, Item item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object data = item.getData();
 		if (data != element) {
 			if (data != null) {
@@ -675,14 +730,14 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the elements to filter
 	 * @return only the elements which all filters accept
 	 */
-	protected Object[] filter(Object[] elements) {
+	protected Object[] filter(Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (filters != null) {
 			Object[] filtered = new Object[elements.length];
 			int count = 0;
 			Object root = getRoot();
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean add = true;
-				for (ViewerFilter filter : filters) {
+				for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					add = filter.select(this, root, element);
 					if (!add) {
 						break;
@@ -744,7 +799,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *
 	 * @since 3.2
 	 */
-	protected final Widget[] findItems(Object element) {
+	protected final Widget[] findItems(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Widget result = doFindInputItem(element);
 		if (result != null) {
 			return new Widget[] { result };
@@ -775,7 +830,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @see IDoubleClickListener#doubleClick
 	 */
 	protected void fireDoubleClick(final DoubleClickEvent event) {
-		for (IDoubleClickListener l : doubleClickListeners) {
+		for (IDoubleClickListener l : doubleClickListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -795,7 +850,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @see IOpenListener#open(OpenEvent)
 	 */
 	protected void fireOpen(final OpenEvent event) {
-		for (IOpenListener l : openListeners) {
+		for (IOpenListener l : openListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -816,7 +871,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @see #addPostSelectionChangedListener(ISelectionChangedListener)
 	 */
 	protected void firePostSelectionChanged(final SelectionChangedEvent event) {
-		for (ISelectionChangedListener l : postSelectionChangedListeners) {
+		if (m3PreservingSelection && inChange) {
+			return;
+		}
+		for (ISelectionChangedListener l : postSelectionChangedListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunnable.run(new SafeRunnable() {
 				@Override
 				public void run() {
@@ -854,7 +912,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			return result;
 		}
 		if (filters != null) {
-			for (ViewerFilter f : filters) {
+			for (ViewerFilter f : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object[] filteredResult = f.filter(this, parent, result);
 				if (associateListener != null && filteredResult.length != result.length) {
 					notifyFilteredOut(result, filteredResult);
@@ -871,7 +929,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	private void notifyFilteredOut(Object[] rawResult, Object[] filteredResult) {
 		int rawIndex = 0;
 		int filteredIndex = 0;
-		for (; filteredIndex < filteredResult.length; ) {
+		for (; filteredIndex < filteredResult.length; ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (rawResult[rawIndex] != filteredResult[filteredIndex]) {
 				associateListener.filteredOut(rawResult[rawIndex++]);
 				continue;
@@ -879,7 +937,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			rawIndex++;
 			filteredIndex++;
 		}
-		for (; rawIndex < rawResult.length; rawIndex++) {
+		for (; rawIndex < rawResult.length; rawIndex++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			associateListener.filteredOut(rawResult[rawIndex]);
 		}
 	}
@@ -1076,7 +1134,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param event
 	 *            the SWT selection event
 	 */
-	protected void handleDoubleSelect(SelectionEvent event) {
+	protected void handleDoubleSelect(SelectionEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// This method is reimplemented in AbstractTreeViewer to fix bug 108102.
 
 		// handle case where an earlier selection listener disposed the control.
@@ -1190,11 +1248,12 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		firePostSelectionChanged(event);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void hookControl(Control control) {
 		super.hookControl(control);
+		m3Display = control.getDisplay();
 		OpenStrategy handler = new OpenStrategy(control);
-		handler.addSelectionListener(new SelectionListener() {
+		handler.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// On Windows, selection events may happen during a refresh.
@@ -1210,8 +1269,8 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 				handleDoubleSelect(e);
 			}
 		});
-		handler.addPostSelectionListener(widgetSelectedAdapter(this::handlePostSelect));
-		handler.addOpenListener(StructuredViewer.this::handleOpen);
+		handler.addPostSelectionListener(widgetSelectedAdapter(this::handlePostSelect)); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+		handler.addOpenListener(StructuredViewer.this::handleOpen); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 	}
 
 	/**
@@ -1267,7 +1326,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param item
 	 *            the corresponding widget
 	 */
-	protected void mapElement(Object element, Widget item) {
+	protected void mapElement(Object element, Widget item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elementMap != null) {
 			Object widgetOrWidgets = elementMap.get(element);
 			if (widgetOrWidgets == null) {
@@ -1312,7 +1371,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		}
 
 		if (filters != null) {
-			for (ViewerFilter filter : filters) {
+			for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (filter.isFilterProperty(element, property)) {
 					return true;
 				}
@@ -1358,6 +1417,74 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		preservingSelection(updateCode, false);
 	}
 
+	/* Reuse virtual preservation, including subclass check-state ownership. */
+	void m3PreservingSelection(Runnable updateCode) {
+		if (!getPreserveSelection()) {
+			updateCode.run();
+			return;
+		}
+		boolean previous = m3PreservingSelection;
+		m3PreservingSelection = true;
+		try {
+			preservingSelection(updateCode);
+		} finally {
+			m3PreservingSelection = previous;
+		}
+	}
+
+	private void preservingM3Selection(Runnable updateCode, boolean reveal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		if (m3SelectionActive) {
+			updateCode.run();
+			return;
+		}
+		if (!preserveSelection) {
+			return;
+		}
+		boolean previousInChange = inChange;
+		boolean previousRestoreSelection = restoreSelection;
+		boolean previousRequested = m3SelectionRequested;
+		ISelection previousSelection = m3RequestedSelection;
+		boolean previousReveal = m3RequestedReveal;
+		ISelection oldSelection = getSelection();
+		m3SelectionActive = true;
+		m3SelectionRequested = false;
+		m3RequestedSelection = null;
+		m3RequestedReveal = false;
+		try {
+			inChange = restoreSelection = true;
+			updateCode.run();
+		} finally {
+			try {
+				Control control = getControl();
+				if (control != null && !control.isDisposed() && (m3SelectionRequested || restoreSelection)) {
+					ISelection selection = m3SelectionRequested ? m3RequestedSelection : oldSelection;
+					boolean restoreReveal = m3SelectionRequested ? m3RequestedReveal : reveal;
+					ISelection currentSelection = getSelection();
+					boolean unchanged = selection == null ? currentSelection.isEmpty() : currentSelection.equals(selection);
+					if (restoreReveal || !unchanged) {
+						setSelectionToWidget(selection, restoreReveal);
+					}
+				}
+			} finally {
+				// Native restoration may call setSelection again through Modify.
+				// Its request wins, without replaying restoration in a loop.
+				inChange = previousInChange;
+				restoreSelection = previousRestoreSelection && restoreSelection;
+				m3SelectionActive = false;
+				m3SelectionRequested = previousRequested;
+				m3RequestedSelection = previousSelection;
+				m3RequestedReveal = previousReveal;
+			}
+			Control control = getControl();
+			if (!previousInChange && control != null && !control.isDisposed()) {
+				ISelection newSelection = getSelection();
+				if (!newSelection.equals(oldSelection)) {
+					handleInvalidSelection(oldSelection, newSelection);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Attempts to preserves the current selection across a run of the given
 	 * code, with a best effort to avoid scrolling if <code>reveal</code> is
@@ -1382,7 +1509,11 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            <code>false</code> if scrolling should be avoided
 	 * @since 3.3
 	 */
-	void preservingSelection(Runnable updateCode, boolean reveal) {
+	void preservingSelection(Runnable updateCode, boolean reveal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		if (m3PreservingSelection) {
+			preservingM3Selection(updateCode, reveal);
+			return;
+		}
 		if (!preserveSelection) {
 			return;
 		}
@@ -1414,14 +1545,17 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	@Override
 	public void refresh() {
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
 		Control control = getControl();
 		if (control != null) {
 			control.setRedraw(false);
 		}
 		try {
-			refresh(getRoot());
+			refresh(getRoot()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		} finally {
-			if (control != null) {
+			if (control != null && !control.isDisposed()) {
 				control.setRedraw(true);
 			}
 		}
@@ -1449,7 +1583,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(boolean updateLabels) {
-		refresh(getRoot(), updateLabels);
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
+		refresh(getRoot(), updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -1465,6 +1602,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the element
 	 */
 	public void refresh(final Object element) {
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
 		preservingSelection(() -> internalRefresh(element));
 	}
 
@@ -1488,6 +1628,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @since 2.0
 	 */
 	public void refresh(final Object element, final boolean updateLabels) {
+		if (!m3FlushBeforeRefresh()) {
+			return;
+		}
 		preservingSelection(() -> internalRefresh(element, updateLabels));
 	}
 
@@ -1545,16 +1688,16 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            a viewer filter
 	 * @see StructuredViewer#setFilters(ViewerFilter...)
 	 */
-	public void removeFilter(ViewerFilter filter) {
+	public void removeFilter(ViewerFilter filter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(filter);
 		if (filters != null) {
 			// Note: can't use List.remove(Object). Use identity comparison
 			// instead.
-			for (Iterator<ViewerFilter> i = filters.iterator(); i.hasNext();) {
+			for (Iterator<ViewerFilter> i = filters.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object o = i.next();
 				if (o == filter) {
 					i.remove();
-					refresh();
+					refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					if (filters.isEmpty()) {
 						filters = null;
 					}
@@ -1580,8 +1723,8 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		if (filters.length == 0) {
 			resetFilters();
 		} else {
-			this.filters = new ArrayList<>(Arrays.asList(filters));
-			refresh(false);
+			this.filters = new ArrayList<>(Arrays.asList(filters)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			refresh(false); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -1592,7 +1735,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	public void resetFilters() {
 		if (filters != null) {
 			filters = null;
-			refresh(false);
+			refresh(false); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -1641,7 +1784,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		super.setInput(input);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setSelection(ISelection selection, boolean reveal) {
 		/**
 		 * <p>
@@ -1670,6 +1813,11 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 			firePostSelectionChanged(new SelectionChangedEvent(this, sel));
 		} else {
 			restoreSelection = false;
+			if (m3SelectionActive) {
+				m3SelectionRequested = true;
+				m3RequestedSelection = selection;
+				m3RequestedReveal = reveal;
+			}
 			setSelectionToWidget(selection, reveal);
 		}
 	}
@@ -1727,7 +1875,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	public void setSorter(ViewerSorter sorter) {
 		if (this.sorter != sorter) {
 			this.sorter = sorter;
-			refresh();
+			refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -1749,7 +1897,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	public void setComparator(ViewerComparator comparator){
 		if (this.sorter != comparator){
 			this.sorter = comparator;
-			refresh();
+			refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -1895,7 +2043,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param item    the item to unmap
 	 * @since 2.0
 	 */
-	protected void unmapElement(Object element, Widget item) {
+	protected void unmapElement(Object element, Widget item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// double-check that the element actually maps to the given item before
 		// unmapping it
 		if (elementMap != null) {
@@ -1979,7 +2127,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		boolean previousValue = refreshOccurred;
 		refreshOccurred = false;
 		try {
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				update(element, properties);
 				if (refreshOccurred) {
 					return;
@@ -2035,7 +2183,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		Widget[] items = findItems(element);
 
 		boolean mayExitEarly = !refreshOccurred;
-		for (Widget item : items) {
+		for (Widget item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			internalUpdate(item, element, properties);
 			if (mayExitEarly && refreshOccurred) {
 				// detected a change from refreshOccurred==false to refreshOccurred==true
@@ -2063,10 +2211,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the properties that have changed, or <code>null</code> to
 	 *            indicate unknown
 	 */
-	protected void internalUpdate(Widget widget, Object element, String[] properties) {
+	protected void internalUpdate(Widget widget, Object element, String[] properties) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean needsRefilter = false;
 		if (properties != null) {
-			for (String property : properties) {
+			for (String property : properties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				needsRefilter = needsRefilter(element, property);
 				if (needsRefilter) {
 					break;
@@ -2087,7 +2235,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		} else {
 			needsUpdate = false;
 			IBaseLabelProvider labelProvider = getLabelProvider();
-			for (String property : properties) {
+			for (String property : properties) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				needsUpdate = labelProvider.isLabelProperty(element, property);
 				if (needsUpdate) {
 					break;
@@ -2130,6 +2278,9 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 *            the selection, or <code>null</code> if none
 	 */
 	protected void updateSelection(ISelection selection) {
+		if (m3PreservingSelection && inChange) {
+			return;
+		}
 		SelectionChangedEvent event = new SelectionChangedEvent(this, selection);
 		fireSelectionChanged(event);
 	}
@@ -2156,7 +2307,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 		} else {
 			colorAndFontCollector = new ColorAndFontCollector();
 		}
-		super.setLabelProvider(labelProvider);
+		super.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 	}
 
@@ -2165,7 +2316,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param updateLabel The ViewerLabel to collect the result in
 	 * @param element The element being decorated.
 	 */
-	protected void buildLabel(ViewerLabel updateLabel, Object element){
+	protected void buildLabel(ViewerLabel updateLabel, Object element){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (getLabelProvider() instanceof IViewerLabelProvider) {
 			IViewerLabelProvider itemProvider = (IViewerLabelProvider) getLabelProvider();
@@ -2202,7 +2353,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param element The element being decorated.
 	 * @param labelProvider ILabelProvider the labelProvider for the receiver.
 	 */
-	void buildLabel(ViewerLabel updateLabel, Object element,IViewerLabelProvider labelProvider){
+	void buildLabel(ViewerLabel updateLabel, Object element,IViewerLabelProvider labelProvider){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			labelProvider.updateLabel(updateLabel, element);
 
@@ -2228,7 +2379,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	 * @param elementPath The path of the element being decorated.
 	 * @param labelProvider ILabelProvider the labelProvider for the receiver.
 	 */
-	void buildLabel(ViewerLabel updateLabel, TreePath elementPath,ITreePathLabelProvider labelProvider){
+	void buildLabel(ViewerLabel updateLabel, TreePath elementPath,ITreePathLabelProvider labelProvider){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			labelProvider.updateLabel(updateLabel, elementPath);
 
@@ -2270,6 +2421,7 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	@Override
 	protected void handleDispose(DisposeEvent event) {
+		m3DisposeDeltaQueue();
 		super.handleDispose(event);
 		sorter = null;
 		comparer = null;

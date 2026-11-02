@@ -128,7 +128,7 @@ public class PreferenceConverter {
 	 *
 	 * @since 3.0
 	 */
-	public static FontData[] basicGetFontData(String value) {
+	public static FontData[] basicGetFontData(String value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FontData[] defaultResult = getFontDataArrayDefaultDefault();
 
 		if (IPreferenceStore.STRING_DEFAULT_DEFAULT.equals(value)) {
@@ -140,7 +140,7 @@ public class PreferenceConverter {
 		int numTokens = tokenizer.countTokens();
 		FontData[] fontData = new FontData[numTokens];
 
-		for (int i = 0; i < numTokens; i++) {
+		for (int i = 0; i < numTokens; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				fontData[i] = new FontData(tokenizer.nextToken());
 			} catch (SWTException | IllegalArgumentException error) {
@@ -513,8 +513,8 @@ public class PreferenceConverter {
 	 * @since 3.0
 	 */
 	public static String getStoredRepresentation(FontData[] fontData) {
-		StringBuilder buffer = new StringBuilder();
-		for (FontData element : fontData) {
+		StringBuilder buffer = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (FontData element : fontData) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element != null) {
 				buffer.append(element.toString());
 				buffer.append(ENTRY_SEPARATOR);

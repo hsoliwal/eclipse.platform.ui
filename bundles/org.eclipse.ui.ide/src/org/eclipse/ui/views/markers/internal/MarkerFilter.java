@@ -99,9 +99,9 @@ public class MarkerFilter implements Cloneable {
 
 	static final boolean DEFAULT_ACTIVATION_STATUS = true;
 
-	protected List<MarkerType> rootTypes = new ArrayList<>();
+	protected List<MarkerType> rootTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	protected List<MarkerType> selectedTypes = new ArrayList<>();
+	protected List<MarkerType> selectedTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	protected IWorkingSet workingSet;
 
@@ -127,7 +127,7 @@ public class MarkerFilter implements Cloneable {
 	MarkerFilter(String filterName, String[] rootTypes) {
 		name = filterName;
 
-		for (String rootType : rootTypes) {
+		for (String rootType : rootTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType type = MarkerTypesModel.getInstance().getType(rootType);
 
 			if (!this.rootTypes.contains(type)) {
@@ -144,7 +144,7 @@ public class MarkerFilter implements Cloneable {
 	 *            list to be filled in with types
 	 */
 	public void addAllSubTypes(List<MarkerType> types) {
-		for (MarkerType rootType : rootTypes) {
+		for (MarkerType rootType : rootTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addAllSubTypes(types, rootType);
 		}
 	}
@@ -158,7 +158,7 @@ public class MarkerFilter implements Cloneable {
 			types.add(type);
 		}
 
-		for (MarkerType subType : type.getSubtypes()) {
+		for (MarkerType subType : type.getSubtypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addAllSubTypes(types, subType);
 		}
 	}
@@ -182,7 +182,7 @@ public class MarkerFilter implements Cloneable {
 	 *
 	 * @return IResource[]
 	 */
-	IResource[] getResourcesInWorkingSet() {
+	IResource[] getResourcesInWorkingSet() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (workingSet == null) {
 			return new IResource[0];
 		}
@@ -192,9 +192,9 @@ public class MarkerFilter implements Cloneable {
 		}
 
 		IAdaptable[] elements = workingSet.getElements();
-		List<IResource> result = new ArrayList<>(elements.length);
+		List<IResource> result = new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IAdaptable adaptable : elements) {
+		for (IAdaptable adaptable : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource next = Adapters.adapt(adaptable, IResource.class);
 			if (next != null) {
 				result.add(next);
@@ -212,7 +212,7 @@ public class MarkerFilter implements Cloneable {
 	 */
 	private Set<String> getWorkingSetAsSetOfPaths() {
 		if (cachedWorkingSet == null) {
-			HashSet<String> result = new HashSet<>();
+			HashSet<String> result = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			addResourcesAndChildren(result, getResourcesInWorkingSet());
 			cachedWorkingSet = result;
 		}
@@ -223,7 +223,7 @@ public class MarkerFilter implements Cloneable {
 	 * Adds the paths of all resources in the given array to the given set.
 	 */
 	private void addResourcesAndChildren(HashSet<String> result, IResource[] resources) {
-		for (IResource currentResource : resources) {
+		for (IResource currentResource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(currentResource.getFullPath().toString());
 			if (currentResource instanceof IContainer cont) {
 				try {
@@ -256,9 +256,9 @@ public class MarkerFilter implements Cloneable {
 	 * @return Collection of IProject
 	 */
 	static Collection<IProject> getProjectsAsCollection(Object[] elements) {
-		HashSet<IProject> projects = new HashSet<>();
+		HashSet<IProject> projects = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource) {
 				projects.add(((IResource) element).getProject());
 			} else {
@@ -294,7 +294,7 @@ public class MarkerFilter implements Cloneable {
 	 * @return true=the marker should not be filtered out false=the marker
 	 *         should be filtered out
 	 */
-	private boolean selectBySelection(ConcreteMarker marker) {
+	private boolean selectBySelection(ConcreteMarker marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (onResource == ON_ANY || marker == null) {
 			return true;
 		}
@@ -315,7 +315,7 @@ public class MarkerFilter implements Cloneable {
 			if (project == null) {
 				return false;
 			}
-			for (IResource focusResource : focusResources) {
+			for (IResource focusResource : focusResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IProject selectedProject = focusResource.getProject();
 				if (selectedProject == null) {
 					continue;
@@ -327,16 +327,16 @@ public class MarkerFilter implements Cloneable {
 			}
 			break;
 		case ON_SELECTED_ONLY:
-			for (IResource focusResource : focusResources) {
+			for (IResource focusResource : focusResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resource.equals(focusResource)) {
 					return true;
 				}
 			}
 			break;
 		case ON_SELECTED_AND_CHILDREN:
-			for (IResource focusResource : focusResources) {
+			for (IResource focusResource : focusResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource parentResource = resource;
-				while (parentResource != null) {
+				while (parentResource != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parentResource.equals(focusResource)) {
 						return true;
 					}
@@ -515,7 +515,7 @@ public class MarkerFilter implements Cloneable {
 	 * Restore the state of the receiver in the supplied settings. This is kept
 	 * for backwards compatibility with 3.1 dialog settings.
 	 */
-	public void restoreFilterSettings(IDialogSettings settings) {
+	public void restoreFilterSettings(IDialogSettings settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		resetState();
 		String setting = settings.get(TAG_ENABLED);
 		if (setting != null) {
@@ -538,11 +538,11 @@ public class MarkerFilter implements Cloneable {
 			selectedTypes.clear();
 
 			// get the complete list of types
-			List<MarkerType> newTypes = new ArrayList<>();
+			List<MarkerType> newTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			addAllSubTypes(newTypes);
 
 			StringTokenizer stringTokenizer = new StringTokenizer(setting);
-			while (stringTokenizer.hasMoreTokens()) {
+			while (stringTokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = stringTokenizer.nextToken(TAG_TYPES_DELIMITER);
 				String status = null;
 				if (stringTokenizer.hasMoreTokens()) {
@@ -587,7 +587,7 @@ public class MarkerFilter implements Cloneable {
 		selectedTypes.clear();
 		StringTokenizer stringTokenizer = new StringTokenizer(selectedTypesValue);
 
-		while (stringTokenizer.hasMoreTokens()) {
+		while (stringTokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType markerType = getMarkerType(stringTokenizer.nextToken(TAG_TYPES_DELIMITER));
 
 			if (markerType != null && !selectedTypes.contains(markerType)) {
@@ -608,7 +608,7 @@ public class MarkerFilter implements Cloneable {
 	/**
 	 * Restore the state of the receiver in the supplied settings.
 	 */
-	protected void restoreFilterSettings(IMemento memento) {
+	protected void restoreFilterSettings(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String setting = memento.getString(TAG_ENABLED);
 
 		if (setting != null) {
@@ -627,12 +627,12 @@ public class MarkerFilter implements Cloneable {
 			selectedTypes.clear();
 
 			// get the complete list of types
-			List<MarkerType> newTypes = new ArrayList<>();
+			List<MarkerType> newTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			addAllSubTypes(newTypes);
 
 			StringTokenizer stringTokenizer = new StringTokenizer(setting);
 
-			while (stringTokenizer.hasMoreTokens()) {
+			while (stringTokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = stringTokenizer.nextToken(TAG_TYPES_DELIMITER);
 				String status = null;
 				if (stringTokenizer.hasMoreTokens()) {
@@ -675,15 +675,15 @@ public class MarkerFilter implements Cloneable {
 	/**
 	 * Save the filter settings for the receiver.
 	 */
-	public void saveFilterSettings(IMemento settings) {
+	public void saveFilterSettings(IMemento settings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		settings.putString(TAG_ENABLED, String.valueOf(enabled));
 		settings.putInteger(TAG_ON_RESOURCE, onResource);
 
-		StringBuilder markerTypeIds = new StringBuilder();
+		StringBuilder markerTypeIds = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		List<MarkerType> includedTypes = new ArrayList<>();
+		List<MarkerType> includedTypes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addAllSubTypes(includedTypes);
-		for (int i = 0; i < includedTypes.size(); i++) {
+		for (int i = 0; i < includedTypes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerType markerType = includedTypes.get(i);
 			markerTypeIds.append(markerType.getId()).append(TAG_TYPES_DELIMITER);
 			if (selectedTypes.contains(markerType)) {

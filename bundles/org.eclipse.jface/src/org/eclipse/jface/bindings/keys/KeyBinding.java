@@ -64,7 +64,7 @@ public final class KeyBinding extends Binding {
 	 *            The type of binding. This should be either <code>SYSTEM</code>
 	 *            or <code>USER</code>.
 	 */
-	public KeyBinding(final KeySequence keySequence,
+	public KeyBinding(final KeySequence keySequence, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ParameterizedCommand command, final String schemeId,
 			final String contextId, final String locale, final String platform,
 			final String windowManager, final int type) {

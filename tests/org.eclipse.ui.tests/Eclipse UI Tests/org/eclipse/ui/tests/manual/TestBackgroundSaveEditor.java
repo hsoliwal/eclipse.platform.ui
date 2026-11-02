@@ -191,7 +191,7 @@ public class TestBackgroundSaveEditor extends EditorPart implements ISaveablesSo
 	public void createPartControl(Composite parent) {
 		Realm realm = DisplayRealm.getRealm(parent.getDisplay());
 		final DataBindingContext dbc = new DataBindingContext(realm);
-		parent.addDisposeListener(_ -> dbc.dispose());
+		parent.addDisposeListener(unused -> dbc.dispose());
 
 		final IObservableValue<?> inputObservable = BeanProperties.value("input").observe(data);
 		final IObservableValue<?> outputObservable = BeanProperties.value("output").observe(data);

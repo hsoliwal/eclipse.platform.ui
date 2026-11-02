@@ -46,7 +46,7 @@ public class CompatibilityWorkbenchWindowControlContribution {
 	 * @param toolControl the tool control representing this contribution
 	 * @param composite   the composite to create or parent the control under
 	 */
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void construct(MWindow window, MToolControl toolControl, Composite composite) {
 		IConfigurationElement configurationElement = ControlContributionRegistry.get(toolControl.getElementId());
 		if (configurationElement != null) {
@@ -61,7 +61,7 @@ public class CompatibilityWorkbenchWindowControlContribution {
 				}
 
 				MUIElement parent = toolControl.getParent();
-				while (!(parent instanceof MTrimBar) && parent != null) {
+				while (!(parent instanceof MTrimBar) && parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					parent = parent.getParent();
 				}
 

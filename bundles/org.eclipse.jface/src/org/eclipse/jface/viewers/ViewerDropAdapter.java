@@ -165,7 +165,7 @@ public abstract class ViewerDropAdapter extends DropTargetAdapter {
 	 * @param event the event
 	 * @return one of the <code>LOCATION_* </code>constants defined in this class
 	 */
-	protected int determineLocation(DropTargetEvent event) {
+	protected int determineLocation(DropTargetEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(event.item instanceof Item item)) {
 			return LOCATION_NONE;
 		}
@@ -209,7 +209,7 @@ public abstract class ViewerDropAdapter extends DropTargetAdapter {
 		return event.item == null ? null : event.item.getData();
 	}
 
-	private void doDropValidation(DropTargetEvent event) {
+	private void doDropValidation(DropTargetEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//always remember what was previously requested, but not if it
 		//was overridden
 		if (event.detail != DND.DROP_NONE && overrideOperation == -1) {
@@ -445,7 +445,7 @@ public abstract class ViewerDropAdapter extends DropTargetAdapter {
 		overrideOperation = operation;
 	}
 
-	private void setFeedback(DropTargetEvent event, int location) {
+	private void setFeedback(DropTargetEvent event, int location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (feedbackEnabled) {
 			switch (location) {
 			case LOCATION_BEFORE:

@@ -66,7 +66,7 @@ public class AnimationManager {
 		return control.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND);
 	}
 
-	AnimationManager() {
+	AnimationManager() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		animationProcessor = new ProgressAnimationProcessor(this);
 		display = Display.getDefault();
@@ -123,7 +123,7 @@ public class AnimationManager {
 		scheduleUpdate();
 	}
 
-	private void scheduleUpdate() {
+	private void scheduleUpdate() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (display.isDisposed()) {
 			return;
 		}
@@ -133,10 +133,10 @@ public class AnimationManager {
 		// original Job.schedule(DEBOUNCE_MILLIS) behavior on a sleeping job).
 		if (updatePending.compareAndSet(false, true)) {
 			try {
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					updatePending.set(false);
 					if (!display.isDisposed()) {
-						display.timerExec(DEBOUNCE_MILLIS, updateRunnable);
+						display.timerExec(DEBOUNCE_MILLIS, updateRunnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					}
 				});
 			} catch (SWTException e) {
@@ -156,9 +156,9 @@ public class AnimationManager {
 		ProgressManager.getInstance().removeListener(listener);
 	}
 
-	private IJobProgressManagerListener getProgressListener() {
+	private IJobProgressManagerListener getProgressListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new IJobProgressManagerListener() {
-			Set<Job> jobs = new HashSet<>();
+			Set<Job> jobs = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			@Override
 			public void addJob(JobInfo info) {
@@ -180,7 +180,7 @@ public class AnimationManager {
 				ProgressManager manager = ProgressManager.getInstance();
 				jobs.clear();
 				setAnimated(false);
-				for (JobInfo currentInfo : manager.getJobInfos(showsDebug())) {
+				for (JobInfo currentInfo : manager.getJobInfos(showsDebug())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addJob(currentInfo);
 				}
 			}

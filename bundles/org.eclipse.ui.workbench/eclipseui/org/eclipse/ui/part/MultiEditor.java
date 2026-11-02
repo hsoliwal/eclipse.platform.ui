@@ -49,7 +49,7 @@ public abstract class MultiEditor extends AbstractMultiEditor {
 	 *
 	 * @param editor the editor to update; not <code>null</code>
 	 */
-	public void updateGradient(IEditorPart editor) {
+	public void updateGradient(IEditorPart editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean activeEditor = editor == getSite().getPage().getActiveEditor();
 		boolean activePart = editor == getSite().getPage().getActivePart();
 
@@ -92,7 +92,7 @@ public abstract class MultiEditor extends AbstractMultiEditor {
 		Composite content = new Composite(parent, SWT.NONE);
 		content.setLayout(new FillLayout());
 		e.createPartControl(content);
-		parent.addListener(SWT.Activate, event -> {
+		parent.addListener(SWT.Activate, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (event.type == SWT.Activate) {
 				activateEditor(e);
 			}

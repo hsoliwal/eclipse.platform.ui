@@ -61,7 +61,7 @@ public class ProgressRegion {
 			return SideValue.BOTTOM;
 		}
 		MElementContainer<?> parent = toolControl.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof MTrimBar) {
 				return ((MTrimBar) parent).getSide();
 			}
@@ -79,7 +79,7 @@ public class ProgressRegion {
 	 * @param parent The parent widget of the composite.
 	 * @return Control
 	 */
-	@PostConstruct
+	@PostConstruct //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createContents(Composite parent) {
 		// Test whether or not 'advanced' graphics are available
 		// If not then we'll 'force' the ProgressBar to always be
@@ -137,7 +137,7 @@ public class ProgressRegion {
 				if (viewer.getControl().isDisposed()) {
 					return;
 				}
-				viewer.refresh();
+				viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 
 			@Override
@@ -156,7 +156,7 @@ public class ProgressRegion {
 
 		animationItem.getControl().setLayoutData(gd);
 
-		viewerControl.addMouseListener(new MouseAdapter() {
+		viewerControl.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				processDoubleClick();
@@ -166,10 +166,10 @@ public class ProgressRegion {
 		// Never show debug info
 		IContentProvider provider = new ProgressViewerContentProvider(viewer, false, false);
 		viewer.setContentProvider(provider);
-		viewer.setInput(provider);
-		viewer.setLabelProvider(new ProgressViewerLabelProvider(viewerControl));
+		viewer.setInput(provider); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		viewer.setLabelProvider(new ProgressViewerLabelProvider(viewerControl)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		viewer.setComparator(ProgressManagerUtil.getProgressViewerComparator());
-		viewer.addFilter(new ViewerFilter() {
+		viewer.addFilter(new ViewerFilter() { //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				if (element instanceof JobInfo info) {

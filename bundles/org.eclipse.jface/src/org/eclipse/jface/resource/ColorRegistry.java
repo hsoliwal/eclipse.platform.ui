@@ -65,19 +65,19 @@ public class ColorRegistry extends ResourceRegistry {
 	 * Collection of <code>Color</code> that are now stale to be disposed when
 	 * it is safe to do so (i.e. on shutdown).
 	 */
-	private final List<Color> staleColors = new ArrayList<>();
+	private final List<Color> staleColors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Table of known colors, keyed by symbolic color name (key type: <code>String</code>,
 	 * value type: <code>org.eclipse.swt.graphics.Color</code>.
 	 */
-	private final Map<String, Color> stringToColor = new HashMap<>(7);
+	private final Map<String, Color> stringToColor = new HashMap<>(7); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Table of known color data, keyed by symbolic color name (key type:
 	 * <code>String</code>, value type: <code>org.eclipse.swt.graphics.RGB</code>).
 	 */
-	private final Map<String, RGB> stringToRGB = new HashMap<>(7);
+	private final Map<String, RGB> stringToRGB = new HashMap<>(7); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Runnable that cleans up the manager on disposal of the display.
@@ -152,7 +152,7 @@ public class ColorRegistry extends ResourceRegistry {
 	 * @param symbolicName symbolic color name
 	 * @return the <code>Color</code> or <code>null</code>
 	 */
-	public Color get(String symbolicName) {
+	public Color get(String symbolicName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(symbolicName);
 		Object result = stringToColor.get(symbolicName);
@@ -275,7 +275,7 @@ public class ColorRegistry extends ResourceRegistry {
 	 *            method is called from the get method as no setting has
 	 *            changed.
 	 */
-	private void put(String symbolicName, RGB colorData, boolean update) {
+	private void put(String symbolicName, RGB colorData, boolean update) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(symbolicName);
 		Assert.isNotNull(colorData);

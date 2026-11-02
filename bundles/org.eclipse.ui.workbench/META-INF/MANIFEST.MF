@@ -58,6 +58,7 @@ Export-Package: org.eclipse.e4.ui.workbench.addons.perspectiveswitcher;x-interna
  org.eclipse.ui.internal.keys.model;x-internal:=true,
  org.eclipse.ui.internal.layout;x-friends:="org.eclipse.ui.intro",
  org.eclipse.ui.internal.menus;x-friends:="org.eclipse.ui",
+ org.eclipse.ui.internal.m3;x-internal:=true,
  org.eclipse.ui.internal.misc;x-friends:="org.eclipse.ui.ide",
  org.eclipse.ui.internal.model;x-internal:=true,
  org.eclipse.ui.internal.operations;x-internal:=true,

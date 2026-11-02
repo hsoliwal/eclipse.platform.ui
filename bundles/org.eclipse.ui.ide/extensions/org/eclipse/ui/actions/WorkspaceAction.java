@@ -72,7 +72,7 @@ import org.eclipse.ui.progress.IProgressConstants2;
  * <li><code>run</code> - extend to</li>
  * </ul>
  */
-public abstract class WorkspaceAction extends SelectionListenerAction {
+public abstract class WorkspaceAction extends SelectionListenerAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * The shell in which to show the progress and problems dialog.
 	 */
@@ -141,7 +141,7 @@ public abstract class WorkspaceAction extends SelectionListenerAction {
 	 *            a progress monitor
 	 * @return The result of the execution
 	 */
-	final IStatus execute(List<? extends IResource> resources, IProgressMonitor mon) {
+	final IStatus execute(List<? extends IResource> resources, IProgressMonitor mon) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MultiStatus errors = null;
 		// 1FTIMQN: ITPCORE:WIN - clients required to do too much iteration work
 		if (shouldPerformResourcePruning()) {
@@ -153,7 +153,7 @@ public abstract class WorkspaceAction extends SelectionListenerAction {
 		// call setTaskName as its the only was to assure the task name is
 		// set in the monitor (see bug 31824)
 		subMonitor.setTaskName(getOperationMessage());
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				invokeOperation(resource, subMonitor.split(1));
 			} catch (CoreException e) {
@@ -273,9 +273,9 @@ public abstract class WorkspaceAction extends SelectionListenerAction {
 	 * @see #shouldPerformResourcePruning
 	 */
 	List<IResource> pruneResources(List<? extends IResource> resourceCollection) {
-		List<IResource> prunedList = new ArrayList<>(resourceCollection);
+		List<IResource> prunedList = new ArrayList<>(resourceCollection); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<IResource> elementsEnum = prunedList.iterator();
-		while (elementsEnum.hasNext()) {
+		while (elementsEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource currentResource = elementsEnum.next();
 			if (isDescendent(prunedList, currentResource)) {
 				elementsEnum.remove(); // Removes currentResource
@@ -310,7 +310,7 @@ public abstract class WorkspaceAction extends SelectionListenerAction {
 	 * Subclasses may extend this method.
 	 * </p>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IStatus[] errorStatus = new IStatus[1];
 		try {
@@ -371,7 +371,7 @@ public abstract class WorkspaceAction extends SelectionListenerAction {
 		if (getSelectedResources().size() > 1) {
 			return true;
 		}
-		for (IResource r : getSelectedResources()) {
+		for (IResource r : getSelectedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!r.isAccessible()) {
 				return false;
 			}
@@ -434,17 +434,17 @@ public abstract class WorkspaceAction extends SelectionListenerAction {
 	 *
 	 * @since 3.1
 	 */
-	public void runInBackground(ISchedulingRule rule, final Object[] jobFamilies) {
+	public void runInBackground(ISchedulingRule rule, final Object[] jobFamilies) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// obtain a copy of the selected resources before the job is forked
-		final List<IResource> resources = new ArrayList<>(getActionResources());
-		Job job = new WorkspaceJob(removeMnemonics(getText())) {
+		final List<IResource> resources = new ArrayList<>(getActionResources()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Job job = new WorkspaceJob(removeMnemonics(getText())) { //FLLDCIM: MARK — T09  ANONYMOUS
 
 			@Override
 			public boolean belongsTo(Object family) {
 				if (jobFamilies == null || family == null) {
 					return false;
 				}
-				for (Object jobFamily : jobFamilies) {
+				for (Object jobFamily : jobFamilies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (family.equals(jobFamily)) {
 						return true;
 					}
@@ -486,7 +486,7 @@ public abstract class WorkspaceAction extends SelectionListenerAction {
 	 * @since 3.3
 	 */
 	protected IRunnableWithProgress createOperation(final IStatus[] errorStatus) {
-		return new WorkspaceModifyOperation() {
+		return new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public void execute(IProgressMonitor monitor) {
 				errorStatus[0] = WorkspaceAction.this.execute(getActionResources(), monitor);

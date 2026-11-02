@@ -166,12 +166,12 @@ abstract class AbstractResourcesOperation extends AbstractWorkspaceOperation {
 	 *            a boolean that specifies whether resource creation should be
 	 *            allowed to overwrite an existent resource.
 	 */
-	protected IStatus computeCreateStatus(boolean allowOverwrite) {
+	protected IStatus computeCreateStatus(boolean allowOverwrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resourceDescriptions == null || resourceDescriptions.length == 0) {
 			markInvalid();
 			return getErrorStatus(UndoMessages.AbstractResourcesOperation_NotEnoughInfo);
 		}
-		for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) {
+		for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Check for enough info to restore the resource
 			if (resourceDescription == null || !resourceDescription.isValid()) {
 				markInvalid();
@@ -217,7 +217,7 @@ abstract class AbstractResourcesOperation extends AbstractWorkspaceOperation {
 	 * Check the specified resources for read only state, and return a status
 	 * indicating whether the resources can be deleted.
 	 */
-	IStatus checkReadOnlyResources(IResource[] resourcesToCheck) {
+	IStatus checkReadOnlyResources(IResource[] resourcesToCheck) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Check read only status if we are permitted
 		// to consult the user.
 		if (!quietCompute) {
@@ -267,10 +267,10 @@ abstract class AbstractResourcesOperation extends AbstractWorkspaceOperation {
 	 * @return a scheduling rule appropriate for creating the resources
 	 *         specified in the resource descriptions
 	 */
-	protected ISchedulingRule computeCreateSchedulingRule() {
+	protected ISchedulingRule computeCreateSchedulingRule() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISchedulingRule[] ruleArray = new ISchedulingRule[resourceDescriptions.length * 3];
 
-		for (int i = 0; i < resourceDescriptions.length; i++) {
+		for (int i = 0; i < resourceDescriptions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resourceDescriptions[i] != null) {
 				IResource resource = resourceDescriptions[i]
 						.createResourceHandle();
@@ -297,7 +297,7 @@ abstract class AbstractResourcesOperation extends AbstractWorkspaceOperation {
 	 */
 	protected ISchedulingRule computeDeleteSchedulingRule() {
 		ISchedulingRule[] ruleArray = new ISchedulingRule[resources.length * 2];
-		for (int i = 0; i < resources.length; i++) {
+		for (int i = 0; i < resources.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ruleArray[i * 2] = getWorkspaceRuleFactory().deleteRule(
 					resources[i]);
 			// we include a modify rule because we may have to open a project
@@ -309,13 +309,13 @@ abstract class AbstractResourcesOperation extends AbstractWorkspaceOperation {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setTargetResources(IResource[] targetResources) {
 		// Remove any descendants if the parent has also
 		// been specified.
-		Set<IResource> subResources = new HashSet<>();
-		for (IResource subResource : targetResources) {
-			for (IResource superResource : targetResources) {
+		Set<IResource> subResources = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IResource subResource : targetResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IResource superResource : targetResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isDescendantOf(subResource, superResource) && !subResources.contains(subResource)) {
 					subResources.add(subResource);
 				}
@@ -323,7 +323,7 @@ abstract class AbstractResourcesOperation extends AbstractWorkspaceOperation {
 		}
 		IResource[] nestedResourcesRemoved = new IResource[targetResources.length - subResources.size()];
 		int j = 0;
-		for (IResource targetResource : targetResources) {
+		for (IResource targetResource : targetResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!subResources.contains(targetResource)) {
 				nestedResourcesRemoved[j] = targetResource;
 				j++;

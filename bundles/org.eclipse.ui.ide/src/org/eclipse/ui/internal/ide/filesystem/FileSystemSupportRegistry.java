@@ -70,11 +70,11 @@ public class FileSystemSupportRegistry implements IExtensionChangeHandler {
 		return singleton;
 	}
 
-	private final Collection<FileSystemConfiguration> registeredContributions = new HashSet<>(0);
+	private final Collection<FileSystemConfiguration> registeredContributions = new HashSet<>(0); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	FileSystemConfiguration defaultConfiguration = new FileSystemConfiguration(
 			FileSystemMessages.DefaultFileSystem_name, new FileSystemContributor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public URI browseFileSystem(String initialPath, Shell shell) {
 
 					DirectoryDialog dialog = new DirectoryDialog(shell, SWT.SHEET);
@@ -110,7 +110,7 @@ public class FileSystemSupportRegistry implements IExtensionChangeHandler {
 			return;
 		}
 		// initial population
-		for (IExtension extension : point.getExtensions()) {
+		for (IExtension extension : point.getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processExtension(tracker, extension);
 		}
 		tracker.registerHandler(this, ExtensionTracker.createExtensionPointFilter(point));
@@ -123,7 +123,7 @@ public class FileSystemSupportRegistry implements IExtensionChangeHandler {
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			registeredContributions.remove(object);
 		}
 	}
@@ -132,7 +132,7 @@ public class FileSystemSupportRegistry implements IExtensionChangeHandler {
 	 * Process the extension and register the result with the tracker.
 	 */
 	private void processExtension(IExtensionTracker tracker, IExtension extension) {
-		for (IConfigurationElement configElement : extension.getConfigurationElements()) {
+		for (IConfigurationElement configElement : extension.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FileSystemConfiguration contribution = newConfiguration(configElement);
 			if (contribution != null) {
 				registeredContributions.add(contribution);
@@ -147,7 +147,7 @@ public class FileSystemSupportRegistry implements IExtensionChangeHandler {
 	 * @return FileSystemContribution or <code>null</code> if there is an
 	 *         exception.
 	 */
-	private FileSystemConfiguration newConfiguration(
+	private FileSystemConfiguration newConfiguration( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IConfigurationElement element) {
 
 		final FileSystemContributor[] contributors = new FileSystemContributor[1];

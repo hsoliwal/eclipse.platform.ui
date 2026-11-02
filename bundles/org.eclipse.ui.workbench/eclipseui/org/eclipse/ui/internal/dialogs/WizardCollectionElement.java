@@ -123,7 +123,7 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 	 */
 	public WizardCollectionElement findChildCollection(IPath searchPath) {
 		String searchString = searchPath.segment(0);
-		for (Object element : getChildren(null)) {
+		for (Object element : getChildren(null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WizardCollectionElement currentCategory = (WizardCollectionElement) element;
 			if (currentCategory.getId().equals(searchString)) {
 				if (searchPath.segmentCount() == 1) {
@@ -147,7 +147,7 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 	 * @since 3.1
 	 */
 	public WizardCollectionElement findCategory(String id) {
-		for (Object element : getChildren(null)) {
+		for (Object element : getChildren(null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WizardCollectionElement currentCategory = (WizardCollectionElement) element;
 			if (id.equals(currentCategory.getId())) {
 				return currentCategory;
@@ -168,8 +168,8 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 	 * @param recursive whether to search recursivly
 	 * @return the element
 	 */
-	public WorkbenchWizardElement findWizard(String searchId, boolean recursive) {
-		for (IWizardDescriptor wizard : getWizards()) {
+	public WorkbenchWizardElement findWizard(String searchId, boolean recursive) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IWizardDescriptor wizard : getWizards()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchWizardElement currentWizard = (WorkbenchWizardElement) wizard;
 			if (currentWizard.getId().equals(searchId)) {
 				return currentWizard;
@@ -178,7 +178,7 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 		if (!recursive) {
 			return null;
 		}
-		for (Iterator<WizardCollectionElement> iterator = children.iterator(); iterator.hasNext();) {
+		for (Iterator<WizardCollectionElement> iterator = children.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WizardCollectionElement child = iterator.next();
 			WorkbenchWizardElement result = child.findWizard(searchId, true);
 			if (result != null) {
@@ -247,8 +247,8 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 	 */
 	private IWizardDescriptor[] getWizardsExpression(IWizardDescriptor[] wizardDescriptors) {
 		int size = wizardDescriptors.length;
-		List<IWizardDescriptor> result = new ArrayList<>(size);
-		for (int i = 0; i < size; i++) {
+		List<IWizardDescriptor> result = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!WorkbenchActivityHelper.restrictUseOf(wizardDescriptors[i])) {
 				result.add(wizardDescriptors[i]);
 			}
@@ -277,8 +277,8 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 	private WorkbenchWizardElement[] getWorkbenchWizardElementsExpression(
 			WorkbenchWizardElement[] workbenchWizardElements) {
 		int size = workbenchWizardElements.length;
-		List<WorkbenchWizardElement> result = new ArrayList<>(size);
-		for (int i = 0; i < size; i++) {
+		List<WorkbenchWizardElement> result = new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchWizardElement element = workbenchWizardElements[i];
 			if (!WorkbenchActivityHelper.restrictUseOf(element)) {
 				result.add(element);
@@ -326,7 +326,7 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 	 */
 	@Override
 	public String toString() {
-		StringBuilder buf = new StringBuilder("WizardCollection, "); //$NON-NLS-1$
+		StringBuilder buf = new StringBuilder("WizardCollection, "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		buf.append(children.size());
 		buf.append(" children, "); //$NON-NLS-1$
 		buf.append(wizards.size());
@@ -431,10 +431,10 @@ public class WizardCollectionElement extends AdaptableList implements IPluginCon
 	 * @param inputCollection collection to filter
 	 * @return inputCollection, modified copy of inputCollection or null
 	 */
-	static WizardCollectionElement filter(Viewer viewer, ViewerFilter viewerFilter,
+	static WizardCollectionElement filter(Viewer viewer, ViewerFilter viewerFilter, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			WizardCollectionElement inputCollection) {
 		AdaptableList wizards = null;
-		for (Object child : inputCollection.getWizardAdaptableList().getChildren()) {
+		for (Object child : inputCollection.getWizardAdaptableList().getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (viewerFilter.select(viewer, inputCollection, child)) {
 				if (wizards == null) {
 					wizards = new AdaptableList();

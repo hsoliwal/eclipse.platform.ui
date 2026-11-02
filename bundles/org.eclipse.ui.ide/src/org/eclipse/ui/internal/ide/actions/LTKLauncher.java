@@ -91,7 +91,7 @@ public class LTKLauncher {
 	 */
 	public static boolean renameResource(String newName,
 			IStructuredSelection structuredSelection) {
-		Map<String, Object> commandParameters = new HashMap<>();
+		Map<String, Object> commandParameters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		commandParameters.put(LTK_RENAME_COMMAND_NEWNAME_KEY, newName);
 		return runCommand(LTK_RENAME_ID, structuredSelection, commandParameters);
 	}
@@ -118,25 +118,25 @@ public class LTKLauncher {
 	 *         otherwise
 	 */
 	public static boolean isCompositeRename(IStructuredSelection structuredSelection) {
-		Map<String, Object> commandParameters = new HashMap<>();
+		Map<String, Object> commandParameters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		commandParameters.put(LTK_CHECK_COMPOSITE_RENAME_PARAMETER_KEY, true);
 		return runCommand(LTK_RENAME_ID, structuredSelection, commandParameters);
 	}
 
 	public static boolean copyProject(IProject project, String newName, IPath newLocation) {
-		Map<String, Object> commandParameters = new HashMap<>();
+		Map<String, Object> commandParameters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		commandParameters.put(LTK_COPY_PROJECT_COMMAND_NEWNAME_KEY, newName);
 		commandParameters.put(LTK_COPY_PROJECT_COMMAND_NEWLOCATION_KEY, newLocation);
 		return runCommand(LTK_COPY_PROJECT_ID, new StructuredSelection(project), commandParameters);
 	}
 
 	public static boolean copyResources(IResource[] resources, IPath[] destinationPaths) {
-		Map<String, Object> commandParameters = new HashMap<>();
+		Map<String, Object> commandParameters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		commandParameters.put(LTK_COPY_RESOURCES_COMMAND_DESTINATION_KEY, destinationPaths);
 		return runCommand(LTK_COPY_RESOURCES_ID, new StructuredSelection(resources), commandParameters);
 	}
 
-	private static boolean runCommand(String commandId, IStructuredSelection selection,
+	private static boolean runCommand(String commandId, IStructuredSelection selection, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Map<String, Object> commandParameters) {
 
 		ICommandService commandService = PlatformUI
@@ -153,7 +153,7 @@ public class LTKLauncher {
 			c = new EvaluationContext(handlerService
 					.createContextSnapshot(false), selection.toList());
 			c.addVariable(ISources.ACTIVE_CURRENT_SELECTION_NAME, selection);
-			for (Entry<String, Object> entry : commandParameters.entrySet()) {
+			for (Entry<String, Object> entry : commandParameters.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				c.addVariable(entry.getKey(), entry.getValue());
 			}
 		}

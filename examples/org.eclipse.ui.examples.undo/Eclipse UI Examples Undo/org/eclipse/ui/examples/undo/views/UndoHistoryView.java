@@ -202,7 +202,7 @@ public class UndoHistoryView extends ViewPart implements
 			}
 		};
 		UndoPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(propertyChangeListener);
-		viewer.getControl().addDisposeListener(_ -> removeListeners());
+		viewer.getControl().addDisposeListener(unused -> removeListeners());
 	}
 
 	/*
@@ -398,7 +398,7 @@ public class UndoHistoryView extends ViewPart implements
 	 * Register a double click action with the double click event.
 	 */
 	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(_ -> doubleClickAction.run());
+		viewer.addDoubleClickListener(unused -> doubleClickAction.run());
 	}
 
 	/*

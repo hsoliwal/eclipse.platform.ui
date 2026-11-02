@@ -42,9 +42,9 @@ public class ElementReference implements IElementReference {
 		commandId = id;
 		element = adapt;
 		if (parms == null) {
-			parameters = new HashMap();
+			parameters = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		} else {
-			parameters = new HashMap(parms);
+			parameters = new HashMap(parms); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 	}
 

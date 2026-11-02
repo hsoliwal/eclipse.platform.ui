@@ -41,7 +41,7 @@ public class ConfigurationLogUpdateSection implements ISystemSummarySection {
 	/*
 	 * Query the profile and print out the list of IUs which are installed.
 	 */
-	private void writeInstalledIUs(PrintWriter writer) {
+	private void writeInstalledIUs(PrintWriter writer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ServiceCaller.callOnce(getClass(), IProfileRegistry.class, (registry) -> {
 			IProfile profile = registry.getProfile(IProfileRegistry.SELF);
 			if (profile == null) {
@@ -49,22 +49,22 @@ public class ConfigurationLogUpdateSection implements ISystemSummarySection {
 			}
 
 			writer.println(IDEWorkbenchMessages.ConfigurationLogUpdateSection_installConfiguration);
-			writer.println(" " + NLS.bind(IDEWorkbenchMessages.ConfigurationLogUpdateSection_lastChangedOn, DateFormat.getDateInstance().format(new Date(profile.getTimestamp())))); //$NON-NLS-1$
-			writer.println(" " + NLS.bind(IDEWorkbenchMessages.ConfigurationLogUpdateSection_location, profile.getProperty(IProfile.PROP_INSTALL_FOLDER))); //$NON-NLS-1$
-			writer.println(" " + NLS.bind(IDEWorkbenchMessages.ConfigurationLogUpdateSection_timestamp, Long.toString(profile.getTimestamp()))); //$NON-NLS-1$
+			writer.println(" " + NLS.bind(IDEWorkbenchMessages.ConfigurationLogUpdateSection_lastChangedOn, DateFormat.getDateInstance().format(new Date(profile.getTimestamp())))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			writer.println(" " + NLS.bind(IDEWorkbenchMessages.ConfigurationLogUpdateSection_location, profile.getProperty(IProfile.PROP_INSTALL_FOLDER))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			writer.println(" " + NLS.bind(IDEWorkbenchMessages.ConfigurationLogUpdateSection_timestamp, Long.toString(profile.getTimestamp()))); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			writer.println();
 
 			// Since this code is only called in the Help -> About -> Configuration Details case we
 			// won't worry too much about performance here and we will sort the query results
 			// afterwards, but before printing them out.
 			SortedSet<String> sorted = new TreeSet<>();
-			for (IInstallableUnit unit : profile.available(QueryUtil.createIUAnyQuery(), null)) {
+			for (IInstallableUnit unit : profile.available(QueryUtil.createIUAnyQuery(), null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				sorted.add(NLS.bind(IDEWorkbenchMessages.ConfigurationLogUpdateSection_IU, unit.getId(), unit.getVersion()));
 			}
 			if (!sorted.isEmpty()) {
 				writer.println(IDEWorkbenchMessages.ConfigurationLogUpdateSection_IUHeader);
 				writer.println();
-				for (String string : sorted) {
+				for (String string : sorted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					writer.println(string);
 				}
 			}
@@ -74,13 +74,13 @@ public class ConfigurationLogUpdateSection implements ISystemSummarySection {
 	/*
 	 * Query OSGi and print out the list of known bundles.
 	 */
-	private void writeBundles(PrintWriter writer) {
+	private void writeBundles(PrintWriter writer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BundleContext bundleContext = IDEWorkbenchPlugin.getDefault().getBundle().getBundleContext();
 		// Since this code is only called in the Help -> About -> Configuration Details case we
 		// won't worry too much about performance here and we will sort the query results
 		// afterwards, but before printing them out.
 		SortedSet<String> sorted = new TreeSet<>();
-		for (Bundle bundle : bundleContext.getBundles()) {
+		for (Bundle bundle : bundleContext.getBundles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name = bundle.getSymbolicName();
 			if (name == null) {
 				name = bundle.getLocation();
@@ -91,7 +91,7 @@ public class ConfigurationLogUpdateSection implements ISystemSummarySection {
 		if (!sorted.isEmpty()) {
 			writer.println(IDEWorkbenchMessages.ConfigurationLogUpdateSection_bundleHeader);
 			writer.println();
-			for (String string : sorted) {
+			for (String string : sorted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				writer.println(string);
 			}
 		}

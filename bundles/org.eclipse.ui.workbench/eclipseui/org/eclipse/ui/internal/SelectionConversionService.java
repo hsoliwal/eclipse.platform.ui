@@ -45,7 +45,7 @@ public class SelectionConversionService implements ISelectionConversionService {
 	 * @param originalSelection the original selection
 	 * @return the converted selection or an empty selection.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStructuredSelection convertToResources(IStructuredSelection originalSelection) {
 		// @issue resource-specific code should be pushed into IDE
 		Class<?> resourceClass = LegacyResourceSupport.getResourceClass();
@@ -53,9 +53,9 @@ public class SelectionConversionService implements ISelectionConversionService {
 			return originalSelection;
 		}
 
-		List result = new ArrayList();
+		List result = new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object currentElement : originalSelection) {
+		for (Object currentElement : originalSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object resource = Adapters.adapt(currentElement, resourceClass);
 			if (resource != null) {
 				result.add(resource);

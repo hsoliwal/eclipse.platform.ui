@@ -41,8 +41,8 @@ public class MarkerShowInAdapter implements IAdapterFactory {
 		}
 
 		return adapterType.cast((IShowInSource) () -> {
-			Collection<IResource> resources = new HashSet<>();
-			for (IMarker marker : view.getSelectedMarkers()) {
+			Collection<IResource> resources = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IMarker marker : view.getSelectedMarkers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				resources.add(marker.getResource());
 			}
 			return new ShowInContext(view.getViewerInput(), new StructuredSelection(resources.toArray()));

@@ -27,7 +27,7 @@ import org.eclipse.ui.wizards.IWizardCategory;
  *
  * @since 3.2
  */
-public class WizardPatternFilter extends PatternFilter {
+public class WizardPatternFilter extends PatternFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	/**
 	 * Create a new instance of a WizardPatternFilter.
 	 */
@@ -61,9 +61,9 @@ public class WizardPatternFilter extends PatternFilter {
 
 	@Override
 	public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
-		ArrayList<Object> result = new ArrayList<>();
+		ArrayList<Object> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object elem : super.filter(viewer, parent, elements)) {
+		for (Object elem : super.filter(viewer, parent, elements)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem instanceof WizardCollectionElement) {
 				Object wizardCollection = WizardCollectionElement.filter(viewer, this, (WizardCollectionElement) elem);
 				if (wizardCollection != null) {

@@ -55,7 +55,7 @@ public abstract class DecoratorTestPart extends ViewPart {
 	 */
 	private ILabelProviderListener getDecoratorManagerListener() {
 		// Reset the end time each time we get an update
-		listener = _ -> endTime = System.currentTimeMillis() + DELAY_TIME;
+		listener = unused -> endTime = System.currentTimeMillis() + DELAY_TIME;
 
 		return listener;
 	}

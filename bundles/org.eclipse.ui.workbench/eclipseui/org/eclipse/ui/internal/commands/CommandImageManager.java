@@ -66,7 +66,7 @@ public final class CommandImageManager extends EventManager {
 	 * <code>ImageDescriptor</code> or a <code>Map</code> of style
 	 * (<code>String</code>) to <code>ImageDescriptor</code>.
 	 */
-	private final Map imagesById = new HashMap();
+	private final Map imagesById = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Adds a listener to this command image manager. The listener will be notified
@@ -104,7 +104,7 @@ public final class CommandImageManager extends EventManager {
 	 * @param style      The style of the image; may be <code>null</code>.
 	 * @param descriptor The image descriptor. Should not be <code>null</code>.
 	 */
-	public void bind(final String commandId, final int type, final String style, final ImageDescriptor descriptor) {
+	public void bind(final String commandId, final int type, final String style, final ImageDescriptor descriptor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] images = (Object[]) imagesById.get(commandId);
 		if (images == null) {
 			images = new Object[3];
@@ -125,7 +125,7 @@ public final class CommandImageManager extends EventManager {
 		} else if (typedImage instanceof final Map styleMap) {
 			styleMap.put(style, descriptor);
 		} else if (typedImage instanceof ImageDescriptor || typedImage == null) {
-			final Map styleMap = new HashMap();
+			final Map styleMap = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			styleMap.put(null, typedImage);
 			styleMap.put(style, descriptor);
 			images[type] = styleMap;
@@ -158,7 +158,7 @@ public final class CommandImageManager extends EventManager {
 		}
 
 		final Object[] listeners = getListeners();
-		for (Object l : listeners) {
+		for (Object l : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ICommandImageManagerListener listener = (ICommandImageManagerListener) l;
 			listener.commandImageManagerChanged(event);
 		}
@@ -173,14 +173,14 @@ public final class CommandImageManager extends EventManager {
 	 *                  required; must not be <code>null</code>.
 	 * @return A style tag that is not currently used; may be <code>null</code>.
 	 */
-	public String generateUnusedStyle(final String commandId) {
+	public String generateUnusedStyle(final String commandId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Object[] existingImages = (Object[]) imagesById.get(commandId);
 		if (existingImages == null) {
 			return null;
 		}
 
-		final Set existingStyles = new HashSet(3);
-		for (final Object styledImages : existingImages) {
+		final Set existingStyles = new HashSet(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (final Object styledImages : existingImages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (styledImages instanceof ImageDescriptor) {
 				existingStyles.add(null);
 			} else if (styledImages instanceof final Map styleMap) {
@@ -191,9 +191,9 @@ public final class CommandImageManager extends EventManager {
 		if (!existingStyles.contains(null)) {
 			return null;
 		}
-		StringBuilder generatedStyle = new StringBuilder("AUTOGEN:::"); //$NON-NLS-1$
+		StringBuilder generatedStyle = new StringBuilder("AUTOGEN:::"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int index = 0;
-		while (existingStyles.contains(generatedStyle)) {
+		while (existingStyles.contains(generatedStyle)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			generatedStyle.append(index % 10);
 			index++;
 		}
@@ -238,7 +238,7 @@ public final class CommandImageManager extends EventManager {
 	 * @return An image appropriate for the given command; <code>null</code> if the
 	 *         given image style and type cannot be found.
 	 */
-	public ImageDescriptor getImageDescriptor(final String commandId, final int type, final String style) {
+	public ImageDescriptor getImageDescriptor(final String commandId, final int type, final String style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (commandId == null) {
 			throw new NullPointerException();
 		}

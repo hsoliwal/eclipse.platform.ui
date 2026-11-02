@@ -81,7 +81,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * Create a new instance of the receiver.
 	 */
 	public ColumnViewer() {
-		expandableNodes = new HashSet<>();
+		expandableNodes = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * @param control
 	 * 		the control you want to hook on
 	 */
-	protected void hookEditingSupport(Control control) {
+	protected void hookEditingSupport(Control control) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Needed for backwards comp with AbstractTreeViewer
 		// which is not hooked this way others may already overwrite and provide
 		// their
@@ -117,7 +117,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 					handleMouseDown(e);
 				}
 			};
-			control.addMouseListener(mouseListener);
+			control.addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		}
 	}
 
@@ -197,7 +197,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * @return the viewer column at the given index, or <code>null</code> if
 	 * 	there is none for the given index
 	 */
-	/* package */ViewerColumn getViewerColumn(final int columnIndex) {
+	/* package */ViewerColumn getViewerColumn(final int columnIndex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ViewerColumn viewer;
 		Widget columnOwner = getColumnViewerOwner(columnIndex);
@@ -226,7 +226,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * Sets up editing support for the given column based on the "old" cell
 	 * editor API.
 	 */
-	private void setupEditingSupport(final int columnIndex, ViewerColumn viewer) {
+	private void setupEditingSupport(final int columnIndex, ViewerColumn viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getCellModifier() != null) {
 			viewer.setEditingSupport(new EditingSupport(this) {
 
@@ -296,7 +296,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 			CellLabelProvider labelProvider) {
 		ViewerColumn column = new ViewerColumn(this, columnOwner) {
 		};
-		column.setLabelProvider(labelProvider, false);
+		column.setLabelProvider(labelProvider, false); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		return column;
 	}
 
@@ -346,7 +346,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 		if (labelProvider instanceof CellLabelProvider) {
 			((CellLabelProvider) labelProvider).initialize(this, null);
 		}
-		super.setLabelProvider(labelProvider);
+		super.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 
 	@Override
@@ -365,8 +365,8 @@ public abstract class ColumnViewer extends StructuredViewer {
 		ViewerColumn column;
 		int i = 0;
 
-		while ((column = getViewerColumn(i++)) != null) {
-			column.setLabelProvider(CellLabelProvider
+		while ((column = getViewerColumn(i++)) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			column.setLabelProvider(CellLabelProvider //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 					.createViewerLabelProvider(this, labelProvider), false);
 		}
 	}
@@ -403,7 +403,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * 		the column index
 	 * @since 3.1 (in subclasses, added in 3.3 to abstract class)
 	 */
-	public void editElement(Object element, int column) {
+	public void editElement(Object element, int column) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (viewerEditor != null) {
 			try {
 				getControl().setRedraw(false);
@@ -518,7 +518,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 			cancelEditing();
 		}
 
-		super.refresh(element);
+		super.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	@Override
@@ -531,7 +531,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 			cancelEditing();
 		}
 
-		super.refresh(element, updateLabels);
+		super.refresh(element, updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	@Override
@@ -707,11 +707,11 @@ public abstract class ColumnViewer extends StructuredViewer {
 		}
 	}
 
-	void clearLegacyEditingSetup() {
+	void clearLegacyEditingSetup() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!getControl().isDisposed() && getCellEditors() != null) {
 			int count = doGetColumnCount();
 
-			for (int i = 0; i < count || i == 0; i++) {
+			for (int i = 0; i < count || i == 0; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Widget owner = getColumnViewerOwner(i);
 				if (owner != null && !owner.isDisposed()) {
 					ViewerColumn column = (ViewerColumn) owner
@@ -845,7 +845,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * @return returns only limited items.
 	 * @see ColumnViewer#setDisplayIncrementally(int)
 	 */
-	final Object[] applyItemsLimit(Object parent, Object[] sorted) {
+	final Object[] applyItemsLimit(Object parent, Object[] sorted) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// limit the number of items to be created. sorted always gets the remaining
 		// elements to be created.
 		final int itemsLimit = getItemsLimit();
@@ -904,7 +904,7 @@ public abstract class ColumnViewer extends StructuredViewer {
 	 * @return list of children to be displayed/refreshed or {@code null} if given
 	 *         items length does not exceed items limit
 	 */
-	Object[] getChildrenWithLimitApplied(final Object parent, Item[] visibleChildren) {
+	Object[] getChildrenWithLimitApplied(final Object parent, Item[] visibleChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int limit = getItemsLimit();
 		final int visibleItemsLength = visibleChildren.length;
 		if (visibleItemsLength < limit || limit <= 0) {
@@ -1054,17 +1054,17 @@ public abstract class ColumnViewer extends StructuredViewer {
 		super.firePostSelectionChanged(event);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	ISelection getUpdatedSelection(ISelection selection) {
 		if (getItemsLimit() <= 0) {
 			return selection;
 		}
 
 		if (selection instanceof StructuredSelection structSel) {
-			List<Object> list = new ArrayList<>(structSel.toList());
+			List<Object> list = new ArrayList<>(structSel.toList()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Iterator<?> itr = list.iterator();
 			boolean found = false;
-			while (itr.hasNext()) {
+			while (itr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (itr.next() instanceof ExpandableNode) {
 					itr.remove();
 					found = true;

@@ -45,7 +45,7 @@ public class IntroRegistry implements IIntroRegistry {
 		return getIntros().length;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IIntroDescriptor[] getIntros() {
 		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(PlatformUI.PLUGIN_ID,
 				IWorkbenchRegistryConstants.PL_INTRO);
@@ -56,10 +56,10 @@ public class IntroRegistry implements IIntroRegistry {
 		IExtension[] extensions = point.getExtensions();
 		extensions = RegistryReader.orderExtensions(extensions);
 
-		ArrayList<IIntroDescriptor> list = new ArrayList<>(extensions.length);
-		for (IExtension extension : extensions) {
+		ArrayList<IIntroDescriptor> list = new ArrayList<>(extensions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement[] elements = extension.getConfigurationElements();
-			for (IConfigurationElement element : elements) {
+			for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getName().equals(TAG_INTRO)) {
 					try {
 						IIntroDescriptor descriptor = new IntroDescriptor(element);
@@ -75,7 +75,7 @@ public class IntroRegistry implements IIntroRegistry {
 		return list.toArray(new IIntroDescriptor[list.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IIntroDescriptor getIntroForProduct(String targetProductId) {
 		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(PlatformUI.PLUGIN_ID,
 				IWorkbenchRegistryConstants.PL_INTRO);
@@ -94,7 +94,7 @@ public class IntroRegistry implements IIntroRegistry {
 		IIntroDescriptor descriptor = null;
 
 		IIntroDescriptor[] intros = getIntros();
-		for (IIntroDescriptor intro : intros) {
+		for (IIntroDescriptor intro : intros) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (intro.getId().equals(targetIntroId)) {
 				descriptor = intro;
 				break;
@@ -104,10 +104,10 @@ public class IntroRegistry implements IIntroRegistry {
 		return descriptor;
 	}
 
-	private String getIntroForProduct(String targetProductId, IExtension[] extensions) {
-		for (IExtension extension : extensions) {
+	private String getIntroForProduct(String targetProductId, IExtension[] extensions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IConfigurationElement[] elements = extension.getConfigurationElements();
-			for (IConfigurationElement element : elements) {
+			for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getName().equals(TAG_INTROPRODUCTBINDING)) {
 					String introId = element.getAttribute(ATT_INTROID);
 					String productId = element.getAttribute(ATT_PRODUCTID);
@@ -132,7 +132,7 @@ public class IntroRegistry implements IIntroRegistry {
 	@Override
 	public IIntroDescriptor getIntro(String id) {
 		IIntroDescriptor[] intros = getIntros();
-		for (IIntroDescriptor desc : intros) {
+		for (IIntroDescriptor desc : intros) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getId().equals(id)) {
 				return desc;
 			}

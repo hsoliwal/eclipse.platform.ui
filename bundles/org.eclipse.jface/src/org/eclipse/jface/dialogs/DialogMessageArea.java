@@ -59,7 +59,7 @@ public class DialogMessageArea extends Object {
 	 * @param parent
 	 *            the Composite that the children will be created in
 	 */
-	public void createContents(Composite parent) {
+	public void createContents(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Message label
 		titleLabel = new CLabel(parent, SWT.NONE);
@@ -146,7 +146,7 @@ public class DialogMessageArea extends Object {
 	 *            IMessageProvider.NONE show the title.
 	 * @see IMessageProvider
 	 */
-	public void updateText(String newMessage, int newType) {
+	public void updateText(String newMessage, int newType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Image newImage = null;
 		switch (newType) {
 		case IMessageProvider.NONE:

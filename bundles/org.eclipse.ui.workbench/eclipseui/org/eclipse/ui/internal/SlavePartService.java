@@ -92,7 +92,7 @@ public class SlavePartService implements IPartService, IDisposable {
 
 	@Override
 	public void dispose() {
-		for (Object listener : listeners.getListeners()) {
+		for (Object listener : listeners.getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof IPartListener) {
 				parent.removePartListener((IPartListener) listener);
 			}

@@ -78,23 +78,23 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 	/**
 	 * Create a new instance of this class.
 	 */
-	public WorkbenchActivitySupport() {
+	public WorkbenchActivitySupport() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		triggerPointManager = new TriggerPointManager();
 		IExtensionTracker tracker = PlatformUI.getWorkbench().getExtensionTracker();
 		tracker.registerHandler(this, ExtensionTracker.createExtensionPointFilter(getActivitySupportExtensionPoint()));
 		mutableActivityManager = new MutableActivityManager(getTriggerPointAdvisor());
 		proxyActivityManager = new ProxyActivityManager(mutableActivityManager);
-		mutableActivityManager.addActivityManagerListener(new IActivityManagerListener() {
+		mutableActivityManager.addActivityManagerListener(new IActivityManagerListener() { //FLLDCIM: MARK — T36  ANONYMOUS
 
-			private Set<String> lastEnabled = new HashSet<>(mutableActivityManager.getEnabledActivityIds());
+			private Set<String> lastEnabled = new HashSet<>(mutableActivityManager.getEnabledActivityIds()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void activityManagerChanged(ActivityManagerEvent activityManagerEvent) {
 				Set<String> activityIds = mutableActivityManager.getEnabledActivityIds();
 				// only update the windows if we've not processed this new enablement state
 				// already.
 				if (!activityIds.equals(lastEnabled)) {
-					lastEnabled = new HashSet<>(activityIds);
+					lastEnabled = new HashSet<>(activityIds); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 					// abort if the workbench isn't running
 					if (!PlatformUI.isWorkbenchRunning()) {
@@ -104,11 +104,11 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 					// refresh the managers on all windows.
 					final IWorkbench workbench = PlatformUI.getWorkbench();
 					IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
-					for (IWorkbenchWindow wWindow : windows) {
+					for (IWorkbenchWindow wWindow : windows) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (wWindow instanceof final WorkbenchWindow window) {
 							final ProgressMonitorDialog dialog = new ProgressMonitorDialog(window.getShell());
 
-							final IRunnableWithProgress runnable = new IRunnableWithProgress() {
+							final IRunnableWithProgress runnable = new IRunnableWithProgress() { //FLLDCIM: MARK — T09  ANONYMOUS
 
 								/**
 								 * When this operation should open a dialog
@@ -120,7 +120,7 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 								 */
 								private boolean dialogOpened = false;
 
-								@Override
+								@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								public void run(IProgressMonitor monitor) {
 
 									openTime = System.currentTimeMillis()
@@ -138,9 +138,9 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 									monitor.subTask(ActivityMessages.ManagerViewsSubTask);
 									// update all of the (realized) views in all of the pages
 									IWorkbenchPage[] pages = window.getPages();
-									for (IWorkbenchPage page : pages) {
+									for (IWorkbenchPage page : pages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										IViewReference[] refs = page.getViewReferences();
-										for (IViewReference ref : refs) {
+										for (IViewReference ref : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 											IViewPart part = ref.getView(false);
 											if (part != null) {
 												updateViewBars(part);
@@ -157,7 +157,7 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 								 *
 								 * @param part the view to update
 								 */
-								private void updateViewBars(IViewPart part) {
+								private void updateViewBars(IViewPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 									IViewSite viewSite = part.getViewSite();
 									// check for badly behaving or badly initialized views
 									if (viewSite == null) {
@@ -183,7 +183,7 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 								 *
 								 * @param window the window to update
 								 */
-								private void updateWindowBars(final WorkbenchWindow window) {
+								private void updateWindowBars(final WorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 									IContributionManager manager = window.getMenuBarManager();
 									if (manager != null) {
 										updateManager(manager);
@@ -222,7 +222,7 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 							// handled by the runnable if we take too long
 							dialog.setOpenOnRun(false);
 							// run this in the UI thread
-							workbench.getDisplay()
+							workbench.getDisplay() //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 									.asyncExec(() -> BusyIndicator.showWhile(workbench.getDisplay(), () -> {
 										try {
 											dialog.run(false, false, runnable);
@@ -331,7 +331,7 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 	 * @return the trigger point advisor
 	 * @since 3.1
 	 */
-	public ITriggerPointAdvisor getTriggerPointAdvisor() {
+	public ITriggerPointAdvisor getTriggerPointAdvisor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (advisor != null) {
 			return advisor;
 		}
@@ -384,7 +384,7 @@ public class WorkbenchActivitySupport implements IWorkbenchActivitySupport, IExt
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object == advisor) {
 				advisor = null;
 				break;

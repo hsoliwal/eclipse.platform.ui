@@ -1,0 +1,32 @@
+{
+  "phase": "RED before shared metadata correction",
+  "kernelSha256": "fbf1ea9efad784afef5ac201ff7fc324551f77a099ebfe2f79b70c3a17c731ef",
+  "command": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=/tmp/m3-parser-maven-repository",
+    "-Drecipe.owner.root=/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes",
+    "-Dtest=M3EclipseTextMetadataAdmissionTest",
+    "test"
+  ],
+  "exit": 1,
+  "wallSeconds": 18.637,
+  "logSha256": "d3bddcc19afefe14436da28df1a91836abf2c75bc5f869f2b6884aad4216a9f2",
+  "tests": {
+    "tests": "8",
+    "failures": "6",
+    "errors": "0",
+    "skipped": "0"
+  },
+  "failedCases": [
+    "scannerRefusesNormalizedTargetAliases",
+    "gitSegmentsRemainRefusedIgnoringCase",
+    "visitorRefusesAliasIntroducedAfterScan",
+    "exactRootMetadataOwnersGenerateAndReplay",
+    "exactJFaceTestManifestGeneratesAndReplays",
+    "exactCommandJava21MetadataGeneratesAndReplays"
+  ],
+  "status": "EXPECTED_RED"
+}

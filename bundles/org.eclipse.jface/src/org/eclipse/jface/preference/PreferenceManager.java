@@ -131,7 +131,7 @@ public class PreferenceManager {
 			sequence.add(node);
 		}
 		IPreferenceNode[] subnodes = node.getSubNodes();
-		for (IPreferenceNode subnode : subnodes) {
+		for (IPreferenceNode subnode : subnodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buildSequence(subnode, sequence, order);
 		}
 		if (order == POST_ORDER) {
@@ -163,7 +163,7 @@ public class PreferenceManager {
 		Assert.isNotNull(path);
 		StringTokenizer stok = new StringTokenizer(path, separator);
 		IPreferenceNode node = top;
-		while (stok.hasMoreTokens()) {
+		while (stok.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = stok.nextToken();
 			node = node.findSubNode(id);
 			if (node == null) {
@@ -189,9 +189,9 @@ public class PreferenceManager {
 	public List<IPreferenceNode> getElements(int order) {
 		Assert.isTrue(order == PRE_ORDER || order == POST_ORDER,
 				"invalid traversal order");//$NON-NLS-1$
-		ArrayList<IPreferenceNode> sequence = new ArrayList<>();
+		ArrayList<IPreferenceNode> sequence = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IPreferenceNode[] subnodes = getRoot().getSubNodes();
-		for (IPreferenceNode subnode : subnodes) {
+		for (IPreferenceNode subnode : subnodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buildSequence(subnode, sequence, order);
 		}
 		return sequence;

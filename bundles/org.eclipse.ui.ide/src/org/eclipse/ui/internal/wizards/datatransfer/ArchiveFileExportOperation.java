@@ -39,7 +39,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  *
  *  @since 3.1
  */
-public class ArchiveFileExportOperation implements IRunnableWithProgress {
+public class ArchiveFileExportOperation implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 	private IFileExporter exporter;
 
 	private final String destinationFilename;
@@ -50,7 +50,7 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 
 	private IResource resource;
 
-	private final List<IStatus> errorTable = new ArrayList<>(1); // IStatus
+	private final List<IStatus> errorTable = new ArrayList<>(1); // IStatus //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private boolean useCompression = true;
 
@@ -72,7 +72,7 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 
 		// Eliminate redundancies in list of resources being exported
 		Iterator<? extends IResource> elementsEnum = resources.iterator();
-		while (elementsEnum.hasNext()) {
+		while (elementsEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource currentResource = elementsEnum.next();
 			if (isDescendent(resources, currentResource)) {
 				elementsEnum.remove(); //Removes currentResource;
@@ -132,7 +132,7 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 
 		int count = 0;
 		if (checkResource.isAccessible()) {
-			for (IResource child : ((IContainer) checkResource).members()) {
+			for (IResource child : ((IContainer) checkResource).members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				count += countChildrenOf(child);
 			}
 		}
@@ -149,7 +149,7 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 	protected int countSelectedResources() throws CoreException {
 		int result = 0;
 		Iterator<? extends IResource> resources = resourcesToExport.iterator();
-		while (resources.hasNext()) {
+		while (resources.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result += countChildrenOf(resources.next());
 		}
 
@@ -187,7 +187,7 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 	 *  @param leadupDepth the number of resource levels to be included in
 	 *                     the path including the resourse itself.
 	 */
-	protected void exportResource(IResource exportResource, int leadupDepth)
+	protected void exportResource(IResource exportResource, int leadupDepth) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws InterruptedException {
 		if (!exportResource.isAccessible() || (!resolveLinks && exportResource.isLinked())) {
 			return;
@@ -218,13 +218,13 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 			if (children.length == 0) { // create an entry for empty containers, see bug 278402
 				String destinationName = createDestinationName(leadupDepth, exportResource);
 				try {
-					exporter.write((IContainer) exportResource, destinationName + IPath.SEPARATOR);
+					exporter.write((IContainer) exportResource, destinationName + IPath.SEPARATOR); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} catch (IOException e) {
 					addError(NLS.bind(DataTransferMessages.DataTransfer_errorExporting, exportResource.getFullPath().makeRelative(), e.getMessage()), e);
 				}
 			}
 
-			for (IResource child : children) {
+			for (IResource child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				exportResource(child, leadupDepth + 1);
 			}
 
@@ -238,7 +238,7 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 	protected void exportSpecifiedResources() throws InterruptedException {
 		Iterator<? extends IResource> resources = resourcesToExport.iterator();
 
-		while (resources.hasNext()) {
+		while (resources.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource currentResource = resources.next();
 			exportResource(currentResource);
 		}
@@ -301,7 +301,7 @@ public class ArchiveFileExportOperation implements IRunnableWithProgress {
 	 *	Export the resources that were previously specified for export
 	 *	(or if a single resource was specified then export it recursively)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor progressMonitor)
 			throws InvocationTargetException, InterruptedException {
 		this.monitor = progressMonitor;

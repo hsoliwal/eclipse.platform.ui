@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/tmp/m3-toolchain/jdk21/bin/java",
+    "-cp",
+    "/tmp/eclipse-m3-20261018/composition-authoring/target/classes",
+    "M3EclipseComposition",
+    "reports",
+    "/tmp/eclipse-m3-20261018/native-gate/evidence/native-leaf-fixture-failure"
+  ],
+  "exit": 1,
+  "expected": "refuse actual failing XML",
+  "logSha256": "d3c5425b1769b448d326a493be517e77232150cb6380ce77b9aeda8d4ad6c2af"
+}

@@ -38,14 +38,14 @@ import org.eclipse.ui.wizards.newresource.BasicNewFolderResourceWizard;
  * @deprecated should use NewWizardMenu to populate a New submenu instead (see Navigator view)
  * @noextend This class is not intended to be subclassed by clients.
  */
-@Deprecated
+@Deprecated //FLLDCIM: MARK — T04  IMPLEMENTS
 public class CreateFolderAction extends SelectionListenerAction {
 
 	/**
 	 * The id of this action.
 	 */
 	@Deprecated
-	public static final String ID = PlatformUI.PLUGIN_ID
+	public static final String ID = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ ".CreateFolderAction";//$NON-NLS-1$
 
 	/**
@@ -130,7 +130,7 @@ public class CreateFolderAction extends SelectionListenerAction {
 			return false;
 		}
 		Iterator<? extends IResource> resources = getSelectedResources().iterator();
-		while (resources.hasNext()) {
+		while (resources.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = resources.next();
 			if (!resourceIsType(resource, IResource.PROJECT | IResource.FOLDER)
 					|| !resource.isAccessible()) {

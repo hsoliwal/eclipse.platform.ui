@@ -20,7 +20,7 @@ package org.eclipse.jface.viewers;
  * @see IBaseLabelProvider#addListener
  * @see IBaseLabelProvider#removeListener
  */
-@FunctionalInterface
+@FunctionalInterface //FLLDCIM: MARK — T24  IMPLEMENTS
 public interface ILabelProviderListener {
 	/**
 	 * Notifies this listener that the state of the label provider

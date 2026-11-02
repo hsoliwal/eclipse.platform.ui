@@ -39,13 +39,13 @@ import org.eclipse.ui.statushandlers.StatusManager;
 public class IDESelectionConversionService implements
 		ISelectionConversionService {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStructuredSelection convertToResources(
 			IStructuredSelection originalSelection) {
 
-		List<Object> result = new ArrayList<>();
+		List<Object> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object currentElement : originalSelection) {
+		for (Object currentElement : originalSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			IResource resource = ResourceUtil.getResource(currentElement);
 
@@ -67,7 +67,7 @@ public class IDESelectionConversionService implements
 				}
 				if (traversals != null) {
 					IResource[] resources = null;
-					for (ResourceTraversal traversal : traversals) {
+					for (ResourceTraversal traversal : traversals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						resources = traversal.getResources();
 						if (resources != null) {
 							result.addAll(Arrays.asList(resources));

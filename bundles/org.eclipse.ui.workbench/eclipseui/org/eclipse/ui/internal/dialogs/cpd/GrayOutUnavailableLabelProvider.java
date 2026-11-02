@@ -43,7 +43,7 @@ class GrayOutUnavailableLabelProvider extends TreeManager.TreeItemLabelProvider 
 	public GrayOutUnavailableLabelProvider(ViewerFilter filter) {
 		this.display = PlatformUI.getWorkbench().getDisplay();
 		this.filter = filter;
-		toDispose = new HashSet<>();
+		toDispose = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	@Override
@@ -85,7 +85,7 @@ class GrayOutUnavailableLabelProvider extends TreeManager.TreeItemLabelProvider 
 
 	@Override
 	public void dispose() {
-		for (Image image : toDispose) {
+		for (Image image : toDispose) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			image.dispose();
 		}
 		toDispose.clear();

@@ -25,7 +25,7 @@ import org.eclipse.ui.internal.wizards.datatransfer.MinimizedFileSystemElement;
  * The PopulateFilesOperation is an operation used to populate a FileSystemElement one
  * level deep rather than the whole way.
  */
-public class PopulateRootOperation extends SelectFilesOperation {
+public class PopulateRootOperation extends SelectFilesOperation { //FLLDCIM: MARK — T09  IMPLEMENTS
 	/**
 	 * Create a new <code>PopulateFilesOperation</code>.
 	 * @param rootObject the object to be populated
@@ -62,7 +62,7 @@ public class PopulateRootOperation extends SelectFilesOperation {
 	 *   suitable for selection
 	 * 	recurse down for depth to populate children
 	 */
-	protected FileSystemElement createElement(FileSystemElement parent,
+	protected FileSystemElement createElement(FileSystemElement parent, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object fileSystemObject, int depth) throws InterruptedException {
 		ModalContext.checkCanceled(currentMonitor);
 		boolean isContainer = provider.isFolder(fileSystemObject);
@@ -78,10 +78,10 @@ public class PopulateRootOperation extends SelectFilesOperation {
 			if (depth > 0) {
 				List<?> children = provider.getChildren(fileSystemObject);
 				if (children == null) {
-					children = new ArrayList<>(1);
+					children = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				Iterator<?> childrenEnum = children.iterator();
-				while (childrenEnum.hasNext()) {
+				while (childrenEnum.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					createElement(createdElement, childrenEnum.next(), depth - 1);
 				}
 				createdElement.setPopulated();

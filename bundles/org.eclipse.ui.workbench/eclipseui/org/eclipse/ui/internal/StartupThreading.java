@@ -50,7 +50,7 @@ public final class StartupThreading {
 	}
 
 	public static void runWithWorkbenchExceptions(StartupRunnable r) throws WorkbenchException {
-		display.syncExec(r);
+		display.syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		Throwable throwable = r.getThrowable();
 		if (throwable != null) {
 			if (throwable instanceof Error) {
@@ -66,7 +66,7 @@ public final class StartupThreading {
 	}
 
 	public static void runWithPartInitExceptions(StartupRunnable r) throws PartInitException {
-		display.syncExec(r);
+		display.syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		Throwable throwable = r.getThrowable();
 		if (throwable != null) {
 			if (throwable instanceof Error) {
@@ -82,7 +82,7 @@ public final class StartupThreading {
 	}
 
 	public static void runWithThrowable(StartupRunnable r) throws Throwable {
-		display.syncExec(r);
+		display.syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		Throwable throwable = r.getThrowable();
 		if (throwable != null) {
 			throw throwable;
@@ -90,7 +90,7 @@ public final class StartupThreading {
 	}
 
 	public static void runWithoutExceptions(StartupRunnable r) throws RuntimeException {
-		display.syncExec(r);
+		display.syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		Throwable throwable = r.getThrowable();
 		if (throwable != null) {
 			if (throwable instanceof Error) {

@@ -17,7 +17,7 @@ package org.eclipse.jface.viewers;
 /**
  * A listener which is notified of double-click events on viewers.
  */
-@FunctionalInterface
+@FunctionalInterface //FLLDCIM: MARK — T05  IMPLEMENTS
 public interface IDoubleClickListener {
 	/**
 	 * Notifies of a double click.

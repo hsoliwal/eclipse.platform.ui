@@ -52,7 +52,7 @@ public class WorkbenchIntroManager implements IIntroManager {
 	 *
 	 * @param workbench the workbench instance
 	 */
-	WorkbenchIntroManager(Workbench workbench) {
+	WorkbenchIntroManager(Workbench workbench) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.workbench = workbench;
 		workbench.getExtensionTracker().registerHandler(new IExtensionChangeHandler() {
 
@@ -63,7 +63,7 @@ public class WorkbenchIntroManager implements IIntroManager {
 
 			@Override
 			public void removeExtension(IExtension source, Object[] objects) {
-				for (Object object : objects) {
+				for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (object instanceof IIntroPart) {
 						closeIntro((IIntroPart) object);
 					}
@@ -79,7 +79,7 @@ public class WorkbenchIntroManager implements IIntroManager {
 	 */
 	private IIntroPart introPart;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean closeIntro(IIntroPart part) {
 		if (introPart == null || !introPart.equals(part)) {
 			return false;
@@ -109,7 +109,7 @@ public class WorkbenchIntroManager implements IIntroManager {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IIntroPart showIntro(IWorkbenchWindow preferredWindow, boolean standby) {
 		if (preferredWindow == null) {
 			preferredWindow = this.workbench.getActiveWorkbenchWindow();
@@ -180,7 +180,7 @@ public class WorkbenchIntroManager implements IIntroManager {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setIntroStandby(IIntroPart part, boolean standby) {
 		if (introPart == null || !introPart.equals(part)) {
 			return;
@@ -251,7 +251,7 @@ public class WorkbenchIntroManager implements IIntroManager {
 	 *         <code>null</code> if it cannot be found.
 	 */
 	/* package */ViewIntroAdapterPart getViewIntroAdapterPart() {
-		for (IWorkbenchWindow iWorkbenchWindow : this.workbench.getWorkbenchWindows()) {
+		for (IWorkbenchWindow iWorkbenchWindow : this.workbench.getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchWindow window = (WorkbenchWindow) iWorkbenchWindow;
 			MUIElement introPart = window.modelService.find(IIntroConstants.INTRO_VIEW_ID, window.getModel());
 			if (introPart instanceof MPlaceholder introPH) {

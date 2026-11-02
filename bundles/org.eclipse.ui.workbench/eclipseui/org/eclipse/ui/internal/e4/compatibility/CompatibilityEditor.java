@@ -41,7 +41,7 @@ import org.eclipse.ui.part.MultiEditor;
 import org.eclipse.ui.part.MultiEditorInput;
 import org.eclipse.ui.testing.ContributionInfo;
 
-public class CompatibilityEditor extends CompatibilityPart {
+public class CompatibilityEditor extends CompatibilityPart { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public static final String MODEL_ELEMENT_ID = "org.eclipse.e4.ui.compatibility.editor"; //$NON-NLS-1$
 
@@ -68,7 +68,7 @@ public class CompatibilityEditor extends CompatibilityPart {
 		return part;
 	}
 
-	private void createMultiEditorChildren(IWorkbenchPart part, IEditorInput input) throws PartInitException {
+	private void createMultiEditorChildren(IWorkbenchPart part, IEditorInput input) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPage page = reference.getPage();
 		MPart model = getModel();
 		MWindow window = modelService.getTopLevelWindowFor(model);
@@ -77,7 +77,7 @@ public class CompatibilityEditor extends CompatibilityPart {
 		IEditorInput[] inputs = multiEditorInput.getInput();
 		String[] editorIds = multiEditorInput.getEditors();
 		IEditorPart[] editors = new IEditorPart[editorIds.length];
-		for (int i = 0; i < editorIds.length; i++) {
+		for (int i = 0; i < editorIds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EditorDescriptor innerDesc = (EditorDescriptor) registry.findEditor(editorIds[i]);
 			if (innerDesc == null) {
 				throw new PartInitException(
@@ -93,7 +93,7 @@ public class CompatibilityEditor extends CompatibilityPart {
 		((AbstractMultiEditor) part).setChildren(editors);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean createPartControl(final IWorkbenchPart legacyPart, Composite parent) {
 		super.createPartControl(legacyPart, parent);
 

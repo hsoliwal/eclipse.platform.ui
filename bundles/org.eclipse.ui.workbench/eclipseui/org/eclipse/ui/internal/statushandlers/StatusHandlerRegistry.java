@@ -42,9 +42,9 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 
 	private static final String STATUSHANDLER_ARG = "-statushandler"; //$NON-NLS-1$
 
-	private final ArrayList<StatusHandlerDescriptor> statusHandlerDescriptors = new ArrayList<>();
+	private final ArrayList<StatusHandlerDescriptor> statusHandlerDescriptors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final ArrayList<StatusHandlerProductBindingDescriptor> productBindingDescriptors = new ArrayList<>();
+	private final ArrayList<StatusHandlerProductBindingDescriptor> productBindingDescriptors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final StatusHandlerDescriptorsMap statusHandlerDescriptorsMap;
 
@@ -55,7 +55,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 	/**
 	 * Creates an instance of the class.
 	 */
-	private StatusHandlerRegistry() {
+	private StatusHandlerRegistry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExtensionTracker tracker = PlatformUI.getWorkbench().getExtensionTracker();
 		IExtensionPoint handlersPoint = Platform.getExtensionRegistry().getExtensionPoint(WorkbenchPlugin.PI_WORKBENCH,
 				STATUSHANDLERS_POINT_NAME);
@@ -64,7 +64,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 		statusHandlerDescriptorsMap = new StatusHandlerDescriptorsMap();
 
 		// initial population
-		for (IExtension extension : extensions) {
+		for (IExtension extension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addExtension(tracker, extension);
 		}
 
@@ -93,7 +93,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 	@Override
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
 		IConfigurationElement[] configElements = extension.getConfigurationElements();
-		for (IConfigurationElement configElement : configElements) {
+		for (IConfigurationElement configElement : configElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (configElement.getName().equals(TAG_STATUSHANDLER)) {
 				StatusHandlerDescriptor descriptor = new StatusHandlerDescriptor(configElement);
 				tracker.registerObject(extension, descriptor, IExtensionTracker.REF_STRONG);
@@ -110,7 +110,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof StatusHandlerDescriptor) {
 				statusHandlerDescriptors.remove(object);
 			} else if (object instanceof StatusHandlerProductBindingDescriptor) {
@@ -148,7 +148,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 	 */
 	public StatusHandlerDescriptor getHandlerDescriptor(String statusHandlerId) {
 		StatusHandlerDescriptor descriptor = null;
-		for (Iterator<StatusHandlerDescriptor> it = statusHandlerDescriptors.iterator(); it.hasNext();) {
+		for (Iterator<StatusHandlerDescriptor> it = statusHandlerDescriptors.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			descriptor = it.next();
 			if (descriptor.getId().equals(statusHandlerId)) {
 				return descriptor;
@@ -179,7 +179,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 	private String resolveUserStatusHandlerId() {
 		String[] parameters = Platform.getCommandLineArgs();
 
-		for (int i = 0; i < parameters.length - 1; i++) {
+		for (int i = 0; i < parameters.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (STATUSHANDLER_ARG.equals(parameters[i])) {
 				return parameters[i + 1];
 			}
@@ -191,20 +191,20 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 	 * Sets the default product handler descriptor if product exists and binding is
 	 * defined and creates handler descriptors tree due to the prefix policy.
 	 */
-	private void buildHandlersStructure() {
+	private void buildHandlersStructure() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		statusHandlerDescriptorsMap.clear();
 		defaultHandlerDescriptor = null;
 
 		String productId = Platform.getProduct() != null ? Platform.getProduct().getId() : null;
 
-		List<StatusHandlerDescriptor> allHandlers = new ArrayList<>();
+		List<StatusHandlerDescriptor> allHandlers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		String defaultHandlerId = resolveUserStatusHandlerId();
 
 		if (defaultHandlerId == null) {
 			// we look for product related statushandler if it was not passed as
 			// an argument to Eclipse
-			for (Iterator<StatusHandlerProductBindingDescriptor> it = productBindingDescriptors.iterator(); it
+			for (Iterator<StatusHandlerProductBindingDescriptor> it = productBindingDescriptors.iterator(); it //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					.hasNext();) {
 				StatusHandlerProductBindingDescriptor descriptor = (it.next());
 
@@ -214,7 +214,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 			}
 		}
 
-		for (Iterator<StatusHandlerDescriptor> it = statusHandlerDescriptors.iterator(); it.hasNext();) {
+		for (Iterator<StatusHandlerDescriptor> it = statusHandlerDescriptors.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			StatusHandlerDescriptor descriptor = (it.next());
 
 			allHandlers.add(descriptor);
@@ -222,7 +222,7 @@ public class StatusHandlerRegistry implements IExtensionChangeHandler {
 
 		StatusHandlerDescriptor handlerDescriptor = null;
 
-		for (Iterator<StatusHandlerDescriptor> it = allHandlers.iterator(); it.hasNext();) {
+		for (Iterator<StatusHandlerDescriptor> it = allHandlers.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			handlerDescriptor = it.next();
 
 			if (handlerDescriptor.getId().equals(defaultHandlerId)) {

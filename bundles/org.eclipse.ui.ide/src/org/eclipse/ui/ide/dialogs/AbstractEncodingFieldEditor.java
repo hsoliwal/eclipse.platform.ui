@@ -187,7 +187,7 @@ public abstract class AbstractEncodingFieldEditor extends FieldEditor {
 	 *            the number of columns in the parent
 	 * @return the group control
 	 */
-	protected Composite createEncodingGroup(Composite parent, int numColumns) {
+	protected Composite createEncodingGroup(Composite parent, int numColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite topControl;
 		GridLayout layout = new GridLayout();
@@ -222,23 +222,23 @@ public abstract class AbstractEncodingFieldEditor extends FieldEditor {
 		data = new GridData();
 		data.horizontalSpan = 2;
 		defaultEncodingButton.setLayoutData(data);
-		defaultEncodingButton.addSelectionListener(buttonListener);
+		defaultEncodingButton.addSelectionListener(buttonListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		otherEncodingButton = new Button(topControl, SWT.RADIO);
 		otherEncodingButton
 				.setText(IDEWorkbenchMessages.WorkbenchPreference_otherEncoding);
-		otherEncodingButton.addSelectionListener(buttonListener);
+		otherEncodingButton.addSelectionListener(buttonListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		encodingCombo = new Combo(topControl, SWT.NONE);
 		data = new GridData();
 		encodingCombo.setLayoutData(data);
-		encodingCombo.addSelectionListener(new SelectionAdapter() {
+		encodingCombo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateValidState();
 			}
 		});
-		encodingCombo.addKeyListener(new KeyAdapter() {
+		encodingCombo.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyReleased(KeyEvent e) {
 				updateValidState();

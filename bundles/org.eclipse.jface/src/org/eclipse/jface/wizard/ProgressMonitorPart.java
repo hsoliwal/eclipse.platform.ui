@@ -155,7 +155,7 @@ public class ProgressMonitorPart extends Composite implements
 			setCancelEnabled(true);
 		} else {
 			fCancelComponent = cancelComponent;
-			fCancelComponent.addListener(SWT.Selection, fCancelListener);
+			fCancelComponent.addListener(SWT.Selection, fCancelListener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 	}
 
@@ -205,8 +205,8 @@ public class ProgressMonitorPart extends Composite implements
 			return in;
 		}
 		int length = in.length();
-		StringBuilder out = new StringBuilder(length + 1);
-		for (int i = 0; i < length; i++) {
+		StringBuilder out = new StringBuilder(length + 1); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c = in.charAt(i);
 			if (c == '&') {
 				out.append("&&");//$NON-NLS-1$
@@ -224,7 +224,7 @@ public class ProgressMonitorPart extends Composite implements
 	 * @param layout The layout for the receiver.
 	 * @param progressIndicatorHeight The suggested height of the indicator
 	 */
-	protected void initialize(Layout layout, int progressIndicatorHeight) {
+	protected void initialize(Layout layout, int progressIndicatorHeight) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (layout == null) {
 			GridLayout l = new GridLayout();
 			l.marginWidth = 0;
@@ -271,7 +271,7 @@ public class ProgressMonitorPart extends Composite implements
 			fStopButton = new ToolItem(fToolBar, SWT.PUSH);
 			// It would have been nice to use the fCancelListener, but that
 			// listener operates on the fCancelComponent which must be a control.
-			fStopButton.addSelectionListener(widgetSelectedAdapter(e -> {
+			fStopButton.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				setCanceled(true);
 				if (fStopButton != null) {
 					fStopButton.setEnabled(false);
@@ -281,7 +281,7 @@ public class ProgressMonitorPart extends Composite implements
 					ProgressMonitorPart.class, "images/stop.svg").createImage(getDisplay()); //$NON-NLS-1$
 			fToolBar.setCursor(this.getDisplay().getSystemCursor(SWT.CURSOR_ARROW));
 			fStopButton.setImage(stopImage);
-			fStopButton.addDisposeListener(e -> {
+			fStopButton.addDisposeListener(e -> { //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 				stopImage.dispose();
 			});
 			fStopButton.setEnabled(false);

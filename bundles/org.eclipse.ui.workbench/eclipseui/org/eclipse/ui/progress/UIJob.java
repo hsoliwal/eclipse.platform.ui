@@ -35,7 +35,7 @@ import org.eclipse.ui.internal.progress.ProgressMessages;
  *
  * @since 3.0
  */
-public abstract class UIJob extends Job {
+public abstract class UIJob extends Job { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/**
 	 * Creates a new UIJob that will execute the provided function in the UI thread
@@ -50,7 +50,7 @@ public abstract class UIJob extends Job {
 	 * @since 3.127
 	 */
 	public static UIJob create(String name, IJobFunction function) {
-		return new UIJob(name) {
+		return new UIJob(name) { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				return function.run(monitor);
@@ -69,7 +69,7 @@ public abstract class UIJob extends Job {
 	 * @since 3.127
 	 */
 	public static UIJob create(String name, ICoreRunnable runnable) {
-		return new UIJob(name) {
+		return new UIJob(name) { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				try {
@@ -125,7 +125,7 @@ public abstract class UIJob extends Job {
 	 *
 	 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final IStatus run(final IProgressMonitor monitor) {
 		if (monitor.isCanceled()) {
 			return Status.CANCEL_STATUS;
@@ -160,7 +160,7 @@ public abstract class UIJob extends Job {
 			}
 		};
 		try {
-			asyncDisplay.asyncExec(runnable);
+			asyncDisplay.asyncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		} catch (SWTException deviceDisposed) {
 			// Maybe disposed after .isDisposed() check.
 			return Status.CANCEL_STATUS;

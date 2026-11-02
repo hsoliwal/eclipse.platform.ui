@@ -1,0 +1,169 @@
+{
+  "schema": "m3-command-registry-final-owner-compatibility-v1",
+  "spdxLicenseId": "Apache-2.0",
+  "startedAtUtc": "2026-10-18T13:06:44.778052+00:00",
+  "finishedAtUtc": "2026-10-18T13:07:13.901876+00:00",
+  "argv": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=/tmp/m3-parser-maven-repository",
+    "-f",
+    "/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-command-registries-20261018/pom.xml",
+    "-Dcanonical.classpath=/tmp/eclipse-m3-20261018/commands-authoring/target/runtime-baseline/classes:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar",
+    "-Dmaterialize.dir=/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-command-registries-20261018/target/final-owner-compatibility/recipe-output",
+    "-Dmaterialize.refused.dir=/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-command-registries-20261018/target/final-owner-compatibility/refused-recipe-output",
+    "test"
+  ],
+  "workingDirectory": "/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/recipe-crates/m3-eclipse-command-registries-20261018",
+  "JAVA_HOME": "/tmp/m3-toolchain/jdk-21.0.12.1+1",
+  "mavenExitCode": 0,
+  "recipeName": "com.synexia.eclipse.CommandRegistryForwarding20261018",
+  "defaultRecipeOwnerRoot": "${project.basedir}/../../src/main/java",
+  "recipeOwnerOverrideUsed": false,
+  "canonicalRecipeOwners": [
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3EditScope.java",
+      "sha256": "962d37d62d740c3e8055c365a048ae7ee0479c26a9f6bbfe741e540d6c1134ab",
+      "gitBlob": "274360816db1e44a2f1796a3bc5cdeff6b0ce6db",
+      "bytes": 1052
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3ScopeInference.java",
+      "sha256": "13660b59f60ec2941ec19e9bc8964ffd4b04689cdc33cd19711fba14b8da09a4",
+      "gitBlob": "d24729950508857280ea1b56d4e930f05137ec85",
+      "bytes": 7655
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedJavaSnapshotRecipe.java",
+      "sha256": "67f7b81126e4736c7b61b444fa6545153a61e23c012975ca796fcee623ab6625",
+      "gitBlob": "3bdeeaea9a212fe0c7d1f544510f87c4cd49eb40",
+      "bytes": 31181
+    },
+    {
+      "path": "synexia-openrewrite-recipes/src/main/java/com/synexia/rewrite/M3HashPinnedTextSnapshotRecipe.java",
+      "sha256": "58c94f4b87a6e4a53268808bf0c635fe7bd56e2864cb8fe46483c85efba771d0",
+      "gitBlob": "cc5f86ab579d2f4b1b9bc4c26b4592d2d8142244",
+      "bytes": 20355
+    }
+  ],
+  "pom": {
+    "path": "pom.xml",
+    "sha256": "d16144a99289657dd9d74e330503ef76cde3ffc8e0987cf41757982cc4c97eef",
+    "gitBlob": "79f714461939a9850c6d2190b50d9a1dc3e2f526",
+    "bytes": 3267
+  },
+  "sdkTestSource": {
+    "path": "src/test/java/com/synexia/rewrite/M3CommandRegistryForwardingRecipeTest.java",
+    "sha256": "4f007ccd2e04897b360b2a811c51d43e08f108a4a24eee6c4755fc954289a891",
+    "gitBlob": "c6d61c933e7e4eb98ab4544b0129c45a9be36486",
+    "bytes": 8334
+  },
+  "historicalQualificationTextSha256": "35d09cd5c3fccc281acfdc8b4ba96131f8f54e15c587ae9d5e9556e4d6e1cc30",
+  "historicalSourcePinsUnchanged": true,
+  "historicalReceipt": {
+    "path": "RECEIPT.json",
+    "sha256": "91f1df4d3a60c884469a32e98b7b942496f7ffdedbe69fac2ecc6d3e93e53bb8",
+    "gitBlob": "df32653da68670e180995548fdc5bfd870f1fb18",
+    "bytes": 14604
+  },
+  "mavenLog": {
+    "path": "evidence/final-owner-compatibility/maven.log",
+    "sha256": "0fd72feadf3bc5d473a001dfbf8a2dea160e0f4ad00c812b686d576542dc7c47",
+    "gitBlob": "5239257011eccd71a724b7c89b6b87e1b5cc77b5",
+    "bytes": 2313
+  },
+  "runtimeOrNativeTestsRerun": false,
+  "fullTychoOrPdeClaim": false,
+  "suite": {
+    "name": "com.synexia.rewrite.M3CommandRegistryForwardingRecipeTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "surefireXml": {
+    "path": "evidence/final-owner-compatibility/TEST-com.synexia.rewrite.M3CommandRegistryForwardingRecipeTest.xml",
+    "sha256": "2add4c4827c491df5c77c1056b0d50c83680d79323ba91a1890e51e078c88f98",
+    "gitBlob": "0016e2a7ff74ba0309b34d0b5917a808163da53c",
+    "bytes": 14432
+  },
+  "actualSdkOutputs": [
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/commands/CommandManager.java",
+      "sha256": "cdfbbe650c4532b420f5b237ed367bb377700f5842b57ea80d9a4387dbe18f45",
+      "gitBlob": "1fe10fbc6891f8a5295d7641d1c41b000ff9f5cd",
+      "bytes": 32811,
+      "qualifiedPostimageSha256": "cdfbbe650c4532b420f5b237ed367bb377700f5842b57ea80d9a4387dbe18f45",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/OrderedSlotMap.java",
+      "sha256": "4df22f477ec194168f2d58acc21c543982be8069a26b3b7062377cf92d3b0853",
+      "gitBlob": "1e14d70fe926a3f30f844ad1c2990ab4ffeea6e7",
+      "bytes": 4597,
+      "qualifiedPostimageSha256": "4df22f477ec194168f2d58acc21c543982be8069a26b3b7062377cf92d3b0853",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/PackedHashMap.java",
+      "sha256": "3c7c81bca569a5ca3aac9a391bb52d4ba17df62773587683dd30d5b6fd9ea3d0",
+      "gitBlob": "43515813d65c260d3208d9973c83ef2e1e0184b1",
+      "bytes": 8820,
+      "qualifiedPostimageSha256": "3c7c81bca569a5ca3aac9a391bb52d4ba17df62773587683dd30d5b6fd9ea3d0",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotArrays.java",
+      "sha256": "1c3308080f8abf2dda559d99c0f53fa0905317d8ebbd10f179dca29c5f687333",
+      "gitBlob": "989908dbf1a9e2a4dc455cd9a41d16f7fd5df832",
+      "bytes": 1363,
+      "qualifiedPostimageSha256": "1c3308080f8abf2dda559d99c0f53fa0905317d8ebbd10f179dca29c5f687333",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotMap.java",
+      "sha256": "b11f111f75d60607841b5b50c711b980db29f712860146c8097025fc5705ff09",
+      "gitBlob": "aad5c91834b3fce7a44cacb39d9d4c4d007a0349",
+      "bytes": 11016,
+      "qualifiedPostimageSha256": "b11f111f75d60607841b5b50c711b980db29f712860146c8097025fc5705ff09",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/src/org/eclipse/core/internal/commands/m3/SlotSpliterators.java",
+      "sha256": "4326c99f40ea4a09ecf197e15d9c2b5cd058652de2f0ae5833a05d39278c3dc9",
+      "gitBlob": "b2514b2f90f1c406e11653240d290ad87561c96f",
+      "bytes": 3586,
+      "qualifiedPostimageSha256": "4326c99f40ea4a09ecf197e15d9c2b5cd058652de2f0ae5833a05d39278c3dc9",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.classpath",
+      "sha256": "e452df62748c2a594efbeffca83797e53b90a2127f100737739ac1a4ccfa1c4c",
+      "gitBlob": "375961e4d6186c871e094278e593739acfe9bf39",
+      "bytes": 368,
+      "qualifiedPostimageSha256": "e452df62748c2a594efbeffca83797e53b90a2127f100737739ac1a4ccfa1c4c",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/.settings/org.eclipse.jdt.core.prefs",
+      "sha256": "67d8e10970b95842d4bf16940992b947948c4a46cb28d06938a5c222917423a8",
+      "gitBlob": "59c9e860108d01e50216ec33981f377ec862a590",
+      "bytes": 36376,
+      "qualifiedPostimageSha256": "67d8e10970b95842d4bf16940992b947948c4a46cb28d06938a5c222917423a8",
+      "unchanged": true
+    },
+    {
+      "path": "bundles/org.eclipse.core.commands/META-INF/MANIFEST.MF",
+      "sha256": "96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21",
+      "gitBlob": "fecb415017b94be12c543d9f1ee1f4a86804da58",
+      "bytes": 758,
+      "qualifiedPostimageSha256": "96c94b4e1d11966cf4a8b80628d3cd4c7396f258d7872b9d29d22adac3b09e21",
+      "unchanged": true
+    }
+  ],
+  "allNineQualifiedOutputsUnchanged": true,
+  "status": "PASS",
+  "errors": []
+}

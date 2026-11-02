@@ -31,21 +31,21 @@ public class UIListenerLogging {
 
 	// Types of listeners that can be logged (the names of the options that
 	// enable/disable their logging)
-	private static final String LISTENER_EVENTS = PlatformUI.PLUGIN_ID + "/debug"; //$NON-NLS-1$
-	public static final String PAGE_PARTLISTENER_EVENTS = PlatformUI.PLUGIN_ID
+	private static final String LISTENER_EVENTS = PlatformUI.PLUGIN_ID + "/debug"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	public static final String PAGE_PARTLISTENER_EVENTS = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "/listeners/IWorkbenchPage.IPartListener"; //$NON-NLS-1$
-	public static final String PAGE_PARTLISTENER2_EVENTS = PlatformUI.PLUGIN_ID
+	public static final String PAGE_PARTLISTENER2_EVENTS = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "/listeners/IWorkbenchPage.IPartListener2"; //$NON-NLS-1$
-	private static final String PAGE_PROPERTY_EVENTS = PlatformUI.PLUGIN_ID
+	private static final String PAGE_PROPERTY_EVENTS = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "/listeners/IWorkbenchPage.IPropertyChangeListener"; //$NON-NLS-1$
-	private static final String WINDOW_PAGE_EVENTS = PlatformUI.PLUGIN_ID + "/listeners/IWorkbenchWindow.IPageListener"; //$NON-NLS-1$
-	private static final String WINDOW_PERSPECTIVE_EVENTS = PlatformUI.PLUGIN_ID
+	private static final String WINDOW_PAGE_EVENTS = PlatformUI.PLUGIN_ID + "/listeners/IWorkbenchWindow.IPageListener"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String WINDOW_PERSPECTIVE_EVENTS = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "/listeners/IWorkbenchWindow.IPerspectiveListener"; //$NON-NLS-1$
-	public static final String WINDOW_PARTLISTENER_EVENTS = PlatformUI.PLUGIN_ID
+	public static final String WINDOW_PARTLISTENER_EVENTS = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "/listeners/IWorkbenchWindow.IPartListener"; //$NON-NLS-1$
-	public static final String WINDOW_PARTLISTENER2_EVENTS = PlatformUI.PLUGIN_ID
+	public static final String WINDOW_PARTLISTENER2_EVENTS = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "/listeners/IWorkbenchWindow.IPartListener2"; //$NON-NLS-1$
-	private static final String PARTREFERENCE_PROPERTY_EVENTS = PlatformUI.PLUGIN_ID
+	private static final String PARTREFERENCE_PROPERTY_EVENTS = PlatformUI.PLUGIN_ID //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			+ "/listeners/IWorkbenchPartReference"; //$NON-NLS-1$
 
 	public static final boolean enabled = internal_isEnabled(LISTENER_EVENTS);
@@ -85,11 +85,11 @@ public class UIListenerLogging {
 	}
 
 	private static String getWindowId(IWorkbenchWindow source) {
-		return "window " + Util.safeString(Integer.toString(source.hashCode() % 1000)); //$NON-NLS-1$
+		return "window " + Util.safeString(Integer.toString(source.hashCode() % 1000)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static String getPageId(IWorkbenchPage page) {
-		return "page " + Util.safeString(Integer.toString(page.hashCode() % 1000)); //$NON-NLS-1$
+		return "page " + Util.safeString(Integer.toString(page.hashCode() % 1000)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static String getPerspectiveId(IPerspectiveDescriptor descriptor) {
@@ -98,7 +98,7 @@ public class UIListenerLogging {
 
 	public static final void logPageEvent(IWorkbenchWindow window, IWorkbenchPage page, String eventId) {
 		if (isEnabled(WINDOW_PAGE_EVENTS)) {
-			System.out.println(WINDOW_PAGE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$
+			System.out.println(WINDOW_PAGE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " " + eventId + " (" + getPageId(page) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
@@ -107,7 +107,7 @@ public class UIListenerLogging {
 			IPerspectiveDescriptor descriptor, String eventId) {
 
 		if (isEnabled(WINDOW_PERSPECTIVE_EVENTS)) {
-			System.out.println(WINDOW_PERSPECTIVE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$
+			System.out.println(WINDOW_PERSPECTIVE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " " + eventId + " (" + getPageId(page) + ", " + getPerspectiveId(descriptor) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
 	}
@@ -116,7 +116,7 @@ public class UIListenerLogging {
 			IPerspectiveDescriptor descriptor, IWorkbenchPartReference ref, String changeId) {
 
 		if (isEnabled(WINDOW_PERSPECTIVE_EVENTS)) {
-			System.out.println(WINDOW_PERSPECTIVE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$
+			System.out.println(WINDOW_PERSPECTIVE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " perspectiveChanged (" + getPageId(page) + ", " + getPerspectiveId(descriptor) //$NON-NLS-1$ //$NON-NLS-2$
 					+ ", " + getPartId(ref) + ", " + changeId + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -127,7 +127,7 @@ public class UIListenerLogging {
 			IPerspectiveDescriptor oldDescriptor, IPerspectiveDescriptor newDescriptor) {
 
 		if (isEnabled(WINDOW_PERSPECTIVE_EVENTS)) {
-			System.out.println(WINDOW_PERSPECTIVE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$
+			System.out.println(WINDOW_PERSPECTIVE_EVENTS + " " + getWindowId(window) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ " " + PLE_PERSP_SAVED_AS + " (" + getPageId(page) + ", " + getPerspectiveId(oldDescriptor) + ", " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					+ getPerspectiveId(newDescriptor) + ")"); //$NON-NLS-1$
 		}
@@ -138,7 +138,7 @@ public class UIListenerLogging {
 			return "null part"; //$NON-NLS-1$
 		}
 
-		return Util.safeString(part.getTitle()) + " - " //$NON-NLS-1$
+		return Util.safeString(part.getTitle()) + " - " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ Util.safeString(part.getSite().getId());
 	}
 
@@ -147,7 +147,7 @@ public class UIListenerLogging {
 			return "null part"; //$NON-NLS-1$
 		}
 
-		return Util.safeString(ref.getPartName()) + " - " //$NON-NLS-1$
+		return Util.safeString(ref.getPartName()) + " - " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ Util.safeString(ref.getId());
 	}
 
@@ -157,7 +157,7 @@ public class UIListenerLogging {
 	public static final void logPartListenerEvent(String sourceType, Object source, IWorkbenchPart part,
 			String eventId) {
 		if (isEnabled(sourceType)) {
-			System.out.println(sourceType + " " + getSourceId(source) //$NON-NLS-1$
+			System.out.println(sourceType + " " + getSourceId(source) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ ", " + eventId + "(" + getPartId(part) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
@@ -168,7 +168,7 @@ public class UIListenerLogging {
 	public static final void logPartListener2Event(String sourceType, Object source, IWorkbenchPartReference part,
 			String eventId) {
 		if (isEnabled(sourceType)) {
-			System.out.println(sourceType + " " + getSourceId(source) //$NON-NLS-1$
+			System.out.println(sourceType + " " + getSourceId(source) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ ", " + eventId + "(" + getPartId(part) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
@@ -178,7 +178,7 @@ public class UIListenerLogging {
 	 */
 	public static final void logPartListenerEvent(IWorkbenchPage page, IWorkbenchPart part, String eventId) {
 		if (isEnabled(PAGE_PARTLISTENER_EVENTS)) {
-			System.out.println(PAGE_PARTLISTENER_EVENTS + " page " //$NON-NLS-1$
+			System.out.println(PAGE_PARTLISTENER_EVENTS + " page " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ Util.safeString(page.getLabel()) + ", " + eventId + "(" + getPartId(part) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
@@ -188,7 +188,7 @@ public class UIListenerLogging {
 	 */
 	public static final void logPartListener2Event(IWorkbenchPage page, IWorkbenchPartReference part, String eventId) {
 		if (isEnabled(PAGE_PARTLISTENER2_EVENTS)) {
-			System.out.println(PAGE_PARTLISTENER2_EVENTS + " page " //$NON-NLS-1$
+			System.out.println(PAGE_PARTLISTENER2_EVENTS + " page " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ Util.safeString(page.getLabel()) + ", " + eventId + "(" + getPartId(part) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
@@ -198,13 +198,13 @@ public class UIListenerLogging {
 	 */
 	public static final void logPagePropertyChanged(IWorkbenchPage page, String changeId, Object newValue) {
 		if (isEnabled(PAGE_PROPERTY_EVENTS)) {
-			System.out.println(PAGE_PROPERTY_EVENTS + " page " //$NON-NLS-1$
+			System.out.println(PAGE_PROPERTY_EVENTS + " page " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ Util.safeString(page.getLabel()) + ", " + changeId + " = " + Util.safeString(newValue.toString()) //$NON-NLS-1$ //$NON-NLS-2$
 					+ "( old value = " + newValue + " )"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
-	public static final void logPartReferencePropertyChange(IWorkbenchPartReference ref, int changeId) {
+	public static final void logPartReferencePropertyChange(IWorkbenchPartReference ref, int changeId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isEnabled(PARTREFERENCE_PROPERTY_EVENTS)) {
 			String eventDescription;
 
@@ -225,10 +225,10 @@ public class UIListenerLogging {
 				eventDescription = "content_description"; //$NON-NLS-1$
 				break;
 			default:
-				eventDescription = "unknown event id = " + changeId; //$NON-NLS-1$
+				eventDescription = "unknown event id = " + changeId; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
-			System.out.println(PARTREFERENCE_PROPERTY_EVENTS + " " //$NON-NLS-1$
+			System.out.println(PARTREFERENCE_PROPERTY_EVENTS + " " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ getPartId(ref) + ", property " + eventDescription); //$NON-NLS-1$
 		}
 	}

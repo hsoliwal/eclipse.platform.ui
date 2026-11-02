@@ -105,7 +105,7 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
  * part in the workbench.</li>
  * </ul>
  */
-public abstract class PageBookView extends ViewPart implements IPartListener {
+public abstract class PageBookView extends ViewPart implements IPartListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 	/**
 	 * The pagebook control, or <code>null</code> if not initialized.
 	 */
@@ -120,18 +120,18 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	 * Map from parts to part records (key type: <code>IWorkbenchPart</code>; value
 	 * type: <code>PartRec</code>).
 	 */
-	private final Map<IWorkbenchPart, PageRec> mapPartToRec = new HashMap<>();
+	private final Map<IWorkbenchPart, PageRec> mapPartToRec = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Map from pages to view sites Note that view sites were not added to page recs
 	 * to avoid breaking binary compatibility with previous builds
 	 */
-	private final Map<IPage, IPageSite> mapPageToSite = new HashMap<>();
+	private final Map<IPage, IPageSite> mapPageToSite = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Map from pages to the number of pageRecs actively associated with a page.
 	 */
-	private final Map<IPage, Integer> mapPageToNumRecs = new HashMap<>();
+	private final Map<IPage, Integer> mapPageToNumRecs = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * The page rec which provided the current page or <code>null</code>
@@ -147,7 +147,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	/**
 	 * The action bar property listener.
 	 */
-	private final IPropertyChangeListener actionBarPropListener = event -> {
+	private final IPropertyChangeListener actionBarPropListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		if (event.getProperty().equals(SubActionBars.P_ACTION_HANDLERS) && activeRec != null
 				&& event.getSource() == activeRec.subActionBars) {
 			refreshGlobalActionHandlers();
@@ -233,7 +233,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 		 */
 		public void selectionChanged(final SelectionChangedEvent event) {
 			// pass on the notification to listeners
-			for (Object listener : getListeners()) {
+			for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final ISelectionChangedListener selectionChangedListener = (ISelectionChangedListener) listener;
 				SafeRunner.run(new SafeRunnable() {
 					@Override
@@ -261,7 +261,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 			fSelectionListener.addSelectionChangedListener(listener);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ISelection getSelection() {
 			// get the selection provider from the current page
 			IPage currentPage = getCurrentPage();
@@ -305,7 +305,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 			fPostSelectionListeners.selectionChanged(event);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void setSelection(ISelection selection) {
 			// get the selection provider from the current page
 			IPage currentPage = getCurrentPage();
@@ -377,7 +377,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	/**
 	 * Prepares the page in the given page rec for use in this view.
 	 */
-	private void preparePage(PageRec rec) {
+	private void preparePage(PageRec rec) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPageSite site = null;
 		Integer count;
 
@@ -392,7 +392,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 			mapPageToSite.put(rec.page, site);
 
 			rec.subActionBars = (SubActionBars) site.getActionBars();
-			rec.subActionBars.addPropertyChangeListener(actionBarPropListener);
+			rec.subActionBars.addPropertyChangeListener(actionBarPropListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			// for backward compability with IPage
 			rec.page.setActionBars(rec.subActionBars);
 
@@ -455,7 +455,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	 * <code>IWorkbenchPart</code> method cleans up all the pages. Subclasses may
 	 * extend.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		// stop listening to part activation
 		getSite().getPage().removePartListener(partListener);
@@ -649,7 +649,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	 */
 	protected PageRec getPageRec(IPage page) {
 		Iterator<PageRec> itr = mapPartToRec.values().iterator();
-		while (itr.hasNext()) {
+		while (itr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			PageRec rec = itr.next();
 			if (rec.page == page) {
 				return rec;
@@ -681,7 +681,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	 * <code>IPartListener</code> method shows the page when the given part is
 	 * activated. Subclasses may extend.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void partActivated(IWorkbenchPart part) {
 		// Is this an important part? If not just return.
 		if (isImportant(part)) {
@@ -781,7 +781,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	 * @param doDestroy if <code>true</code>, also call
 	 *                  {@link #doDestroyPage(IWorkbenchPart, PageRec)}
 	 */
-	private void removePage(PageRec rec, boolean doDestroy) {
+	private void removePage(PageRec rec, boolean doDestroy) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		mapPartToRec.remove(rec.part);
 
 		int newCount = mapPageToNumRecs.get(rec.page).intValue() - 1;
@@ -874,7 +874,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	 *
 	 * @param pageRec the page record containing the page to show
 	 */
-	protected void showPageRec(PageRec pageRec) {
+	protected void showPageRec(PageRec pageRec) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// If already showing do nothing
 		if (activeRec == pageRec) {
 			return;
@@ -918,11 +918,11 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 				}
 				forwardSelection(new SelectionChangedEvent(provider, selection));
 
-				provider.addSelectionChangedListener(selectionChangedListener);
+				provider.addSelectionChangedListener(selectionChangedListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				if (provider instanceof IPostSelectionProvider) {
-					((IPostSelectionProvider) provider).addPostSelectionChangedListener(postSelectionListener);
+					((IPostSelectionProvider) provider).addPostSelectionChangedListener(postSelectionListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				} else {
-					provider.addSelectionChangedListener(postSelectionListener);
+					provider.addSelectionChangedListener(postSelectionListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				}
 			}
 			// Update action bars.
@@ -930,7 +930,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 		}
 	}
 
-	private void deactivate(PageSite pageSite) {
+	private void deactivate(PageSite pageSite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pageSite == null) {
 			reportNullPageSiteOnDeactivate(activeRec);
 			return;
@@ -971,7 +971,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 			Integer count = mapPageToNumRecs.get(page);
 			Control control = page.getControl();
 			boolean disposed = control != null && control.isDisposed();
-			String s = "Bug 453151: pageSite is null for page: " //$NON-NLS-1$
+			String s = "Bug 453151: pageSite is null for page: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ page.getClass().getName() + ", page count: " + count //$NON-NLS-1$
 					+ ", key exists: " + hasKey + ", disposed: " + disposed; //$NON-NLS-1$ //$NON-NLS-2$
 			WorkbenchPlugin.log(new IllegalStateException(s));
@@ -987,7 +987,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 		return selectionProvider;
 	}
 
-	private final IPartListener2 partListener = new IPartListener2() {
+	private final IPartListener2 partListener = new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 		@Override
 		public void partActivated(IWorkbenchPartReference partRef) {
 			if (partRef == null) {
@@ -1015,7 +1015,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 
 		@Override
 		public void partHidden(IWorkbenchPartReference partRef) {
-			PageBookView.this.partHidden(partRef.getPart(false));
+			PageBookView.this.partHidden(partRef.getPart(false)); //FLLDCIM: MARK — T20 PART_VISIBILITY CALL
 		}
 
 		@Override
@@ -1029,7 +1029,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 
 		@Override
 		public void partVisible(IWorkbenchPartReference partRef) {
-			PageBookView.this.partVisible(partRef.getPart(false));
+			PageBookView.this.partVisible(partRef.getPart(false)); //FLLDCIM: MARK — T20 PART_VISIBILITY CALL
 		}
 	};
 
@@ -1039,7 +1039,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 	 * @param part the part which got hidden
 	 * @since 3.5
 	 */
-	protected void partHidden(IWorkbenchPart part) {
+	protected void partHidden(IWorkbenchPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (part == null || part != getCurrentContributingPart()) {
 			return;
 		}
@@ -1070,7 +1070,7 @@ public abstract class PageBookView extends ViewPart implements IPartListener {
 		if (viewStack == null) {
 			return false;
 		}
-		for (IViewPart viewPart : viewStack) {
+		for (IViewPart viewPart : viewStack) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (viewPart == part) {
 				return true;
 			}

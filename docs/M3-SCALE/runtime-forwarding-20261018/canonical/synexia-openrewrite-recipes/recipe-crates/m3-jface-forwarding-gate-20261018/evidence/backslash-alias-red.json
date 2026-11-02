@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/tmp/m3-toolchain/apache-maven-3.9.12/bin/mvn",
+    "-o",
+    "-B",
+    "-ntp",
+    "-f",
+    "/tmp/eclipse-m3-20261018/synexia/synexia-openrewrite-recipes/recipe-crates/m3-jface-forwarding-gate-20261018/pom.xml",
+    "-Dtest=M3EclipseTextMetadataAdmissionTest#literalBackslashIsNotASeparatorAliasOnPosix",
+    "test"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 6.542,
+  "owner_sha256_before": "35d09cd5c3fccc281acfdc8b4ba96131f8f54e15c587ae9d5e9556e4d6e1cc30"
+}

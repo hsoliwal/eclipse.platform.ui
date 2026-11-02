@@ -82,7 +82,7 @@ public class ConcreteMarker extends MarkerNode{
 	/**
 	 * Refresh the properties of this marker from the underlying IMarker instance
 	 */
-	public void refresh() {
+	public void refresh() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		clearCache();
 
 		description = translation.message(marker).orElse(""); //$NON-NLS-1$

@@ -87,7 +87,7 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 	protected AbstractWorkingSetDialog(Shell parentShell, String[] workingSetIds, boolean canEdit) {
 		super(parentShell);
 		if (workingSetIds != null) {
-			this.workingSetIds = new HashSet<>();
+			this.workingSetIds = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			this.workingSetIds.addAll(Arrays.asList(workingSetIds));
 		}
 		this.canEdit = canEdit;
@@ -107,7 +107,7 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 	 *
 	 * @param composite Composite to add the buttons to
 	 */
-	protected void addModifyButtons(Composite composite) {
+	protected void addModifyButtons(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridLayout layout = new GridLayout();
 		layout.marginHeight = layout.marginWidth = 0;
 		layout.verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
@@ -116,18 +116,18 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 				.create(composite);
 		newButton = createButton(buttonComposite, ID_NEW, WorkbenchMessages.WorkingSetSelectionDialog_newButton_label,
 				false);
-		newButton.addSelectionListener(widgetSelectedAdapter(e -> createWorkingSet()));
+		newButton.addSelectionListener(widgetSelectedAdapter(e -> createWorkingSet())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		if (canEdit) {
 			detailsButton = createButton(buttonComposite, ID_DETAILS,
 					WorkbenchMessages.WorkingSetSelectionDialog_detailsButton_label, false);
 			detailsButton.setEnabled(false);
-			detailsButton.addSelectionListener(widgetSelectedAdapter(e -> editSelectedWorkingSet()));
+			detailsButton.addSelectionListener(widgetSelectedAdapter(e -> editSelectedWorkingSet())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			removeButton = createButton(buttonComposite, ID_REMOVE,
 					WorkbenchMessages.WorkingSetSelectionDialog_removeButton_label, false);
 			removeButton.setEnabled(false);
-			removeButton.addSelectionListener(widgetSelectedAdapter(e -> removeSelectedWorkingSets()));
+			removeButton.addSelectionListener(widgetSelectedAdapter(e -> removeSelectedWorkingSets())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		}
 
 		layout.numColumns = 1; // must manually reset the number of columns
@@ -150,11 +150,11 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 
 		selectAllButton = createButton(buttonComposite, ID_SELECTALL, WorkbenchMessages.SelectionDialog_selectLabel,
 				false);
-		selectAllButton.addSelectionListener(widgetSelectedAdapter(e -> selectAllSets()));
+		selectAllButton.addSelectionListener(widgetSelectedAdapter(e -> selectAllSets())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		deselectAllButton = createButton(buttonComposite, ID_DESELECTALL,
 				WorkbenchMessages.SelectionDialog_deselectLabel, false);
-		deselectAllButton.addSelectionListener(widgetSelectedAdapter(e -> deselectAllSets()));
+		deselectAllButton.addSelectionListener(widgetSelectedAdapter(e -> deselectAllSets())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	/**
@@ -172,7 +172,7 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 	 *
 	 * @see org.eclipse.ui.dialogs.IWorkingSetPage
 	 */
-	void editSelectedWorkingSet() {
+	void editSelectedWorkingSet() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSetManager manager = WorkbenchPlugin.getDefault().getWorkingSetManager();
 		IWorkingSet editWorkingSet = getSelectedWorkingSets().get(0);
 		IWorkingSetEditWizard wizard = manager.createWorkingSetEditWizard(editWorkingSet);
@@ -204,7 +204,7 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 	/**
 	 * Opens a working set wizard for creating a new working set.
 	 */
-	void createWorkingSet() {
+	void createWorkingSet() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSetManager manager = WorkbenchPlugin.getDefault().getWorkingSetManager();
 		String ids[] = null;
 		if (workingSetIds != null) {
@@ -276,10 +276,10 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 
 	@Override
 	public int open() {
-		addedWorkingSets = new ArrayList<>();
-		removedWorkingSets = new ArrayList<>();
-		editedWorkingSets = new HashMap<>();
-		removedMRUWorkingSets = new ArrayList<>();
+		addedWorkingSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		removedWorkingSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		editedWorkingSets = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		removedMRUWorkingSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return super.open();
 	}
 
@@ -326,7 +326,7 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 	/**
 	 * Updates the modify buttons' enabled state based on the current seleciton.
 	 */
-	protected void updateButtonAvailability() {
+	protected void updateButtonAvailability() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<IWorkingSet> selection = getSelectedWorkingSets();
 		boolean hasSelection = !selection.isEmpty();
 		boolean hasSingleSelection = hasSelection;
@@ -366,14 +366,14 @@ public abstract class AbstractWorkingSetDialog extends SelectionDialog implement
 	 *
 	 * @param selection the sets
 	 */
-	protected void removeSelectedWorkingSets(List<IWorkingSet> selection) {
+	protected void removeSelectedWorkingSets(List<IWorkingSet> selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkingSetManager manager = WorkbenchPlugin.getDefault().getWorkingSetManager();
-		for (IWorkingSet workingSet : selection) {
+		for (IWorkingSet workingSet : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getAddedWorkingSets().contains(workingSet)) {
 				getAddedWorkingSets().remove(workingSet);
 			} else {
 				IWorkingSet[] recentWorkingSets = manager.getRecentWorkingSets();
-				for (IWorkingSet recentWorkingSet : recentWorkingSets) {
+				for (IWorkingSet recentWorkingSet : recentWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (workingSet.equals(recentWorkingSet)) {
 						getRemovedMRUWorkingSets().add(workingSet);
 						break;

@@ -64,7 +64,7 @@ public abstract class ViewerSettingsAndStatusDialog extends ViewSettingsDialog {
 		return size;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 
 		Composite dialogAreaComposite = (Composite) super.createDialogArea(parent);
@@ -95,7 +95,7 @@ public abstract class ViewerSettingsAndStatusDialog extends ViewSettingsDialog {
 	/**
 	 * Create message area.
 	 */
-	Control createMessageArea(Composite parent) {
+	Control createMessageArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		msgParent = new Composite(parent, SWT.BORDER);
 		msgParent.setBackground(getMessageBackground());
 		msgParent.setLayout(new GridLayout(2, false));
@@ -126,7 +126,7 @@ public abstract class ViewerSettingsAndStatusDialog extends ViewSettingsDialog {
 	/**
 	 * Display the message and an appropriate icon.
 	 */
-	protected void handleStatusUdpate(int severity, String message) {
+	protected void handleStatusUdpate(int severity, String message) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Image image = null;
 		Button okBttn = getButton(OK);
 		switch (severity) {

@@ -28,7 +28,7 @@ import org.eclipse.ui.internal.dialogs.cpd.CustomizePerspectiveDialog.DisplayIte
  *
  * @since 3.5
  */
-class FilteredViewerCheckListener implements ICheckStateListener {
+class FilteredViewerCheckListener implements ICheckStateListener { //FLLDCIM: MARK — T21  IMPLEMENTS
 	private final ITreeContentProvider contentProvider;
 	private final ViewerFilter filter;
 
@@ -61,7 +61,7 @@ class FilteredViewerCheckListener implements ICheckStateListener {
 		Object[] children = provider.getChildren(item);
 		boolean isLeaf = true;
 
-		for (Object element : children) {
+		for (Object element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			isLeaf = false;
 			if (filter.select(null, null, element)) {
 				DisplayItem child = (DisplayItem) element;

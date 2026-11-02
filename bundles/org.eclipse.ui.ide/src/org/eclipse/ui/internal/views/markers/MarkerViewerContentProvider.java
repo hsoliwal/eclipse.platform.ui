@@ -10,6 +10,7 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ *     Hitesh Soliwal (Synexia) - M3 lane model and marker delta hooks (docs/m3/markers-view)
  ******************************************************************************/
 
 package org.eclipse.ui.internal.views.markers;
@@ -25,7 +26,7 @@ import org.eclipse.jface.viewers.Viewer;
  *
  * @since 3.6
  */
-class MarkerViewerContentProvider implements ITreeContentProvider {
+class MarkerViewerContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	// private MarkersTreeViewer viewer;
 	private Object input;
@@ -48,6 +49,10 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof M3MarkerCategory category) {
+			// the lanes answer with the search text applied before the limit (M3MarkerLanes.windowSlots)
+			return category.window(M3MarkerDeltas.limit(markersView));
+		}
 		if (parentElement instanceof MarkerSupportItem markerItem) {
 			MarkerSupportItem[] children = markerItem.getChildren();
 			return getLimitedChildren(children);
@@ -57,6 +62,9 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof Markers markers && markers.m3 != null && markers.m3.isFlat()) {
+			return markers.m3.flatWindow(M3MarkerDeltas.limit(markersView));
+		}
 		//use clone
 		return getLimitedChildren(((Markers) input).getElements());
 	}
@@ -74,7 +82,7 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 	 *
 	 * @return Object[]
 	 */
-	private Object[] getLimitedChildren(Object[] children) {
+	private Object[] getLimitedChildren(Object[] children) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		boolean limitsEnabled = markersView.getGenerator().isMarkerLimitsEnabled();
 		int limits = markersView.getGenerator().getMarkerLimits();
@@ -85,8 +93,8 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 			// Filter all concrete children first (across the full set), then
 			// apply the limit to the matching subset so the limit is still
 			// respected while every marker is eligible for the search.
-			List<Object> matching = new ArrayList<>();
-			for (Object child : children) {
+			List<Object> matching = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof MarkerSupportItem item && searchFilter.matches(item)) {
 					matching.add(child);
 					if (limitsEnabled && limits > 0 && matching.size() == limits) {
@@ -120,6 +128,9 @@ class MarkerViewerContentProvider implements ITreeContentProvider {
 
 	@Override
 	public boolean hasChildren(Object element) {
+		if (element instanceof M3MarkerCategory category) {
+			return category.getChildrenCount() > 0;
+		}
 		return element instanceof MarkerSupportItem markerItem ? markerItem.getChildren().length > 0 : false;
 	}
 }

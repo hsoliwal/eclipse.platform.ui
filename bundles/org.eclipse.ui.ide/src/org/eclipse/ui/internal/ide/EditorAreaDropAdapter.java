@@ -84,11 +84,11 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 		Display d = window.getShell().getDisplay();
 		final IWorkbenchPage page = window.getActivePage();
 		if (page != null) {
-			d.asyncExec(() -> asyncDrop(event, page));
+			d.asyncExec(() -> asyncDrop(event, page)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
-	private void asyncDrop(DropTargetEvent event, IWorkbenchPage page) {
+	private void asyncDrop(DropTargetEvent event, IWorkbenchPage page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		/* Open Editor for generic IEditorInput */
 		if (EditorInputTransfer.getInstance().isSupportedType(
@@ -96,7 +96,7 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 			/* event.data is an array of EditorInputData, which contains an IEditorInput and
 			 * the corresponding editorId */
 			Assert.isTrue(event.data instanceof EditorInputTransfer.EditorInputData[]);
-			for (EditorInputData editorInputData : (EditorInputTransfer.EditorInputData[]) event.data) {
+			for (EditorInputData editorInputData : (EditorInputTransfer.EditorInputData[]) event.data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IEditorInput editorInput = editorInputData.input;
 				String editorId = editorInputData.editorId;
 				openNonExternalEditor(page, editorInput, editorId);
@@ -106,7 +106,7 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 		/* Open Editor for Marker (e.g. Tasks, Bookmarks, etc) */
 		else if (MarkerTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			Assert.isTrue(event.data instanceof IMarker[]);
-			for (IMarker marker : (IMarker[]) event.data) {
+			for (IMarker marker : (IMarker[]) event.data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				openNonExternalEditor(page, marker);
 			}
 		}
@@ -114,7 +114,7 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 		/* Open Editor for resource */
 		else if (ResourceTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			Assert.isTrue(event.data instanceof IResource[]);
-			for (IResource resource : (IResource[]) event.data) {
+			for (IResource resource : (IResource[]) event.data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resource instanceof IFile file) {
 					if (!file.isPhantom()) {
 						openNonExternalEditor(page, file);
@@ -127,7 +127,7 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 		else if (FileTransfer.getInstance().isSupportedType(
 				event.currentDataType)) {
 			Assert.isTrue(event.data instanceof String[]);
-			for (String path : (String[]) event.data) {
+			for (String path : (String[]) event.data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IFileStore fileStore = EFS.getLocalFileSystem().getStore(IPath.fromOSString(path));
 				try {
 					IDE.openEditorOnFileStore(page, fileStore);
@@ -151,7 +151,7 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 	 * @return the editor part that was opened, or <code>null</code> if no editor
 	 * was opened
 	 */
-	private IEditorPart openNonExternalEditor(IWorkbenchPage page, IFile file) {
+	private IEditorPart openNonExternalEditor(IWorkbenchPage page, IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorPart result;
 		try {
 			// find out which editor we would normal open
@@ -205,7 +205,7 @@ public class EditorAreaDropAdapter extends DropTargetAdapter {
 	 * @return the editor part that was opened, or <code>null</code> if no editor
 	 * was opened
 	 */
-	private IEditorPart openNonExternalEditor(IWorkbenchPage page,
+	private IEditorPart openNonExternalEditor(IWorkbenchPage page, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IMarker marker) {
 		IEditorPart result;
 		try {

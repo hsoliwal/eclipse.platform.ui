@@ -77,7 +77,7 @@ public class PreferencePageRegistryReader extends CategorizedPageRegistryReader 
 
 	@Override
 	Object findNode(String id) {
-		for (WorkbenchPreferenceNode node : nodes) {
+		for (WorkbenchPreferenceNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node.getId().equals(id)) {
 				return node;
 			}
@@ -88,7 +88,7 @@ public class PreferencePageRegistryReader extends CategorizedPageRegistryReader 
 	@Override
 	Object findNode(Object parent, String currentToken) {
 		IPreferenceNode[] subNodes = ((WorkbenchPreferenceNode) parent).getSubNodes();
-		for (IPreferenceNode subNode : subNodes) {
+		for (IPreferenceNode subNode : subNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchPreferenceNode node = (WorkbenchPreferenceNode) subNode;
 			if (node.getId().equals(currentToken)) {
 				return node;
@@ -115,7 +115,7 @@ public class PreferencePageRegistryReader extends CategorizedPageRegistryReader 
 	@Override
 	protected String invalidCategoryNodeMessage(CategoryNode categoryNode) {
 		WorkbenchPreferenceNode wpn = (WorkbenchPreferenceNode) categoryNode.getNode();
-		return "Invalid preference category path: " + wpn.getCategory() + " (bundle: " + wpn.getPluginId() + ", page: " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "Invalid preference category path: " + wpn.getCategory() + " (bundle: " + wpn.getPluginId() + ", page: " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ wpn.getLocalId() + ")"; //$NON-NLS-1$
 	}
 
@@ -135,7 +135,7 @@ public class PreferencePageRegistryReader extends CategorizedPageRegistryReader 
 	 * @param registry the extension registry
 	 */
 	public void loadFromRegistry(IExtensionRegistry registry) {
-		nodes = new ArrayList<>();
+		nodes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		readRegistry(registry, PlatformUI.PLUGIN_ID, IWorkbenchRegistryConstants.PL_PREFERENCES);
 
@@ -168,7 +168,7 @@ public class PreferencePageRegistryReader extends CategorizedPageRegistryReader 
 	 *
 	 * @return WorkbenchPreferenceNode
 	 */
-	public static WorkbenchPreferenceNode createNode(IConfigurationElement element) {
+	public static WorkbenchPreferenceNode createNode(IConfigurationElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean nameMissing = element.getAttribute(IWorkbenchRegistryConstants.ATT_NAME) == null;
 		String id = element.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 		boolean classMissing = getClassValue(element, IWorkbenchRegistryConstants.ATT_CLASS) == null;
@@ -197,6 +197,6 @@ public class PreferencePageRegistryReader extends CategorizedPageRegistryReader 
 	 * @return Collection of IPreferenceNode.
 	 */
 	public Collection<?> getTopLevelNodes() {
-		return WorkbenchActivityHelper.restrictCollection(topLevelNodes, new ArrayList<>());
+		return WorkbenchActivityHelper.restrictCollection(topLevelNodes, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 }

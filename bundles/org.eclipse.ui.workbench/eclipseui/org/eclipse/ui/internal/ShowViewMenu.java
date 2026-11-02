@@ -82,10 +82,10 @@ public class ShowViewMenu extends ContributionItem {
 
 	private final Action showDlgAction;
 
-	private final Map<String, ?> actions = new HashMap<>(21);
+	private final Map<String, ?> actions = new HashMap<>(21); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	// Maps pages to a list of opened views
-	private final Map<IWorkbenchPage, ArrayList<String>> openedViews = new HashMap<>();
+	private final Map<IWorkbenchPage, ArrayList<String>> openedViews = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private MenuManager menuManager;
 
@@ -111,7 +111,7 @@ public class ShowViewMenu extends ContributionItem {
 	 * @param id       the id
 	 * @param makeFast use the fact view variant of the command
 	 */
-	public ShowViewMenu(IWorkbenchWindow window, String id, final boolean makeFast) {
+	public ShowViewMenu(IWorkbenchWindow window, String id, final boolean makeFast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(id);
 		this.window = window;
 		this.makeFast = makeFast;
@@ -151,7 +151,7 @@ public class ShowViewMenu extends ContributionItem {
 	/**
 	 * Fills the menu with Show View actions.
 	 */
-	private void fillMenu(IMenuManager innerMgr) {
+	private void fillMenu(IMenuManager innerMgr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Remove all.
 		innerMgr.removeAll();
 
@@ -172,8 +172,8 @@ public class ShowViewMenu extends ContributionItem {
 		// add all open views
 		viewIds = addOpenedViews(page, viewIds);
 
-		List<CommandContributionItemParameter> actions = new ArrayList<>(viewIds.size());
-		for (Iterator<String> i = viewIds.iterator(); i.hasNext();) {
+		List<CommandContributionItemParameter> actions = new ArrayList<>(viewIds.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<String> i = viewIds.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = i.next();
 			if (id.equals(IIntroConstants.INTRO_VIEW_ID)) {
 				continue;
@@ -184,7 +184,7 @@ public class ShowViewMenu extends ContributionItem {
 			}
 		}
 		actions.sort(actionComparator);
-		for (Iterator<CommandContributionItemParameter> i = actions.iterator(); i.hasNext();) {
+		for (Iterator<CommandContributionItemParameter> i = actions.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CommandContributionItemParameter ccip = i.next();
 			if (WorkbenchActivityHelper.filterItem(ccip)) {
 				continue;
@@ -234,7 +234,7 @@ public class ShowViewMenu extends ContributionItem {
 
 	}
 
-	private CommandContributionItemParameter getItem(String viewId) {
+	private CommandContributionItemParameter getItem(String viewId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MApplication application = window.getService(MApplication.class);
 		List<MPartDescriptor> descriptors = application.getDescriptors();
 		IViewRegistry reg = WorkbenchPlugin.getDefault().getViewRegistry();
@@ -260,7 +260,7 @@ public class ShowViewMenu extends ContributionItem {
 
 		parms.label = label;
 		parms.icon = getImage(partDesc);
-		parms.parameters = new HashMap<String, String>();
+		parms.parameters = new HashMap<String, String>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		parms.parameters.put(IWorkbenchCommandConstants.VIEWS_SHOW_VIEW_PARM_ID, viewId);
 		if (makeFast) {
@@ -280,14 +280,14 @@ public class ShowViewMenu extends ContributionItem {
 
 	private List<String> addOpenedViews(IWorkbenchPage page, List<String> actions) {
 		ArrayList<String> views = getParts(page);
-		ArrayList<String> result = new ArrayList<>(views.size() + actions.size());
+		ArrayList<String> result = new ArrayList<>(views.size() + actions.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String element : actions) {
+		for (String element : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (result.indexOf(element) < 0) {
 				result.add(element);
 			}
 		}
-		for (int i = 0; i < views.size(); i++) {
+		for (int i = 0; i < views.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String element = views.get(i);
 			if (result.indexOf(element) < 0) {
 				result.add(element);
@@ -299,16 +299,16 @@ public class ShowViewMenu extends ContributionItem {
 	private ArrayList<String> getParts(IWorkbenchPage page) {
 		ArrayList<String> parts = openedViews.get(page);
 		if (parts == null) {
-			parts = new ArrayList<>();
+			parts = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			openedViews.put(page, parts);
 		}
 		return parts;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 		if (getParent() instanceof MenuManager) {
-			((MenuManager) getParent()).addMenuListener(menuListener);
+			((MenuManager) getParent()).addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		}
 
 		if (menuManager != null) {
@@ -324,7 +324,7 @@ public class ShowViewMenu extends ContributionItem {
 			item.setText(NO_TARGETS_MSG);
 			item.setEnabled(false);
 		} else {
-			for (IContributionItem item : items) {
+			for (IContributionItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				item.fill(menu, index++);
 			}
 		}

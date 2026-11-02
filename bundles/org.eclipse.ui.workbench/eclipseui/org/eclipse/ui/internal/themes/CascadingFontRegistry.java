@@ -29,7 +29,7 @@ public class CascadingFontRegistry extends FontRegistry {
 
 	private final FontRegistry parent;
 
-	private final IPropertyChangeListener listener = event -> {
+	private final IPropertyChangeListener listener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 		// check to see if we have an override for the given key. If so,
 		// then a change in our parent registry shouldn't cause a change in
 		// us. Without this check we will propagate a new value
@@ -49,7 +49,7 @@ public class CascadingFontRegistry extends FontRegistry {
 	public CascadingFontRegistry(FontRegistry parent) {
 		super(Display.getCurrent(), false);
 		this.parent = parent;
-		parent.addListener(listener);
+		parent.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class CascadingFontRegistry extends FontRegistry {
 
 	@Override
 	public Set<String> getKeySet() {
-		Set<String> keyUnion = new HashSet<>(super.getKeySet());
+		Set<String> keyUnion = new HashSet<>(super.getKeySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		keyUnion.addAll(parent.getKeySet());
 		return keyUnion;
 	}
@@ -96,6 +96,6 @@ public class CascadingFontRegistry extends FontRegistry {
 	 */
 	public void dispose() {
 		parent.removeListener(listener);
-		PlatformUI.getWorkbench().getDisplay().asyncExec(displayRunnable);
+		PlatformUI.getWorkbench().getDisplay().asyncExec(displayRunnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 }

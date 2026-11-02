@@ -46,11 +46,11 @@ public class ZipLeveledStructureProvider implements
 
 	private Map<ZipEntry, List<ZipEntry>> children;
 
-	private final Map<IPath, ZipEntry> directoryEntryCache = new HashMap<>();
+	private final Map<IPath, ZipEntry> directoryEntryCache = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private int stripLevel;
 
-	private final Set<String> invalidEntries = new HashSet<>();
+	private final Set<String> invalidEntries = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * Creates a <code>ZipFileStructureProvider</code>, which will operate on
@@ -73,7 +73,7 @@ public class ZipLeveledStructureProvider implements
 	 * @param pathname The path representing the container
 	 * @return The element represented by this pathname (it may have already existed)
 	 */
-	protected ZipEntry createContainer(IPath pathname) {
+	protected ZipEntry createContainer(IPath pathname) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ZipEntry existingEntry = directoryEntryCache.get(pathname);
 		if (existingEntry != null) {
 			return existingEntry;
@@ -89,7 +89,7 @@ public class ZipLeveledStructureProvider implements
 		}
 		ZipEntry newEntry = new ZipEntry(pathname.toString());
 		directoryEntryCache.put(pathname, newEntry);
-		List<ZipEntry> childList = new ArrayList<>();
+		List<ZipEntry> childList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		children.put(newEntry, childList);
 
 		List<ZipEntry> parentChildList = children.get(parent);
@@ -127,7 +127,7 @@ public class ZipLeveledStructureProvider implements
 	public InputStream getContents(Object element) {
 		try {
 			if (invalidEntries.contains(((ZipEntry) element).getName())) {
-				throw new IOException("Cannot get content of Entry as it is outside of the target dir: " //$NON-NLS-1$
+				throw new IOException("Cannot get content of Entry as it is outside of the target dir: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ ((ZipEntry) element).getName());
 			}
 			return zipFile.getInputStream((ZipEntry) element);
@@ -140,9 +140,9 @@ public class ZipLeveledStructureProvider implements
 	/*
 	 * Strip the leading directories from the path
 	 */
-	private String stripPath(String path) {
+	private String stripPath(String path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pathOrig = path;
-		for (int i = 0; i < stripLevel; i++) {
+		for (int i = 0; i < stripLevel; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int firstSep = path.indexOf('/');
 			// If the first character was a separator we must strip to the next
 			// separator as well
@@ -165,7 +165,7 @@ public class ZipLeveledStructureProvider implements
 		String name = ((ZipEntry) element).getName();
 		String base = "base"; //$NON-NLS-1$
 		if (!java.nio.file.Path.of(base, name).normalize().startsWith(base)) {
-			throw new RuntimeException("Bad zip entry in " + zipFile.getName() + ": " + name); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new RuntimeException("Bad zip entry in " + zipFile.getName() + ": " + name); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return stripPath(name);
 	}
@@ -204,7 +204,7 @@ public class ZipLeveledStructureProvider implements
 		try {
 			getZipFile().close();
 		} catch (IOException e) {
-			IDEWorkbenchPlugin.log(DataTransferMessages.ZipImport_couldNotClose
+			IDEWorkbenchPlugin.log(DataTransferMessages.ZipImport_couldNotClose //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ zipFile.getName(), e);
 			return false;
 		}
@@ -220,8 +220,8 @@ public class ZipLeveledStructureProvider implements
 	 * Initializes this object's children table based on the contents of the
 	 * specified source file.
 	 */
-	protected void initialize() {
-		children = new HashMap<>(1000);
+	protected void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		children = new HashMap<>(1000); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		IPath zipFileDirPath = IPath.fromOSString(zipFile.getName()).removeLastSegments(1);
 		String canonicalDestinationDirPath = zipFileDirPath.toString();
@@ -232,21 +232,21 @@ public class ZipLeveledStructureProvider implements
 		} catch (IOException e) {
 			return;
 		}
-		children.put(root, new ArrayList<>());
+		children.put(root, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
 		if (!canonicalDestinationDirPath.endsWith(File.separator)) {
 			canonicalDestinationDirPath += File.separator;
 		}
 
-		while (entries.hasMoreElements()) {
+		while (entries.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				ZipEntry entry = entries.nextElement();
 				File destinationfile = new File(zipDestinationDir, entry.getName());
 				String canonicalDestinationFile = destinationfile.getCanonicalPath();
 				if (!canonicalDestinationFile.startsWith(canonicalDestinationDirPath)) {
 					invalidEntries.add(entry.getName());
-					throw new IOException("Entry is outside of the target dir: " + entry.getName()); //$NON-NLS-1$
+					throw new IOException("Entry is outside of the target dir: " + entry.getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				IPath path = IPath.fromOSString(entry.getName()).addTrailingSeparator();
 

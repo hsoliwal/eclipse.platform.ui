@@ -83,7 +83,7 @@ public class ActionBarAdvisor {
 
 	private final IActionBarConfigurer actionBarConfigurer;
 
-	private final Map<String, IAction> actions = new HashMap<>();
+	private final Map<String, IAction> actions = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private boolean menuCreated;
 
@@ -188,7 +188,7 @@ public class ActionBarAdvisor {
 	 * @see IAction#setActionDefinitionId(String)
 	 * @see #disposeAction(IAction)
 	 */
-	protected void register(IAction action) {
+	protected void register(IAction action) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(action, "Action must not be null"); //$NON-NLS-1$
 		String id = action.getId();
 		Assert.isNotNull(id, "Action must not have null id"); //$NON-NLS-1$
@@ -285,7 +285,7 @@ public class ActionBarAdvisor {
 			IMenuManager menuManager = actionBarConfigurer.getMenuManager();
 			if (menuManager != null) {
 				// dispose menu asynchronously to avoid "jumping" UI elements
-				PlatformUI.getWorkbench().getDisplay().asyncExec(menuManager::dispose);
+				PlatformUI.getWorkbench().getDisplay().asyncExec(menuManager::dispose); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 		disposeActions();
@@ -296,7 +296,7 @@ public class ActionBarAdvisor {
 	 * <code>disposeAction(IAction)</code>.
 	 */
 	protected void disposeActions() {
-		for (Iterator<IAction> i = actions.values().iterator(); i.hasNext();) {
+		for (Iterator<IAction> i = actions.values().iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IAction action = i.next();
 			disposeAction(action);
 		}

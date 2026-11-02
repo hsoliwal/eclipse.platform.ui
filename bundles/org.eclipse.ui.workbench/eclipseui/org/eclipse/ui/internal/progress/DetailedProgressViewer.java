@@ -67,7 +67,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	 * listed here. Job elements not visible due to {@link #maxDisplayed} are not in
 	 * this map.
 	 */
-	private final Map<JobTreeElement, ProgressInfoItem> jobItemControls = new HashMap<>();
+	private final Map<JobTreeElement, ProgressInfoItem> jobItemControls = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Create a new instance of the receiver with a control that is a child of
@@ -76,7 +76,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	 * @param parent the parent composite
 	 * @param style  the style for the progress viewer
 	 */
-	public DetailedProgressViewer(Composite parent, int style) {
+	public DetailedProgressViewer(Composite parent, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		scrolled = new ScrolledComposite(parent, SWT.V_SCROLL | style);
 		int height = JFaceResources.getDefaultFont().getFontData()[0].getHeight();
 		scrolled.getVerticalBar().setIncrement(height * 2);
@@ -90,7 +90,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 		control.setLayout(layout);
 		control.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 
-		control.addFocusListener(new FocusAdapter() {
+		control.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
 
 			private boolean settingFocus = false;
 
@@ -106,7 +106,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 			}
 		});
 
-		control.addControlListener(new ControlListener() {
+		control.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlMoved(ControlEvent e) {
 				updateVisibleItems();
@@ -140,7 +140,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 		updateMaxDisplayedValue(prefs);
 		IPropertyChangeListener listener = this::propertyChange;
 		prefs.addPropertyChangeListener(listener);
-		scrolled.addDisposeListener(x -> prefs.removePropertyChangeListener(listener));
+		scrolled.addDisposeListener(x -> prefs.removePropertyChangeListener(listener)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	@Override
 	public void add(JobTreeElement... elements) {
 		Set<JobTreeElement> items = getItems();
-		for (JobTreeElement element : elements) {
+		for (JobTreeElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element != null) {
 				items.add(element);
 			}
@@ -216,10 +216,10 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	 * @param info the job element the item should represent
 	 * @return ProgressInfoItem the created progress item representing the job info
 	 */
-	private ProgressInfoItem createNewItem(JobTreeElement info) {
+	private ProgressInfoItem createNewItem(JobTreeElement info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ProgressInfoItem item = new ProgressInfoItem(control, SWT.NONE, info);
 
-		item.addControlListener(new ControlListener() {
+		item.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlMoved(ControlEvent e) {
 				updateVisibleProgressItems(item);
@@ -244,7 +244,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 
 			@Override
 			public void select() {
-				for (ProgressInfoItem child : jobItemControls.values()) {
+				for (ProgressInfoItem child : jobItemControls.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!item.equals(child)) {
 						child.selectWidgets(false);
 					}
@@ -261,9 +261,9 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	 *
 	 * @param item the reference item. The item previous to this will be selected.
 	 */
-	protected void selectPrevious(ProgressInfoItem item) {
+	protected void selectPrevious(ProgressInfoItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Control[] children = control.getChildren();
-		for (int i = 0; i < children.length; i++) {
+		for (int i = 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ProgressInfoItem child = (ProgressInfoItem) children[i];
 			if (item.equals(child)) {
 				ProgressInfoItem previous;
@@ -285,9 +285,9 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	 *
 	 * @param item the reference item. The item next to this will be selected.
 	 */
-	protected void selectNext(ProgressInfoItem item) {
+	protected void selectNext(ProgressInfoItem item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Control[] children = control.getChildren();
-		for (int i = 0; i < children.length; i++) {
+		for (int i = 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ProgressInfoItem child = (ProgressInfoItem) children[i];
 			if (item.equals(child)) {
 				ProgressInfoItem next;
@@ -315,7 +315,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 		if (element instanceof JobTreeElement) {
 			return jobItemControls.get(element);
 		}
-		for (Control control : control.getChildren()) {
+		for (Control control : control.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (control.isDisposed() || control.getData() == null) {
 				continue;
 			}
@@ -343,7 +343,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 
 	@Override
 	protected List getSelectionFromWidget() {
-		return new ArrayList<>(0);
+		return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -352,7 +352,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 		refreshAll();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void internalRefresh(Object element) {
 		if (element == null) {
 			return;
@@ -372,11 +372,11 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 		updateSize();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void remove(JobTreeElement... elements) {
 
 		Set<JobTreeElement> items = getItems();
-		for (JobTreeElement element : elements) {
+		for (JobTreeElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Make sure we are not keeping this one
 			if (FinishedJobs.getInstance().isKept(element)) {
 				Widget item = doFindItem(element);
@@ -460,11 +460,11 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	 *                          Array must not be <code>null</code> and elements
 	 *                          must be instances of {@link JobTreeElement}.
 	 */
-	private void reorderControls(Object[] toShowJobElements) {
+	private void reorderControls(Object[] toShowJobElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int limit = Math.min(toShowJobElements.length, getMaxDisplayed());
 		if (limit == 0) {
 			// shortcut to remove all
-			for (Control existing : jobItemControls.values()) {
+			for (Control existing : jobItemControls.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				existing.dispose();
 			}
 			jobItemControls.clear();
@@ -474,7 +474,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 		Control[] existingControls = control.getChildren();
 		Control lastControl = null;
 		int exIndex = 0;
-		for (int i = 0; i < limit; i++) {
+		for (int i = 0; i < limit; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JobTreeElement jobElement = (JobTreeElement) toShowJobElements[i];
 			ProgressInfoItem item = jobItemControls.get(jobElement);
 			if (item == null) {
@@ -493,7 +493,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 				}
 			} else {
 				// element already visible -> reorder existing widget
-				for (; exIndex < existingControls.length; exIndex++) {
+				for (; exIndex < existingControls.length; exIndex++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (existingControls[exIndex] != null && !existingControls[exIndex].isDisposed()) {
 						break;
 					}
@@ -504,7 +504,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 					} else {
 						item.moveBelow(lastControl);
 					}
-					for (int j = exIndex + 1; j < existingControls.length; j++) {
+					for (int j = exIndex + 1; j < existingControls.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (existingControls[j] == item) {
 							existingControls[j] = null;
 							break;
@@ -517,7 +517,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 			item.setColor(i);
 			lastControl = item;
 		}
-		for (int i = exIndex; i < existingControls.length; i++) {
+		for (int i = exIndex; i < existingControls.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (existingControls[i] != null) {
 				jobItemControls.remove(existingControls[i].getData());
 				existingControls[i].dispose();
@@ -535,7 +535,7 @@ public class DetailedProgressViewer extends AbstractProgressViewer {
 	private void updateVisibleProgressItems(Control... progressInfoItems) {
 		int top = scrolled.getOrigin().y;
 		int bottom = top + scrolled.getParent().getBounds().height;
-		for (Control control : progressInfoItems) {
+		for (Control control : progressInfoItems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ProgressInfoItem item = (ProgressInfoItem) control;
 			item.setDisplayed(top, bottom);
 		}

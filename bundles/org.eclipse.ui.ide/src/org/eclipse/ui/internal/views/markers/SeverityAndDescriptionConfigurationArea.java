@@ -61,7 +61,7 @@ public class SeverityAndDescriptionConfigurationArea extends
 	 *
 	 * @return {@link Composite}
 	 */
-	Composite createSeverityGroup(Composite parent) {
+	Composite createSeverityGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Composite severityComposite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(4, false);
@@ -76,7 +76,7 @@ public class SeverityAndDescriptionConfigurationArea extends
 
 		errorButton = new Button(severityComposite, SWT.CHECK);
 		errorButton.setText(MarkerMessages.filtersDialog_severityError);
-		errorButton.addSelectionListener(new SelectionAdapter() {
+		errorButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateSeverities(
@@ -90,7 +90,7 @@ public class SeverityAndDescriptionConfigurationArea extends
 
 		warningButton = new Button(severityComposite, SWT.CHECK);
 		warningButton.setText(MarkerMessages.filtersDialog_severityWarning);
-		warningButton.addSelectionListener(new SelectionAdapter() {
+		warningButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateSeverities(
@@ -101,7 +101,7 @@ public class SeverityAndDescriptionConfigurationArea extends
 
 		infoButton = new Button(severityComposite, SWT.CHECK);
 		infoButton.setText(MarkerMessages.filtersDialog_severityInfo);
-		infoButton.addSelectionListener(new SelectionAdapter() {
+		infoButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateSeverities(

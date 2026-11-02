@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "sourceCommit": "16e944f83eec18d4cf609afd9ad9a937711211ce",
+  "javaSourceCount": 423,
+  "command": [
+    "/tmp/eclipse-m3-20261018/toolchain/jdk25/bin/javac",
+    "-J-Xmx1g",
+    "--release",
+    "21",
+    "-proc:none",
+    "-encoding",
+    "UTF-8",
+    "-cp",
+    "/tmp/eclipse-m3-20261018/native-gate/swt-classes:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.common-3.21.0.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.osgi-3.24.300.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.core.commands-3.13.0.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.preferences-3.12.100.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.equinox.bidi-1.5.400.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.osgi.service.prefs-1.1.2.jar:/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/org.eclipse.pde.api.tools.annotations-1.4.100.jar",
+    "-d",
+    "/tmp/eclipse-m3-20261018/native-gate/jface-classes",
+    "@/tmp/eclipse-m3-20261018/native-gate/jface-java-sources.args"
+  ],
+  "exit": 0,
+  "wallSeconds": 21.858,
+  "logSha256": "de6a622fec5e15ed0a7bcb498739442a88087aa667a144e7ef2f9cece26a6bc4",
+  "dependencies": [
+    {
+      "name": "org.eclipse.equinox.common-3.21.0.jar",
+      "sha256": "2545ed27d408f19882695703097e5998bf25652bd0dac76a8e6d1391ec228ab7"
+    },
+    {
+      "name": "org.eclipse.osgi-3.24.300.jar",
+      "sha256": "4a770aa4a78df653af871073c8b4ddd56884895f5fc71d10c40b4289ac7c8b9f"
+    },
+    {
+      "name": "org.eclipse.core.commands-3.13.0.jar",
+      "sha256": "fe916979793d364fcd0a71c15c3fa803d60a8566cff8c64b0eef04918b5b6a65"
+    },
+    {
+      "name": "org.eclipse.equinox.preferences-3.12.100.jar",
+      "sha256": "fd04e81a28ab32b6bb073286eb293c44b760176fcf1e35ef15614d62df820f86"
+    },
+    {
+      "name": "org.eclipse.equinox.bidi-1.5.400.jar",
+      "sha256": "78599009dc5a0f02881406798d7e07e25ac222930a985757bca61632867c7abe"
+    },
+    {
+      "name": "org.osgi.service.prefs-1.1.2.jar",
+      "sha256": "43c7c870710e363405d422da653cce0d798a4537f76e4930f79bceadd3a55345"
+    },
+    {
+      "name": "org.eclipse.pde.api.tools.annotations-1.4.100.jar",
+      "sha256": "a8f8e05d485102893593879f5d5afa1be8b216d733ad130e3e7ab4366dde7060"
+    }
+  ],
+  "copiedResourceCount": 87
+}

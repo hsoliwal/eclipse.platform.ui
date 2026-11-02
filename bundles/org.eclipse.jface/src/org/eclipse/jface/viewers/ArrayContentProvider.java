@@ -15,7 +15,7 @@
 
 package org.eclipse.jface.viewers;
 
-import java.util.Collection;
+import org.eclipse.jface.internal.m3.M3ViewerArrays;
 
 import org.eclipse.pde.api.tools.annotations.NoExtend;
 
@@ -56,12 +56,6 @@ public class ArrayContentProvider implements IStructuredContentProvider {
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof Object[]) {
-			return (Object[]) inputElement;
-		}
-		if (inputElement instanceof Collection) {
-			return ((Collection) inputElement).toArray();
-		}
-		return new Object[0];
+		return M3ViewerArrays.contentElements(inputElement);
 	}
 }

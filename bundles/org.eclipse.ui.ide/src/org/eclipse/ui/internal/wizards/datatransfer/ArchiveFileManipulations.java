@@ -43,7 +43,7 @@ public class ArchiveFileManipulations {
 			return false;
 		}
 
-		try (TarFile _ = new TarFile(fileName)) {
+		try (TarFile unused = new TarFile(fileName)) {
 		} catch (TarException | IOException ioException) {
 			return false;
 		}
@@ -64,7 +64,7 @@ public class ArchiveFileManipulations {
 			return false;
 		}
 
-		try (ZipFile _ = new ZipFile(fileName)) {
+		try (ZipFile unused = new ZipFile(fileName)) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 			return true;
 		} catch (IOException ioException) {
 			return false;

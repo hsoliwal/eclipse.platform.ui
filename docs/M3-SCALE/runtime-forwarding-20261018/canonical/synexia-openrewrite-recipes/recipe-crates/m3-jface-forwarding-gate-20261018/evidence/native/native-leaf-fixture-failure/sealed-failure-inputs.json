@@ -1,0 +1,48 @@
+{
+  "status": "FAIL",
+  "tests": 1,
+  "failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "xml": "TEST-org.eclipse.jface.tests.viewers.M3TreeForwardingTest.xml",
+  "xmlSha256": "1ed312a4862b64ed2338dbdfffda5633612ca733222b6303d58e7f26876bfb70",
+  "inputs": [
+    {
+      "root": "/tmp/eclipse-m3-20261018/native-gate/swt-classes",
+      "classCount": 826,
+      "fileCount": 831,
+      "manifest": "swt-classes-input-hashes.json",
+      "manifestSha256": "8f575effa25114055141573073d296850762735a95c6e6674573a2b7862c52df"
+    },
+    {
+      "root": "/tmp/eclipse-m3-20261018/native-gate/jface-classes",
+      "classCount": 622,
+      "fileCount": 709,
+      "manifest": "jface-classes-input-hashes.json",
+      "manifestSha256": "156324efaeddf1be70577115919b3ce94f231596f41880cf49bb8822cd7850ac"
+    },
+    {
+      "root": "/tmp/eclipse-m3-20261018/native-gate/test-classes",
+      "classCount": 31,
+      "fileCount": 55,
+      "manifest": "test-classes-input-hashes.json",
+      "manifestSha256": "f23fb8fb272c5150fc607d53d3719851ba8a02db462dd6905834acd0127e0a45"
+    },
+    {
+      "path": "/tmp/eclipse-m3-20261018/commands-authoring/target/org.eclipse.core.commands-m3-proof.jar",
+      "bytes": 128734,
+      "sha256": "4d7573b670652c41d105210deeffde877c9034e2bd2916a6fb7ec4b5cf454c1e"
+    },
+    {
+      "path": "/tmp/eclipse-m3-20261018/toolchain/eclipse-deps/junit-platform-console-standalone-1.14.4.jar",
+      "bytes": 3178851,
+      "sha256": "7c6968cbcaf4301c729f202b23b7d736c5d88be625fc7d27ad5d746146a8bc28"
+    }
+  ],
+  "modelCountsObservedByActualTestElement": {
+    "root": 200,
+    "parent": 200,
+    "selectedChild": 0
+  },
+  "diagnosis": "Selected child is a leaf. The pre-existing SWT contract forbids expanding leaves; the existing JFace fixture requested expansion of this leaf."
+}

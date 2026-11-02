@@ -58,11 +58,11 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class CloseResourceAction extends WorkspaceAction implements IResourceChangeListener {
+public class CloseResourceAction extends WorkspaceAction implements IResourceChangeListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID + ".CloseResourceAction"; //$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".CloseResourceAction"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private final String defaultText;
 	private final String defaultToolTip;
@@ -177,7 +177,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 	 * method saves and closes the resource's dirty editors before closing
 	 * it.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		// Get the items to close.
 		List<? extends IResource> projects = getSelectedResources();
@@ -207,7 +207,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 		//can change state between now and when the job starts
 		ISchedulingRule rule = null;
 		IResourceRuleFactory factory = ResourcesPlugin.getWorkspace().getRuleFactory();
-		for (IResource element : projectArray) {
+		for (IResource element : projectArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject project = (IProject) element;
 			rule = MultiRule.combine(rule, factory.modifyRule(project));
 		}
@@ -224,7 +224,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 	 * <code>SelectionListenerAction</code> method ensures that this action is
 	 * enabled only if one of the selections is an open project.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateSelection(IStructuredSelection s) {
 		// don't call super since we want to enable if open project is selected.
 		setText(defaultText);
@@ -235,7 +235,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 
 		boolean hasOpenProjects = false;
 		Iterator<? extends IResource> resources = getSelectedResources().iterator();
-		while (resources.hasNext()) {
+		while (resources.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject currentResource = (IProject) resources.next();
 			if (currentResource.isOpen()) {
 				if (hasOpenProjects) {
@@ -253,7 +253,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 	 * Handles a resource changed event by updating the enablement
 	 * if one of the selected projects is opened or closed.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized void resourceChanged(IResourceChangeEvent event) {
 		// Warning: code duplicated in OpenResourceAction
 		List<? extends IResource> sel = getSelectedResources();
@@ -262,7 +262,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 			IResourceDelta delta = event.getDelta();
 			if (delta != null) {
 				IResourceDelta[] projDeltas = delta.getAffectedChildren(IResourceDelta.CHANGED);
-				for (IResourceDelta projDelta : projDeltas) {
+				for (IResourceDelta projDelta : projDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((projDelta.getFlags() & IResourceDelta.OPEN) != 0) {
 						if (sel.contains(projDelta.getResource())) {
 							selectionChanged(getStructuredSelection());
@@ -318,7 +318,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 	private boolean validateClose() {
 		IResourceChangeDescriptionFactory factory = ResourceChangeValidator.getValidator().createDeltaFactory();
 		List<? extends IResource> resources = getActionResources();
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IProject project) {
 				factory.close(project);
 			}
@@ -342,7 +342,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 	 * @param deletedOnly
 	 *            true to close only editors on resources which do not exist
 	 */
-	static void closeMatchingEditors(final List<? extends IResource> resourceRoots, final boolean deletedOnly) {
+	static void closeMatchingEditors(final List<? extends IResource> resourceRoots, final boolean deletedOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resourceRoots.isEmpty()) {
 			return;
 		}
@@ -375,9 +375,9 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 
 	private static List<IEditorReference> getMatchingEditors(final List<? extends IResource> resourceRoots,
 			IWorkbenchWindow w, boolean deletedOnly) {
-		List<IEditorReference> toClose = new ArrayList<>();
+		List<IEditorReference> toClose = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IEditorReference[] editors = getEditors(w);
-		for (IEditorReference ref : editors) {
+		for (IEditorReference ref : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = getAdapter(ref);
 			// only collect editors for non existing resources
 			if (resource != null && belongsTo(resourceRoots, resource)) {
@@ -417,7 +417,7 @@ public class CloseResourceAction extends WorkspaceAction implements IResourceCha
 	}
 
 	private static boolean belongsTo(List<? extends IResource> roots, IResource leaf) {
-		for (IResource resource : roots) {
+		for (IResource resource : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.contains(leaf)) {
 				return true;
 			}

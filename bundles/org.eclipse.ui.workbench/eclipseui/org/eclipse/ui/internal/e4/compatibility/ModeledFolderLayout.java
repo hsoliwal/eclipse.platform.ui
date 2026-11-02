@@ -26,7 +26,7 @@ public class ModeledFolderLayout extends ModeledPlaceholderFolderLayout implemen
 		super(layout, application, stackModel);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addView(String viewId) {
 		MStackElement viewModel = ModeledPageLayout.createViewModel(application, viewId, true, layout.page,
 				layout.partService, layout.createReferences);
@@ -34,7 +34,7 @@ public class ModeledFolderLayout extends ModeledPlaceholderFolderLayout implemen
 			// adding a non-placeholder to this folder, make sure the folder
 			// will be rendered
 			MUIElement parent = folderModel.getParent();
-			while (parent != null && !(parent instanceof MPerspective)) {
+			while (parent != null && !(parent instanceof MPerspective)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent.setToBeRendered(true);
 				parent = parent.getParent();
 			}

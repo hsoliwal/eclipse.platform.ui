@@ -109,7 +109,7 @@ public class CopyProjectOperation {
 	 * @param project
 	 *            The project that is beign copied.
 	 */
-	public void copyProject(IProject project) {
+	public void copyProject(IProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		errorStatus = null;
 
 		// Get the project name and location in a two element list
@@ -159,9 +159,9 @@ public class CopyProjectOperation {
 	 * @return <code>true</code> if the copy operation completed, and
 	 *         <code>false</code> if it was abandoned part way
 	 */
-	private boolean performProjectCopy(final IProject project,
+	private boolean performProjectCopy(final IProject project, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String projectName, final URI newLocation) {
-		IRunnableWithProgress op = monitor -> {
+		IRunnableWithProgress op = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			org.eclipse.ui.ide.undo.CopyProjectOperation op1 = new org.eclipse.ui.ide.undo.CopyProjectOperation(
 					project, projectName, newLocation,
 					IDEWorkbenchMessages.CopyProjectOperation_copyProject);
@@ -188,7 +188,7 @@ public class CopyProjectOperation {
 			return false;
 		} catch (InvocationTargetException e) {
 			final String message = e.getTargetException().getMessage();
-			parentShell.getDisplay().syncExec(() -> MessageDialog
+			parentShell.getDisplay().syncExec(() -> MessageDialog //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					.openError(
 							parentShell,
 							IDEWorkbenchMessages.CopyProjectOperation_copyFailedTitle,

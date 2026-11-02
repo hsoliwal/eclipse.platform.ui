@@ -35,16 +35,16 @@ import org.eclipse.jface.viewers.ViewerFilter;
  * @see org.eclipse.ui.dialogs.FilteredTree
  * @since 3.2
  */
-public class PatternFilter extends ViewerFilter {
+public class PatternFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	/*
 	 * Cache of filtered elements in the tree
 	 */
-	private final Map cache = new HashMap();
+	private final Map cache = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/*
 	 * Maps parent elements to TRUE or FALSE
 	 */
-	private final Map foundAnyCache = new HashMap();
+	private final Map foundAnyCache = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private boolean useCache = false;
 
@@ -63,7 +63,7 @@ public class PatternFilter extends ViewerFilter {
 
 	private static Object[] EMPTY = new Object[0];
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
 		// we don't want to optimize if we've extended the filter ... this
 		// needs to be addressed in 3.4
@@ -96,7 +96,7 @@ public class PatternFilter extends ViewerFilter {
 	 * @param elements the elements (must not be an empty array)
 	 * @return true if any of the elements makes it through the filter.
 	 */
-	private boolean isAnyVisible(Viewer viewer, Object parent, Object[] elements) {
+	private boolean isAnyVisible(Viewer viewer, Object parent, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (matcher == null) {
 			return true;
 		}
@@ -126,7 +126,7 @@ public class PatternFilter extends ViewerFilter {
 	 */
 	private boolean computeAnyVisible(Viewer viewer, Object[] elements) {
 		boolean elementFound = false;
-		for (int i = 0; i < elements.length && !elementFound; i++) {
+		for (int i = 0; i < elements.length && !elementFound; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element = elements[i];
 			elementFound = isElementVisible(viewer, element);
 		}
@@ -153,7 +153,7 @@ public class PatternFilter extends ViewerFilter {
 	 *
 	 * @param patternString the pattern string.
 	 */
-	public void setPattern(String patternString) {
+	public void setPattern(String patternString) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// these 2 strings allow the PatternFilter to be extended in
 		// 3.3 - https://bugs.eclipse.org/bugs/show_bug.cgi?id=186404
 		if ("org.eclipse.ui.keys.optimization.true".equals(patternString)) { //$NON-NLS-1$
@@ -172,7 +172,7 @@ public class PatternFilter extends ViewerFilter {
 				pattern += "*"; //$NON-NLS-1$
 			}
 			if (includeLeadingWildcard) {
-				pattern = "*" + pattern; //$NON-NLS-1$
+				pattern = "*" + pattern; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			matcher = new StringMatcher(pattern.trim(), true, false);
 		}
@@ -279,7 +279,7 @@ public class PatternFilter extends ViewerFilter {
 	 * @return boolean <code>true</code> if one of the words in text satisifes the
 	 *         match criteria.
 	 */
-	protected boolean wordMatches(String text) {
+	protected boolean wordMatches(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (text == null) {
 			return false;
 		}
@@ -291,7 +291,7 @@ public class PatternFilter extends ViewerFilter {
 
 		// Otherwise check if any of the words of the text matches
 		String[] words = StringMatcher.getWords(text);
-		for (String word : words) {
+		for (String word : words) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!match(word)) {
 				return false;
 			}

@@ -299,7 +299,7 @@ class LinkedModeConfigurationBlock implements IPreferenceConfigurationBlock {
 
 		createDependency(fShowInTextCheckBox, new Control[] {label, foregroundColorButton});
 
-		fAnnotationTypeViewer.addSelectionChangedListener(_ -> handleAnnotationListSelection());
+		fAnnotationTypeViewer.addSelectionChangedListener(unused -> handleAnnotationListSelection());
 
 		fShowInTextCheckBox.addSelectionListener(new SelectionListener() {
 			@Override
@@ -342,7 +342,7 @@ class LinkedModeConfigurationBlock implements IPreferenceConfigurationBlock {
 			}
 		});
 
-		fDecorationViewer.addSelectionChangedListener(_ -> {
+		fDecorationViewer.addSelectionChangedListener(unused -> {
 			String[] decoration= (String[]) fDecorationViewer.getStructuredSelection().getFirstElement();
 			ListItem item= getSelectedItem();
 

@@ -42,11 +42,11 @@ public class FileEditorMapping extends Object implements IFileEditorMapping, Clo
 
 	// Collection of EditorDescriptor, where the first one
 	// if considered the default one.
-	private List<IEditorDescriptor> editors = new ArrayList<>(1);
+	private List<IEditorDescriptor> editors = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private List<IEditorDescriptor> deletedEditors = new ArrayList<>(1);
+	private List<IEditorDescriptor> deletedEditors = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private List<IEditorDescriptor> declaredDefaultEditors = new ArrayList<>(1);
+	private List<IEditorDescriptor> declaredDefaultEditors = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Create an instance of this class.
@@ -147,7 +147,7 @@ public class FileEditorMapping extends Object implements IFileEditorMapping, Clo
 
 	@Override
 	public IEditorDescriptor[] getEditors() {
-		Collection<IEditorDescriptor> descs = WorkbenchActivityHelper.restrictCollection(editors, new ArrayList<>());
+		Collection<IEditorDescriptor> descs = WorkbenchActivityHelper.restrictCollection(editors, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return descs.toArray(new IEditorDescriptor[descs.size()]);
 	}
 
@@ -174,7 +174,7 @@ public class FileEditorMapping extends Object implements IFileEditorMapping, Clo
 
 	@Override
 	public String getLabel() {
-		return TextProcessor.process(name + (extension.isEmpty() ? "" : DOT + extension), STAR + DOT); //$NON-NLS-1$
+		return TextProcessor.process(name + (extension.isEmpty() ? "" : DOT + extension), STAR + DOT); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public class FileEditorMapping extends Object implements IFileEditorMapping, Clo
 	 */
 	public IEditorDescriptor[] getDeclaredDefaultEditors() {
 		Collection<IEditorDescriptor> descs = WorkbenchActivityHelper.restrictCollection(declaredDefaultEditors,
-				new ArrayList<>());
+				new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return descs.toArray(new IEditorDescriptor[descs.size()]);
 	}
 

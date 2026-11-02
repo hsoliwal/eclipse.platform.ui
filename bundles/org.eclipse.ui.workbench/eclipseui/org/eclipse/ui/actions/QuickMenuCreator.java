@@ -45,7 +45,7 @@ public abstract class QuickMenuCreator {
 	/**
 	 * Create and open the context menu.
 	 */
-	public void createMenu() {
+	public void createMenu() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Display display = Display.getCurrent();
 		if (display == null) {
 			return;
@@ -63,9 +63,9 @@ public abstract class QuickMenuCreator {
 			return;
 		}
 		quickMenu.setLocation(location);
-		quickMenu.addListener(SWT.Hide, event -> {
+		quickMenu.addListener(SWT.Hide, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			if (!display.isDisposed()) {
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					if (!quickMenu.isDisposed()) {
 						quickMenu.dispose();
 					}
@@ -89,7 +89,7 @@ public abstract class QuickMenuCreator {
 	 * @return the optimal placement
 	 * @since 3.5
 	 */
-	protected Point computeMenuLocation(Control focus) {
+	protected Point computeMenuLocation(Control focus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point cursorLocation = focus.getDisplay().getCursorLocation();
 		Rectangle clientArea = null;
 		Point result = null;
@@ -144,7 +144,7 @@ public abstract class QuickMenuCreator {
 	 *         if now position inside the widget can be computed
 	 * @since 3.5
 	 */
-	protected Point computeMenuLocation(Tree tree) {
+	protected Point computeMenuLocation(Tree tree) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TreeItem[] items = tree.getSelection();
 		Rectangle clientArea = tree.getClientArea();
 		switch (items.length) {
@@ -161,7 +161,7 @@ public abstract class QuickMenuCreator {
 
 		default:
 			Rectangle[] rectangles = new Rectangle[items.length];
-			for (int i = 0; i < rectangles.length; i++) {
+			for (int i = 0; i < rectangles.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rectangles[i] = items[i].getBounds();
 			}
 			Point cursorLocation = tree.getDisplay().getCursorLocation();
@@ -183,7 +183,7 @@ public abstract class QuickMenuCreator {
 	 *         if now position inside the widget can be computed
 	 * @since 3.5
 	 */
-	protected Point computeMenuLocation(Table table) {
+	protected Point computeMenuLocation(Table table) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TableItem[] items = table.getSelection();
 		Rectangle clientArea = table.getClientArea();
 		switch (items.length) {
@@ -203,7 +203,7 @@ public abstract class QuickMenuCreator {
 		}
 		default: {
 			Rectangle[] rectangles = new Rectangle[items.length];
-			for (int i = 0; i < rectangles.length; i++) {
+			for (int i = 0; i < rectangles.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rectangles[i] = items[i].getBounds(0);
 			}
 			Rectangle iBounds = items[0].getImageBounds(0);
@@ -219,8 +219,8 @@ public abstract class QuickMenuCreator {
 	}
 
 	private Point[] getIncludedPositions(Rectangle[] rectangles, Rectangle widgetBounds) {
-		List<Point> result = new ArrayList<>();
-		for (Rectangle rectangle : rectangles) {
+		List<Point> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Rectangle rectangle : rectangles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Rectangle intersect = widgetBounds.intersection(rectangle);
 			if (intersect != null && intersect.height == rectangle.height) {
 				result.add(new Point(intersect.x, intersect.y + intersect.height));
@@ -229,10 +229,10 @@ public abstract class QuickMenuCreator {
 		return result.toArray(new Point[result.size()]);
 	}
 
-	private Point findBestLocation(Point[] points, Point relativeCursor) {
+	private Point findBestLocation(Point[] points, Point relativeCursor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point result = null;
 		double bestDist = Double.MAX_VALUE;
-		for (Point point : points) {
+		for (Point point : points) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int a = 0;
 			int b = 0;
 			if (point.x > relativeCursor.x) {

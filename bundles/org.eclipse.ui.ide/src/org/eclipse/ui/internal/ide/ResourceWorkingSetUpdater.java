@@ -33,7 +33,7 @@ import org.eclipse.ui.IWorkingSetUpdater;
  *
  * @since 3.2
  */
-public class ResourceWorkingSetUpdater implements IWorkingSetUpdater,
+public class ResourceWorkingSetUpdater implements IWorkingSetUpdater, //FLLDCIM: MARK — T07  IMPLEMENTS
 		IResourceChangeListener {
 
 	/**
@@ -54,7 +54,7 @@ public class ResourceWorkingSetUpdater implements IWorkingSetUpdater,
 		 */
 		public WorkingSetDelta(IWorkingSet workingSet) {
 			fWorkingSet = workingSet;
-			fElements = new ArrayList<>(Arrays.asList(workingSet.getElements()));
+			fElements = new ArrayList<>(Arrays.asList(workingSet.getElements())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		/**
@@ -111,7 +111,7 @@ public class ResourceWorkingSetUpdater implements IWorkingSetUpdater,
 	 * Create a new instance of this updater.
 	 */
 	public ResourceWorkingSetUpdater() {
-		fWorkingSets = new ArrayList<>();
+		fWorkingSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
 				IResourceChangeEvent.POST_CHANGE);
 	}
@@ -160,14 +160,14 @@ public class ResourceWorkingSetUpdater implements IWorkingSetUpdater,
 			workingSets = fWorkingSets
 					.toArray(new IWorkingSet[fWorkingSets.size()]);
 		}
-		for (IWorkingSet workingSet : workingSets) {
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkingSetDelta workingSetDelta = new WorkingSetDelta(workingSet);
 			processResourceDelta(workingSetDelta, delta);
 			workingSetDelta.process();
 		}
 	}
 
-	private void processResourceDelta(WorkingSetDelta result,
+	private void processResourceDelta(WorkingSetDelta result, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IResourceDelta delta) {
 		IResource resource = delta.getResource();
 		int type = resource.getType();
@@ -194,7 +194,7 @@ public class ResourceWorkingSetUpdater implements IWorkingSetUpdater,
 			return;
 		}
 
-		for (IResourceDelta child : delta.getAffectedChildren()) {
+		for (IResourceDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processResourceDelta(result, child);
 		}
 	}
@@ -206,10 +206,10 @@ public class ResourceWorkingSetUpdater implements IWorkingSetUpdater,
 				&& (flags & IResourceDelta.OPEN) != 0;
 	}
 
-	private void checkElementExistence(IWorkingSet workingSet) {
-		List<IAdaptable> elements = new ArrayList<>(Arrays.asList(workingSet.getElements()));
+	private void checkElementExistence(IWorkingSet workingSet) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IAdaptable> elements = new ArrayList<>(Arrays.asList(workingSet.getElements())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean changed = false;
-		for (Iterator<IAdaptable> iter = elements.iterator(); iter.hasNext();) {
+		for (Iterator<IAdaptable> iter = elements.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IAdaptable element = iter.next();
 			boolean remove = false;
 			if (element instanceof IProject project) {

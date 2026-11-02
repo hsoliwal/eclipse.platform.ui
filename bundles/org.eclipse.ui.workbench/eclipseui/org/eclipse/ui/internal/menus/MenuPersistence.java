@@ -48,11 +48,11 @@ final public class MenuPersistence extends RegistryPersistence {
 
 	private final MApplication application;
 	private final IEclipseContext appContext;
-	private final ArrayList<MenuAdditionCacheEntry> cacheEntries = new ArrayList<>();
+	private final ArrayList<MenuAdditionCacheEntry> cacheEntries = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final ArrayList<MMenuContribution> menuContributions = new ArrayList<>();
-	private final ArrayList<MToolBarContribution> toolBarContributions = new ArrayList<>();
-	private final ArrayList<MTrimContribution> trimContributions = new ArrayList<>();
+	private final ArrayList<MMenuContribution> menuContributions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final ArrayList<MToolBarContribution> toolBarContributions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final ArrayList<MTrimContribution> trimContributions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final Comparator<IConfigurationElement> comparer = (c1, c2) -> c1.getContributor().getName()
 			.compareToIgnoreCase(c2.getContributor().getName());
@@ -88,33 +88,33 @@ final public class MenuPersistence extends RegistryPersistence {
 		read();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void read() {
 		super.read();
 
 		readAdditions();
 
-		ArrayList<MMenuContribution> tmp = new ArrayList<>(menuContributions);
+		ArrayList<MMenuContribution> tmp = new ArrayList<>(menuContributions); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		menuContributions.clear();
 		ContributionsAnalyzer.mergeContributions(tmp, menuContributions);
 		application.getMenuContributions().addAll(menuContributions);
 
-		ArrayList<MToolBarContribution> tmpToolbar = new ArrayList<>(toolBarContributions);
+		ArrayList<MToolBarContribution> tmpToolbar = new ArrayList<>(toolBarContributions); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		toolBarContributions.clear();
 		ContributionsAnalyzer.mergeToolBarContributions(tmpToolbar, toolBarContributions);
 		application.getToolBarContributions().addAll(toolBarContributions);
 
-		ArrayList<MTrimContribution> tmpTrim = new ArrayList<>(trimContributions);
+		ArrayList<MTrimContribution> tmpTrim = new ArrayList<>(trimContributions); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		trimContributions.clear();
 		ContributionsAnalyzer.mergeTrimContributions(tmpTrim, trimContributions);
 		application.getTrimContributions().addAll(trimContributions);
 	}
 
-	private void readAdditions() {
+	private void readAdditions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
-		ArrayList<IConfigurationElement> configElements = new ArrayList<>();
+		ArrayList<IConfigurationElement> configElements = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// Create a cache entry for every menu addition;
-		for (IConfigurationElement configElement : registry.getConfigurationElementsFor(EXTENSION_MENUS)) {
+		for (IConfigurationElement configElement : registry.getConfigurationElementsFor(EXTENSION_MENUS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (PL_MENU_CONTRIBUTION.equals(configElement.getName())) {
 				if (contributorFilter == null
 						|| contributorFilter.matcher(configElement.getContributor().getName()).matches()) {
@@ -124,7 +124,7 @@ final public class MenuPersistence extends RegistryPersistence {
 		}
 		configElements.sort(comparer);
 		Iterator<IConfigurationElement> i = configElements.iterator();
-		while (i.hasNext()) {
+		while (i.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement configElement = i.next();
 
 			if (isProgramaticContribution(configElement)) {

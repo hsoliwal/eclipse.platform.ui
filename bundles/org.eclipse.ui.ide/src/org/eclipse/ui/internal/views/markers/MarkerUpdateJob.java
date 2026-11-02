@@ -53,7 +53,7 @@ class MarkerUpdateJob extends Job {
 	/**
 	 * gather all markers needed by the view.
 	 */
-	void buildMarkers(IProgressMonitor monitor) {
+	void buildMarkers(IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//check for cancellation before we start
 		if (monitor.isCanceled()) {
 			return;

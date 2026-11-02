@@ -56,11 +56,11 @@ public final class ContextPersistence extends RegistryPersistence {
 	 *                                  should be added; must not be
 	 *                                  <code>null</code>.
 	 */
-	private static void readContextsFromRegistry(final IConfigurationElement[] configurationElements,
+	private static void readContextsFromRegistry(final IConfigurationElement[] configurationElements, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final int configurationElementCount, final ContextManager contextManager) {
-		final List<IStatus> warningsToLog = new ArrayList<>(1);
+		final List<IStatus> warningsToLog = new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i = 0; i < configurationElementCount; i++) {
+		for (int i = 0; i < configurationElementCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IConfigurationElement configurationElement = configurationElements[i];
 
 			// Read out the command identifier.
@@ -144,7 +144,7 @@ public final class ContextPersistence extends RegistryPersistence {
 		reRead();
 	}
 
-	public void reRead() {
+	public void reRead() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// Create the extension registry mementos.
 		final IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -156,7 +156,7 @@ public final class ContextPersistence extends RegistryPersistence {
 		 */
 		final IConfigurationElement[] acceleratorScopesExtensionPoint = registry
 				.getConfigurationElementsFor(EXTENSION_ACCELERATOR_SCOPES);
-		for (final IConfigurationElement configurationElement : acceleratorScopesExtensionPoint) {
+		for (final IConfigurationElement configurationElement : acceleratorScopesExtensionPoint) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configurationElement.getName();
 
 			// Check if it is a binding definition.
@@ -171,7 +171,7 @@ public final class ContextPersistence extends RegistryPersistence {
 		 * point.
 		 */
 		final IConfigurationElement[] commandsExtensionPoint = registry.getConfigurationElementsFor(EXTENSION_COMMANDS);
-		for (final IConfigurationElement configurationElement : commandsExtensionPoint) {
+		for (final IConfigurationElement configurationElement : commandsExtensionPoint) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configurationElement.getName();
 
 			// Check if it is a binding definition.
@@ -189,7 +189,7 @@ public final class ContextPersistence extends RegistryPersistence {
 		 * Retrieve the contexts from the contexts extension point.
 		 */
 		final IConfigurationElement[] contextsExtensionPoint = registry.getConfigurationElementsFor(EXTENSION_CONTEXTS);
-		for (final IConfigurationElement configurationElement : contextsExtensionPoint) {
+		for (final IConfigurationElement configurationElement : contextsExtensionPoint) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String name = configurationElement.getName();
 
 			// Check if it is a binding definition.

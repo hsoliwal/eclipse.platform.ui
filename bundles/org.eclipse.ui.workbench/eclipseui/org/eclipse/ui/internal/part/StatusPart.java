@@ -50,7 +50,7 @@ public class StatusPart {
 	private Control details = null;
 	private final IStatus reason;
 
-	public StatusPart(final Composite parent, IStatus reason_) {
+	public StatusPart(final Composite parent, IStatus reason_) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Color bgColor = parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 		Color fgColor = parent.getDisplay().getSystemColor(SWT.COLOR_LIST_FOREGROUND);
 
@@ -99,7 +99,7 @@ public class StatusPart {
 		buttonParent.setLayout(buttonsLayout);
 
 		detailsButton = new Button(buttonParent, SWT.PUSH);
-		detailsButton.addSelectionListener(widgetSelectedAdapter(e -> showDetails(!showingDetails)));
+		detailsButton.addSelectionListener(widgetSelectedAdapter(e -> showDetails(!showingDetails))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		detailsButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.FILL, false, false));
 		detailsButton.setVisible(reason.getException() != null);
@@ -145,7 +145,7 @@ public class StatusPart {
 		updateDetailsText();
 	}
 
-	private void updateDetailsText() {
+	private void updateDetailsText() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (details != null) {
 			details.dispose();
 			details = null;
@@ -181,13 +181,13 @@ public class StatusPart {
 		return swriter.toString();
 	}
 
-	private void createShowLogButton(Composite parent) {
+	private void createShowLogButton(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IViewDescriptor descriptor = PlatformUI.getWorkbench().getViewRegistry().find(LOG_VIEW_ID);
 		if (descriptor == null) {
 			return;
 		}
 		Button button = new Button(parent, SWT.PUSH);
-		button.addSelectionListener(widgetSelectedAdapter(e -> {
+		button.addSelectionListener(widgetSelectedAdapter(e -> { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			try {
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LOG_VIEW_ID);
 			} catch (CoreException ce) {
@@ -197,6 +197,6 @@ public class StatusPart {
 		final Image image = descriptor.getImageDescriptor().createImage();
 		button.setImage(image);
 		button.setToolTipText(WorkbenchMessages.ErrorLogUtil_ShowErrorLogTooltip);
-		button.addDisposeListener(e -> image.dispose());
+		button.addDisposeListener(e -> image.dispose()); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 }

@@ -60,7 +60,7 @@ public final class RadioState extends PersistentState implements IExecutableExte
 		setShouldPersist(true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) {
 
 		boolean shouldPersist = true; // persist by default

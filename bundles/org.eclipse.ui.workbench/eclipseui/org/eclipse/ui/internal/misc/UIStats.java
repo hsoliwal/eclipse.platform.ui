@@ -27,7 +27,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class UIStats {
 
-	private static HashMap operations = new HashMap();
+	private static HashMap operations = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public static final int CREATE_PART = 0;
 
@@ -71,24 +71,24 @@ public class UIStats {
 	private static String[] events = new String[LAST_VALUE + 1];
 
 	static {
-		events[CREATE_PART] = PlatformUI.PLUGIN_ID + "/perf/part.create"; //$NON-NLS-1$
-		events[CREATE_PART_INPUT] = PlatformUI.PLUGIN_ID + "/perf/part.input"; //$NON-NLS-1$
-		events[CREATE_PART_CONTROL] = PlatformUI.PLUGIN_ID + "/perf/part.control"; //$NON-NLS-1$
-		events[INIT_PART] = PlatformUI.PLUGIN_ID + "/perf/part.init"; //$NON-NLS-1$
-		events[CREATE_PERSPECTIVE] = PlatformUI.PLUGIN_ID + "/perf/perspective.create"; //$NON-NLS-1$
-		events[SWITCH_PERSPECTIVE] = PlatformUI.PLUGIN_ID + "/perf/perspective.switch"; //$NON-NLS-1$
-		events[RESTORE_WORKBENCH] = PlatformUI.PLUGIN_ID + "/perf/workbench.restore"; //$NON-NLS-1$
-		events[START_WORKBENCH] = PlatformUI.PLUGIN_ID + "/perf/workbench.start"; //$NON-NLS-1$
-		events[ACTIVATE_PART] = PlatformUI.PLUGIN_ID + "/perf/part.activate"; //$NON-NLS-1$
-		events[BRING_PART_TO_TOP] = PlatformUI.PLUGIN_ID + "/perf/part.activate"; //$NON-NLS-1$
-		events[NOTIFY_PART_LISTENERS] = PlatformUI.PLUGIN_ID + "/perf/part.listeners"; //$NON-NLS-1$
-		events[NOTIFY_PAGE_LISTENERS] = PlatformUI.PLUGIN_ID + "/perf/page.listeners"; //$NON-NLS-1$
-		events[NOTIFY_PERSPECTIVE_LISTENERS] = PlatformUI.PLUGIN_ID + "/perf/perspective.listeners"; //$NON-NLS-1$
-		events[UI_JOB] = PlatformUI.PLUGIN_ID + "/perf/uijob"; //$NON-NLS-1$
-		events[CONTENT_TYPE_LOOKUP] = PlatformUI.PLUGIN_ID + "/perf/contentTypes"; //$NON-NLS-1$
-		events[EARLY_STARTUP] = PlatformUI.PLUGIN_ID + "/perf/earlyStartup"; //$NON-NLS-1$
+		events[CREATE_PART] = PlatformUI.PLUGIN_ID + "/perf/part.create"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[CREATE_PART_INPUT] = PlatformUI.PLUGIN_ID + "/perf/part.input"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[CREATE_PART_CONTROL] = PlatformUI.PLUGIN_ID + "/perf/part.control"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[INIT_PART] = PlatformUI.PLUGIN_ID + "/perf/part.init"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[CREATE_PERSPECTIVE] = PlatformUI.PLUGIN_ID + "/perf/perspective.create"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[SWITCH_PERSPECTIVE] = PlatformUI.PLUGIN_ID + "/perf/perspective.switch"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[RESTORE_WORKBENCH] = PlatformUI.PLUGIN_ID + "/perf/workbench.restore"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[START_WORKBENCH] = PlatformUI.PLUGIN_ID + "/perf/workbench.start"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[ACTIVATE_PART] = PlatformUI.PLUGIN_ID + "/perf/part.activate"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[BRING_PART_TO_TOP] = PlatformUI.PLUGIN_ID + "/perf/part.activate"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[NOTIFY_PART_LISTENERS] = PlatformUI.PLUGIN_ID + "/perf/part.listeners"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[NOTIFY_PAGE_LISTENERS] = PlatformUI.PLUGIN_ID + "/perf/page.listeners"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[NOTIFY_PERSPECTIVE_LISTENERS] = PlatformUI.PLUGIN_ID + "/perf/perspective.listeners"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[UI_JOB] = PlatformUI.PLUGIN_ID + "/perf/uijob"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[CONTENT_TYPE_LOOKUP] = PlatformUI.PLUGIN_ID + "/perf/contentTypes"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		events[EARLY_STARTUP] = PlatformUI.PLUGIN_ID + "/perf/earlyStartup"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		for (int i = 0; i <= LAST_VALUE; i++) {
+		for (int i = 0; i <= LAST_VALUE; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// don't log any performance events if the general performance stats is disabled
 			if (events[i] != null && PerformanceStats.ENABLED) {
 				debug[i] = PerformanceStats.isEnabled(events[i]);
@@ -115,7 +115,7 @@ public class UIStats {
 	 */
 	public static void start(int event, String label) {
 		if (debug[event]) {
-			operations.put(event + label, Long.valueOf(System.currentTimeMillis()));
+			operations.put(event + label, Long.valueOf(System.currentTimeMillis())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -129,7 +129,7 @@ public class UIStats {
 	 */
 	public static void end(int event, Object blame, String label) {
 		if (debug[event]) {
-			Long startTime = (Long) operations.remove(event + label);
+			Long startTime = (Long) operations.remove(event + label); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (startTime == null) {
 				return;
 			}
@@ -144,10 +144,10 @@ public class UIStats {
 	 * Special hook to signal that application startup is complete and the event
 	 * loop has started running.
 	 */
-	public static void startupComplete() {
+	public static void startupComplete() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// We use a runtime debug option here for backwards compatibility (bug 96672)
 		// Note that this value is only relevant if the workspace chooser is not used.
-		String option = Platform.getDebugOption(Platform.PI_RUNTIME + "/debug"); //$NON-NLS-1$
+		String option = Platform.getDebugOption(Platform.PI_RUNTIME + "/debug"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (option == null || !"true".equalsIgnoreCase(option)) { //$NON-NLS-1$
 			return;
 		}
@@ -158,7 +158,7 @@ public class UIStats {
 		try {
 			long start = Long.parseLong(startString);
 			long end = System.currentTimeMillis();
-			System.out.println("Startup complete: " + (end - start) + "ms"); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println("Startup complete: " + (end - start) + "ms"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (NumberFormatException e) {
 			// this is just debugging code -- ok to swallow exception
 		}

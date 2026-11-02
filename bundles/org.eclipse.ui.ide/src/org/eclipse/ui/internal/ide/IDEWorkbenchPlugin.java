@@ -126,7 +126,7 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 	 * @return Object the extension object
 	 * @throws CoreException if extension creation failed
 	 */
-	public static Object createExtension(final IConfigurationElement element,
+	public static Object createExtension(final IConfigurationElement element, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final String classAttribute) throws CoreException {
 		// If plugin has been loaded create extension.
 		// Otherwise, show busy cursor then create extension.
@@ -295,13 +295,13 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 	 */
 	public AboutInfo[] getFeatureInfos() {
 		// cannot be cached since bundle groups come and go
-		List<AboutInfo> infos = new ArrayList<>();
+		List<AboutInfo> infos = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// add an entry for each bundle group
 		IBundleGroupProvider[] providers = Platform.getBundleGroupProviders();
 		if (providers != null) {
-			for (IBundleGroupProvider provider : providers) {
-				for (IBundleGroup bundleGroup : provider.getBundleGroups()) {
+			for (IBundleGroupProvider provider : providers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IBundleGroup bundleGroup : provider.getBundleGroups()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					infos.add(new AboutInfo(bundleGroup));
 				}
 			}
@@ -317,7 +317,7 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 	 * @return ImageDescriptor or <code>null</code>
 	 */
 	public static ImageDescriptor getIDEImageDescriptor(String relativePath){
-		return ResourceLocator.imageDescriptorFromBundle(IDE_WORKBENCH, ICONS_PATH + relativePath).orElse(null);
+		return ResourceLocator.imageDescriptorFromBundle(IDE_WORKBENCH, ICONS_PATH + relativePath).orElse(null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -351,9 +351,9 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 	 * Create (but don't activate) the Problems views so that the view's tooltip and icon are
 	 * up-to-date.
 	 */
-	private void createProblemsViews() {
+	private void createProblemsViews() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Runnable r= new Runnable() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				IWorkbench workbench = PlatformUI.isWorkbenchRunning() ? PlatformUI.getWorkbench() : null;
 				if (workbench != null && (workbench.getDisplay().isDisposed() || workbench.isClosing())) {
@@ -361,7 +361,7 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 				}
 
 				if (workbench == null || workbench.isStarting()) {
-					Display.getCurrent().timerExec(PROBLEMS_VIEW_CREATION_DELAY, this);
+					Display.getCurrent().timerExec(PROBLEMS_VIEW_CREATION_DELAY, this); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					return;
 				}
 				// We can't access preferences store before scheduling the job
@@ -373,12 +373,12 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 						.getBoolean(IDEInternalPreferences.SHOW_PROBLEMS_VIEW_DECORATIONS_ON_STARTUP)) {
 					return;
 				}
-				for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
+				for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IWorkbenchPage activePage= window.getActivePage();
 					if (activePage == null) {
 						continue;
 					}
-					for (IViewReference viewReference : activePage.getViewReferences()) {
+					for (IViewReference viewReference : activePage.getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (IPageLayout.ID_PROBLEM_VIEW.equals(viewReference.getId())) {
 							try {
 								activePage.showView(viewReference.getId(), viewReference.getSecondaryId(), IWorkbenchPage.VIEW_CREATE);
@@ -392,7 +392,7 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 		};
 		Display display = Display.getCurrent();
 		if (display != null) {
-			display.timerExec(PROBLEMS_VIEW_CREATION_DELAY, r);
+			display.timerExec(PROBLEMS_VIEW_CREATION_DELAY, r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		} else {
 			Job job = new Job("Initializing Problems view") { //$NON-NLS-1$
 				@Override
@@ -407,7 +407,7 @@ public class IDEWorkbenchPlugin extends AbstractUIPlugin {
 					if (workbench.isClosing()) {
 						return Status.CANCEL_STATUS;
 					}
-					PlatformUI.getWorkbench().getDisplay().asyncExec(r);
+					PlatformUI.getWorkbench().getDisplay().asyncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					return Status.OK_STATUS;
 				}
 			};

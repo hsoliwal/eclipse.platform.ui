@@ -89,7 +89,7 @@ public abstract class ActionFactory {
 	public static final ActionFactory ABOUT = new ActionFactory("about", //$NON-NLS-1$
 			IWorkbenchCommandConstants.HELP_ABOUT) {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			if (window == null) {
 				throw new IllegalArgumentException();
@@ -316,7 +316,7 @@ public abstract class ActionFactory {
 	public static final ActionFactory INTRO = new ActionFactory("intro", //$NON-NLS-1$
 			IWorkbenchCommandConstants.HELP_WELCOME) {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IWorkbenchAction create(IWorkbenchWindow window) {
 			if (window == null) {
 				throw new IllegalArgumentException();

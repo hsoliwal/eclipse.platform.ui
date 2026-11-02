@@ -109,13 +109,13 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected IContributionItem getContributionItem(IViewDescriptor viewDescriptor) {
 			final String targetId= viewDescriptor.getId();
-			String label = '&' + viewDescriptor.getLabel();
+			String label = '&' + viewDescriptor.getLabel(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			ImageDescriptor icon = viewDescriptor.getImageDescriptor();
 			Action action = new Action(label, icon) {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void run() {
 					computeResult();
 					setResult(Collections.EMPTY_LIST);
@@ -169,7 +169,7 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 		setTitle(IDEWorkbenchMessages.OpenResourceDialog_title);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void fillContextMenu(IMenuManager menuManager) {
 		super.fillContextMenu(menuManager);
 
@@ -186,7 +186,7 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 		menuManager.add(new Separator());
 
 		// Add 'Open' menu item
-		OpenFileAction openFileAction = new OpenFileAction(activePage) {
+		OpenFileAction openFileAction = new OpenFileAction(activePage) { //FLLDCIM: MARK — T04  ANONYMOUS
 			@Override
 			public void run() {
 				okPressed();
@@ -215,7 +215,7 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 		menuManager.add(showInMenuManager);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createButtonsForButtonBar(final Composite parent) {
 		GridLayout parentLayout = (GridLayout)parent.getLayout();
 		parentLayout.makeColumnsEqualWidth = false;
@@ -259,15 +259,15 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 
 	private Button createDropdownButton(final Composite parent, int id, String label, MouseListener mouseListener) {
 		char textEmbedding = parent.getOrientation() == SWT.LEFT_TO_RIGHT ? '\u202a' : '\u202b';
-		Button button = createButton(parent, id, textEmbedding + label + '\u202c', false);
+		Button button = createButton(parent, id, textEmbedding + label + '\u202c', false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (Util.isMac()) {
 			// Button#setOrientation(int) is a no-op on the Mac. Use a Unicode BLACK DOWN-POINTING SMALL TRIANGLE.
-			button.setText(button.getText() + " \u25BE"); //$NON-NLS-1$
+			button.setText(button.getText() + " \u25BE"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			int dropDownOrientation = parent.getOrientation() == SWT.LEFT_TO_RIGHT ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT;
 			button.setOrientation(dropDownOrientation);
 			button.setImage(WorkbenchImages.getImage(IWorkbenchGraphicConstants.IMG_LCL_BUTTON_MENU));
-			button.addMouseListener(mouseListener);
+			button.addMouseListener(mouseListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		}
 		return button;
 	}
@@ -286,7 +286,7 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updateButtonsEnableState(IStatus status) {
 		Button okButton = getOkButton();
 		if (isButtonReady(okButton) && isButtonReady(showInButton) && isButtonReady(openWithButton)) {
@@ -322,14 +322,14 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 	}
 
 	/** Shows the selection in the first available Show In target. */
-	private boolean showSelectionInFirstShowInTarget(IStructuredSelection selection) {
+	private boolean showSelectionInFirstShowInTarget(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPage activePage = getActivePage();
 		if (!(activePage instanceof WorkbenchPage)) {
 			return false;
 		}
 		WorkbenchPage workbenchPage = (WorkbenchPage) activePage;
 
-		ArrayList<String> ids = new ArrayList<>(workbenchPage.getShowInPartIds());
+		ArrayList<String> ids = new ArrayList<>(workbenchPage.getShowInPartIds()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (ids.isEmpty()) {
 			return false;
 		}
@@ -337,7 +337,7 @@ public class OpenResourceDialog extends FilteredResourcesSelectionDialog {
 
 		IViewRegistry registry = PlatformUI.getWorkbench().getViewRegistry();
 		IViewDescriptor descriptor = null;
-		for (String id : ids) {
+		for (String id : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IViewDescriptor candidate = registry.find(id);
 			if (candidate != null) {
 				descriptor = candidate;

@@ -43,7 +43,7 @@ class SafeRunnableDialog extends ErrorDialog {
 
 	private TableViewer statusListViewer;
 
-	private final Collection<IStatus> statuses = new ArrayList<>();
+	private final Collection<IStatus> statuses = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Create a new instance of the receiver on a status.
@@ -51,7 +51,7 @@ class SafeRunnableDialog extends ErrorDialog {
 	 * @param status
 	 *            The status to display.
 	 */
-	SafeRunnableDialog(IStatus status) {
+	SafeRunnableDialog(IStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		super(null, JFaceResources.getString("error"), status.getMessage(), //$NON-NLS-1$
 				status, IStatus.ERROR);
@@ -151,7 +151,7 @@ class SafeRunnableDialog extends ErrorDialog {
 	 * @param parent -
 	 *            the parent of the area
 	 */
-	private void createStatusListArea(Composite parent) {
+	private void createStatusListArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Display a list of jobs that have reported errors
 		statusListViewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.BORDER);
@@ -163,11 +163,11 @@ class SafeRunnableDialog extends ErrorDialog {
 		data.horizontalSpan = 2;
 		control.setLayoutData(data);
 		statusListViewer.setContentProvider(ArrayContentProvider.getInstance());
-		statusListViewer.setLabelProvider(getStatusListLabelProvider());
-		statusListViewer
-				.addSelectionChangedListener(event -> handleSelectionChange());
+		statusListViewer.setLabelProvider(getStatusListLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		statusListViewer //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+				.addSelectionChangedListener(event -> handleSelectionChange()); //FLLDCIM: MARK — T04  LAMBDA
 		applyDialogFont(parent);
-		statusListViewer.setInput(statuses);
+		statusListViewer.setInput(statuses); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -221,7 +221,7 @@ class SafeRunnableDialog extends ErrorDialog {
 	void refreshStatusList() {
 		if (statusListViewer != null
 				&& !statusListViewer.getControl().isDisposed()) {
-			statusListViewer.refresh();
+			statusListViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			Point newSize = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT);
 			getShell().setSize(newSize);
 		}

@@ -89,7 +89,7 @@ public final class TreeColumnFactory extends AbstractItemFactory<TreeColumnFacto
 	 * @see SelectionListener#widgetSelectedAdapter(Consumer)
 	 */
 	public TreeColumnFactory onSelect(Consumer<SelectionEvent> consumer) {
-		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer)));
+		addProperty(c -> c.addSelectionListener(SelectionListener.widgetSelectedAdapter(consumer))); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return this;
 	}
 

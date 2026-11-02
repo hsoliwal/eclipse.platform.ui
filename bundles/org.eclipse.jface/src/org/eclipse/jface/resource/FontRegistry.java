@@ -175,7 +175,7 @@ public class FontRegistry extends ResourceRegistry {
 		 */
 		private FontData[] getModifiedFontData(int style) {
 			FontData[] styleData = new FontData[baseData.length];
-			for (int i = 0; i < styleData.length; i++) {
+			for (int i = 0; i < styleData.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				FontData base = baseData[i];
 				styleData[i] = new FontData(base.getName(), base.getHeight(),
 						base.getStyle() | style);
@@ -209,7 +209,7 @@ public class FontRegistry extends ResourceRegistry {
 		 * @return the allocated fonts, never <code>null</code>
 		 */
 		List<Font> getAllocatedFonts() {
-			List<Font> allocatedFonts = new ArrayList<>(3);
+			List<Font> allocatedFonts = new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (baseFont != null) {
 				allocatedFonts.add(baseFont);
 			}
@@ -277,7 +277,7 @@ public class FontRegistry extends ResourceRegistry {
 			// drained rather than iterated and cleared, so that a font enqueued by a
 			// concurrent put() is either disposed here or still queued afterwards,
 			// but never dropped undisposed
-			for (Font staleFont = staleFonts.poll(); staleFont != null; staleFont = staleFonts.poll()) {
+			for (Font staleFont = staleFonts.poll(); staleFont != null; staleFont = staleFonts.poll()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				staleFont.dispose();
 			}
 		}
@@ -410,7 +410,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * @param location - String - the location of the file.
 	 */
 
-	private void readResourceBundle(String location) {
+	private void readResourceBundle(String location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String osname = System.getProperty("os.name").trim(); //$NON-NLS-1$
 		String wsname = Util.getWS();
 		osname = StringConverter.removeWhiteSpaces(osname).toLowerCase();
@@ -419,9 +419,9 @@ public class FontRegistry extends ResourceRegistry {
 		String WSLocation = location;
 		ResourceBundle bundle = null;
 		if (osname != null) {
-			OSLocation = location + "_" + osname; //$NON-NLS-1$
+			OSLocation = location + "_" + osname; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (wsname != null) {
-				WSLocation = OSLocation + "_" + wsname; //$NON-NLS-1$
+				WSLocation = OSLocation + "_" + wsname; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -487,9 +487,9 @@ public class FontRegistry extends ResourceRegistry {
 	 * @deprecated use bestDataArray in order to support Motif multiple entry
 	 *             fonts.
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public FontData bestData(FontData[] fonts, Display display) {
-		for (FontData fd : fonts) {
+		for (FontData fd : fonts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fd == null) {
 				break;
 			}
@@ -549,9 +549,9 @@ public class FontRegistry extends ResourceRegistry {
 	 * @return the list of fonts that have been found on this system
 	 * @since 3.1
 	 */
-	public FontData [] filterData(FontData [] fonts, Display display) {
-		ArrayList<FontData> good = new ArrayList<>(fonts.length);
-		for (FontData fd : fonts) {
+	public FontData [] filterData(FontData [] fonts, Display display) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<FontData> good = new ArrayList<>(fonts.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (FontData fd : fonts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fd == null) {
 				continue;
 			}
@@ -586,7 +586,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * if there is no data.
 	 * @return FontRecord for the new Font or <code>null</code>.
 	 */
-	private FontRecord createFont(String symbolicName, FontData[] fonts) {
+	private FontRecord createFont(String symbolicName, FontData[] fonts) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display = getDisplayAndHookForDisposal();
 		if (display == null) {
 			return null;
@@ -678,7 +678,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * @param style the requested style
 	 * @return the font record, never <code>null</code>
 	 */
-	private FontRecord defaultFontRecord(FontStyle style) {
+	private FontRecord defaultFontRecord(FontStyle style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FontRecord record = getExistingFontRecord(JFaceResources.DEFAULT_FONT, style);
 		if (record == null && Display.getCurrent() == null) {
 			// no display to scope the lookup to and none to create a font on: use the
@@ -734,7 +734,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * is created.
 	 * </p>
 	 */
-	private FontRecord getExistingFontRecord(String symbolicName, FontStyle style) {
+	private FontRecord getExistingFontRecord(String symbolicName, FontStyle style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FontRecord recordOnCurrentDisplay = null;
 		Display currentDisplay = Display.getCurrent();
 		if (currentDisplay != null) {
@@ -849,7 +849,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * @param style the requested style
 	 * @return the font
 	 */
-	private Font getFont(String symbolicName, FontStyle style) {
+	private Font getFont(String symbolicName, FontStyle style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(symbolicName);
 		FontRecord existingRecord = getExistingFontRecord(symbolicName, style);
 		if (existingRecord != null) {
@@ -873,7 +873,7 @@ public class FontRegistry extends ResourceRegistry {
 		// actually available to return, and not on a path that ends up failing anyway.
 		Font fallbackFont = defaultFont(style);
 		if (Display.getCurrent() == null) { // log error but don't throw an exception to preserve existing functionality
-			String msg = "Unable to create font \"" + symbolicName + "\" in a non-UI thread. Using default font instead."; //$NON-NLS-1$ //$NON-NLS-2$
+			String msg = "Unable to create font \"" + symbolicName + "\" in a non-UI thread. Using default font instead."; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Policy.logException(new SWTException(msg));
 		}
 		return fallbackFont;
@@ -894,7 +894,7 @@ public class FontRegistry extends ResourceRegistry {
 		// disposes every display's fonts, not only the current display's: the
 		// contract is to dispose all allocated resources, and this also runs on
 		// disposal of the main display, which outlives all other displays
-		for (Display display : displayToFontRecords.keySet()) {
+		for (Display display : displayToFontRecords.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			unhookDisplayAndDisposeFonts(display);
 		}
 	}
@@ -937,7 +937,7 @@ public class FontRegistry extends ResourceRegistry {
 		// set if a fontdata isn't used.
 		int height = fd.getHeight();
 		String name = fd.getName();
-		for (FontData fixed : fixedFonts) {
+		for (FontData fixed : fixedFonts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fixed.getHeight() == height && fixed.getName().equals(name)) {
 				return true;
 			}
@@ -953,7 +953,7 @@ public class FontRegistry extends ResourceRegistry {
 			return StringConverter.asFontData(value.trim());
 		} catch (DataFormatException e) {
 			throw new MissingResourceException(
-					"Wrong font data format. Value is: \"" + value + "\"", getClass().getName(), value); //$NON-NLS-2$//$NON-NLS-1$
+					"Wrong font data format. Value is: \"" + value + "\"", getClass().getName(), value); //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -988,7 +988,7 @@ public class FontRegistry extends ResourceRegistry {
 	 * 	if this method is called from the get method as no setting
 	 *  has changed.
 	 */
-	private void put(String symbolicName, FontData[] fontData, boolean update) {
+	private void put(String symbolicName, FontData[] fontData, boolean update) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(symbolicName);
 		Assert.isNotNull(fontData);
@@ -1005,7 +1005,7 @@ public class FontRegistry extends ResourceRegistry {
 		// each display disposes its own replaced fonts when it is itself
 		// disposed, instead of every display's replaced fonts only being
 		// disposed together with one particular display
-		for (DisplayFontRecords records : displayToFontRecords.values()) {
+		for (DisplayFontRecords records : displayToFontRecords.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			records.invalidate(symbolicName);
 		}
 		if (update) {
@@ -1018,10 +1018,10 @@ public class FontRegistry extends ResourceRegistry {
 	 * in the mapping table.  These will lazily be turned into
 	 * real Font objects when requested.
 	 */
-	private void readResourceBundle(ResourceBundle bundle, String bundleName)
+	private void readResourceBundle(ResourceBundle bundle, String bundleName) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws MissingResourceException {
 		Enumeration<String> keys = bundle.getKeys();
-		while (keys.hasMoreElements()) {
+		while (keys.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key = keys.nextElement();
 			int pos = key.lastIndexOf('.');
 			if (pos == -1) {

@@ -34,7 +34,7 @@ class StatusHandlerDescriptorsMap {
 	 * Creates a new instance of the class
 	 */
 	public StatusHandlerDescriptorsMap() {
-		map = new HashMap();
+		map = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	/**
@@ -49,10 +49,10 @@ class StatusHandlerDescriptorsMap {
 	/*
 	 * Recursively searches the tree for the best place for the handler descriptor
 	 */
-	private void add(Map map, String prefix, StatusHandlerDescriptor handlerDescriptor) {
+	private void add(Map map, String prefix, StatusHandlerDescriptor handlerDescriptor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (prefix == null) {
 			if (map.get(ASTERISK) == null) {
-				map.put(ASTERISK, new ArrayList());
+				map.put(ASTERISK, new ArrayList()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 
 			((List) map.get(ASTERISK)).add(handlerDescriptor);
@@ -73,7 +73,7 @@ class StatusHandlerDescriptorsMap {
 			}
 
 			if (map.get(pre) == null) {
-				map.put(pre, new HashMap());
+				map.put(pre, new HashMap()); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			}
 
 			add((Map) map.get(pre), post, handlerDescriptor);
@@ -98,7 +98,7 @@ class StatusHandlerDescriptorsMap {
 	 * Recursively searches the prefix tree for the most specific handler descriptor
 	 * for the given pluginId.
 	 */
-	private List get(String pluginId, Map map) {
+	private List get(String pluginId, Map map) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pluginId == null) {
 			return getAsteriskList(map);
 		}

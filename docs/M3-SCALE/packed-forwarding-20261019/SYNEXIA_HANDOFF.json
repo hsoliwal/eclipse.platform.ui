@@ -1,0 +1,21 @@
++{
+  "repository": "hsoliwal/com.synexia",
+  "commit": "4d77249860c09876ac5b073dcf12cf5350af7e21",
+  "pullRequest": "https://github.com/hsoliwal/com.synexia/pull/12445",
+  "crate": "synexia-openrewrite-recipes/recipe-crates/m3-jface-packed-forwarding-20261019",
+  "targetRepository": "hsoliwal/eclipse.platform.ui",
+  "targetBase": "ab142a3cb11a88192a4f9c86950436ee1ddb56a4",
+  "execution": "MAVEN_OPENREWRITE_SDK_EXECUTION",
+  "productJavaFiles": 3,
+  "recipeTests": 5,
+  "custodyTestsCanonicalOnly": 5,
+  "javaAssertionsEach": 1520395,
+  "nativeChecksEach": 538,
+  "nativeCallbacksEach": 372235,
+  "remaining": [
+    "Full Tycho/PDE/API gates",
+    "Current SVG-capability OSGi manifest",
+    "Other native platforms",
+    "Remaining Eclipse framework and M3JDK21 integration"
+  ]
+}

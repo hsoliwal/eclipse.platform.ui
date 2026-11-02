@@ -47,7 +47,7 @@ public final class WorkbenchConfigurer implements IWorkbenchConfigurer {
 	 *
 	 * @see #setData
 	 */
-	private final Map extraData = new HashMap();
+	private final Map extraData = new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Indicates whether workbench state should be saved on close and restored on

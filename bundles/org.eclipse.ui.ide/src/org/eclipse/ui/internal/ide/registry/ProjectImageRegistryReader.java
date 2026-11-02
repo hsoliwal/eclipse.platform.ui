@@ -36,7 +36,7 @@ public class ProjectImageRegistryReader extends IDERegistryReader {
 	/**
 	 * Reads the contents of the given element
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean readElement(IConfigurationElement element) {
 		if (!element.getName().equals(TAG_IMAGE)) {
 			return false;

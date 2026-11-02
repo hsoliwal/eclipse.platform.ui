@@ -32,9 +32,9 @@ public class DecorationBuilder implements IDecoration {
 
 	private static int DECORATOR_ARRAY_SIZE = 6;
 
-	private final List<String> prefixes = new ArrayList<>();
+	private final List<String> prefixes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	private final List<String> suffixes = new ArrayList<>();
+	private final List<String> suffixes = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private ImageDescriptor[] descriptors = new ImageDescriptor[DECORATOR_ARRAY_SIZE];
 
@@ -98,7 +98,7 @@ public class DecorationBuilder implements IDecoration {
 			valueSet = true;
 		} else {
 			WorkbenchPlugin.log(
-					"Unable to apply decoration for " + currentDefinition.getId() + " invalid quadrant: " + quadrant); //$NON-NLS-1$ //$NON-NLS-2$
+					"Unable to apply decoration for " + currentDefinition.getId() + " invalid quadrant: " + quadrant); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -139,7 +139,7 @@ public class DecorationBuilder implements IDecoration {
 		if (clearReplacementImage) {
 			descriptors[IDecoration.REPLACE] = null;
 		}
-		return new DecorationResult(new ArrayList<>(prefixes), new ArrayList<>(suffixes), descriptors,
+		return new DecorationResult(new ArrayList<>(prefixes), new ArrayList<>(suffixes), descriptors, //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				foregroundColor, backgroundColor, font);
 	}
 
@@ -170,7 +170,7 @@ public class DecorationBuilder implements IDecoration {
 		suffixes.addAll(result.getSuffixes());
 		ImageDescriptor[] resultDescriptors = result.getDescriptors();
 		if (resultDescriptors != null) {
-			for (int i = 0; i < descriptors.length; i++) {
+			for (int i = 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resultDescriptors[i] != null) {
 					descriptors[i] = resultDescriptors[i];
 				}

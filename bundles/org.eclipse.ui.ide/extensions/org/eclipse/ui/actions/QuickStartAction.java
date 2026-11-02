@@ -110,9 +110,9 @@ public class QuickStartAction extends Action implements
 	 *
 	 * @return the chosen feature, or <code>null</code> if none was chosen
 	 */
-	private AboutInfo promptForFeature() {
+	private AboutInfo promptForFeature() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Ask the user to select a feature
-		ArrayList<AboutInfo> welcomeFeatures = new ArrayList<>();
+		ArrayList<AboutInfo> welcomeFeatures = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		URL productUrl = null;
 		IProduct product = Platform.getProduct();
@@ -123,7 +123,7 @@ public class QuickStartAction extends Action implements
 
 		AboutInfo[] features = IDEWorkbenchPlugin.getDefault()
 				.getFeatureInfos();
-		for (AboutInfo feature : features) {
+		for (AboutInfo feature : features) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			URL url = feature.getWelcomePageURL();
 			if (url != null && (productUrl == null || !url.toString().equals(productUrl.toString()))) {
 				welcomeFeatures.add(feature);
@@ -177,7 +177,7 @@ public class QuickStartAction extends Action implements
 	private AboutInfo findFeature(String featureId) {
 		AboutInfo[] features = IDEWorkbenchPlugin.getDefault()
 				.getFeatureInfos();
-		for (AboutInfo info : features) {
+		for (AboutInfo info : features) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.getFeatureId().equals(featureId)) {
 				return info;
 			}
@@ -191,7 +191,7 @@ public class QuickStartAction extends Action implements
 	 * @param feature the about info for the feature
 	 * @return <code>true</code> if successful, <code>false</code> otherwise
 	 */
-	private boolean openWelcomePage(AboutInfo feature) {
+	private boolean openWelcomePage(AboutInfo feature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchPage page = null;
 
 		// See if the feature wants a specific perspective
@@ -214,7 +214,7 @@ public class QuickStartAction extends Action implements
 						workbenchWindow);
 			} catch (WorkbenchException e) {
 				IDEWorkbenchPlugin
-						.log("Error opening perspective: " + perspectiveId, e.getStatus()); //$NON-NLS-1$
+						.log("Error opening perspective: " + perspectiveId, e.getStatus()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return false;
 			}
 		}
@@ -239,7 +239,7 @@ public class QuickStartAction extends Action implements
 			page.openEditor(input, EDITOR_ID);
 		} catch (PartInitException e) {
 			IDEWorkbenchPlugin
-					.log("Error opening welcome editor for feature: " + feature.getFeatureId(), e); //$NON-NLS-1$
+					.log("Error opening welcome editor for feature: " + feature.getFeatureId(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			IStatus status = new Status(
 					IStatus.ERROR,
 					IDEWorkbenchPlugin.IDE_WORKBENCH,

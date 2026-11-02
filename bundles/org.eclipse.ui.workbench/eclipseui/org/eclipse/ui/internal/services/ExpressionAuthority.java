@@ -66,7 +66,7 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 	 * consulted whenever a contribution is made. This collection only contains
 	 * instances of <code>ISourceProvider</code>.
 	 */
-	private final Collection<ISourceProvider> providers = new ArrayList<>();
+	private final Collection<ISourceProvider> providers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Constructs a new instance of <code>ExpressionAuthority</code>.
@@ -85,14 +85,14 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 	 *
 	 * @param provider The provider to add; must not be <code>null</code>.
 	 */
-	public final void addSourceProvider(final ISourceProvider provider) {
+	public final void addSourceProvider(final ISourceProvider provider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		provider.addSourceProviderListener(this);
 		providers.add(provider);
 
 		// Update the current state.
 		final Map currentState = provider.getCurrentState();
 		final Iterator variableItr = currentState.entrySet().iterator();
-		while (variableItr.hasNext()) {
+		while (variableItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map.Entry entry = (Map.Entry) variableItr.next();
 			final String variableName = (String) entry.getKey();
 			final Object variableValue = entry.getValue();
@@ -114,7 +114,7 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 	 */
 	public void dispose() {
 		final Iterator<ISourceProvider> providerItr = providers.iterator();
-		while (providerItr.hasNext()) {
+		while (providerItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ISourceProvider provider = providerItr.next();
 			provider.removeSourceProviderListener(this);
 		}
@@ -133,7 +133,7 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 	 */
 	protected final boolean evaluate(final Collection<IEvaluationResultCache> collection) {
 		final Iterator<IEvaluationResultCache> iterator = collection.iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IEvaluationResultCache cache = iterator.next();
 			if (evaluate(cache)) {
 				return true;
@@ -204,7 +204,7 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 
 		final Map currentState = provider.getCurrentState();
 		final Iterator variableItr = currentState.entrySet().iterator();
-		while (variableItr.hasNext()) {
+		while (variableItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map.Entry entry = (Map.Entry) variableItr.next();
 			final String variableName = (String) entry.getKey();
 			changeVariable(variableName, null);
@@ -261,7 +261,7 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 		}
 
 		final Iterator entryItr = sourceValuesByName.entrySet().iterator();
-		while (entryItr.hasNext()) {
+		while (entryItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Map.Entry entry = (Map.Entry) entryItr.next();
 			final String sourceName = (String) entry.getKey();
 			final Object sourceValue = entry.getValue();
@@ -290,13 +290,13 @@ public abstract class ExpressionAuthority implements ISourceProviderListener {
 	 * Updates the evaluation context with the current state from all of the source
 	 * providers.
 	 */
-	protected final void updateCurrentState() {
+	protected final void updateCurrentState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Iterator<ISourceProvider> providerItr = providers.iterator();
-		while (providerItr.hasNext()) {
+		while (providerItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ISourceProvider provider = providerItr.next();
 			final Map currentState = provider.getCurrentState();
 			final Iterator variableItr = currentState.entrySet().iterator();
-			while (variableItr.hasNext()) {
+			while (variableItr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Map.Entry entry = (Map.Entry) variableItr.next();
 				final String variableName = (String) entry.getKey();
 				final Object variableValue = entry.getValue();

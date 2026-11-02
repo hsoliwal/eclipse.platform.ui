@@ -103,7 +103,7 @@ public class DelegatingStyledCellLabelProvider extends StyledCellLabelProvider {
 		this.styledLabelProvider = labelProvider;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update(ViewerCell cell) {
 		Object element = cell.getElement();
 
@@ -221,8 +221,8 @@ public class DelegatingStyledCellLabelProvider extends StyledCellLabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		super.addListener(listener);
-		this.styledLabelProvider.addListener(listener);
+		super.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		this.styledLabelProvider.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	@Override

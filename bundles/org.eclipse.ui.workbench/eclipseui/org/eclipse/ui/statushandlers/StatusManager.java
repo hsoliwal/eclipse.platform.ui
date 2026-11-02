@@ -149,7 +149,7 @@ public class StatusManager {
 		}
 	}
 
-	private AbstractStatusHandler getStatusHandler() {
+	private AbstractStatusHandler getStatusHandler() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (statusHandler != null) {
 			return statusHandler;
 		}
@@ -191,7 +191,7 @@ public class StatusManager {
 	 *                      {@link #NONE}, {@link #LOG}, {@link #SHOW} and
 	 *                      {@link #BLOCK}.
 	 */
-	public void handle(StatusAdapter statusAdapter, int style) {
+	public void handle(StatusAdapter statusAdapter, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			// The manager will only log the error when the status adapter or
 			// the embedded status is null.
@@ -355,7 +355,7 @@ public class StatusManager {
 	}
 
 	private void doFireNotification(int type, StatusAdapter[] adapters) {
-		for (INotificationListener listener : listeners) {
+		for (INotificationListener listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.statusManagerNotified(type, adapters);
 		}
 	}

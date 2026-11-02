@@ -105,7 +105,7 @@ public class MarkerFieldFilterGroup {
 
 	private IConfigurationElement element;
 
-	private final Map<String, String> EMPTY_MAP = new HashMap<>();
+	private final Map<String, String> EMPTY_MAP = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private boolean enabled = true;
 	protected MarkerFieldFilter[] fieldFilters;
 	private int scope;
@@ -120,7 +120,7 @@ public class MarkerFieldFilterGroup {
 	/**
 	 * Create a new instance of the receiver.
 	 */
-	public MarkerFieldFilterGroup(IConfigurationElement configurationElement, MarkerContentGenerator markerBuilder) {
+	public MarkerFieldFilterGroup(IConfigurationElement configurationElement, MarkerContentGenerator markerBuilder) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		element = configurationElement;
 		generator = markerBuilder;
 		initializeWorkingSet();
@@ -163,10 +163,10 @@ public class MarkerFieldFilterGroup {
 	/**
 	 * Calculate the filters for the receiver.
 	 */
-	protected void calculateFilters() {
+	protected void calculateFilters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, String> values = getValues();
-		Collection<MarkerFieldFilter> filters = new ArrayList<>();
-		for (MarkerField visibleField : generator.getVisibleFields()) {
+		Collection<MarkerFieldFilter> filters = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MarkerField visibleField : generator.getVisibleFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MarkerFieldFilter fieldFilter = MarkerSupportInternalUtilities.generateFilter(visibleField);
 			if (fieldFilter != null) {
 				filters.add(fieldFilter);
@@ -193,7 +193,7 @@ public class MarkerFieldFilterGroup {
 	 * @return MarkerFieldFilter
 	 */
 	public MarkerFieldFilter getFilter(MarkerField field) {
-		for (MarkerFieldFilter filter : getFieldFilters()) {
+		for (MarkerFieldFilter filter : getFieldFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filter.getField().equals(field)) {
 				return filter;
 			}
@@ -209,7 +209,7 @@ public class MarkerFieldFilterGroup {
 	public String getID() {
 		if (id == null) {
 			if (element == null) {
-				id = USER + System.currentTimeMillis();
+				id = USER + System.currentTimeMillis(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				id = element.getAttribute(MarkerSupportInternalUtilities.ATTRIBUTE_ID);
 			}
@@ -239,7 +239,7 @@ public class MarkerFieldFilterGroup {
 	 *
 	 * @return IResource[]
 	 */
-	IResource[] getResourcesInWorkingSet() {
+	IResource[] getResourcesInWorkingSet() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (workingSet == null) {
 			return new IResource[0];
 		}
@@ -252,9 +252,9 @@ public class MarkerFieldFilterGroup {
 		}
 
 		IAdaptable[] elements = workingSet.getElements();
-		List<IResource> result = new ArrayList<>(elements.length);
+		List<IResource> result = new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IAdaptable adaptable : elements) {
+		for (IAdaptable adaptable : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource next = Adapters.adapt(adaptable, IResource.class);
 			if (next != null) {
 				result.add(next);
@@ -283,7 +283,7 @@ public class MarkerFieldFilterGroup {
 	 *
 	 * @return Map of values to apply to a {@link MarkerFieldFilter}
 	 */
-	private Map<String, String> getValues() {
+	private Map<String, String> getValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 			String className = null;
@@ -334,7 +334,7 @@ public class MarkerFieldFilterGroup {
 		if (wSetResources == null) {
 			computeWorkingSetResources();
 		}
-		for (IResource wSetResource : wSetResources) {
+		for (IResource wSetResource : wSetResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(wSetResource.getFullPath().isPrefixOf(resource.getFullPath())){
 				return true;
 			}
@@ -382,7 +382,7 @@ public class MarkerFieldFilterGroup {
 	/**
 	 * Load the settings from the legacy child.
 	 */
-	void legacyLoadSettings(IMemento memento) {
+	void legacyLoadSettings(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String enabledString = memento.getString(TAG_ENABLED);
 		if (enabledString != null && enabledString.length() > 0) {
@@ -412,7 +412,7 @@ public class MarkerFieldFilterGroup {
 			}
 		}
 
-		for (MarkerFieldFilter filter : getFieldFilters()) {
+		for (MarkerFieldFilter filter : getFieldFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filter instanceof CompatibilityFieldFilter) {
 				((CompatibilityFieldFilter) filter).loadLegacySettings(memento, generator);
 			}
@@ -425,7 +425,7 @@ public class MarkerFieldFilterGroup {
 	 * @param memento -
 	 *            the memento to load from
 	 */
-	void loadSettings(IMemento memento) {
+	void loadSettings(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String stringValue = memento.getString(TAG_ENABLED);
 		if (stringValue != null && stringValue.length() > 0){
 			enabled = Boolean.parseBoolean(stringValue);
@@ -443,12 +443,12 @@ public class MarkerFieldFilterGroup {
 			setLimit(Integer.parseInt(stringValue));
 		}
 
-		Map<String, MarkerFieldFilter> filterMap = new HashMap<>();
-		for (MarkerFieldFilter filter : getFieldFilters()) {
+		Map<String, MarkerFieldFilter> filterMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (MarkerFieldFilter filter : getFieldFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			filterMap.put(MarkerSupportInternalUtilities.getId(filter.getField()), filter);
 		}
 
-		for (IMemento childMemento : memento.getChildren(TAG_FIELD_FILTER_ENTRY)) {
+		for (IMemento childMemento : memento.getChildren(TAG_FIELD_FILTER_ENTRY)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String filterId = childMemento.getID();
 			MarkerFieldFilter filter = filterMap.get(filterId);
 			if (filter != null) {
@@ -487,7 +487,7 @@ public class MarkerFieldFilterGroup {
 	/**
 	 * Populate the clone and return true if successful.
 	 */
-	protected boolean populateClone(MarkerFieldFilterGroup clone) {
+	protected boolean populateClone(MarkerFieldFilterGroup clone) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		clone.scope = this.scope;
 		clone.limit = limit;
 		clone.workingSet = this.workingSet;
@@ -495,7 +495,7 @@ public class MarkerFieldFilterGroup {
 		clone.fieldFilters = new MarkerFieldFilter[getFieldFilters().length];
 		clone.name = name;
 		clone.id = id;
-		for (int i = 0; i < fieldFilters.length; i++) {
+		for (int i = 0; i < fieldFilters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				clone.fieldFilters[i] = fieldFilters[i].getClass().getDeclaredConstructor().newInstance();
 				fieldFilters[i].populateWorkingCopy(clone.fieldFilters[i]);
@@ -534,7 +534,7 @@ public class MarkerFieldFilterGroup {
 	/**
 	 * Save the settings for the receiver in the memento.
 	 */
-	void saveFilterSettings(IMemento memento) {
+	void saveFilterSettings(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		memento.putString(TAG_ENABLED, String.valueOf(enabled));
 		memento.putString(TAG_SCOPE, String.valueOf(scope));
 		memento.putString(TAG_LIMIT, String.valueOf(limit));
@@ -548,7 +548,7 @@ public class MarkerFieldFilterGroup {
 			memento.putString(IMemento.TAG_ID, getID());
 		}
 
-		for (MarkerFieldFilter filter : getFieldFilters()) {
+		for (MarkerFieldFilter filter : getFieldFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento child = memento.createChild(TAG_FIELD_FILTER_ENTRY,
 					MarkerSupportInternalUtilities.getId(filter.getField()));
 			filter.saveSettings(child);
@@ -562,7 +562,7 @@ public class MarkerFieldFilterGroup {
 	 *
 	 * @return <code>true</code> if it can be shown
 	 */
-	public boolean select(MarkerEntry entry) {
+	public boolean select(MarkerEntry entry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MarkerFieldFilter[] filters = getFieldFilters();
 		if (scope == ON_WORKING_SET && workingSet != null) {
 			if (!workingSet.isAggregateWorkingSet()){
@@ -578,7 +578,7 @@ public class MarkerFieldFilterGroup {
 			}
 		}
 
-		for (MarkerFieldFilter filter : filters) {
+		for (MarkerFieldFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filter.select(entry)) {
 				continue;
 			}
@@ -647,7 +647,7 @@ public class MarkerFieldFilterGroup {
 		return select(entry);
 	}
 
-	public boolean selectByScope(MarkerEntry entry, IResource[] resources) {
+	public boolean selectByScope(MarkerEntry entry, IResource[] resources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int scopeVal = getScope();
 		switch (scopeVal) {
 		case MarkerFieldFilterGroup.ON_ANY: {
@@ -655,7 +655,7 @@ public class MarkerFieldFilterGroup {
 		}
 		case MarkerFieldFilterGroup.ON_SELECTED_ONLY: {
 			IPath  markerPath=entry.getMarker().getResource().getFullPath();
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if(markerPath.equals(resource.getFullPath())){
 					return true;
 				}
@@ -664,7 +664,7 @@ public class MarkerFieldFilterGroup {
 		}
 		case MarkerFieldFilterGroup.ON_SELECTED_AND_CHILDREN: {
 			IPath  markerPath=entry.getMarker().getResource().getFullPath();
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if(resource.getFullPath().isPrefixOf(markerPath)){
 					return true;
 				}
@@ -674,7 +674,7 @@ public class MarkerFieldFilterGroup {
 		case MarkerFieldFilterGroup.ON_ANY_IN_SAME_CONTAINER: {
 			IPath  markerProjectPath=entry.getMarker().getResource().getFullPath();
 			IProject[] projects=MarkerResourceUtil.getProjects(resources);
-			for (IProject project : projects) {
+			for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if(project.getFullPath().isPrefixOf(markerProjectPath)){
 					return true;
 				}

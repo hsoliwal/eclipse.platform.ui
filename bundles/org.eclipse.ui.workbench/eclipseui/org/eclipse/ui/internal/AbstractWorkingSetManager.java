@@ -96,12 +96,12 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	private final SortedSet<AbstractWorkingSet> workingSets = new TreeSet<>(
 			(o1, o2) -> o1.getUniqueId().compareTo(o2.getUniqueId()));
 
-	private final List<IWorkingSet> recentWorkingSets = new ArrayList<>();
+	private final List<IWorkingSet> recentWorkingSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final BundleContext bundleContext;
-	private final Map<String, IWorkingSetUpdater> updaters = new HashMap<>();
+	private final Map<String, IWorkingSetUpdater> updaters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final Map<String, IWorkingSetElementAdapter> elementAdapters = new HashMap<>();
+	private final Map<String, IWorkingSetElementAdapter> elementAdapters = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private static final IWorkingSetUpdater NULL_UPDATER = new IWorkingSetUpdater() {
 		@Override
@@ -149,8 +149,8 @@ public abstract class AbstractWorkingSetManager extends EventManager
 		if (supportedWorkingSetIds == null) {
 			return registry.getNewPageWorkingSetDescriptors();
 		}
-		List<WorkingSetDescriptor> result = new ArrayList<>(supportedWorkingSetIds.length);
-		for (String supportedWorkingSetId : supportedWorkingSetIds) {
+		List<WorkingSetDescriptor> result = new ArrayList<>(supportedWorkingSetIds.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String supportedWorkingSetId : supportedWorkingSetIds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkingSetDescriptor desc = registry.getWorkingSetDescriptor(supportedWorkingSetId);
 			if (desc != null && desc.isEditable()) {
 				result.add(desc);
@@ -177,10 +177,10 @@ public abstract class AbstractWorkingSetManager extends EventManager
 				IWorkbenchRegistryConstants.PL_WORKINGSETS);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		bundleContext.removeBundleListener(this);
-		for (IWorkingSetUpdater next : updaters.values()) {
+		for (IWorkingSetUpdater next : updaters.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new WorkingSetRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -189,7 +189,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 			});
 		}
 
-		for (IWorkingSetElementAdapter next : elementAdapters.values()) {
+		for (IWorkingSetElementAdapter next : elementAdapters.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new WorkingSetRunnable() {
 				@Override
 				public void run() throws Exception {
@@ -250,7 +250,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	@Override
 	public IWorkingSet[] getWorkingSets() {
 		SortedSet<IWorkingSet> visibleSubset = new TreeSet<>(WorkingSetComparator.getInstance());
-		for (IWorkingSet workingSet : workingSets) {
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (workingSet.isVisible()) {
 				visibleSubset.add(workingSet);
 			}
@@ -271,7 +271,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 			return null;
 		}
 
-		for (IWorkingSet workingSet : workingSets) {
+		for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(workingSet.getName())) {
 				return workingSet;
 			}
@@ -360,7 +360,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	 * @param newValue the new or changed working set or null if a working set was
 	 *                 removed.
 	 */
-	protected void firePropertyChange(String changeId, Object oldValue, Object newValue) {
+	protected void firePropertyChange(String changeId, Object oldValue, Object newValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Object[] listeners = getListeners();
 
 		if (listeners.length == 0) {
@@ -369,7 +369,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 
 		final PropertyChangeEvent event = new PropertyChangeEvent(this, changeId, oldValue, newValue);
 		Runnable notifier = () -> {
-			for (Object listener : listeners) {
+			for (Object listener : listeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IPropertyChangeListener propertyChangeListener = (IPropertyChangeListener) listener;
 				ISafeRunnable safetyWrapper = new ISafeRunnable() {
 
@@ -391,7 +391,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 			notifier.run();
 		} else {
 			// Use an asyncExec to avoid deadlocks.
-			Display.getDefault().asyncExec(notifier);
+			Display.getDefault().asyncExec(notifier); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
@@ -419,16 +419,16 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	 * @param memento the persistence store
 	 * @see IPersistableElement
 	 */
-	public void saveWorkingSetState(IMemento memento) {
+	public void saveWorkingSetState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<AbstractWorkingSet> iterator = workingSets.iterator();
 
 		// break the sets into aggregates and non aggregates. The aggregates should be
 		// saved after the non-aggregates
 		// so that on restoration all necessary aggregate components can be found.
 
-		ArrayList<IWorkingSet> standardSets = new ArrayList<>();
-		ArrayList<IWorkingSet> aggregateSets = new ArrayList<>();
-		while (iterator.hasNext()) {
+		ArrayList<IWorkingSet> standardSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<IWorkingSet> aggregateSets = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet set = iterator.next();
 			if (set instanceof AggregateWorkingSet) {
 				aggregateSets.add(set);
@@ -446,8 +446,8 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	 * @param list    the working sets to save
 	 * @since 3.2
 	 */
-	private void saveWorkingSetState(final IMemento memento, List<IWorkingSet> list) {
-		for (Iterator<IWorkingSet> i = list.iterator(); i.hasNext();) {
+	private void saveWorkingSetState(final IMemento memento, List<IWorkingSet> list) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Iterator<IWorkingSet> i = list.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPersistableElement persistable = i.next();
 			SafeRunner.run(new WorkingSetRunnable() {
 
@@ -475,7 +475,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	 * @param memento the persistence store
 	 */
 	protected void restoreWorkingSetState(IMemento memento) {
-		for (IMemento child : memento.getChildren(IWorkbenchConstants.TAG_WORKING_SET)) {
+		for (IMemento child : memento.getChildren(IWorkbenchConstants.TAG_WORKING_SET)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AbstractWorkingSet workingSet = (AbstractWorkingSet) restoreWorkingSet(child);
 			if (workingSet != null) {
 				internalAddWorkingSet(workingSet);
@@ -489,7 +489,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	 * @param memento the persistence store
 	 * @return the working set created from the memento or null if creation failed.
 	 */
-	protected IWorkingSet restoreWorkingSet(final IMemento memento) {
+	protected IWorkingSet restoreWorkingSet(final IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String factoryID = memento.getString(IWorkbenchConstants.TAG_FACTORY_ID);
 
 		if (factoryID == null) {
@@ -500,7 +500,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 		}
 		final IElementFactory factory = PlatformUI.getWorkbench().getElementFactory(factoryID);
 		if (factory == null) {
-			WorkbenchPlugin.log("Unable to restore working set - cannot instantiate factory: " + factoryID); //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to restore working set - cannot instantiate factory: " + factoryID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 		final IAdaptable[] adaptable = new IAdaptable[1];
@@ -512,11 +512,11 @@ public abstract class AbstractWorkingSetManager extends EventManager
 			}
 		});
 		if (adaptable[0] == null) {
-			WorkbenchPlugin.log("Unable to restore working set - cannot instantiate working set: " + factoryID); //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to restore working set - cannot instantiate working set: " + factoryID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 		if (!(adaptable[0] instanceof IWorkingSet)) {
-			WorkbenchPlugin.log("Unable to restore working set - element is not an IWorkingSet: " + factoryID); //$NON-NLS-1$
+			WorkbenchPlugin.log("Unable to restore working set - element is not an IWorkingSet: " + factoryID); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 		return (IWorkingSet) adaptable[0];
@@ -528,7 +528,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	 * @param memento the persistence store
 	 */
 	protected void saveMruList(IMemento memento) {
-		for (IWorkingSet workingSet : recentWorkingSets) {
+		for (IWorkingSet workingSet : recentWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento mruMemento = memento.createChild(IWorkbenchConstants.TAG_MRU_LIST);
 			mruMemento.putString(IWorkbenchConstants.TAG_NAME, workingSet.getName());
 		}
@@ -543,7 +543,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	protected void restoreMruList(IMemento memento) {
 		IMemento[] mruWorkingSets = memento.getChildren(IWorkbenchConstants.TAG_MRU_LIST);
 
-		for (int i = mruWorkingSets.length - 1; i >= 0; i--) {
+		for (int i = mruWorkingSets.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String workingSetName = mruWorkingSets[i].getString(IWorkbenchConstants.TAG_NAME);
 			if (workingSetName != null) {
 				IWorkingSet workingSet = getWorkingSet(workingSetName);
@@ -561,7 +561,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	 * @see org.eclipse.ui.IWorkingSetManager#createWorkingSetEditWizard(org.eclipse.ui.IWorkingSet)
 	 * @since 2.1
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IWorkingSetEditWizard createWorkingSetEditWizard(IWorkingSet workingSet) {
 		String editPageId = workingSet.getId();
 		WorkingSetRegistry registry = WorkbenchPlugin.getDefault().getWorkingSetRegistry();
@@ -615,7 +615,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	// ---- working set delta handling
 	// -------------------------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void bundleChanged(BundleEvent event) {
 		String symbolicName = event.getBundle().getSymbolicName();
 		if (symbolicName == null) {
@@ -634,19 +634,19 @@ public abstract class AbstractWorkingSetManager extends EventManager
 		if (nonEmptyDescriptors.isEmpty()) {
 			return;
 		}
-		Job job = new WorkbenchJob(
-				NLS.bind(WorkbenchMessages.AbstractWorkingSetManager_updatersActivating, symbolicName)) {
+		Job job = new WorkbenchJob( //FLLDCIM: MARK — T09  ANONYMOUS
+				NLS.bind(WorkbenchMessages.AbstractWorkingSetManager_updatersActivating, symbolicName)) { //FLLDCIM: MARK — T09  IMPLEMENTS
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				Set<Entry<WorkingSetDescriptor, List<IWorkingSet>>> entrySet = nonEmptyDescriptors.entrySet();
 				synchronized (updaters) {
-					for (Entry<WorkingSetDescriptor, List<IWorkingSet>> e : entrySet) {
+					for (Entry<WorkingSetDescriptor, List<IWorkingSet>> e : entrySet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						final IWorkingSetUpdater updater = getUpdater(e.getKey());
 						if (updater == NULL_UPDATER) {
 							continue;
 						}
-						for (IWorkingSet workingSet : e.getValue()) {
+						for (IWorkingSet workingSet : e.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							SafeRunner.run(new WorkingSetRunnable() {
 
 								@Override
@@ -686,8 +686,8 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	}
 
 	private List<IWorkingSet> getWorkingSetsForId(String id) {
-		List<IWorkingSet> result = new ArrayList<>();
-		for (IWorkingSet ws : workingSets) {
+		List<IWorkingSet> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkingSet ws : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.equals(ws.getId())) {
 				result.add(ws);
 			}
@@ -695,7 +695,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 		return result;
 	}
 
-	private void addToUpdater(final IWorkingSet workingSet) {
+	private void addToUpdater(final IWorkingSet workingSet) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		WorkingSetDescriptor descriptor = WorkbenchPlugin.getDefault().getWorkingSetRegistry()
 				.getWorkingSetDescriptor(workingSet.getId());
 		if (descriptor == null || !descriptor.isUpdaterClassLoaded()) {
@@ -715,7 +715,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 		}
 	}
 
-	IWorkingSetUpdater getUpdater(WorkingSetDescriptor descriptor) {
+	IWorkingSetUpdater getUpdater(WorkingSetDescriptor descriptor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String updaterId = descriptor.getId();
 		IWorkingSetUpdater updater = updaters.get(updaterId);
 		if (updater == null) {
@@ -801,7 +801,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 
 	@Override
 	public void removeExtension(IExtension extension, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IWorkingSetUpdater) {
 				removeUpdater((IWorkingSetUpdater) object);
 
@@ -851,12 +851,12 @@ public abstract class AbstractWorkingSetManager extends EventManager
 		firePropertyChange(IWorkingSetManager.CHANGE_WORKING_SET_UPDATER_UNINSTALLED, updater, null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addToWorkingSets(final IAdaptable element, IWorkingSet[] workingSets) {
 		// ideally this method would be in a static util class of some kind but
 		// we dont have any such beast for working sets and making one for one
 		// method is overkill.
-		for (final IWorkingSet workingSet : workingSets) {
+		for (final IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new WorkingSetRunnable() {
 
 				@Override
@@ -877,7 +877,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 	@Override
 	public void setRecentWorkingSetsLength(int length) {
 		if (length < 1 || length > 99) {
-			throw new IllegalArgumentException("Invalid recent working sets length: " + length); //$NON-NLS-1$
+			throw new IllegalArgumentException("Invalid recent working sets length: " + length); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		IPreferenceStore store = PrefUtil.getAPIPreferenceStore();
 		store.setValue(IWorkbenchPreferenceConstants.RECENTLY_USED_WORKINGSETS_SIZE, length);
@@ -887,7 +887,7 @@ public abstract class AbstractWorkingSetManager extends EventManager
 
 	private void sizeRecentWorkingSets() {
 		int maxLength = getRecentWorkingSetsLength();
-		while (recentWorkingSets.size() > maxLength) {
+		while (recentWorkingSets.size() > maxLength) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int lastPosition = recentWorkingSets.size() - 1;
 			recentWorkingSets.remove(lastPosition);
 		}

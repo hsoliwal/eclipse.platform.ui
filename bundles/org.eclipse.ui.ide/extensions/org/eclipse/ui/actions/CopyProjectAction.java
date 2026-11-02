@@ -50,7 +50,7 @@ import org.eclipse.ui.internal.progress.ProgressMonitorJobsDialog;
  * assumes that a single project is selected and being manipulated. This should
  * be disabled for multi select or no selection.
  */
-public class CopyProjectAction extends SelectionListenerAction {
+public class CopyProjectAction extends SelectionListenerAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 	private static String COPY_TOOL_TIP = IDEWorkbenchMessages.CopyProjectAction_toolTip;
 
 	private static String COPY_TITLE = IDEWorkbenchMessages.CopyProjectAction_title;
@@ -60,7 +60,7 @@ public class CopyProjectAction extends SelectionListenerAction {
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID + ".CopyProjectAction";//$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".CopyProjectAction";//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The shell in which to show any dialogs.
@@ -224,9 +224,9 @@ public class CopyProjectAction extends SelectionListenerAction {
 	 * @return <code>true</code> if the copy operation completed, and
 	 *         <code>false</code> if it was abandoned part way
 	 */
-	boolean performCopy(final IProject project, final String projectName,
+	boolean performCopy(final IProject project, final String projectName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final URI newLocation) {
-		IRunnableWithProgress op = monitor -> {
+		IRunnableWithProgress op = monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			org.eclipse.ui.ide.undo.CopyProjectOperation op1 = new org.eclipse.ui.ide.undo.CopyProjectOperation(
 					project, projectName, newLocation, getText());
 			op1.setModelProviderIds(getModelProviderIds());
@@ -288,7 +288,7 @@ public class CopyProjectAction extends SelectionListenerAction {
 	/**
 	 * Implementation of method defined on <code>IAction</code>.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 
 		errorStatus = null;
@@ -327,7 +327,7 @@ public class CopyProjectAction extends SelectionListenerAction {
 	 * <code>SelectionListenerAction</code> method enables this action only if
 	 * there is a single selection which is a project.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateSelection(IStructuredSelection selection) {
 		if (!super.updateSelection(selection)) {
 			return false;

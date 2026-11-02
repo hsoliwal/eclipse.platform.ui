@@ -33,7 +33,7 @@ public class UISynchronizer extends Synchronizer {
 	 * List of non-workbench Runnables that need executing at some point in the
 	 * future
 	 */
-	protected List<Runnable> pendingStartup = new ArrayList<>();
+	protected List<Runnable> pendingStartup = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Setting this variable to the value {@link Boolean#TRUE} will allow a thread
@@ -78,17 +78,17 @@ public class UISynchronizer extends Synchronizer {
 		this.lockListener = lock;
 	}
 
-	public void started() {
+	public void started() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		synchronized (this) {
 			if (!isStarting) {
 				throw new IllegalStateException();
 			}
 			isStarting = false;
-			for (Iterator<Runnable> i = pendingStartup.iterator(); i.hasNext();) {
+			for (Iterator<Runnable> i = pendingStartup.iterator(); i.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Runnable runnable = i.next();
 				try {
 					// queue up all pending asyncs
-					super.asyncExec(runnable);
+					super.asyncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				} catch (RuntimeException e) {
 					// do nothing
 				}
@@ -112,16 +112,16 @@ public class UISynchronizer extends Synchronizer {
 				}
 			}
 		}
-		super.asyncExec(runnable);
+		super.asyncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void syncExec(Runnable runnable) {
 
 		synchronized (this) {
 			if (isStarting && startupThread.get() == Boolean.FALSE
 					&& overrideThread.get() == Boolean.FALSE) {
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						this.wait();
 					} catch (InterruptedException e) {
@@ -133,13 +133,13 @@ public class UISynchronizer extends Synchronizer {
 		// if this thread is the UI or this thread does not own any locks, just do the
 		// syncExec
 		if ((runnable == null) || lockListener.isUI() || !lockListener.isLockOwner()) {
-			super.syncExec(runnable);
+			super.syncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return;
 		}
 		PendingSyncExec work = new PendingSyncExec(runnable);
 		work.setOperationThread(Thread.currentThread());
 		lockListener.addPendingWork(work);
-		asyncExec(lockListener::doPendingWork);
+		asyncExec(lockListener::doPendingWork); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 		try {
 			work.waitUntilExecuted(lockListener);

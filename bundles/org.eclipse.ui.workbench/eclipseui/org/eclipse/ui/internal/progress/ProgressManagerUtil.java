@@ -50,27 +50,27 @@ import org.eclipse.ui.views.IViewDescriptor;
 public class ProgressManagerUtil {
 
 	static class ProgressViewerComparator extends ViewerComparator {
-		private final HashMap<JobSnapshot, Integer> lastIndexes = new HashMap<>();
+		private final HashMap<JobSnapshot, Integer> lastIndexes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		private final Comparator<JobSnapshot> byIndex = Comparator.comparing(lastIndexes::get,
 				Comparator.nullsLast(Integer::compare)); // makes visual sort order stable
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void sort(final Viewer viewer, Object[] elements) {
 			Object[] src = elements.clone();
 			// convert to snapshots
 			JobSnapshot[] snapshots = new JobSnapshot[elements.length];
-			for (int i = 0; i < elements.length; i++) {
+			for (int i = 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				JobTreeElement jobTreeElement = (JobTreeElement) elements[i];
 				snapshots[i] = new JobSnapshot(jobTreeElement, i);
 			}
 			// sort
 			Arrays.sort(snapshots, byIndex.thenComparing(JobSnapshot::compareTo));
 			lastIndexes.clear();
-			for (int i = 0; i < snapshots.length; i++) {
+			for (int i = 0; i < snapshots.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				lastIndexes.put(snapshots[i], i);
 			}
 			// convert back
-			for (int i = 0; i < elements.length; i++) {
+			for (int i = 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				elements[i] = src[snapshots[i].getIndex()];
 			}
 		}
@@ -167,7 +167,7 @@ public class ProgressManagerUtil {
 		}
 	}
 
-	private static String clipToSize(GC gc, String textValue, String ellipsisString, int maxWidth) {
+	private static String clipToSize(GC gc, String textValue, String ellipsisString, int maxWidth) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int averageCharWidth = (int) gc.getFontMetrics().getAverageCharacterWidth();
 		int length = textValue.length();
 
@@ -196,7 +196,7 @@ public class ProgressManagerUtil {
 			upperBoundLength = length;
 		} else {
 			currentLength = Math.min(length, Math.max(0, estimatedCharactersThatWillFit - ellipsisString.length()));
-			for (;;) {
+			for (;;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String s = clipToLength(textValue, ellipsisString, pivot, currentLength);
 				int currentExtent = gc.textExtent(s).x;
 				if (currentExtent > maxWidth) {
@@ -215,7 +215,7 @@ public class ProgressManagerUtil {
 		}
 
 		String s;
-		for (;;) {
+		for (;;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int oldLength = currentLength;
 			s = clipToLength(textValue, ellipsisString, pivot, currentLength);
 
@@ -280,7 +280,7 @@ public class ProgressManagerUtil {
 		return getClippedString(textValue, ellipsisString, pivot, textValue.length() - newLength);
 	}
 
-	private static String getClippedString(String textValue, String ellipsisString, int pivot, int charsToClip) {
+	private static String getClippedString(String textValue, String ellipsisString, int pivot, int charsToClip) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length = textValue.length();
 		if (charsToClip <= 0) {
 			return textValue;
@@ -307,7 +307,7 @@ public class ProgressManagerUtil {
 		} else {
 			s2 = ""; //$NON-NLS-1$
 		}
-		return s1 + ellipsisString + s2;
+		return s1 + ellipsisString + s2; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -318,11 +318,11 @@ public class ProgressManagerUtil {
 	 * @param maxWidth  The maximim extent
 	 * @return int
 	 */
-	private static int findSecondWhitespace(String textValue, GC gc, int maxWidth) {
+	private static int findSecondWhitespace(String textValue, GC gc, int maxWidth) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int firstCharacter = 0;
 		char[] chars = textValue.toCharArray();
 		// Find the first whitespace
-		for (int i = 0; i < chars.length; i++) {
+		for (int i = 0; i < chars.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Character.isWhitespace(chars[i])) {
 				firstCharacter = i;
 				break;
@@ -335,7 +335,7 @@ public class ProgressManagerUtil {
 		// Initialize to firstCharacter in case there is no more whitespace
 		int secondCharacter = firstCharacter;
 		// Find the second whitespace
-		for (int i = firstCharacter; i < chars.length; i++) {
+		for (int i = firstCharacter; i < chars.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Character.isWhitespace(chars[i])) {
 				secondCharacter = i;
 				break;
@@ -422,14 +422,14 @@ public class ProgressManagerUtil {
 	 * @param toExclude shell to ignore
 	 * @return the most specific modal child, or null if none
 	 */
-	private static Shell getModalChildExcluding(Shell[] toSearch, Shell toExclude) {
+	private static Shell getModalChildExcluding(Shell[] toSearch, Shell toExclude) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int modal = SWT.APPLICATION_MODAL | SWT.SYSTEM_MODAL | SWT.PRIMARY_MODAL;
 
 		// Make sure we don't pick a parent that has a modal child (this can
 		// lock the app)
 		// If we picked a parent with a modal child, use the modal child instead
 
-		for (int i = toSearch.length - 1; i >= 0; i--) {
+		for (int i = toSearch.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Shell shell = toSearch[i];
 			if (shell.equals(toExclude) || shell.isDisposed()) {
 				continue;
@@ -460,7 +460,7 @@ public class ProgressManagerUtil {
 	 *
 	 * @return the best parent shell or <code>null</code>
 	 */
-	public static Shell getDefaultParent() {
+	public static Shell getDefaultParent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell modal = getModalShellExcluding(null);
 		if (modal != null) {
 			return modal;
@@ -484,7 +484,7 @@ public class ProgressManagerUtil {
 	 *
 	 * @return Shell
 	 */
-	public static Shell getNonModalShell() {
+	public static Shell getNonModalShell() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MApplication application = PlatformUI.getWorkbench().getService(MApplication.class);
 		if (application == null) {
 			// better safe than sorry
@@ -497,7 +497,7 @@ public class ProgressManagerUtil {
 				return (Shell) widget;
 			}
 		}
-		for (MWindow child : application.getChildren()) {
+		for (MWindow child : application.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object widget = child.getWidget();
 			if (widget instanceof Shell) {
 				return (Shell) widget;

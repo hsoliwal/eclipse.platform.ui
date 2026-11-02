@@ -69,7 +69,7 @@ public class NestableContextService extends SlaveContextService implements INest
 		}
 
 		Iterator<IContextActivation> c = fLocalActivations.keySet().iterator();
-		while (c.hasNext()) {
+		while (c.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContextActivation activation = c.next();
 			super.doActivateContext(activation);
 		}
@@ -85,7 +85,7 @@ public class NestableContextService extends SlaveContextService implements INest
 		fParentActivations.clear();
 
 		Iterator<IContextActivation> c = fLocalActivations.keySet().iterator();
-		while (c.hasNext()) {
+		while (c.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fLocalActivations.put(c.next(), null);
 		}
 		fActive = false;

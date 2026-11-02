@@ -126,15 +126,15 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 	}
 
-	private final Map<IContentType, IEditorDescriptor[]> contentTypeToEditorMappingsFromPlugins = new HashMap<>();
-	private final Map<IContentType, LinkedHashSet<IEditorDescriptor>> contentTypeToEditorMappingsFromUser = new HashMap<>();
+	private final Map<IContentType, IEditorDescriptor[]> contentTypeToEditorMappingsFromPlugins = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private final Map<IContentType, LinkedHashSet<IEditorDescriptor>> contentTypeToEditorMappingsFromUser = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Cached images - these include images from registered editors (via plugins)
 	 * and others hence this table is not one to one with the mappings table. It is
 	 * in fact a superset of the keys one would find in typeEditorMappings
 	 */
-	private Map<Object, ImageDescriptor> extensionImages = new HashMap<>();
+	private Map<Object, ImageDescriptor> extensionImages = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Vector of EditorDescriptor - all the editors loaded from plugin files. The
@@ -144,7 +144,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 *
 	 * @see #comparer
 	 */
-	private List<IEditorDescriptor> sortedEditorsFromPlugins = new ArrayList<>();
+	private List<IEditorDescriptor> sortedEditorsFromPlugins = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/** cache of OS editors **/
 	private IEditorDescriptor[] sortedEditorsFromOS;
@@ -212,7 +212,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 *                          This method is not API and should not be called
 	 *                          outside the workbench code.
 	 */
-	public void addEditorFromPlugin(EditorDescriptor editor, List<String> extensions, List<String> filenames,
+	public void addEditorFromPlugin(EditorDescriptor editor, List<String> extensions, List<String> filenames, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<String> contentTypeVector, boolean bDefault) {
 
 		PlatformUI.getWorkbench().getExtensionTracker().registerObject(
@@ -221,9 +221,9 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		sortedEditorsFromPlugins.add(editor);
 
 		// add it to the table of mappings
-		for (String fileExtension : extensions) {
+		for (String fileExtension : extensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fileExtension != null && fileExtension.length() > 0) {
-				FileEditorMapping mapping = getMappingFor("*." + fileExtension); //$NON-NLS-1$
+				FileEditorMapping mapping = getMappingFor("*." + fileExtension); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (mapping == null) { // no mapping for that extension
 					mapping = new FileEditorMapping(fileExtension);
 					typeEditorMappings.putDefault(mappingKeyFor(mapping), mapping);
@@ -236,7 +236,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		}
 
 		// add it to the table of mappings
-		for (String filename : filenames) {
+		for (String filename : filenames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filename != null && filename.length() > 0) {
 				FileEditorMapping mapping = getMappingFor(filename);
 				if (mapping == null) { // no mapping for that extension
@@ -260,7 +260,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 			}
 		}
 
-		for (String contentTypeId : contentTypeVector) {
+		for (String contentTypeId : contentTypeVector) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (contentTypeId != null && contentTypeId.length() > 0) {
 				IContentType contentType = contentTypeManager.getContentType(contentTypeId);
 				if (contentType != null) {
@@ -296,9 +296,9 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 */
 	private void addExternalEditorsToEditorMap() {
 		// Add registered editors (may include external editors).
-		for (FileEditorMapping map : typeEditorMappings.allMappings()) {
+		for (FileEditorMapping map : typeEditorMappings.allMappings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorDescriptor[] descArray = map.getEditors();
-			for (IEditorDescriptor desc : descArray) {
+			for (IEditorDescriptor desc : descArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				mapIDtoInternalEditor.put(desc.getId(), desc);
 			}
 		}
@@ -309,7 +309,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		}
 	}
 
-	private synchronized IEditorDescriptor getOSEditor(String id) {
+	private synchronized IEditorDescriptor getOSEditor(String id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (id == null || id.isEmpty()) {
 			// can not find external editor anyway.
 			// for example @see org.eclipse.ui.part.MultiPageEditorSite#getId
@@ -322,15 +322,15 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		}
 
 		if (mapIDtoOSEditors == null) {
-			mapIDtoOSEditors = new HashMap<>();
+			mapIDtoOSEditors = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			IEditorDescriptor[] sortedEditorsFromOS = getSortedEditorsFromOS();
-			for (IEditorDescriptor desc : sortedEditorsFromOS) {
+			for (IEditorDescriptor desc : sortedEditorsFromOS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				mapIDtoOSEditors.put(desc.getId(), desc); // ignore duplicates
 			}
 			IEditorDescriptor editor = mapIDtoOSEditors.get(id);
 			if (editor == null && WorkbenchPlugin.getDefault().isDebugging()) {
 				WorkbenchPlugin.getDefault().getLog()
-						.log(StatusUtil.newStatus(IStatus.WARNING, "Editor descriptor for id '" + id + "' not found.", //$NON-NLS-1$ //$NON-NLS-2$
+						.log(StatusUtil.newStatus(IStatus.WARNING, "Editor descriptor for id '" + id + "' not found.", //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								new Exception("IEditorRegistry.findEditor(String) called for unknown id"))); //$NON-NLS-1$
 			}
 		}
@@ -361,7 +361,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * @see IEditorRegistry#PROP_CONTENTS
 	 */
 	private void firePropertyChange(final int type) {
-		for (Object listener : getListeners()) {
+		for (Object listener : getListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IPropertyListener propertyListener = (IPropertyListener) listener;
 			SafeRunner.run(new SafeRunnable() {
 				@Override
@@ -387,7 +387,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		}
 
 		IContentType[] contentTypes = contentTypeManager.findContentTypesFor(filename);
-		for (IContentType contentType : contentTypes) {
+		for (IContentType contentType : contentTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEditorDescriptor editor = getDefaultEditor(filename, contentType);
 			if (editor != null) {
 				return editor;
@@ -476,7 +476,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		int index = filename.lastIndexOf('.');
 		if (index > -1) {
 			String extension = filename.substring(index);
-			mapping[1] = getMappingFor("*" + extension); //$NON-NLS-1$
+			mapping[1] = getMappingFor("*" + extension); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return mapping;
@@ -514,10 +514,10 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		}
 	}
 
-	private static IEditorDescriptor[] getStaticSortedEditorsFromOS() {
-		List<IEditorDescriptor> externalEditors = new ArrayList<>();
+	private static IEditorDescriptor[] getStaticSortedEditorsFromOS() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IEditorDescriptor> externalEditors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Program program : Program.getPrograms()) {
+		for (Program program : Program.getPrograms()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// 1FPLRL2: ITPUI:WINNT - NOTEPAD editor cannot be launched
 			// Some entries start with %SystemRoot%
 			// For such cases just use the file name as they are generally
@@ -539,7 +539,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 		Object[] tempArray = sortEditors(externalEditors);
 		IEditorDescriptor[] array = new IEditorDescriptor[externalEditors.size()];
-		for (int i = 0; i < tempArray.length; i++) {
+		for (int i = 0; i < tempArray.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			array[i] = (IEditorDescriptor) tempArray[i];
 		}
 		return array;
@@ -553,7 +553,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	public IEditorDescriptor[] getSortedEditorsFromPlugins() {
 		// see #comparer
 		Collection<IEditorDescriptor> descs = WorkbenchActivityHelper.restrictCollection(sortedEditorsFromPlugins,
-				new ArrayList<>());
+				new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		return descs.toArray(new IEditorDescriptor[descs.size()]);
 	}
 
@@ -565,7 +565,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * @return the new map
 	 */
 	private Map<String, IEditorDescriptor> initialIdToEditorMap(int initialSize) {
-		Map<String, IEditorDescriptor> map = new HashMap<>(initialSize);
+		Map<String, IEditorDescriptor> map = new HashMap<>(initialSize); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		addSystemEditors(map);
 		return map;
 	}
@@ -578,7 +578,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 *
 	 * @param map the map to augment
 	 */
-	private void addSystemEditors(Map<String, IEditorDescriptor> map) {
+	private void addSystemEditors(Map<String, IEditorDescriptor> map) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// there will always be a system external editor descriptor
 		EditorDescriptor editor = new EditorDescriptor();
 		editor.setID(IEditorRegistry.SYSTEM_EXTERNAL_EDITOR_ID);
@@ -609,9 +609,9 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * Initialize the registry state from plugin declarations and preference
 	 * overrides.
 	 */
-	private void initializeFromStorage() {
+	private void initializeFromStorage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		typeEditorMappings = new EditorMap();
-		extensionImages = new HashMap<>();
+		extensionImages = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		// Get editors from the registry
 		EditorRegistryReader registryReader = new EditorRegistryReader();
@@ -645,19 +645,19 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 *
 	 * @param defaultEditors the default editors to set
 	 */
-	private void setProductDefaults(String defaultEditors) {
+	private void setProductDefaults(String defaultEditors) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (defaultEditors == null || defaultEditors.isEmpty()) {
 			return;
 		}
 
 		StringTokenizer extEditors = new StringTokenizer(defaultEditors,
 				Character.toString(IPreferenceConstants.SEPARATOR));
-		while (extEditors.hasMoreTokens()) {
+		while (extEditors.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String extEditor = extEditors.nextToken().trim();
 			int index = extEditor.indexOf(':');
 			if (extEditor.length() < 3 || index <= 0 || index >= (extEditor.length() - 1)) {
 				// Extension and id must have at least one char.
-				WorkbenchPlugin.log("Error setting default editor. Could not parse '" + extEditor //$NON-NLS-1$
+				WorkbenchPlugin.log("Error setting default editor. Could not parse '" + extEditor //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "'. Default editors should be specified as '*.ext1:editorId1;*.ext2:editorId2'"); //$NON-NLS-1$
 				return;
 			}
@@ -665,12 +665,12 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 			String editorId = extEditor.substring(index + 1).trim();
 			FileEditorMapping mapping = getMappingFor(ext);
 			if (mapping == null) {
-				WorkbenchPlugin.log("Error setting default editor. Could not find mapping for '" + ext + "'."); //$NON-NLS-1$ //$NON-NLS-2$
+				WorkbenchPlugin.log("Error setting default editor. Could not find mapping for '" + ext + "'."); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				continue;
 			}
 			IEditorDescriptor editor = findEditor(editorId);
 			if (editor == null) {
-				WorkbenchPlugin.log("Error setting default editor. Could not find editor: '" + editorId + "'."); //$NON-NLS-1$ //$NON-NLS-2$
+				WorkbenchPlugin.log("Error setting default editor. Could not find editor: '" + editorId + "'."); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				continue;
 			}
 			mapping.setDefaultEditor(editor);
@@ -683,7 +683,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * @param editorTable Editor table to store the editor definitions.
 	 * @return true if the table is built successfully.
 	 */
-	private boolean readEditors(Map<String, IEditorDescriptor> editorTable) {
+	private boolean readEditors(Map<String, IEditorDescriptor> editorTable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get the workbench plugin's working directory
 		IPath workbenchStatePath = WorkbenchPlugin.getDefault().getDataLocation();
 		if (workbenchStatePath == null) {
@@ -695,7 +695,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		try (Reader reader = createReader(xmlString, workbenchStatePath, IWorkbenchConstants.EDITOR_FILE_NAME)) {
 			XMLMemento memento = XMLMemento.createReadRoot(reader);
 			// Get the editors and validate each one
-			for (IMemento childMemento : memento.getChildren(IWorkbenchConstants.TAG_DESCRIPTOR)) {
+			for (IMemento childMemento : memento.getChildren(IWorkbenchConstants.TAG_DESCRIPTOR)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				EditorDescriptor editor = new EditorDescriptor();
 				boolean valid = editor.loadValues(childMemento);
 				if (!valid) {
@@ -725,7 +725,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 					String fileName = editor.getFileName();
 					if (fileName == null) {
 						String error = "Both editor program and path are null for descriptor id: "; //$NON-NLS-1$
-						error += editor.getId() + " with name: " + editor.getLabel(); //$NON-NLS-1$
+						error += editor.getId() + " with name: " + editor.getLabel(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						WorkbenchPlugin.log(error, new IllegalStateException());
 						continue;
 					}
@@ -772,10 +772,10 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * @param reader      Reader containing the preferences content for the
 	 *                    resources.
 	 */
-	public void readResources(Map<String, IEditorDescriptor> editorTable, Reader reader) throws WorkbenchException {
+	public void readResources(Map<String, IEditorDescriptor> editorTable, Reader reader) throws WorkbenchException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		XMLMemento memento = XMLMemento.createReadRoot(reader);
 
-		for (IMemento childMemento : memento.getChildren(IWorkbenchConstants.TAG_INFO)) {
+		for (IMemento childMemento : memento.getChildren(IWorkbenchConstants.TAG_INFO)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<IEditorDescriptor> editors = getEditorDescriptors(
 					childMemento.getChildren(IWorkbenchConstants.TAG_EDITOR), editorTable);
 			editors.forEach(editor -> {
@@ -797,7 +797,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 				String extension = childMemento.getString(IWorkbenchConstants.TAG_EXTENSION);
 				String key = name;
 				if (extension != null && extension.length() > 0) {
-					key = key + "." + extension; //$NON-NLS-1$
+					key = key + "." + extension; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				FileEditorMapping mapping = getMappingFor(key);
 				if (mapping == null) {
@@ -813,7 +813,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 				// Add any new editors that have already been read from the registry
 				// which were not deleted.
-				for (IEditorDescriptor descriptor : mapping.getEditors()) {
+				for (IEditorDescriptor descriptor : mapping.getEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (descriptor != null && !contains(editors, descriptor) && !deletedEditors.contains(descriptor)) {
 						editors.add(descriptor);
 					}
@@ -830,10 +830,10 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	private List<IEditorDescriptor> getEditorDescriptors(IMemento[] children,
 			Map<String, IEditorDescriptor> editorTable) {
 		if (children == null || children.length == 0) {
-			return new ArrayList<>(0); // need a mutable list
+			return new ArrayList<>(0); // need a mutable list //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
-		List<IEditorDescriptor> res = new ArrayList<>(children.length);
-		for (IMemento child : children) {
+		List<IEditorDescriptor> res = new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMemento child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String editorId = child.getString(IWorkbenchConstants.TAG_ID);
 			if (editorId != null && editorTable.containsKey(editorId)) {
 				res.add(editorTable.get(editorId));
@@ -850,7 +850,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * @return <code>true</code> if the editors list contains the editor descriptor
 	 */
 	private boolean contains(List<IEditorDescriptor> editors, IEditorDescriptor editorDescriptor) {
-		for (IEditorDescriptor currentEditorDescriptor : editors) {
+		for (IEditorDescriptor currentEditorDescriptor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (currentEditorDescriptor.getId().equals(editorDescriptor.getId())) {
 				return true;
 			}
@@ -865,7 +865,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * @param editorTable The editor table containing the defined editors.
 	 * @return true if the resources are read successfully.
 	 */
-	private boolean readResources(Map<String, IEditorDescriptor> editorTable) {
+	private boolean readResources(Map<String, IEditorDescriptor> editorTable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Get the workbench plugin's working directory
 		IPath workbenchStatePath = WorkbenchPlugin.getDefault().getDataLocation();
 		// XXX: nobody cares about this return value
@@ -908,7 +908,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * successful, false otherwise
 	 */
 	private boolean loadAssociations() {
-		Map<String, IEditorDescriptor> editorTable = new HashMap<>();
+		Map<String, IEditorDescriptor> editorTable = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		if (!readEditors(editorTable)) {
 			return false;
 		}
@@ -931,7 +931,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 */
 	private String mappingKeyFor(FileEditorMapping mapping) {
 		return mappingKeyFor(
-				mapping.getName() + (mapping.getExtension().isEmpty() ? "" : "." + mapping.getExtension())); //$NON-NLS-1$ //$NON-NLS-2$
+				mapping.getName() + (mapping.getExtension().isEmpty() ? "" : "." + mapping.getExtension())); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -950,7 +950,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		mapIDtoInternalEditor = initialIdToEditorMap(mapIDtoInternalEditor.size());
 
 		// Add plugin editors.
-		for (IEditorDescriptor desc : sortedEditorsFromPlugins) {
+		for (IEditorDescriptor desc : sortedEditorsFromPlugins) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			mapIDtoInternalEditor.put(desc.getId(), desc);
 		}
 	}
@@ -964,19 +964,19 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * Save the registry to the filesystem by serializing the current resource
 	 * associations.
 	 */
-	public void saveAssociations() {
+	public void saveAssociations() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Save the resource type descriptions
 		LinkedHashSet<IEditorDescriptor> editors = new LinkedHashSet<>();
 		IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
 
 		XMLMemento memento = XMLMemento.createWriteRoot(IWorkbenchConstants.TAG_EDITORS);
 		memento.putString(IWorkbenchConstants.TAG_VERSION, "3.1"); //$NON-NLS-1$
-		for (FileEditorMapping fileEditorMapping : typeEditorMappings.userMappings()) {
+		for (FileEditorMapping fileEditorMapping : typeEditorMappings.userMappings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento editorMemento = memento.createChild(IWorkbenchConstants.TAG_INFO);
 			editorMemento.putString(IWorkbenchConstants.TAG_NAME, fileEditorMapping.getName());
 			editorMemento.putString(IWorkbenchConstants.TAG_EXTENSION, fileEditorMapping.getExtension());
 			IEditorDescriptor[] editorArray = fileEditorMapping.getEditors();
-			for (IEditorDescriptor editor : editorArray) {
+			for (IEditorDescriptor editor : editorArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (editor == null) {
 					continue;
 				}
@@ -985,7 +985,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 				idMemento.putString(IWorkbenchConstants.TAG_ID, editor.getId());
 			}
 			editorArray = fileEditorMapping.getDeletedEditors();
-			for (IEditorDescriptor editor : editorArray) {
+			for (IEditorDescriptor editor : editorArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (editor == null) {
 					continue;
 				}
@@ -994,7 +994,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 				idMemento.putString(IWorkbenchConstants.TAG_ID, editor.getId());
 			}
 			editorArray = fileEditorMapping.getDeclaredDefaultEditors();
-			for (IEditorDescriptor editor : editorArray) {
+			for (IEditorDescriptor editor : editorArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (editor == null) {
 					continue;
 				}
@@ -1003,11 +1003,11 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 				idMemento.putString(IWorkbenchConstants.TAG_ID, editor.getId());
 			}
 		}
-		for (Entry<IContentType, LinkedHashSet<IEditorDescriptor>> mapping : contentTypeToEditorMappingsFromUser
+		for (Entry<IContentType, LinkedHashSet<IEditorDescriptor>> mapping : contentTypeToEditorMappingsFromUser //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.entrySet()) {
 			IMemento editorMemento = memento.createChild(IWorkbenchConstants.TAG_INFO);
 			editorMemento.putString(IWorkbenchConstants.TAG_CONTENT_TYPE, mapping.getKey().getId());
-			for (IEditorDescriptor editor : mapping.getValue()) {
+			for (IEditorDescriptor editor : mapping.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (editor == null) {
 					continue;
 				}
@@ -1027,7 +1027,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		}
 
 		memento = XMLMemento.createWriteRoot(IWorkbenchConstants.TAG_EDITORS);
-		for (IEditorDescriptor editor : editors) {
+		for (IEditorDescriptor editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSystem(editor.getId())) {
 				// bug 502514: don't persist internal editor descriptors,
 				// they are always recreated via addSystemEditors(Map<String,
@@ -1057,10 +1057,10 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 */
 	public void setFileEditorMappings(FileEditorMapping[] newResourceTypes) {
 		typeEditorMappings = new EditorMap();
-		for (FileEditorMapping mapping : newResourceTypes) {
+		for (FileEditorMapping mapping : newResourceTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			typeEditorMappings.put(mappingKeyFor(mapping), mapping);
 		}
-		extensionImages = new HashMap<>();
+		extensionImages = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		rebuildEditorMap();
 		firePropertyChange(PROP_CONTENTS);
 	}
@@ -1101,7 +1101,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 */
 	private void sortInternalEditors() {
 		IEditorDescriptor[] array = sortEditors(sortedEditorsFromPlugins);
-		sortedEditorsFromPlugins = new ArrayList<>();
+		sortedEditorsFromPlugins = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		sortedEditorsFromPlugins.addAll(Arrays.asList(array));
 	}
 
@@ -1111,9 +1111,9 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * other keeps the changes made by the user through the preference page.
 	 */
 	private static class EditorMap {
-		HashMap<String, FileEditorMapping> defaultMap = new HashMap<>();
+		HashMap<String, FileEditorMapping> defaultMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		HashMap<String, FileEditorMapping> map = new HashMap<>();
+		HashMap<String, FileEditorMapping> map = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		/**
 		 * Put a default mapping into the editor map.
@@ -1221,9 +1221,9 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 */
 	private void removeEditorFromMapping(HashMap<String, FileEditorMapping> map, IEditorDescriptor desc) {
 		Iterator<FileEditorMapping> iter = map.values().iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FileEditorMapping mapping = iter.next();
-			for (IEditorDescriptor editor : mapping.getUnfilteredEditors()) {
+			for (IEditorDescriptor editor : mapping.getUnfilteredEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (editor == desc) {
 					mapping.removeEditor(editor);
 					break;
@@ -1238,7 +1238,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 	@Override
 	public void removeExtension(IExtension source, Object[] objects) {
-		for (Object object : objects) {
+		for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IEditorDescriptor desc) {
 				sortedEditorsFromPlugins.remove(desc);
 				mapIDtoInternalEditor.values().remove(desc);
@@ -1257,7 +1257,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 */
 	private void removeEditorFromContentTypeMappings(Map<IContentType, IEditorDescriptor[]> map,
 			IEditorDescriptor desc) {
-		for (Iterator<Entry<IContentType, IEditorDescriptor[]>> iter = map.entrySet().iterator(); iter.hasNext();) {
+		for (Iterator<Entry<IContentType, IEditorDescriptor[]>> iter = map.entrySet().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<IContentType, IEditorDescriptor[]> entry = iter.next();
 			IEditorDescriptor[] descriptors = entry.getValue();
 			IEditorDescriptor[] newDescriptors = removeDescriptor(descriptors, desc);
@@ -1277,8 +1277,8 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * be an empty array, <code>null</code> is returned. If the descriptor is not
 	 * contained at all in the given array, it is returned as is.
 	 */
-	private IEditorDescriptor[] removeDescriptor(IEditorDescriptor[] descriptors, IEditorDescriptor desc) {
-		for (int i = 0; i < descriptors.length; i++) {
+	private IEditorDescriptor[] removeDescriptor(IEditorDescriptor[] descriptors, IEditorDescriptor desc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i = 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (descriptors[i] == desc) {
 				// remove the whole mapping
 				if (descriptors.length == 1) {
@@ -1305,7 +1305,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	public void addExtension(IExtensionTracker tracker, IExtension extension) {
 		EditorRegistryReader eReader = new EditorRegistryReader();
 		IConfigurationElement[] elements = extension.getConfigurationElements();
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id = element.getAttribute(IWorkbenchConstants.TAG_ID);
 			if (id != null && findEditor(id) != null) {
 				continue;
@@ -1353,7 +1353,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 */
 	private IEditorDescriptor selectDefaultEditor(List<IEditorDescriptor> descriptors, IContentType contentType) {
 		IPreferenceStore store = WorkbenchPlugin.getDefault().getPreferenceStore();
-		String key = IPreferenceConstants.DEFAULT_EDITOR_FOR_CONTENT_TYPE + contentType.getId();
+		String key = IPreferenceConstants.DEFAULT_EDITOR_FOR_CONTENT_TYPE + contentType.getId(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String defaultEditorId = store.getString(key);
 		IEditorDescriptor descriptor = null;
 		if (defaultEditorId != null && !defaultEditorId.isBlank()) {
@@ -1372,7 +1372,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		return findRelatedObjects(contentType, fileName, relatedRegistry).toArray(IEditorDescriptor[]::new);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ImageDescriptor getImageDescriptor(String filename, IContentType contentType) {
 		if (filename == null) {
 			return getDefaultImage();
@@ -1399,7 +1399,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 		// See if we have a mapping for the filename or extension
 		FileEditorMapping[] mapping = getMappingForFilename(filename);
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 2; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mapping[i] != null) {
 				// Lookup in the cache first...
 				String mappingKey = mappingKeyFor(mapping[i]);
@@ -1436,16 +1436,16 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 *
 	 * @return the related objects
 	 */
-	private List<IEditorDescriptor> findRelatedObjects(IContentType type, String fileName, RelatedRegistry registry) {
-		List<IEditorDescriptor> allRelated = new ArrayList<>();
-		List<IEditorDescriptor> nonDefaultFileEditors = new ArrayList<>();
+	private List<IEditorDescriptor> findRelatedObjects(IContentType type, String fileName, RelatedRegistry registry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IEditorDescriptor> allRelated = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IEditorDescriptor> nonDefaultFileEditors = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (fileName != null) {
 			FileEditorMapping mapping = getMappingFor(fileName);
 			if (mapping != null) {
 				// backwards compatibility - add editors flagged as "default"
 				IEditorDescriptor[] related = mapping.getDeclaredDefaultEditors();
-				for (IEditorDescriptor editor : related) {
+				for (IEditorDescriptor editor : related) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// we don't want to return duplicates
 					if (editor != null && !allRelated.contains(editor)) {
 						// if it's not filtered, add it to the list
@@ -1463,11 +1463,11 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 			int index = fileName.lastIndexOf('.');
 			if (index > -1) {
-				String extension = "*" + fileName.substring(index); //$NON-NLS-1$
+				String extension = "*" + fileName.substring(index); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				mapping = getMappingFor(extension);
 				if (mapping != null) {
 					IEditorDescriptor[] related = mapping.getDeclaredDefaultEditors();
-					for (IEditorDescriptor editor : related) {
+					for (IEditorDescriptor editor : related) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// we don't want to return duplicates
 						if (editor != null && !allRelated.contains(editor)) {
 							// if it's not filtered, add it to the list
@@ -1484,7 +1484,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		if (type != null) {
 			// now add any objects directly related to the content type
 			IEditorDescriptor[] related = registry.getRelatedObjects(type);
-			for (IEditorDescriptor r : related) {
+			for (IEditorDescriptor r : related) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// we don't want to return duplicates
 				if (!allRelated.contains(r)) {
 					// if it's not filtered, add it to the list
@@ -1498,9 +1498,9 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 		if (type != null) {
 			// now add any indirectly related objects, walking up the content type hierarchy
-			while ((type = type.getBaseType()) != null) {
+			while ((type = type.getBaseType()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IEditorDescriptor[] related = registry.getRelatedObjects(type);
-				for (IEditorDescriptor r : related) {
+				for (IEditorDescriptor r : related) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// we don't want to return duplicates
 					if (!allRelated.contains(r)) {
 						// if it's not filtered, add it to the list
@@ -1514,7 +1514,7 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 
 
 		// add all non-default editors to the list
-		for (IEditorDescriptor editor : nonDefaultFileEditors) {
+		for (IEditorDescriptor editor : nonDefaultFileEditors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (editor != null && !allRelated.contains(editor) && !WorkbenchActivityHelper.filterItem(editor)) {
 				allRelated.add(editor);
 			}
@@ -1532,14 +1532,14 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 *
 	 *        TODO: this should be rolled in with the above findRelatedObjects code
 	 */
-	public IEditorDescriptor[] getEditorsForContentType(IContentType type) {
-		List<IEditorDescriptor> allRelated = new ArrayList<>();
+	public IEditorDescriptor[] getEditorsForContentType(IContentType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IEditorDescriptor> allRelated = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (type == null) {
 			return new IEditorDescriptor[0];
 		}
 
 		IEditorDescriptor[] related = relatedRegistry.getRelatedObjects(type);
-		for (IEditorDescriptor r : related) {
+		for (IEditorDescriptor r : related) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// we don't want to return duplicates
 			if (!allRelated.contains(r)) {
 				// if it's not filtered, add it to the list
@@ -1550,9 +1550,9 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 		}
 
 		// now add any indirectly related objects, walking up the content type hierarchy
-		while ((type = type.getBaseType()) != null) {
+		while ((type = type.getBaseType()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			related = relatedRegistry.getRelatedObjects(type);
-			for (IEditorDescriptor r : related) {
+			for (IEditorDescriptor r : related) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// we don't want to return duplicates
 				if (!allRelated.contains(r)) {
 					// if it's not filtered, add it to the list
@@ -1573,15 +1573,15 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 	 * @return the file types
 	 * @since 3.1
 	 */
-	public IFileEditorMapping[] getUnifiedMappings() {
+	public IFileEditorMapping[] getUnifiedMappings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFileEditorMapping[] standardMappings = PlatformUI.getWorkbench().getEditorRegistry().getFileEditorMappings();
 
-		List<IFileEditorMapping> allMappings = new ArrayList<>(Arrays.asList(standardMappings));
+		List<IFileEditorMapping> allMappings = new ArrayList<>(Arrays.asList(standardMappings)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// mock-up content type extensions into IFileEditorMappings
-		for (IContentType type : contentTypeManager.getAllContentTypes()) {
-			for (String extension : type.getFileSpecs(IContentType.FILE_EXTENSION_SPEC)) {
+		for (IContentType type : contentTypeManager.getAllContentTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String extension : type.getFileSpecs(IContentType.FILE_EXTENSION_SPEC)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean found = false;
-				for (IFileEditorMapping mapping : allMappings) {
+				for (IFileEditorMapping mapping : allMappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ("*".equals(mapping.getName()) && extension.equals(mapping.getExtension())) { //$NON-NLS-1$
 						found = true;
 						break;
@@ -1593,13 +1593,13 @@ public class EditorRegistry extends EventManager implements IEditorRegistry, IEx
 				}
 			}
 
-			for (String wholename : type.getFileSpecs(IContentType.FILE_NAME_SPEC)) {
+			for (String wholename : type.getFileSpecs(IContentType.FILE_NAME_SPEC)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int idx = wholename.indexOf('.');
 				String name = idx == -1 ? wholename : wholename.substring(0, idx);
 				String extension = idx == -1 ? "" : wholename.substring(idx + 1); //$NON-NLS-1$
 
 				boolean found = false;
-				for (IFileEditorMapping mapping : allMappings) {
+				for (IFileEditorMapping mapping : allMappings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (name.equals(mapping.getName()) && extension.equals(mapping.getExtension())) {
 						found = true;
 						break;
@@ -1695,7 +1695,7 @@ class MockMapping implements IFileEditorMapping {
 
 	@Override
 	public String getLabel() {
-		return filename + '.' + extension;
+		return filename + '.' + extension; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

@@ -31,14 +31,14 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
  */
 public class WorkbenchProject extends WorkbenchResource implements IProjectActionFilter {
 
-	HashMap<String, ImageDescriptor> imageCache = new HashMap<>(11);
+	HashMap<String, ImageDescriptor> imageCache = new HashMap<>(11); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 *	Answer the appropriate base image to use for the passed resource, optionally
 	 *	considering the passed open status as well iff appropriate for the type of
 	 *	passed resource
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ImageDescriptor getBaseImage(IResource resource) {
 		IProject project = (IProject) resource;
 		boolean isOpen = project.isOpen();
@@ -46,7 +46,7 @@ public class WorkbenchProject extends WorkbenchResource implements IProjectActio
 				: IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED;
 		if (isOpen) {
 			try {
-				for (String imageKey : project.getDescription().getNatureIds()) {
+				for (String imageKey : project.getDescription().getNatureIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// Have to use a cache because OverlayIcon does not define
 					// its own equality criteria,
 					// so WorkbenchLabelProvider would always create a new image

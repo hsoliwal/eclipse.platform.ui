@@ -39,7 +39,7 @@ public class ModeledPlaceholderFolderLayout implements IPlaceholderFolderLayout 
 	public void addPlaceholder(String viewId) {
 		boolean containsWildcards = viewId.indexOf('?') != -1;
 		if (containsWildcards) {
-			E4Util.unsupported("IPageLayout.addPlacehoder(): wildcard in view id: " + viewId); //$NON-NLS-1$
+			E4Util.unsupported("IPageLayout.addPlacehoder(): wildcard in view id: " + viewId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 

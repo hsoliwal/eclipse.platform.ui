@@ -105,7 +105,7 @@ public final class Descriptors {
 		DeviceResourceDescriptor<?> oldDescriptor;
 		final String id;
 
-		public void invoke(Widget toCall, DeviceResourceDescriptor<?> newDescriptor) {
+		public void invoke(Widget toCall, DeviceResourceDescriptor<?> newDescriptor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (newDescriptor == oldDescriptor) {
 				return;
 			}
@@ -158,7 +158,7 @@ public final class Descriptors {
 		}
 	}
 
-	private static DisposeListener disposeListener = e -> doDispose(e.widget);
+	private static DisposeListener disposeListener = e -> doDispose(e.widget); //FLLDCIM: MARK — T01  LAMBDA
 
 	// Item
 	// //////////////////////////////////////////////////////////////////////////////////
@@ -221,13 +221,13 @@ public final class Descriptors {
 		callMethod(label, "setImage", descriptor, Image.class); //$NON-NLS-1$
 	}
 
-	private static ResourceMethod getResourceMethod(Widget toCall, String methodName, Class<?> resourceType)
+	private static ResourceMethod getResourceMethod(Widget toCall, String methodName, Class<?> resourceType) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws NoSuchMethodException {
 		Object oldData = toCall.getData(DISPOSE_LIST);
 
 		if (oldData instanceof List) {
 			// Check for existing data
-			for (Object element : ((List<?>) oldData)) {
+			for (Object element : ((List<?>) oldData)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ResourceMethod method = (ResourceMethod) element;
 
 				if (method.id == methodName) {
@@ -240,7 +240,7 @@ public final class Descriptors {
 				return ((ResourceMethod) oldData);
 			}
 
-			List<ResourceMethod> newList = new ArrayList<>();
+			List<ResourceMethod> newList = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			newList.add((ResourceMethod) oldData);
 			oldData = newList;
 			toCall.setData(DISPOSE_LIST, oldData);
@@ -261,7 +261,7 @@ public final class Descriptors {
 
 		if (oldData == null) {
 			toCall.setData(DISPOSE_LIST, result);
-			toCall.addDisposeListener(disposeListener);
+			toCall.addDisposeListener(disposeListener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 		} else {
 			((List<ResourceMethod>) oldData).add(result);
 		}
@@ -290,7 +290,7 @@ public final class Descriptors {
 			ResourceMethod[] data = list.toArray(new ResourceMethod[list.size()]);
 
 			// Clear out the images
-			for (ResourceMethod method : data) {
+			for (ResourceMethod method : data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				method.dispose();
 			}
 		}

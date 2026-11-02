@@ -66,12 +66,12 @@ public abstract class WorkbenchPreferenceExtensionNode extends WorkbenchPreferen
 	 *
 	 * @return Collection of <code>String</code>. Never <code>null</code>.
 	 */
-	public Collection<String> getKeywordReferences() {
+	public Collection<String> getKeywordReferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (keywordReferences == null) {
 			IConfigurationElement[] references = getConfigurationElement()
 					.getChildren(IWorkbenchRegistryConstants.TAG_KEYWORD_REFERENCE);
-			HashSet<String> list = new HashSet<>(references.length);
-			for (IConfigurationElement configElement : references) {
+			HashSet<String> list = new HashSet<>(references.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IConfigurationElement configElement : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String id = configElement.getAttribute(IWorkbenchRegistryConstants.ATT_ID);
 				if (id != null) {
 					list.add(id);
@@ -93,7 +93,7 @@ public abstract class WorkbenchPreferenceExtensionNode extends WorkbenchPreferen
 	 *
 	 * @return Collection of <code>String</code>. Never <code>null</code>.
 	 */
-	public Collection<String> getKeywordLabels() {
+	public Collection<String> getKeywordLabels() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (keywordLabelCache != null) {
 			return keywordLabelCache;
 		}
@@ -105,9 +105,9 @@ public abstract class WorkbenchPreferenceExtensionNode extends WorkbenchPreferen
 			return keywordLabelCache;
 		}
 
-		Collection<String> labels = new ArrayList<>(refs.size());
+		Collection<String> labels = new ArrayList<>(refs.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String reference : refs) {
+		for (String reference : refs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String label = KeywordRegistry.getInstance().getKeywordLabel(reference);
 			if (label != null) {
 				labels.add(label);

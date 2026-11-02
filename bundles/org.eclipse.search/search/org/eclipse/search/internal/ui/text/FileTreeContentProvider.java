@@ -492,7 +492,7 @@ public class FileTreeContentProvider implements ITreeContentProvider, IFileSearc
 		Set<Object> children = fChildrenMap.get(element);
 		if (children == null || children.isEmpty()) {
 			if (element instanceof LineElement line) {
-				shownLines.computeIfAbsent(line.getParent(), _ -> new HashSet<>()).add(line);
+				shownLines.computeIfAbsent(line.getParent(), unused -> new HashSet<>()).add(line);
 			} else {
 				shownFiles.add(element);
 			}

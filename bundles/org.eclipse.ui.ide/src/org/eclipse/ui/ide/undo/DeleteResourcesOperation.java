@@ -76,12 +76,12 @@ public class DeleteResourcesOperation extends AbstractResourcesOperation {
 		recreate(monitor, uiInfo);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateResourceChangeDescriptionFactory(
 			IResourceChangeDescriptionFactory factory, int operation) {
 		boolean modified = false;
 		if (operation == UNDO) {
-			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) {
+			for (IResourceSnapshot<? extends IResource> resourceDescription : resourceDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resourceDescription != null) {
 					IResource resource = resourceDescription.createResourceHandle();
 					factory.create(resource);
@@ -89,7 +89,7 @@ public class DeleteResourcesOperation extends AbstractResourcesOperation {
 				}
 			}
 		} else {
-			for (IResource resource : resources) {
+			for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				factory.delete(resource);
 				modified = true;
 			}
@@ -161,7 +161,7 @@ public class DeleteResourcesOperation extends AbstractResourcesOperation {
 	 * to specify whether project children should be checked, but it is too late
 	 * to do that now. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=180758
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	IStatus checkReadOnlyResources(IResource[] resourcesToCheck) {
 		// If we aren't deleting content of projects, don't bother
 		// checking the read only status of projects or their children.
@@ -169,8 +169,8 @@ public class DeleteResourcesOperation extends AbstractResourcesOperation {
 		// in a DeleteResourcesOperation. However, this is not specified
 		// in the API, so assume that there could be mixes.
 		if (!deleteContent) {
-			ArrayList<IResource> nonProjectResourcesToCheck = new ArrayList<>();
-			for (IResource resource : resourcesToCheck) {
+			ArrayList<IResource> nonProjectResourcesToCheck = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IResource resource : resourcesToCheck) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (resource.getType() != IResource.PROJECT) {
 					nonProjectResourcesToCheck.add(resource);
 				}

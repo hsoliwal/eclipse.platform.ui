@@ -74,7 +74,7 @@ public class MarkersPropertyPage extends PropertyPage {
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		// initialize resources/properties
 
@@ -147,7 +147,7 @@ public class MarkersPropertyPage extends PropertyPage {
 	/**
 	 * Creates the area for the Description field.
 	 */
-	private void createDescriptionArea(Composite parent) {
+	private void createDescriptionArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridData cGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		cGridData.horizontalSpan = 2;
@@ -179,7 +179,7 @@ public class MarkersPropertyPage extends PropertyPage {
 		copyButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_COPY));
 		copyButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		((GridData) copyButton.getLayoutData()).verticalAlignment = SWT.BOTTOM;
-		copyButton.addListener(SWT.Selection, event -> {
+		copyButton.addListener(SWT.Selection, event -> { //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			Clipboard clipboard = new Clipboard(event.display);
 			try {
 				clipboard.setContents(new Object[] { descriptionText.getText() },
@@ -214,7 +214,7 @@ public class MarkersPropertyPage extends PropertyPage {
 	/**
 	 * Create the attributes area for editing a task
 	 */
-	private void createTaskAttributes(Composite parent) {
+	private void createTaskAttributes(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(MarkerMessages.propertiesDialog_priority);
 
@@ -254,7 +254,7 @@ public class MarkersPropertyPage extends PropertyPage {
 	/**
 	 * Create the attributes area for problems
 	 */
-	private void createProblemAttributes(Composite parent) {
+	private void createProblemAttributes(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		new Label(parent, SWT.NONE).setText(MarkerMessages.propertiesDialog_severityLabel);
 
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -284,7 +284,7 @@ public class MarkersPropertyPage extends PropertyPage {
 	/**
 	 * Creates the area for the Resource field.
 	 */
-	private void createResourceArea(Composite parent) {
+	private void createResourceArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		createResourcePathArea(parent);
 
 		Label locationLabel = new Label(parent, SWT.NONE);
@@ -339,12 +339,12 @@ public class MarkersPropertyPage extends PropertyPage {
 	 * Saves the changes made in the dialog if needed. Creates a new marker if
 	 * needed. Updates the existing marker only if there have been changes.
 	 */
-	private void saveChanges() {
+	private void saveChanges() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, Object> attrs;
 		try {
 			attrs = marker.getAttributes();
 		} catch (CoreException e) {
-			attrs = new HashMap<>();
+			attrs = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			Policy.handle(e);
 		}
 

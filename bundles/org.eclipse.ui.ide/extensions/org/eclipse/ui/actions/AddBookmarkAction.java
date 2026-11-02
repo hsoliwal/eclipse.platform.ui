@@ -42,12 +42,12 @@ import org.eclipse.ui.internal.views.bookmarkexplorer.BookmarkMessages;
  * </p>
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class AddBookmarkAction extends SelectionListenerAction {
+public class AddBookmarkAction extends SelectionListenerAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The id of this action.
 	 */
-	public static final String ID = PlatformUI.PLUGIN_ID + ".AddBookmarkAction"; //$NON-NLS-1$
+	public static final String ID = PlatformUI.PLUGIN_ID + ".AddBookmarkAction"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The IShellProvider in which to show any dialogs.
@@ -105,7 +105,7 @@ public class AddBookmarkAction extends SelectionListenerAction {
 		setId(ID);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		if (getSelectedResources().isEmpty()) {
 			return;
@@ -113,7 +113,7 @@ public class AddBookmarkAction extends SelectionListenerAction {
 
 		IResource resource= getSelectedResources().get(0);
 		if (resource != null) {
-			Map<String, String> attrs = new HashMap<>();
+			Map<String, String> attrs = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			attrs.put(IMarker.MESSAGE, resource.getName());
 			CreateMarkersOperation op = new CreateMarkersOperation(IMarker.BOOKMARK, attrs, resource,
 					BookmarkMessages.CreateBookmark_undoText);

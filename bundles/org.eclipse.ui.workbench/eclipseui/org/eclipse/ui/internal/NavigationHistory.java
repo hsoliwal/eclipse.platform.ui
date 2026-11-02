@@ -49,11 +49,11 @@ public class NavigationHistory implements INavigationHistory {
 
 	private int ignoreEntries;
 
-	private final ArrayList<NavigationHistoryEntry> history = new ArrayList<>(CAPACITY);
+	private final ArrayList<NavigationHistoryEntry> history = new ArrayList<>(CAPACITY); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-	Map<Object, PerTabHistory> perTabHistoryMap = new HashMap<>();
+	Map<Object, PerTabHistory> perTabHistoryMap = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	private final ArrayList<NavigationHistoryEditorInfo> editors = new ArrayList<>(CAPACITY);
+	private final ArrayList<NavigationHistoryEditorInfo> editors = new ArrayList<>(CAPACITY); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private IWorkbenchPage page;
 
@@ -65,9 +65,9 @@ public class NavigationHistory implements INavigationHistory {
 	 *
 	 * @param page the workbench page
 	 */
-	public NavigationHistory(final IWorkbenchPage page) {
+	public NavigationHistory(final IWorkbenchPage page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.page = page;
-		page.addPartListener(new IPartListener2() {
+		page.addPartListener(new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 			@Override
 			public void partActivated(IWorkbenchPartReference partRef) {
 			}
@@ -109,7 +109,7 @@ public class NavigationHistory implements INavigationHistory {
 				updateNavigationHistory(partRef, false);
 			}
 
-			private void updateNavigationHistory(IWorkbenchPartReference partRef, boolean partClosed) {
+			private void updateNavigationHistory(IWorkbenchPartReference partRef, boolean partClosed) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (partRef != null && partRef.getPart(false) instanceof IEditorPart) {
 					IEditorPart editor = (IEditorPart) partRef.getPart(false);
 					IEditorInput input = editor.getEditorInput();
@@ -121,7 +121,7 @@ public class NavigationHistory implements INavigationHistory {
 					if (current != null) {
 						currentInfo = current.editorInfo;
 					}
-					while (e.hasNext()) {
+					while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						info = e.next();
 						if (id.equals(info.editorID) && input.equals(info.editorInput)) {
 							if (partClosed && info != currentInfo) {
@@ -137,7 +137,7 @@ public class NavigationHistory implements INavigationHistory {
 					boolean isEntryDisposed = false;
 					Iterator<NavigationHistoryEntry> it = history.iterator();
 					int i = 0;
-					while (it.hasNext()) {
+					while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						NavigationHistoryEntry entry = it.next();
 						if (entry.editorInfo == info) {
 							if (!entry.handlePartClosed()) {
@@ -186,7 +186,7 @@ public class NavigationHistory implements INavigationHistory {
 	/*
 	 * Adds an editor to the editor history without getting its location.
 	 */
-	public void markEditor(final IEditorPart part) {
+	public void markEditor(final IEditorPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ignoreEntries > 0 || part == null) {
 			return;
 		}
@@ -195,7 +195,7 @@ public class NavigationHistory implements INavigationHistory {
 		 * when using Open Declaration (F3) that opens another editor.
 		 */
 		ignoreEntries++;
-		getDisplay().asyncExec(() -> {
+		getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (--ignoreEntries == 0) {
 				if (part.getEditorSite() instanceof EditorSite) {
 					EditorSite site = (EditorSite) part.getEditorSite();
@@ -229,7 +229,7 @@ public class NavigationHistory implements INavigationHistory {
 		}
 		int length = activeEntry;
 		NavigationHistoryEntry[] entries = new NavigationHistoryEntry[length];
-		for (int i = 0; i < activeEntry; i++) {
+		for (int i = 0; i < activeEntry; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			entries[activeEntry - 1 - i] = getEntry(i);
 		}
 		return entries;
@@ -247,7 +247,7 @@ public class NavigationHistory implements INavigationHistory {
 		int length = history.size() - activeEntry - 1;
 		length = Math.max(0, length);
 		NavigationHistoryEntry[] entries = new NavigationHistoryEntry[length];
-		for (int i = activeEntry + 1; i < history.size(); i++) {
+		for (int i = activeEntry + 1; i < history.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			entries[i - activeEntry - 1] = getEntry(i);
 		}
 		return entries;
@@ -256,7 +256,7 @@ public class NavigationHistory implements INavigationHistory {
 	@Override
 	public INavigationLocation[] getLocations() {
 		INavigationLocation result[] = new INavigationLocation[history.size()];
-		for (int i = 0; i < result.length; i++) {
+		for (int i = 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEntry e = history.get(i);
 			result[i] = e.location;
 		}
@@ -275,7 +275,7 @@ public class NavigationHistory implements INavigationHistory {
 	public void dispose() {
 		disposeHistoryForTabs();
 		Iterator<NavigationHistoryEntry> e = history.iterator();
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEntry entry = e.next();
 			disposeEntry(entry);
 		}
@@ -331,7 +331,7 @@ public class NavigationHistory implements INavigationHistory {
 	 */
 	private void removeForwardEntries() {
 		int length = history.size();
-		for (int i = activeEntry + 1; i < length; i++) {
+		for (int i = activeEntry + 1; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEntry e = history.remove(activeEntry + 1);
 			disposeEntry(e);
 		}
@@ -340,7 +340,7 @@ public class NavigationHistory implements INavigationHistory {
 	/*
 	 * Adds a location to the history.
 	 */
-	private void addEntry(IEditorPart part) {
+	private void addEntry(IEditorPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ignoreEntries > 0 || part == null) {
 			return;
 		}
@@ -376,11 +376,11 @@ public class NavigationHistory implements INavigationHistory {
 	 */
 	private void printEntries(String label) {
 		if (DEBUG) {
-			System.out.println("+++++ " + label + "+++++ "); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println("+++++ " + label + "+++++ "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			int size = history.size();
-			for (int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String append = activeEntry == i ? ">>" : ""; //$NON-NLS-1$ //$NON-NLS-2$
-				System.out.println(append + "Index: " + i + " " + history.get(i)); //$NON-NLS-1$ //$NON-NLS-2$
+				System.out.println(append + "Index: " + i + " " + history.get(i)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -512,34 +512,34 @@ public class NavigationHistory implements INavigationHistory {
 	/**
 	 * Save the state of this history into the memento.
 	 */
-	void saveState(IMemento memento) {
+	void saveState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		NavigationHistoryEntry cEntry = getEntry(activeEntry);
 		if (cEntry == null || !cEntry.editorInfo.isPersistable()) {
 			return;
 		}
 
-		ArrayList<NavigationHistoryEditorInfo> editors = new ArrayList<>(this.editors);
-		for (Iterator<NavigationHistoryEditorInfo> iter = editors.iterator(); iter.hasNext();) {
+		ArrayList<NavigationHistoryEditorInfo> editors = new ArrayList<>(this.editors); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<NavigationHistoryEditorInfo> iter = editors.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEditorInfo info = iter.next();
 			if (!info.isPersistable()) {
 				iter.remove();
 			}
 		}
 		IMemento editorsMem = memento.createChild(IWorkbenchConstants.TAG_EDITORS);
-		for (NavigationHistoryEditorInfo info : editors) {
+		for (NavigationHistoryEditorInfo info : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			info.saveState(editorsMem.createChild(IWorkbenchConstants.TAG_EDITOR));
 		}
 
-		ArrayList<NavigationHistoryEntry> list = new ArrayList<>(history.size());
+		ArrayList<NavigationHistoryEntry> list = new ArrayList<>(history.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int size = history.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEntry entry = history.get(i);
 			if (entry.editorInfo.isPersistable()) {
 				list.add(entry);
 			}
 		}
 		size = list.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEntry entry = list.get(i);
 			IMemento childMem = memento.createChild(IWorkbenchConstants.TAG_ITEM);
 			if (entry == cEntry) {
@@ -553,7 +553,7 @@ public class NavigationHistory implements INavigationHistory {
 	/**
 	 * Restore the state of this history from the memento.
 	 */
-	void restoreState(IMemento memento) {
+	void restoreState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMemento editorsMem = memento.getChild(IWorkbenchConstants.TAG_EDITORS);
 		IMemento items[] = memento.getChildren(IWorkbenchConstants.TAG_ITEM);
 		if (items.length == 0 || editorsMem == null) {
@@ -565,12 +565,12 @@ public class NavigationHistory implements INavigationHistory {
 
 		IMemento children[] = editorsMem.getChildren(IWorkbenchConstants.TAG_EDITOR);
 		NavigationHistoryEditorInfo editorsInfo[] = new NavigationHistoryEditorInfo[children.length];
-		for (int i = 0; i < editorsInfo.length; i++) {
+		for (int i = 0; i < editorsInfo.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			editorsInfo[i] = new NavigationHistoryEditorInfo(children[i]);
 			editors.add(editorsInfo[i]);
 		}
 
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento item = items[i];
 			int index = item.getInteger(IWorkbenchConstants.TAG_INDEX).intValue();
 			NavigationHistoryEditorInfo info = editorsInfo[index];
@@ -597,11 +597,11 @@ public class NavigationHistory implements INavigationHistory {
 		}
 	}
 
-	public NavigationHistoryEntry createEntry(IWorkbenchPage page, IEditorPart part, INavigationLocation location) {
+	public NavigationHistoryEntry createEntry(IWorkbenchPage page, IEditorPart part, INavigationLocation location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String editorID = part.getSite().getId();
 		IEditorInput editorInput = part.getEditorInput();
 		NavigationHistoryEditorInfo info = null;
-		for (Iterator<NavigationHistoryEditorInfo> iter = editors.iterator(); iter.hasNext();) {
+		for (Iterator<NavigationHistoryEditorInfo> iter = editors.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			info = iter.next();
 			if (editorID.equals(info.editorID) && editorInput.equals(info.editorInput)) {
 				info.refCount++;
@@ -628,12 +628,12 @@ public class NavigationHistory implements INavigationHistory {
 		entry.dispose();
 	}
 
-	void checkDuplicates(NavigationHistoryEditorInfo info) {
+	void checkDuplicates(NavigationHistoryEditorInfo info) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		NavigationHistoryEditorInfo dup = null;
 		if (info.editorInput == null) {
 			return;
 		}
-		for (Iterator<NavigationHistoryEditorInfo> iter = editors.iterator(); iter.hasNext();) {
+		for (Iterator<NavigationHistoryEditorInfo> iter = editors.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dup = iter.next();
 			if (info != dup && info.editorID.equals(dup.editorID) && info.editorInput.equals(dup.editorInput)) {
 				break;
@@ -643,7 +643,7 @@ public class NavigationHistory implements INavigationHistory {
 		if (dup == null) {
 			return;
 		}
-		for (NavigationHistoryEntry entry : history) {
+		for (NavigationHistoryEntry entry : history) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.editorInfo == dup) {
 				entry.editorInfo = info;
 				info.refCount++;
@@ -683,7 +683,7 @@ public class NavigationHistory implements INavigationHistory {
 		return null;
 	}
 
-	private void markLocationForTab(IEditorPart part) {
+	private void markLocationForTab(IEditorPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (part instanceof ErrorEditorPart) {
 			updateActions();
 			return;
@@ -725,7 +725,7 @@ public class NavigationHistory implements INavigationHistory {
 		}
 	}
 
-	private void gotoEntryForTab(NavigationHistoryEntry target, boolean forward) {
+	private void gotoEntryForTab(NavigationHistoryEntry target, boolean forward) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object editorTabCookie = getCookieForTab(page.getActiveEditor());
 		if (editorTabCookie != null) {
 			PerTabHistory perTabHistory = perTabHistoryMap.get(editorTabCookie);
@@ -741,7 +741,7 @@ public class NavigationHistory implements INavigationHistory {
 					destination.addFirst(perTabHistory.currentEntry);
 				}
 				NavigationHistoryEntry newCurrent = null;
-				while (!source.isEmpty() && newCurrent == null) {
+				while (!source.isEmpty() && newCurrent == null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					NavigationHistoryEntry entry = source.removeFirst();
 					if (entry.equals(target)) {
 						newCurrent = entry;
@@ -766,7 +766,7 @@ public class NavigationHistory implements INavigationHistory {
 		}
 	}
 
-	private void forwardForTab() {
+	private void forwardForTab() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object editorTabCookie = getCookieForTab(page.getActiveEditor());
 		if (editorTabCookie != null) {
 			PerTabHistory perTabHistory = perTabHistoryMap.get(editorTabCookie);
@@ -795,7 +795,7 @@ public class NavigationHistory implements INavigationHistory {
 		}
 	}
 
-	private void backwardForTab() {
+	private void backwardForTab() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object editorTabCookie = getCookieForTab(page.getActiveEditor());
 		if (editorTabCookie != null) {
 			PerTabHistory perTabHistory = perTabHistoryMap.get(editorTabCookie);
@@ -857,7 +857,7 @@ public class NavigationHistory implements INavigationHistory {
 
 	private void disposeHistoryForTabs() {
 		Object[] keys = perTabHistoryMap.keySet().toArray();
-		for (Object key : keys) {
+		for (Object key : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			disposeHistoryForTab(key);
 		}
 	}
@@ -875,14 +875,14 @@ public class NavigationHistory implements INavigationHistory {
 	}
 
 	private void removeEntriesForTab(LinkedList<NavigationHistoryEntry> entries) {
-		for (Iterator<NavigationHistoryEntry> it = entries.iterator(); it.hasNext();) {
+		for (Iterator<NavigationHistoryEntry> it = entries.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NavigationHistoryEntry entry = it.next();
 			disposeEntry(entry);
 			it.remove();
 		}
 	}
 
-	public boolean updateActive(IEditorPart editor) {
+	public boolean updateActive(IEditorPart editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		NavigationHistoryEntry e = getEntry(activeEntry);
 		if (e == null) {
 			return false;
