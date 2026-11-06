@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2015 IBM Corporation and others.
+ * Copyright (c) 2000, 2026 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -59,7 +59,7 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 	private final ConcurrentHashMap<Match, Long> collisionOrder;
 	private final AtomicLong collisionCounter;
 
-	private MatchFilter[] fMatchFilters;
+	private volatile MatchFilter[] fMatchFilters;
 
 	/**
 	 * Constructs a new <code>AbstractTextSearchResult</code>
@@ -206,7 +206,7 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 	 *         already present
 	 */
 	private boolean didAddMatch(Match match) {
-		updateFilterState(match);
+		updateFilterState(match, getActiveMatchFilters());
 		try {
 			return fElementsToMatches.computeIfAbsent(match.getElement(),
 					unused -> new ConcurrentSkipListSet<>(this::compare)).add(match);
@@ -351,40 +351,42 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 		}
 	}
 
-	private void updateFilterStateForAllMatches() {
-		boolean disableFiltering= getActiveMatchFilters() == null;
+	private void updateFilterStateForAllMatches(MatchFilter[] matchFilters) {
+		boolean disableFiltering= matchFilters == null;
 		ArrayList<Match> changed= new ArrayList<>();
 		Object[] elements= getElements();
 		for (Object element : elements) {
 			Match[] matches= getMatches(element);
 			for (Match match : matches) {
-				if (disableFiltering || updateFilterState(match)) {
+				if (disableFiltering || updateFilterState(match, matchFilters)) {
 					changed.add(match);
 				}
 			}
 		}
 		Match[] allChanges = changed.toArray(Match[]::new);
-		fireChange(new FilterUpdateEvent(this, allChanges, getActiveMatchFilters()));
+		fireChange(new FilterUpdateEvent(this, allChanges, matchFilters));
 	}
 
 	/*
-	 * Evaluates the filter for the match and updates it. Return true if the filter changed.
+	 * Evaluates the filters for the match and updates it. Return true if the filter state changed.
 	 */
-	private boolean updateFilterState(Match match) {
-		MatchFilter[] matchFilters= getActiveMatchFilters();
+	private static boolean updateFilterState(Match match, MatchFilter[] matchFilters) {
+		boolean oldState= match.isFiltered();
+		boolean newState= isFilteredBy(match, matchFilters);
+		match.setFiltered(newState);
+		return oldState != newState;
+	}
+
+	private static boolean isFilteredBy(Match match, MatchFilter[] matchFilters) {
 		if (matchFilters == null) {
 			return false; // do nothing, no change
 		}
-
-		boolean oldState= match.isFiltered();
 		for (MatchFilter matchFilter : matchFilters) {
 			if (matchFilter.filters(match)) {
-				match.setFiltered(true);
-				return !oldState;
+				return true;
 			}
 		}
-		match.setFiltered(false);
-		return oldState;
+		return false;
 	}
 
 	/**
@@ -497,7 +499,7 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 	 */
 	public void setActiveMatchFilters(MatchFilter[] filters) {
 		fMatchFilters= filters;
-		updateFilterStateForAllMatches();
+		updateFilterStateForAllMatches(filters);
 	}
 
 	/**
@@ -514,6 +516,21 @@ public abstract class AbstractTextSearchResult implements ISearchResult {
 	 */
 	public MatchFilter[] getActiveMatchFilters() {
 		return fMatchFilters;
+	}
+
+	/**
+	 * Returns whether this result has active match filters, i.e. whether
+	 * {@link #getActiveMatchFilters()} returns a non-empty array.
+	 *
+	 * @return {@code true} if there are active match filters, {@code false}
+	 *         otherwise
+	 * @see #getActiveMatchFilters()
+	 * @see #setActiveMatchFilters(MatchFilter[])
+	 * @since 3.20
+	 */
+	public boolean hasActiveMatchFilters() {
+		MatchFilter[] matchFilters = getActiveMatchFilters();
+		return matchFilters != null && matchFilters.length > 0;
 	}
 
 	/**

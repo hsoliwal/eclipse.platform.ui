@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007, 2015 IBM Corporation and others.
+ * Copyright (c) 2007, 2026 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -20,30 +20,43 @@ package org.eclipse.core.internal.databinding.observable;
  */
 public class Queue {
 
-	static class Entry {
-		Object object;
-
-		Entry(Object o) {
-			this.object = o;
-		}
-
-		Entry next;
-	}
-
-	Entry first;
-	Entry last;
+	private Object[] elements;
+	private int head;
+	private int size;
 
 	/**
 	 * Adds the given object to the end of the queue.
 	 */
 	public void enqueue(Object o) {
-		Entry oldLast = last;
-		last = new Entry(o);
-		if (oldLast != null) {
-			oldLast.next = last;
-		} else {
-			first = last;
+		if (elements == null || size == elements.length) {
+			grow();
 		}
+		int remaining = elements.length - head;
+		int tail = size < remaining ? head + size : size - remaining;
+		elements[tail] = o;
+		size++;
+	}
+
+	private void grow() {
+		int capacity = elements == null ? 0 : elements.length;
+		Object[] newElements = new Object[nextCapacity(capacity)];
+		if (capacity != 0) {
+			int remaining = capacity - head;
+			System.arraycopy(elements, head, newElements, 0, remaining);
+			System.arraycopy(elements, 0, newElements, remaining, head);
+		}
+		elements = newElements;
+		head = 0;
+	}
+
+	private static int nextCapacity(int capacity) {
+		if (capacity == 0) {
+			return 16;
+		}
+		if (capacity == Integer.MAX_VALUE) {
+			throw new OutOfMemoryError();
+		}
+		return capacity <= Integer.MAX_VALUE / 2 ? capacity * 2 : Integer.MAX_VALUE;
 	}
 
 	/**
@@ -52,16 +65,17 @@ public class Queue {
 	 * @return the first object
 	 */
 	public Object dequeue() {
-		Entry oldFirst = first;
-		if (oldFirst == null) {
+		if (size == 0) {
 			throw new IllegalStateException();
 		}
-		first = oldFirst.next;
-		if (first == null) {
-			last = null;
+		Object object = elements[head];
+		elements[head] = null;
+		head++;
+		if (head == elements.length) {
+			head = 0;
 		}
-		oldFirst.next = null;
-		return oldFirst.object;
+		size--;
+		return object;
 	}
 
 	/**
@@ -70,6 +84,6 @@ public class Queue {
 	 * @return <code>true</code> if the list is empty
 	 */
 	public boolean isEmpty() {
-		return first == null;
+		return size == 0;
 	}
 }

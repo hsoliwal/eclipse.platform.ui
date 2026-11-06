@@ -14,6 +14,7 @@ import static org.eclipse.ui.internal.findandreplace.FindReplaceTestUtil.notifyK
 import static org.eclipse.ui.internal.findandreplace.FindReplaceTestUtil.processPendingEvents;
 import static org.eclipse.ui.internal.findandreplace.FindReplaceTestUtil.runEventQueue;
 import static org.eclipse.ui.internal.findandreplace.FindReplaceTestUtil.waitForFocus;
+import static org.eclipse.ui.internal.findandreplace.overlay.OverlayAccess.RESTRICT_FIND_REPLACE_OVERLAY_TO_TEXT_EDITORS_PREFERENCE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -32,6 +33,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 
 import org.eclipse.jface.bindings.TriggerSequence;
 import org.eclipse.jface.bindings.keys.KeySequence;
@@ -44,6 +50,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.internal.findandreplace.WidgetExtractor;
 import org.eclipse.ui.intro.IIntroManager;
 import org.eclipse.ui.intro.IIntroPart;
 import org.eclipse.ui.keys.IBindingService;
@@ -81,7 +88,11 @@ public class FindReplaceOverlayInEditorTest {
 
 	private static final String REPLACE_FIELD = "replaceInput"; //$NON-NLS-1$
 
+	private static final String INSTANCE_SCOPE_NODE_NAME = "org.eclipse.ui.editors"; //$NON-NLS-1$
+
 	private StatusTextEditor editor;
+
+	private FindReplaceAction findReplaceAction;
 
 	private Text searchField;
 
@@ -97,8 +108,10 @@ public class FindReplaceOverlayInEditorTest {
 
 		// Opening through the action rather than through its internals also asserts
 		// that an editor of this kind gets the overlay rather than the dialog.
-		new FindReplaceAction(ResourceBundle.getBundle("org.eclipse.ui.texteditor.ConstructedEditorMessages"), //$NON-NLS-1$
-				"Editor.FindReplace.", editor).run(); //$NON-NLS-1$
+		findReplaceAction = new FindReplaceAction(
+				ResourceBundle.getBundle("org.eclipse.ui.texteditor.ConstructedEditorMessages"), //$NON-NLS-1$
+				"Editor.FindReplace.", editor); //$NON-NLS-1$
+		findReplaceAction.run();
 
 		searchField = focusedInputField(SEARCH_FIELD);
 	}
@@ -132,10 +145,32 @@ public class FindReplaceOverlayInEditorTest {
 
 	@AfterEach
 	void closeEditor() {
+		findReplaceAction = null;
 		searchField = null;
 		if (editor != null) {
 			editor.getSite().getPage().closeEditor(editor, false);
 			editor = null;
+		}
+	}
+
+	/**
+	 * User can restrict the overlay to text editors in case they have trouble with it elsewhere, so
+	 * an editor must keep getting the overlay rather than the dialog once they do.
+	 * <p>
+	 * The preference is meant as a temporary fallback for the overlay's generalization to parts
+	 * other than text editors. Remove this test together with it.
+	 */
+	@Test
+	public void testTextEditorKeepsOverlayWhenItIsRestrictedToTextEditors() {
+		IEclipsePreferences preferences= InstanceScope.INSTANCE.getNode(INSTANCE_SCOPE_NODE_NAME);
+		boolean wasRestricted= preferences.getBoolean(RESTRICT_FIND_REPLACE_OVERLAY_TO_TEXT_EDITORS_PREFERENCE, false);
+		try {
+			// Restricting it closes the overlay that is open, so the action decides anew.
+			preferences.putBoolean(RESTRICT_FIND_REPLACE_OVERLAY_TO_TEXT_EDITORS_PREFERENCE, true);
+			processPendingEvents();
+			assertTrue(searchField.isVisible(), "the overlay should stay open"); //$NON-NLS-1$
+		} finally {
+			preferences.putBoolean(RESTRICT_FIND_REPLACE_OVERLAY_TO_TEXT_EDITORS_PREFERENCE, wasRestricted);
 		}
 	}
 
@@ -312,13 +347,114 @@ public class FindReplaceOverlayInEditorTest {
 	@Test
 	public void testTheEditorActsOnKeysAgainOnceTheOverlayLostFocus() {
 		focusSearchField();
+
+		assertEditorActsOnItsKeysOnceFocused();
+	}
+
+	@Test
+	public void testTheEditorActsOnKeysAgainOnceTheOverlayLostFocusFromAToolBarButton() {
+		focusToolBarButton("searchForward"); //$NON-NLS-1$
+
+		assertEditorActsOnItsKeysOnceFocused();
+	}
+
+	@Test
+	public void testKeysTypedOnAToolBarButtonDoNotReachTheEditor() {
+		// Coming from the editor, so that the tool bar has to take over the editor's
+		// keys itself rather than inheriting that from a focused input field.
+		focusEditor();
+		Control toolBarButton = focusToolBarButton("searchForward"); //$NON-NLS-1$
+
+		type(toolBarButton, SWT.MOD1, 'd');
+
+		assertEquals(CONTENT, documentText(), "Delete Line must not apply to the document"); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testKeysTypedOnAToolBarButtonDoNotReachTheEditorAfterLeavingAnInputField() {
+		// The input field reports losing the focus, so the overlay must recognize that
+		// the focus stayed within it rather than handing the keys back to the editor.
+		focusSearchField();
+		Control toolBarButton = focusToolBarButton("searchForward"); //$NON-NLS-1$
+
+		type(toolBarButton, SWT.MOD1, 'd');
+
+		assertEquals(CONTENT, documentText(), "Delete Line must not apply to the document"); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testTheOverlaysShortcutsWorkWhileAToolBarButtonHasFocus() {
+		focusEditor();
+		Control toolBarButton = focusToolBarButton("searchForward"); //$NON-NLS-1$
+
+		type(toolBarButton, SWT.NONE, SWT.ESC);
+
+		assertFalse(searchField.isVisible(), "Escape on a tool bar button must close the overlay"); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testEnterOnAToolBarButtonDoesNotFind() {
+		focusSearchField();
+		searchField.setText("word"); //$NON-NLS-1$
+		processPendingEvents();
+		int matchBefore = editorSelectionOffset();
+
+		Control toolBarButton = focusToolBarButton("caseSensitiveSearch"); //$NON-NLS-1$
+		type(toolBarButton, SWT.NONE, SWT.CR);
+
+		assertEquals(matchBefore, editorSelectionOffset(),
+				"Enter must stay with the focused button instead of moving on to the next match"); //$NON-NLS-1$
+	}
+
+	@Test
+	public void testFindAndReplaceCommandFocusesTheSearchFieldAndClosesFromThere() {
+		Control toolBarButton = focusToolBarButton("searchForward"); //$NON-NLS-1$
+
+		type(toolBarButton, SWT.MOD1, 'f');
+
+		assertTrue(searchField.isVisible(), "Ctrl+F on a tool bar button must not close the overlay"); //$NON-NLS-1$
+		waitForFocus(searchField::isFocusControl, testName);
+
+		type(searchField, SWT.MOD1, 'f');
+
+		assertFalse(searchField.isVisible(), "Ctrl+F in the search field must close the overlay"); //$NON-NLS-1$
+	}
+
+	/**
+	 * Uses Delete Line, which only the editor binds: Select All, for example, would
+	 * also reach the editor's text through the workbench's default handler.
+	 */
+	private void assertEditorActsOnItsKeysOnceFocused() {
+		focusEditor();
+
+		type(editorWidget(), SWT.MOD1, 'd');
+
+		assertNotEquals(CONTENT, documentText(),
+				"Delete Line must apply to the document again once the editor has focus"); //$NON-NLS-1$
+	}
+
+	private void focusEditor() {
 		editor.setFocus();
 		waitForFocus(editorWidget()::isFocusControl, testName);
+		// Lets the overlay notice the focus loss, which it evaluates asynchronously.
+		processPendingEvents();
+	}
 
-		type(editorWidget(), SWT.MOD1, 'a');
-
-		assertEquals(CONTENT.length(), editorSelectionLength(),
-				"Select All must apply to the document again once the editor has focus"); //$NON-NLS-1$
+	/**
+	 * Focuses the tool bar containing the button with the given id, since a
+	 * {@code ToolItem} cannot have focus itself.
+	 */
+	private Control focusToolBarButton(String id) {
+		ToolItem toolItem = new WidgetExtractor(FindReplaceOverlay.ID_DATA_KEY, editorWidget().getParent())
+				.findToolItem(id);
+		assertNotNull(toolItem, "precondition: the overlay has a '" + id + "' button"); //$NON-NLS-1$ //$NON-NLS-2$
+		ToolBar toolBar = toolItem.getParent();
+		toolBar.forceFocus();
+		waitForFocus(toolBar::isFocusControl, testName);
+		// Lets the overlay evaluate the focus loss of the previously focused control,
+		// which it does asynchronously, before any key is typed.
+		processPendingEvents();
+		return toolBar;
 	}
 
 	private void focusSearchField() {
