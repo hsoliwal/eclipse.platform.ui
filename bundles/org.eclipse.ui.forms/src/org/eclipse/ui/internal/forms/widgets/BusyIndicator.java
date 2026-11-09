@@ -45,6 +45,9 @@ public final class BusyIndicator extends Canvas {
 	private boolean busy;
 	private int imageIndex;
 
+	/* the animation stopped because nobody could see the indicator; the next paint restarts it */
+	private boolean parked;
+
 	/**
 	 * BusyWidget constructor comment.
 	 *
@@ -65,6 +68,11 @@ public final class BusyIndicator extends Canvas {
 				}
 				redraw();
 				if (!BusyIndicator.this.busy) {
+					return;
+				}
+				// hidden, under a hidden ancestor or minimized: no frames until the next paint //FLLDCIM: MARK — every-widget forms BusyIndicator H
+				parked = !isVisible() || getShell().getMinimized();
+				if (parked) {
 					return;
 				}
 				update();
@@ -125,6 +133,12 @@ public final class BusyIndicator extends Canvas {
 	 * Process the paint event
 	 */
 	void onPaint(PaintEvent event) {
+		if (parked) {
+			parked = false;
+			if (busy) {
+				dpy.timerExec(MILLISECONDS_OF_DELAY, timer);
+			}
+		}
 		Rectangle rect = getClientArea();
 		if (rect.width == 0 || rect.height == 0) {
 			return;
