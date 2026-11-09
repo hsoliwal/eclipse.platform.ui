@@ -1,0 +1,2 @@
+repo	status	rc	seconds	modules	success	failure	error_rows	free_before_gb	free_after_gb
+eclipse.platform.ui	BUILD FAILURE	1	250	46	45	1	23	11	11

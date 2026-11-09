@@ -97,7 +97,7 @@ public final class M3SparseExtents {
 
 	/** Forgets every measurement and sets the row count; all rows become the estimate. */
 	public void reset (int rows) {
-		if (rows < 0) throw new IllegalArgumentException ("negative row count");
+		if (rows < 0) throw new IllegalArgumentException ("negative row count"); //$NON-NLS-1$
 		count = rows;
 		measured = 0;
 		rowIds = extents = EMPTY;
@@ -107,7 +107,7 @@ public final class M3SparseExtents {
 	/** Records the measured extent of one row. */
 	public void setExtent (int row, int extent) {
 		checkRow (row);
-		if (extent < 0) throw new IllegalArgumentException ("negative extent");
+		if (extent < 0) throw new IllegalArgumentException ("negative extent"); //$NON-NLS-1$
 		int at = position (row);
 		if (at >= 0) {
 			int before = extents [at];
@@ -144,7 +144,7 @@ public final class M3SparseExtents {
 
 	/** Returns every row from {@code row} on to the estimate (react-window resetAfterIndex). */
 	public void clearFrom (int row) {
-		if (row < 0 || row > count) throw new IllegalArgumentException ("invalid row");
+		if (row < 0 || row > count) throw new IllegalArgumentException ("invalid row"); //$NON-NLS-1$
 		int keep = lowerBound (row);
 		if (keep == measured) return;
 		measured = keep;
@@ -153,7 +153,7 @@ public final class M3SparseExtents {
 
 	/** Opens {@code rows} unmeasured rows at {@code index}. */
 	public void insert (int index, int rows) {
-		if (rows < 0 || index < 0 || index > count) throw new IllegalArgumentException ("invalid insert");
+		if (rows < 0 || index < 0 || index > count) throw new IllegalArgumentException ("invalid insert"); //$NON-NLS-1$
 		if (rows == 0) return;
 		int next = Math.addExact (count, rows);
 		for (int i = lowerBound (index); i < measured; i++) rowIds [i] += rows;
@@ -163,7 +163,7 @@ public final class M3SparseExtents {
 
 	/** Deletes {@code rows} rows at {@code index}. */
 	public void remove (int index, int rows) {
-		if (rows < 0 || index < 0 || index > count - rows) throw new IllegalArgumentException ("invalid remove");
+		if (rows < 0 || index < 0 || index > count - rows) throw new IllegalArgumentException ("invalid remove"); //$NON-NLS-1$
 		if (rows == 0) return;
 		int left = lowerBound (index), right = lowerBound (index + rows);
 		int removed = right - left;
@@ -177,7 +177,7 @@ public final class M3SparseExtents {
 
 	/** Start offset of {@code row}; {@code offsetOf (rowCount ())} is the total extent. */
 	public long offsetOf (int row) {
-		if (row < 0 || row > count) throw new IllegalArgumentException ("invalid row");
+		if (row < 0 || row > count) throw new IllegalArgumentException ("invalid row"); //$NON-NLS-1$
 		return (long) row * estimate + deltaPrefix (lowerBound (row));
 	}
 
@@ -210,7 +210,7 @@ public final class M3SparseExtents {
 	 * the last one to {@code out [1]}; both are 0 for an empty list.
 	 */
 	public void visibleRange (long offset, int viewport, int [] out) {
-		if (viewport < 0) throw new IllegalArgumentException ("negative viewport");
+		if (viewport < 0) throw new IllegalArgumentException ("negative viewport"); //$NON-NLS-1$
 		if (count == 0) {
 			out [0] = 0;
 			out [1] = 0;
@@ -247,7 +247,7 @@ public final class M3SparseExtents {
 			case ALIGN_AUTO -> autoTarget (start, end, current, viewport);
 			case ALIGN_SMART -> isRevealed (start, end, current, viewport) ? current
 					: start + Math.floorDiv (effective (row) - viewport, 2);
-			default -> throw new IllegalArgumentException ("invalid alignment");
+			default -> throw new IllegalArgumentException ("invalid alignment"); //$NON-NLS-1$
 		};
 		return clampOffset (target, viewport);
 	}
@@ -260,7 +260,7 @@ public final class M3SparseExtents {
 	 */
 	public long setExtentAnchored (int row, int extent, long scrollOffset, boolean scrollingBackward) {
 		checkRow (row);
-		if (extent < 0) throw new IllegalArgumentException ("negative extent");
+		if (extent < 0) throw new IllegalArgumentException ("negative extent"); //$NON-NLS-1$
 		boolean first = position (row) < 0;
 		long start = offsetOf (row);
 		long end = start + effective (row);
@@ -340,10 +340,10 @@ public final class M3SparseExtents {
 	}
 
 	private void checkRow (int row) {
-		if (row < 0 || row >= count) throw new IllegalArgumentException ("invalid row");
+		if (row < 0 || row >= count) throw new IllegalArgumentException ("invalid row"); //$NON-NLS-1$
 	}
 
 	private static void checkEstimate (int estimate) {
-		if (estimate < 1) throw new IllegalArgumentException ("non-positive estimate");
+		if (estimate < 1) throw new IllegalArgumentException ("non-positive estimate"); //$NON-NLS-1$
 	}
 }

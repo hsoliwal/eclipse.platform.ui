@@ -201,7 +201,7 @@ final class M3MarkerDeltas {
 				IMarker current = entries[index].getMarker();
 				if (previous.getId() == current.getId()
 						&& !M3MarkerLanes.sameIdentity(previous, current)) {
-					fallback(new IllegalStateException("scope has identical marker IDs across resources"));
+					fallback(new IllegalStateException("scope has identical marker IDs across resources")); //$NON-NLS-1$
 					return Status.OK_STATUS;
 				}
 			}
@@ -214,7 +214,7 @@ final class M3MarkerDeltas {
 				long right = j < entries.length ? entries[j].getMarker().getId() : Long.MAX_VALUE;
 				if (left == right) {
 					if (!M3MarkerLanes.sameIdentity(lanes.marker(left), entries[j].getMarker())) {
-						fallback(new IllegalStateException("scope switched resource at the same marker ID"));
+						fallback(new IllegalStateException("scope switched resource at the same marker ID")); //$NON-NLS-1$
 						return Status.OK_STATUS;
 					}
 					i++;

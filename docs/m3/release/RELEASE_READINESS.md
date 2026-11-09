@@ -11,13 +11,23 @@ Tools and raw evidence: [`docs/m3/jdk21/release-20261109`](../jdk21/release-2026
 | G2b | Parse gate: every tracked Java source (7535 files, test bundles included, test-input folders excluded), JDK 25 javac `--release 21` stopped after parsing | PASS | PARSE_GATE.tsv |
 | G3 | Recipe fixed point (`apply_jdk21.sh` + `apply_jdk21_pins.sh` change nothing on master) | PASS | RECIPE_CHANGES.tsv |
 | G4 | Metadata consistent: Tycho bundle/feature versions match their pom, no EE above 21 in a Java-21 bundle | PASS | META.tsv |
-| G5 | Full Tycho build of this repository on JDK 21 | PENDING | not run locally (disk and time budget); the javac gate G2 covers language level and API |
+| G5 | Full Tycho build of this repository on JDK 21 (`mvn -B clean verify -DskipTests`, fork parent + SDK target from the fork aggregator, other components from the upstream 4.42 I-build repository) | FAIL | BUILD FAILURE in 250 s, modules 45/46 ok, 1 failed, 23 [ERROR] rows (BUILD_G5.tsv, BUILD_G5_ERRORS.tsv, BUILD_G5.log.gz) |
 | G6 | Eclipse SDK product build and launch on JDK 21 | PENDING | aggregator verdict, eclipse.platform.releng.aggregator docs/m3/release/RELEASE_READINESS.md |
 
 ## What this PR changes
 
 Documentation only. Fork master `0b550d6e3d94` passes G1 to G4 as it is: the 2026-10-20 delta (43 bundles at JavaSE-21) is on
 master by content, upstream syncs since then added no Java 22+ requirement, construct or API to these bundles.
+
+## G5 (Tycho build on JDK 21.0.9)
+
+NLS pre-check first (`nls_precheck.sh`, ECJ 3.47 over the 38 bundles that compile NLS problems as errors): 17 missing
+`//$NON-NLS-n$` tags in fork-added M3 classes (M3SparseExtents 11, M3HeapGrowth 2, M3MarkerDeltas 2, M3MarkerLanes 2)
+fixed before attempt 1 (`fix_nls_tags.sh`); attempt 1 had 0 NLS errors.
+
+| Attempt | Result |
+| --- | --- |
+| 1 | BUILD FAILURE: 45/46 modules ok, reactor stopped at org.eclipse.ui.workbench: `M3PartVisibility` uses SWT fork API (`SWT.PartVisible`, `Control.isPartVisible()`) that the upstream 4.42 I-build SWT does not have (4 rows). Not a Java-level problem: platform.ui master needs the SWT fork |
 
 ## Re-run
 
