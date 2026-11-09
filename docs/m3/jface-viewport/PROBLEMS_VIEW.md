@@ -57,9 +57,9 @@ docs/m3/markers-view/INVENTORY.tsv and UPSTREAM_DEFECTS.tsv give the file:line e
    window or changed (removed) and the rows that entered it (inserted at their window index). It is applied through
    `M3Viewers.apply` inside `preservingSelection`, the same selection contract as `refresh`. Rows outside every
    window cause no tree work at all.
-4. **Hidden view** (brief rule 24): while the part is hidden, `apply` updates the lanes only and accumulates the
-   touched categories and changed ids. On `partVisible` it applies one window patch (`M3PartVisibility`, see
-   REFERENCE_TREE_VIEW.md; SWT.PartVisible is the coming source of truth).
+4. **Hidden view** (brief rule 24): while the tree is not part-visible, `apply` updates the lanes only and
+   accumulates the touched categories and changed ids. On `SWT.PartVisible` it applies one window patch
+   (`M3PartVisibility`, see REFERENCE_TREE_VIEW.md; SWT is the source of truth).
 
 
 ### 3.1 The search text on the lanes (2026-10-24)

@@ -23,7 +23,7 @@ remember after a token reset". Read this file first, then the files in "Read nex
 | `M3MarkerKeys.java`, `M3MarkerCategory.java`, `M3SlotOrder.java` (new) | sort keys, categories and the slot permutation lane |
 | `Markers.java`, `MarkerContentGenerator.java`, `MarkersChangeListener.java`, `MarkerViewerContentProvider.java`, `MarkersTreeViewer.java` | small hooks into stock classes (recipe-applied, see recipe/) |
 | `ProblemsView.m3view` | the view template spec (rule 27) |
-| `M3PartVisibility` (org.eclipse.ui.workbench) | IPartListener2 partHidden/partVisible, the stand-in until SWT.PartVisible lands (all-widgets track) |
+| `M3PartVisibility` (org.eclipse.ui.workbench) | SWT.PartVisible listener on the view's tree; isHidden() = !Control.isPartVisible() (item 6, 2026-11-09) |
 | `M3ViewSpec` | the `.m3view` parser (view template) |
 
 Switch: `-Dorg.eclipse.ui.ide.markers.mode=viewport` turns the delta path on; without it the stock path runs unchanged.
@@ -73,7 +73,7 @@ Open, in order:
    select-all by design.
 4. Differential at 10^4/10^5/10^6 with zero mismatches, and the full-refresh counter = 0. Record the run ids here.
 5. TREE_VIEW_API_MATRIX: no TODO; every row has a differential status.
-6. Switch the PartVisible stand-in to SWT.PartVisible/PartHidden once the all-widgets track lands it (rule 25).
+6. DONE 2026-11-09: M3PartVisibility listens for SWT.PartVisible on the tree (rule 25); see the log.
 7. Draft PR to hsoliwal/eclipse.platform.ui once the differential passes (the user merges).
 8. Then the template: generate a PDE form section and the Java Outline from specs (rule 27), and the footer,
    header-2, view bar and behaviours from docs/m3/behaviours.
