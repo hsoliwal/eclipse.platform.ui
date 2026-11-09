@@ -12,6 +12,10 @@
 set -e
 WT=${WT:-S:/m3-scratch/worktrees/platform-ui}; OUT=${OUT:-S:/m3-scratch/jface}; E=$OUT/eclipse; B=$OUT/markers-m3
 POOL=$(cygpath -m ~/.p2/pool/plugins); JDK="C:/Program Files/Java/jdk-21"
+# the SWT fork's win32 fragment (C:/m3-superset/build-swt.sh) goes ahead of the official SWT: M3PartVisibility listens
+# for SWT.PartVisible and asks Control.isPartVisible() (handover item 6), which the official 2026-09 SWT does not have;
+# run_markers.sh puts the same jar into the non-stock configurations
+SWT_JAR=${SWT_JAR:?SWT_JAR: the SWT fork win32 jar (build-swt.sh); M3PartVisibility needs SWT.PartVisible}
 STOCK=$(ls "$POOL" | grep '^org.eclipse.ui.ide_3' | head -1)
 BI=$(ls -d "$E"/config-stock*/org.eclipse.equinox.simpleconfigurator/bundles.info | head -1)
 JFACE=$(grep -E '^org\.eclipse\.jface,' "$BI" | cut -d, -f3 | sed 's|^file:/||')
@@ -27,7 +31,7 @@ rm -f "$E/plugins/org.eclipse.jface_m3.jar"
 WB=$(grep -E '^org\.eclipse\.ui\.workbench,' "$BI" | cut -d, -f3 | sed 's|^file:/||')
 W=$B/workbench-jar; rm -rf "$W" "$B/wb-classes" && mkdir -p "$W" "$B/wb-classes"
 grep -v '^#' "$BI" | cut -d, -f3 | sed 's|^file:/||' | grep '\.jar$' | grep -v m3bench > "$B/cp.list"
-{ echo "-cp"; echo "$OUT/cand/classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
+{ echo "-cp"; echo "$SWT_JAR;$OUT/cand/classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
 "$JDK/bin/javac" --release 21 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/wb-classes" \
   "$WT"/bundles/org.eclipse.ui.workbench/eclipseui/org/eclipse/ui/internal/m3/*.java
 (cd "$W" && "$JDK/bin/jar" xf "$WB" && rm -f META-INF/*.SF META-INF/*.RSA META-INF/*.DSA META-INF/*.EC)
@@ -40,9 +44,9 @@ M=$WT/bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers
 HOOKED=$(grep -o '\$M/[A-Za-z]*\.java' "$WT/docs/m3/markers-view/tools/apply_recipe.sh" | sed "s|\\\$M|$M|")
 rm -rf "$B/classes" "$B/jar" && mkdir -p "$B/classes" "$B/jar"
 # the class path (425 jars) goes through an argument file: the command line is too long for Windows
-{ echo "-cp"; echo "$OUT/cand/classes;$B/wb-classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
+{ echo "-cp"; echo "$SWT_JAR;$OUT/cand/classes;$B/wb-classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
 # org.eclipse.ui.ide needs JavaSE-25 on master (unnamed variables in ExtendedMarkersView): compile it with JDK 25
-"F:/jdks/temurin25/jdk-25.0.4.1+1/bin/javac" --release 25 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/classes" "$M"/M3*.java "$WT"/bundles/org.eclipse.ui.ide/src/com/m3/collections/*.java $HOOKED   # com.m3.collections: the ide-bundle copy (PR #49, M3SparseExtents) that M3SlotOrder imports
+"${JDK25:-F:/jdks/temurin25/jdk-25.0.4.1+1}/bin/javac" --release 25 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/classes" "$M"/M3*.java "$WT"/bundles/org.eclipse.ui.ide/src/com/m3/collections/*.java $HOOKED   # com.m3.collections: the ide-bundle copy (PR #49, M3SparseExtents) that M3SlotOrder imports
 (cd "$B/jar" && "$JDK/bin/jar" xf "$POOL/$STOCK" && rm -f META-INF/*.SF META-INF/*.RSA META-INF/*.DSA META-INF/*.EC)
 cp -r "$B/classes/." "$B/jar/"
 rm -f "$E/plugins/org.eclipse.ui.ide_m3.jar"

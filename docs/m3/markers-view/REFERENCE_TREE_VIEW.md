@@ -45,33 +45,35 @@ User, 2026-10-20: "if the viewport becomes visible from hidden it should paint; 
 changes and the viewport is dirty and renders on becoming visible", and "IPartListener can base it on this".
 
 `org.eclipse.ui.internal.m3.M3PartVisibility` (org.eclipse.ui.workbench) is the one helper. A view calls
-`M3PartVisibility.watch(part, onShown)` once. The workbench drives it: `IPartListener2.partHidden` hides the part
-(behind another tab, in a minimized or inactive stack), and `partVisible` shows it. While the part is hidden, the view
-applies its deltas to the lanes, keeps a coalesced dirty window (the touched categories and the changed ids), and calls
-`markDirty()`. It does no tree work. On `partVisible`, `onShown` runs once, inside the event and before the first
-paint, and applies ONE window patch against the current lanes.
+`M3PartVisibility.watch(tree, onShown)` once, with its viewport control. SWT drives it: the tree is hidden while it is
+not `Control.isPartVisible()` (behind another tab, in a minimized stack, sized to zero by a collapsed sash, reparented
+out of view, or its shell minimized), and `SWT.PartVisible` shows it. While the tree is hidden, the view applies its
+deltas to the lanes, keeps a coalesced dirty window (the touched categories and the changed ids), and calls
+`markDirty()`. It does no tree work. On `SWT.PartVisible`, `onShown` runs once, inside the event and before the first
+paint, and applies ONE window patch against the current lanes. `isHidden()` asks SWT each time and keeps no copy of
+the state; when it finds the tree visible with a patch pending (a PartVisible it did not hear), it runs the patch first.
 
 The Problems view uses it in `M3MarkerDeltas.apply` and `shown`. The bench's hidden sweep minimizes the view, changes
 up to 10^4 markers in one operation and restores the view. It records paints and item changes while hidden (both must
 be 0), the rows after the restore (in the differential log, compared with stock), and `shown-patches` (one per hidden
 period with changes).
 
-### Source of truth: SWT (brief rule 25), M3PartVisibility is the interim bridge
+### Source of truth: SWT (brief rule 25)
 
 User, 2026-10-20: "you own the implementation, you are not a layer on it", "INTRODUCE A NEW LISTENER PART VISIBLE",
 "the viewport becoming [visible] should come from SWT or Swing".
 
-- The source of truth is a new SWT event, `SWT.PartVisible` / `SWT.PartHidden`, with `Control.isPartVisible()`. The
-  all-widgets agent is adding it to SWT itself. The Problems view's tree hears it directly from SWT: the viewport
+- The source of truth is the SWT event `SWT.PartVisible` / `SWT.PartHidden`, with `Control.isPartVisible()`
+  (hsoliwal/eclipse.platform.swt master, `PartVisibility`). The Problems view's tree hears it directly from SWT: the viewport
   lives inside `Tree`. The view then needs no listener of its own. The tree defers its native work while part-hidden
   and applies one window patch and one paint on `SWT.PartVisible`.
 - Workbench `IPartListener2.partVisible` / `partHidden` and the e4 part visibility events are built on that SWT event
   in the e4 SWT renderer, so there is one source. They are not computed separately.
-- Until that event exists in the SWT this fork runs on, `M3PartVisibility` (org.eclipse.ui.workbench) stands in for
-  it, on `IPartListener2`. Once SWT delivers `SWT.PartVisible`, `M3PartVisibility.isHidden()` becomes
-  `!control.isPartVisible()` and its callback becomes an `SWT.PartVisible` listener on the view's tree. The
-  view-side contract stays the same: lanes take deltas while hidden, and one patch runs on show. This is the change
-  to make when the SWT event lands; it is tracked in TREE_VIEW_API_MATRIX.tsv.
+- 2026-11-09 (handover item 6): `M3PartVisibility` no longer stands in on `IPartListener2`. `isHidden()` is
+  `!control.isPartVisible()` and its callback is an `SWT.PartVisible` listener on the view's tree. The view-side
+  contract is unchanged: lanes take deltas while hidden, and one patch runs on show. The fork therefore builds and
+  runs on the SWT fork's win32 fragment (`build_overlay.sh` and `run_markers.sh` take it as `SWT_JAR`); the
+  official 2026-09 SWT has neither the event nor `isPartVisible()`.
 
 ## Adoption recipe: from TreeViewer + refresh() to deltas (rule 27 template)
 
@@ -90,7 +92,7 @@ A view moves in five mechanical steps. Each step is a recipe hook like the Probl
    count, never from materialized children.
 5. **Patch.** The adapter's job applies the lanes change on the UI thread and patches the tree through one
    `M3ViewerDelta` (`M3Viewers.apply`) inside `preservingSelection`. While the part is hidden it only marks dirty,
-   and on show it patches once (M3PartVisibility now, SWT.PartVisible next). Scope and filter changes diff the
+   and on show it patches once (M3PartVisibility over SWT.PartVisible). Scope and filter changes diff the
    selected ids against the lanes instead of rebuilding.
 
 The template runtime factors steps 3 to 5 out of M3MarkerLanes and M3MarkerDeltas into generic parts: lane schema,

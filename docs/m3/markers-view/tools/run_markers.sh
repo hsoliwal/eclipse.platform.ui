@@ -12,7 +12,7 @@ export TEMP=$OUT/tmp TMP=$OUT/tmp
 SIDE=$1 N=$2 SEED=${3:-} STEPS=${4:-30}
 if [ "$5" != --inner ]; then
   INSTALL=$(cygpath -m ~/eclipse/jee-2026-09/eclipse); POOL=$(cygpath -m ~/.p2/pool/plugins)
-  JDK25=F:/jdks/temurin25/jdk-25.0.4.1+1
+  JDK25=${JDK25:-F:/jdks/temurin25/jdk-25.0.4.1+1}
   # one configuration per side and size: runs of one side in two desktop slots never share a configuration area;
   # the bench jar and the overlay jars are copied into it, so a rebuild never touches a queued or running run
   CFG=$E/config-$SIDE-$N; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator" "$CFG/jars"
@@ -37,6 +37,11 @@ if [ "$5" != --inner ]; then
     for b in ui.ide jface ui.workbench; do
       sed -i "s|^org\.eclipse\.${b//./\\.},\([^,]*\),[^,]*,|org.eclipse.$b,\1,file:/$CFG/jars/org.eclipse.${b}_m3.jar,|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
     done
+    # the SWT fork's win32 fragment, which build_overlay.sh compiled against (SWT.PartVisible, Control.isPartVisible)
+    S=${SWT_JAR:?SWT_JAR: the SWT fork win32 jar (build-swt.sh) for the non-stock sides}
+    cp "$S" "$CFG/jars/org.eclipse.swt.win32.win32.x86_64_m3.jar"
+    V=$(unzip -p "$S" META-INF/MANIFEST.MF | tr -d '\r' | sed -n 's/^Bundle-Version: //p')
+    sed -i "s|^org\.eclipse\.swt\.win32\.win32\.x86_64,[^,]*,[^,]*,|org.eclipse.swt.win32.win32.x86_64,$V,file:/$CFG/jars/org.eclipse.swt.win32.win32.x86_64_m3.jar,|" "$CFG/org.eclipse.equinox.simpleconfigurator/bundles.info"
   fi
   SC=$(ls "$POOL" | grep '^org.eclipse.equinox.simpleconfigurator_' | head -1)
   FW=$(ls "$POOL" | grep '^org.eclipse.osgi_3' | head -1); CS=$(ls "$POOL" | grep '^org.eclipse.osgi.compatibility.state_' | head -1)

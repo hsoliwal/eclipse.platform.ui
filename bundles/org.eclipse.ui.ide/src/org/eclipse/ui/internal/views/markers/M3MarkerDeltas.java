@@ -629,7 +629,7 @@ final class M3MarkerDeltas {
 		List<M3MarkerLanes.Category> touched = lanes.apply(changes);
 		count(APPLIED);
 		if (visibility == null) {
-			visibility = M3PartVisibility.watch(view, () -> shown(view));
+			visibility = M3PartVisibility.watch(view.getViewer().getControl(), () -> shown(view));
 		}
 		if (visibility.isHidden()) {
 			// hidden viewport (brief rule 24): the lanes stay current, the tree does no native work; the touched
