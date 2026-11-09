@@ -45,8 +45,9 @@ HOOKED=$(grep -o '\$M/[A-Za-z]*\.java' "$WT/docs/m3/markers-view/tools/apply_rec
 rm -rf "$B/classes" "$B/jar" && mkdir -p "$B/classes" "$B/jar"
 # the class path (425 jars) goes through an argument file: the command line is too long for Windows
 { echo "-cp"; echo "$SWT_JAR;$OUT/cand/classes;$B/wb-classes;$(tr '\n' ';' < "$B/cp.list")"; } > "$B/javac.args"
-# org.eclipse.ui.ide needs JavaSE-25 on master (unnamed variables in ExtendedMarkersView): compile it with JDK 25
-"${JDK25:-F:/jdks/temurin25/jdk-25.0.4.1+1}/bin/javac" --release 25 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/classes" "$M"/M3*.java "$WT"/bundles/org.eclipse.ui.ide/src/com/m3/collections/*.java $HOOKED   # com.m3.collections: the ide-bundle copy (PR #49, M3SparseExtents) that M3SlotOrder imports
+# org.eclipse.ui.ide on master compiles at Java 21 (M3JDK21 rule; checked 2026-11-09), so JDK 21 builds it and the
+# bench runs on JDK 21: on Java 25 (25.0.4.1 and 25.0.5) the 2026-09 workbench now starts without its product
+"$JDK/bin/javac" --release 21 -nowarn -encoding UTF-8 -proc:none @"$B/javac.args" -d "$B/classes" "$M"/M3*.java "$WT"/bundles/org.eclipse.ui.ide/src/com/m3/collections/*.java $HOOKED   # com.m3.collections: the ide-bundle copy (PR #49, M3SparseExtents) that M3SlotOrder imports
 (cd "$B/jar" && "$JDK/bin/jar" xf "$POOL/$STOCK" && rm -f META-INF/*.SF META-INF/*.RSA META-INF/*.DSA META-INF/*.EC)
 cp -r "$B/classes/." "$B/jar/"
 rm -f "$E/plugins/org.eclipse.ui.ide_m3.jar"

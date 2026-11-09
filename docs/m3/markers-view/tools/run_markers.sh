@@ -12,7 +12,7 @@ export TEMP=$OUT/tmp TMP=$OUT/tmp
 SIDE=$1 N=$2 SEED=${3:-} STEPS=${4:-30}
 if [ "$5" != --inner ]; then
   INSTALL=$(cygpath -m ~/eclipse/jee-2026-09/eclipse); POOL=$(cygpath -m ~/.p2/pool/plugins)
-  JDK25=${JDK25:-F:/jdks/temurin25/jdk-25.0.4.1+1}
+  JDK25=${JDK25:-C:/Program Files/Java/jdk-21}  # the bench JVM (name kept): JDK 21, see build_overlay.sh
   # one configuration per side and size: runs of one side in two desktop slots never share a configuration area;
   # the bench jar and the overlay jars are copied into it, so a rebuild never touches a queued or running run
   CFG=$E/config-$SIDE-$N; rm -rf "$CFG"; mkdir -p "$CFG/org.eclipse.equinox.simpleconfigurator" "$CFG/jars"

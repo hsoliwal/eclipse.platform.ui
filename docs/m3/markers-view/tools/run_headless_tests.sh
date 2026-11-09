@@ -10,8 +10,8 @@ T="$WT/tests/org.eclipse.ui.tests/Eclipse UI Tests/org/eclipse/ui/tests/markers"
 C=$B/test-classes; rm -rf "$C"; mkdir -p "$C" "$OUT/coverage"
 SRC=(); SEL=()
 for c in "$@"; do SRC+=("$T/$c.java"); SEL+=(--select-class "org.eclipse.ui.tests.markers.$c"); done
-JDK25=${JDK25:-F:/jdks/temurin25/jdk-25.0.4.1+1}  # the overlay compiles the ide classes with --release 25 (build_overlay.sh)
-"$JDK25/bin/javac" --release 25 -nowarn -encoding UTF-8 -proc:none \
+JDK25=${JDK25:-C:/Program Files/Java/jdk-21}  # the overlay compiles the ide classes at Java 21 (build_overlay.sh)
+"$JDK25/bin/javac" --release 21 -nowarn -encoding UTF-8 -proc:none \
   -cp "$(cygpath -w "$B/classes");$(cygpath -w "$JUNIT")" -d "$C" "${SRC[@]}" || exit 1
 DEST=$(cygpath -w "$OUT/coverage/$EXEC.exec"); rm -f "$OUT/coverage/$EXEC.exec"
 "$JDK25/bin/java" -Xmx1g -Djava.io.tmpdir=$(cygpath -w "$OUT/tmp") \
