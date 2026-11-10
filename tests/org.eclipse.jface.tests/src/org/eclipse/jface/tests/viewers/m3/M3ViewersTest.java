@@ -720,6 +720,60 @@ public class M3ViewersTest {
 	}
 
 	@Test
+	public void aHiddenViewerParksItsDueBatchAndAppliesItOnceWhenShown() throws Exception {
+		org.junit.jupiter.api.Assumptions.assumeTrue(hasPartVisibility(), "SWT without part visibility"); //$NON-NLS-1$
+		CountingProvider provider = new CountingProvider();
+		StructuredViewer viewer = family("table", provider);
+		shell.layout(true, true); // a sized viewer: one that was never laid out keeps the stock delivery
+		drain();
+		int before = provider.reads;
+		viewer.getControl().setVisible(false);
+		drain();
+		for (int i = 0; i < 20; i++) {
+			M3Viewers.refreshLater(viewer, 10);
+			drain();
+			Thread.sleep(5);
+		}
+		Thread.sleep(80);
+		drain();
+		assertEquals(before, provider.reads, "a viewer nobody can see applies no batch");
+		assertEquals(0, viewerTimers(), "and arms no timer");
+		viewer.getControl().setVisible(true);
+		waitUntil(() -> provider.reads > before);
+		drain();
+		assertEquals(before + 1, provider.reads, "the parked batch applies once on SWT.PartVisible");
+		assertEquals("r0 r1 r2 r3 r4", texts(viewer));
+		M3Viewers.refreshLater(viewer, 10);
+		waitUntil(() -> provider.reads > before + 1);
+		assertEquals(before + 2, provider.reads, "shown again: batches apply as before");
+	}
+
+	private static boolean hasPartVisibility() {
+		try {
+			Control.class.getMethod("isPartVisible"); //$NON-NLS-1$
+			return true;
+		} catch (NoSuchMethodException absent) {
+			return false;
+		}
+	}
+
+	/* pending M3Viewers timers in the display's timer list (win32 Display.timerList) */
+	private int viewerTimers() throws ReflectiveOperationException {
+		java.lang.reflect.Field field = Display.class.getDeclaredField("timerList"); //$NON-NLS-1$
+		field.setAccessible(true);
+		Runnable[] list = (Runnable[]) field.get(display);
+		int count = 0;
+		if (list != null) {
+			for (Runnable timer : list) {
+				if (timer != null && timer.getClass().getName().startsWith(M3Viewers.class.getName())) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
+	@Test
 	public void anOldShortDelayCannotDrainANewLongDelayBurst() throws Exception {
 		CountingProvider provider = new CountingProvider();
 		StructuredViewer viewer = family("table", provider);

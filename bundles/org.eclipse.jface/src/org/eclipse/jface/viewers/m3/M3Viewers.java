@@ -14,6 +14,9 @@
  *******************************************************************************/
 package org.eclipse.jface.viewers.m3;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +27,7 @@ import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.StructuredViewerInternals;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -45,6 +49,13 @@ import org.eclipse.swt.widgets.Display;
  * Supported viewers: {@link AbstractTreeViewer}, {@link AbstractTableViewer},
  * {@link AbstractListViewer}. Any other structured viewer is refreshed at the
  * first operation (the stock behaviour).
+ * <p>
+ * On SWT with part visibility (the M3 SWT fork: {@code Control.isPartVisible()}
+ * and {@code SWT.PartVisible}) a queued batch that falls due while the viewer's
+ * control cannot be seen waits, with no timer, and later posts merge into it;
+ * the control's {@code SWT.PartVisible} applies it once. {@link #flush} still
+ * applies at once.
+ * </p>
  *
  * @since 3.43 (M3 enhanced API)
  */
@@ -55,6 +66,9 @@ public final class M3Viewers {
 
 	/** Batches of at least this many operations run with redraw off. */
 	static final int REDRAW_BATCH = 64;
+
+	/** Control.isPartVisible() of the M3 SWT fork, or null on SWT without part visibility (no park there). */
+	private static final MethodHandle IS_PART_VISIBLE = partVisibility();
 
 	/** Whether any delta was ever posted; until then {@link #flush} returns at once. */
 	private static volatile boolean posted;
@@ -228,6 +242,9 @@ public final class M3Viewers {
 		boolean activationQueued;
 		boolean draining;
 		boolean disposed;
+		/* UI thread only: a due batch waits for the control's SWT.PartVisible; the listener is added once */
+		boolean parked;
+		boolean watching;
 
 		Queue(StructuredViewer viewer, Display display) {
 			this.viewer = viewer;
@@ -386,6 +403,12 @@ public final class M3Viewers {
 
 	/* Reusing the runnable replaces its previous SWT timer schedule. */
 	private static void schedule(Queue queue) {
+		if (queue.parked) {
+			if (hidden(queue.viewer.getControl())) {
+				return; // waits for SWT.PartVisible: no timer for a viewer nobody can see
+			}
+			queue.parked = false; // visible again without a PartVisible (e.g. still zero-sized): deliver as before
+		}
 		long remaining;
 		synchronized (queue) {
 			if (queue.disposed || queue.pending == null || queue.draining) {
@@ -407,9 +430,68 @@ public final class M3Viewers {
 			due = queue.dueNanos - System.nanoTime() <= 0;
 		}
 		if (due) {
+			if (park(queue)) {
+				return;
+			}
 			drain(queue, true);
 		} else {
 			schedule(queue);
+		}
+	}
+
+	/*
+	 * UI thread, rule 24: a due batch of a viewer whose control is not part-visible
+	 * (hidden, an ancestor hidden, a background tab or stack page, zero size, a
+	 * minimized shell) is not applied; it waits without a timer and the control's
+	 * SWT.PartVisible applies it once.
+	 */
+	private static boolean park(Queue queue) {
+		Control control = queue.viewer.getControl();
+		if (!hidden(control)) {
+			return false;
+		}
+		queue.parked = true; //FLLDCIM: MARK — every-widget M3Viewers H (J2)
+		if (!queue.watching) {
+			queue.watching = true;
+			control.addListener(SWT.PartVisible, event -> unpark(queue));
+		}
+		return true;
+	}
+
+	private static void unpark(Queue queue) {
+		if (queue.parked) {
+			queue.parked = false;
+			schedule(queue);
+		}
+	}
+
+	/*
+	 * Not part-visible, but not merely a control that was never given a size: a
+	 * viewer created into an open shell and not yet laid out keeps the stock
+	 * delivery (zero-sized ancestors still park, and grow back with PartVisible).
+	 */
+	private static boolean hidden(Control control) {
+		if (IS_PART_VISIBLE == null || control == null || control.isDisposed()) {
+			return false;
+		}
+		try {
+			if ((boolean) IS_PART_VISIBLE.invokeExact(control)) {
+				return false;
+			}
+		} catch (Throwable failure) {
+			LOG.log(Level.FINE, "part visibility query failed; applying the batch", failure); //$NON-NLS-1$
+			return false;
+		}
+		org.eclipse.swt.graphics.Point size = control.getSize();
+		return size.x > 0 && size.y > 0;
+	}
+
+	private static MethodHandle partVisibility() {
+		try {
+			return MethodHandles.publicLookup().findVirtual(Control.class, "isPartVisible", //$NON-NLS-1$
+					MethodType.methodType(boolean.class));
+		} catch (ReflectiveOperationException absent) {
+			return null;
 		}
 	}
 
@@ -444,6 +526,7 @@ public final class M3Viewers {
 			}
 			delta = queue.pending;
 			queue.pending = null;
+			queue.parked = false; // the parked batch is applied now (explicit flush or the show)
 			queue.lastRefreshLater = false;
 			queue.draining = true;
 		}
