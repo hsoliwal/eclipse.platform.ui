@@ -238,7 +238,7 @@ final class M3MarkerLanes {
 		int existing = find(change.id);
 		if (existing >= 0) {
 			if (!sameIdentity(markers[existing], change.marker)) {
-				throw new IllegalStateException("marker ID reused across resources");
+				throw new IllegalStateException("marker ID reused across resources"); //$NON-NLS-1$
 			}
 			return; // the same marker found through two scopes
 		}
@@ -315,7 +315,7 @@ final class M3MarkerLanes {
 			int slot = find(change.id);
 			if (slot >= 0 && change.marker != null
 					&& !sameIdentity(markers[slot], change.marker)) {
-				throw new IllegalStateException("delta would overwrite another resource's marker");
+				throw new IllegalStateException("delta would overwrite another resource's marker"); //$NON-NLS-1$
 			}
 			if (slot >= 0) {
 				Category before = byId[category[slot]];

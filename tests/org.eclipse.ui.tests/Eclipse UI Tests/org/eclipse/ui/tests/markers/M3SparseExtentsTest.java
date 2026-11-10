@@ -9,7 +9,6 @@
  *******************************************************************************/
 package org.eclipse.ui.tests.markers;
 
-import com.m3.collections.M3SparseExtents;
 
 import static org.junit.jupiter.api.Assertions.*;
 

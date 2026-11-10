@@ -80,7 +80,7 @@ public final class M3HeapGrowth {
 
 	/** Geometric growth: 8 minimum, then 1.5x, never below {@code minimum}. */
 	public static int grow (int current, int minimum) {
-		if (minimum < 0 || minimum > MAX_ARRAY_SIZE) throw new OutOfMemoryError ("required array size too large");
+		if (minimum < 0 || minimum > MAX_ARRAY_SIZE) throw new OutOfMemoryError ("required array size too large"); //$NON-NLS-1$
 		long grown = current < 8 ? 8L : (long) current + (current >>> 1);
 		if (grown < minimum) grown = minimum;
 		return (int) Math.min (grown, MAX_ARRAY_SIZE);
@@ -88,7 +88,7 @@ public final class M3HeapGrowth {
 
 	/** Pure decision atom; explicit measurements make it deterministically testable. */
 	public static int choose (int current, int minimum, int elementBytes, long max, long used) {
-		if (elementBytes < 1) throw new IllegalArgumentException ("element width");
+		if (elementBytes < 1) throw new IllegalArgumentException ("element width"); //$NON-NLS-1$
 		int geometric = grow (current, minimum);
 		if (geometric == minimum || max <= 0 || max == Long.MAX_VALUE || used < 0 || used > max) {
 			return geometric;
