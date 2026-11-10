@@ -74,6 +74,8 @@ public class HeapStatus extends Composite {
 	private final float lowMemThreshold = 0.05f;
 	private final boolean showLowMemThreshold = true;
 	private boolean updateTooltip = false;
+	/* sampling stopped because nobody could see the heap status; the next paint samples and restarts it */
+	private boolean parked;
 
 	protected volatile boolean isInGC = false;
 
@@ -81,6 +83,11 @@ public class HeapStatus extends Composite {
 		@Override
 		public void run() {
 			if (!isDisposed()) {
+				// hidden, under a hidden ancestor or minimized: no samples until the next paint //FLLDCIM: MARK — every-widget workbench HeapStatus H
+				if (!isVisible() || getShell().getMinimized()) {
+					parked = true;
+					return;
+				}
 				updateStats();
 				if (hasChanged) {
 					if (updateTooltip) {
@@ -148,6 +155,11 @@ public class HeapStatus extends Composite {
 				break;
 			case SWT.Paint:
 				if (event.widget == HeapStatus.this) {
+					if (parked) {
+						parked = false;
+						updateStats(); // paint the current heap, not the sample from before it was hidden
+						getDisplay().timerExec(updateInterval, timer);
+					}
 					paintComposite(event.gc);
 				} else if (event.widget == canvas) {
 					paintButton(event.gc);
