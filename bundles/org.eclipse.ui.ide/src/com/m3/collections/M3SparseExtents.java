@@ -20,7 +20,7 @@ import java.util.*;
  * holds an offset, which rows a viewport shows, how far to scroll to reveal a row,
  * and how much to move the scroll offset when a row above the viewport changes size.
  *
- * <p>{@link M3ScrollMetrics} covers uniform rows; this class is its variable
+ * <p>{@code M3ScrollMetrics} covers uniform rows; this class is its variable
  * counterpart for widgets whose rows differ in height (wrapped text, owner-drawn
  * items, nested content). Rows that have not been measured count as the estimate,
  * so the scrollable extent is available before every row is laid out.</p>
