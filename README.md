@@ -40,7 +40,7 @@ are maintained in a separate repository.
 
 This fork derives from [Eclipse Platform UI](https://github.com/eclipse-platform/eclipse.platform.ui).
 The established JFace/workbench implementations and
-[M3 sidecar](.m3/README.md) coexist with a source-backed
+[M3 sidecar](https://github.com/hsoliwal/com.synexia/blob/develop/forks/eclipse.platform.ui/.m3/README.md) coexist with a source-backed
 [architecture and coverage guide](docs/architecture/README.md).
 Its module/package inventory and selected lifecycle contracts are documented;
 complete per-package semantics and runtime qualification remain separate work.
