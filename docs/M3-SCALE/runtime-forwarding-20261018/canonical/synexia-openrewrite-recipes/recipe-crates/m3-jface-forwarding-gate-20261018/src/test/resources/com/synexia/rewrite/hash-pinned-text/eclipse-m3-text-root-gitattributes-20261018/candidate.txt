@@ -1,2 +1,0 @@
-* text=auto
-.m3/** text eol=lf
