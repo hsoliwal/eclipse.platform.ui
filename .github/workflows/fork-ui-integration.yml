@@ -142,8 +142,8 @@ jobs:
               assert gen.tag == ns_gen + 'GenModel'
               assert gen.get('modelPluginID') == 'org.eclipse.e4.ui.model.workbench'
               assert gen.get('complianceLevel') == '21.0'
-              assert gen.findtext(ns_gen + 'foreignModel') == name + '.ecore'
-              assert gen.find(ns_gen + 'genPackages').get('ecorePackage') == name + '.ecore#/'
+              assert gen.findtext('foreignModel') == name + '.ecore'
+              assert gen.find('genPackages').get('ecorePackage') == name + '.ecore#/'
               if name == 'ModelFragment':
                   assert gen.get('usedGenPackages') == 'UIElements.genmodel#//application'
                   assert any('UIElements.ecore#//ApplicationElement' in value
