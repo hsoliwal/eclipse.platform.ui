@@ -66,7 +66,7 @@ import org.junit.platform.suite.api.Suite;
 /**
  * All E4 UI-related tests
  */
-@Suite
+@Suite(failIfNoTests = true)
 @SelectClasses({
 		StartupTestSuite.class,
 		UIEventTypesTest.class,
