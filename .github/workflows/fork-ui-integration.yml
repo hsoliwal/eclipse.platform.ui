@@ -116,6 +116,69 @@ jobs:
           result.write_text(json.dumps(out, indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(result.read_text(encoding='utf-8'))
           PY
+      - name: Refuse Eclipse 4 Application Model namespace or GenModel drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+
+          root = Path('platform/eclipse.platform.ui')
+          model = root / 'bundles/org.eclipse.e4.ui.model.workbench'
+          ns_ecore = '{http://www.eclipse.org/emf/2002/Ecore}EPackage'
+          ns_gen = '{http://www.eclipse.org/emf/2002/GenModel}'
+          packages = {
+              'UIElements': ('application', 'http://www.eclipse.org/ui/2010/UIModel/application'),
+              'ModelFragment': ('fragment', 'http://www.eclipse.org/ui/2010/UIModel/fragment'),
+          }
+          for name, (package, uri) in packages.items():
+              ecore = ET.parse(model / 'model' / (name + '.ecore')).getroot()
+              gen = ET.parse(model / 'model' / (name + '.genmodel')).getroot()
+              assert ecore.tag == ns_ecore and ecore.get('name') == package
+              assert ecore.get('nsURI') == uri, (name, 'namespace changed', ecore.get('nsURI'))
+              assert gen.tag == ns_gen + 'GenModel'
+              assert gen.get('modelPluginID') == 'org.eclipse.e4.ui.model.workbench'
+              assert gen.get('complianceLevel') == '21.0'
+              assert gen.findtext('foreignModel') == name + '.ecore'
+              assert gen.find('genPackages').get('ecorePackage') == name + '.ecore#/'
+              if name == 'ModelFragment':
+                  assert gen.get('usedGenPackages') == 'UIElements.genmodel#//application'
+                  assert any('UIElements.ecore#//ApplicationElement' in value
+                             for item in ecore.iter() for value in item.attrib.values())
+          plugin = ET.parse(model / 'plugin.xml').getroot()
+          registrations = {}
+          for ext in plugin.findall('extension'):
+              if ext.get('point') == 'org.eclipse.emf.ecore.generated_package':
+                  pkg = ext.find('package')
+                  assert pkg is not None
+                  uri = pkg.get('uri')
+                  assert uri not in registrations, ('duplicate model registration', uri)
+                  registrations[uri] = pkg.get('genModel')
+          app = packages['UIElements'][1]
+          expected = {app + suffix: 'model/UIElements.genmodel'
+                      for suffix in ('', '/commands', '/ui', '/ui/menu', '/ui/basic',
+                                     '/ui/advanced', '/descriptor/basic')}
+          expected[packages['ModelFragment'][1]] = 'model/ModelFragment.genmodel'
+          assert registrations == expected, ('generated-package registration drift', registrations)
+          manifest = (model / 'META-INF/MANIFEST.MF').read_text(encoding='utf-8')
+          for line in ('Bundle-SymbolicName: org.eclipse.e4.ui.model.workbench;singleton:=true',
+                       'Automatic-Module-Name: org.eclipse.e4.ui.model.workbench',
+                       'Bundle-RequiredExecutionEnvironment: JavaSE-17'):
+              assert line in manifest.splitlines(), ('model manifest drift', line)
+          test_manifest = (root / 'tests/org.eclipse.e4.ui.tests/META-INF/MANIFEST.MF').read_text(encoding='utf-8')
+          assert 'Bundle-RequiredExecutionEnvironment: JavaSE-21' in test_manifest.splitlines()
+          receipt = {'schema': 'ECLIPSE_E4_MODEL_IDENTITY_V1',
+                     'namespaces': dict(packages), 'registrations': registrations,
+                     'model_execution_environment': 'JavaSE-17',
+                     'test_execution_environment': 'JavaSE-21',
+                     'release_admitted': False}
+          dest = Path(os.environ['EVIDENCE']) / 'e4-model-identity.json'
+          dest.write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          print(dest.read_text(encoding='utf-8'))
+          PY
       - name: Install Eclipse build and execution JDK toolchains
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
         with:
@@ -188,10 +251,19 @@ jobs:
               'org.eclipse.jface.tests.viewers.DrillDownAdapterTest':
                   'test_goInto_and_goHome',
           }
+          # Each count is the distinct @Test source-method total at the
+          # recorded model and fragment test source blobs in Synexia.
+          required_model_methods = {
+              'org.eclipse.e4.ui.tests.application.ModelElementTest': 2,
+              'org.eclipse.e4.ui.tests.application.ModelRobustnessTest': 2,
+              'org.eclipse.e4.ui.tests.application.E4ResourceTest': 1,
+              'org.eclipse.e4.ui.tests.workbench.ModelAssemblerTests': 25,
+              'org.eclipse.e4.ui.tests.workbench.ModelAssemblerFragmentOrderingTests': 39,
+          }
           tests = Path('platform/eclipse.platform.ui/tests')
           reports = sorted(tests.glob('**/target/surefire-reports/TEST-*.xml'))
           assert reports, 'no actual Surefire XML reports found in Platform UI tests'
-          found = {klass: {} for klass in (*targets, *required_viewers)}
+          found = {klass: {} for klass in (*targets, *required_viewers, *required_model_methods)}
           for path in reports:
               root = ET.parse(path).getroot()
               for case in root.iter('testcase'):
@@ -211,7 +283,7 @@ jobs:
                   else:
                       entry['executed'] += 1
           dest = Path(os.environ['EVIDENCE']) / 'jface-e4-executed-tests.json'
-          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V3',
+          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V4',
                                      'tests': found, 'release_admitted': False},
                                     indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(dest.read_text(encoding='utf-8'))
@@ -232,6 +304,15 @@ jobs:
               for name, entry in sorted(observed.items()):
                   assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
                       klass, name, 'DND/image/workbench method not successful', entry
+                  )
+          for klass, minimum in required_model_methods.items():
+              observed = found[klass]
+              assert len(observed) >= minimum, (
+                  klass, 'missing distinct e4 model methods', len(observed), minimum
+              )
+              for name, entry in sorted(observed.items()):
+                  assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
+                      klass, name, 'e4 model method not successful', entry
                   )
           PY
       - name: Preserve build log, source identities, Surefire XML and screenshots
