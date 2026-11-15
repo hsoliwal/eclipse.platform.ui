@@ -26,7 +26,7 @@ import org.eclipse.jface.tests.wizards.WizardTestSuite;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SelectClasses;
 
-@Suite
+@Suite(failIfNoTests = true)
 @SelectClasses({ AllActionTests.class, AllDialogTests.class, AllImagesTests.class, AllLabelProviderTests.class,
 		AllLayoutTests.class, AllPrefsTests.class, AllResourcesTests.class, AllViewersTests.class, AllWidgetTests.class,
 		AllWindowTests.class, FieldAssistTestSuite.class, WizardTestSuite.class })

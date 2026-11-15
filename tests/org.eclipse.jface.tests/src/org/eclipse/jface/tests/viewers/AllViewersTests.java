@@ -16,16 +16,17 @@ package org.eclipse.jface.tests.viewers;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
-@Suite
+@Suite(failIfNoTests = true)
 @SelectClasses({ TreeSelectionTest.class, MultipleEqualElementsTreeViewerTest.class,
 		LazySortedCollectionTest.class, TreeViewerTest.class, VirtualTreeViewerTest.class, SimpleTreeViewerTest.class,
 		SimpleTableViewerTest.class, SimpleVirtualLazyTreeViewerTest.class, VirtualLazyTreeViewerTest.class, M3TreeForwardingTest.class,
 		TableViewerTest.class, TreeViewerColumnTest.class, VirtualTableViewerTest.class,
 		VirtualLazyTableViewerTest.class, TableColorProviderTest.class, TableFontProviderTest.class,
 		ListViewerTest.class, CheckboxTableViewerTest.class, CheckboxTableViewerTest.DeprecatedConstructor.class,
-		CheckboxTableViewerTest.FactoryMethod.class, CheckboxTreeViewerTest.class, ComboViewerTest.class,
-		CComboViewerTest.class, TreeViewerComparatorTest.class, ListViewerComparatorTest.class,
-		TableViewerComparatorTest.class, Bug138608Test.class, ComboViewerComparerTest.class,
+		CheckboxTableViewerTest.FactoryMethod.class, CheckboxTreeViewerTest.class, CheckboxTreeViewerMissingTest.class,
+		ComboViewerTest.class, CComboViewerTest.class, TreeViewerComparatorTest.class, ListViewerComparatorTest.class,
+		TableViewerComparatorTest.class, Bug138608Test.class, Bug553483ViewerDropAdapterTest.class,
+		ComboViewerComparerTest.class, DrillDownAdapterTest.class,
 		ListViewerRefreshTest.class, Bug200558Test.class, Bug201002TableViewerTest.class, Bug201002TreeViewerTest.class,
 		Bug200337TableViewerTest.class, //
 		Bug205700TreeViewerTest.class, Bug180504TableViewerTest.class, Bug180504TreeViewerTest.class,
@@ -33,7 +34,7 @@ import org.junit.platform.suite.api.Suite;
 		EditingSupportValueMismatchTest.class, StyledStringBuilderTest.class,
 		TreeViewerWithLimitTest.class, TreeViewerWithLimitCompatibilityTest.class, TableViewerWithLimitTest.class,
 		TableViewerWithLimitCompatibilityTest.class, TreeViewerExpansionStateTest.class,
-		StructuredViewerElementMapTest.class })
+		StructuredViewerElementMapTest.class, StructuredSelectionTest.class })
 public class AllViewersTests {
 
 }
