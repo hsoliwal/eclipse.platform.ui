@@ -16,7 +16,7 @@ package org.eclipse.jface.tests.viewers;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
-@Suite
+@Suite(failIfNoTests = true)
 @SelectClasses({ TreeSelectionTest.class, MultipleEqualElementsTreeViewerTest.class,
 		LazySortedCollectionTest.class, TreeViewerTest.class, VirtualTreeViewerTest.class, SimpleTreeViewerTest.class,
 		SimpleTableViewerTest.class, SimpleVirtualLazyTreeViewerTest.class, VirtualLazyTreeViewerTest.class, M3TreeForwardingTest.class,
