@@ -43,8 +43,7 @@ import org.junit.platform.suite.api.Suite;
 		TableViewerWithLimitCompatibilityTest.class, TreeViewerExpansionStateTest.class,
 		StructuredViewerElementMapTest.class, M3ViewerDeltaTest.class, M3ViewSpecTest.class,
 		M3ViewersTest.class, M3SelectionReceiverTest.class, M3ViewersInsertUnderFilterTest.class,
-		M3ViewersRemoveUnderItemsLimitTest.class })
-		StructuredViewerElementMapTest.class, StructuredSelectionTest.class })
+		M3ViewersRemoveUnderItemsLimitTest.class, StructuredSelectionTest.class })
 public class AllViewersTests {
 
 }
