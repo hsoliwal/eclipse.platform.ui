@@ -13,6 +13,13 @@
  *******************************************************************************/
 package org.eclipse.jface.tests.viewers;
 
+import org.eclipse.jface.tests.viewers.m3.M3SelectionReceiverTest;
+import org.eclipse.jface.tests.viewers.m3.M3ViewSpecTest;
+import org.eclipse.jface.tests.viewers.m3.M3ViewerDeltaTest;
+import org.eclipse.jface.tests.viewers.m3.M3ViewersInsertUnderFilterTest;
+import org.eclipse.jface.tests.viewers.m3.M3ViewersRemoveUnderItemsLimitTest;
+import org.eclipse.jface.tests.viewers.m3.M3ViewersTest;
+
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -34,6 +41,9 @@ import org.junit.platform.suite.api.Suite;
 		EditingSupportValueMismatchTest.class, StyledStringBuilderTest.class,
 		TreeViewerWithLimitTest.class, TreeViewerWithLimitCompatibilityTest.class, TableViewerWithLimitTest.class,
 		TableViewerWithLimitCompatibilityTest.class, TreeViewerExpansionStateTest.class,
+		StructuredViewerElementMapTest.class, M3ViewerDeltaTest.class, M3ViewSpecTest.class,
+		M3ViewersTest.class, M3SelectionReceiverTest.class, M3ViewersInsertUnderFilterTest.class,
+		M3ViewersRemoveUnderItemsLimitTest.class })
 		StructuredViewerElementMapTest.class, StructuredSelectionTest.class })
 public class AllViewersTests {
 

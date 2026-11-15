@@ -440,17 +440,18 @@ public class M3ViewersTest {
 		M3Viewers.post(v, new M3ViewerDelta().add(roots, "first", -1), 60_000); //$NON-NLS-1$
 		drain();
 
-		// Exercise the existing UI transition without dispatching its zero-delay
-		// timer until both batches are installed. No sleep or clock race is needed.
-		var enqueue = M3Viewers.class.getDeclaredMethod("enqueue", StructuredViewer.class, //$NON-NLS-1$
-				M3ViewerDelta.class, int.class);
-		enqueue.setAccessible(true);
-		enqueue.invoke(null, v, new M3ViewerDelta().update("r0", null), 0); //$NON-NLS-1$
+		// Retain the actual callback so a stale invocation can be delivered after
+		// flush and a later public post, without depending on elapsed time.
+		Object queue = v.getControl().getData("org.eclipse.jface.viewers.m3.M3Viewers.queue"); //$NON-NLS-1$
+		var timer = queue.getClass().getDeclaredField("timer"); //$NON-NLS-1$
+		timer.setAccessible(true);
+		Runnable staleTimer = (Runnable) timer.get(queue);
 		M3Viewers.flush(v);
 		assertEquals(6, v.getTable().getItemCount());
 
 		roots.add("later"); //$NON-NLS-1$
-		enqueue.invoke(null, v, new M3ViewerDelta().add(roots, "later", -1), 60_000); //$NON-NLS-1$
+		M3Viewers.post(v, new M3ViewerDelta().add(roots, "later", -1), 60_000); //$NON-NLS-1$
+		staleTimer.run();
 		drain();
 		assertEquals(6, v.getTable().getItemCount(), "a timer from the flushed batch must not apply the later batch"); //$NON-NLS-1$
 		M3Viewers.flush(v);
