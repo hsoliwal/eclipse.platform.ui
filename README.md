@@ -36,6 +36,18 @@ are maintained in a separate repository.
 - **RCP:** the Eclipse rich-client application platform; some bundles are reusable
   there while other bundles specifically serve the IDE.
 
+## Fork compatibility contract
+
+This fork is an optimized, backward-compatible superset of Eclipse Platform UI.
+Existing applications written against the upstream subset must retain their
+public APIs and behavior when they use this fork. Fork-specific APIs, features,
+optimizations and contracts are part of the superset and must be preserved when
+changes are integrated.
+
+Compatibility is directional: the fork supports existing subset clients;
+upstream is not required to implement the fork's extensions. Release
+qualification covers the inherited contracts and the additional fork behavior.
+
 ## UI fork status
 
 This fork derives from [Eclipse Platform UI](https://github.com/eclipse-platform/eclipse.platform.ui).
