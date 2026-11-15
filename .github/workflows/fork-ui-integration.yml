@@ -178,15 +178,25 @@ jobs:
                   'testContextChildren', 'testCreateMenu',
               },
           }
+          # Additional concrete JFace contracts (the checkbox test inherits
+          # other JUnit methods; every observed method must pass).
+          required_viewers = {
+              'org.eclipse.jface.tests.viewers.Bug553483ViewerDropAdapterTest':
+                  'testBug553483',
+              'org.eclipse.jface.tests.viewers.CheckboxTreeViewerMissingTest':
+                  'testLabelProvider',
+              'org.eclipse.jface.tests.viewers.DrillDownAdapterTest':
+                  'test_goInto_and_goHome',
+          }
           tests = Path('platform/eclipse.platform.ui/tests')
           reports = sorted(tests.glob('**/target/surefire-reports/TEST-*.xml'))
           assert reports, 'no actual Surefire XML reports found in Platform UI tests'
-          found = {klass: {} for klass in targets}
+          found = {klass: {} for klass in (*targets, *required_viewers)}
           for path in reports:
               root = ET.parse(path).getroot()
               for case in root.iter('testcase'):
                   klass = case.get('classname')
-                  if klass not in targets:
+                  if klass not in found:
                       continue
                   name = case.get('name', '')
                   if name.endswith('()'):
@@ -201,7 +211,7 @@ jobs:
                   else:
                       entry['executed'] += 1
           dest = Path(os.environ['EVIDENCE']) / 'jface-e4-executed-tests.json'
-          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V2',
+          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V3',
                                      'tests': found, 'release_admitted': False},
                                     indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(dest.read_text(encoding='utf-8'))
@@ -215,6 +225,13 @@ jobs:
                   entry = observed[name]
                   assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
                       klass, name, 'not exactly one successful execution', entry
+                  )
+          for klass, required_method in required_viewers.items():
+              observed = found[klass]
+              assert required_method in observed, (klass, 'required method absent', required_method)
+              for name, entry in sorted(observed.items()):
+                  assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
+                      klass, name, 'DND/image/workbench method not successful', entry
                   )
           PY
       - name: Preserve build log, source identities, Surefire XML and screenshots
