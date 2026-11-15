@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,18 +35,23 @@ import org.junit.jupiter.api.extension.TestWatcher;
 import org.eclipse.test.Screenshots;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -58,6 +64,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.WhitespaceCharacterPainter;
 import org.eclipse.jface.text.codemining.AbstractCodeMiningProvider;
 import org.eclipse.jface.text.codemining.DocumentFooterCodeMining;
 import org.eclipse.jface.text.codemining.ICodeMining;
@@ -79,6 +86,17 @@ public class CodeMiningTest {
 
 	/** Right-edge pixels to skip: GTK paints a frame shadow there without a window manager (Xvfb). */
 	private static final int FRAME_INSET= 4;
+
+	/**
+	 * Logical pixels of tolerance at the top edge of a document footer area when the previous row is
+	 * the last line of text. Windows ClearType can render the anti-aliased descender of a glyph on
+	 * that last line into the first pixel row of the footer; those pixels are visually
+	 * indistinguishable from the footer but would fail a strict all-pixels-equal check.
+	 */
+	private static final int FOOTER_TOP_TOLERANCE= 2;
+
+	/** The label of a document footer of five lines. */
+	private static final String FIVE_LINES_FOOTER= "footer 1\nfooter 2\nfooter 3\nfooter 4\nfooter 5";
 
 	private SourceViewer fViewer;
 	private Shell fShell;
@@ -353,6 +371,365 @@ public class CodeMiningTest {
 				}
 			}
 		}.waitForCondition(fViewer.getTextWidget().getDisplay(), 10_000), "Code mining is not visible at end of document");
+	}
+
+	/**
+	 * A document footer is shown below the last line and scrolls with the document like the lines,
+	 * without hiding any of them.
+	 */
+	@Test
+	public void testDocumentFooterCodeMiningScrollsWithTheDocument() throws Exception {
+		StyledText widget= fViewer.getTextWidget();
+		Color lineColor= widget.getDisplay().getSystemColor(SWT.COLOR_GREEN);
+		Color footerColor= widget.getDisplay().getSystemColor(SWT.COLOR_BLUE);
+		AtomicInteger clicks= new AtomicInteger();
+		setLongDocument("line ");
+		setFooterCodeMining(FIVE_LINES_FOOTER, footerColor, unused -> clicks.incrementAndGet());
+		// a background on every line tells the text from the space below it
+		widget.setLineBackground(0, widget.getLineCount(), lineColor);
+		int originalBottomMargin= widget.getBottomMargin();
+		int lastLine= widget.getLineCount() - 1;
+		int lineHeight= widget.getLineHeight();
+		int clientHeight= widget.getClientArea().height;
+
+		// the end of the document: the whole footer right below the last line
+		Assertions.assertTrue(new DisplayHelper() {
+			@Override
+			protected boolean condition() {
+				// the scroll range grows once the footer has reserved its space
+				widget.setTopPixel(Integer.MAX_VALUE);
+				return lastLineBottom(widget) == clientHeight - originalBottomMargin - 5 * lineHeight
+						&& isPaintedAsFooterBelowText(widget, lineColor, footerColor, originalBottomMargin);
+			}
+		}.waitForCondition(widget.getDisplay(), 10_000), "Document footer code mining is not shown at the end of the document");
+
+		// three lines up, the last line moves down by three lines, and with it the footer, of
+		// which two lines are left in view
+		widget.setTopPixel(widget.getTopPixel() - 3 * lineHeight);
+		Assertions.assertEquals(clientHeight - originalBottomMargin - 2 * lineHeight, lastLineBottom(widget));
+		Assertions.assertTrue(new DisplayHelper() {
+			@Override
+			protected boolean condition() {
+				return isPaintedAsFooterBelowText(widget, lineColor, footerColor, originalBottomMargin);
+			}
+		}.waitForCondition(widget.getDisplay(), 10_000), "Document footer code mining is not shown right below the last line");
+		// the footer reacts where it is painted
+		Event move= new Event();
+		move.x= widget.getLocationAtOffset(widget.getOffsetAtLine(lastLine)).x + 2;
+		move.y= lastLineBottom(widget) + 2;
+		widget.notifyListeners(SWT.MouseMove, move);
+		Event up= new Event();
+		up.x= move.x;
+		up.y= move.y;
+		up.button= 1;
+		widget.notifyListeners(SWT.MouseUp, up);
+		Assertions.assertEquals(1, clicks.get(), "Document footer code mining does not react where it is painted");
+
+		// far above the end, the text uses the whole view port
+		widget.setTopPixel(widget.getTopPixel() - 20 * lineHeight);
+		Assertions.assertTrue(lastLineBottom(widget) > clientHeight);
+		Assertions.assertTrue(new DisplayHelper() {
+			@Override
+			protected boolean condition() {
+				return isPaintedAsFooterBelowText(widget, lineColor, footerColor, originalBottomMargin);
+			}
+		}.waitForCondition(widget.getDisplay(), 10_000), "The text does not use the whole view port away from the end of the document");
+		Assertions.assertEquals(originalBottomMargin, widget.getBottomMargin());
+	}
+
+	/**
+	 * Moving the caret up from the first visible line scrolls the document, and the footer drawing
+	 * callback moves with it to the space directly below the last line. This verifies the production
+	 * footer layout path without relying on rendered pixels. Both the recorded location and expected
+	 * location use StyledText coordinates, so SWT device scaling is applied consistently to both.
+	 */
+	@Test
+	public void testDocumentFooterCodeMiningMovesWithTheDocumentOnLineUp() throws Exception {
+		StyledText widget= fViewer.getTextWidget();
+		AtomicReference<Point> footerLocation= new AtomicReference<>();
+		setLongDocument("        line ");
+		setFooterCodeMining(FIVE_LINES_FOOTER, null, null, footerLocation::set);
+		int originalBottomMargin= widget.getBottomMargin();
+		int lineHeight= widget.getLineHeight();
+		int clientHeight= widget.getClientArea().height;
+		Assertions.assertTrue(new DisplayHelper() {
+			@Override
+			protected boolean condition() {
+				widget.setTopPixel(Integer.MAX_VALUE);
+				invokeWidgetPaint(widget);
+				return lastLineBottom(widget) == clientHeight - originalBottomMargin - 5 * lineHeight
+						&& isFooterDrawnBelowLastLine(widget, footerLocation.get());
+			}
+		}.waitForCondition(widget.getDisplay(), 10_000), "Document footer code mining is not drawn below the last line at the end of the document");
+		fViewer.addPainter(new WhitespaceCharacterPainter(fViewer));
+		widget.setCaretOffset(widget.getOffsetAtLine(widget.getTopIndex()));
+		for (int i= 0; i < 3; i++) {
+			int topPixel= widget.getTopPixel();
+			int footerY= lastLineBottom(widget);
+			widget.invokeAction(ST.LINE_UP);
+			Assertions.assertTrue(widget.getTopPixel() < topPixel, "The document did not scroll");
+			Assertions.assertEquals(footerY + topPixel - widget.getTopPixel(), lastLineBottom(widget), "The footer did not move with the document");
+			Assertions.assertTrue(new DisplayHelper() {
+				@Override
+				protected boolean condition() {
+					invokeWidgetPaint(widget);
+					return isFooterDrawnBelowLastLine(widget, footerLocation.get());
+				}
+			}.waitForCondition(widget.getDisplay(), 10_000), "Document footer code mining is not drawn below the last line after LINE_UP");
+		}
+	}
+
+	/**
+	 * StyledText adds line spacing below each row of a wrapped line, so the footer must not reserve
+	 * its space as such while the last line is wrapped.
+	 */
+	@Test
+	public void testDocumentFooterCodeMiningKeepsTheRowsOfAWrappedLastLineTogether() throws Exception {
+		StyledText widget= fViewer.getTextWidget();
+		Color footerColor= widget.getDisplay().getSystemColor(SWT.COLOR_BLUE);
+		widget.setWordWrap(true);
+		fViewer.getDocument().set("first\n" + "wrapped ".repeat(20).trim());
+		setFooterCodeMining("footer 1\nfooter 2", footerColor, null);
+		int lineHeight= widget.getLineHeight();
+		int lastLineOffset= widget.getOffsetAtLine(1);
+		DisplayHelper footerShown= new DisplayHelper() {
+			@Override
+			protected boolean condition() {
+				int lastRowBottom= widget.getLocationAtOffset(widget.getCharCount()).y + lineHeight;
+				return lastRowBottom + 2 * lineHeight <= widget.getClientArea().height
+						&& isPaintedOnly(printWidget(widget), footerColor, widget.getLeftMargin(), lastRowBottom + FOOTER_TOP_TOLERANCE,
+								widget.getClientArea().width - widget.getRightMargin(), lastRowBottom + 2 * lineHeight);
+			}
+		};
+		Assertions.assertTrue(footerShown.waitForCondition(widget.getDisplay(), 10_000),
+				() -> {
+					int lastRowBottom= widget.getLocationAtOffset(widget.getCharCount()).y + lineHeight;
+					return "Document footer code mining is not shown below the last row of the last line: "
+							+ describeFooterAreaMismatch(widget, footerColor, widget.getLeftMargin(), lastRowBottom + FOOTER_TOP_TOLERANCE,
+									widget.getClientArea().width - widget.getRightMargin(), lastRowBottom + 2 * lineHeight);
+				});
+		// the annotation painter, which reserves the space of the footer, paints after the footer is shown
+		DisplayHelper.sleep(widget.getDisplay(), 1000);
+		widget.redraw();
+		widget.update();
+		Assertions.assertTrue(footerShown.waitForCondition(widget.getDisplay(), 10_000),
+				() -> {
+					int lastRowBottom= widget.getLocationAtOffset(widget.getCharCount()).y + lineHeight;
+					return "Document footer code mining is not shown below the last row of the last line (after redraw): "
+							+ describeFooterAreaMismatch(widget, footerColor, widget.getLeftMargin(), lastRowBottom + FOOTER_TOP_TOLERANCE,
+									widget.getClientArea().width - widget.getRightMargin(), lastRowBottom + 2 * lineHeight);
+				});
+		List<Integer> rows= new ArrayList<>();
+		for (int offset= lastLineOffset; offset <= widget.getCharCount(); offset++) {
+			int y= widget.getLocationAtOffset(offset).y;
+			if (!rows.contains(Integer.valueOf(y))) {
+				rows.add(Integer.valueOf(y));
+			}
+		}
+		Assertions.assertTrue(rows.size() > 1, "The last line is not wrapped");
+		for (int i= 1; i < rows.size(); i++) {
+			Assertions.assertEquals(lineHeight, rows.get(i).intValue() - rows.get(i - 1).intValue(), "The rows of the last line are apart");
+		}
+	}
+
+	private void setLongDocument(String linePrefix) {
+		StringBuilder source= new StringBuilder();
+		for (int i= 0; i < 100; i++) {
+			if (i > 0) {
+				source.append('\n');
+			}
+			source.append(linePrefix).append(i);
+		}
+		fViewer.getDocument().set(source.toString());
+	}
+
+	/**
+	 * Shows a document footer with the given label, which fills the space of its lines with the
+	 * given color.
+	 */
+	private void setFooterCodeMining(String label, Color footerColor, Consumer<MouseEvent> action) {
+		setFooterCodeMining(label, footerColor, action, null);
+	}
+
+	/**
+	 * Shows a document footer with the given label and reports the location passed to its production
+	 * draw callback, when requested.
+	 */
+	private void setFooterCodeMining(String label, Color footerColor, Consumer<MouseEvent> action, Consumer<Point> drawListener) {
+		fViewer.setCodeMiningProviders(new ICodeMiningProvider[] { new ICodeMiningProvider() {
+			@Override
+			public CompletableFuture<List<? extends ICodeMining>> provideCodeMinings(ITextViewer viewer, IProgressMonitor monitor) {
+				DocumentFooterCodeMining mining= new DocumentFooterCodeMining(viewer.getDocument(), this, action) {
+					@Override
+					public Point draw(GC gc, StyledText textWidget, Color color, int x, int y) {
+						if (drawListener != null) {
+							drawListener.accept(new Point(x, y));
+						}
+						Point size= super.draw(gc, textWidget, color, x, y);
+						if (footerColor != null) {
+							gc.setBackground(footerColor);
+							gc.fillRectangle(0, y, textWidget.getClientArea().width, size.y);
+						}
+						return size;
+					}
+
+					@Override
+					public String getLabel() {
+						return label;
+					}
+				};
+				return CompletableFuture.completedFuture(List.of(mining));
+			}
+
+			@Override
+			public void dispose() {
+			}
+		} });
+	}
+
+	private static int lastLineBottom(StyledText widget) {
+		int lastLine= widget.getLineCount() - 1;
+		return widget.getLinePixel(lastLine) + widget.getLineHeight();
+	}
+
+	private static boolean isFooterDrawnBelowLastLine(StyledText widget, Point location) {
+		if (location == null) {
+			return false;
+		}
+		int lastLine= widget.getLineCount() - 1;
+		return location.x == widget.getLocationAtOffset(widget.getOffsetAtLine(lastLine)).x
+				&& location.y == lastLineBottom(widget);
+	}
+
+	/**
+	 * Returns whether the client area above the original bottom margin shows text down to the
+	 * bottom of the last line, and the footer below it.
+	 */
+	private static boolean isPaintedAsFooterBelowText(StyledText widget, Color lineColor, Color footerColor, int originalBottomMargin) {
+		ImageData imageData= printWidget(widget);
+		int bottom= widget.getClientArea().height - originalBottomMargin;
+		int textEnd= Math.min(lastLineBottom(widget), bottom);
+		return rowsContain(imageData, lineColor, 0, textEnd) && rowsContain(imageData, footerColor, textEnd, bottom);
+	}
+
+	private static void invokeWidgetPaint(StyledText widget) {
+		Point size= widget.getSize();
+		Image image= new Image(widget.getDisplay(), size.x, size.y);
+		try {
+			GC gc= new GC(image);
+			try {
+				Assumptions.assumeTrue(widget.print(gc), "The text widget cannot be printed");
+			} finally {
+				gc.dispose();
+			}
+		} finally {
+			image.dispose();
+		}
+	}
+
+	private static ImageData printWidget(StyledText widget) {
+		Point size= widget.getSize();
+		Image image= new Image(widget.getDisplay(), size.x, size.y);
+		try {
+			GC gc= new GC(image);
+			try {
+				Assumptions.assumeTrue(widget.print(gc), "The text widget cannot be printed");
+			} finally {
+				gc.dispose();
+			}
+			return image.getImageData(DPIUtil.getDeviceZoom());
+		} finally {
+			image.dispose();
+		}
+	}
+
+	/**
+	 * Returns whether each row of pixels from <code>fromY</code> to <code>toY</code>, exclusive,
+	 * contains the given color.
+	 */
+	private static boolean rowsContain(ImageData imageData, Color color, int fromY, int toY) {
+		double zoomFactor= DPIUtil.getDeviceZoom() / 100.0;
+		RGB rgb= color.getRGB();
+		for (int y= (int) Math.ceil(zoomFactor * fromY); y < (int) (zoomFactor * toY) && y < imageData.height; y++) {
+			boolean found= false;
+			for (int x= 0; x < imageData.width - FRAME_INSET && !found; x++) {
+				found= imageData.palette.getRGB(imageData.getPixel(x, y)).equals(rgb);
+			}
+			if (!found) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Returns whether the given area, exclusive its right and bottom end, is painted in the given
+	 * color only.
+	 */
+	private static boolean isPaintedOnly(ImageData imageData, Color color, int fromX, int fromY, int toX, int toY) {
+		double zoomFactor= DPIUtil.getDeviceZoom() / 100.0;
+		RGB rgb= color.getRGB();
+		for (int y= (int) Math.ceil(zoomFactor * fromY); y < (int) (zoomFactor * toY) && y < imageData.height; y++) {
+			for (int x= (int) Math.ceil(zoomFactor * fromX); x < (int) (zoomFactor * toX) && x < imageData.width - FRAME_INSET; x++) {
+				if (!imageData.palette.getRGB(imageData.getPixel(x, y)).equals(rgb)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Describes, for a failure message, the first pixel in the given area that is not painted in the
+	 * given footer color, together with a histogram of that row and the widget metrics; returns a
+	 * "MATCH" string when the area is entirely painted in the footer color.
+	 */
+	private static String describeFooterAreaMismatch(StyledText widget, Color footerColor, int fromX, int fromY, int toX, int toY) {
+		ImageData data= printWidget(widget);
+		double zf= DPIUtil.getDeviceZoom() / 100.0;
+		RGB expected= footerColor.getRGB();
+		int yStart= (int) Math.ceil(zf * fromY);
+		int yEnd= Math.min((int) (zf * toY), data.height);
+		int xStart= (int) Math.ceil(zf * fromX);
+		int xEnd= Math.min((int) (zf * toX), data.width - FRAME_INSET);
+		String ctx= "footerScan[logical x=" + fromX + ".." + toX + ", y=" + fromY + ".." + toY
+				+ "), pixel x=" + xStart + ".." + xEnd + ", y=" + yStart + ".." + yEnd + ") "
+				+ describeWidgetMetrics(widget, data);
+		for (int y= yStart; y < yEnd; y++) {
+			for (int x= xStart; x < xEnd; x++) {
+				RGB rgb= data.palette.getRGB(data.getPixel(x, y));
+				if (!rgb.equals(expected)) {
+					return "FOOTER-PAINTED-OVER expected=" + expected + " at pixel (" + x + "," + y + ")=" + rgb + " " + rowHistogram(data, y) + " " + ctx;
+				}
+			}
+		}
+		return "footer area MATCHES expected color (" + expected + ") " + ctx;
+	}
+
+	private static String rowHistogram(ImageData data, int y) {
+		if (y < 0 || y >= data.height) {
+			return "rowHistogram(y=" + y + " out of image)";
+		}
+		java.util.LinkedHashMap<RGB, Integer> counts= new java.util.LinkedHashMap<>();
+		for (int x= 0; x < data.width; x++) {
+			RGB rgb= data.palette.getRGB(data.getPixel(x, y));
+			counts.merge(rgb, 1, Integer::sum);
+		}
+		return "rowHistogram(y=" + y + ")=" + counts;
+	}
+
+	private static String describeWidgetMetrics(StyledText widget, ImageData data) {
+		return "metrics[zoom=" + DPIUtil.getDeviceZoom()
+				+ " widget=" + widget.getSize().x + "x" + widget.getSize().y
+				+ " image=" + data.width + "x" + data.height
+				+ " lineHeight=" + widget.getLineHeight()
+				+ " topPixel=" + widget.getTopPixel()
+				+ " topIndex=" + widget.getTopIndex()
+				+ " lineCount=" + widget.getLineCount()
+				+ " lastLineTop=" + widget.getLinePixel(widget.getLineCount() - 1)
+				+ " clientArea=" + widget.getClientArea()
+				+ " font=" + java.util.Arrays.toString(widget.getFont().getFontData())
+				+ "]";
 	}
 
 	@Test
