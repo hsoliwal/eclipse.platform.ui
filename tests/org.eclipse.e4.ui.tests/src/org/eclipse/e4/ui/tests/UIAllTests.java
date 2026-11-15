@@ -43,6 +43,7 @@ import org.eclipse.e4.ui.tests.workbench.MSashTest;
 import org.eclipse.e4.ui.tests.workbench.MSaveablePartTest;
 import org.eclipse.e4.ui.tests.workbench.MToolItemTest;
 import org.eclipse.e4.ui.tests.workbench.MWindowTest;
+import org.eclipse.e4.ui.tests.workbench.NewMWindowTest;
 import org.eclipse.e4.ui.tests.workbench.ModelAssemblerFragmentOrderingTests;
 import org.eclipse.e4.ui.tests.workbench.ModelAssemblerTests;
 import org.eclipse.e4.ui.tests.workbench.ModelServiceImplTest;
@@ -65,7 +66,7 @@ import org.junit.platform.suite.api.Suite;
 /**
  * All E4 UI-related tests
  */
-@Suite
+@Suite(failIfNoTests = true)
 @SelectClasses({
 		StartupTestSuite.class,
 		UIEventTypesTest.class,
@@ -83,6 +84,7 @@ import org.junit.platform.suite.api.Suite;
 		MSaveablePartTest.class,
 		MToolItemTest.class,
 		MWindowTest.class,
+		NewMWindowTest.class,
 		MSashTest.class,
 		MenuManagerRendererTest.class,
 		HandlerTest.class,

@@ -1,0 +1,247 @@
+# SPDX-License-Identifier: EPL-2.0
+# Integration evidence only: never publish or admit a release from this workflow.
+name: Downstream Eclipse UI/JFace/e4 source-bound integration
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: downstream-ui-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source-bound-verify:
+    name: Tycho verify ${{ matrix.os }} — exact UI + SWT fork commits
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 180
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'release/')
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025, macos-15]
+    env:
+      AGGREGATOR_SHA: d0a9bb8437ae634e9c301100a7efbf4087f7b5be
+      SWT_SHA: 9854166eda0a597d37849704de07c47a1e4a9dc8
+      UI_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      UI_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+      EVIDENCE: ui-fork-evidence
+    steps:
+      - name: Checkout immutable downstream aggregator with recorded gitlinks
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hsoliwal/eclipse.platform.releng.aggregator
+          ref: d0a9bb8437ae634e9c301100a7efbf4087f7b5be
+          path: platform
+          submodules: recursive
+          lfs: true
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Overlay exact candidate UI source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ env.UI_REPOSITORY }}
+          ref: ${{ env.UI_SHA }}
+          path: platform/eclipse.platform.ui
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Overlay exact merged SWT source with native LFS objects
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hsoliwal/eclipse.platform.swt
+          ref: 9854166eda0a597d37849704de07c47a1e4a9dc8
+          path: platform/eclipse.platform.swt
+          lfs: true
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install Python for source and test evidence checks
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Seal source identity, refuse unapproved overlays
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE"
+          python3 - <<'PY'
+          import configparser
+          import json
+          import os
+          import pathlib
+          import re
+          import subprocess
+
+          root = pathlib.Path('platform').resolve()
+          expected_paths = {
+              'eclipse.jdt', 'eclipse.jdt.core', 'eclipse.jdt.core.binaries',
+              'eclipse.jdt.debug', 'eclipse.jdt.ui', 'eclipse.pde',
+              'eclipse.platform', 'eclipse.platform.swt', 'eclipse.platform.ui',
+              'equinox', 'equinox.binaries', 'equinox.p2'
+          }
+          requested = {
+              'eclipse.platform.ui': os.environ['UI_SHA'],
+              'eclipse.platform.swt': os.environ['SWT_SHA']
+          }
+          def git(directory, *args):
+              return subprocess.check_output(['git', '-C', str(directory), *args], text=True).strip()
+          def commit(s):
+              assert re.fullmatch('[0-9a-f]{40}', s), 'not a full lowercase Git SHA'
+              return s
+
+          assert git(root, 'rev-parse', 'HEAD') == commit(os.environ['AGGREGATOR_SHA'])
+          manifest = configparser.ConfigParser(interpolation=None, strict=True)
+          with (root / '.gitmodules').open(encoding='utf-8') as f:
+              manifest.read_file(f)
+          paths = {manifest.get(section, 'path') for section in manifest.sections()}
+          assert paths == expected_paths, ('unexpected module set', sorted(paths))
+          sources = []
+          for path in sorted(paths):
+              pinned = commit(git(root, 'rev-parse', f'HEAD:{path}'))
+              actual = commit(git(root / path, 'rev-parse', 'HEAD'))
+              desired = requested.get(path, pinned)
+              assert actual == desired, (path, actual, desired)
+              assert not git(root / path, 'status', '--porcelain', '--untracked-files=no'), (path, 'dirty')
+              sources.append({'path': path, 'aggregator_gitlink': pinned,
+                              'checkout_sha': actual, 'overlaid': path in requested})
+          out = {'schema': 'ECLIPSE_UI_SOURCE_BOUND_V1',
+                 'aggregator_sha': os.environ['AGGREGATOR_SHA'],
+                 'runner_os': os.environ.get('RUNNER_OS', 'unknown'),
+                 'runner_arch': os.environ.get('RUNNER_ARCH', 'unknown'),
+                 'sources': sources, 'release_admitted': False}
+          result = pathlib.Path(os.environ['EVIDENCE']) / 'source-identity.json'
+          result.write_text(json.dumps(out, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          print(result.read_text(encoding='utf-8'))
+          PY
+      - name: Install Eclipse build and execution JDK toolchains
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: |
+            11
+            17
+            21
+            25
+          mvn-toolchain-id: |
+            JavaSE-11
+            JavaSE-17
+            JavaSE-21
+            JavaSE-25
+          cache: maven
+      - name: Use recorded Maven version
+        uses: stCarolas/setup-maven@12eb41b233df95d49b0c11fc1b5bc8312e5d4ce0 # v5.1
+        with:
+          maven-version: '3.9.16'
+      - name: Compile and execute full downstream Tycho reactor
+        shell: bash
+        working-directory: platform
+        run: |
+          set -euo pipefail
+          profiles=(-Pbree-libs)
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            command -v xvfb-run
+            profiles+=(-Papi-check)
+            xvfb-run -a mvn --show-version --batch-mode --no-transfer-progress --errors \
+              "${profiles[@]}" --fail-at-end clean verify 2>&1 | tee "../$EVIDENCE/maven-verify.log"
+          else
+            mvn --show-version --batch-mode --no-transfer-progress --errors \
+              "${profiles[@]}" --fail-at-end clean verify 2>&1 | tee "../$EVIDENCE/maven-verify.log"
+          fi
+      - name: Refuse missing, skipped or failing JFace/e4 admission tests
+        shell: bash
+        if: success()
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+
+          # Checked against the two exact source test-class blobs recorded in
+          # verification/eclipse-release-qualification-20261115.
+          targets = {
+              'org.eclipse.jface.tests.viewers.StructuredSelectionTest': {
+                  'testEquals', 'testEquals2', 'testEquals3', 'testEquals4',
+                  'testEquals5', 'testEquals6', 'testEquals7',
+                  'testEqualsFalseWithElementsContainingNull',
+                  'testEqualsTrueWithElementsContainingNull',
+                  'testEqualsWithComparer1', 'testEqualsWithComparer2',
+                  'testEqualsWithComparer3', 'testEqualsWithComparer4',
+                  'testEqualsWithComparer5',
+              },
+              'org.eclipse.e4.ui.tests.workbench.NewMWindowTest': {
+                  'testCreateWindow', 'testCreateView',
+                  'testContextChildren', 'testCreateMenu',
+              },
+          }
+          # Additional concrete JFace contracts (the checkbox test inherits
+          # other JUnit methods; every observed method must pass).
+          required_viewers = {
+              'org.eclipse.jface.tests.viewers.Bug553483ViewerDropAdapterTest':
+                  'testBug553483',
+              'org.eclipse.jface.tests.viewers.CheckboxTreeViewerMissingTest':
+                  'testLabelProvider',
+              'org.eclipse.jface.tests.viewers.DrillDownAdapterTest':
+                  'test_goInto_and_goHome',
+          }
+          tests = Path('platform/eclipse.platform.ui/tests')
+          reports = sorted(tests.glob('**/target/surefire-reports/TEST-*.xml'))
+          assert reports, 'no actual Surefire XML reports found in Platform UI tests'
+          found = {klass: {} for klass in (*targets, *required_viewers)}
+          for path in reports:
+              root = ET.parse(path).getroot()
+              for case in root.iter('testcase'):
+                  klass = case.get('classname')
+                  if klass not in found:
+                      continue
+                  name = case.get('name', '')
+                  if name.endswith('()'):
+                      name = name[:-2]
+                  entry = found[klass].setdefault(name, {
+                      'executed': 0, 'skipped': 0, 'failed': 0
+                  })
+                  if case.find('skipped') is not None:
+                      entry['skipped'] += 1
+                  elif case.find('failure') is not None or case.find('error') is not None:
+                      entry['failed'] += 1
+                  else:
+                      entry['executed'] += 1
+          dest = Path(os.environ['EVIDENCE']) / 'jface-e4-executed-tests.json'
+          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V3',
+                                     'tests': found, 'release_admitted': False},
+                                    indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          print(dest.read_text(encoding='utf-8'))
+          for klass, expected in targets.items():
+              observed = found[klass]
+              assert set(observed) == expected, (
+                  klass, 'missing methods', sorted(expected - set(observed)),
+                  'unknown methods', sorted(set(observed) - expected)
+              )
+              for name in sorted(expected):
+                  entry = observed[name]
+                  assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
+                      klass, name, 'not exactly one successful execution', entry
+                  )
+          for klass, required_method in required_viewers.items():
+              observed = found[klass]
+              assert required_method in observed, (klass, 'required method absent', required_method)
+              for name, entry in sorted(observed.items()):
+                  assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
+                      klass, name, 'DND/image/workbench method not successful', entry
+                  )
+          PY
+      - name: Preserve build log, source identities, Surefire XML and screenshots
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ui-fork-${{ matrix.os }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            ui-fork-evidence/
+            platform/**/target/surefire-reports/*.xml
+            platform/**/target/screenshots/*.png
+          if-no-files-found: warn
+          retention-days: 90
