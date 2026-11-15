@@ -56,6 +56,10 @@ jobs:
           path: platform/eclipse.platform.swt
           lfs: true
           persist-credentials: false
+      - name: Install Python for source and test evidence checks
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Seal source identity, refuse unapproved overlays
         shell: bash
         run: |
@@ -110,10 +114,6 @@ jobs:
           result.write_text(json.dumps(out, indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(result.read_text(encoding='utf-8'))
           PY
-      - name: Install Python for source and test evidence checks
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Install Eclipse build and execution JDK toolchains
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
         with:
