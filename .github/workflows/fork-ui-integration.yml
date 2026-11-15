@@ -15,16 +15,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  linux-source-bound-verify:
-    name: Linux Tycho verify — exact UI + SWT fork commits
-    runs-on: ubuntu-24.04
+  source-bound-verify:
+    name: Tycho verify ${{ matrix.os }} — exact UI + SWT fork commits
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 180
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'release/')
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025, macos-15]
     env:
       AGGREGATOR_SHA: d0a9bb8437ae634e9c301100a7efbf4087f7b5be
       SWT_SHA: 9854166eda0a597d37849704de07c47a1e4a9dc8
       UI_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       UI_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-      EVIDENCE: ${{ github.workspace }}/ui-fork-evidence
+      EVIDENCE: ui-fork-evidence
     steps:
       - name: Checkout immutable downstream aggregator with recorded gitlinks
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -98,11 +103,17 @@ jobs:
                               'checkout_sha': actual, 'overlaid': path in requested})
           out = {'schema': 'ECLIPSE_UI_SOURCE_BOUND_V1',
                  'aggregator_sha': os.environ['AGGREGATOR_SHA'],
+                 'runner_os': os.environ.get('RUNNER_OS', 'unknown'),
+                 'runner_arch': os.environ.get('RUNNER_ARCH', 'unknown'),
                  'sources': sources, 'release_admitted': False}
           result = pathlib.Path(os.environ['EVIDENCE']) / 'source-identity.json'
           result.write_text(json.dumps(out, indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(result.read_text(encoding='utf-8'))
           PY
+      - name: Install Python for source and test evidence checks
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Install Eclipse build and execution JDK toolchains
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
         with:
@@ -122,14 +133,21 @@ jobs:
         uses: stCarolas/setup-maven@12eb41b233df95d49b0c11fc1b5bc8312e5d4ce0 # v5.1
         with:
           maven-version: '3.9.16'
-      - name: Compile and execute full downstream Tycho reactor on Linux
+      - name: Compile and execute full downstream Tycho reactor
         shell: bash
         working-directory: platform
         run: |
           set -euo pipefail
-          command -v xvfb-run
-          xvfb-run -a mvn --show-version --batch-mode --no-transfer-progress --errors \
-            -Pbree-libs -Papi-check --fail-at-end clean verify 2>&1 | tee "$EVIDENCE/maven-verify.log"
+          profiles=(-Pbree-libs)
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            command -v xvfb-run
+            profiles+=(-Papi-check)
+            xvfb-run -a mvn --show-version --batch-mode --no-transfer-progress --errors \
+              "${profiles[@]}" --fail-at-end clean verify 2>&1 | tee "../$EVIDENCE/maven-verify.log"
+          else
+            mvn --show-version --batch-mode --no-transfer-progress --errors \
+              "${profiles[@]}" --fail-at-end clean verify 2>&1 | tee "../$EVIDENCE/maven-verify.log"
+          fi
       - name: Refuse missing, skipped or failing JFace/e4 admission tests
         shell: bash
         if: success()
@@ -177,7 +195,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: ui-fork-linux-${{ github.sha }}-${{ github.run_attempt }}
+          name: ui-fork-${{ matrix.os }}-${{ github.sha }}-${{ github.run_attempt }}
           path: |
             ui-fork-evidence/
             platform/**/target/surefire-reports/*.xml
