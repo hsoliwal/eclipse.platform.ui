@@ -159,22 +159,39 @@ jobs:
           from pathlib import Path
           from xml.etree import ElementTree as ET
 
+          # Checked against the two exact source test-class blobs recorded in
+          # verification/eclipse-release-qualification-20261115.
           targets = {
-              'org.eclipse.jface.tests.viewers.StructuredSelectionTest': 14,
-              'org.eclipse.e4.ui.tests.workbench.NewMWindowTest': 4,
+              'org.eclipse.jface.tests.viewers.StructuredSelectionTest': {
+                  'testEquals', 'testEquals2', 'testEquals3', 'testEquals4',
+                  'testEquals5', 'testEquals6', 'testEquals7',
+                  'testEqualsFalseWithElementsContainingNull',
+                  'testEqualsTrueWithElementsContainingNull',
+                  'testEqualsWithComparer1', 'testEqualsWithComparer2',
+                  'testEqualsWithComparer3', 'testEqualsWithComparer4',
+                  'testEqualsWithComparer5',
+              },
+              'org.eclipse.e4.ui.tests.workbench.NewMWindowTest': {
+                  'testCreateWindow', 'testCreateView',
+                  'testContextChildren', 'testCreateMenu',
+              },
           }
           tests = Path('platform/eclipse.platform.ui/tests')
           reports = sorted(tests.glob('**/target/surefire-reports/TEST-*.xml'))
           assert reports, 'no actual Surefire XML reports found in Platform UI tests'
-          found = {klass: {'executed': 0, 'skipped': 0, 'failed': 0}
-                   for klass in targets}
+          found = {klass: {} for klass in targets}
           for path in reports:
               root = ET.parse(path).getroot()
               for case in root.iter('testcase'):
                   klass = case.get('classname')
                   if klass not in targets:
                       continue
-                  entry = found[klass]
+                  name = case.get('name', '')
+                  if name.endswith('()'):
+                      name = name[:-2]
+                  entry = found[klass].setdefault(name, {
+                      'executed': 0, 'skipped': 0, 'failed': 0
+                  })
                   if case.find('skipped') is not None:
                       entry['skipped'] += 1
                   elif case.find('failure') is not None or case.find('error') is not None:
@@ -182,14 +199,21 @@ jobs:
                   else:
                       entry['executed'] += 1
           dest = Path(os.environ['EVIDENCE']) / 'jface-e4-executed-tests.json'
-          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V1',
+          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V2',
                                      'tests': found, 'release_admitted': False},
                                     indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(dest.read_text(encoding='utf-8'))
-          for klass, minimum in targets.items():
-              result = found[klass]
-              assert result['executed'] >= minimum, (klass, 'insufficient executions', result)
-              assert result['skipped'] == 0 and result['failed'] == 0, (klass, result)
+          for klass, expected in targets.items():
+              observed = found[klass]
+              assert set(observed) == expected, (
+                  klass, 'missing methods', sorted(expected - set(observed)),
+                  'unknown methods', sorted(set(observed) - expected)
+              )
+              for name in sorted(expected):
+                  entry = observed[name]
+                  assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
+                      klass, name, 'not exactly one successful execution', entry
+                  )
           PY
       - name: Preserve build log, source identities, Surefire XML and screenshots
         if: always()
