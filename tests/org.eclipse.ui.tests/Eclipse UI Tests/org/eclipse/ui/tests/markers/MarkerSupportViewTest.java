@@ -12,6 +12,7 @@
 
 package org.eclipse.ui.tests.markers;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -24,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.m3.M3ViewSpec;
+import org.eclipse.jface.viewers.m3.M3ViewSpec.LaneType;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -31,6 +34,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.views.markers.ExtendedMarkersView;
 import org.eclipse.ui.internal.views.markers.FiltersConfigurationDialog;
 import org.eclipse.ui.internal.views.markers.MarkerContentGenerator;
+import org.eclipse.ui.internal.views.markers.ProblemsView;
 import org.eclipse.ui.views.markers.MarkerField;
 import org.eclipse.ui.views.markers.MarkerSupportView;
 import org.eclipse.ui.views.markers.internal.ContentGeneratorDescriptor;
@@ -43,6 +47,14 @@ import org.junit.Test;
 public class MarkerSupportViewTest {
 
 	private static final String PROBLEM_VIEW_ID = "org.eclipse.ui.views.ProblemView";
+
+	@Test
+	public void loadsPackagedProblemsViewSpec() throws Exception {
+		M3ViewSpec spec = M3ViewSpec.load(ProblemsView.class);
+		assertEquals(PROBLEM_VIEW_ID, spec.viewId());
+		assertEquals("markers", spec.source());
+		assertEquals(LaneType.LONG, spec.lane("id").type());
+	}
 
 	@Test
 	public void canOverrideOpenSelectedMarkers() {

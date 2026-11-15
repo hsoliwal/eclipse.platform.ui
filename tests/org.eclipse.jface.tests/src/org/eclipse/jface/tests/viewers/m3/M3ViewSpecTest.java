@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.eclipse.jface.viewers.m3.M3ViewSpec;
@@ -80,19 +78,17 @@ public class M3ViewSpecTest {
 	}
 
 	@Test
-	public void theCommittedProblemsViewSpecIsValid() throws IOException {
-		Path file = Path.of(System.getProperty("m3.wt", "S:/m3-scratch/worktrees/platform-ui"),
-				"bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ProblemsView.m3view");
-		if (Files.exists(file)) {
-			M3ViewSpec spec = M3ViewSpec.parse(Files.readString(file));
-			assertEquals("markers", spec.source());
-			assertEquals(LaneType.LONG, spec.lane("id").type());
-		}
+	public void loadFindsTheSpecNextToTheClass() throws IOException {
+		M3ViewSpec spec = M3ViewSpec.load(M3ViewSpecTest.class);
+		assertEquals("test.view", spec.viewId());
+		assertEquals("observables", spec.source());
+		assertEquals(LaneType.LONG, spec.lane("id").type());
+		assertEquals(LaneType.LABEL, spec.lane("label").type());
 	}
 
 	@Test
-	public void loadFindsTheSpecNextToTheClass() {
-		assertThrows(IOException.class, () -> M3ViewSpec.load(M3ViewSpecTest.class));
+	public void loadRejectsMissingSpec() {
+		assertThrows(IOException.class, () -> M3ViewSpec.load(M3ViewerDeltaTest.class));
 	}
 
 	@Test

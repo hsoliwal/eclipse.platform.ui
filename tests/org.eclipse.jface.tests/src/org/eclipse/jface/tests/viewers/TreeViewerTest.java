@@ -125,15 +125,19 @@ public class TreeViewerTest extends AbstractTreeViewerTest {
 		TestElement thirdChild = third.getChildAt(0);
 
 		fTreeViewer.setInput(rootElement);
-		fTreeViewer.setSelection(new StructuredSelection(List.of(first, third)));
+		processEvents();
+		boolean multi = (fTreeViewer.getControl().getStyle() & SWT.MULTI) != 0;
+		List<TestElement> selected = multi ? List.of(first, third) : List.of(first);
+		fTreeViewer.setSelection(new StructuredSelection(selected));
+		assertEquals(selected, fTreeViewer.getStructuredSelection().toList(), "selection must be established before expansion");
 
 		fTreeViewer.expandSelectionToLevel(2);
 		processEvents();
 
 		assertTrue(fTreeViewer.getExpandedState(first), "first selected root should expand");
-		assertTrue(fTreeViewer.getExpandedState(third), "third selected root should expand");
+		assertEquals(multi, fTreeViewer.getExpandedState(third), "third root expands only when selected");
 		assertTrue(fTreeViewer.getExpandedState(firstChild), "selected subtree should expand to level 2");
-		assertTrue(fTreeViewer.getExpandedState(thirdChild), "selected subtree should expand to level 2");
+		assertEquals(multi, fTreeViewer.getExpandedState(thirdChild), "third subtree expands only when selected");
 		assertFalse(fTreeViewer.getExpandedState(untouched), "unselected sibling must remain collapsed");
 
 		fTreeViewer.collapseSelection();
