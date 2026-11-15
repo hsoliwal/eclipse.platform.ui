@@ -26,6 +26,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.eclipse.jface.viewers.AbstractTreeViewer;
+import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -130,8 +131,27 @@ public class TreeViewerTest extends AbstractTreeViewerTest {
 		List<TestElement> selected = multi ? List.of(first, third) : List.of(first);
 		fTreeViewer.setSelection(new StructuredSelection(selected));
 		assertEquals(selected, fTreeViewer.getStructuredSelection().toList(), "selection must be established before expansion");
+		AbstractTreeViewer viewer = fTreeViewer;
+		viewer.setInput(rootElement);
+		if ((viewer.getControl().getStyle() & SWT.SINGLE) != 0) {
+			viewer.setSelection(new StructuredSelection(List.of(first, third)));
+			assertTrue(viewer.getSelection().isEmpty(), "a single-selection tree rejects multiple roots");
+			// Only this test needs two selected subtrees. Keep the inherited fixture's
+			// virtual, lazy and checkbox characteristics, and its default style elsewhere.
+			Tree tree = new Tree(fShell, (viewer.getControl().getStyle() & ~SWT.SINGLE) | SWT.MULTI);
+			TreeViewer multiViewer = viewer instanceof CheckboxTreeViewer ? new CheckboxTreeViewer(tree) : new TreeViewer(tree);
+			multiViewer.setUseHashlookup(true);
+			multiViewer.setContentProvider(viewer.getContentProvider() instanceof TestModelLazyTreeContentProvider
+					? new TestModelLazyTreeContentProvider(multiViewer) : new TestModelContentProvider());
+			viewer.getControl().dispose();
+			viewer = multiViewer;
+			viewer.setInput(rootElement);
+			fShell.layout();
+			processEvents();
+		}
+		viewer.setSelection(new StructuredSelection(List.of(first, third)));
 
-		fTreeViewer.expandSelectionToLevel(2);
+		viewer.expandSelectionToLevel(2);
 		processEvents();
 
 		assertTrue(fTreeViewer.getExpandedState(first), "first selected root should expand");
@@ -139,15 +159,20 @@ public class TreeViewerTest extends AbstractTreeViewerTest {
 		assertTrue(fTreeViewer.getExpandedState(firstChild), "selected subtree should expand to level 2");
 		assertEquals(multi, fTreeViewer.getExpandedState(thirdChild), "third subtree expands only when selected");
 		assertFalse(fTreeViewer.getExpandedState(untouched), "unselected sibling must remain collapsed");
+		assertTrue(viewer.getExpandedState(first), "first selected root should expand");
+		assertTrue(viewer.getExpandedState(third), "third selected root should expand");
+		assertTrue(viewer.getExpandedState(firstChild), "selected subtree should expand to level 2");
+		assertTrue(viewer.getExpandedState(thirdChild), "selected subtree should expand to level 2");
+		assertFalse(viewer.getExpandedState(untouched), "unselected sibling must remain collapsed");
 
-		fTreeViewer.collapseSelection();
+		viewer.collapseSelection();
 		processEvents();
 
-		assertFalse(fTreeViewer.getExpandedState(first), "first selected root should collapse");
-		assertFalse(fTreeViewer.getExpandedState(third), "third selected root should collapse");
-		assertFalse(fTreeViewer.getExpandedState(firstChild), "selected descendants should collapse");
-		assertFalse(fTreeViewer.getExpandedState(thirdChild), "selected descendants should collapse");
-		assertFalse(fTreeViewer.getExpandedState(untouched), "unselected sibling remains unchanged");
+		assertFalse(viewer.getExpandedState(first), "first selected root should collapse");
+		assertFalse(viewer.getExpandedState(third), "third selected root should collapse");
+		assertFalse(viewer.getExpandedState(firstChild), "selected descendants should collapse");
+		assertFalse(viewer.getExpandedState(thirdChild), "selected descendants should collapse");
+		assertFalse(viewer.getExpandedState(untouched), "unselected sibling remains unchanged");
 	}
 
 	@Test

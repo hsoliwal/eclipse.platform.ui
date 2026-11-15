@@ -84,6 +84,22 @@ public class M3ViewSpecTest {
 		assertEquals("observables", spec.source());
 		assertEquals(LaneType.LONG, spec.lane("id").type());
 		assertEquals(LaneType.LABEL, spec.lane("label").type());
+	public void theCommittedProblemsViewSpecIsValid() throws IOException {
+		String configuredRoot = System.getProperty("m3.wt");
+		Path root = Path.of(configuredRoot == null ? "" : configuredRoot).toAbsolutePath().normalize();
+		Path relative = Path.of("bundles/org.eclipse.ui.ide/src/org/eclipse/ui/internal/views/markers/ProblemsView.m3view");
+		Path file = root.resolve(relative);
+		if (configuredRoot == null) {
+			// Tycho starts in a test bundle; standalone runs may start in the reactor.
+			while (!Files.isRegularFile(file) && root.getParent() != null) {
+				root = root.getParent();
+				file = root.resolve(relative);
+			}
+		}
+		assertTrue(Files.isRegularFile(file), "Committed Problems view spec is required; set -Dm3.wt to the checkout: " + file);
+		M3ViewSpec spec = M3ViewSpec.parse(Files.readString(file));
+		assertEquals("markers", spec.source());
+		assertEquals(LaneType.LONG, spec.lane("id").type());
 	}
 
 	@Test
