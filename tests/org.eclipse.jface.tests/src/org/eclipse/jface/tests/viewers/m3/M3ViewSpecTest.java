@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.eclipse.jface.viewers.m3.M3ViewSpec;
@@ -80,6 +78,12 @@ public class M3ViewSpecTest {
 	}
 
 	@Test
+	public void loadFindsTheSpecNextToTheClass() throws IOException {
+		M3ViewSpec spec = M3ViewSpec.load(M3ViewSpecTest.class);
+		assertEquals("test.view", spec.viewId());
+		assertEquals("observables", spec.source());
+		assertEquals(LaneType.LONG, spec.lane("id").type());
+		assertEquals(LaneType.LABEL, spec.lane("label").type());
 	public void theCommittedProblemsViewSpecIsValid() throws IOException {
 		String configuredRoot = System.getProperty("m3.wt");
 		Path root = Path.of(configuredRoot == null ? "" : configuredRoot).toAbsolutePath().normalize();
@@ -99,8 +103,8 @@ public class M3ViewSpecTest {
 	}
 
 	@Test
-	public void loadFindsTheSpecNextToTheClass() {
-		assertThrows(IOException.class, () -> M3ViewSpec.load(M3ViewSpecTest.class));
+	public void loadRejectsMissingSpec() {
+		assertThrows(IOException.class, () -> M3ViewSpec.load(M3ViewerDeltaTest.class));
 	}
 
 	@Test

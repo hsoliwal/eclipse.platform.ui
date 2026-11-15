@@ -1,0 +1,6 @@
+# Copyright (c) 2026 Contributors to the Eclipse Foundation.
+# SPDX-License-Identifier: EPL-2.0
+view.id=test.view
+element=Row
+source=observables
+lanes=id:long, label:label
