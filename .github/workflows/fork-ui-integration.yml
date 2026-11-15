@@ -251,10 +251,19 @@ jobs:
               'org.eclipse.jface.tests.viewers.DrillDownAdapterTest':
                   'test_goInto_and_goHome',
           }
+          # Each count is the distinct @Test source-method total at the
+          # recorded model and fragment test source blobs in Synexia.
+          required_model_methods = {
+              'org.eclipse.e4.ui.tests.application.ModelElementTest': 2,
+              'org.eclipse.e4.ui.tests.application.ModelRobustnessTest': 2,
+              'org.eclipse.e4.ui.tests.application.E4ResourceTest': 1,
+              'org.eclipse.e4.ui.tests.workbench.ModelAssemblerTests': 25,
+              'org.eclipse.e4.ui.tests.workbench.ModelAssemblerFragmentOrderingTests': 39,
+          }
           tests = Path('platform/eclipse.platform.ui/tests')
           reports = sorted(tests.glob('**/target/surefire-reports/TEST-*.xml'))
           assert reports, 'no actual Surefire XML reports found in Platform UI tests'
-          found = {klass: {} for klass in (*targets, *required_viewers)}
+          found = {klass: {} for klass in (*targets, *required_viewers, *required_model_methods)}
           for path in reports:
               root = ET.parse(path).getroot()
               for case in root.iter('testcase'):
@@ -274,7 +283,7 @@ jobs:
                   else:
                       entry['executed'] += 1
           dest = Path(os.environ['EVIDENCE']) / 'jface-e4-executed-tests.json'
-          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V3',
+          dest.write_text(json.dumps({'schema': 'ECLIPSE_UI_JUNIT_ADMISSION_V4',
                                      'tests': found, 'release_admitted': False},
                                     indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(dest.read_text(encoding='utf-8'))
@@ -295,6 +304,15 @@ jobs:
               for name, entry in sorted(observed.items()):
                   assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
                       klass, name, 'DND/image/workbench method not successful', entry
+                  )
+          for klass, minimum in required_model_methods.items():
+              observed = found[klass]
+              assert len(observed) >= minimum, (
+                  klass, 'missing distinct e4 model methods', len(observed), minimum
+              )
+              for name, entry in sorted(observed.items()):
+                  assert entry == {'executed': 1, 'skipped': 0, 'failed': 0}, (
+                      klass, name, 'e4 model method not successful', entry
                   )
           PY
       - name: Preserve build log, source identities, Surefire XML and screenshots
