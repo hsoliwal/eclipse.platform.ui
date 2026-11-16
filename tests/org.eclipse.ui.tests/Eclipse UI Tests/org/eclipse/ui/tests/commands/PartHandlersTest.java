@@ -16,10 +16,16 @@ package org.eclipse.ui.tests.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.expressions.EvaluationContext;
 import org.eclipse.core.expressions.IEvaluationContext;
@@ -37,6 +43,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.internal.handlers.ClosePartHandler;
+import org.eclipse.ui.internal.handlers.MaximizePartHandler;
+import org.eclipse.ui.internal.handlers.MinimizePartHandler;
+import org.eclipse.ui.internal.handlers.NewEditorHandler;
+import org.eclipse.ui.internal.handlers.OpenInNewWindowHandler;
 import org.eclipse.ui.tests.api.MockEditorPart;
 import org.eclipse.ui.tests.harness.util.CloseTestWindowsExtension;
 import org.eclipse.ui.tests.harness.util.FileUtil;
@@ -170,6 +181,81 @@ public class PartHandlersTest {
 		IWorkbenchWindow newWindow = newWindows.get(0);
 		assertEquals(window.getActivePage().getPerspective().getId(),
 				newWindow.getActivePage().getPerspective().getId());
+	}
+
+
+	@Test
+	public void partHandlersRetainTheOriginalHandlerHierarchy() {
+		List<AbstractHandler> handlers = List.of(new ClosePartHandler(), new MaximizePartHandler(),
+				new MinimizePartHandler(), new NewEditorHandler(), new OpenInNewWindowHandler());
+		for (AbstractHandler handler : handlers) {
+			assertTrue(handler.isEnabled());
+			assertTrue(handler.isHandled());
+			handler.dispose();
+		}
+	}
+
+	@Test
+	public void legacyClosePartUsesTheExplicitSnapshotPart() throws Exception {
+		IViewPart view = page.showView(VIEW_ID);
+		IEvaluationContext snapshot = handlerService.createContextSnapshot(true);
+		openEditor();
+
+		assertNull(new ClosePartHandler().execute(legacyEvent(snapshot)));
+
+		assertNull(page.findView(VIEW_ID));
+		assertEquals(1, page.getEditorReferences().length);
+		assertEquals(view, snapshot.getVariable(ISources.ACTIVE_PART_NAME));
+	}
+
+	@Test
+	public void legacyClosePartRetainsCheckedMissingPartFailure() throws Exception {
+		openEditor();
+		IEvaluationContext snapshot = new EvaluationContext(null, IEvaluationContext.UNDEFINED_VARIABLE);
+		snapshot.addVariable(ISources.ACTIVE_WORKBENCH_WINDOW_NAME, workbench.getActiveWorkbenchWindow());
+
+		assertThrows(ExecutionException.class, () -> new ClosePartHandler().execute(legacyEvent(snapshot)));
+
+		assertEquals(1, page.getEditorReferences().length);
+	}
+
+	@Test
+	public void legacyOptionalWindowHandlersRetainMissingWindowNoOp() throws Exception {
+		IEvaluationContext empty = new EvaluationContext(null, IEvaluationContext.UNDEFINED_VARIABLE);
+		ExecutionEvent event = legacyEvent(empty);
+
+		assertNull(new MaximizePartHandler().execute(event));
+		assertNull(new MinimizePartHandler().execute(event));
+		assertNull(new OpenInNewWindowHandler().execute(event));
+	}
+
+	@Test
+	public void legacyNewEditorOpensTheActiveEditorInputAgain() throws Exception {
+		IEditorPart editor = openEditor();
+
+		assertNull(new NewEditorHandler().execute(legacyEvent(handlerService.createContextSnapshot(true))));
+
+		assertEquals(2, page.getEditorReferences().length);
+		assertNotSame(editor, page.getActiveEditor());
+		assertEquals(editor.getEditorInput(), page.getActiveEditor().getEditorInput());
+	}
+
+	@Test
+	public void legacyNewWindowRetainsTheActivePerspective() throws Exception {
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		List<IWorkbenchWindow> before = List.of(workbench.getWorkbenchWindows());
+
+		assertNull(new OpenInNewWindowHandler().execute(legacyEvent(handlerService.createContextSnapshot(true))));
+
+		List<IWorkbenchWindow> added = Arrays.stream(workbench.getWorkbenchWindows())
+				.filter(w -> !before.contains(w)).toList();
+		assertEquals(1, added.size());
+		assertEquals(window.getActivePage().getPerspective().getId(),
+				added.get(0).getActivePage().getPerspective().getId());
+	}
+
+	private ExecutionEvent legacyEvent(IEvaluationContext snapshot) {
+		return new ExecutionEvent(closePartCommand().getCommand(), Map.of(), null, snapshot);
 	}
 
 	private ParameterizedCommand closePartCommand() {

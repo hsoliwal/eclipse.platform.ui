@@ -371,15 +371,20 @@ public final class HandlerProxy extends AbstractHandlerWithState implements IEle
 	}
 
 	/**
-	 * Wraps handler contributions that do not implement {@link IHandler} so that
-	 * their {@code @Execute} and {@code @CanExecute} methods are dispatched through
-	 * dependency injection.
+	 * Wraps handler contributions for dependency injection. The part handlers also
+	 * retain the legacy {@link IHandler} API for callers and subclasses, while
+	 * their built-in contributions use {@code @Execute} and {@code @CanExecute}.
 	 */
 	private static IHandler adapt(Object contribution) {
-		if (contribution instanceof IHandler handler) {
+		if (contribution instanceof IHandler handler && !usesInjectedPartDispatch(contribution.getClass())) {
 			return handler;
 		}
 		return new PojoHandlerAdapter(contribution, PlatformUI.getWorkbench().getService(IEclipseContext.class));
+	}
+
+	private static boolean usesInjectedPartDispatch(Class<?> type) {
+		return type == ClosePartHandler.class || type == MaximizePartHandler.class || type == MinimizePartHandler.class
+				|| type == NewEditorHandler.class || type == OpenInNewWindowHandler.class;
 	}
 
 	private IHandlerListener getHandlerListener() {

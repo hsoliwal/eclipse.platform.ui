@@ -50,6 +50,7 @@ import org.eclipse.jface.text.tests.templates.persistence.TemplatePersistenceDat
  */
 @Suite
 @SelectClasses({
+		ColorsCompatibilityTest.class,
 		AnnotationRulerColumnTest.class,
 		LineNumberRulerColumnTest.class,
 		SourceViewerBackgroundTest.class,
