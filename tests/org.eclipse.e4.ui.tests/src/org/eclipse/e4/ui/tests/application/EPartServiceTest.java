@@ -19,6 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.AdditionalAnswers.delegatesTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -26,7 +33,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.services.log.Logger;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.internal.workbench.PartServiceImpl;
 import org.eclipse.e4.ui.internal.workbench.PartServiceSaveHandler;
@@ -45,6 +56,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindowElement;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.tests.model.test.util.TestException;
 import org.eclipse.e4.ui.tests.workbench.TargetedView;
+import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
@@ -53,8 +65,367 @@ import org.eclipse.e4.ui.workbench.modeling.ISaveHandler;
 import org.eclipse.e4.ui.workbench.modeling.ISaveHandler.Save;
 import org.eclipse.emf.common.notify.Notifier;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.osgi.service.event.EventHandler;
 
 public class EPartServiceTest extends UITest {
+
+	private record ActivationFixture(MWindow window, EPartService service, MPart partA, MPart partB, MPart partC) {
+	}
+
+	private ActivationFixture createActivationFixture() {
+		createApplication("partA", "partB", "partC");
+		MWindow window = application.getChildren().get(0);
+		getEngine().createGui(window);
+		EPartService service = window.getContext().get(EPartService.class);
+		MPart a = service.findPart("partA");
+		MPart b = service.findPart("partB");
+		MPart c = service.findPart("partC");
+		getEngine().createGui(b);
+		getEngine().createGui(c);
+		service.activate(a);
+		return new ActivationFixture(window, service, a, b, c);
+	}
+
+	@Test
+	public void testListenerActivatesOtherPartThenReturns() {
+		testListenerReturnsToOriginalPart(false);
+	}
+
+	@Test
+	public void testActivate_ContextInjectionCycleIsBoundedAndReported() {
+		ActivationFixture f = createActivationFixture();
+		f.service().activate(f.partC());
+		IEclipseContext windowContext = f.window().getContext();
+		Logger originalLogger = windowContext.get(Logger.class);
+		Logger logger = mock(Logger.class);
+		windowContext.set(Logger.class, logger);
+		IEclipseContext originalA = f.partA().getContext();
+		IEclipseContext originalB = f.partB().getContext();
+		IEclipseContext contextA = mock(IEclipseContext.class, delegatesTo(originalA));
+		IEclipseContext contextB = mock(IEclipseContext.class, delegatesTo(originalB));
+		AtomicInteger branches = new AtomicInteger();
+		doAnswer(unused -> {
+			activateBranchWithIntermediatePart(windowContext, originalA, f.partB(), branches);
+			return null;
+		}).when(contextA).activateBranch();
+		doAnswer(unused -> {
+			activateBranchWithIntermediatePart(windowContext, originalB, f.partA(), branches);
+			return null;
+		}).when(contextB).activateBranch();
+		f.partA().setContext(contextA);
+		f.partB().setContext(contextB);
+		try {
+			f.service().activate(f.partB());
+			assertEquals(3, branches.get(), "Repeated injection must stop before the test's safety limit");
+			assertEquals(f.partB(), f.service().getActivePart());
+			assertEquals(f.partB(), windowContext.get(IServiceConstants.ACTIVE_PART));
+			ArgumentCaptor<String> message = ArgumentCaptor.forClass(String.class);
+			verify(logger, atLeast(1)).warn(any(Throwable.class), message.capture());
+			assertTrue(message.getAllValues().stream()
+					.anyMatch(value -> value.contains("partA") && value.contains("partB")));
+			clearInvocations(logger);
+			f.service().activate(f.partC());
+			assertEquals(f.partC(), windowContext.get(IServiceConstants.ACTIVE_PART));
+			branches.set(0);
+			f.service().activate(f.partB());
+			assertEquals(3, branches.get());
+			assertEquals(f.partB(), f.service().getActivePart());
+			assertEquals(f.partB(), windowContext.get(IServiceConstants.ACTIVE_PART));
+			verify(logger, atLeast(1)).warn(any(Throwable.class), any(String.class));
+		} finally {
+			f.partA().setContext(originalA);
+			f.partB().setContext(originalB);
+			windowContext.remove(IServiceConstants.ACTIVE_PART);
+			windowContext.remove(Logger.class);
+			assertEquals(originalLogger, windowContext.get(Logger.class));
+		}
+	}
+
+	private static void activateBranchWithIntermediatePart(IEclipseContext windowContext, IEclipseContext partContext,
+			MPart intermediatePart, AtomicInteger branches) {
+		try {
+			// Limit the unfixed implementation as well, so a regression fails instead of
+			// overflowing the stack or hanging the UI test harness.
+			if (branches.incrementAndGet() <= 6) {
+				windowContext.set(IServiceConstants.ACTIVE_PART, intermediatePart);
+			}
+			partContext.activateBranch();
+		} finally {
+			windowContext.remove(IServiceConstants.ACTIVE_PART);
+		}
+	}
+
+	@Test
+	public void testActivateBranch_ContextInjectionCycleKeepsActivePartInSync() {
+		ActivationFixture f = createActivationFixture();
+		f.service().activate(f.partC());
+		IEclipseContext windowContext = f.window().getContext();
+		Logger logger = mock(Logger.class);
+		windowContext.set(Logger.class, logger);
+		IEclipseContext originalA = f.partA().getContext();
+		IEclipseContext originalB = f.partB().getContext();
+		IEclipseContext contextA = mock(IEclipseContext.class, delegatesTo(originalA));
+		IEclipseContext contextB = mock(IEclipseContext.class, delegatesTo(originalB));
+		AtomicInteger branches = new AtomicInteger();
+		// activating one part's branch passes through the other part's branch first, so
+		// the context reports the other part as an intermediate ACTIVE_PART
+		doAnswer(unused -> {
+			activateBranchThrough(originalB, originalA, branches);
+			return null;
+		}).when(contextA).activateBranch();
+		doAnswer(unused -> {
+			activateBranchThrough(originalA, originalB, branches);
+			return null;
+		}).when(contextB).activateBranch();
+		f.partA().setContext(contextA);
+		f.partB().setContext(contextB);
+		List<String> notifications = new ArrayList<>();
+		IPartListener listener = new PartListener() {
+			@Override
+			public void partActivated(MPart part) {
+				notifications.add("+" + part.getElementId()); //$NON-NLS-1$
+			}
+
+			@Override
+			public void partDeactivated(MPart part) {
+				notifications.add("-" + part.getElementId()); //$NON-NLS-1$
+			}
+		};
+		f.service().addPartListener(listener);
+		try {
+			// enter through the context like ShellActivationListener, so that setPart(partA)
+			// is the outermost call and the nested activation of partB finishes first
+			originalA.activateBranch();
+
+			assertTrue(branches.get() <= 6, "Repeated injection must stop before the test's safety limit");
+			ArgumentCaptor<String> message = ArgumentCaptor.forClass(String.class);
+			verify(logger, atLeast(1)).warn(any(Throwable.class), message.capture());
+			// the warning describes the parts' locations and the active context chain, since
+			// the stack cannot show context computations that already returned
+			assertTrue(message.getValue().contains("partA") && message.getValue().contains("partB"), message.getValue()); //$NON-NLS-1$ //$NON-NLS-2$
+			assertTrue(message.getValue().contains("(window: "), message.getValue()); //$NON-NLS-1$
+			assertTrue(message.getValue().contains(", perspective: "), message.getValue()); //$NON-NLS-1$
+			assertTrue(message.getValue().contains("; active context chain: "), message.getValue()); //$NON-NLS-1$
+			assertEquals(f.partA(), windowContext.get(IServiceConstants.ACTIVE_PART));
+			assertEquals(f.partA(), f.service().getActivePart());
+			// the previously active part is deactivated first; the nested partB activation
+			// that was announced is withdrawn again, and partA is announced last
+			assertEquals("-partC", notifications.get(0), notifications.toString()); //$NON-NLS-1$
+			assertTrue(notifications.indexOf("+partB") < notifications.lastIndexOf("-partB"), //$NON-NLS-1$ //$NON-NLS-2$
+					notifications.toString());
+			assertEquals(List.of("-partB", "+partA"), //$NON-NLS-1$ //$NON-NLS-2$
+					notifications.subList(notifications.size() - 2, notifications.size()), notifications.toString());
+		} finally {
+			f.service().removePartListener(listener);
+			f.partA().setContext(originalA);
+			f.partB().setContext(originalB);
+			windowContext.remove(Logger.class);
+		}
+	}
+
+	private static void activateBranchThrough(IEclipseContext intermediateContext, IEclipseContext partContext,
+			AtomicInteger branches) {
+		// Limit the unfixed implementation as well, so a regression fails instead of
+		// overflowing the stack or hanging the UI test harness.
+		if (branches.incrementAndGet() <= 6) {
+			intermediateContext.activateBranch();
+		}
+		partContext.activateBranch();
+	}
+
+	/**
+	 * Makes activating the branch of partA pass through the branch of partB and vice
+	 * versa, so the context reports the other part as an intermediate ACTIVE_PART.
+	 *
+	 * @return restores the original part contexts
+	 */
+	private static Runnable installContextBranchCycle(ActivationFixture f, AtomicInteger branches) {
+		IEclipseContext originalA = f.partA().getContext();
+		IEclipseContext originalB = f.partB().getContext();
+		IEclipseContext contextA = mock(IEclipseContext.class, delegatesTo(originalA));
+		IEclipseContext contextB = mock(IEclipseContext.class, delegatesTo(originalB));
+		doAnswer(unused -> {
+			activateBranchThrough(originalB, originalA, branches);
+			return null;
+		}).when(contextA).activateBranch();
+		doAnswer(unused -> {
+			activateBranchThrough(originalA, originalB, branches);
+			return null;
+		}).when(contextB).activateBranch();
+		f.partA().setContext(contextA);
+		f.partB().setContext(contextB);
+		return () -> {
+			f.partA().setContext(originalA);
+			f.partB().setContext(originalB);
+		};
+	}
+
+	@Test
+	public void testActivateBranch_ListenerOfCorrectiveActivationCanSwitchContextBranch() {
+		ActivationFixture f = createActivationFixture();
+		f.service().activate(f.partC());
+		IEclipseContext windowContext = f.window().getContext();
+		windowContext.set(Logger.class, mock(Logger.class));
+		IEclipseContext originalA = f.partA().getContext();
+		IEclipseContext contextC = f.partC().getContext();
+		AtomicInteger branches = new AtomicInteger();
+		Runnable restore = installContextBranchCycle(f, branches);
+		AtomicBoolean partBDeactivated = new AtomicBoolean();
+		AtomicBoolean armed = new AtomicBoolean(true);
+		IPartListener listener = new PartListener() {
+			@Override
+			public void partActivated(MPart part) {
+				// the corrective activation of partA is the one that follows the
+				// deactivation of partB; its listener switches to the branch of partC
+				if (part == f.partA() && partBDeactivated.get() && armed.getAndSet(false)) {
+					contextC.activateBranch();
+				}
+			}
+
+			@Override
+			public void partDeactivated(MPart part) {
+				if (part == f.partB()) {
+					partBDeactivated.set(true);
+				}
+			}
+		};
+		f.service().addPartListener(listener);
+		try {
+			originalA.activateBranch();
+
+			assertTrue(branches.get() <= 6, "Repeated injection must stop before the test's safety limit");
+			assertFalse(armed.get(), "The corrective activation must notify partA");
+			assertEquals(f.partC(), windowContext.get(IServiceConstants.ACTIVE_PART));
+			assertEquals(f.partC(), f.service().getActivePart());
+		} finally {
+			f.service().removePartListener(listener);
+			restore.run();
+			windowContext.remove(Logger.class);
+		}
+	}
+
+	@Test
+	public void testActivate_ListenerEnteringContextInjectionCycleKeepsActivePartInSync() {
+		ActivationFixture f = createActivationFixture();
+		f.service().activate(f.partB());
+		IEclipseContext windowContext = f.window().getContext();
+		windowContext.set(Logger.class, mock(Logger.class));
+		IEclipseContext originalA = f.partA().getContext();
+		AtomicInteger branches = new AtomicInteger();
+		Runnable restore = installContextBranchCycle(f, branches);
+		AtomicBoolean armed = new AtomicBoolean(true);
+		IPartListener listener = new PartListener() {
+			@Override
+			public void partActivated(MPart part) {
+				// a listener of an explicit activation enters the cycle through the context
+				if (part == f.partC() && armed.getAndSet(false)) {
+					originalA.activateBranch();
+				}
+			}
+		};
+		f.service().addPartListener(listener);
+		try {
+			f.service().activate(f.partC());
+
+			assertTrue(branches.get() <= 6, "Repeated injection must stop before the test's safety limit");
+			assertFalse(armed.get(), "The explicit activation must notify partC");
+			assertEquals(f.partA(), windowContext.get(IServiceConstants.ACTIVE_PART));
+			assertEquals(f.partA(), f.service().getActivePart());
+		} finally {
+			f.service().removePartListener(listener);
+			restore.run();
+			windowContext.remove(Logger.class);
+		}
+	}
+
+	@Test
+	public void testListenerOpensThenHidesTemporaryPart() {
+		testListenerReturnsToOriginalPart(true);
+	}
+
+	@Test
+	public void testListenerCanActivateDistinctContextBranch() {
+		ActivationFixture f = createActivationFixture();
+		f.service().activate(f.partC());
+		AtomicBoolean armed = new AtomicBoolean(true);
+		PartListener listener = new PartListener() {
+			@Override
+			public void partActivated(MPart part) {
+				super.partActivated(part);
+				if (part == f.partA() && armed.getAndSet(false)) {
+					f.partB().getContext().activateBranch();
+				}
+			}
+		};
+		f.service().addPartListener(listener);
+		try {
+			f.service().activate(f.partA());
+			assertEquals(f.partB(), f.service().getActivePart());
+			assertEquals(f.partB(), f.window().getContext().get(IServiceConstants.ACTIVE_PART));
+			assertEquals(List.of(f.partA(), f.partB()), listener.getActivatedParts());
+			f.service().activate(f.partA());
+			assertEquals(f.partA(), f.service().getActivePart());
+		} finally {
+			f.service().removePartListener(listener);
+		}
+	}
+
+	@Test
+	public void testDeactivationListenerObservesPreviousActivePart() {
+		ActivationFixture f = createActivationFixture();
+		AtomicBoolean observedPreviousPart = new AtomicBoolean();
+		PartListener listener = new PartListener() {
+			@Override
+			public void partDeactivated(MPart part) {
+				observedPreviousPart.set(f.service().getActivePart() == part);
+			}
+		};
+		f.service().addPartListener(listener);
+		try {
+			f.partA().getContext().deactivate();
+			assertTrue(observedPreviousPart.get());
+			assertNull(f.service().getActivePart());
+			assertNull(f.window().getContext().get(IServiceConstants.ACTIVE_PART));
+		} finally {
+			f.service().removePartListener(listener);
+		}
+	}
+
+	private void testListenerReturnsToOriginalPart(boolean hideTemporaryPart) {
+		ActivationFixture f = createActivationFixture();
+		f.service().activate(f.partC());
+		AtomicBoolean armed = new AtomicBoolean(true);
+		AtomicBoolean notifiedBeforeReturn = new AtomicBoolean();
+		PartListener listener = new PartListener() {
+			@Override
+			public void partActivated(MPart part) {
+				super.partActivated(part);
+				if (part == f.partA() && armed.getAndSet(false)) {
+					f.service().activate(f.partB());
+					notifiedBeforeReturn.set(getActivatedParts().contains(f.partB()));
+					if (hideTemporaryPart) {
+						f.service().hidePart(f.partB());
+					} else {
+						f.service().activate(f.partA());
+					}
+				}
+			}
+		};
+		f.service().addPartListener(listener);
+		try {
+			f.service().activate(f.partA());
+			assertEquals(f.partA(), f.service().getActivePart());
+			assertEquals(f.partA(), f.window().getContext().get(IServiceConstants.ACTIVE_PART));
+			assertTrue(notifiedBeforeReturn.get(), "Nested listeners must run before activate returns");
+			assertEquals(List.of(f.partA(), f.partB(), f.partA()), listener.getActivatedParts());
+			if (hideTemporaryPart) {
+				assertFalse(f.partB().isToBeRendered());
+			}
+		} finally {
+			f.service().removePartListener(listener);
+		}
+	}
 
 	@Test
 	public void testFindPart_PartInWindow() {
@@ -1226,6 +1597,114 @@ public class EPartServiceTest extends UITest {
 		windowA.getContext().get(EPartService.class).activate(partB);
 		assertEquals(windowA, application.getSelectedElement());
 		assertEquals(partB, windowA.getContext().get(EPartService.class).getActivePart());
+	}
+
+	@Test
+	public void testActivate_RedirectDuringSelectionDoesNotDeactivateUnannouncedPart() {
+		createApplication("partA", "partB", "partC");
+		MWindow window = application.getChildren().get(0);
+		MPartStack partStack = (MPartStack) window.getChildren().get(0);
+		MPart partA = (MPart) partStack.getChildren().get(0);
+		MPart partB = (MPart) partStack.getChildren().get(1);
+		MPart partC = (MPart) partStack.getChildren().get(2);
+		getEngine().createGui(window);
+
+		EPartService partService = window.getContext().get(EPartService.class);
+		partService.activate(partC);
+		PartListener partListener = new PartListener();
+		partService.addPartListener(partListener);
+
+		// selecting partA redirects the activation to partB before partA is announced
+		IEventBroker broker = window.getContext().get(IEventBroker.class);
+		EventHandler handler = event -> {
+			if (event.getProperty(UIEvents.EventTags.NEW_VALUE) == partA) {
+				partService.activate(partB);
+			}
+		};
+		broker.subscribe(UIEvents.ElementContainer.TOPIC_SELECTEDELEMENT, handler);
+		try {
+			partService.activate(partA);
+		} finally {
+			broker.unsubscribe(handler);
+		}
+
+		// listeners were never told that partA was activated, so they must not be
+		// told that it was deactivated either
+		assertEquals(List.of(partB), partListener.getActivatedParts());
+		assertEquals(List.of(partC), partListener.getDeactivatedParts());
+		assertEquals(partB, partService.getActivePart());
+	}
+
+	@Test
+	public void testActivate_DeactivationDuringSelectionSupersedesActivation() {
+		createApplication("partA", "partB", "partC");
+		MWindow window = application.getChildren().get(0);
+		MPartStack partStack = (MPartStack) window.getChildren().get(0);
+		MPart partA = (MPart) partStack.getChildren().get(0);
+		MPart partC = (MPart) partStack.getChildren().get(2);
+		getEngine().createGui(window);
+
+		EPartService partService = window.getContext().get(EPartService.class);
+		partService.activate(partC);
+		PartListener partListener = new PartListener();
+		partService.addPartListener(partListener);
+
+		// selecting partA deactivates the context of the previously active part,
+		// which clears the active part through context injection (setPart(null))
+		IEventBroker broker = window.getContext().get(IEventBroker.class);
+		boolean[] armed = { true };
+		EventHandler handler = event -> {
+			if (armed[0] && event.getProperty(UIEvents.EventTags.NEW_VALUE) == partA) {
+				armed[0] = false;
+				partC.getContext().deactivate();
+			}
+		};
+		broker.subscribe(UIEvents.ElementContainer.TOPIC_SELECTEDELEMENT, handler);
+		try {
+			partService.activate(partA);
+		} finally {
+			broker.unsubscribe(handler);
+		}
+
+		// the superseded outer activation must neither announce partA a second time
+		// nor leave the service and the context disagreeing about the active part
+		long partAActivations = partListener.getActivatedParts().stream().filter(p -> p == partA).count();
+		assertTrue(partAActivations <= 1, "partA activated " + partAActivations + " times");
+		assertEquals(window.getContext().get(IServiceConstants.ACTIVE_PART), partService.getActivePart());
+	}
+
+	@Test
+	public void testActivate_ListenerActivatesOtherPartDuringSelection() {
+		createApplication("partA", "partB", "partC");
+		MWindow window = application.getChildren().get(0);
+		MPartStack partStack = (MPartStack) window.getChildren().get(0);
+		MPart partA = (MPart) partStack.getChildren().get(0);
+		MPart partB = (MPart) partStack.getChildren().get(1);
+		MPart partC = (MPart) partStack.getChildren().get(2);
+		getEngine().createGui(window);
+
+		EPartService partService = window.getContext().get(EPartService.class);
+		partService.activate(partC);
+		PartListener partListener = new PartListener();
+		partService.addPartListener(partListener);
+
+		// selecting partA always activates partB: the nested activation wins without recursing
+		IEventBroker broker = window.getContext().get(IEventBroker.class);
+		EventHandler handler = event -> {
+			if (event.getProperty(UIEvents.EventTags.NEW_VALUE) == partA) {
+				partService.activate(partB);
+			}
+		};
+		broker.subscribe(UIEvents.ElementContainer.TOPIC_SELECTEDELEMENT, handler);
+		try {
+			partService.activate(partA);
+		} finally {
+			broker.unsubscribe(handler);
+		}
+
+		assertEquals(List.of(partB), partListener.getActivatedParts());
+		assertEquals(partB, partService.getActivePart());
+		assertEquals(partB, window.getContext().get(IServiceConstants.ACTIVE_PART));
 	}
 
 	@Test

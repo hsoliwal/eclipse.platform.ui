@@ -16,6 +16,8 @@
 
 package org.eclipse.ui.tests.forms;
 
+import org.eclipse.ui.forms.editor.FormEditorTest;
+import org.eclipse.ui.tests.forms.editor.FormEditorPageRegistrationTest;
 import org.eclipse.ui.tests.forms.events.AllEventsTests;
 import org.eclipse.ui.tests.forms.layout.AllLayoutTests;
 import org.eclipse.ui.tests.forms.util.AllUtilityTests;
@@ -29,10 +31,12 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
+		FormEditorPageRegistrationTest.class, //
 		AllEventsTests.class, //
 		AllLayoutTests.class, //
 		AllUtilityTests.class, //
-		AllWidgetsTests.class //
+		AllWidgetsTests.class, //
+		FormEditorTest.class //
 })
 public class AllFormsTests {
 

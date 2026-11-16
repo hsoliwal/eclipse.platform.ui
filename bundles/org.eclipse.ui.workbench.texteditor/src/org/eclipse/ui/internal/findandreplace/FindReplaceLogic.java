@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2023 Vector Informatik GmbH and others.
+ * Copyright (c) 2023, 2026 Vector Informatik GmbH and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  *
  * Contributors:
  *     Vector Informatik GmbH - initial API and implementation
+ *     Edward Lo - fix replaceAll rematching line-start regex (issue 2820)
  *******************************************************************************/
 
 package org.eclipse.ui.internal.findandreplace;
@@ -63,6 +64,7 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 
 	private String findString = ""; //$NON-NLS-1$
 	private String replaceString = ""; //$NON-NLS-1$
+	private ReplaceCounter replaceCounter;
 
 	private final Map<SearchOptions, List<Consumer<Boolean>>> activationChangedListeners = new HashMap<>();
 	private final Map<SearchOptions, List<Consumer<Boolean>>> availabilityChangedListeners = new HashMap<>();
@@ -118,7 +120,28 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 
 	@Override
 	public void setReplaceString(String replaceString) {
-		this.replaceString = Objects.requireNonNull(replaceString);
+		Objects.requireNonNull(replaceString);
+		// keep the counter state if the text did not change, so that consecutive
+		// single replacements continue counting
+		if (!replaceString.equals(this.replaceString)) {
+			this.replaceCounter = ReplaceCounter.parse(replaceString);
+		}
+		this.replaceString = replaceString;
+	}
+
+	/**
+	 * Returns the effective replace string for the current replacement. If regex
+	 * search is active and the replace string contains a counter placeholder
+	 * ({@code #{start,step,pad}}), the placeholder is replaced by the next counter
+	 * value. Otherwise the raw replace string is returned unchanged.
+	 *
+	 * @return the replace string with counter placeholder expanded (if any)
+	 */
+	private String buildReplaceString() {
+		if (replaceCounter != null && isAvailableAndActive(SearchOptions.REGEX)) {
+			return replaceCounter.expand(replaceString);
+		}
+		return replaceString;
 	}
 
 	@Override
@@ -422,6 +445,12 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 	/**
 	 * Replaces all occurrences of the user's findString with the replace string.
 	 * Returns the number of replacements that occur.
+	 * <p>
+	 * Matches are collected first and then replaced from last to first. This
+	 * avoids re-matching the same logical position after a replacement (for
+	 * example regex {@code ^ } with an empty replacement would otherwise keep
+	 * matching at the line start and remove all leading spaces).
+	 * </p>
 	 *
 	 * @return the number of occurrences
 	 *
@@ -432,16 +461,44 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 		}
 
 		List<Point> replacements = new ArrayList<>();
+		if (replaceCounter != null) {
+			replaceCounter.reset();
+		}
 		executeInForwardMode(() -> {
 			executeWithReplaceAllEnabled(() -> {
-				Point currentSelection = new Point(0, 0);
-				while (findAndSelect(currentSelection.x + currentSelection.y) != -1) {
-					currentSelection = replaceSelection();
-					replacements.add(currentSelection);
+				List<Point> matches = findAllMatches();
+				// Replace from last to first so earlier match offsets stay valid
+				for (int i = matches.size() - 1; i >= 0; i--) {
+					Point match = matches.get(i);
+					// replaceSelection() reads the adapter's current match and expands $n from it,
+					// so the match has to be re-established before each replacement.
+					findAndSelect(match.x);
+					replacements.add(replaceSelection());
 				}
 			});
 		});
 		return replacements.size();
+	}
+
+	/**
+	 * Finds all matches going forward, advancing the search past each match. For
+	 * zero-length matches the search continues one character after the match to
+	 * avoid an infinite loop.
+	 *
+	 * @return the match regions in document order (offset, length)
+	 */
+	private List<Point> findAllMatches() {
+		List<Point> matches = new ArrayList<>();
+		int searchOffset = 0;
+		while (findAndSelect(searchOffset) != -1) {
+			Point match = target.getSelection();
+			matches.add(new Point(match.x, match.y));
+			searchOffset = match.x + match.y;
+			if (match.y == 0) {
+				searchOffset++;
+			}
+		}
+		return matches;
 	}
 
 	private void executeInForwardMode(Runnable runnable) {
@@ -476,11 +533,7 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 	private int selectAll() {
 		List<Point> selections = new ArrayList<>();
 		executeInForwardMode(() -> {
-			Point currentSeletion = new Point(0, 0);
-			while (findAndSelect(currentSeletion.x + currentSeletion.y) != -1) {
-				currentSeletion = target.getSelection();
-				selections.add(currentSeletion);
-			}
+			selections.addAll(findAllMatches());
 			if (target instanceof IFindReplaceTargetExtension4 selectableTarget) {
 				IRegion[] selectedRegions = selections.stream().map(selection -> new Region(selection.x, selection.y))
 						.toArray(IRegion[]::new);
@@ -522,8 +575,11 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 
 	@Override
 	public int findAndSelect(int offset) {
+		return findAndSelect(offset, isAvailableAndActive(SearchOptions.FORWARD));
+	}
+
+	private int findAndSelect(int offset, boolean forwardSearch) {
 		boolean wholeWordSearch = isAvailableAndActive(SearchOptions.WHOLE_WORD);
-		boolean forwardSearch = isAvailableAndActive(SearchOptions.FORWARD);
 		boolean caseSensitiveSearch = isAvailableAndActive(SearchOptions.CASE_SENSITIVE);
 		boolean regexSearch = isAvailableAndActive(SearchOptions.REGEX);
 
@@ -546,11 +602,12 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 	 * @return the selection after replacing, i.e. the inserted text
 	 */
 	private Point replaceSelection() {
+		String effectiveReplaceString = buildReplaceString();
 		if (target instanceof IFindReplaceTargetExtension3) {
-			((IFindReplaceTargetExtension3) target).replaceSelection(replaceString,
+			((IFindReplaceTargetExtension3) target).replaceSelection(effectiveReplaceString,
 					isAvailableAndActive(SearchOptions.REGEX));
 		} else {
-			target.replaceSelection(replaceString);
+			target.replaceSelection(effectiveReplaceString);
 		}
 
 		return target.getSelection();
@@ -616,7 +673,7 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 	@Override
 	public boolean performSelectAndReplace() {
 		resetStatus();
-		if (!isFindStringSelected()) {
+		if (!selectMatchAtSelection()) {
 			performSearch();
 		}
 		if (getStatus().wasSuccessful()) {
@@ -630,6 +687,28 @@ public class FindReplaceLogic implements IFindReplaceLogic {
 				status = new InvalidRegExStatus(ex);
 			} catch (IllegalStateException ex) {
 			}
+		}
+		return false;
+	}
+
+	/**
+	 * Searches again for the find string at the start of the current selection.
+	 * The target replaces the match of its most recent search, which becomes stale
+	 * as soon as the document changes, e.g., by an undo. Searching again ensures
+	 * that a subsequent replace refers to the selected text.
+	 *
+	 * @return whether the selection is exactly a match of the find string
+	 */
+	private boolean selectMatchAtSelection() {
+		if (target == null || !isFindStringSelected()) {
+			return false;
+		}
+		Point selection = target.getSelection();
+		if (findAndSelect(selection.x, true) == selection.x && selection.equals(target.getSelection())) {
+			return true;
+		}
+		if (target instanceof IFindReplaceTargetExtension extension) {
+			extension.setSelection(selection.x, selection.y);
 		}
 		return false;
 	}

@@ -2506,28 +2506,24 @@ public class WorkbenchPage implements IWorkbenchPage {
 	}
 
 	private IViewReference[] getViewReferences(boolean allPerspectives) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		MPerspective perspective = getCurrentPerspective();
-		if (perspective != null) {
-			int scope = allPerspectives ? WINDOW_SCOPE : EModelService.PRESENTATION;
-			Set<MUIElement> parts = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
-			List<MPlaceholder> placeholders = modelService.findElements(window, null, MPlaceholder.class, null, scope);
-			parts.addAll(placeholders);
-			parts.addAll(modelService.findElements(window, null, MPart.class, null, scope));
-			List<IViewReference> visibleReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
-			for (ViewReference reference : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
-				MPart model = reference.getModel();
-				// The part may be linked in either directly or via a
-				// placeholder. In the latter case we can look
-				// at the part's curSharedRef since we're only considering
-				// parts visible in the current perspective
-				if (parts.contains(model) && !shouldNotRenderPart(model)) {
-					// only rendered placeholders are valid view references
-					visibleReferences.add(reference);
-				}
+		int scope = allPerspectives ? WINDOW_SCOPE : EModelService.PRESENTATION;
+		Set<MUIElement> parts = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<MPlaceholder> placeholders = modelService.findElements(window, null, MPlaceholder.class, null, scope);
+		parts.addAll(placeholders);
+		parts.addAll(modelService.findElements(window, null, MPart.class, null, scope));
+		List<IViewReference> visibleReferences = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ViewReference reference : viewReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			MPart model = reference.getModel();
+			// The part may be linked in either directly or via a
+			// placeholder. In the latter case we can look
+			// at the part's curSharedRef since we're only considering
+			// parts visible in the current perspective
+			if (parts.contains(model) && !shouldNotRenderPart(model)) {
+				// only rendered placeholders are valid view references
+				visibleReferences.add(reference);
 			}
-			return visibleReferences.toArray(new IViewReference[visibleReferences.size()]);
 		}
-		return new IViewReference[0];
+		return visibleReferences.toArray(new IViewReference[visibleReferences.size()]);
 	}
 
 	/**

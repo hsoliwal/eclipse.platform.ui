@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2015 IBM Corporation and others.
+ * Copyright (c) 2000, 2026 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -13,10 +13,7 @@
  *******************************************************************************/
 package org.eclipse.ui.internal.misc;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.ui.ISourceProvider;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * A common facility for parsing the <code>org.eclipse.ui/.options</code> file.
@@ -24,6 +21,33 @@ import org.eclipse.ui.PlatformUI;
  * @since 2.1
  */
 public class Policy {
+
+	public static final String DEBUG_SWT_GRAPHICS_FLAG = "/trace/graphics"; //$NON-NLS-1$
+	public static final String DEBUG_SWT_DEBUG_FLAG = "/debug/swtdebug"; //$NON-NLS-1$
+	public static final String DEBUG_SWT_DEBUG_GLOBAL_FLAG = "/debug/swtdebugglobal"; //$NON-NLS-1$
+	public static final String DEBUG_DRAG_DROP_FLAG = "/trace/dragDrop"; //$NON-NLS-1$
+	public static final String DEBUG_SOURCES_FLAG = "/trace/sources"; //$NON-NLS-1$
+	public static final String DEBUG_KEY_BINDINGS_FLAG = "/trace/keyBindings"; //$NON-NLS-1$
+	public static final String DEBUG_KEY_BINDINGS_VERBOSE_FLAG = "/trace/keyBindings.verbose"; //$NON-NLS-1$
+	public static final String DEBUG_TOOLBAR_DISPOSAL_FLAG = "/trace/toolbarDisposal"; //$NON-NLS-1$
+	public static final String DEBUG_COMMANDS_FLAG = "/trace/commands"; //$NON-NLS-1$
+	public static final String DEBUG_CONTEXTS_FLAG = "/trace/contexts"; //$NON-NLS-1$
+	public static final String DEBUG_CONTEXTS_PERFORMANCE_FLAG = "/trace/contexts.performance"; //$NON-NLS-1$
+	public static final String DEBUG_CONTEXTS_VERBOSE_FLAG = "/trace/contexts.verbose"; //$NON-NLS-1$
+	public static final String DEBUG_HANDLERS_FLAG = "/trace/handlers"; //$NON-NLS-1$
+	public static final String DEBUG_HANDLERS_PERFORMANCE_FLAG = "/trace/handlers.performance"; //$NON-NLS-1$
+	public static final String DEBUG_HANDLERS_VERBOSE_FLAG = "/trace/handlers.verbose"; //$NON-NLS-1$
+	public static final String DEBUG_OPERATIONS_FLAG = "/trace/operations"; //$NON-NLS-1$
+	public static final String DEBUG_OPERATIONS_VERBOSE_FLAG = "/trace/operations.verbose"; //$NON-NLS-1$
+	public static final String DEBUG_SHOW_ALL_JOBS_FLAG = "/debug/showAllJobs"; //$NON-NLS-1$
+	public static final String DEBUG_STALE_JOBS_FLAG = "/debug/job.stale"; //$NON-NLS-1$
+	public static final String DEBUG_DECLARED_IMAGES_FLAG = "/debug/declaredImages"; //$NON-NLS-1$
+	public static final String DEBUG_CONTRIBUTIONS_FLAG = "/debug/contributions"; //$NON-NLS-1$
+	public static final String DEBUG_HANDLERS_VERBOSE_COMMAND_ID_FLAG = ""; //$NON-NLS-1$
+	public static final String EXPERIMENTAL_MENU_FLAG = "/experimental/menus"; //$NON-NLS-1$
+	public static final String DEBUG_MPE_FLAG = "/trace/multipageeditor"; //$NON-NLS-1$
+	public static final String DEBUG_WORKING_SETS_FLAG = "/debug/workingSets"; //$NON-NLS-1$
+
 	public static boolean DEFAULT = false;
 
 	public static boolean DEBUG_SWT_GRAPHICS = DEFAULT;

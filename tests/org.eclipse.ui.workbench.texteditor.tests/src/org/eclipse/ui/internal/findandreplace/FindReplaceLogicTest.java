@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2023 Vector Informatik GmbH and others.
+ * Copyright (c) 2023, 2026 Vector Informatik GmbH and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  *
  * Contributors:
  *     Vector Informatik GmbH - initial API and implementation
+ *     Edward Lo - test replaceAll line-start regex (issue 2820)
  *******************************************************************************/
 
 package org.eclipse.ui.internal.findandreplace;
@@ -189,6 +190,152 @@ public class FindReplaceLogicTest {
 				+ "^");
 	}
 
+	/**
+	 * Replace All with a line-start regex must not rematch the same line after an
+	 * empty replacement (see https://github.com/eclipse-platform/eclipse.platform.ui/issues/2820).
+	 */
+	@Test
+	public void testPerformReplaceAllRegExLineStartAnchor() {
+		TextViewer textViewer= setupTextViewer("  hello" + lineSeparator() + "  world" + lineSeparator() + "   three");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "^ ", "");
+		findReplaceLogic.performReplaceAll();
+		// One leading space removed per line, not all leading spaces
+		assertEquals(" hello" + lineSeparator() + " world" + lineSeparator() + "  three", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 3);
+	}
+
+	// Note: bare "^" (zero-length) is not exercised here — FindReplaceDocumentAdapter
+	// deliberately ignores empty regex matches (group().isEmpty()), so such a find never hits.
+	/**
+	 * A single-character line-start pattern must not be rematched at the same line start
+	 * after the replacement removed the character it matched. This is the shapes of
+	 * https://github.com/eclipse-platform/eclipse.platform.ui/issues/2820 where every
+	 * character on a line matches at the line start.
+	 */
+	@Test
+	public void testPerformReplaceAllRegExWordBoundaryAnchorIsNotRematched() {
+		TextViewer textViewer= setupTextViewer("aa");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "\\ba", "");
+		findReplaceLogic.performReplaceAll();
+		// "aa" has a word boundary before the first "a" only, so one match, not two
+		assertEquals("a", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 1);
+	}
+
+	/**
+	 * A line-start anchor on a line other than the first must also be matched exactly once,
+	 * i.e. the search must not restart at the offset it already processed.
+	 */
+	@Test
+	public void testPerformReplaceAllRegExLineStartAnchorOnLaterLineIsNotRematched() {
+		TextViewer textViewer= setupTextViewer(lineSeparator() + "aa");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "^a", "");
+		findReplaceLogic.performReplaceAll();
+		// only the "a" starting the second line is at a line start
+		assertEquals(lineSeparator() + "a", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 1);
+	}
+
+	/**
+	 * A line consisting only of whitespace must not be emptied completely: the pattern matches
+	 * once per line, so exactly one match is consumed per line.
+	 */
+	@Test
+	public void testPerformReplaceAllRegExLineStartAnchorOnWhitespaceOnlyLine() {
+		TextViewer textViewer= setupTextViewer("   ");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "^ ", "");
+		findReplaceLogic.performReplaceAll();
+		// one leading space removed, not all three
+		assertEquals("  ", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 1);
+	}
+
+	/**
+	 * A non-greedy line-start pattern matches at most once per line, even when the line keeps
+	 * matching after the replacement.
+	 */
+	@Test
+	public void testPerformReplaceAllRegExLineStartWhitespaceIsReplacedOncePerLine() {
+		TextViewer textViewer= setupTextViewer(" a" + lineSeparator() + "  b" + lineSeparator() + "c");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "^\\s*", "");
+		findReplaceLogic.performReplaceAll();
+		// the two indented lines are stripped once each; the third line has no leading whitespace
+		assertEquals("a" + lineSeparator() + "b" + lineSeparator() + "c", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 2);
+	}
+
+	/**
+	 * Replacing a line-start pattern with a non-empty string must still produce one replacement
+	 * per line and no extra ones.
+	 */
+	@Test
+	public void testPerformReplaceAllRegExLineStartAnchorWithReplacement() {
+		TextViewer textViewer= setupTextViewer("  a" + lineSeparator() + "  b");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "^ ", ">");
+		findReplaceLogic.performReplaceAll();
+		assertEquals("> a" + lineSeparator() + "> b", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 2);
+	}
+
+	/**
+	 * Group references in the replacement must be expanded for every match. Collecting all
+	 * matches before replacing leaves the find/replace matcher exhausted, so each match has to
+	 * be re-established before it is replaced - without that, replacement fails entirely.
+	 */
+	@Test
+	public void testPerformReplaceAllRegExGroupsAreExpandedForEachMatch() {
+		TextViewer textViewer= setupTextViewer("hello@eclipse.com");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "(\\w+)@(\\w+)", "$2@$1");
+		findReplaceLogic.performReplaceAll();
+		assertEquals("eclipse@hello.com", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 1);
+	}
+
+	/**
+	 * Trailing whitespace is a regression guard rather than a fix: a greedy pattern matches a
+	 * whole whitespace run at once, so this already behaved this way before the change.
+	 */
+	@Test
+	public void testPerformReplaceAllRegExTrailingWhitespaceIsRemovedOncePerLine() {
+		TextViewer textViewer= setupTextViewer("a  " + lineSeparator() + "b   ");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, " +$", "");
+		findReplaceLogic.performReplaceAll();
+		assertEquals("a" + lineSeparator() + "b", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 2);
+	}
+
 	@Test
 	public void testPerformReplaceAllForward() {
 		TextViewer textViewer= setupTextViewer("hello@eclipse.com looks.almost@like_an_email");
@@ -228,6 +375,60 @@ public class FindReplaceLogicTest {
 
 		findReplaceLogic.performSelectAndReplace(); // perform the search yourself and replace that automatically
 		assertEquals("Hello World !", textViewer.getDocument().get());
+		expectStatusEmpty(findReplaceLogic);
+	}
+
+	@Test
+	public void testReplaceAfterMovingSelectionToAnotherMatch() {
+		assertReplaceAfterMovingSelection(true, false);
+	}
+
+	@Test
+	public void testReplaceAfterMovingSelectionToAnotherMatchBackwards() {
+		assertReplaceAfterMovingSelection(false, false);
+	}
+
+	@Test
+	public void testRegexReplaceAfterMovingSelectionToAnotherMatch() {
+		assertReplaceAfterMovingSelection(true, true);
+	}
+
+	@Test
+	public void testRegexReplaceAfterMovingSelectionToAnotherMatchBackwards() {
+		assertReplaceAfterMovingSelection(false, true);
+	}
+
+	private void assertReplaceAfterMovingSelection(boolean forward, boolean regex) {
+		TextViewer textViewer= setupTextViewer("word one word two");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		if (forward) {
+			findReplaceLogic.activate(SearchOptions.FORWARD);
+		}
+		if (regex) {
+			findReplaceLogic.activate(SearchOptions.REGEX);
+		}
+		setFindAndReplaceString(findReplaceLogic, regex ? "w(\\w+)" : "word", regex ? "$1" : "X");
+		assertEquals(9, findReplaceLogic.findAndSelect(forward ? 9 : 12));
+		textViewer.setSelectedRange(0, 4);
+
+		assertTrue(findReplaceLogic.performSelectAndReplace());
+		assertEquals(regex ? "ord one word two" : "X one word two", textViewer.getDocument().get());
+		expectStatusEmpty(findReplaceLogic);
+	}
+
+	@Test
+	public void testReplaceAfterDocumentChangeShiftsMatch() throws Exception {
+		TextViewer textViewer= setupTextViewer("word one word two");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		setFindAndReplaceString(findReplaceLogic, "word", "X");
+		assertEquals(9, findReplaceLogic.findAndSelect(9));
+
+		textViewer.getDocument().replace(0, 0, "prefix ");
+		textViewer.setSelectedRange(16, 4);
+
+		assertTrue(findReplaceLogic.performSelectAndReplace());
+		assertEquals("prefix word one X two", textViewer.getDocument().get());
 		expectStatusEmpty(findReplaceLogic);
 	}
 
@@ -1145,6 +1346,249 @@ public class FindReplaceLogicTest {
 	private void expectStatusIsMessageWithString(IFindReplaceLogic findReplaceLogic, String message) {
 		assertInstanceOf(InvalidRegExStatus.class, findReplaceLogic.getStatus());
 		assertEquals(message, ((InvalidRegExStatus) findReplaceLogic.getStatus()).getMessage());
+	}
+
+	// -----------------------------------------------------------------------
+	// Counter placeholder #{start,step,pad} integration tests
+	// -----------------------------------------------------------------------
+
+	@Test
+	public void testReplaceAll_withCounter_paddedAscending() {
+		TextViewer textViewer= setupTextViewer("a a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,3}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("001 002 003", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 3);
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_unpaddedLargeStep() {
+		TextViewer textViewer= setupTextViewer("x x x");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "x", "#{10,10,0}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("10 20 30", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 3);
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_resetsOnNewReplaceString() {
+		TextViewer textViewer= setupTextViewer("a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,0}");
+		findReplaceLogic.performReplaceAll();
+		assertEquals("1 2", textViewer.getDocument().get());
+
+		// Reset document and perform again with the same replace string set anew
+		textViewer.setDocument(new Document("a a"));
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,0}");
+		findReplaceLogic.performReplaceAll();
+		assertEquals("1 2", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_counterResetsBetweenReplaceAllCalls() {
+		TextViewer textViewer= setupTextViewer("a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,0}");
+		findReplaceLogic.performReplaceAll();
+		assertEquals("1 2", textViewer.getDocument().get());
+
+		// Second Replace All on new content must restart from 1, not continue from 3
+		textViewer.setDocument(new Document("a a"));
+		findReplaceLogic.performReplaceAll();
+		assertEquals("1 2", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_descendingSequence() {
+		TextViewer textViewer= setupTextViewer("z z z z");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "z", "#{10,-2,0}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("10 8 6 4", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 4);
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_combinedWithLiteralText() {
+		TextViewer textViewer= setupTextViewer("x x");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "x", "item_#{1,1,2}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("item_01 item_02", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testReplaceAll_withoutCounter_behavesAsPlainReplace() {
+		TextViewer textViewer= setupTextViewer("a a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "b");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("b b b", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 3);
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_andRegex() {
+		TextViewer textViewer= setupTextViewer("aa bb cc");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "(\\w+)", "$1_#{1,1,2}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("aa_01 bb_02 cc_03", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 3);
+	}
+
+	@Test
+	public void testSelectAndReplace_withCounter_incrementsAcrossCalls() {
+		TextViewer textViewer= setupTextViewer("a a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,0}");
+
+		findReplaceLogic.performSearch();
+		findReplaceLogic.performSelectAndReplace();
+		assertEquals("1 a a", textViewer.getDocument().get());
+
+		findReplaceLogic.performSelectAndReplace();
+		assertEquals("1 2 a", textViewer.getDocument().get());
+
+		findReplaceLogic.performSelectAndReplace();
+		assertEquals("1 2 3", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testSelectAndReplace_withCounter_continuesWhenSameReplaceStringIsSetAgain() {
+		TextViewer textViewer= setupTextViewer("a a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,0}");
+		findReplaceLogic.performSearch();
+		findReplaceLogic.performSelectAndReplace();
+		assertEquals("1 a a", textViewer.getDocument().get());
+
+		// e.g. a modify event of the replace field without actual text change
+		findReplaceLogic.setReplaceString("#{1,1,0}");
+		findReplaceLogic.performSelectAndReplace();
+		assertEquals("1 2 a", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testSelectAndReplace_withCounter_restartsWhenReplaceStringChanges() {
+		TextViewer textViewer= setupTextViewer("a a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,0}");
+		findReplaceLogic.performSearch();
+		findReplaceLogic.performSelectAndReplace();
+		findReplaceLogic.performSelectAndReplace();
+		assertEquals("1 2 a", textViewer.getDocument().get());
+
+		findReplaceLogic.setReplaceString("x#{1,1,0}");
+		findReplaceLogic.performSelectAndReplace();
+		assertEquals("1 2 x1", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_withoutRegex_insertsPlaceholderLiterally() {
+		TextViewer textViewer= setupTextViewer("a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,3}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("#{1,1,3} #{1,1,3}", textViewer.getDocument().get());
+		expectStatusIsReplaceAllWithCount(findReplaceLogic, 2);
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_paddingExcludesMinusSign() {
+		TextViewer textViewer= setupTextViewer("a a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{-1,1,2}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("-01 00 01", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_onlyFirstPlaceholderIsExpanded() {
+		TextViewer textViewer= setupTextViewer("a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{1,1,0}-#{5,1,0}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("1-#{5,1,0} 2-#{5,1,0}", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_escapedDollarInFrontOfPlaceholder() {
+		TextViewer textViewer= setupTextViewer("a a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "\\$#{1,1,0}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("$1 $2", textViewer.getDocument().get());
+	}
+
+	@Test
+	public void testReplaceAll_withCounter_tooLargeNumbersAreInsertedLiterally() {
+		TextViewer textViewer= setupTextViewer("a");
+		IFindReplaceLogic findReplaceLogic= setupFindReplaceLogicObject(textViewer);
+		findReplaceLogic.activate(SearchOptions.FORWARD);
+		findReplaceLogic.activate(SearchOptions.REGEX);
+
+		setFindAndReplaceString(findReplaceLogic, "a", "#{99999999999,1,0}");
+		findReplaceLogic.performReplaceAll();
+
+		assertEquals("#{99999999999,1,0}", textViewer.getDocument().get());
 	}
 
 }
