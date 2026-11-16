@@ -47,6 +47,7 @@ import org.eclipse.e4.ui.tests.workbench.NewMWindowTest;
 import org.eclipse.e4.ui.tests.workbench.ModelAssemblerFragmentOrderingTests;
 import org.eclipse.e4.ui.tests.workbench.ModelAssemblerTests;
 import org.eclipse.e4.ui.tests.workbench.ModelServiceImplTest;
+import org.eclipse.e4.ui.tests.workbench.PartActivationFocusTest;
 import org.eclipse.e4.ui.tests.workbench.PartFocusTest;
 import org.eclipse.e4.ui.tests.workbench.PartOnTopManagerTest;
 import org.eclipse.e4.ui.tests.workbench.PartRenderingEngineTests;
@@ -75,6 +76,7 @@ import org.junit.platform.suite.api.Suite;
 		Bug320857Test.class,
 		PartOnTopManagerTest.class,
 		PartRenderingEngineTests.class,
+		PartActivationFocusTest.class,
 		SashRendererTest.class,
 		MApplicationCommandAccessTest.class,
 		MMenuItemTest.class,
