@@ -27,9 +27,8 @@ import org.eclipse.ui.tests.navigator.resources.NestedResourcesTests;
 import org.eclipse.ui.tests.navigator.resources.PathComparatorTest;
 import org.eclipse.ui.tests.navigator.resources.ResourceDeltaThreadingTest;
 import org.eclipse.ui.tests.navigator.resources.ResourceMgmtActionProviderTests;
-
-import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 @Suite
 @SelectClasses({ InitialActivationTest.class, ActionProviderTest.class, ExtensionsTest.class, FilterTest.class,
@@ -42,6 +41,7 @@ import org.junit.platform.suite.api.SelectClasses;
 		ResourceDeltaThreadingTest.class,
 		GoBackForwardsTest.class, CopyPasteActionTest.class,
 		CloseUnrelatedProjectsActionTest.class,
+		ResourceBookmarkDecoratorTest.class, ToggleBookmarkHandlerTest.class, SetMarkerOperationTest.class,
 		// DnDTest.class, // DnDTest.testSetDragOperation() fails
 })
 public final class NavigatorTestSuite {
