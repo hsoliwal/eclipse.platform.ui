@@ -143,4 +143,116 @@ public class M3ViewerDeltaTest {
 		}
 	}
 
+	/* Applies a delta to a plain list the way a viewer would: removes by element, adds at their index. */
+	private static java.util.List<Object> applied(Object[] oldChildren, M3ViewerDelta delta) {
+		java.util.List<Object> list = new java.util.ArrayList<>(java.util.Arrays.asList(oldChildren));
+		for (int i = 0; i < delta.size(); i++) {
+			if (delta.kind(i) == M3ViewerDelta.REMOVE) {
+				assertTrue(list.remove(delta.element(i)), "a removed element is in the list");
+			} else {
+				assertEquals(M3ViewerDelta.ADD, delta.kind(i));
+				list.add(delta.index(i), delta.element(i));
+			}
+		}
+		return list;
+	}
+
+	@Test
+	public void betweenAnswersRemovesThenAddsAtTheirNewPositions() {
+		Object[] oldChildren = { "a", "b", "c", "d", "e" };
+		Object[] newChildren = { "a", "x", "c", "y", "z", "e" };
+		M3ViewerDelta d = M3ViewerDelta.between("root", oldChildren, newChildren);
+		assertEquals("M3ViewerDelta[remove b, remove d, add x, add y, add z]", d.toString());
+		assertEquals("root", d.parent(2));
+		assertEquals(1, d.index(2));
+		assertEquals(3, d.index(3));
+		assertEquals(4, d.index(4));
+		assertEquals(java.util.Arrays.asList(newChildren), applied(oldChildren, d));
+		assertArrayEquals(new Object[] { "a", "b", "c", "d", "e" }, oldChildren, "the lists are not modified");
+	}
+
+	@Test
+	public void betweenOfEqualListsIsEmptyAndEndsNeedNoTable() {
+		assertTrue(M3ViewerDelta.between("root", new Object[] { "a", "b" }, new Object[] { "a", "b" }).isEmpty());
+		assertTrue(M3ViewerDelta.between("root", new Object[0], new Object[0]).isEmpty());
+		assertEquals("M3ViewerDelta[add c]",
+				M3ViewerDelta.between("root", new Object[] { "a", "b" }, new Object[] { "a", "b", "c" }).toString());
+		assertEquals("M3ViewerDelta[add z]",
+				M3ViewerDelta.between("root", new Object[] { "a", "b" }, new Object[] { "z", "a", "b" }).toString());
+		assertEquals("M3ViewerDelta[remove a, remove b]",
+				M3ViewerDelta.between("root", new Object[] { "a", "b" }, new Object[0]).toString());
+		assertEquals(0, M3ViewerDelta.between("root", new Object[0], new Object[] { "q" }).index(0));
+	}
+
+	@Test
+	public void betweenFallsBackToOneRefreshWhenAddsAndRemovesCannotExpressTheChange() {
+		M3ViewerDelta reordered = M3ViewerDelta.between("root", new Object[] { "a", "b", "c" },
+				new Object[] { "c", "a", "b" });
+		assertEquals(1, reordered.size());
+		assertEquals(M3ViewerDelta.REFRESH, reordered.kind(0));
+		assertEquals("root", reordered.element(0));
+		assertEquals("M3ViewerDelta[refresh root]",
+				M3ViewerDelta.between("root", new Object[] { "a", "b", "a" }, new Object[] { "b" }).toString(),
+				"an element twice among the old children");
+		assertEquals("M3ViewerDelta[refresh root]",
+				M3ViewerDelta.between("root", new Object[] { "b" }, new Object[] { "x", "b", "x" }).toString(),
+				"an element twice among the new children");
+		assertEquals("M3ViewerDelta[refresh root]",
+				M3ViewerDelta.between("root", new Object[] { "a", "b" }, new Object[] { "b", "b", "c" }).toString(),
+				"a kept element twice among the new children");
+	}
+
+	@Test
+	public void betweenRefusesNullListsAndElements() {
+		assertThrows(IllegalArgumentException.class, () -> M3ViewerDelta.between("root", null, new Object[0]));
+		assertThrows(IllegalArgumentException.class, () -> M3ViewerDelta.between("root", new Object[0], null));
+		assertThrows(IllegalArgumentException.class,
+				() -> M3ViewerDelta.between("root", new Object[] { "a", null }, new Object[] { "a", "b" }));
+		assertThrows(IllegalArgumentException.class,
+				() -> M3ViewerDelta.between("root", new Object[] { "a" }, new Object[] { "b", null, "c" }));
+	}
+
+	/* Elements that are equal without being identical, with colliding hash codes, as model objects often are. */
+	private record Key(int id) {
+		@Override
+		public int hashCode() {
+			return id & 3;
+		}
+	}
+
+	@Test
+	public void betweenOnRandomListsYieldsTheNewListWithTheFewestOperations() {
+		java.util.Random random = new java.util.Random(20261116L);
+		int refreshes = 0;
+		for (int round = 0; round < 5000; round++) {
+			int universe = 1 + random.nextInt(40);
+			java.util.List<Object> oldList = new java.util.ArrayList<>(), newList = new java.util.ArrayList<>();
+			for (int id = 0; id < universe; id++) {
+				int fate = random.nextInt(4);
+				if (fate != 0) {
+					oldList.add(new Key(id));
+				}
+				if (fate != 1) {
+					newList.add(new Key(id));
+				}
+			}
+			boolean reorder = round % 10 == 0 && newList.size() > 1;
+			if (reorder) {
+				java.util.Collections.swap(newList, 0, newList.size() - 1);
+			}
+			Object[] oldChildren = oldList.toArray(), newChildren = newList.toArray();
+			M3ViewerDelta d = M3ViewerDelta.between("root", oldChildren, newChildren);
+			if (d.size() == 1 && d.kind(0) == M3ViewerDelta.REFRESH) {
+				assertTrue(reorder, "a refresh only when kept elements changed their order (round " + round + ")");
+				refreshes++;
+				continue;
+			}
+			assertEquals(newList, applied(oldChildren, d), "round " + round);
+			java.util.Set<Object> left = new java.util.HashSet<>(oldList), entered = new java.util.HashSet<>(newList);
+			left.removeAll(newList);
+			entered.removeAll(oldList);
+			assertEquals(left.size() + entered.size(), d.size(), "one operation per element that left or entered");
+		}
+		assertTrue(refreshes > 100, "the reordered rounds were exercised: " + refreshes);
+	}
 }

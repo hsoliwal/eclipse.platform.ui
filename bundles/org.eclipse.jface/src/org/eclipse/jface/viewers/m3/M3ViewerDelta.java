@@ -135,6 +135,138 @@ public final class M3ViewerDelta {
 		return this;
 	}
 
+	/**
+	 * Answers the delta that turns the children {@code oldChildren} of
+	 * {@code parent} into {@code newChildren}: a remove for every element that
+	 * left and an add, at its position among the new children, for every element
+	 * that entered. Elements present in both lists get no operation. A view whose
+	 * model can only hand out its new full list of children (for example when
+	 * the same input is set again) passes the delta to {@link M3Viewers#apply}
+	 * instead of refreshing.
+	 * <p>
+	 * Elements are matched with {@code equals} and {@code hashCode}. The removes
+	 * come first, then the adds in ascending position, so applying the
+	 * operations in order to the old list yields the new list. When the
+	 * elements that stay changed their relative order, or a list holds two equal
+	 * elements, the change cannot be expressed that way and the delta is a
+	 * single {@link #refresh(Object) refresh} of {@code parent}.
+	 * </p>
+	 *
+	 * @param parent      the parent element or tree path of the children; for
+	 *                    tables and lists the input
+	 * @param oldChildren the children shown now, in order; not modified
+	 * @param newChildren the children to show, in order; not modified
+	 * @return a new delta; empty when both lists are equal
+	 * @throws IllegalArgumentException if a list or one of its elements is
+	 *                                  {@code null}
+	 * @since 3.43
+	 */
+	public static M3ViewerDelta between(Object parent, Object[] oldChildren, Object[] newChildren) {
+		if (oldChildren == null || newChildren == null) {
+			throw new IllegalArgumentException("children must not be null"); //$NON-NLS-1$
+		}
+		int limit = Math.min(oldChildren.length, newChildren.length);
+		int prefix = 0;
+		while (prefix < limit && same(oldChildren[prefix], newChildren[prefix])) {
+			prefix++;
+		}
+		int suffix = 0;
+		while (suffix < limit - prefix
+				&& same(oldChildren[oldChildren.length - 1 - suffix], newChildren[newChildren.length - 1 - suffix])) {
+			suffix++;
+		}
+		int oldCount = oldChildren.length - prefix - suffix;
+		int newCount = newChildren.length - prefix - suffix;
+		if (oldCount == 0 && newCount == 0) {
+			return new M3ViewerDelta();
+		}
+		M3ViewerDelta delta = changedRun(parent, oldChildren, newChildren, prefix, oldCount, newCount);
+		return delta != null ? delta : new M3ViewerDelta().refresh(parent);
+	}
+
+	private static boolean same(Object left, Object right) {
+		if (left == null || right == null) {
+			throw new IllegalArgumentException("element must not be null"); //$NON-NLS-1$
+		}
+		return left.equals(right);
+	}
+
+	/*
+	 * The run between the common prefix and suffix. Positions 0..oldCount-1 are
+	 * the old elements of the run, oldCount.. the new ones; the table maps an
+	 * element to the first position that holds it. Answers null when the run
+	 * needs a refresh: an element twice in a list, or kept elements reordered.
+	 */
+	private static M3ViewerDelta changedRun(Object parent, Object[] olds, Object[] news, int base, int oldCount,
+			int newCount) {
+		int[] table = new int[Math.max(4, Integer.highestOneBit(2 * (oldCount + newCount) - 1) << 1)];
+		for (int i = 0; i < oldCount; i++) {
+			if (claim(table, olds, news, base, oldCount, i) != i) {
+				return null;
+			}
+		}
+		boolean[] kept = new boolean[oldCount];
+		boolean[] entered = new boolean[newCount];
+		int last = -1;
+		for (int j = 0; j < newCount; j++) {
+			int position = claim(table, olds, news, base, oldCount, oldCount + j);
+			if (position == oldCount + j) {
+				entered[j] = true;
+			} else if (position >= oldCount || position <= last) {
+				return null;
+			} else {
+				kept[position] = true;
+				last = position;
+			}
+		}
+		return removesThenAdds(parent, olds, news, base, kept, entered);
+	}
+
+	/*
+	 * Answers the first position whose element equals the one at
+	 * {@code position}; that is {@code position} itself when the element is new
+	 * to the table, which then records it.
+	 */
+	private static int claim(int[] table, Object[] olds, Object[] news, int base, int oldCount, int position) {
+		Object element = elementAt(olds, news, base, oldCount, position);
+		int mask = table.length - 1;
+		int hash = element.hashCode();
+		int slot = (hash ^ hash >>> 16) & mask;
+		while (table[slot] != 0) {
+			int first = table[slot] - 1;
+			if (elementAt(olds, news, base, oldCount, first).equals(element)) {
+				return first;
+			}
+			slot = slot + 1 & mask;
+		}
+		table[slot] = position + 1;
+		return position;
+	}
+
+	private static Object elementAt(Object[] olds, Object[] news, int base, int oldCount, int position) {
+		Object element = position < oldCount ? olds[base + position] : news[base + position - oldCount];
+		if (element == null) {
+			throw new IllegalArgumentException("element must not be null"); //$NON-NLS-1$
+		}
+		return element;
+	}
+
+	private static M3ViewerDelta removesThenAdds(Object parent, Object[] olds, Object[] news, int base,
+			boolean[] kept, boolean[] entered) {
+		M3ViewerDelta delta = new M3ViewerDelta();
+		for (int i = 0; i < kept.length; i++) {
+			if (!kept[i]) {
+				delta.remove(olds[base + i]);
+			}
+		}
+		for (int j = 0; j < entered.length; j++) {
+			if (entered[j]) {
+				delta.add(parent, news[base + j], base + j);
+			}
+		}
+		return delta;
+	}
+
 	/** @return the number of operations */
 	public int size() {
 		return size;
