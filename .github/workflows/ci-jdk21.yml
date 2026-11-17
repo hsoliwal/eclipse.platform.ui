@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2026 Hitesh Soliwal and Contributors to the Synexia Project
+# SPDX-License-Identifier: Apache-2.0 OR EPL-2.0
+# The ci.yml build with Maven running on JDK 21. ci.yml keeps its JDK 25 run unchanged.
+# The bundles need at most JavaSE-21 and Tycho 5 runs on Java 21. A separate workflow keeps
+# this run's event-file and test-results artifacts apart from those of ci.yml.
+name: Continuous Integration (JDK 21)
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+
+jobs:
+  build:
+    # The aggregator fork's mavenBuild.yml (master) takes the JDK list as an input; the last entry runs Maven.
+    uses: hsoliwal/eclipse.platform.releng.aggregator/.github/workflows/mavenBuild.yml@0995216cc9e1728cc6122efbefda7cefa2d9c59f
+    with:
+      javaVersions: |
+        11
+        17
+        25
+        21
+      mvnToolchainIds: |
+        JavaSE-11
+        JavaSE-17
+        JavaSE-25
+        JavaSE-21
