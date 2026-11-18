@@ -23,6 +23,7 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
+	UISynchronizerStartupTest.class,
 	ModalContextCrashTest.class,
 	NestedSyncExecDeadlockTest.class,
 	SyncExecWhileUIThreadWaitsForRuleTest.class,
