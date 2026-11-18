@@ -119,6 +119,19 @@ public class StructuredViewerInternals {
 	}
 
 	/**
+	 * Reads the input/provider generation without accessing the SWT control.
+	 * Producers can use this to keep queued deltas within one model lifetime.
+	 *
+	 * @param viewer the viewer
+	 * @return generation incremented on every setInput or content provider replacement
+	 * @since 3.43
+	 */
+	@NoReference
+	public static long getM3InputGeneration(StructuredViewer viewer) {
+		return viewer.m3InputGeneration();
+	}
+
+	/**
 	 * Returns the viewer-owned queue's internal disposal callback.
 	 *
 	 * @param viewer the viewer

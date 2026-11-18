@@ -99,6 +99,8 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	/* Published by hookControl; worker posts never need to read a widget. */
 	private volatile Display m3Display;
+	/* UI-thread mutations publish a model generation to worker delta producers. */
+	private volatile long m3InputGeneration;
 
 	/* The existing M3 queue is viewer-owned; its Runnable only releases it. */
 	private volatile Runnable m3DeltaQueue;
@@ -106,6 +108,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 
 	Display m3Display() {
 		return m3Display;
+	}
+
+	long m3InputGeneration() {
+		return m3InputGeneration;
 	}
 
 	Runnable m3DeltaQueue() {
@@ -1760,6 +1766,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 	@Override
 	public void setContentProvider(IContentProvider provider) {
 		assertContentProviderType(provider);
+		if (provider != getContentProvider()) {
+			++m3InputGeneration;
+			org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
+		}
 		super.setContentProvider(provider);
 	}
 
@@ -1780,6 +1790,10 @@ public abstract class StructuredViewer extends ContentViewer implements IPostSel
 					"Need an underlying widget to be able to set the input." + //$NON-NLS-1$
 							"(Has the widget been disposed?)"); //$NON-NLS-1$
 		}
+		/* Invalidate deltas admitted for the previous model before provider callbacks
+		 * or the ensuing refresh can drain them into the replacement input. */
+		++m3InputGeneration;
+		org.eclipse.jface.viewers.m3.M3Viewers.flush(this);
 		unmapAllElements();
 		super.setInput(input);
 	}

@@ -85,6 +85,18 @@ public final class M3Viewers {
 	 * @param delta  the delta; it is not changed
 	 */
 	public static void apply(StructuredViewer viewer, M3ViewerDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		apply(viewer, delta, false, 0);
+	}
+
+	/* A queued batch has a model lifetime; a direct apply retains its original semantics. */
+	private static void apply(StructuredViewer viewer, M3ViewerDelta delta, long generation) {
+		apply(viewer, delta, true, generation);
+	}
+
+	private static void apply(StructuredViewer viewer, M3ViewerDelta delta, boolean guarded, long generation) {
+		if (guarded && StructuredViewerInternals.getM3InputGeneration(viewer) != generation) {
+			return;
+		}
 		Control control = viewer.getControl();
 		if (control == null || control.isDisposed() || delta.isEmpty()) {
 			return;
@@ -100,6 +112,9 @@ public final class M3Viewers {
 		}
 		try {
 			for (int i = 0; i < delta.size();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				if (guarded && StructuredViewerInternals.getM3InputGeneration(viewer) != generation) {
+					return; // a callback replaced the input while the previous run was applied
+				}
 				i = run(viewer, delta, i);
 			}
 		} finally {
@@ -235,6 +250,7 @@ public final class M3Viewers {
 		final Runnable timer;
 		final Runnable activation;
 		M3ViewerDelta pending;
+		long pendingGeneration;
 		long firstPostNanos;
 		long maximumWaitNanos;
 		long dueNanos;
@@ -339,6 +355,7 @@ public final class M3Viewers {
 		if (queue.display != display) {
 			throw new IllegalArgumentException("display differs from the viewer queue owner"); //$NON-NLS-1$
 		}
+		long generation = StructuredViewerInternals.getM3InputGeneration(viewer);
 		boolean activate;
 		synchronized (queue) {
 			if (queue.disposed) {
@@ -346,8 +363,15 @@ public final class M3Viewers {
 			}
 			long now = System.nanoTime();
 			long delayNanos = Math.max(0, delayMillis) * NANOS_PER_MILLISECOND;
+			if (queue.pending != null && queue.pendingGeneration != generation) {
+				/* A new input/provider owns a new model. Do not merge its work into
+				 * a batch belonging to a previous input. */
+				queue.pending = null;
+				queue.lastRefreshLater = false;
+			}
 			if (queue.pending == null) {
 				queue.pending = new M3ViewerDelta().append(delta);
+				queue.pendingGeneration = generation;
 				queue.firstPostNanos = now;
 				queue.maximumWaitNanos = 4L * delayNanos;
 			} else if (!refreshLater || !queue.lastRefreshLater) {
@@ -516,6 +540,7 @@ public final class M3Viewers {
 
 	private static void drain(Queue queue, boolean onlyIfDue) {
 		M3ViewerDelta delta;
+		long generation;
 		synchronized (queue) {
 			if (queue.draining || queue.disposed || queue.pending == null) {
 				return;
@@ -525,6 +550,7 @@ public final class M3Viewers {
 				return;
 			}
 			delta = queue.pending;
+			generation = queue.pendingGeneration;
 			queue.pending = null;
 			queue.parked = false; // the parked batch is applied now (explicit flush or the show)
 			queue.lastRefreshLater = false;
@@ -532,7 +558,7 @@ public final class M3Viewers {
 		}
 		try {
 			cancelTimer(queue);
-			apply(queue.viewer, delta);
+			apply(queue.viewer, delta, generation);
 		} catch (RuntimeException e) {
 			LOG.log(Level.WARNING, "viewer delta failed; refreshing the viewer", e); //$NON-NLS-1$
 			Control control = queue.viewer.getControl();
