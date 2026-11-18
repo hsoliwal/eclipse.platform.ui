@@ -430,6 +430,72 @@ public class M3ViewersTest {
 	}
 
 	@Test
+	public void capturedWorkerCompletionAfterInputChangeCannotEvictNewBatch() throws InterruptedException {
+		RefreshCountingTableViewer v = new RefreshCountingTableViewer();
+		M3Viewers.InputGeneration oldInput = M3Viewers.captureInputGeneration(v);
+		v.setInput(new ArrayList<>(roots));
+		M3Viewers.post(v, new M3ViewerDelta().update("r1", null), 60_000); //$NON-NLS-1$
+		AtomicReference<Throwable> failure = new AtomicReference<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.post(oldInput, new M3ViewerDelta().update("r0", null), 0); //$NON-NLS-1$
+			} catch (Throwable thrown) {
+				failure.set(thrown);
+			}
+		});
+		worker.setDaemon(true);
+		worker.start();
+		worker.join(2_000);
+		assertFalse(worker.isAlive(), "stale worker completion must not wait for UI event dispatch"); //$NON-NLS-1$
+		assertNull(failure.get(), "stale worker completion must not inspect SWT controls"); //$NON-NLS-1$
+		drain();
+		M3Viewers.flush(v);
+		assertEquals(List.of("r1"), v.updatedElements, //$NON-NLS-1$
+				"late old-model work must not erase or join the replacement model's batch"); //$NON-NLS-1$
+	}
+
+	@Test
+	public void capturedCurrentGenerationCanPublishFromWorker() throws InterruptedException {
+		RefreshCountingTableViewer v = new RefreshCountingTableViewer();
+		M3Viewers.InputGeneration current = M3Viewers.captureInputGeneration(v);
+		AtomicReference<Throwable> failure = new AtomicReference<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.post(current, new M3ViewerDelta().update("r2", null), 60_000); //$NON-NLS-1$
+			} catch (Throwable thrown) {
+				failure.set(thrown);
+			}
+		});
+		worker.setDaemon(true);
+		worker.start();
+		worker.join(2_000);
+		assertFalse(worker.isAlive());
+		assertNull(failure.get());
+		drain();
+		M3Viewers.flush(v);
+		assertEquals(List.of("r2"), v.updatedElements); //$NON-NLS-1$
+	}
+
+	@Test
+	public void inputGenerationCaptureIsUiThreadOnly() throws InterruptedException {
+		RefreshCountingTableViewer v = new RefreshCountingTableViewer();
+		AtomicReference<Throwable> failure = new AtomicReference<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.captureInputGeneration(v);
+			} catch (Throwable thrown) {
+				failure.set(thrown);
+			}
+		});
+		worker.setDaemon(true);
+		worker.start();
+		worker.join(2_000);
+		assertFalse(worker.isAlive());
+		assertTrue(failure.get() instanceof SWTException);
+		assertEquals(SWT.ERROR_THREAD_INVALID_ACCESS, ((SWTException) failure.get()).code);
+	}
+
+	@Test
 	public void reentrantInputReplacementStopsRemainderOfQueuedDelta() {
 		class ReplacingTableViewer extends TableViewer {
 			boolean replaced;
