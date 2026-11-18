@@ -42,6 +42,9 @@ import org.eclipse.swt.widgets.Display;
  * thread. Deltas posted in a burst are merged and applied once, after
  * {@code delayMillis} without a newer post
  * (rescheduled debounce), and at the latest after four initial delays;</li>
+ * <li>{@link #captureInputGeneration(StructuredViewer)} captures a producer's
+ * input lifetime before CPU work; {@link #post(InputGeneration, M3ViewerDelta, int)}
+ * refuses late results after that input is replaced;</li>
  * <li>{@link #flush} applies a queued delta at once. The viewers call it
  * before every {@code refresh}, so a refresh never runs ahead of queued
  * deltas.</li>
@@ -74,6 +77,57 @@ public final class M3Viewers {
 	private static volatile boolean posted;
 
 	private M3Viewers() {
+	}
+
+	/**
+	 * The input/provider lifetime captured by a UI-thread producer before handing
+	 * its model snapshot to a background job. A token cannot be used for a
+	 * different viewer, and workers never need to inspect SWT controls.
+	 *
+	 * @since 3.43 (M3 enhanced API)
+	 */
+	public static final class InputGeneration {
+		private final StructuredViewer viewer;
+		private final Display display;
+		private final long value;
+
+		private InputGeneration(StructuredViewer viewer, Display display, long value) {
+			this.viewer = viewer;
+			this.display = display;
+			this.value = value;
+		}
+	}
+
+	/**
+	 * Captures the current viewer input lifetime on its owning UI thread. Call
+	 * this before starting a background computation, alongside the immutable
+	 * model snapshot that computation will use. Retain the result until posting
+	 * the corresponding delta with {@link #post(InputGeneration, M3ViewerDelta, int)}.
+	 *
+	 * @param viewer the viewer whose current input is being read
+	 * @return an opaque token for this viewer and input/provider generation
+	 * @throws SWTException if called from a thread other than the owning UI thread
+	 * @throws IllegalStateException if the viewer has no live control
+	 * @since 3.43 (M3 enhanced API)
+	 */
+	public static InputGeneration captureInputGeneration(StructuredViewer viewer) {
+		Display current = Display.getCurrent();
+		if (current == null) {
+			SWT.error(SWT.ERROR_THREAD_INVALID_ACCESS);
+		}
+		Display published = StructuredViewerInternals.getM3Display(viewer);
+		if (published != null && published != current) {
+			SWT.error(SWT.ERROR_THREAD_INVALID_ACCESS);
+		}
+		Control control = viewer.getControl();
+		if (control == null || control.isDisposed()) {
+			throw new IllegalStateException("viewer input generation requires a live control"); //$NON-NLS-1$
+		}
+		Display owner = control.getDisplay();
+		if (owner != current) {
+			SWT.error(SWT.ERROR_THREAD_INVALID_ACCESS);
+		}
+		return new InputGeneration(viewer, owner, StructuredViewerInternals.getM3InputGeneration(viewer));
 	}
 
 	/**
@@ -312,6 +366,23 @@ public final class M3Viewers {
 		post(display, viewer, delta, delayMillis, false);
 	}
 
+	/**
+	 * Posts a delta computed from the input lifetime captured before CPU work
+	 * started. If the viewer's input, content provider or lifetime has changed,
+	 * the stale result is discarded before it can join a newer batch. Safe to
+	 * invoke from a worker: no SWT widget is inspected on the calling thread.
+	 * The original {@link #post(StructuredViewer, M3ViewerDelta, int)} continues
+	 * to admit deltas for the generation current at its call site.
+	 *
+	 * @param generation the token captured on the owning UI thread
+	 * @param delta model operations; do not modify after posting
+	 * @param delayMillis the debounce delay, zero or greater
+	 * @since 3.43 (M3 enhanced API)
+	 */
+	public static void post(InputGeneration generation, M3ViewerDelta delta, int delayMillis) {
+		post(generation.display, generation.viewer, delta, delayMillis, false, true, generation.value);
+	}
+
 	private static void post(StructuredViewer viewer, M3ViewerDelta delta, int delayMillis, boolean refreshLater) {
 		if (delta.isEmpty()) {
 			return;
@@ -337,7 +408,15 @@ public final class M3Viewers {
 
 	private static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta,
 			int delayMillis, boolean refreshLater) {
+		post(display, viewer, delta, delayMillis, refreshLater, false, 0L);
+	}
+
+	private static void post(Display display, StructuredViewer viewer, M3ViewerDelta delta,
+			int delayMillis, boolean refreshLater, boolean captured, long capturedGeneration) {
 		if (delta.isEmpty() || display.isDisposed()) {
+			return;
+		}
+		if (captured && StructuredViewerInternals.getM3InputGeneration(viewer) != capturedGeneration) {
 			return;
 		}
 		Display owner = StructuredViewerInternals.getM3Display(viewer);
@@ -355,10 +434,16 @@ public final class M3Viewers {
 		if (queue.display != display) {
 			throw new IllegalArgumentException("display differs from the viewer queue owner"); //$NON-NLS-1$
 		}
-		long generation = StructuredViewerInternals.getM3InputGeneration(viewer);
 		boolean activate;
 		synchronized (queue) {
 			if (queue.disposed) {
+				return;
+			}
+			/* Recheck under the queue lock: a UI-thread input switch may have
+			 * happened after the worker's first rejection check. A stale producer
+			 * must never evict a newer generation's already-pending work. */
+			long generation = StructuredViewerInternals.getM3InputGeneration(viewer);
+			if (captured && generation != capturedGeneration) {
 				return;
 			}
 			long now = System.nanoTime();
