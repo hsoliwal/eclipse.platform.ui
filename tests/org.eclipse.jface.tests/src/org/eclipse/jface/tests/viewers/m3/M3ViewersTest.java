@@ -161,6 +161,7 @@ public class M3ViewersTest {
 	private final class RefreshCountingTableViewer extends TableViewer {
 		int refreshCount;
 		final List<String> calls = new ArrayList<>();
+		final List<Object> updatedElements = new ArrayList<>();
 
 		RefreshCountingTableViewer() {
 			super(shell, SWT.MULTI);
@@ -181,6 +182,7 @@ public class M3ViewersTest {
 		@Override
 		public void update(Object[] elements, String[] properties) {
 			calls.add("update"); //$NON-NLS-1$
+			updatedElements.addAll(List.of(elements));
 			super.update(elements, properties);
 		}
 	}
@@ -386,6 +388,75 @@ public class M3ViewersTest {
 		v.refresh();
 		assertEquals("r0 r1 r2 r3 r4 q", texts(v));
 		M3Viewers.flush(v);
+	}
+
+	@Test
+	public void replacementInputDiscardsQueuedModelDeltaBeforeRefresh() throws ReflectiveOperationException {
+		RefreshCountingTableViewer v = new RefreshCountingTableViewer();
+		M3Viewers.post(v, new M3ViewerDelta().update("r0", null), 60_000); //$NON-NLS-1$
+		drain();
+		Object queue = v.getControl().getData("org.eclipse.jface.viewers.m3.M3Viewers.queue"); //$NON-NLS-1$
+		assertNotNull(queue);
+		v.setInput(new ArrayList<>(roots));
+		var pending = queue.getClass().getDeclaredField("pending"); //$NON-NLS-1$
+		pending.setAccessible(true);
+		assertNull(pending.get(queue), "old-model references must be released at input replacement"); //$NON-NLS-1$
+		drain();
+		M3Viewers.flush(v);
+		assertTrue(v.updatedElements.isEmpty(), "old-model updates must not reach the replacement input"); //$NON-NLS-1$
+		assertEquals("r0 r1 r2 r3 r4", texts(v)); //$NON-NLS-1$
+	}
+
+	@Test
+	public void workerAndUiPostsDoNotMixAcrossInputGenerations() throws InterruptedException {
+		RefreshCountingTableViewer v = new RefreshCountingTableViewer();
+		AtomicReference<Throwable> failure = new AtomicReference<>();
+		Thread worker = new Thread(() -> {
+			try {
+				M3Viewers.post(display, v, new M3ViewerDelta().update("r0", null), 60_000); //$NON-NLS-1$
+			} catch (Throwable thrown) {
+				failure.set(thrown);
+			}
+		});
+		worker.start();
+		worker.join();
+		assertNull(failure.get(), "worker publication must not read SWT controls"); //$NON-NLS-1$
+		v.setInput(new ArrayList<>(roots));
+		M3Viewers.post(v, new M3ViewerDelta().update("r1", null), 60_000); //$NON-NLS-1$
+		drain();
+		M3Viewers.flush(v);
+		assertEquals(List.of("r1"), v.updatedElements,
+				"only the new input generation can mutate the viewer"); //$NON-NLS-1$
+	}
+
+	@Test
+	public void reentrantInputReplacementStopsRemainderOfQueuedDelta() {
+		class ReplacingTableViewer extends TableViewer {
+			boolean replaced;
+
+			ReplacingTableViewer() {
+				super(shell, SWT.MULTI);
+				setLabelProvider(new LabelProvider());
+				setContentProvider(ArrayContentProvider.getInstance());
+				setInput(roots);
+			}
+
+			@Override
+			public void update(Object[] elements, String[] properties) {
+				super.update(elements, properties);
+				if (!replaced) {
+					replaced = true;
+					setInput(new ArrayList<>(roots));
+				}
+			}
+		}
+		ReplacingTableViewer v = new ReplacingTableViewer();
+		M3Viewers.post(v, new M3ViewerDelta().update("r0", null) //$NON-NLS-1$
+				.add(roots, "stale", -1), 60_000); //$NON-NLS-1$
+		M3Viewers.flush(v);
+		assertTrue(v.replaced);
+		assertEquals("r0 r1 r2 r3 r4", texts(v), //$NON-NLS-1$
+				"operations after a model switch must not hit the replacement viewer"); //$NON-NLS-1$
 	}
 
 	@Test
