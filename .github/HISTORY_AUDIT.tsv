@@ -1,0 +1,2 @@
+checked_at	ref	last_checked_commit	merges_audited	branches_checked	closed_prs_checked	findings	restored	tool
+2026-11-18T13:01:29.643Z	refs/heads/master		0	0	0	{"coverage":"POLICY_INVENTORY_ONLY","observed_head_sha":"7026d6bd27fa29299030a9855188dbaf4e359d2e","history_complete":false,"last_full_audit_at":null,"detail_reference":"hsoliwal/com.synexia:docs/M3-SCALE/runs/20261118-fleet-merge-rule/corrections-01/checkpoints.json"}	0	M3HashPinnedTextSnapshotRecipe/fleet-merge-policy-20261118
