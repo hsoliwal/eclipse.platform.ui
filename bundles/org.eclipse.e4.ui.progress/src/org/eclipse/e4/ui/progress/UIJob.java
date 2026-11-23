@@ -137,7 +137,7 @@ public abstract class UIJob extends Job {
 		if (uiSynchronize == null) {
 			return Status.CANCEL_STATUS;
 		}
-		uiSynchronize.asyncExec(() -> {
+		Runnable command = () -> {
 			IStatus result = null;
 			Throwable throwable = null;
 			try {
@@ -163,7 +163,17 @@ public abstract class UIJob extends Job {
 				}
 				done(result);
 			}
-		});
+		};
+		if (uiSynchronize instanceof DisplayUISynchronize displaySynchronize) {
+			// The standard SWT adapter can report refusal when its Display has
+			// already shut down. A refused command cannot finish this Job later.
+			if (!displaySynchronize.tryAsyncExec(command)) {
+				return Status.CANCEL_STATUS;
+			}
+		} else {
+			// Preserve custom UISynchronize implementations and their semantics.
+			uiSynchronize.asyncExec(command);
+		}
 		return Job.ASYNC_FINISH;
 	}
 
