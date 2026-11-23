@@ -52,6 +52,7 @@ import org.eclipse.e4.ui.tests.workbench.PartFocusTest;
 import org.eclipse.e4.ui.tests.workbench.PartOnTopManagerTest;
 import org.eclipse.e4.ui.tests.workbench.PartRenderingEngineTests;
 import org.eclipse.e4.ui.tests.workbench.SWTPartRendererTest;
+import org.eclipse.e4.ui.tests.workbench.DisplayUISynchronizeAdmissionTest;
 import org.eclipse.e4.ui.tests.workbench.SashRendererTest;
 import org.eclipse.e4.ui.tests.workbench.TopoSortTests;
 import org.eclipse.e4.ui.workbench.renderers.swt.MenuManagerRendererTest;
@@ -111,6 +112,7 @@ import org.junit.platform.suite.api.Suite;
 		E4ResourceTest.class,
 		AreaRendererTest.class,
 		SWTPartRendererTest.class,
+		DisplayUISynchronizeAdmissionTest.class,
 		ModelServiceImplTest.class,
 		CompositePartClosingTest.class
 })
