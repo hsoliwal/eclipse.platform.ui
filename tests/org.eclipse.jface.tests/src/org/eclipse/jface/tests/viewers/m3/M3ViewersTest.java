@@ -16,6 +16,7 @@ package org.eclipse.jface.tests.viewers.m3;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -26,6 +27,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -2797,4 +2800,75 @@ public class M3ViewersTest {
 		}
 	}
 
+
+	@Test
+	public void failedObsoleteBatchCannotRefreshReplacementInput() {
+		AtomicBoolean armed = new AtomicBoolean();
+		AtomicBoolean switched = new AtomicBoolean();
+		AtomicInteger refreshes = new AtomicInteger();
+		AtomicInteger refreshesAtSwitch = new AtomicInteger(-1);
+		TableViewer viewer = new TableViewer(shell, SWT.MULTI) {
+			@Override
+			public void refresh() {
+				refreshes.incrementAndGet();
+				super.refresh();
+			}
+
+			@Override
+			public void update(Object[] elements, String[] properties) {
+				if (armed.get() && switched.compareAndSet(false, true)) {
+					setInput(new ArrayList<>(roots));
+					refreshesAtSwitch.set(refreshes.get());
+					throw new IllegalStateException("obsolete input update failed after replacement"); //$NON-NLS-1$
+				}
+				super.update(elements, properties);
+			}
+		};
+		viewer.setContentProvider(ArrayContentProvider.getInstance());
+		viewer.setLabelProvider(new LabelProvider());
+		viewer.setInput(roots);
+		refreshes.set(0);
+		armed.set(true);
+
+		M3Viewers.post(viewer, new M3ViewerDelta().update("r0", null), 60_000); //$NON-NLS-1$
+		M3Viewers.flush(viewer);
+
+		assertTrue(switched.get(), "the old-model update callback must replace its input");
+		assertTrue(refreshesAtSwitch.get() >= 0);
+		assertEquals(refreshesAtSwitch.get(), refreshes.get(),
+				"an obsolete batch failure must not refresh the replacement input");
+		assertEquals("r0 r1 r2 r3 r4", texts(viewer)); //$NON-NLS-1$
+	}
+
+	@Test
+	public void failingCurrentGenerationStillUsesExistingRefreshFallback() {
+		AtomicBoolean failNextUpdate = new AtomicBoolean();
+		AtomicInteger refreshes = new AtomicInteger();
+		TableViewer viewer = new TableViewer(shell, SWT.MULTI) {
+			@Override
+			public void refresh() {
+				refreshes.incrementAndGet();
+				super.refresh();
+			}
+
+			@Override
+			public void update(Object[] elements, String[] properties) {
+				if (failNextUpdate.compareAndSet(true, false)) {
+					throw new IllegalStateException("current input update failed"); //$NON-NLS-1$
+				}
+				super.update(elements, properties);
+			}
+		};
+		viewer.setContentProvider(ArrayContentProvider.getInstance());
+		viewer.setLabelProvider(new LabelProvider());
+		viewer.setInput(roots);
+		refreshes.set(0);
+		failNextUpdate.set(true);
+
+		M3Viewers.post(viewer, new M3ViewerDelta().update("r0", null), 60_000); //$NON-NLS-1$
+		M3Viewers.flush(viewer);
+
+		assertEquals(1, refreshes.get(), "live-generation update failures still refresh once");
+		assertEquals("r0 r1 r2 r3 r4", texts(viewer)); //$NON-NLS-1$
+	}
 }

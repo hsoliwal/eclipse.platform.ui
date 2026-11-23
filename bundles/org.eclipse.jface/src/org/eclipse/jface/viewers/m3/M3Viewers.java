@@ -646,9 +646,13 @@ public final class M3Viewers {
 			apply(queue.viewer, delta, generation);
 		} catch (RuntimeException e) {
 			LOG.log(Level.WARNING, "viewer delta failed; refreshing the viewer", e); //$NON-NLS-1$
-			Control control = queue.viewer.getControl();
-			if (control != null && !control.isDisposed()) {
-				queue.viewer.refresh();
+			// A callback can replace the input before throwing. Its old-model failure
+			// must not refresh the replacement input or invoke its provider.
+			if (StructuredViewerInternals.getM3InputGeneration(queue.viewer) == generation) {
+				Control control = queue.viewer.getControl();
+				if (control != null && !control.isDisposed()) {
+					queue.viewer.refresh();
+				}
 			}
 		} finally {
 			synchronized (queue) {
